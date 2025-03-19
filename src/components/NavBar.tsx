@@ -60,7 +60,7 @@ const NavBar: React.FC = () => {
               key={link.title}
               href={link.href}
               className={cn(
-                "nav-link tracking-wide hover:text-brand-primary transition-colors duration-300",
+                "nav-link tracking-wide hover:text-brand-primary transition-colors duration-300 font-benzin",
                 scrolled ? "text-white" : "text-white"
               )}
               style={{ animationDelay: `${index * 100}ms` }}
@@ -95,7 +95,7 @@ const NavBar: React.FC = () => {
               <a
                 key={link.title}
                 href={link.href}
-                className="text-white hover:text-brand-primary text-2xl font-medium transition-colors duration-300"
+                className="text-white hover:text-brand-primary text-2xl font-benzin font-medium transition-colors duration-300"
                 onClick={() => setIsOpen(false)}
                 style={{ 
                   opacity: 0,

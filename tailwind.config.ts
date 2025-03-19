@@ -18,6 +18,12 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				sans: ['Inter', 'sans-serif'],
+				display: ['Inter', 'sans-serif'],
+				mono: ['Menlo', 'monospace'],
+				benzin: ['Benzin', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -122,11 +128,6 @@ export default {
 				'slide-in-right': 'slideInRight 0.6s ease-out forwards',
 				'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
 				'float': 'float 6s ease-in-out infinite'
-			},
-			fontFamily: {
-				sans: ['Inter', 'sans-serif'],
-				display: ['Inter', 'sans-serif'],
-				mono: ['Menlo', 'monospace']
 			}
 		}
 	},
