@@ -37,19 +37,20 @@ const NavBar: React.FC = () => {
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
         scrolled
-          ? 'bg-white/80 backdrop-blur-md shadow-sm py-4'
-          : 'bg-transparent py-6'
+          ? 'bg-white/90 backdrop-blur-md shadow-sm py-3'
+          : 'bg-transparent py-5'
       )}
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
         <a 
           href="#home" 
-          className={cn(
-            "font-display text-xl font-semibold transition-opacity duration-300",
-            scrolled ? "text-primary" : "text-foreground"
-          )}
+          className="flex items-center"
         >
-          COMPANY
+          <img 
+            src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png" 
+            alt="UP Logo" 
+            className="h-8 w-auto" 
+          />
         </a>
 
         {/* Desktop Navigation */}
@@ -59,8 +60,8 @@ const NavBar: React.FC = () => {
               key={link.title}
               href={link.href}
               className={cn(
-                "nav-link tracking-wide",
-                scrolled ? "text-foreground" : "text-foreground"
+                "nav-link tracking-wide text-brand-dark hover:text-brand-primary transition-colors duration-300",
+                scrolled ? "text-brand-dark" : "text-brand-dark"
               )}
               style={{ animationDelay: `${index * 100}ms` }}
             >
@@ -76,16 +77,16 @@ const NavBar: React.FC = () => {
           aria-label="Toggle menu"
         >
           {isOpen ? (
-            <X className="h-6 w-6 text-foreground" />
+            <X className="h-6 w-6 text-brand-dark" />
           ) : (
-            <Menu className="h-6 w-6 text-foreground" />
+            <Menu className="h-6 w-6 text-brand-dark" />
           )}
         </button>
 
         {/* Mobile Navigation Menu */}
         <div
           className={cn(
-            "fixed inset-0 z-50 bg-background/95 backdrop-blur-sm md:hidden transition-transform duration-300 ease-in-out",
+            "fixed inset-0 z-50 bg-white/95 backdrop-blur-sm md:hidden transition-transform duration-300 ease-in-out",
             isOpen ? "translate-x-0" : "translate-x-full"
           )}
         >
@@ -94,7 +95,7 @@ const NavBar: React.FC = () => {
               <a
                 key={link.title}
                 href={link.href}
-                className="text-foreground hover:text-primary text-2xl font-medium transition-colors duration-300"
+                className="text-brand-dark hover:text-brand-primary text-2xl font-medium transition-colors duration-300"
                 onClick={() => setIsOpen(false)}
                 style={{ 
                   opacity: 0,
@@ -111,7 +112,7 @@ const NavBar: React.FC = () => {
             onClick={() => setIsOpen(false)}
             aria-label="Close menu"
           >
-            <X className="h-6 w-6 text-foreground" />
+            <X className="h-6 w-6 text-brand-dark" />
           </button>
         </div>
       </div>
