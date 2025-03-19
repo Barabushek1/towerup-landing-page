@@ -1,12 +1,57 @@
-// Update this page (the content is just a fallback if you fail to update the page)
 
-const Index = () => {
+import React, { useEffect } from 'react';
+import NavBar from '@/components/NavBar';
+import HeroSection from '@/components/HeroSection';
+import AboutSection from '@/components/AboutSection';
+import FeaturesSection from '@/components/FeaturesSection';
+import ProductsSection from '@/components/ProductsSection';
+import TestimonialsSection from '@/components/TestimonialsSection';
+import ContactSection from '@/components/ContactSection';
+import Footer from '@/components/Footer';
+
+const Index: React.FC = () => {
+  // Add smooth scrolling animations
+  useEffect(() => {
+    // Observer for scroll animations
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+          }
+        });
+      },
+      { 
+        threshold: 0.1,
+        rootMargin: "0px 0px -100px 0px"
+      }
+    );
+    
+    // Observe all elements with scroll-animate-section class
+    document.querySelectorAll('.scroll-animate-section').forEach((el) => {
+      observer.observe(el);
+    });
+    
+    return () => {
+      // Clean up observer
+      document.querySelectorAll('.scroll-animate-section').forEach((el) => {
+        observer.unobserve(el);
+      });
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen antialiased bg-background text-foreground overflow-x-hidden">
+      <NavBar />
+      <main>
+        <HeroSection />
+        <AboutSection />
+        <FeaturesSection />
+        <ProductsSection />
+        <TestimonialsSection />
+        <ContactSection />
+      </main>
+      <Footer />
     </div>
   );
 };
