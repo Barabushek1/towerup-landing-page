@@ -21,7 +21,7 @@ const Footer: React.FC = () => {
               <img 
                 src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png" 
                 alt="UP Logo" 
-                className="h-8 w-auto mb-4" 
+                className="h-12 w-auto mb-4" 
               />
             </h3>
             <p className="text-white/70 mb-6">

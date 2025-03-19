@@ -1,8 +1,7 @@
 
 @font-face {
   font-family: 'Benzin';
-  src: url('/fonts/Benzin-Regular.woff2') format('woff2'),
-       url('/fonts/Benzin-Regular.woff') format('woff');
+  src: url('/fonts/Benzin-Regular/font.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -10,8 +9,7 @@
 
 @font-face {
   font-family: 'Benzin';
-  src: url('/fonts/Benzin-Medium.woff2') format('woff2'),
-       url('/fonts/Benzin-Medium.woff') format('woff');
+  src: url('/fonts/Benzin-Medium/font.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -19,8 +17,7 @@
 
 @font-face {
   font-family: 'Benzin';
-  src: url('/fonts/Benzin-Bold.woff2') format('woff2'),
-       url('/fonts/Benzin-Bold.woff') format('woff');
+  src: url('/fonts/Benzin-Bold/font.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -28,9 +25,16 @@
 
 @font-face {
   font-family: 'Benzin';
-  src: url('/fonts/Benzin-ExtraBold.woff2') format('woff2'),
-       url('/fonts/Benzin-ExtraBold.woff') format('woff');
+  src: url('/fonts/Benzin-ExtraBold/font.ttf') format('truetype');
   font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Benzin';
+  src: url('/fonts/Benzin-Semibold/font.ttf') format('truetype');
+  font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
