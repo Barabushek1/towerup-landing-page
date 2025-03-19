@@ -97,7 +97,6 @@ const NavBar: React.FC = () => {
                 className="text-foreground hover:text-primary text-2xl font-medium transition-colors duration-300"
                 onClick={() => setIsOpen(false)}
                 style={{ 
-                  animationDelay: `${index * 50}ms`,
                   opacity: 0,
                   animation: isOpen ? 'fadeIn 0.5s forwards' : 'none',
                   animationDelay: isOpen ? `${index * 100}ms` : '0ms'
