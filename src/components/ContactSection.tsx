@@ -29,18 +29,18 @@ const ContactSection: React.FC = () => {
   const contactInfo = [
     {
       icon: <Mail className="h-5 w-5" />,
-      label: "Email",
+      label: "Эл. почта",
       value: "contact@company.com"
     },
     {
       icon: <Phone className="h-5 w-5" />,
-      label: "Phone",
+      label: "Телефон",
       value: "+1 (555) 123-4567"
     },
     {
       icon: <MapPin className="h-5 w-5" />,
-      label: "Address",
-      value: "123 Business Ave, Enterprise City, 10001"
+      label: "Адрес",
+      value: "123 Бизнес Авеню, Ташкент, 100000"
     }
   ];
 
@@ -51,13 +51,13 @@ const ContactSection: React.FC = () => {
           {/* Contact Info */}
           <div className="scroll-animate-section">
             <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
-              Contact Us
+              Контакты
             </span>
             <h2 className="section-heading mb-6">
-              Get in touch with our team
+              Свяжитесь с нашей командой
             </h2>
             <p className="section-subheading mb-12">
-              We're here to answer your questions and discuss how we can help your business thrive. Reach out to us using any of the methods below.
+              Мы здесь, чтобы ответить на ваши вопросы и обсудить, как мы можем помочь вашему бизнесу процветать. Свяжитесь с нами любым из способов ниже.
             </p>
             
             <div className="space-y-8 mb-12">
@@ -75,15 +75,15 @@ const ContactSection: React.FC = () => {
             </div>
             
             <div className="glass-card p-8">
-              <h3 className="text-xl font-medium mb-4">Operating Hours</h3>
+              <h3 className="text-xl font-medium mb-4">Рабочие часы</h3>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <h4 className="text-sm text-muted-foreground mb-1">Weekdays</h4>
-                  <p>9:00 AM - 6:00 PM</p>
+                  <h4 className="text-sm text-muted-foreground mb-1">Будние дни</h4>
+                  <p>9:00 - 18:00</p>
                 </div>
                 <div>
-                  <h4 className="text-sm text-muted-foreground mb-1">Weekends</h4>
-                  <p>Closed</p>
+                  <h4 className="text-sm text-muted-foreground mb-1">Выходные</h4>
+                  <p>Закрыто</p>
                 </div>
               </div>
             </div>
@@ -92,47 +92,47 @@ const ContactSection: React.FC = () => {
           {/* Contact Form */}
           <div className="scroll-animate-section">
             <form className="glass-card p-8">
-              <h3 className="text-xl font-medium mb-6">Send us a message</h3>
+              <h3 className="text-xl font-medium mb-6">Отправьте нам сообщение</h3>
               
               <div className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="name" className="block text-sm text-muted-foreground mb-2">Name</label>
+                    <label htmlFor="name" className="block text-sm text-muted-foreground mb-2">Имя</label>
                     <input
                       type="text"
                       id="name"
                       className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-                      placeholder="Your name"
+                      placeholder="Ваше имя"
                     />
                   </div>
                   <div>
-                    <label htmlFor="email" className="block text-sm text-muted-foreground mb-2">Email</label>
+                    <label htmlFor="email" className="block text-sm text-muted-foreground mb-2">Эл. почта</label>
                     <input
                       type="email"
                       id="email"
                       className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-                      placeholder="Your email"
+                      placeholder="Ваш email"
                     />
                   </div>
                 </div>
                 
                 <div>
-                  <label htmlFor="subject" className="block text-sm text-muted-foreground mb-2">Subject</label>
+                  <label htmlFor="subject" className="block text-sm text-muted-foreground mb-2">Тема</label>
                   <input
                     type="text"
                     id="subject"
                     className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-                    placeholder="Message subject"
+                    placeholder="Тема сообщения"
                   />
                 </div>
                 
                 <div>
-                  <label htmlFor="message" className="block text-sm text-muted-foreground mb-2">Message</label>
+                  <label htmlFor="message" className="block text-sm text-muted-foreground mb-2">Сообщение</label>
                   <textarea
                     id="message"
                     rows={5}
                     className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all resize-none"
-                    placeholder="Your message"
+                    placeholder="Ваше сообщение"
                   ></textarea>
                 </div>
                 
@@ -143,7 +143,7 @@ const ContactSection: React.FC = () => {
                     "shadow-lg shadow-primary/20 flex items-center justify-center"
                   )}
                 >
-                  <span>Send Message</span>
+                  <span>Отправить сообщение</span>
                   <Send className="ml-2 h-4 w-4" />
                 </button>
               </div>
