@@ -12,20 +12,20 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-brand-secondary/30 pt-16 pb-8">
+    <footer className="bg-brand-dark text-white pt-16 pb-8">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Company Info */}
           <div>
-            <h3 className="font-display text-xl font-semibold mb-6 text-brand-dark">
+            <h3 className="font-display text-xl font-semibold mb-6 text-white">
               <img 
                 src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png" 
                 alt="UP Logo" 
                 className="h-8 w-auto mb-4" 
               />
             </h3>
-            <p className="text-muted-foreground mb-6">
-              We create innovative solutions for businesses to thrive in a rapidly evolving world.
+            <p className="text-white/70 mb-6">
+              Мы создаем инновационные решения для бизнеса, чтобы они могли процветать в быстро меняющемся мире.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary transition-colors hover:bg-brand-primary hover:text-white">
@@ -45,83 +45,83 @@ const Footer: React.FC = () => {
           
           {/* Quick Links */}
           <div>
-            <h3 className="font-medium text-lg mb-6 text-brand-dark">Quick Links</h3>
+            <h3 className="font-medium text-lg mb-6 text-white">Быстрые ссылки</h3>
             <ul className="space-y-3">
               <li>
-                <a href="#home" className="text-muted-foreground hover:text-brand-primary transition-colors">Home</a>
+                <a href="#home" className="text-white/70 hover:text-brand-primary transition-colors">Главная</a>
               </li>
               <li>
-                <a href="#about" className="text-muted-foreground hover:text-brand-primary transition-colors">About Us</a>
+                <a href="#about" className="text-white/70 hover:text-brand-primary transition-colors">О нас</a>
               </li>
               <li>
-                <a href="#services" className="text-muted-foreground hover:text-brand-primary transition-colors">Services</a>
+                <a href="#services" className="text-white/70 hover:text-brand-primary transition-colors">Услуги</a>
               </li>
               <li>
-                <a href="#products" className="text-muted-foreground hover:text-brand-primary transition-colors">Products</a>
+                <a href="#products" className="text-white/70 hover:text-brand-primary transition-colors">Продукты</a>
               </li>
               <li>
-                <a href="#contact" className="text-muted-foreground hover:text-brand-primary transition-colors">Contact</a>
+                <a href="#contact" className="text-white/70 hover:text-brand-primary transition-colors">Контакты</a>
               </li>
             </ul>
           </div>
           
           {/* Services */}
           <div>
-            <h3 className="font-medium text-lg mb-6 text-brand-dark">Services</h3>
+            <h3 className="font-medium text-lg mb-6 text-white">Услуги</h3>
             <ul className="space-y-3">
               <li>
-                <a href="#" className="text-muted-foreground hover:text-brand-primary transition-colors">Consulting</a>
+                <a href="#" className="text-white/70 hover:text-brand-primary transition-colors">Консалтинг</a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-brand-primary transition-colors">Digital Transformation</a>
+                <a href="#" className="text-white/70 hover:text-brand-primary transition-colors">Цифровая трансформация</a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-brand-primary transition-colors">Manufacturing</a>
+                <a href="#" className="text-white/70 hover:text-brand-primary transition-colors">Производство</a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-brand-primary transition-colors">Engineering</a>
+                <a href="#" className="text-white/70 hover:text-brand-primary transition-colors">Инжиниринг</a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-brand-primary transition-colors">Technical Support</a>
+                <a href="#" className="text-white/70 hover:text-brand-primary transition-colors">Техническая поддержка</a>
               </li>
             </ul>
           </div>
           
           {/* Contact */}
           <div>
-            <h3 className="font-medium text-lg mb-6 text-brand-dark">Contact</h3>
+            <h3 className="font-medium text-lg mb-6 text-white">Контакты</h3>
             <address className="not-italic">
-              <p className="text-muted-foreground mb-2">123 Business Ave</p>
-              <p className="text-muted-foreground mb-2">Enterprise City, 10001</p>
-              <p className="text-muted-foreground mb-6">United States</p>
+              <p className="text-white/70 mb-2">ул. Бизнес, 123</p>
+              <p className="text-white/70 mb-2">Ташкент, 100000</p>
+              <p className="text-white/70 mb-6">Узбекистан</p>
               <p className="mb-2">
-                <span className="text-muted-foreground">Email: </span>
+                <span className="text-white/70">Email: </span>
                 <a href="mailto:contact@company.com" className="hover:text-brand-primary transition-colors">contact@company.com</a>
               </p>
               <p>
-                <span className="text-muted-foreground">Phone: </span>
-                <a href="tel:+15551234567" className="hover:text-brand-primary transition-colors">+1 (555) 123-4567</a>
+                <span className="text-white/70">Телефон: </span>
+                <a href="tel:+998901234567" className="hover:text-brand-primary transition-colors">+998 (90) 123-45-67</a>
               </p>
             </address>
           </div>
         </div>
         
-        <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-gray-200">
-          <p className="text-muted-foreground text-sm mb-4 md:mb-0">
-            © {new Date().getFullYear()} UP. All rights reserved.
+        <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/10">
+          <p className="text-white/70 text-sm mb-4 md:mb-0">
+            © {new Date().getFullYear()} UP. Все права защищены.
           </p>
           
           <div className="flex space-x-8">
-            <a href="#" className="text-sm text-muted-foreground hover:text-brand-primary transition-colors">Privacy Policy</a>
-            <a href="#" className="text-sm text-muted-foreground hover:text-brand-primary transition-colors">Terms of Service</a>
-            <a href="#" className="text-sm text-muted-foreground hover:text-brand-primary transition-colors">Cookies Policy</a>
+            <a href="#" className="text-sm text-white/70 hover:text-brand-primary transition-colors">Политика конфиденциальности</a>
+            <a href="#" className="text-sm text-white/70 hover:text-brand-primary transition-colors">Условия использования</a>
+            <a href="#" className="text-sm text-white/70 hover:text-brand-primary transition-colors">Политика cookies</a>
           </div>
           
           {/* Improved back to top button */}
           <button 
             onClick={scrollToTop}
             className="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-brand-primary text-white flex items-center justify-center shadow-lg hover:bg-brand-primary/90 transition-all duration-300 z-30 group"
-            aria-label="Back to top"
+            aria-label="Наверх"
           >
             <ArrowUp className="h-5 w-5 group-hover:animate-bounce" />
           </button>

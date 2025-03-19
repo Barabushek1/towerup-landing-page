@@ -19,7 +19,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ title, description, imageUrl,
       ref={cardRef}
       className={cn(
         "scroll-animate-section relative group overflow-hidden rounded-2xl transition-all duration-500 cursor-pointer",
-        "bg-white border border-gray-100 shadow-sm h-[400px]"
+        "bg-brand-dark border border-brand-dark/10 shadow-sm h-[400px]"
       )}
       style={{ transitionDelay: `${index * 100}ms` }}
       onMouseEnter={() => setIsHovered(true)}
@@ -61,7 +61,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ title, description, imageUrl,
           "flex items-center transform transition-all duration-300",
           isHovered ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
         )}>
-          <span className="text-white/90 text-sm font-medium mr-2">Learn more</span>
+          <span className="text-white/90 text-sm font-medium mr-2">Подробнее</span>
           <ChevronRight className="h-4 w-4 text-white/90" />
         </div>
       </div>
@@ -94,18 +94,18 @@ const ProductsSection: React.FC = () => {
 
   const products = [
     {
-      title: "Smart Building Solutions",
-      description: "Integrated systems for modern, efficient, and sustainable building management.",
+      title: "Умные решения для зданий",
+      description: "Интегрированные системы для современного, эффективного и устойчивого управления зданиями.",
       imageUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
     },
     {
-      title: "Advanced Manufacturing",
-      description: "State-of-the-art production technologies for increased efficiency and quality.",
+      title: "Современное производство",
+      description: "Современные производственные технологии для повышения эффективности и качества.",
       imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
     },
     {
-      title: "Sustainable Energy Solutions",
-      description: "Renewable energy systems designed for maximum efficiency and minimal environmental impact.",
+      title: "Решения устойчивой энергетики",
+      description: "Системы возобновляемой энергии, разработанные для максимальной эффективности и минимального воздействия на окружающую среду.",
       imageUrl: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
     }
   ];
@@ -116,13 +116,13 @@ const ProductsSection: React.FC = () => {
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-16">
           <div className="max-w-2xl mb-8 lg:mb-0 scroll-animate-section">
             <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
-              Our Products
+              Наши Продукты
             </span>
-            <h2 className="section-heading mb-6">
-              Innovative products designed for the future
+            <h2 className="section-heading mb-6 text-brand-dark">
+              Инновационные продукты, созданные для будущего
             </h2>
-            <p className="section-subheading">
-              Discover our premium range of products built with cutting-edge technology and uncompromising quality standards.
+            <p className="section-subheading text-muted-foreground">
+              Откройте для себя наш премиальный ассортимент продуктов, созданных с использованием передовых технологий и бескомпромиссных стандартов качества.
             </p>
           </div>
           
@@ -130,7 +130,7 @@ const ProductsSection: React.FC = () => {
             href="#contact" 
             className="flex items-center text-primary font-medium hover:underline scroll-animate-section"
           >
-            <span>View all products</span>
+            <span>Все продукты</span>
             <ArrowRight className="ml-2 h-4 w-4" />
           </a>
         </div>

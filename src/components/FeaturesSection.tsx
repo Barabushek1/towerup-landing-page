@@ -24,7 +24,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description, del
     <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
       <div className="text-primary">{icon}</div>
     </div>
-    <h3 className="text-xl font-medium mb-3">{title}</h3>
+    <h3 className="text-xl font-medium mb-3 text-brand-dark">{title}</h3>
     <p className="text-muted-foreground">{description}</p>
   </div>
 );
@@ -55,33 +55,33 @@ const FeaturesSection: React.FC = () => {
   const features = [
     {
       icon: <Lightbulb className="h-7 w-7" />,
-      title: "Innovative Solutions",
-      description: "We develop forward-thinking solutions that address current challenges while anticipating future needs."
+      title: "Инновационные решения",
+      description: "Мы разрабатываем передовые решения, которые решают текущие задачи, предвидя будущие потребности."
     },
     {
       icon: <Globe className="h-7 w-7" />,
-      title: "Global Reach",
-      description: "Our services extend across borders, empowering businesses worldwide with local expertise and global insights."
+      title: "Глобальный охват",
+      description: "Наши услуги распространяются через границы, расширяя возможности бизнеса по всему миру с местным опытом и глобальным пониманием."
     },
     {
       icon: <Shield className="h-7 w-7" />,
-      title: "Reliable Security",
-      description: "We implement robust security measures, ensuring data protection and operational resilience."
+      title: "Надежная безопасность",
+      description: "Мы внедряем надежные меры безопасности, обеспечивая защиту данных и операционную устойчивость."
     },
     {
       icon: <BarChart className="h-7 w-7" />,
-      title: "Data Analytics",
-      description: "Transform your data into actionable insights with our advanced analytics capabilities."
+      title: "Аналитика данных",
+      description: "Превращайте свои данные в практические выводы с помощью наших расширенных аналитических возможностей."
     },
     {
       icon: <Award className="h-7 w-7" />,
-      title: "Quality Excellence",
-      description: "We maintain the highest standards of quality in every project, delivering exceptional results."
+      title: "Качество и совершенство",
+      description: "Мы поддерживаем самые высокие стандарты качества в каждом проекте, обеспечивая исключительные результаты."
     },
     {
       icon: <Users className="h-7 w-7" />,
-      title: "Expert Consultation",
-      description: "Our team of specialists provides personalized guidance tailored to your unique business needs."
+      title: "Экспертные консультации",
+      description: "Наша команда специалистов предоставляет персонализированное руководство, адаптированное к уникальным потребностям вашего бизнеса."
     }
   ];
 
@@ -90,13 +90,13 @@ const FeaturesSection: React.FC = () => {
       <div className="container mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16 scroll-animate-section">
           <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
-            Our Services
+            Наши Услуги
           </span>
-          <h2 className="section-heading mb-6">
-            Comprehensive solutions for modern challenges
+          <h2 className="section-heading mb-6 text-brand-dark">
+            Комплексные решения для современных задач
           </h2>
-          <p className="section-subheading mx-auto">
-            We offer a wide range of services designed to help businesses thrive in today's competitive landscape.
+          <p className="section-subheading mx-auto text-muted-foreground">
+            Мы предлагаем широкий спектр услуг, разработанных для того, чтобы помочь бизнесу процветать в сегодняшнем конкурентном ландшафте.
           </p>
         </div>
         
