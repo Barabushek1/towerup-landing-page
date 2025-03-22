@@ -107,21 +107,21 @@ const ProjectsSection: React.FC = () => {
 
   const projects = [
     {
-      title: "Жилой комплекс "Зелёный квартал"",
+      title: 'Жилой комплекс "Зелёный квартал"',
       description: "Современный эко-комплекс из 5 домов с благоустроенной территорией, детскими площадками и парковой зоной.",
       location: "Москва",
       status: "Строится",
       imageUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
     },
     {
-      title: "Бизнес-центр "Горизонт"",
+      title: 'Бизнес-центр "Горизонт"',
       description: "Современный бизнес-центр класса А с конференц-залами, подземным паркингом и зелёной зоной отдыха.",
       location: "Санкт-Петербург",
       status: "Завершен",
       imageUrl: "https://images.unsplash.com/photo-1582824954430-dfe24a3e7b75?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
     },
     {
-      title: "Гостиничный комплекс "Приморский"",
+      title: 'Гостиничный комплекс "Приморский"',
       description: "Курортный комплекс из отеля 5* и апартаментов с панорамным видом на море и собственным пляжем.",
       location: "Сочи",
       status: "Проект",
