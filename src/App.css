@@ -81,6 +81,28 @@
     padding-top: 4rem;
     padding-bottom: 4rem;
   }
+
+  /* Fix mobile menu text alignment */
+  .mobile-menu-item {
+    text-align: center;
+    width: 100%;
+  }
+}
+
+/* Fix for the mobile menu to ensure it's properly displayed */
+.mobile-navigation {
+  background-color: #1A2836;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 5rem;
 }
 
 /* Add extra animation for mobile touch support */
