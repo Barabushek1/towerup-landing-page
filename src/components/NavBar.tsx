@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Menu, X, Phone, ChevronRight, Facebook, Instagram, Twitter, Youtube, MapPin, Mail, PhoneCall } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -58,37 +59,37 @@ const NavBar: React.FC = () => {
   };
 
   const companySubMenu = [
-    { title: 'О нас', href: '#about' },
-    { title: 'История', href: '#history' },
-    { title: 'Партнёры', href: '#partners' },
-    { title: 'Руководство', href: '#management' },
+    { title: 'О нас', href: '/about' },
+    { title: 'История', href: '/history' },
+    { title: 'Партнёры', href: '/partners' },
+    { title: 'Руководство', href: '/management' },
   ];
 
   const servicesSubMenu = [
-    { title: 'Строительство объектов', href: '#construction' },
-    { title: 'Проектирование', href: '#design' },
-    { title: 'Решения для объектов', href: '#solutions' },
+    { title: 'Строительство объектов', href: '/construction' },
+    { title: 'Проектирование', href: '/design' },
+    { title: 'Решения для объектов', href: '/solutions' },
   ];
 
   const usefulLinksSubMenu = [
-    { title: 'О компании', href: '#about-company' },
-    { title: 'Наши работы', href: '#our-work' },
-    { title: 'Новости', href: '#news' },
-    { title: 'Вакансии', href: '#vacancies' },
+    { title: 'О компании', href: '/about' },
+    { title: 'Наши работы', href: '/projects' },
+    { title: 'Новости', href: '/news' },
+    { title: 'Вакансии', href: '/vacancies' },
   ];
 
   const navLinks = [
     { 
       title: 'О компании', 
-      href: '#about',
+      href: '/about',
       hasSubmenu: true,
       key: 'company',
       submenu: companySubMenu 
     },
-    { title: 'Проекты', href: '#projects', key: 'projects' },
-    { title: 'Новости', href: '#news', key: 'news' },
-    { title: 'Вакансии', href: '#vacancies', key: 'vacancies' },
-    { title: 'Контакты', href: '#contact', key: 'contacts' },
+    { title: 'Проекты', href: '/projects', key: 'projects' },
+    { title: 'Новости', href: '/news', key: 'news' },
+    { title: 'Вакансии', href: '/vacancies', key: 'vacancies' },
+    { title: 'Контакты', href: '/contact', key: 'contacts' },
   ];
 
   return (
@@ -101,8 +102,8 @@ const NavBar: React.FC = () => {
       )}
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
-        <a 
-          href="#home" 
+        <Link 
+          to="/" 
           className="flex items-center"
         >
           <img 
@@ -110,7 +111,7 @@ const NavBar: React.FC = () => {
             alt="UP Logo" 
             className="h-12 md:h-16 w-auto" 
           />
-        </a>
+        </Link>
 
         {/* Desktop Navigation */}
         {!isMobile && (
@@ -131,11 +132,14 @@ const NavBar: React.FC = () => {
                         <ul className="grid w-[200px] gap-3 p-4 bg-white/90 backdrop-blur-md">
                           {link.submenu?.map((subItem) => (
                             <li key={subItem.title}>
-                              <NavigationMenuLink
-                                href={subItem.href}
-                                className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-brand-dark font-benzin"
-                              >
-                                <div className="text-sm font-medium leading-none">{subItem.title}</div>
+                              <NavigationMenuLink asChild>
+                                <Link
+                                  to={subItem.href}
+                                  className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-brand-dark font-benzin"
+                                  onClick={() => setIsOpen(false)}
+                                >
+                                  <div className="text-sm font-medium leading-none">{subItem.title}</div>
+                                </Link>
                               </NavigationMenuLink>
                             </li>
                           ))}
@@ -144,23 +148,23 @@ const NavBar: React.FC = () => {
                     </NavigationMenuItem>
                   ) : (
                     <NavigationMenuItem key={link.title}>
-                      <a
-                        href={link.href}
+                      <Link
+                        to={link.href}
                         className={cn(
                           "nav-link tracking-wide hover:text-brand-primary transition-colors duration-300 font-benzin px-3 py-2",
                           scrolled ? "text-white" : "text-white"
                         )}
                       >
                         {link.title}
-                      </a>
+                      </Link>
                     </NavigationMenuItem>
                   )
                 ))}
               </NavigationMenuList>
             </NavigationMenu>
 
-            <a
-              href="#contact"
+            <Link
+              to="/contact"
               className={cn(
                 "flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-primary text-white font-medium",
                 "shadow-lg shadow-brand-primary/20 transform transition hover:-translate-y-0.5 font-benzin"
@@ -168,7 +172,7 @@ const NavBar: React.FC = () => {
             >
               <Phone className="h-4 w-4" />
               Консультация
-            </a>
+            </Link>
           </div>
         )}
 
@@ -226,27 +230,27 @@ const NavBar: React.FC = () => {
                         {expandedSubmenu === link.key && (
                           <div className="pl-4 space-y-3 mt-1 mb-3">
                             {link.submenu?.map((subItem) => (
-                              <a
+                              <Link
                                 key={subItem.title}
-                                href={subItem.href}
+                                to={subItem.href}
                                 className="block text-gray-300 hover:text-white text-sm py-1.5 font-benzin"
                                 onClick={() => setIsOpen(false)}
                               >
                                 {subItem.title}
-                              </a>
+                              </Link>
                             ))}
                           </div>
                         )}
                       </>
                     ) : (
-                      <a
-                        href={link.href}
+                      <Link
+                        to={link.href}
                         className="w-full flex items-center justify-between py-3 text-white font-benzin text-base"
                         onClick={() => setIsOpen(false)}
                       >
                         <span>{link.title}</span>
                         <ChevronRight className="h-5 w-5" />
-                      </a>
+                      </Link>
                     )}
                   </div>
                 ))}
@@ -259,15 +263,15 @@ const NavBar: React.FC = () => {
                 <h3 className="text-white text-left font-benzin text-lg mb-3">Услуги</h3>
                 <div className="space-y-3">
                   {servicesSubMenu.map((item) => (
-                    <a
+                    <Link
                       key={item.title}
-                      href={item.href}
+                      to={item.href}
                       className="flex items-center justify-between text-gray-300 hover:text-white py-1.5 text-base font-benzin"
                       onClick={() => setIsOpen(false)}
                     >
                       <span>{item.title}</span>
                       <ChevronRight className="h-4 w-4" />
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -279,15 +283,15 @@ const NavBar: React.FC = () => {
                 <h3 className="text-white text-left font-benzin text-lg mb-3">Полезные ссылки</h3>
                 <div className="space-y-3">
                   {usefulLinksSubMenu.map((item) => (
-                    <a
+                    <Link
                       key={item.title}
-                      href={item.href}
+                      to={item.href}
                       className="flex items-center justify-between text-gray-300 hover:text-white py-1.5 text-base font-benzin"
                       onClick={() => setIsOpen(false)}
                     >
                       <span>{item.title}</span>
                       <ChevronRight className="h-4 w-4" />
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>

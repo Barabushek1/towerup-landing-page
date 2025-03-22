@@ -5,6 +5,17 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import About from "./pages/About";
+import History from "./pages/History";
+import Partners from "./pages/Partners";
+import Management from "./pages/Management";
+import Projects from "./pages/Projects";
+import News from "./pages/News";
+import Vacancies from "./pages/Vacancies";
+import Contact from "./pages/Contact";
+import Construction from "./pages/Construction";
+import Design from "./pages/Design";
+import Solutions from "./pages/Solutions";
 
 const queryClient = new QueryClient();
 
@@ -16,7 +27,25 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          
+          {/* Company routes */}
+          <Route path="/about" element={<About />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/partners" element={<Partners />} />
+          <Route path="/management" element={<Management />} />
+          
+          {/* Other main routes */}
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/news" element={<News />} />
+          <Route path="/vacancies" element={<Vacancies />} />
+          <Route path="/contact" element={<Contact />} />
+          
+          {/* Services routes */}
+          <Route path="/construction" element={<Construction />} />
+          <Route path="/design" element={<Design />} />
+          <Route path="/solutions" element={<Solutions />} />
+          
+          {/* Catch-all route */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

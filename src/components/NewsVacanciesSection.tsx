@@ -1,8 +1,8 @@
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
-import { ArrowRight, Clock, Briefcase, ChevronRight, Newspaper } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ArrowRight, Clock, ChevronRight, Newspaper } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface NewsItemProps {
   title: string;
@@ -17,7 +17,7 @@ const NewsItem: React.FC<NewsItemProps> = ({ title, date, excerpt, imageUrl, ind
     <div
       className={cn(
         "scroll-animate-section relative overflow-hidden rounded-lg border border-primary/10 shadow-sm bg-background",
-        "transition-all duration-500 hover:shadow-md"
+        "transition-all duration-500 hover:shadow-md group"
       )}
       style={{ transitionDelay: `${index * 100}ms` }}
     >
@@ -26,7 +26,7 @@ const NewsItem: React.FC<NewsItemProps> = ({ title, date, excerpt, imageUrl, ind
           <img
             src={imageUrl}
             alt={title}
-            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </div>
       )}
@@ -38,63 +38,15 @@ const NewsItem: React.FC<NewsItemProps> = ({ title, date, excerpt, imageUrl, ind
         </div>
         
         <h3 className="text-xl font-medium text-brand-dark mb-2 font-benzin">{title}</h3>
-        <p className="text-muted-foreground mb-4 font-benzin">{excerpt}</p>
+        <p className="text-muted-foreground mb-4 font-benzin line-clamp-3">{excerpt}</p>
         
-        <a 
-          href="#" 
-          className="inline-flex items-center text-primary font-medium hover:underline font-benzin"
+        <Link 
+          to="/news" 
+          className="inline-flex items-center text-primary font-medium hover:underline font-benzin group-hover:translate-x-1 transition-transform"
         >
           <span>Подробнее</span>
           <ChevronRight className="ml-1 h-4 w-4" />
-        </a>
-      </div>
-    </div>
-  );
-};
-
-interface VacancyItemProps {
-  title: string;
-  location: string;
-  salary: string;
-  type: string;
-  index: number;
-}
-
-const VacancyItem: React.FC<VacancyItemProps> = ({ title, location, salary, type, index }) => {
-  return (
-    <div
-      className={cn(
-        "scroll-animate-section relative overflow-hidden rounded-lg border border-primary/10 p-6 shadow-sm bg-background",
-        "transition-all duration-300 hover:shadow-md"
-      )}
-      style={{ transitionDelay: `${index * 100}ms` }}
-    >
-      <div className="flex items-start justify-between">
-        <div>
-          <h3 className="text-xl font-medium text-brand-dark mb-2 font-benzin">{title}</h3>
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <span className="text-sm font-benzin">{location}</span>
-            </div>
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <span className="text-sm font-benzin">{type}</span>
-            </div>
-          </div>
-        </div>
-        
-        <div className="text-right">
-          <span className="font-medium text-brand-primary font-benzin">{salary}</span>
-        </div>
-      </div>
-      
-      <div className="mt-4 pt-4 border-t border-muted">
-        <a 
-          href="#contact" 
-          className="inline-flex items-center px-4 py-2 rounded-md bg-primary/10 text-primary hover:bg-primary/20 transition-colors font-benzin"
-        >
-          <span>Откликнуться</span>
-          <ArrowRight className="ml-2 h-4 w-4" />
-        </a>
+        </Link>
       </div>
     </div>
   );
@@ -102,7 +54,6 @@ const VacancyItem: React.FC<VacancyItemProps> = ({ title, location, salary, type
 
 const NewsVacanciesSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [activeTab, setActiveTab] = useState("news");
   
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -145,33 +96,6 @@ const NewsVacanciesSection: React.FC = () => {
     }
   ];
 
-  const vacancies = [
-    {
-      title: "Главный инженер проекта",
-      location: "Москва",
-      salary: "от 150 000 ₽",
-      type: "Полная занятость"
-    },
-    {
-      title: "Архитектор",
-      location: "Санкт-Петербург",
-      salary: "от 120 000 ₽",
-      type: "Полная занятость"
-    },
-    {
-      title: "Прораб",
-      location: "Москва",
-      salary: "от 100 000 ₽",
-      type: "Полная занятость"
-    },
-    {
-      title: "Инженер-конструктор",
-      location: "Дистанционно",
-      salary: "от 90 000 ₽",
-      type: "Полная занятость"
-    }
-  ];
-
   return (
     <section 
       id="news" 
@@ -188,80 +112,48 @@ const NewsVacanciesSection: React.FC = () => {
       <div className="container mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-12 scroll-animate-section">
           <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6 font-benzin">
-            Новости и Вакансии
+            Новости
           </span>
           <h2 className="section-heading mb-6 text-brand-dark font-benzin">
             Будьте в курсе наших последних событий
           </h2>
           <p className="section-subheading mx-auto text-muted-foreground font-benzin">
-            Следите за новостями компании и открытыми вакансиями для присоединения к нашей команде профессионалов.
+            Следите за новостями компании и оставайтесь в курсе последних проектов и достижений
           </p>
         </div>
         
-        <div className="mb-10 flex justify-center scroll-animate-section">
-          <Tabs defaultValue="news" className="w-full max-w-3xl" onValueChange={setActiveTab}>
-            <TabsList className="grid grid-cols-2 mb-8">
-              <TabsTrigger value="news" className="flex items-center gap-2 font-benzin">
-                <Newspaper className="h-4 w-4" />
-                Новости
-              </TabsTrigger>
-              <TabsTrigger value="vacancies" className="flex items-center gap-2 font-benzin">
-                <Briefcase className="h-4 w-4" />
-                Вакансии
-              </TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="news" className="mt-0">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {news.map((item, index) => (
-                  <NewsItem
-                    key={index}
-                    title={item.title}
-                    date={item.date}
-                    excerpt={item.excerpt}
-                    imageUrl={item.imageUrl}
-                    index={index}
-                  />
-                ))}
-              </div>
-              
-              <div className="mt-10 text-center">
-                <a 
-                  href="#" 
-                  className="inline-flex items-center px-6 py-3 rounded-lg bg-primary text-white font-medium shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors font-benzin"
-                >
-                  Все новости
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </a>
-              </div>
-            </TabsContent>
-            
-            <TabsContent value="vacancies" className="mt-0">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {vacancies.map((item, index) => (
-                  <VacancyItem
-                    key={index}
-                    title={item.title}
-                    location={item.location}
-                    salary={item.salary}
-                    type={item.type}
-                    index={index}
-                  />
-                ))}
-              </div>
-              
-              <div className="mt-10 text-center">
-                <a 
-                  href="#" 
-                  className="inline-flex items-center px-6 py-3 rounded-lg bg-primary text-white font-medium shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors font-benzin"
-                >
-                  Все вакансии
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </a>
-              </div>
-            </TabsContent>
-          </Tabs>
+        <div className="mb-10 scroll-animate-section">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {news.map((item, index) => (
+              <NewsItem
+                key={index}
+                title={item.title}
+                date={item.date}
+                excerpt={item.excerpt}
+                imageUrl={item.imageUrl}
+                index={index}
+              />
+            ))}
+          </div>
+          
+          <div className="mt-10 text-center">
+            <Link 
+              to="/news" 
+              className="inline-flex items-center px-6 py-3 rounded-lg bg-primary text-white font-medium shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors font-benzin"
+            >
+              Все новости
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </div>
         </div>
+      </div>
+      
+      {/* Wave decoration at the bottom */}
+      <div className="absolute bottom-0 left-0 w-full">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="w-full h-auto">
+          <path fill="#26AA56" fillOpacity="0.1" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,218.7C672,203,768,149,864,128C960,107,1056,117,1152,128C1248,139,1344,149,1392,154.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+          <path fill="#26AA56" fillOpacity="0.05" d="M0,32L48,48C96,64,192,96,288,133.3C384,171,480,213,576,213.3C672,213,768,171,864,154.7C960,139,1056,149,1152,160C1248,171,1344,181,1392,186.7L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
       </div>
     </section>
   );

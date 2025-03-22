@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import NavBar from '@/components/NavBar';
 import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
-import FeaturesSection from '@/components/FeaturesSection';
 import ProjectsSection from '@/components/ProjectsSection';
 import NewsVacanciesSection from '@/components/NewsVacanciesSection';
 import ContactSection from '@/components/ContactSection';
@@ -46,7 +45,6 @@ const Index: React.FC = () => {
       <main>
         <HeroSection />
         <AboutSection />
-        <FeaturesSection />
         <ProjectsSection />
         <NewsVacanciesSection />
         <ContactSection />
