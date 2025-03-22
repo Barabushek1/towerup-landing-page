@@ -105,13 +105,6 @@ const AboutSection: React.FC = () => {
                 />
               </div>
               
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
-                <div className="text-white text-8xl lg:text-9xl font-bold">25</div>
-                <div className="text-white text-xl uppercase font-medium text-center">ЛЕТ</div>
-                <div className="text-white text-sm uppercase text-center mt-2">НА РЫНКЕ УЗБЕКИСТАНА!</div>
-              </div>
-            </div>
-          </div>
           
           {/* Right side with company description */}
           <div className="scroll-animate-section">
