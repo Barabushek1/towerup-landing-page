@@ -82,10 +82,18 @@
     padding-bottom: 4rem;
   }
 
-  /* Fix mobile menu text alignment */
+  /* Mobile menu specific */
   .mobile-menu-item {
-    text-align: center;
+    text-align: left;
     width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .mobile-submenu {
+    background-color: rgba(0, 0, 0, 0.2);
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
   }
 }
 
@@ -100,9 +108,10 @@
   z-index: 50;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   justify-content: flex-start;
   padding-top: 5rem;
+  overflow-y: auto;
 }
 
 /* Add extra animation for mobile touch support */
@@ -114,4 +123,26 @@
 @keyframes slideUp {
   from { transform: translateY(20px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
+}
+
+/* Expandable menu items in mobile view */
+.mobile-menu-item.expanded .submenu {
+  max-height: 500px;
+  opacity: 1;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+.mobile-menu-item .submenu {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+.mobile-menu-chevron {
+  transition: transform 0.3s ease;
+}
+
+.mobile-menu-item.expanded .mobile-menu-chevron {
+  transform: rotate(90deg);
 }

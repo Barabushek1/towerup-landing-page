@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { Menu, X, Phone } from 'lucide-react';
+import { Menu, X, Phone, ChevronRight, Facebook, Instagram, Telegram, Youtube, MapPin, Mail, PhoneCall } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import {
   NavigationMenu,
@@ -11,11 +11,13 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { Separator } from "@/components/ui/separator";
 
 const NavBar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const isMobile = useIsMobile();
+  const [expandedSubmenu, setExpandedSubmenu] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,6 +49,14 @@ const NavBar: React.FC = () => {
     };
   }, [isOpen]);
 
+  const toggleSubmenu = (key: string) => {
+    if (expandedSubmenu === key) {
+      setExpandedSubmenu(null);
+    } else {
+      setExpandedSubmenu(key);
+    }
+  };
+
   const companySubMenu = [
     { title: 'О нас', href: '#about' },
     { title: 'История', href: '#history' },
@@ -54,17 +64,31 @@ const NavBar: React.FC = () => {
     { title: 'Руководство', href: '#management' },
   ];
 
+  const servicesSubMenu = [
+    { title: 'Строительство объектов', href: '#construction' },
+    { title: 'Проектирование', href: '#design' },
+    { title: 'Решения для объектов', href: '#solutions' },
+  ];
+
+  const usefulLinksSubMenu = [
+    { title: 'О компании', href: '#about-company' },
+    { title: 'Наши работы', href: '#our-work' },
+    { title: 'Новости', href: '#news' },
+    { title: 'Вакансии', href: '#vacancies' },
+  ];
+
   const navLinks = [
     { 
       title: 'О компании', 
       href: '#about',
       hasSubmenu: true,
+      key: 'company',
       submenu: companySubMenu 
     },
-    { title: 'Проекты', href: '#projects' },
-    { title: 'Новости', href: '#news' },
-    { title: 'Вакансии', href: '#vacancies' },
-    { title: 'Контакты', href: '#contact' },
+    { title: 'Проекты', href: '#projects', key: 'projects' },
+    { title: 'Новости', href: '#news', key: 'news' },
+    { title: 'Вакансии', href: '#vacancies', key: 'vacancies' },
+    { title: 'Контакты', href: '#contact', key: 'contacts' },
   ];
 
   return (
@@ -161,11 +185,11 @@ const NavBar: React.FC = () => {
           )}
         </button>
 
-        {/* Mobile Navigation Menu - Fixed positioning */}
+        {/* Mobile Navigation Menu */}
         {isMobile && (
           <div
             className={cn(
-              "fixed inset-0 bg-[#1A2836] flex flex-col items-center justify-start pt-20",
+              "fixed inset-0 bg-[#1A2836] flex flex-col items-stretch pt-20 pb-10 overflow-y-auto",
               "transition-all duration-300",
               isOpen ? "opacity-100 visible z-40" : "opacity-0 invisible -z-10"
             )}
@@ -180,49 +204,133 @@ const NavBar: React.FC = () => {
               </button>
             </div>
             
-            <div className="flex flex-col items-center space-y-6 w-full px-6">
-              {navLinks.map((link, index) => (
-                <React.Fragment key={link.title}>
-                  {link.hasSubmenu ? (
-                    <>
-                      <div className="text-center w-full">
-                        <a href={link.href} className="text-white uppercase text-xl font-benzin">
-                          {link.title}
-                        </a>
-                      </div>
-                      <div className="grid grid-cols-1 gap-4 text-center w-full mb-2">
-                        {link.submenu?.map((subItem) => (
-                          <a
-                            key={subItem.title}
-                            href={subItem.href}
-                            className="text-white text-lg font-benzin"
-                            onClick={() => setIsOpen(false)}
-                          >
-                            {subItem.title}
-                          </a>
-                        ))}
-                      </div>
-                    </>
-                  ) : (
+            <div className="flex flex-col items-stretch w-full px-6 overflow-y-auto">
+              {/* Main navigation */}
+              <div className="space-y-1 mb-6">
+                {navLinks.map((link) => (
+                  <div key={link.key} className="w-full">
+                    {link.hasSubmenu ? (
+                      <>
+                        <button 
+                          onClick={() => toggleSubmenu(link.key)}
+                          className="w-full flex items-center justify-between py-3 text-white font-benzin text-base"
+                        >
+                          <span>{link.title}</span>
+                          <ChevronRight 
+                            className={cn(
+                              "h-5 w-5 transition-transform",
+                              expandedSubmenu === link.key ? "rotate-90" : ""
+                            )} 
+                          />
+                        </button>
+                        {expandedSubmenu === link.key && (
+                          <div className="pl-4 space-y-3 mt-1 mb-3">
+                            {link.submenu?.map((subItem) => (
+                              <a
+                                key={subItem.title}
+                                href={subItem.href}
+                                className="block text-gray-300 hover:text-white text-sm py-1.5 font-benzin"
+                                onClick={() => setIsOpen(false)}
+                              >
+                                {subItem.title}
+                              </a>
+                            ))}
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <a
+                        href={link.href}
+                        className="w-full flex items-center justify-between py-3 text-white font-benzin text-base"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        <span>{link.title}</span>
+                        <ChevronRight className="h-5 w-5" />
+                      </a>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              <Separator className="bg-gray-700 my-4" />
+              
+              {/* Services Section */}
+              <div className="mb-6">
+                <h3 className="text-white text-left font-benzin text-lg mb-3">Услуги</h3>
+                <div className="space-y-3">
+                  {servicesSubMenu.map((item) => (
                     <a
-                      href={link.href}
-                      className="text-white uppercase text-xl font-benzin"
+                      key={item.title}
+                      href={item.href}
+                      className="flex items-center justify-between text-gray-300 hover:text-white py-1.5 text-base font-benzin"
                       onClick={() => setIsOpen(false)}
                     >
-                      {link.title}
+                      <span>{item.title}</span>
+                      <ChevronRight className="h-4 w-4" />
                     </a>
-                  )}
-                </React.Fragment>
-              ))}
+                  ))}
+                </div>
+              </div>
               
-              <a
-                href="#contact"
-                className="mt-6 w-full max-w-[280px] py-3 bg-brand-primary text-white font-benzin rounded-md flex items-center justify-center gap-2"
-                onClick={() => setIsOpen(false)}
-              >
-                <Phone className="h-5 w-5" />
-                <span className="text-lg">Консультация</span>
-              </a>
+              <Separator className="bg-gray-700 my-4" />
+              
+              {/* Useful Links */}
+              <div className="mb-6">
+                <h3 className="text-white text-left font-benzin text-lg mb-3">Полезные ссылки</h3>
+                <div className="space-y-3">
+                  {usefulLinksSubMenu.map((item) => (
+                    <a
+                      key={item.title}
+                      href={item.href}
+                      className="flex items-center justify-between text-gray-300 hover:text-white py-1.5 text-base font-benzin"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <span>{item.title}</span>
+                      <ChevronRight className="h-4 w-4" />
+                    </a>
+                  ))}
+                </div>
+              </div>
+              
+              <Separator className="bg-gray-700 my-4" />
+              
+              {/* Social Media Links */}
+              <div className="mb-6">
+                <h3 className="text-white text-left font-benzin text-lg mb-3">Соцсети</h3>
+                <div className="flex space-x-4 mt-2">
+                  <a href="#facebook" className="text-gray-400 hover:text-white p-2">
+                    <Facebook className="h-5 w-5" />
+                  </a>
+                  <a href="#telegram" className="text-gray-400 hover:text-white p-2">
+                    <Telegram className="h-5 w-5" />
+                  </a>
+                  <a href="#instagram" className="text-gray-400 hover:text-white p-2">
+                    <Instagram className="h-5 w-5" />
+                  </a>
+                  <a href="#youtube" className="text-gray-400 hover:text-white p-2">
+                    <Youtube className="h-5 w-5" />
+                  </a>
+                </div>
+              </div>
+              
+              {/* Contact Information */}
+              <div className="mt-auto">
+                <h3 className="text-white text-left font-benzin text-lg mb-3">Контактные данные</h3>
+                <div className="space-y-4">
+                  <a href="#address" className="flex items-start text-left space-x-3 text-gray-300 hover:text-white">
+                    <MapPin className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm">г. Москва, ул. Большая Якиманка, 24</span>
+                  </a>
+                  <a href="mailto:info@example.com" className="flex items-center text-left space-x-3 text-gray-300 hover:text-white">
+                    <Mail className="h-5 w-5 flex-shrink-0" />
+                    <span className="text-sm">info@example.com</span>
+                  </a>
+                  <a href="tel:+79257123000" className="flex items-center text-left space-x-3 text-gray-300 hover:text-white">
+                    <PhoneCall className="h-5 w-5 flex-shrink-0" />
+                    <span className="text-sm">+7 925 712 30 00</span>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         )}
