@@ -71,7 +71,6 @@ const NavBar: React.FC = () => {
       submenu: companySubMenu 
     },
     { title: 'Проекты', href: '#projects' },
-    { title: 'Услуги', href: '#services' },
     { title: 'Новости', href: '#news' },
     { title: 'Вакансии', href: '#vacancies' },
     { title: 'Контакты', href: '#contact' },
@@ -173,64 +172,67 @@ const NavBar: React.FC = () => {
           )}
         </button>
 
-        {/* Mobile Navigation Menu */}
+        {/* Mobile Navigation Menu - Updated to match the screenshot */}
         <div
           data-mobile-menu
           className={cn(
-            "fixed inset-0 z-40 bg-brand-darker/95 backdrop-blur-sm md:hidden flex flex-col justify-center items-center",
+            "fixed inset-0 z-40 bg-[#1A2836] md:hidden flex flex-col items-center",
             isOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none",
             "transition-all duration-300 ease-in-out"
           )}
         >
-          <div className="flex flex-col h-full justify-center items-center space-y-6 p-8 w-full">
-            {navLinks.map((link, index) => (
-              link.hasSubmenu ? (
-                <div key={link.title} className="flex flex-col items-center space-y-3 w-full">
-                  <span className="text-white text-xl md:text-2xl font-benzin font-medium">{link.title}</span>
-                  <div className="flex flex-col items-center space-y-3 w-full">
-                    {link.submenu?.map((subItem) => (
-                      <a
-                        key={subItem.title}
-                        href={subItem.href}
-                        className="text-white/80 hover:text-brand-primary text-lg font-benzin transition-colors duration-300"
-                        onClick={() => setIsOpen(false)}
-                        style={{
-                          animation: isOpen ? 'fadeIn 0.5s forwards' : 'none',
-                          animationDelay: isOpen ? `${index * 100 + 100}ms` : '0ms'
-                        }}
-                      >
-                        {subItem.title}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <a
-                  key={link.title}
-                  href={link.href}
-                  className="text-white hover:text-brand-primary text-xl md:text-2xl font-benzin font-medium transition-colors duration-300 w-full text-center"
-                  onClick={() => setIsOpen(false)}
-                  style={{
-                    animation: isOpen ? 'fadeIn 0.5s forwards' : 'none',
-                    animationDelay: isOpen ? `${index * 100}ms` : '0ms'
-                  }}
-                >
-                  {link.title}
-                </a>
-              )
-            ))}
+          <div className="flex flex-col w-full h-full text-center pt-20 px-5">
+            {/* Close button in top right */}
+            <button 
+              className="absolute top-5 right-5 text-white"
+              onClick={() => setIsOpen(false)}
+            >
+              <X className="h-6 w-6" />
+            </button>
             
+            {/* Menu items - vertical, centered */}
+            <div className="flex flex-col items-center space-y-6 w-full">
+              {navLinks.map((link) => (
+                <div key={link.title} className="w-full">
+                  {link.hasSubmenu ? (
+                    <div className="flex flex-col items-center">
+                      <a href={link.href} className="text-white uppercase text-xl font-medium mb-2">
+                        {link.title} +
+                      </a>
+                      <div className="flex flex-col items-center space-y-4 mt-2">
+                        {link.submenu?.map((subItem) => (
+                          <a
+                            key={subItem.title}
+                            href={subItem.href}
+                            className="text-white/80 text-lg"
+                            onClick={() => setIsOpen(false)}
+                          >
+                            {subItem.title}
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <a
+                      href={link.href}
+                      className="text-white uppercase text-xl font-medium"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {link.title}
+                    </a>
+                  )}
+                </div>
+              ))}
+            </div>
+            
+            {/* Consultation button - matches the green button in screenshot */}
             <a
               href="#contact"
-              className="mt-6 flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-brand-primary text-white font-benzin font-medium shadow-lg w-full max-w-[200px]"
+              className="mt-8 w-full max-w-[280px] py-3 px-5 mx-auto bg-[#26AA56] text-white font-medium rounded flex items-center justify-center gap-2"
               onClick={() => setIsOpen(false)}
-              style={{
-                animation: isOpen ? 'fadeIn 0.5s forwards' : 'none',
-                animationDelay: isOpen ? `${navLinks.length * 100 + 100}ms` : '0ms'
-              }}
             >
-              <Phone className="h-4 w-4" />
-              Консультация
+              <Phone className="h-5 w-5" />
+              <span className="text-lg">Консультация</span>
             </a>
           </div>
         </div>
