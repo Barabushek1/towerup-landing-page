@@ -1,7 +1,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { Button } from './ui/button';
-import { Building, Users, Cpu, ShieldCheck, HelpCircle, Clock, Award } from 'lucide-react';
+import { Building, Users, Cpu, ShieldCheck, Clock, Award } from 'lucide-react';
 
 interface AdvantageItemProps {
   icon: React.ReactNode;
@@ -20,27 +20,6 @@ const AdvantageItem: React.FC<AdvantageItemProps> = ({ icon, title, description,
         <h3 className="text-xl font-semibold text-white mb-2">{title}</h3>
         <p className="text-gray-300 text-center max-w-sm">{description}</p>
       </div>
-    </div>
-  );
-};
-
-interface StatItemProps {
-  number: string;
-  label: string;
-  icon: React.ReactNode;
-}
-
-const StatItem: React.FC<StatItemProps> = ({ number, label, icon }) => {
-  return (
-    <div className="flex flex-col items-center">
-      <div className="w-16 h-16 mb-4 text-white flex items-center justify-center">
-        {icon}
-      </div>
-      <div className="text-primary text-4xl font-bold mb-1">{number}</div>
-      <p className="text-gray-300 text-sm text-center">{label}</p>
-      <Button variant="outline" className="mt-4 border-white/20 text-white hover:bg-white/10 hover:text-white text-xs px-6">
-        ПОДРОБНЕЕ
-      </Button>
     </div>
   );
 };
@@ -142,9 +121,9 @@ const AboutSection: React.FC = () => {
             </div>
             
             <h2 className="text-4xl lg:text-5xl font-bold mb-8">
-              Высокое<br />
-              качество обслуживания<br />
-              с 2000 года
+              Инновационные<br />
+              решения для современного<br />
+              строительства
             </h2>
             
             <div className="h-1 w-16 bg-primary mb-8"></div>
@@ -187,37 +166,6 @@ const AboutSection: React.FC = () => {
           <div className="flex justify-center mt-14">
             <Button className="bg-transparent hover:bg-primary/10 text-white border border-white/20 px-8">
               УЗНАТЬ БОЛЬШЕ
-            </Button>
-          </div>
-        </div>
-      </div>
-      
-      {/* Stats Section */}
-      <div className="bg-[#1f1f1f] py-20">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col items-center mb-14">
-            <div className="text-7xl text-[#2a2a2a] font-bold mb-8">02</div>
-            
-            <div className="flex items-center">
-              <h2 className="text-primary uppercase font-medium text-xl tracking-wider">НАПРАВЛЕНИЯ БИЗНЕСА</h2>
-              <div className="h-[1px] w-20 bg-primary/50 ml-6"></div>
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-            {stats.map((stat, index) => (
-              <StatItem
-                key={index}
-                number={stat.number}
-                label={stat.label}
-                icon={stat.icon}
-              />
-            ))}
-          </div>
-          
-          <div className="flex justify-center mt-14">
-            <Button className="bg-transparent hover:bg-primary/10 text-white border border-white/20 px-8">
-              ПАРТНЁРАМ
             </Button>
           </div>
         </div>
