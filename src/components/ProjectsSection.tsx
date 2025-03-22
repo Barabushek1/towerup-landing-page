@@ -193,21 +193,21 @@ const ProjectsSection: React.FC = () => {
 
   const featuredProjects = [
     {
-      title: 'Hilton Tashkent City',
-      subtitle: 'ЭКСТЕРЬЕР',
-      description: "Организация входной группы для доступа внутрь помещений, группы для доступа внутрь помещений.",
+      title: 'ЖК ПУШКИН',
+      subtitle: 'ЖИЛОЙ КОМПЛЕКС',
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       imageUrl: "https://images.unsplash.com/photo-1590073242678-70ee3fc28f8a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2121&q=80"
     },
     {
-      title: 'Междун��родный деловой центр',
-      subtitle: 'АРХИТЕКТУРА',
-      description: "Современный деловой комплекс с премиальной инфраструктурой и уникальным архитектурным решением.",
+      title: 'ЖК КУМАРЫК',
+      subtitle: 'ЖИЛОЙ КОМПЛЕКС',
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       imageUrl: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
     },
     {
-      title: 'Культурный центр "Восток"',
-      subtitle: 'ИНТЕРЬЕР',
-      description: "Многофункциональный культурный комплекс с современным дизайном и инновационными решениями.",
+      title: 'БЦ БОЧКА"',
+      subtitle: 'БИЗНЕС ЦЕНТР',
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus.",
       imageUrl: "https://images.unsplash.com/photo-1618172193763-c511deb635ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2064&q=80"
     }
   ];
