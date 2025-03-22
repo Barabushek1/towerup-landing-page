@@ -2,6 +2,7 @@
 import React from 'react';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
+import { MapPin } from 'lucide-react';
 
 const Contact: React.FC = () => {
   return (
@@ -73,6 +74,29 @@ const Contact: React.FC = () => {
                         </button>
                       </div>
                     </form>
+                  </div>
+                </div>
+                
+                <div className="mt-16">
+                  <h2 className="text-2xl font-medium mb-6 text-brand-dark font-benzin">Наше местоположение</h2>
+                  <div className="flex items-center mb-4">
+                    <MapPin className="w-5 h-5 text-brand-primary mr-2" />
+                    <span className="font-medium">TOWER UP, г. Ташкент, Узбекистан</span>
+                  </div>
+                  <div className="w-full rounded-xl overflow-hidden shadow-xl">
+                    <div className="aspect-video w-full">
+                      <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7976.879721623986!2d69.25872!3d41.240959!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae61aaa924ee97%3A0x64bd413fa7c03f6d!2sTOWER%20UP!5e1!3m2!1sen!2sus!4v1742675836272!5m2!1sen!2sus" 
+                        width="100%" 
+                        height="100%" 
+                        style={{ border: 0 }} 
+                        allowFullScreen 
+                        loading="lazy" 
+                        referrerPolicy="no-referrer-when-downgrade"
+                        title="TOWER UP Location"
+                        className="w-full h-full"
+                      ></iframe>
+                    </div>
                   </div>
                 </div>
               </div>

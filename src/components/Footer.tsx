@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { Facebook, Twitter, Linkedin, Instagram, ArrowUp } from 'lucide-react';
+import { Facebook, Linkedin, Instagram, ArrowUp, MapPin, Telegram } from 'lucide-react';
 
 const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -14,7 +14,7 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-brand-dark text-white pt-16 pb-8">
       <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
           {/* Company Info */}
           <div>
             <h3 className="font-display text-xl font-semibold mb-6 text-white">
@@ -25,14 +25,14 @@ const Footer: React.FC = () => {
               />
             </h3>
             <p className="text-white/70 mb-6">
-              Мы создаем инновационные решения для бизнеса, чтобы они могли процветать в быстро меняющемся мире.
+              За годы существования компания TOWERUP зарекомендовала себя как надежного и ответственного застройщика.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary transition-colors hover:bg-brand-primary hover:text-white">
                 <Facebook className="h-5 w-5" />
               </a>
               <a href="#" className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary transition-colors hover:bg-brand-primary hover:text-white">
-                <Twitter className="h-5 w-5" />
+                <Telegram className="h-5 w-5" />
               </a>
               <a href="#" className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary transition-colors hover:bg-brand-primary hover:text-white">
                 <Linkedin className="h-5 w-5" />
@@ -54,35 +54,10 @@ const Footer: React.FC = () => {
                 <a href="#about" className="text-white/70 hover:text-brand-primary transition-colors">О нас</a>
               </li>
               <li>
-                <a href="#services" className="text-white/70 hover:text-brand-primary transition-colors">Услуги</a>
-              </li>
-              <li>
                 <a href="#products" className="text-white/70 hover:text-brand-primary transition-colors">Продукты</a>
               </li>
               <li>
                 <a href="#contact" className="text-white/70 hover:text-brand-primary transition-colors">Контакты</a>
-              </li>
-            </ul>
-          </div>
-          
-          {/* Services */}
-          <div>
-            <h3 className="font-medium text-lg mb-6 text-white">Услуги</h3>
-            <ul className="space-y-3">
-              <li>
-                <a href="#" className="text-white/70 hover:text-brand-primary transition-colors">Консалтинг</a>
-              </li>
-              <li>
-                <a href="#" className="text-white/70 hover:text-brand-primary transition-colors">Цифровая трансформация</a>
-              </li>
-              <li>
-                <a href="#" className="text-white/70 hover:text-brand-primary transition-colors">Производство</a>
-              </li>
-              <li>
-                <a href="#" className="text-white/70 hover:text-brand-primary transition-colors">Инжиниринг</a>
-              </li>
-              <li>
-                <a href="#" className="text-white/70 hover:text-brand-primary transition-colors">Техническая поддержка</a>
               </li>
             </ul>
           </div>
