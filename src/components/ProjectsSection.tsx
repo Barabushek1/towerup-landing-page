@@ -193,46 +193,46 @@ const ProjectsSection: React.FC = () => {
 
   const featuredProjects = [
     {
-      title: 'ЖК ПУШКИН',
-      subtitle: 'ЖИЛОЙ КОМПЛЕКС',
+      title: 'Всё нужное — рядом',
+      subtitle: 'TOWERUP',
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      imageUrl: "https://images.unsplash.com/photo-1590073242678-70ee3fc28f8a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2121&q=80"
+      imageUrl: "https://riq3aaa.medianewsonline.com/assets/images/n4b-686x412.webp"
     },
     {
-      title: 'ЖК КУМАРЫК',
-      subtitle: 'ЖИЛОЙ КОМПЛЕКС',
+      title: 'Удобный паркинг',
+      subtitle: 'TOWERUP',
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      imageUrl: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
+      imageUrl: "https://riq3aaa.medianewsonline.com/assets/images/parking-275x183.webp"
     },
     {
-      title: 'БЦ БОЧКА"',
-      subtitle: 'БИЗНЕС ЦЕНТР',
+      title: 'Ремонт под ключ',
+      subtitle: 'TOWERUP',
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus.",
-      imageUrl: "https://images.unsplash.com/photo-1618172193763-c511deb635ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2064&q=80"
+      imageUrl: "https://riq3aaa.medianewsonline.com/assets/images/remont-686x412.webp"
     }
   ];
 
   const projects = [
     {
-      title: 'Жилой комплекс "Зелёный квартал"',
+      title: 'Жилой комплекс "Пушкин"',
       description: "Современный эко-комплекс из 5 домов с благоустроенной территорией, детскими площадками и парковой зоной.",
-      location: "Москва",
+      location: "Ташкент",
       status: "Строится",
-      imageUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
+      imageUrl: "https://riq3aaa.medianewsonline.com/assets/images/1-702x702.webp"
     },
     {
-      title: 'Бизнес-центр "Горизонт"',
+      title: 'Бизнес-центр "Бочка"',
       description: "Современный бизнес-центр класса А с конференц-залами, подземным паркингом и зелёной зоной отдыха.",
-      location: "Санкт-Петербург",
-      status: "Завершен",
-      imageUrl: "https://images.unsplash.com/photo-1582824954430-dfe24a3e7b75?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
+      location: "Ташкент",
+      status: "Строится",
+      imageUrl: "https://images.unsplash.com/photo-1618172193763-c511deb635ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2064&q=80"
     },
     {
-      title: 'Гостиничный комплекс "Приморский"',
+      title: 'Жилой комплекс "Кумарык"',
       description: "Курортный комплекс из отеля 5* и апартаментов с панорамным видом на море и собственным пляжем.",
-      location: "Сочи",
-      status: "Проект",
-      imageUrl: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
+      location: "Ташкент",
+      status: "Строится",
+      imageUrl: "https://riq3aaa.medianewsonline.com/assets/images/kumarik.webp"
     }
   ];
 
