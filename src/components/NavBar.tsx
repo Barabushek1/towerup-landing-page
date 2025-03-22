@@ -26,10 +26,35 @@ const NavBar: React.FC = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
+    
+    // Fix for mobile menu - close when clicking outside
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (isOpen && !target.closest('[data-mobile-menu]')) {
+        setIsOpen(false);
+      }
+    };
+    
+    document.addEventListener('click', handleClickOutside);
+    
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('click', handleClickOutside);
     };
-  }, []);
+  }, [isOpen]);
+
+  // Add body overflow control to prevent scrolling when menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   const companySubMenu = [
     { title: 'О нас', href: '#about' },
@@ -69,7 +94,7 @@ const NavBar: React.FC = () => {
           <img 
             src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png" 
             alt="UP Logo" 
-            className="h-16 w-auto" 
+            className="h-12 md:h-16 w-auto" 
           />
         </a>
 
@@ -133,9 +158,13 @@ const NavBar: React.FC = () => {
 
         {/* Mobile Navigation Toggle */}
         <button
-          className="md:hidden focus:outline-none"
-          onClick={() => setIsOpen(!isOpen)}
+          className="md:hidden focus:outline-none z-50"
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsOpen(!isOpen);
+          }}
           aria-label="Toggle menu"
+          data-mobile-menu
         >
           {isOpen ? (
             <X className="h-6 w-6 text-white" />
@@ -146,27 +175,28 @@ const NavBar: React.FC = () => {
 
         {/* Mobile Navigation Menu */}
         <div
+          data-mobile-menu
           className={cn(
-            "fixed inset-0 z-50 bg-brand-darker/95 backdrop-blur-sm md:hidden transition-transform duration-300 ease-in-out",
-            isOpen ? "translate-x-0" : "translate-x-full"
+            "fixed inset-0 z-40 bg-brand-darker/95 backdrop-blur-sm md:hidden flex flex-col justify-center items-center",
+            isOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none",
+            "transition-all duration-300 ease-in-out"
           )}
         >
-          <div className="flex flex-col h-full justify-center items-center space-y-8 p-8">
+          <div className="flex flex-col h-full justify-center items-center space-y-6 p-8 w-full">
             {navLinks.map((link, index) => (
               link.hasSubmenu ? (
-                <div key={link.title} className="flex flex-col items-center space-y-4">
-                  <span className="text-white text-2xl font-benzin font-medium">{link.title}</span>
-                  <div className="flex flex-col items-center space-y-4">
+                <div key={link.title} className="flex flex-col items-center space-y-3 w-full">
+                  <span className="text-white text-xl md:text-2xl font-benzin font-medium">{link.title}</span>
+                  <div className="flex flex-col items-center space-y-3 w-full">
                     {link.submenu?.map((subItem) => (
                       <a
                         key={subItem.title}
                         href={subItem.href}
                         className="text-white/80 hover:text-brand-primary text-lg font-benzin transition-colors duration-300"
                         onClick={() => setIsOpen(false)}
-                        style={{ 
-                          opacity: 0,
+                        style={{
                           animation: isOpen ? 'fadeIn 0.5s forwards' : 'none',
-                          animationDelay: isOpen ? `${index * 100}ms` : '0ms'
+                          animationDelay: isOpen ? `${index * 100 + 100}ms` : '0ms'
                         }}
                       >
                         {subItem.title}
@@ -178,10 +208,9 @@ const NavBar: React.FC = () => {
                 <a
                   key={link.title}
                   href={link.href}
-                  className="text-white hover:text-brand-primary text-2xl font-benzin font-medium transition-colors duration-300"
+                  className="text-white hover:text-brand-primary text-xl md:text-2xl font-benzin font-medium transition-colors duration-300 w-full text-center"
                   onClick={() => setIsOpen(false)}
-                  style={{ 
-                    opacity: 0,
+                  style={{
                     animation: isOpen ? 'fadeIn 0.5s forwards' : 'none',
                     animationDelay: isOpen ? `${index * 100}ms` : '0ms'
                   }}
@@ -193,10 +222,9 @@ const NavBar: React.FC = () => {
             
             <a
               href="#contact"
-              className="mt-6 flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-primary text-white font-benzin font-medium shadow-lg"
+              className="mt-6 flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-brand-primary text-white font-benzin font-medium shadow-lg w-full max-w-[200px]"
               onClick={() => setIsOpen(false)}
-              style={{ 
-                opacity: 0,
+              style={{
                 animation: isOpen ? 'fadeIn 0.5s forwards' : 'none',
                 animationDelay: isOpen ? `${navLinks.length * 100 + 100}ms` : '0ms'
               }}
@@ -205,13 +233,6 @@ const NavBar: React.FC = () => {
               Консультация
             </a>
           </div>
-          <button
-            className="absolute top-6 right-6 focus:outline-none"
-            onClick={() => setIsOpen(false)}
-            aria-label="Close menu"
-          >
-            <X className="h-6 w-6 text-white" />
-          </button>
         </div>
       </div>
     </header>

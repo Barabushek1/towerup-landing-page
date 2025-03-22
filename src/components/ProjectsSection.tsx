@@ -15,17 +15,24 @@ interface ProjectCardProps {
 const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, location, status, imageUrl, index }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [isTouched, setIsTouched] = useState(false);
+
+  // For mobile devices - handle touch events
+  const handleTouchStart = () => {
+    setIsTouched(!isTouched);
+  };
 
   return (
     <div
       ref={cardRef}
       className={cn(
         "scroll-animate-section relative group overflow-hidden rounded-2xl transition-all duration-500 cursor-pointer",
-        "bg-brand-dark border border-brand-dark/10 shadow-sm h-[400px]"
+        "bg-brand-dark border border-brand-dark/10 shadow-sm h-[350px] md:h-[400px]"
       )}
       style={{ transitionDelay: `${index * 100}ms` }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onTouchStart={handleTouchStart}
     >
       {/* Card background */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60 z-10"></div>
@@ -34,7 +41,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, location,
       <div 
         className={cn(
           "absolute inset-0 bg-gray-200 transition-transform duration-700 ease-in-out",
-          isHovered ? "scale-105" : "scale-100"
+          (isHovered || isTouched) ? "scale-105" : "scale-100"
         )}
         style={{ 
           backgroundImage: imageUrl ? `url(${imageUrl})` : 'none',
@@ -55,24 +62,24 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, location,
       </div>
       
       {/* Card content */}
-      <div className="relative h-full flex flex-col justify-end p-8 z-20">
+      <div className="relative h-full flex flex-col justify-end p-6 md:p-8 z-20">
         <h3 className={cn(
-          "text-2xl font-medium text-white mb-2 transform transition-transform duration-300 font-benzin",
-          isHovered ? "translate-y-0" : "translate-y-0"
+          "text-xl md:text-2xl font-medium text-white mb-2 transform transition-transform duration-300 font-benzin",
+          (isHovered || isTouched) ? "translate-y-0" : "translate-y-0"
         )}>
           {title}
         </h3>
         
         <p className={cn(
-          "text-white/80 mb-4 transform transition-all duration-300 ease-in-out max-h-0 overflow-hidden opacity-0 font-benzin",
-          isHovered ? "max-h-[200px] opacity-100" : ""
+          "text-white/80 mb-4 transform transition-all duration-300 ease-in-out max-h-0 overflow-hidden opacity-0 font-benzin text-sm md:text-base",
+          (isHovered || isTouched) ? "max-h-[200px] opacity-100" : ""
         )}>
           {description}
         </p>
         
         <div className={cn(
           "flex items-center transform transition-all duration-300",
-          isHovered ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+          (isHovered || isTouched) ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
         )}>
           <span className="text-white/90 text-sm font-medium mr-2 font-benzin">Подробнее</span>
           <ChevronRight className="h-4 w-4 text-white/90" />
@@ -130,17 +137,17 @@ const ProjectsSection: React.FC = () => {
   ];
 
   return (
-    <section id="projects" ref={sectionRef} className="py-24 md:py-32 bg-white overflow-hidden">
-      <div className="container mx-auto px-6">
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-16">
+    <section id="projects" ref={sectionRef} className="py-16 sm:py-20 md:py-24 lg:py-32 bg-white overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-10 md:mb-16">
           <div className="max-w-2xl mb-8 lg:mb-0 scroll-animate-section">
-            <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6 font-benzin">
+            <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4 md:mb-6 font-benzin">
               Наши Проекты
             </span>
-            <h2 className="section-heading mb-6 text-brand-dark font-benzin">
+            <h2 className="section-heading mb-4 md:mb-6 text-2xl md:text-3xl lg:text-4xl font-bold text-brand-dark font-benzin">
               Инновационные проекты, созданные для будущего
             </h2>
-            <p className="section-subheading text-muted-foreground font-benzin">
+            <p className="section-subheading text-sm md:text-base text-muted-foreground font-benzin">
               Познакомьтесь с нашими знаковыми проектами, которые мы создаем с использованием современных технологий и бескомпромиссных стандартов качества.
             </p>
           </div>
@@ -154,7 +161,7 @@ const ProjectsSection: React.FC = () => {
           </a>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {projects.map((project, index) => (
             <ProjectCard
               key={index}

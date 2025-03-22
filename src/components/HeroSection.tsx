@@ -87,25 +87,23 @@ const HeroSection: React.FC = () => {
       
       <div className="container mx-auto px-6 py-10 relative z-20">
         <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
-          <span className="inline-block px-3 py-1 rounded-full bg-brand-primary/20 text-brand-primary text-sm font-medium mb-6 animate-slide-down opacity-0 font-benzin" style={{ animationDelay: '300ms' }}>
-            Строительная компания
-          </span>
+          {/* Removed "Строительная компания" text as requested */}
           
-          <h1 className="font-benzin font-medium text-5xl sm:text-6xl md:text-7xl leading-tight mb-6 animate-slide-up opacity-0 text-white" style={{ animationDelay: '500ms' }}>
+          <h1 className="font-benzin font-medium text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight mb-6 animate-slide-up opacity-0 text-white" style={{ animationDelay: '500ms' }}>
             Строим будущее <br/>
             <span className="text-brand-primary">вместе</span>
           </h1>
           
-          <p className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto mb-10 animate-slide-up opacity-0 font-benzin" style={{ animationDelay: '700ms' }}>
+          <p className="text-white/80 text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-10 animate-slide-up opacity-0 font-benzin" style={{ animationDelay: '700ms' }}>
             Мы строим надежные объекты с использованием современных технологий и экологичных материалов для создания комфортного и устойчивого завтра.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 mt-4 animate-slide-up opacity-0" style={{ animationDelay: '900ms' }}>
+          <div className="flex flex-col sm:flex-row gap-4 mt-4 animate-slide-up opacity-0 w-full sm:w-auto justify-center" style={{ animationDelay: '900ms' }}>
             <a
               href="#about"
               className={cn(
-                "button-hover-effect px-6 py-3 rounded-lg bg-brand-primary text-white font-medium font-benzin",
-                "shadow-lg shadow-brand-primary/20 transform transition hover:-translate-y-0.5 flex items-center gap-2"
+                "button-hover-effect px-6 py-3 rounded-lg bg-brand-primary text-white font-medium font-benzin w-full sm:w-auto text-center",
+                "shadow-lg shadow-brand-primary/20 transform transition hover:-translate-y-0.5 flex items-center justify-center gap-2"
               )}
             >
               Узнать подробнее
@@ -114,8 +112,8 @@ const HeroSection: React.FC = () => {
             <a
               href="#projects"
               className={cn(
-                "button-hover-effect px-6 py-3 rounded-lg bg-white/10 text-white font-medium font-benzin",
-                "shadow border border-white/20 transform transition hover:-translate-y-0.5 flex items-center gap-2"
+                "button-hover-effect px-6 py-3 rounded-lg bg-white/10 text-white font-medium font-benzin w-full sm:w-auto text-center",
+                "shadow border border-white/20 transform transition hover:-translate-y-0.5 flex items-center justify-center gap-2"
               )}
             >
               Проекты
@@ -125,17 +123,7 @@ const HeroSection: React.FC = () => {
         </div>
       </div>
       
-      {/* Improved scroll indicator */}
-      <a 
-        href="#about" 
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-white/80 hover:text-brand-primary transition-colors duration-300 group z-20"
-        aria-label="Scroll down"
-      >
-        <span className="text-sm font-medium mb-2 group-hover:text-brand-primary font-benzin">Далее</span>
-        <div className="w-10 h-10 rounded-full border-2 border-brand-primary/30 flex items-center justify-center group-hover:border-brand-primary transition-all duration-300 group-hover:translate-y-1">
-          <ChevronDown className="h-5 w-5 text-brand-primary" />
-        </div>
-      </a>
+      {/* Removed "Далее" scroll indicator as requested */}
     </section>
   );
 };
