@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { Menu, X, Phone, ChevronRight, Facebook, Instagram, Telegram, Youtube, MapPin, Mail, PhoneCall } from 'lucide-react';
+import { Menu, X, Phone, ChevronRight, Facebook, Instagram, Twitter, Youtube, MapPin, Mail, PhoneCall } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import {
   NavigationMenu,
@@ -301,8 +301,8 @@ const NavBar: React.FC = () => {
                   <a href="#facebook" className="text-gray-400 hover:text-white p-2">
                     <Facebook className="h-5 w-5" />
                   </a>
-                  <a href="#telegram" className="text-gray-400 hover:text-white p-2">
-                    <Telegram className="h-5 w-5" />
+                  <a href="#twitter" className="text-gray-400 hover:text-white p-2">
+                    <Twitter className="h-5 w-5" />
                   </a>
                   <a href="#instagram" className="text-gray-400 hover:text-white p-2">
                     <Instagram className="h-5 w-5" />
