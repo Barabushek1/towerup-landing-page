@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { Facebook, Linkedin, Instagram, ArrowUp, MapPin, Telegram } from 'lucide-react';
+import { Facebook, Linkedin, Instagram, ArrowUp, MapPin, MessageSquare } from 'lucide-react';
 
 const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -32,7 +32,7 @@ const Footer: React.FC = () => {
                 <Facebook className="h-5 w-5" />
               </a>
               <a href="#" className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary transition-colors hover:bg-brand-primary hover:text-white">
-                <Telegram className="h-5 w-5" />
+                <MessageSquare className="h-5 w-5" />
               </a>
               <a href="#" className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary transition-colors hover:bg-brand-primary hover:text-white">
                 <Linkedin className="h-5 w-5" />
