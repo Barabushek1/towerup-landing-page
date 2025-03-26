@@ -236,7 +236,7 @@ const NavBar: React.FC = () => {
           </div>
         )}
 
-        {/* Mobile Navigation - Modified for click-outside closing */}
+        {/* Mobile Navigation */}
         {isMobile && (
           <div ref={menuRef}>
             <button 
