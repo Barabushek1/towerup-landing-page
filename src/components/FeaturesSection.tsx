@@ -40,13 +40,13 @@ const ParallaxCTASection: React.FC = () => {
   }, []);
 
   return (
-    <section id="services" ref={sectionRef} className="py-24 md:py-40 bg-slate-200 overflow-hidden relative">
+    <section id="services" ref={sectionRef} className="py-24 md:py-40 bg-[#161616] overflow-hidden relative">
       {/* Parallax background */}
       <div 
         ref={parallaxRef}
         className="absolute inset-0 z-0"
         style={{
-          backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url("https://images.unsplash.com/photo-1504307651254-35b1a7e39896?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80")',
+          backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), url("https://images.unsplash.com/photo-1582782657732-df11b8ca99a9?q=80&w=2070&auto=format&fit=crop")',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed',
@@ -57,7 +57,7 @@ const ParallaxCTASection: React.FC = () => {
       {/* Content with dark overlay for readability */}
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-3xl mx-auto text-center scroll-animate-section">
-          <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
+          <span className="inline-block px-3 py-1 rounded-full bg-brand-primary/20 text-brand-primary text-sm font-medium mb-6">
             Строим будущее вместе
           </span>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white leading-tight">
@@ -71,8 +71,8 @@ const ParallaxCTASection: React.FC = () => {
             <a 
               href="#contact" 
               className={cn(
-                "button-hover-effect px-8 py-4 rounded-lg bg-primary text-white font-medium text-base",
-                "shadow-lg shadow-primary/30 flex items-center justify-center"
+                "button-hover-effect px-8 py-4 rounded-lg bg-brand-primary text-white font-medium text-base",
+                "shadow-lg shadow-brand-primary/30 flex items-center justify-center"
               )}
             >
               <span>Связаться с нами</span>
@@ -92,7 +92,7 @@ const ParallaxCTASection: React.FC = () => {
       </div>
       
       {/* Decorative elements */}
-      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-slate-200 to-transparent z-10"></div>
+      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#161616] to-transparent z-10"></div>
     </section>
   );
 };
