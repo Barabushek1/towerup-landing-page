@@ -6,24 +6,21 @@ import { cn } from '@/lib/utils';
 interface PageHeaderProps {
   title: string;
   breadcrumb?: string;
-  bgImage?: string;
   className?: string;
 }
 
 const PageHeader: React.FC<PageHeaderProps> = ({ 
   title, 
-  breadcrumb, 
-  bgImage = "/lovable-uploads/588f4168-3957-47f6-b722-795cfc295ea7.png",
+  breadcrumb,
   className 
 }) => {
   return (
     <div className={cn("relative w-full h-[30vh] md:h-[40vh] overflow-hidden", className)}>
-      {/* Background Image */}
+      {/* Gradient background instead of image */}
       <div 
-        className="absolute inset-0 bg-cover bg-center z-0"
-        style={{ backgroundImage: `url(${bgImage})` }}
+        className="absolute inset-0 bg-gradient-to-b from-slate-800 to-slate-900 z-0"
       >
-        {/* Gray gradient overlay instead of dark overlay */}
+        {/* Gray gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-slate-800/80 to-slate-900/90 z-10"></div>
       </div>
       

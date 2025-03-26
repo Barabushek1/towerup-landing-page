@@ -11,6 +11,7 @@ import {
   PaginationNext, 
   PaginationPrevious 
 } from "@/components/ui/pagination";
+import PageHeader from '@/components/PageHeader';
 
 const News: React.FC = () => {
   const news = [
@@ -53,79 +54,93 @@ const News: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen antialiased bg-background text-foreground overflow-x-hidden">
+    <div className="min-h-screen antialiased bg-[#161616] text-gray-200 overflow-x-hidden">
       <NavBar />
       <main>
-        <div className="pt-24 lg:pt-32">
-          <section className="py-16 md:py-24">
-            <div className="container mx-auto px-6">
-              <div className="max-w-4xl mx-auto">
-                <h1 className="text-3xl md:text-4xl font-bold mb-8 text-brand-dark font-benzin">Новости компании</h1>
-                <p className="text-lg text-muted-foreground mb-12 font-benzin">
-                  Следите за последними событиями и новостями нашей компании
-                </p>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {news.map((item, index) => (
-                    <div 
-                      key={index} 
-                      className="relative overflow-hidden rounded-lg border border-primary/10 shadow-sm bg-background
-                      transition-all duration-500 hover:shadow-md group"
-                    >
-                      <div className="aspect-video w-full overflow-hidden">
-                        <img
-                          src={item.imageUrl}
-                          alt={item.title}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
+        <PageHeader 
+          title="НОВОСТИ КОМПАНИИ" 
+          breadcrumb="НОВОСТИ"
+        />
+        
+        <section className="py-16 md:py-24 bg-[#1a1a1a] relative">
+          {/* Wave decoration at top */}
+          <div className="absolute top-0 left-0 w-full rotate-180 z-10">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="w-full h-auto">
+              <path fill="#161616" fillOpacity="1" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,218.7C672,203,768,149,864,128C960,107,1056,117,1152,128C1248,139,1344,149,1392,154.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+          </div>
+          
+          <div className="container mx-auto px-6 relative z-20">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-3xl md:text-4xl font-bold mb-8 text-slate-200 font-benzin text-center">Последние новости</h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {news.map((item, index) => (
+                  <div 
+                    key={index} 
+                    className="relative overflow-hidden rounded-lg border border-primary/10 shadow-sm bg-slate-800/40
+                    transition-all duration-500 hover:shadow-md group"
+                  >
+                    <div className="aspect-video w-full overflow-hidden">
+                      <img
+                        src={item.imageUrl}
+                        alt={item.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                    
+                    <div className="p-6">
+                      <div className="flex items-center gap-2 text-muted-foreground mb-3">
+                        <Clock className="h-4 w-4" />
+                        <span className="text-sm font-benzin">{item.date}</span>
                       </div>
                       
-                      <div className="p-6">
-                        <div className="flex items-center gap-2 text-muted-foreground mb-3">
-                          <Clock className="h-4 w-4" />
-                          <span className="text-sm font-benzin">{item.date}</span>
-                        </div>
-                        
-                        <h3 className="text-xl font-medium text-brand-dark mb-2 font-benzin">{item.title}</h3>
-                        <p className="text-muted-foreground mb-4 font-benzin line-clamp-3">{item.excerpt}</p>
-                        
-                        <a 
-                          href="#" 
-                          className="inline-flex items-center text-primary font-medium hover:underline font-benzin group-hover:translate-x-1 transition-transform"
-                        >
-                          <span>Подробнее</span>
-                          <ChevronRight className="ml-1 h-4 w-4" />
-                        </a>
-                      </div>
+                      <h3 className="text-xl font-medium text-slate-200 mb-2 font-benzin">{item.title}</h3>
+                      <p className="text-muted-foreground mb-4 font-benzin line-clamp-3">{item.excerpt}</p>
+                      
+                      <a 
+                        href="#" 
+                        className="inline-flex items-center text-primary font-medium hover:underline font-benzin group-hover:translate-x-1 transition-transform"
+                      >
+                        <span>Подробнее</span>
+                        <ChevronRight className="ml-1 h-4 w-4" />
+                      </a>
                     </div>
-                  ))}
-                </div>
-                
-                <div className="mt-12">
-                  <Pagination>
-                    <PaginationContent>
-                      <PaginationItem>
-                        <PaginationPrevious href="#" />
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationLink href="#" isActive>1</PaginationLink>
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationLink href="#">2</PaginationLink>
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationLink href="#">3</PaginationLink>
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationNext href="#" />
-                      </PaginationItem>
-                    </PaginationContent>
-                  </Pagination>
-                </div>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="mt-12">
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious href="#" />
+                    </PaginationItem>
+                    <PaginationItem>
+                      <PaginationLink href="#" isActive>1</PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                      <PaginationLink href="#">2</PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                      <PaginationLink href="#">3</PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                      <PaginationNext href="#" />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
               </div>
             </div>
-          </section>
-        </div>
+          </div>
+          
+          {/* Wave decoration at bottom */}
+          <div className="absolute bottom-0 left-0 w-full z-10">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="w-full h-auto">
+              <path fill="#161616" fillOpacity="1" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,218.7C672,203,768,149,864,128C960,107,1056,117,1152,128C1248,139,1344,149,1392,154.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+          </div>
+        </section>
       </main>
       <Footer />
     </div>

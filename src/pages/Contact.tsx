@@ -29,21 +29,21 @@ const Contact: React.FC = () => {
           
           <div className="container mx-auto px-6 relative z-20">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-bold mb-8 text-white font-benzin text-center">Свяжитесь с нами</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-8 text-slate-200 font-benzin text-center">Свяжитесь с нами</h2>
               <p className="text-lg text-slate-300 mb-12 text-center font-benzin">
                 Остались вопросы? Свяжитесь с нами для получения консультации или обсуждения проекта
               </p>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <div className="bg-slate-800/40 rounded-xl p-8 border border-slate-700/30">
-                  <h3 className="text-2xl font-medium mb-6 text-white font-benzin">Наши контакты</h3>
+                  <h3 className="text-2xl font-medium mb-6 text-slate-200 font-benzin">Наши контакты</h3>
                   <div className="space-y-6">
                     <div className="flex items-start">
                       <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
                         <MapPin className="w-5 h-5 text-brand-primary" />
                       </div>
                       <div>
-                        <h4 className="font-medium mb-1 text-white">Адрес</h4>
+                        <h4 className="font-medium mb-1 text-slate-200">Адрес</h4>
                         <p className="text-slate-300 font-benzin">TOWER UP, г. Ташкент, Узбекистан</p>
                       </div>
                     </div>
@@ -53,7 +53,7 @@ const Contact: React.FC = () => {
                         <Phone className="w-5 h-5 text-brand-primary" />
                       </div>
                       <div>
-                        <h4 className="font-medium mb-1 text-white">Телефон</h4>
+                        <h4 className="font-medium mb-1 text-slate-200">Телефон</h4>
                         <p className="text-slate-300 font-benzin">+998 (90) 123-45-67</p>
                       </div>
                     </div>
@@ -63,13 +63,13 @@ const Contact: React.FC = () => {
                         <Mail className="w-5 h-5 text-brand-primary" />
                       </div>
                       <div>
-                        <h4 className="font-medium mb-1 text-white">Email</h4>
+                        <h4 className="font-medium mb-1 text-slate-200">Email</h4>
                         <p className="text-slate-300 font-benzin">info@towerup.uz</p>
                       </div>
                     </div>
                     
                     <div>
-                      <h4 className="font-medium mb-2 text-white">Режим работы</h4>
+                      <h4 className="font-medium mb-2 text-slate-200">Режим работы</h4>
                       <div className="grid grid-cols-2 gap-4 bg-slate-800/50 p-4 rounded-lg border border-slate-700/20">
                         <div>
                           <h5 className="text-sm text-slate-400 mb-1">Будние дни</h5>
@@ -85,7 +85,7 @@ const Contact: React.FC = () => {
                 </div>
                 
                 <div className="bg-slate-800/40 rounded-xl p-8 border border-slate-700/30">
-                  <h3 className="text-2xl font-medium mb-6 text-white font-benzin">Форма обратной связи</h3>
+                  <h3 className="text-2xl font-medium mb-6 text-slate-200 font-benzin">Форма обратной связи</h3>
                   <form className="space-y-5">
                     <div>
                       <Label htmlFor="name" className="text-slate-300 mb-1.5 block">Ваше имя</Label>
@@ -132,10 +132,10 @@ const Contact: React.FC = () => {
               </div>
               
               <div className="mt-16">
-                <h2 className="text-2xl font-medium mb-6 text-white font-benzin">Наше местоположение</h2>
+                <h2 className="text-2xl font-medium mb-6 text-slate-200 font-benzin">Наше местоположение</h2>
                 <div className="flex items-center mb-4">
                   <MapPin className="w-5 h-5 text-brand-primary mr-2" />
-                  <span className="font-medium text-white">TOWER UP, г. Ташкент, Узбекистан</span>
+                  <span className="font-medium text-slate-200">TOWER UP, г. Ташкент, Узбекистан</span>
                 </div>
                 <div className="w-full rounded-xl overflow-hidden shadow-xl border border-slate-700/30">
                   <div className="aspect-video w-full">

@@ -1,7 +1,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
-import { ArrowRight, Clock, ChevronRight, Newspaper } from 'lucide-react';
+import { ArrowRight, Clock, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface NewsItemProps {
@@ -37,7 +37,7 @@ const NewsItem: React.FC<NewsItemProps> = ({ title, date, excerpt, imageUrl, ind
           <span className="text-sm font-benzin">{date}</span>
         </div>
         
-        <h3 className="text-xl font-medium text-brand-dark mb-2 font-benzin">{title}</h3>
+        <h3 className="text-xl font-medium text-slate-200 mb-2 font-benzin">{title}</h3>
         <p className="text-muted-foreground mb-4 font-benzin line-clamp-3">{excerpt}</p>
         
         <Link 
@@ -103,18 +103,18 @@ const NewsVacanciesSection: React.FC = () => {
       className="py-24 md:py-32 overflow-hidden relative"
     >
       {/* Gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-brand-secondary/60 -z-10"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-slate-800/60 -z-10"></div>
       
       {/* Decorative elements */}
       <div className="absolute top-1/3 right-1/4 w-64 h-64 bg-primary/10 rounded-full blur-3xl -z-5"></div>
-      <div className="absolute bottom-1/3 left-1/3 w-72 h-72 bg-brand-secondary rounded-full blur-3xl -z-5"></div>
+      <div className="absolute bottom-1/3 left-1/3 w-72 h-72 bg-slate-700 rounded-full blur-3xl -z-5"></div>
       
       <div className="container mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-12 scroll-animate-section">
           <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6 font-benzin">
             Новости
           </span>
-          <h2 className="section-heading mb-6 text-brand-dark font-benzin">
+          <h2 className="section-heading mb-6 text-slate-200 font-benzin">
             Будьте в курсе наших последних событий
           </h2>
           <p className="section-subheading mx-auto text-muted-foreground font-benzin">
@@ -146,14 +146,6 @@ const NewsVacanciesSection: React.FC = () => {
             </Link>
           </div>
         </div>
-      </div>
-      
-      {/* Wave decoration at the bottom */}
-      <div className="absolute bottom-0 left-0 w-full">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="w-full h-auto">
-          <path fill="#26AA56" fillOpacity="0.1" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,218.7C672,203,768,149,864,128C960,107,1056,117,1152,128C1248,139,1344,149,1392,154.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-          <path fill="#26AA56" fillOpacity="0.05" d="M0,32L48,48C96,64,192,96,288,133.3C384,171,480,213,576,213.3C672,213,768,171,864,154.7C960,139,1056,149,1152,160C1248,171,1344,181,1392,186.7L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-        </svg>
       </div>
     </section>
   );
