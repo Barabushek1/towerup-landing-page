@@ -56,6 +56,19 @@ const NavBar: React.FC = () => {
     };
   }, [isMenuOpen]);
 
+  // Disable body scroll when menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen]);
+
   const companySubMenu = [
     { title: 'О нас', href: '/about' },
     { title: 'История', href: '/history' },
@@ -79,7 +92,7 @@ const NavBar: React.FC = () => {
 
   // Mobile menu component with collapsible submenus
   const MobileMenu = () => (
-    <div className="bg-[#222] h-full overflow-auto">
+    <div className="bg-[#222] h-full w-full overflow-auto">
       <nav className="flex flex-col w-full">
         {navLinks.map((link) => (
           link.hasSubmenu ? (
@@ -238,7 +251,7 @@ const NavBar: React.FC = () => {
 
         {/* Mobile Navigation */}
         {isMobile && (
-          <div ref={menuRef}>
+          <div className="z-50" ref={menuRef}>
             <button 
               className="md:hidden focus:outline-none"
               aria-label="Toggle menu"
@@ -247,23 +260,26 @@ const NavBar: React.FC = () => {
               <Menu className="h-6 w-6 text-white" />
             </button>
             
-            {/* Custom slide-out menu without the X icon */}
+            {/* Fixed position overlay that covers the whole screen */}
             <div 
               className={cn(
-                "fixed top-0 right-0 bottom-0 z-50 w-[250px] bg-[#222] shadow-xl transition-transform duration-300",
+                "fixed inset-0 bg-black/50 z-40 transition-opacity duration-300",
+                isMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+              )}
+              onClick={() => setIsMenuOpen(false)}
+            />
+            
+            {/* Full-screen mobile menu */}
+            <div 
+              className={cn(
+                "fixed inset-0 z-50 transition-transform duration-300 ease-in-out transform pt-20",
                 isMenuOpen ? "translate-x-0" : "translate-x-full"
               )}
             >
-              <MobileMenu />
+              <div className="w-full h-full max-w-sm ml-auto bg-[#222] overflow-y-auto flex flex-col">
+                <MobileMenu />
+              </div>
             </div>
-            
-            {/* Backdrop overlay */}
-            {isMenuOpen && (
-              <div 
-                className="fixed inset-0 bg-black/50 z-40"
-                onClick={() => setIsMenuOpen(false)}
-              />
-            )}
           </div>
         )}
       </div>
