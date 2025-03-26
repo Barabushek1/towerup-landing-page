@@ -4,7 +4,7 @@ import { useParams, Link } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import PageHeader from '@/components/PageHeader';
-import { MapPin, Coins, Clock, Briefcase, ArrowLeft, ArrowRight } from 'lucide-react';
+import { MapPin, Coins, Clock, Briefcase, ArrowLeft, ArrowRight, Maximize2, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAdminData, VacancyItem } from '@/contexts/AdminDataContext';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
@@ -14,6 +14,8 @@ const VacancyDetail: React.FC = () => {
   const { vacancies } = useAdminData();
   const [vacancy, setVacancy] = useState<VacancyItem | null>(null);
   const [loading, setLoading] = useState(true);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     if (vacancies && id) {
@@ -24,6 +26,48 @@ const VacancyDetail: React.FC = () => {
       setLoading(false);
     }
   }, [vacancies, id]);
+
+  const openLightbox = (index: number) => {
+    setCurrentImageIndex(index);
+    setLightboxOpen(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeLightbox = () => {
+    setLightboxOpen(false);
+    document.body.style.overflow = '';
+  };
+
+  const navigateImage = (direction: 'next' | 'prev') => {
+    if (!vacancy?.additionalImages) return;
+    
+    const imagesCount = vacancy.additionalImages.length;
+    if (direction === 'next') {
+      setCurrentImageIndex((currentImageIndex + 1) % imagesCount);
+    } else {
+      setCurrentImageIndex((currentImageIndex - 1 + imagesCount) % imagesCount);
+    }
+  };
+
+  // Handle keyboard navigation in lightbox
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!lightboxOpen) return;
+      
+      if (e.key === 'Escape') {
+        closeLightbox();
+      } else if (e.key === 'ArrowRight') {
+        navigateImage('next');
+      } else if (e.key === 'ArrowLeft') {
+        navigateImage('prev');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [lightboxOpen, currentImageIndex]);
 
   if (loading) {
     return (
@@ -104,6 +148,17 @@ const VacancyDetail: React.FC = () => {
                 </Button>
               </Link>
               
+              {/* Main image if available */}
+              {vacancy.imageUrl && (
+                <div className="mb-8 rounded-lg overflow-hidden">
+                  <img 
+                    src={vacancy.imageUrl} 
+                    alt={vacancy.title}
+                    className="w-full h-auto object-cover" 
+                  />
+                </div>
+              )}
+              
               <div className="bg-slate-800/40 rounded-lg p-8 border border-primary/10">
                 <div className="flex items-center mb-6">
                   <div className="p-4 rounded-full bg-primary/10 mr-6">
@@ -174,10 +229,85 @@ const VacancyDetail: React.FC = () => {
                   </a>
                 </div>
               </div>
+              
+              {/* Photo Gallery with full-screen capability */}
+              {vacancy.additionalImages && vacancy.additionalImages.length > 0 && (
+                <div className="mt-8">
+                  <h2 className="text-2xl font-bold mb-4 font-benzin">Фотогалерея</h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    {vacancy.additionalImages.map((image, index) => (
+                      <div 
+                        key={index} 
+                        className="aspect-video rounded-lg overflow-hidden cursor-pointer relative group"
+                        onClick={() => openLightbox(index)}
+                      >
+                        <img
+                          src={image}
+                          alt={`Изображение ${index + 1}`}
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                          <Maximize2 className="text-white h-8 w-8" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </main>
+      
+      {/* Lightbox for fullscreen image view */}
+      {lightboxOpen && vacancy.additionalImages && (
+        <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center">
+          <div className="relative w-full h-full flex items-center justify-center">
+            <div className="absolute top-4 right-4 z-10">
+              <Button 
+                variant="ghost" 
+                size="icon"
+                onClick={closeLightbox}
+                className="text-white hover:bg-white/20"
+              >
+                <X className="h-6 w-6" />
+              </Button>
+            </div>
+            
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
+              <Button 
+                variant="ghost" 
+                size="icon"
+                onClick={() => navigateImage('prev')}
+                className="text-white hover:bg-white/20 h-12 w-12"
+              >
+                <ArrowLeft className="h-6 w-6" />
+              </Button>
+            </div>
+            
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 z-10">
+              <Button 
+                variant="ghost" 
+                size="icon"
+                onClick={() => navigateImage('next')}
+                className="text-white hover:bg-white/20 h-12 w-12"
+              >
+                <ArrowLeft className="h-6 w-6 transform rotate-180" />
+              </Button>
+            </div>
+            
+            <img
+              src={vacancy.additionalImages[currentImageIndex]}
+              alt={`Фото ${currentImageIndex + 1}`}
+              className="max-h-[90vh] max-w-[90vw] object-contain"
+            />
+            
+            <div className="absolute bottom-4 left-0 right-0 text-center text-white">
+              {currentImageIndex + 1} / {vacancy.additionalImages.length}
+            </div>
+          </div>
+        </div>
+      )}
       
       <Footer />
     </div>

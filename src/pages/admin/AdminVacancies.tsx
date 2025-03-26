@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { Pencil, Trash2, Plus, MapPin, Coins, Clock, Briefcase, Image } from 'lucide-react';
+import { Pencil, Trash2, Plus, MapPin, Coins, Clock, Briefcase, Image, X } from 'lucide-react';
 import ImageUploader from '@/components/admin/ImageUploader';
 
 const AdminVacancies: React.FC = () => {
@@ -26,8 +26,10 @@ const AdminVacancies: React.FC = () => {
     requirements: '',
     benefits: '',
     imageUrl: '',
+    additionalImages: []
   });
   const [useUrlInput, setUseUrlInput] = useState<boolean>(false);
+  const [newImageUrl, setNewImageUrl] = useState<string>('');
 
   const resetForm = () => {
     setFormData({
@@ -39,9 +41,11 @@ const AdminVacancies: React.FC = () => {
       requirements: '',
       benefits: '',
       imageUrl: '',
+      additionalImages: []
     });
     setCurrentVacancyId(null);
     setUseUrlInput(false);
+    setNewImageUrl('');
   };
 
   const openAddDialog = () => {
@@ -60,6 +64,7 @@ const AdminVacancies: React.FC = () => {
       requirements: vacancyItem.requirements || '',
       benefits: vacancyItem.benefits || '',
       imageUrl: vacancyItem.imageUrl || '',
+      additionalImages: vacancyItem.additionalImages || []
     });
     setIsDialogOpen(true);
   };
@@ -76,6 +81,32 @@ const AdminVacancies: React.FC = () => {
 
   const handleImageUploaded = (imageUrl: string) => {
     setFormData(prev => ({ ...prev, imageUrl }));
+  };
+
+  const handleAddImage = () => {
+    if (newImageUrl && !formData.additionalImages?.includes(newImageUrl)) {
+      setFormData((prev) => ({
+        ...prev,
+        additionalImages: [...(prev.additionalImages || []), newImageUrl]
+      }));
+      setNewImageUrl('');
+    }
+  };
+
+  const handleAddUploadedImage = (imageUrl: string) => {
+    if (imageUrl && !formData.additionalImages?.includes(imageUrl)) {
+      setFormData((prev) => ({
+        ...prev,
+        additionalImages: [...(prev.additionalImages || []), imageUrl]
+      }));
+    }
+  };
+
+  const handleRemoveImage = (imageUrl: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      additionalImages: prev.additionalImages?.filter(img => img !== imageUrl) || []
+    }));
   };
 
   const handleSubmit = () => {
@@ -147,6 +178,7 @@ const AdminVacancies: React.FC = () => {
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead className="w-[100px]">Изображение</TableHead>
                 <TableHead>Должность</TableHead>
                 <TableHead>Расположение</TableHead>
                 <TableHead>Зарплата</TableHead>
@@ -157,6 +189,24 @@ const AdminVacancies: React.FC = () => {
             <TableBody>
               {vacancies.map((item) => (
                 <TableRow key={item.id}>
+                  <TableCell>
+                    {item.imageUrl ? (
+                      <div className="w-16 h-12 rounded overflow-hidden">
+                        <img 
+                          src={item.imageUrl} 
+                          alt={item.title} 
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = 'https://placehold.co/200x120?text=Error';
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-16 h-12 bg-slate-700 rounded flex items-center justify-center">
+                        <Briefcase className="h-6 w-6 text-slate-500" />
+                      </div>
+                    )}
+                  </TableCell>
                   <TableCell className="font-medium">{item.title}</TableCell>
                   <TableCell>{item.location}</TableCell>
                   <TableCell>{item.salary}</TableCell>
@@ -366,6 +416,79 @@ const AdminVacancies: React.FC = () => {
                 placeholder="Введите преимущества работы в компании. Для создания списка каждый пункт размещайте на новой строке."
                 className="col-span-3 bg-slate-700 border-slate-600"
               />
+            </div>
+            
+            <div className="grid grid-cols-4 items-start gap-4">
+              <Label className="text-right flex items-center mt-2">
+                <Image className="mr-2 h-4 w-4" />
+                Галерея
+              </Label>
+              <div className="col-span-3 space-y-2">
+                <div className="flex flex-col gap-4">
+                  <div className="flex items-center gap-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex-1"
+                      onClick={() => setUseUrlInput(!useUrlInput)}
+                    >
+                      {useUrlInput ? "Загрузить изображение" : "Ввести URL изображения"}
+                    </Button>
+                  </div>
+                  
+                  {useUrlInput ? (
+                    <div className="flex items-center gap-2">
+                      <Input
+                        value={newImageUrl}
+                        onChange={(e) => setNewImageUrl(e.target.value)}
+                        placeholder="URL дополнительного изображения"
+                        className="flex-1 bg-slate-700 border-slate-600"
+                      />
+                      <Button 
+                        type="button" 
+                        variant="outline"
+                        onClick={handleAddImage}
+                        disabled={!newImageUrl}
+                      >
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <ImageUploader
+                      onImageUploaded={handleAddUploadedImage}
+                      className="mt-2"
+                    />
+                  )}
+                </div>
+                
+                {formData.additionalImages && formData.additionalImages.length > 0 ? (
+                  <div className="grid grid-cols-2 gap-4 mt-4">
+                    {formData.additionalImages.map((image, index) => (
+                      <div key={index} className="relative group">
+                        <div className="aspect-video w-full rounded-md overflow-hidden bg-slate-700">
+                          <img 
+                            src={image} 
+                            alt={`Изображение ${index + 1}`} 
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = 'https://placehold.co/400x225?text=Error';
+                            }}
+                          />
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveImage(image)}
+                          className="absolute -top-2 -right-2 h-6 w-6 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-slate-400">Добавьте изображения для создания галереи.</p>
+                )}
+              </div>
             </div>
           </div>
           <DialogFooter>

@@ -10,6 +10,7 @@ export type NewsItem = {
   content: string;
   imageUrl: string;
   additionalImages?: string[];
+  featured?: boolean;
 };
 
 export type VacancyItem = {
@@ -22,6 +23,7 @@ export type VacancyItem = {
   requirements?: string;
   benefits?: string;
   imageUrl?: string;
+  additionalImages?: string[];
 };
 
 export type PartnerItem = {
@@ -54,6 +56,7 @@ type AdminDataContextType = {
   addMessage: (messageItem: Omit<MessageItem, 'id' | 'date' | 'read'>) => void;
   updateMessage: (id: string, messageItem: Partial<MessageItem>) => void;
   deleteMessage: (id: string) => void;
+  markMessageAsRead: (id: string) => void;
   addPartner: (partnerItem: Omit<PartnerItem, 'id'>) => void;
   updatePartner: (id: string, partnerItem: Omit<PartnerItem, 'id'>) => void;
   deletePartner: (id: string) => void;
@@ -159,6 +162,14 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     localStorage.setItem('messages', JSON.stringify(updatedMessages));
   };
 
+  const markMessageAsRead = (id: string) => {
+    const updatedMessages = messages.map(item => 
+      item.id === id ? { ...item, read: true } : item
+    );
+    setMessages(updatedMessages);
+    localStorage.setItem('messages', JSON.stringify(updatedMessages));
+  };
+
   // Методы для управления партнерами
   const addPartner = (partnerItem: Omit<PartnerItem, 'id'>) => {
     const newPartnerItem = { ...partnerItem, id: uuidv4() };
@@ -196,6 +207,7 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       addMessage, 
       updateMessage, 
       deleteMessage,
+      markMessageAsRead,
       addPartner,
       updatePartner,
       deletePartner

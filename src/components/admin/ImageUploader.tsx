@@ -52,6 +52,12 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         setImagePreview(reader.result);
         onImageUploaded(reader.result);
         setIsUploading(false);
+        
+        // Success notification
+        toast({
+          title: "Изображение загружено",
+          description: "Изображение успешно добавлено",
+        });
       }
     };
     reader.onerror = () => {
@@ -75,6 +81,34 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       fileInputRef.current.value = '';
     }
     onImageUploaded('');
+    
+    toast({
+      title: "Изображение удалено",
+      description: "Изображение было удалено",
+    });
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const file = e.dataTransfer.files[0];
+      
+      // Create a synthetic event to reuse the handleImageUpload logic
+      const syntheticEvent = {
+        target: {
+          files: [file]
+        }
+      } as React.ChangeEvent<HTMLInputElement>;
+      
+      handleImageUpload(syntheticEvent);
+    }
   };
 
   return (
@@ -88,9 +122,14 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       />
 
       {!imagePreview ? (
-        <div className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-slate-600 rounded-lg bg-slate-800/50 cursor-pointer hover:bg-slate-700/50 transition-colors" onClick={handleButtonClick}>
+        <div 
+          className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-slate-600 rounded-lg bg-slate-800/50 cursor-pointer hover:bg-slate-700/50 transition-colors" 
+          onClick={handleButtonClick}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+        >
           <ImageIcon className="mb-2 h-8 w-8 text-slate-400" />
-          <p className="text-sm text-slate-400 mb-2">Нажмите, чтобы загрузить изображение</p>
+          <p className="text-sm text-slate-400 mb-2 text-center">Нажмите или перетащите изображение сюда</p>
           <p className="text-xs text-slate-500">PNG, JPG или GIF (макс. 5MB)</p>
         </div>
       ) : (

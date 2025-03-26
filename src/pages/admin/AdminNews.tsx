@@ -5,10 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { Pencil, Trash2, Plus, X, Calendar, Image, Link as LinkIcon } from 'lucide-react';
+import { Pencil, Trash2, Plus, X, Calendar, Image, Link as LinkIcon, Home } from 'lucide-react';
 import ImageUploader from '@/components/admin/ImageUploader';
 
 const AdminNews: React.FC = () => {
@@ -23,7 +24,8 @@ const AdminNews: React.FC = () => {
     excerpt: '',
     content: '',
     imageUrl: '',
-    additionalImages: []
+    additionalImages: [],
+    featured: false
   });
   const [newImageUrl, setNewImageUrl] = useState<string>('');
   const [useUrlInput, setUseUrlInput] = useState<boolean>(false);
@@ -35,7 +37,8 @@ const AdminNews: React.FC = () => {
       excerpt: '',
       content: '',
       imageUrl: '',
-      additionalImages: []
+      additionalImages: [],
+      featured: false
     });
     setNewImageUrl('');
     setCurrentNewsId(null);
@@ -55,7 +58,8 @@ const AdminNews: React.FC = () => {
       excerpt: newsItem.excerpt,
       content: newsItem.content,
       imageUrl: newsItem.imageUrl,
-      additionalImages: newsItem.additionalImages || []
+      additionalImages: newsItem.additionalImages || [],
+      featured: newsItem.featured || false
     });
     setIsDialogOpen(true);
   };
@@ -68,6 +72,10 @@ const AdminNews: React.FC = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleCheckboxChange = (checked: boolean) => {
+    setFormData(prev => ({ ...prev, featured: checked }));
   };
 
   const handleMainImageUploaded = (imageUrl: string) => {
@@ -172,6 +180,7 @@ const AdminNews: React.FC = () => {
                 <TableHead className="w-[100px]">Изображение</TableHead>
                 <TableHead>Заголовок</TableHead>
                 <TableHead className="w-[180px]">Дата</TableHead>
+                <TableHead className="w-[80px]">На главной</TableHead>
                 <TableHead className="text-right w-[100px]">Действия</TableHead>
               </TableRow>
             </TableHeader>
@@ -192,6 +201,9 @@ const AdminNews: React.FC = () => {
                   </TableCell>
                   <TableCell className="font-medium">{item.title}</TableCell>
                   <TableCell>{item.date}</TableCell>
+                  <TableCell>
+                    {item.featured && <Home className="h-4 w-4 text-primary" />}
+                  </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
                       <Button 
@@ -255,6 +267,23 @@ const AdminNews: React.FC = () => {
                 onChange={handleInputChange}
                 className="col-span-3 bg-slate-700 border-slate-600"
               />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="featured" className="text-right flex items-center">
+                <Home className="mr-2 h-4 w-4" />
+                На главной
+              </Label>
+              <div className="col-span-3 flex items-center">
+                <Checkbox 
+                  id="featured" 
+                  checked={formData.featured} 
+                  onCheckedChange={handleCheckboxChange}
+                  className="mr-2 data-[state=checked]:bg-primary"
+                />
+                <Label htmlFor="featured" className="text-sm text-slate-300">
+                  Показывать новость на главной странице
+                </Label>
+              </div>
             </div>
             <div className="grid grid-cols-4 items-start gap-4">
               <Label className="text-right flex items-center mt-2">
