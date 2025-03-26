@@ -1,24 +1,8 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { 
-  ArrowRight, 
-  ChevronRight, 
-  Building, 
-  MapPin, 
-  ExternalLink,
-  ArrowLeft,
-  ArrowDown
-} from 'lucide-react';
+import { ArrowRight, ChevronRight, Building, MapPin, ExternalLink, ArrowLeft, ArrowDown } from 'lucide-react';
 import { Button } from './ui/button';
-import { 
-  Carousel, 
-  CarouselContent, 
-  CarouselItem, 
-  CarouselNext, 
-  CarouselPrevious 
-} from './ui/carousel';
-
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './ui/carousel';
 interface ProjectCardProps {
   title: string;
   description: string;
@@ -27,41 +11,30 @@ interface ProjectCardProps {
   imageUrl?: string;
   index: number;
 }
-
-const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, location, status, imageUrl, index }) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({
+  title,
+  description,
+  location,
+  status,
+  imageUrl,
+  index
+}) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
-
   const handleTouchStart = () => {
     setIsTouched(!isTouched);
   };
-
-  return (
-    <div
-      ref={cardRef}
-      className={cn(
-        "scroll-animate-section relative group overflow-hidden rounded-2xl transition-all duration-500 cursor-pointer",
-        "bg-brand-dark border border-brand-dark/10 shadow-sm h-[350px] md:h-[400px]"
-      )}
-      style={{ transitionDelay: `${index * 100}ms` }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onTouchStart={handleTouchStart}
-    >
+  return <div ref={cardRef} className={cn("scroll-animate-section relative group overflow-hidden rounded-2xl transition-all duration-500 cursor-pointer", "bg-brand-dark border border-brand-dark/10 shadow-sm h-[350px] md:h-[400px]")} style={{
+    transitionDelay: `${index * 100}ms`
+  }} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} onTouchStart={handleTouchStart}>
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60 z-10"></div>
       
-      <div 
-        className={cn(
-          "absolute inset-0 bg-gray-200 transition-transform duration-700 ease-in-out",
-          (isHovered || isTouched) ? "scale-105" : "scale-100"
-        )}
-        style={{ 
-          backgroundImage: imageUrl ? `url(${imageUrl})` : 'none',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
-      ></div>
+      <div className={cn("absolute inset-0 bg-gray-200 transition-transform duration-700 ease-in-out", isHovered || isTouched ? "scale-105" : "scale-100")} style={{
+      backgroundImage: imageUrl ? `url(${imageUrl})` : 'none',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center'
+    }}></div>
       
       <div className="absolute top-4 left-4 z-20 px-3 py-1 rounded-full bg-primary text-white text-xs font-medium font-benzin">
         {status}
@@ -73,45 +46,38 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, location,
       </div>
       
       <div className="relative h-full flex flex-col justify-end p-6 md:p-8 z-20">
-        <h3 className={cn(
-          "text-xl md:text-2xl font-medium text-white mb-2 transform transition-transform duration-300 font-benzin",
-          (isHovered || isTouched) ? "translate-y-0" : "translate-y-0"
-        )}>
+        <h3 className={cn("text-xl md:text-2xl font-medium text-white mb-2 transform transition-transform duration-300 font-benzin", isHovered || isTouched ? "translate-y-0" : "translate-y-0")}>
           {title}
         </h3>
         
-        <p className={cn(
-          "text-white/80 mb-4 transform transition-all duration-300 ease-in-out max-h-0 overflow-hidden opacity-0 font-benzin text-sm md:text-base",
-          (isHovered || isTouched) ? "max-h-[200px] opacity-100" : ""
-        )}>
+        <p className={cn("text-white/80 mb-4 transform transition-all duration-300 ease-in-out max-h-0 overflow-hidden opacity-0 font-benzin text-sm md:text-base", isHovered || isTouched ? "max-h-[200px] opacity-100" : "")}>
           {description}
         </p>
         
-        <div className={cn(
-          "flex items-center transform transition-all duration-300",
-          (isHovered || isTouched) ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
-        )}>
+        <div className={cn("flex items-center transform transition-all duration-300", isHovered || isTouched ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0")}>
           <span className="text-white/90 text-sm font-medium mr-2 font-benzin">Подробнее</span>
           <ChevronRight className="h-4 w-4 text-white/90" />
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 const FeaturedProject: React.FC<{
   title: string;
   subtitle: string;
   description: string;
   imageUrl: string;
   index: number;
-}> = ({ title, subtitle, description, imageUrl, index }) => {
-  return (
-    <div className="relative w-full h-[600px] md:h-[700px] overflow-hidden">
-      <div 
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${imageUrl})` }}
-      />
+}> = ({
+  title,
+  subtitle,
+  description,
+  imageUrl,
+  index
+}) => {
+  return <div className="relative w-full h-[600px] md:h-[700px] overflow-hidden">
+      <div className="absolute inset-0 bg-cover bg-center" style={{
+      backgroundImage: `url(${imageUrl})`
+    }} />
       <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent" />
       
       <div className="relative z-10 h-full flex flex-col justify-center px-8 md:px-16 lg:px-24">
@@ -129,31 +95,27 @@ const FeaturedProject: React.FC<{
             <Button className="bg-primary hover:bg-primary/90 text-white py-2 px-6">
               ПОДРОБНЕЕ
             </Button>
-            <Button variant="outline" className="border-white/20 text-white hover:bg-white/10 py-2 px-6">
+            <Button variant="outline" className="border-white/20 text-white py-2 px-6 bg-slate-900 hover:bg-slate-800">
               ВСЕ ПРОЕКТЫ
             </Button>
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 const ProjectsSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [carouselApi, setCarouselApi] = useState<any>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
-  
+
   // Add autoplay functionality
   useEffect(() => {
     if (!carouselApi) return;
-    
     const handleSelect = () => {
       setCurrentSlide(carouselApi.selectedScrollSnap());
     };
-    
     carouselApi.on('select', handleSelect);
-    
+
     // Set up autoplay interval
     const autoplayInterval = setInterval(() => {
       if (carouselApi.canScrollNext()) {
@@ -162,132 +124,85 @@ const ProjectsSection: React.FC = () => {
         carouselApi.scrollTo(0);
       }
     }, 5000); // Change slide every 5 seconds
-    
+
     return () => {
       carouselApi.off('select', handleSelect);
       clearInterval(autoplayInterval);
     };
   }, [carouselApi]);
-  
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in-view');
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-    
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
     const elementsToObserve = sectionRef.current?.querySelectorAll('.scroll-animate-section');
-    elementsToObserve?.forEach((el) => observer.observe(el));
-    
+    elementsToObserve?.forEach(el => observer.observe(el));
     return () => {
-      elementsToObserve?.forEach((el) => observer.unobserve(el));
+      elementsToObserve?.forEach(el => observer.unobserve(el));
     };
   }, []);
-
-  const featuredProjects = [
-    {
-      title: 'Всё нужное — рядом',
-      subtitle: 'TOWERUP',
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      imageUrl: "https://riq3aaa.medianewsonline.com/assets/images/n4b-686x412.webp"
-    },
-    {
-      title: 'Удобный паркинг',
-      subtitle: 'TOWERUP',
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      imageUrl: "https://riq3aaa.medianewsonline.com/assets/images/parking-275x183.webp"
-    },
-    {
-      title: 'Ремонт под ключ',
-      subtitle: 'TOWERUP',
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus.",
-      imageUrl: "https://riq3aaa.medianewsonline.com/assets/images/remont-686x412.webp"
-    }
-  ];
-
-  const projects = [
-    {
-      title: 'Жилой комплекс "Пушкин"',
-      description: "Современный эко-комплекс из 5 домов с благоустроенной территорией, детскими площадками и парковой зоной.",
-      location: "Ташкент",
-      status: "Строится",
-      imageUrl: "https://riq3aaa.medianewsonline.com/assets/images/1-702x702.webp"
-    },
-    {
-      title: 'Бизнес-центр "Бочка"',
-      description: "Современный бизнес-центр класса А с конференц-залами, подземным паркингом и зелёной зоной отдыха.",
-      location: "Ташкент",
-      status: "Строится",
-      imageUrl: "https://images.unsplash.com/photo-1618172193763-c511deb635ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2064&q=80"
-    },
-    {
-      title: 'Жилой комплекс "Кумарык"',
-      description: "Курортный комплекс из отеля 5* и апартаментов с панорамным видом на море и собственным пляжем.",
-      location: "Ташкент",
-      status: "Строится",
-      imageUrl: "https://riq3aaa.medianewsonline.com/assets/images/kumarik.webp"
-    }
-  ];
-
-  return (
-    <section id="projects" ref={sectionRef} className="py-0 bg-black overflow-hidden">
+  const featuredProjects = [{
+    title: 'Всё нужное — рядом',
+    subtitle: 'TOWERUP',
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    imageUrl: "https://riq3aaa.medianewsonline.com/assets/images/n4b-686x412.webp"
+  }, {
+    title: 'Удобный паркинг',
+    subtitle: 'TOWERUP',
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    imageUrl: "https://riq3aaa.medianewsonline.com/assets/images/parking-275x183.webp"
+  }, {
+    title: 'Ремонт под ключ',
+    subtitle: 'TOWERUP',
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus.",
+    imageUrl: "https://riq3aaa.medianewsonline.com/assets/images/remont-686x412.webp"
+  }];
+  const projects = [{
+    title: 'Жилой комплекс "Пушкин"',
+    description: "Современный эко-комплекс из 5 домов с благоустроенной территорией, детскими площадками и парковой зоной.",
+    location: "Ташкент",
+    status: "Строится",
+    imageUrl: "https://riq3aaa.medianewsonline.com/assets/images/1-702x702.webp"
+  }, {
+    title: 'Бизнес-центр "Бочка"',
+    description: "Современный бизнес-центр класса А с конференц-залами, подземным паркингом и зелёной зоной отдыха.",
+    location: "Ташкент",
+    status: "Строится",
+    imageUrl: "https://images.unsplash.com/photo-1618172193763-c511deb635ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2064&q=80"
+  }, {
+    title: 'Жилой комплекс "Кумарык"',
+    description: "Курортный комплекс из отеля 5* и апартаментов с панорамным видом на море и собственным пляжем.",
+    location: "Ташкент",
+    status: "Строится",
+    imageUrl: "https://riq3aaa.medianewsonline.com/assets/images/kumarik.webp"
+  }];
+  return <section id="projects" ref={sectionRef} className="py-0 bg-black overflow-hidden">
       <div className="relative scroll-animate-section">
-        <Carousel
-          setApi={setCarouselApi}
-          opts={{
-            align: "start",
-            loop: true,
-          }}
-          className="w-full"
-        >
+        <Carousel setApi={setCarouselApi} opts={{
+        align: "start",
+        loop: true
+      }} className="w-full">
           <CarouselContent>
-            {featuredProjects.map((project, index) => (
-              <CarouselItem key={index} className="pl-0 w-full">
-                <FeaturedProject
-                  title={project.title}
-                  subtitle={project.subtitle}
-                  description={project.description}
-                  imageUrl={project.imageUrl}
-                  index={index}
-                />
-              </CarouselItem>
-            ))}
+            {featuredProjects.map((project, index) => <CarouselItem key={index} className="pl-0 w-full">
+                <FeaturedProject title={project.title} subtitle={project.subtitle} description={project.description} imageUrl={project.imageUrl} index={index} />
+              </CarouselItem>)}
           </CarouselContent>
           
           <div className="absolute left-8 md:left-16 lg:left-24 bottom-8 z-20 flex items-center gap-4">
-            <Button 
-              variant="outline" 
-              size="icon" 
-              className="rounded-full border-white/20 bg-black/30 backdrop-blur-sm text-white hover:bg-white/10"
-              onClick={() => carouselApi?.scrollPrev()}
-            >
+            <Button variant="outline" size="icon" className="rounded-full border-white/20 bg-black/30 backdrop-blur-sm text-white hover:bg-white/10" onClick={() => carouselApi?.scrollPrev()}>
               <ArrowLeft className="h-5 w-5" />
             </Button>
             
             <div className="flex items-center gap-2">
-              {featuredProjects.map((_, index) => (
-                <button
-                  key={index}
-                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                    currentSlide === index ? "bg-primary w-8" : "bg-white/50 hover:bg-white/80"
-                  }`}
-                  onClick={() => carouselApi?.scrollTo(index)}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
+              {featuredProjects.map((_, index) => <button key={index} className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${currentSlide === index ? "bg-primary w-8" : "bg-white/50 hover:bg-white/80"}`} onClick={() => carouselApi?.scrollTo(index)} aria-label={`Go to slide ${index + 1}`} />)}
             </div>
             
-            <Button 
-              variant="outline" 
-              size="icon" 
-              className="rounded-full border-white/20 bg-black/30 backdrop-blur-sm text-white hover:bg-white/10"
-              onClick={() => carouselApi?.scrollNext()}
-            >
+            <Button variant="outline" size="icon" className="rounded-full border-white/20 bg-black/30 backdrop-blur-sm text-white hover:bg-white/10" onClick={() => carouselApi?.scrollNext()}>
               <ArrowRight className="h-5 w-5" />
             </Button>
           </div>
@@ -313,31 +228,16 @@ const ProjectsSection: React.FC = () => {
             </p>
           </div>
           
-          <a 
-            href="#contact" 
-            className="flex items-center bg-primary text-white font-medium px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors scroll-animate-section font-benzin"
-          >
+          <a href="#contact" className="flex items-center bg-primary text-white font-medium px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors scroll-animate-section font-benzin">
             <span>Все проекты</span>
             <ArrowRight className="ml-2 h-4 w-4" />
           </a>
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {projects.map((project, index) => (
-            <ProjectCard
-              key={index}
-              title={project.title}
-              description={project.description}
-              location={project.location}
-              status={project.status}
-              imageUrl={project.imageUrl}
-              index={index}
-            />
-          ))}
+          {projects.map((project, index) => <ProjectCard key={index} title={project.title} description={project.description} location={project.location} status={project.status} imageUrl={project.imageUrl} index={index} />)}
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default ProjectsSection;
