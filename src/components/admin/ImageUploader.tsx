@@ -100,15 +100,58 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       const file = e.dataTransfer.files[0];
       
-      // Create a synthetic event to reuse the handleImageUpload logic
-      const syntheticEvent = {
-        target: {
-          files: [file]
-        }
-      } as React.ChangeEvent<HTMLInputElement>;
-      
-      handleImageUpload(syntheticEvent);
+      // Instead of creating a synthetic event, we'll directly process the file
+      processFile(file);
     }
+  };
+
+  // Extract file processing logic to a separate function
+  const processFile = (file: File) => {
+    // Validate file (image only, max size)
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: "Ошибка загрузки",
+        description: "Пожалуйста, выберите файл изображения",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) { // 5MB max
+      toast({
+        title: "Ошибка загрузки",
+        description: "Размер изображения не должен превышать 5MB",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsUploading(true);
+
+    // Create a FileReader to get a data URL
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        setImagePreview(reader.result);
+        onImageUploaded(reader.result);
+        setIsUploading(false);
+        
+        // Success notification
+        toast({
+          title: "Изображение загружено",
+          description: "Изображение успешно добавлено",
+        });
+      }
+    };
+    reader.onerror = () => {
+      toast({
+        title: "Ошибка чтения файла",
+        description: "Не удалось загрузить изображение",
+        variant: "destructive",
+      });
+      setIsUploading(false);
+    };
+    reader.readAsDataURL(file);
   };
 
   return (
