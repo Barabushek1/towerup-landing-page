@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-import { useAdminData, VacancyItem } from '@/contexts/AdminDataContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -8,16 +7,33 @@ import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { Pencil, Trash2, Plus, MapPin, Coins, Clock, Briefcase, Image, X } from 'lucide-react';
+import { Pencil, Trash2, Plus, MapPin, Coins, Clock, Briefcase, Image, X, Loader2 } from 'lucide-react';
 import ImageUploader from '@/components/admin/ImageUploader';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
+
+interface VacancyItem {
+  id: string;
+  title: string;
+  location: string;
+  salary: string;
+  type: string;
+  description?: string;
+  requirements?: string;
+  benefits?: string;
+  image_url?: string;
+  additional_images?: string[];
+}
+
+type VacancyInput = Omit<VacancyItem, 'id'>;
 
 const AdminVacancies: React.FC = () => {
-  const { vacancies, addVacancy, updateVacancy, deleteVacancy } = useAdminData();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [currentVacancyId, setCurrentVacancyId] = useState<string | null>(null);
-  const [formData, setFormData] = useState<Omit<VacancyItem, 'id'>>({
+  const [formData, setFormData] = useState<VacancyInput>({
     title: '',
     location: '',
     salary: '',
@@ -25,11 +41,124 @@ const AdminVacancies: React.FC = () => {
     description: '',
     requirements: '',
     benefits: '',
-    imageUrl: '',
-    additionalImages: []
+    image_url: '',
+    additional_images: []
   });
   const [useUrlInput, setUseUrlInput] = useState<boolean>(false);
   const [newImageUrl, setNewImageUrl] = useState<string>('');
+
+  // Fetch vacancies
+  const { data: vacancies = [], isLoading, error } = useQuery({
+    queryKey: ['vacancies'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('vacancies')
+        .select('*')
+        .order('title');
+      
+      if (error) {
+        throw error;
+      }
+      
+      return data as VacancyItem[];
+    }
+  });
+
+  // Add vacancy mutation
+  const addVacancyMutation = useMutation({
+    mutationFn: async (vacancy: VacancyInput) => {
+      const { data, error } = await supabase
+        .from('vacancies')
+        .insert(vacancy)
+        .select()
+        .single();
+      
+      if (error) {
+        throw error;
+      }
+      
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['vacancies'] });
+      toast({
+        title: "Вакансия добавлена",
+        description: "Вакансия успешно добавлена",
+      });
+      setIsDialogOpen(false);
+      resetForm();
+    },
+    onError: (error) => {
+      toast({
+        title: "Ошибка",
+        description: `Произошла ошибка при сохранении данных: ${error.message}`,
+        variant: "destructive",
+      });
+    }
+  });
+
+  // Update vacancy mutation
+  const updateVacancyMutation = useMutation({
+    mutationFn: async ({ id, vacancy }: { id: string; vacancy: VacancyInput }) => {
+      const { data, error } = await supabase
+        .from('vacancies')
+        .update(vacancy)
+        .eq('id', id)
+        .select()
+        .single();
+      
+      if (error) {
+        throw error;
+      }
+      
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['vacancies'] });
+      toast({
+        title: "Вакансия обновлена",
+        description: "Вакансия успешно обновлена",
+      });
+      setIsDialogOpen(false);
+      resetForm();
+    },
+    onError: (error) => {
+      toast({
+        title: "Ошибка",
+        description: `Произошла ошибка при обновлении данных: ${error.message}`,
+        variant: "destructive",
+      });
+    }
+  });
+
+  // Delete vacancy mutation
+  const deleteVacancyMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('vacancies')
+        .delete()
+        .eq('id', id);
+      
+      if (error) {
+        throw error;
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['vacancies'] });
+      toast({
+        title: "Вакансия удалена",
+        description: "Вакансия успешно удалена",
+      });
+      setIsDeleteDialogOpen(false);
+    },
+    onError: (error) => {
+      toast({
+        title: "Ошибка",
+        description: `Произошла ошибка при удалении вакансии: ${error.message}`,
+        variant: "destructive",
+      });
+    }
+  });
 
   const resetForm = () => {
     setFormData({
@@ -40,8 +169,8 @@ const AdminVacancies: React.FC = () => {
       description: '',
       requirements: '',
       benefits: '',
-      imageUrl: '',
-      additionalImages: []
+      image_url: '',
+      additional_images: []
     });
     setCurrentVacancyId(null);
     setUseUrlInput(false);
@@ -63,8 +192,8 @@ const AdminVacancies: React.FC = () => {
       description: vacancyItem.description || '',
       requirements: vacancyItem.requirements || '',
       benefits: vacancyItem.benefits || '',
-      imageUrl: vacancyItem.imageUrl || '',
-      additionalImages: vacancyItem.additionalImages || []
+      image_url: vacancyItem.image_url || '',
+      additional_images: vacancyItem.additional_images || []
     });
     setIsDialogOpen(true);
   };
@@ -80,24 +209,24 @@ const AdminVacancies: React.FC = () => {
   };
 
   const handleImageUploaded = (imageUrl: string) => {
-    setFormData(prev => ({ ...prev, imageUrl }));
+    setFormData(prev => ({ ...prev, image_url: imageUrl }));
   };
 
   const handleAddImage = () => {
-    if (newImageUrl && !formData.additionalImages?.includes(newImageUrl)) {
+    if (newImageUrl && !formData.additional_images?.includes(newImageUrl)) {
       setFormData((prev) => ({
         ...prev,
-        additionalImages: [...(prev.additionalImages || []), newImageUrl]
+        additional_images: [...(prev.additional_images || []), newImageUrl]
       }));
       setNewImageUrl('');
     }
   };
 
   const handleAddUploadedImage = (imageUrl: string) => {
-    if (imageUrl && !formData.additionalImages?.includes(imageUrl)) {
+    if (imageUrl && !formData.additional_images?.includes(imageUrl)) {
       setFormData((prev) => ({
         ...prev,
-        additionalImages: [...(prev.additionalImages || []), imageUrl]
+        additional_images: [...(prev.additional_images || []), imageUrl]
       }));
     }
   };
@@ -105,7 +234,7 @@ const AdminVacancies: React.FC = () => {
   const handleRemoveImage = (imageUrl: string) => {
     setFormData((prev) => ({
       ...prev,
-      additionalImages: prev.additionalImages?.filter(img => img !== imageUrl) || []
+      additional_images: prev.additional_images?.filter(img => img !== imageUrl) || []
     }));
   };
 
@@ -119,49 +248,34 @@ const AdminVacancies: React.FC = () => {
       return;
     }
 
-    try {
-      if (currentVacancyId) {
-        updateVacancy(currentVacancyId, formData);
-        toast({
-          title: "Вакансия обновлена",
-          description: "Вакансия успешно обновлена",
-        });
-      } else {
-        addVacancy(formData);
-        toast({
-          title: "Вакансия добавлена",
-          description: "Вакансия успешно добавлена",
-        });
-      }
-      setIsDialogOpen(false);
-      resetForm();
-    } catch (error) {
-      toast({
-        title: "Ошибка",
-        description: "Произошла ошибка при сохранении вакансии",
-        variant: "destructive",
-      });
+    if (currentVacancyId) {
+      updateVacancyMutation.mutate({ id: currentVacancyId, vacancy: formData });
+    } else {
+      addVacancyMutation.mutate(formData);
     }
   };
 
   const handleDelete = () => {
     if (currentVacancyId) {
-      try {
-        deleteVacancy(currentVacancyId);
-        toast({
-          title: "Вакансия удалена",
-          description: "Вакансия успешно удалена",
-        });
-        setIsDeleteDialogOpen(false);
-      } catch (error) {
-        toast({
-          title: "Ошибка",
-          description: "Произошла ошибка при удалении вакансии",
-          variant: "destructive",
-        });
-      }
+      deleteVacancyMutation.mutate(currentVacancyId);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <Loader2 className="w-8 h-8 text-primary animate-spin" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-6 bg-slate-800 rounded-lg border border-slate-700">
+        <p className="text-red-400">Произошла ошибка при загрузке данных. Пожалуйста, попробуйте позже.</p>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -190,10 +304,10 @@ const AdminVacancies: React.FC = () => {
               {vacancies.map((item) => (
                 <TableRow key={item.id}>
                   <TableCell>
-                    {item.imageUrl ? (
+                    {item.image_url ? (
                       <div className="w-16 h-12 rounded overflow-hidden">
                         <img 
-                          src={item.imageUrl} 
+                          src={item.image_url} 
                           alt={item.title} 
                           className="w-full h-full object-cover"
                           onError={(e) => {
@@ -342,17 +456,17 @@ const AdminVacancies: React.FC = () => {
                 {useUrlInput ? (
                   <div>
                     <Input
-                      id="imageUrl"
-                      name="imageUrl"
-                      value={formData.imageUrl}
+                      id="image_url"
+                      name="image_url"
+                      value={formData.image_url}
                       onChange={handleInputChange}
                       placeholder="https://example.com/image.jpg"
                       className="mb-2 bg-slate-700 border-slate-600"
                     />
-                    {formData.imageUrl && (
+                    {formData.image_url && (
                       <div className="w-full h-32 bg-slate-700 rounded-md overflow-hidden">
                         <img 
-                          src={formData.imageUrl} 
+                          src={formData.image_url} 
                           alt="Предпросмотр изображения" 
                           className="w-full h-full object-cover"
                           onError={(e) => {
@@ -365,7 +479,7 @@ const AdminVacancies: React.FC = () => {
                 ) : (
                   <ImageUploader 
                     onImageUploaded={handleImageUploaded}
-                    defaultImage={formData.imageUrl}
+                    defaultImage={formData.image_url}
                   />
                 )}
               </div>
@@ -461,9 +575,9 @@ const AdminVacancies: React.FC = () => {
                   )}
                 </div>
                 
-                {formData.additionalImages && formData.additionalImages.length > 0 ? (
+                {formData.additional_images && formData.additional_images.length > 0 ? (
                   <div className="grid grid-cols-2 gap-4 mt-4">
-                    {formData.additionalImages.map((image, index) => (
+                    {formData.additional_images.map((image, index) => (
                       <div key={index} className="relative group">
                         <div className="aspect-video w-full rounded-md overflow-hidden bg-slate-700">
                           <img 
@@ -492,10 +606,26 @@ const AdminVacancies: React.FC = () => {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+            <Button 
+              variant="outline" 
+              onClick={() => setIsDialogOpen(false)}
+              disabled={addVacancyMutation.isPending || updateVacancyMutation.isPending}
+            >
               Отмена
             </Button>
-            <Button onClick={handleSubmit}>Сохранить</Button>
+            <Button 
+              onClick={handleSubmit}
+              disabled={addVacancyMutation.isPending || updateVacancyMutation.isPending}
+            >
+              {(addVacancyMutation.isPending || updateVacancyMutation.isPending) ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Сохранение...
+                </>
+              ) : (
+                'Сохранить'
+              )}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -508,11 +638,26 @@ const AdminVacancies: React.FC = () => {
           </DialogHeader>
           <p className="py-4">Вы уверены, что хотите удалить эту вакансию? Это действие нельзя будет отменить.</p>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
+            <Button 
+              variant="outline" 
+              onClick={() => setIsDeleteDialogOpen(false)}
+              disabled={deleteVacancyMutation.isPending}
+            >
               Отмена
             </Button>
-            <Button variant="destructive" onClick={handleDelete}>
-              Удалить
+            <Button 
+              variant="destructive" 
+              onClick={handleDelete}
+              disabled={deleteVacancyMutation.isPending}
+            >
+              {deleteVacancyMutation.isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Удаление...
+                </>
+              ) : (
+                'Удалить'
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>

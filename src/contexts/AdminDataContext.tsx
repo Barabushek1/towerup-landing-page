@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -7,8 +8,8 @@ export type NewsItem = {
   date: string;
   excerpt: string;
   content: string;
-  imageUrl: string;
-  additionalImages?: string[];
+  image_url: string;
+  additional_images?: string[];
   featured?: boolean;
 };
 
@@ -21,8 +22,8 @@ export type VacancyItem = {
   description?: string;
   requirements?: string;
   benefits?: string;
-  imageUrl?: string;
-  additionalImages?: string[];
+  image_url?: string;
+  additional_images?: string[];
 };
 
 export type PartnerItem = {
@@ -90,81 +91,55 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   // Методы для управления новостями
   const addNews = (newsItem: Omit<NewsItem, 'id'>) => {
-    const newNewsItem = { ...newsItem, id: uuidv4() };
-    const updatedNews = [...news, newNewsItem];
-    setNews(updatedNews);
-    localStorage.setItem('news', JSON.stringify(updatedNews));
+    console.log('addNews called through context, but this is now handled by Supabase');
+    // Implementation is handled in the AdminNews component using Supabase
   };
 
   const updateNews = (id: string, newsItem: Omit<NewsItem, 'id'>) => {
-    const updatedNews = news.map(item => 
-      item.id === id ? { ...newsItem, id } : item
-    );
-    setNews(updatedNews);
-    localStorage.setItem('news', JSON.stringify(updatedNews));
+    console.log('updateNews called through context, but this is now handled by Supabase');
+    // Implementation is handled in the AdminNews component using Supabase
   };
 
   const deleteNews = (id: string) => {
-    const updatedNews = news.filter(item => item.id !== id);
-    setNews(updatedNews);
-    localStorage.setItem('news', JSON.stringify(updatedNews));
+    console.log('deleteNews called through context, but this is now handled by Supabase');
+    // Implementation is handled in the AdminNews component using Supabase
   };
 
   // Методы для управления вакансиями
   const addVacancy = (vacancyItem: Omit<VacancyItem, 'id'>) => {
-    const newVacancyItem = { ...vacancyItem, id: uuidv4() };
-    const updatedVacancies = [...vacancies, newVacancyItem];
-    setVacancies(updatedVacancies);
-    localStorage.setItem('vacancies', JSON.stringify(updatedVacancies));
+    console.log('addVacancy called through context, but this is now handled by Supabase');
+    // Implementation is handled in the AdminVacancies component using Supabase
   };
 
   const updateVacancy = (id: string, vacancyItem: Omit<VacancyItem, 'id'>) => {
-    const updatedVacancies = vacancies.map(item => 
-      item.id === id ? { ...vacancyItem, id } : item
-    );
-    setVacancies(updatedVacancies);
-    localStorage.setItem('vacancies', JSON.stringify(updatedVacancies));
+    console.log('updateVacancy called through context, but this is now handled by Supabase');
+    // Implementation is handled in the AdminVacancies component using Supabase
   };
 
   const deleteVacancy = (id: string) => {
-    const updatedVacancies = vacancies.filter(item => item.id !== id);
-    setVacancies(updatedVacancies);
-    localStorage.setItem('vacancies', JSON.stringify(updatedVacancies));
+    console.log('deleteVacancy called through context, but this is now handled by Supabase');
+    // Implementation is handled in the AdminVacancies component using Supabase
   };
 
   // Методы для управления сообщениями
   const addMessage = (messageItem: Omit<MessageItem, 'id' | 'date' | 'read'>) => {
-    const newMessageItem = { 
-      ...messageItem, 
-      id: uuidv4(), 
-      date: new Date().toISOString(), 
-      read: false 
-    };
-    const updatedMessages = [...messages, newMessageItem];
-    setMessages(updatedMessages);
-    localStorage.setItem('messages', JSON.stringify(updatedMessages));
+    console.log('addMessage called through context, but this is now handled by Supabase');
+    // Implementation is handled using Supabase
   };
 
   const updateMessage = (id: string, messageItem: Partial<MessageItem>) => {
-    const updatedMessages = messages.map(item => 
-      item.id === id ? { ...item, ...messageItem } : item
-    );
-    setMessages(updatedMessages);
-    localStorage.setItem('messages', JSON.stringify(updatedMessages));
+    console.log('updateMessage called through context, but this is now handled by Supabase');
+    // Implementation is handled in the AdminMessages component using Supabase
   };
 
   const deleteMessage = (id: string) => {
-    const updatedMessages = messages.filter(item => item.id !== id);
-    setMessages(updatedMessages);
-    localStorage.setItem('messages', JSON.stringify(updatedMessages));
+    console.log('deleteMessage called through context, but this is now handled by Supabase');
+    // Implementation is handled in the AdminMessages component using Supabase
   };
 
   const markMessageAsRead = (id: string) => {
-    const updatedMessages = messages.map(item => 
-      item.id === id ? { ...item, read: true } : item
-    );
-    setMessages(updatedMessages);
-    localStorage.setItem('messages', JSON.stringify(updatedMessages));
+    console.log('markMessageAsRead called through context, but this is now handled by Supabase');
+    // Implementation is handled in the AdminMessages component using Supabase
   };
 
   // Методы для управления партнерами

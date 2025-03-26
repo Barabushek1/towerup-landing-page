@@ -13,19 +13,52 @@ import {
   PaginationPrevious 
 } from "@/components/ui/pagination";
 import PageHeader from '@/components/PageHeader';
-import { useAdminData } from '@/contexts/AdminDataContext';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
+
+interface NewsItem {
+  id: string;
+  title: string;
+  date: string;
+  excerpt: string;
+  content: string;
+  image_url: string;
+}
 
 const News: React.FC = () => {
-  const { news } = useAdminData();
+  const { data: news = [], isLoading, error } = useQuery({
+    queryKey: ['news'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('news')
+        .select('*')
+        .order('date', { ascending: false });
+      
+      if (error) {
+        throw error;
+      }
+      
+      return data as NewsItem[];
+    }
+  });
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('ru-RU', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }).format(date);
+  };
   
-  // Используем данные админа, если доступны, иначе возвращаемся к заполнителям
+  // Fallback news data
   const displayNews = news.length > 0 ? news : [
     {
       id: "default_1",
       title: "Начало строительства нового жилого комплекса в центре города",
       date: "15 июня 2023",
       excerpt: "Мы рады сообщить о начале реализации масштабного проекта в центральном районе, который обеспечит город современным и комфортным жильем.",
-      imageUrl: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
+      image_url: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
       content: ""
     },
     {
@@ -33,7 +66,7 @@ const News: React.FC = () => {
       title: "Завершение проекта реконструкции исторического здания",
       date: "28 мая 2023",
       excerpt: "Успешно завершены работы по реконструкции исторического здания XIX века с сохранением его архитектурной ценности и добавлением современных элементов.",
-      imageUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
+      image_url: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
       content: ""
     },
     {
@@ -41,7 +74,7 @@ const News: React.FC = () => {
       title: "Внедрение новых экологичных технологий строительства",
       date: "10 мая 2023",
       excerpt: "Наша компания начала использование инновационных экологически чистых материалов и технологий в строительстве, что значительно снижает воздействие на окружающую среду.",
-      imageUrl: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
+      image_url: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
       content: ""
     },
     {
@@ -49,23 +82,7 @@ const News: React.FC = () => {
       title: "Получение международного сертификата качества",
       date: "5 мая 2023",
       excerpt: "Наша компания получила международный сертификат качества ISO 9001, что подтверждает высокие стандарты нашей работы и приверженность к качеству.",
-      imageUrl: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-      content: ""
-    },
-    {
-      id: "default_5",
-      title: "Участие в международной строительной выставке",
-      date: "20 апреля 2023",
-      excerpt: "Представители нашей компании приняли участие в международной строительной выставке, где представили новые проекты и технологии.",
-      imageUrl: "https://images.unsplash.com/photo-1565633246879-cad3e143e75e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-      content: ""
-    },
-    {
-      id: "default_6",
-      title: "Заключение нового контракта на строительство торгового центра",
-      date: "15 апреля 2023",
-      excerpt: "Мы подписали новый контракт на строительство крупного торгового центра, который станет одним из самых современных объектов в регионе.",
-      imageUrl: "https://images.unsplash.com/photo-1556156653-e5a7c69cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
+      image_url: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
       content: ""
     }
   ];
@@ -75,7 +92,7 @@ const News: React.FC = () => {
       <NavBar />
       <main>
         <PageHeader 
-          title="НОВОСТИ КОМПАНИИ" 
+          title="НОВОСТИ" 
           breadcrumb="НОВОСТИ"
         />
         
@@ -88,38 +105,44 @@ const News: React.FC = () => {
           </div>
           
           <div className="container mx-auto px-6 relative z-20">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-bold mb-8 text-slate-200 font-benzin text-center">Последние новости</h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {displayNews.map((item, index) => (
+            <div className="max-w-5xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {isLoading ? (
+                  <div className="col-span-2 text-center py-20">
+                    <div className="animate-spin h-10 w-10 border-t-2 border-primary rounded-full mx-auto"></div>
+                    <p className="mt-4 text-slate-400">Загрузка новостей...</p>
+                  </div>
+                ) : error ? (
+                  <div className="col-span-2 text-center py-20">
+                    <p className="text-red-400">Произошла ошибка при загрузке новостей. Пожалуйста, попробуйте позже.</p>
+                  </div>
+                ) : displayNews.map((item) => (
                   <div 
                     key={item.id} 
-                    className="relative overflow-hidden rounded-lg border border-primary/10 shadow-sm bg-slate-800/40
-                    transition-all duration-500 hover:shadow-md group"
+                    className="group relative overflow-hidden rounded-xl border border-primary/10 bg-slate-800/40 transition-all duration-300 hover:shadow-xl"
                   >
                     <div className="aspect-video w-full overflow-hidden">
-                      <img
-                        src={item.imageUrl}
-                        alt={item.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      <img 
+                        src={item.image_url} 
+                        alt={item.title} 
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = 'https://placehold.co/640x360?text=Нет+изображения';
+                        }}
                       />
                     </div>
-                    
                     <div className="p-6">
-                      <div className="flex items-center gap-2 text-muted-foreground mb-3">
-                        <Clock className="h-4 w-4" />
-                        <span className="text-sm font-benzin">{item.date}</span>
+                      <div className="flex items-center text-slate-400 text-sm mb-3">
+                        <Clock className="mr-2 h-4 w-4" />
+                        <span>{news.length > 0 ? formatDate(item.date) : item.date}</span>
                       </div>
-                      
-                      <h3 className="text-xl font-medium text-slate-200 mb-2 font-benzin">{item.title}</h3>
-                      <p className="text-muted-foreground mb-4 font-benzin line-clamp-3">{item.excerpt}</p>
-                      
-                      <Link 
+                      <h3 className="text-xl font-bold text-slate-200 mb-3 font-benzin">{item.title}</h3>
+                      <p className="text-slate-400 mb-4 line-clamp-3">{item.excerpt}</p>
+                      <Link
                         to={`/news/${item.id}`}
-                        className="inline-flex items-center text-primary font-medium hover:underline font-benzin group-hover:translate-x-1 transition-transform"
+                        className="inline-flex items-center text-primary hover:text-primary/80 font-medium transition-colors"
                       >
-                        <span>Подробнее</span>
+                        <span>Читать далее</span>
                         <ChevronRight className="ml-1 h-4 w-4" />
                       </Link>
                     </div>
@@ -127,8 +150,8 @@ const News: React.FC = () => {
                 ))}
               </div>
               
-              <div className="mt-12">
-                <Pagination>
+              {displayNews.length > 6 && (
+                <Pagination className="mt-10">
                   <PaginationContent>
                     <PaginationItem>
                       <PaginationPrevious href="#" />
@@ -147,7 +170,7 @@ const News: React.FC = () => {
                     </PaginationItem>
                   </PaginationContent>
                 </Pagination>
-              </div>
+              )}
             </div>
           </div>
           

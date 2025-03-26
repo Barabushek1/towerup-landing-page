@@ -1,6 +1,5 @@
 
-import React, { useState } from 'react';
-import { useAdminData, NewsItem } from '@/contexts/AdminDataContext';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -9,26 +8,154 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { Pencil, Trash2, Plus, X, Calendar, Image, Link as LinkIcon, Home } from 'lucide-react';
+import { Pencil, Trash2, Plus, X, Calendar, Image, Link as LinkIcon, Home, Loader2 } from 'lucide-react';
 import ImageUploader from '@/components/admin/ImageUploader';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
+
+interface NewsItem {
+  id: string;
+  title: string;
+  date: string;
+  excerpt: string;
+  content: string;
+  image_url: string;
+  additional_images?: string[];
+  featured?: boolean;
+}
+
+type NewsInput = Omit<NewsItem, 'id'>;
 
 const AdminNews: React.FC = () => {
-  const { news, addNews, updateNews, deleteNews } = useAdminData();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [currentNewsId, setCurrentNewsId] = useState<string | null>(null);
-  const [formData, setFormData] = useState<Omit<NewsItem, 'id'>>({
+  const [formData, setFormData] = useState<NewsInput>({
     title: '',
     date: new Date().toISOString().split('T')[0],
     excerpt: '',
     content: '',
-    imageUrl: '',
-    additionalImages: [],
+    image_url: '',
+    additional_images: [],
     featured: false
   });
   const [newImageUrl, setNewImageUrl] = useState<string>('');
   const [useUrlInput, setUseUrlInput] = useState<boolean>(false);
+
+  // Fetch news data
+  const { data: news = [], isLoading, error } = useQuery({
+    queryKey: ['news'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('news')
+        .select('*')
+        .order('date', { ascending: false });
+      
+      if (error) {
+        throw error;
+      }
+      
+      return data as NewsItem[];
+    }
+  });
+
+  // Add news mutation
+  const addNewsMutation = useMutation({
+    mutationFn: async (newsItem: NewsInput) => {
+      const { data, error } = await supabase
+        .from('news')
+        .insert(newsItem)
+        .select()
+        .single();
+      
+      if (error) {
+        throw error;
+      }
+      
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['news'] });
+      toast({
+        title: "Новость добавлена",
+        description: "Новость успешно добавлена",
+      });
+      setIsDialogOpen(false);
+      resetForm();
+    },
+    onError: (error) => {
+      toast({
+        title: "Ошибка",
+        description: `Произошла ошибка при сохранении данных: ${error.message}`,
+        variant: "destructive",
+      });
+    }
+  });
+
+  // Update news mutation
+  const updateNewsMutation = useMutation({
+    mutationFn: async ({ id, newsItem }: { id: string; newsItem: NewsInput }) => {
+      const { data, error } = await supabase
+        .from('news')
+        .update(newsItem)
+        .eq('id', id)
+        .select()
+        .single();
+      
+      if (error) {
+        throw error;
+      }
+      
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['news'] });
+      toast({
+        title: "Новость обновлена",
+        description: "Новость успешно обновлена",
+      });
+      setIsDialogOpen(false);
+      resetForm();
+    },
+    onError: (error) => {
+      toast({
+        title: "Ошибка",
+        description: `Произошла ошибка при обновлении данных: ${error.message}`,
+        variant: "destructive",
+      });
+    }
+  });
+
+  // Delete news mutation
+  const deleteNewsMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('news')
+        .delete()
+        .eq('id', id);
+      
+      if (error) {
+        throw error;
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['news'] });
+      toast({
+        title: "Новость удалена",
+        description: "Новость успешно удалена",
+      });
+      setIsDeleteDialogOpen(false);
+    },
+    onError: (error) => {
+      toast({
+        title: "Ошибка",
+        description: `Произошла ошибка при удалении новости: ${error.message}`,
+        variant: "destructive",
+      });
+    }
+  });
 
   const resetForm = () => {
     setFormData({
@@ -36,8 +163,8 @@ const AdminNews: React.FC = () => {
       date: new Date().toISOString().split('T')[0],
       excerpt: '',
       content: '',
-      imageUrl: '',
-      additionalImages: [],
+      image_url: '',
+      additional_images: [],
       featured: false
     });
     setNewImageUrl('');
@@ -57,8 +184,8 @@ const AdminNews: React.FC = () => {
       date: newsItem.date,
       excerpt: newsItem.excerpt,
       content: newsItem.content,
-      imageUrl: newsItem.imageUrl,
-      additionalImages: newsItem.additionalImages || [],
+      image_url: newsItem.image_url,
+      additional_images: newsItem.additional_images || [],
       featured: newsItem.featured || false
     });
     setIsDialogOpen(true);
@@ -79,24 +206,24 @@ const AdminNews: React.FC = () => {
   };
 
   const handleMainImageUploaded = (imageUrl: string) => {
-    setFormData(prev => ({ ...prev, imageUrl }));
+    setFormData(prev => ({ ...prev, image_url: imageUrl }));
   };
 
   const handleAddImage = () => {
-    if (newImageUrl && !formData.additionalImages?.includes(newImageUrl)) {
+    if (newImageUrl && !formData.additional_images?.includes(newImageUrl)) {
       setFormData((prev) => ({
         ...prev,
-        additionalImages: [...(prev.additionalImages || []), newImageUrl]
+        additional_images: [...(prev.additional_images || []), newImageUrl]
       }));
       setNewImageUrl('');
     }
   };
 
   const handleAddUploadedImage = (imageUrl: string) => {
-    if (imageUrl && !formData.additionalImages?.includes(imageUrl)) {
+    if (imageUrl && !formData.additional_images?.includes(imageUrl)) {
       setFormData((prev) => ({
         ...prev,
-        additionalImages: [...(prev.additionalImages || []), imageUrl]
+        additional_images: [...(prev.additional_images || []), imageUrl]
       }));
     }
   };
@@ -104,12 +231,12 @@ const AdminNews: React.FC = () => {
   const handleRemoveImage = (imageUrl: string) => {
     setFormData((prev) => ({
       ...prev,
-      additionalImages: prev.additionalImages?.filter(img => img !== imageUrl) || []
+      additional_images: prev.additional_images?.filter(img => img !== imageUrl) || []
     }));
   };
 
   const handleSubmit = () => {
-    if (!formData.title || !formData.excerpt || !formData.content || !formData.imageUrl) {
+    if (!formData.title || !formData.excerpt || !formData.content || !formData.image_url) {
       toast({
         title: "Ошибка валидации",
         description: "Пожалуйста, заполните все обязательные поля",
@@ -118,49 +245,34 @@ const AdminNews: React.FC = () => {
       return;
     }
 
-    try {
-      if (currentNewsId) {
-        updateNews(currentNewsId, formData);
-        toast({
-          title: "Новость обновлена",
-          description: "Новость успешно обновлена",
-        });
-      } else {
-        addNews(formData);
-        toast({
-          title: "Новость добавлена",
-          description: "Новость успешно добавлена",
-        });
-      }
-      setIsDialogOpen(false);
-      resetForm();
-    } catch (error) {
-      toast({
-        title: "Ошибка",
-        description: "Произошла ошибка при сохранении новости",
-        variant: "destructive",
-      });
+    if (currentNewsId) {
+      updateNewsMutation.mutate({ id: currentNewsId, newsItem: formData });
+    } else {
+      addNewsMutation.mutate(formData);
     }
   };
 
   const handleDelete = () => {
     if (currentNewsId) {
-      try {
-        deleteNews(currentNewsId);
-        toast({
-          title: "Новость удалена",
-          description: "Новость успешно удалена",
-        });
-        setIsDeleteDialogOpen(false);
-      } catch (error) {
-        toast({
-          title: "Ошибка",
-          description: "Произошла ошибка при удалении новости",
-          variant: "destructive",
-        });
-      }
+      deleteNewsMutation.mutate(currentNewsId);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <Loader2 className="w-8 h-8 text-primary animate-spin" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-6 bg-slate-800 rounded-lg border border-slate-700">
+        <p className="text-red-400">Произошла ошибка при загрузке данных. Пожалуйста, попробуйте позже.</p>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -190,7 +302,7 @@ const AdminNews: React.FC = () => {
                   <TableCell>
                     <div className="w-16 h-12 rounded overflow-hidden">
                       <img 
-                        src={item.imageUrl} 
+                        src={item.image_url} 
                         alt={item.title} 
                         className="w-full h-full object-cover"
                         onError={(e) => {
@@ -317,17 +429,17 @@ const AdminNews: React.FC = () => {
                 {useUrlInput ? (
                   <div>
                     <Input
-                      id="imageUrl"
-                      name="imageUrl"
-                      value={formData.imageUrl}
+                      id="image_url"
+                      name="image_url"
+                      value={formData.image_url}
                       onChange={handleInputChange}
                       placeholder="https://example.com/image.jpg"
                       className="mb-2 bg-slate-700 border-slate-600"
                     />
-                    {formData.imageUrl && (
+                    {formData.image_url && (
                       <div className="w-full h-32 bg-slate-700 rounded-md overflow-hidden">
                         <img 
-                          src={formData.imageUrl} 
+                          src={formData.image_url} 
                           alt="Предпросмотр изображения" 
                           className="w-full h-full object-cover"
                           onError={(e) => {
@@ -340,7 +452,7 @@ const AdminNews: React.FC = () => {
                 ) : (
                   <ImageUploader 
                     onImageUploaded={handleMainImageUploaded}
-                    defaultImage={formData.imageUrl}
+                    defaultImage={formData.image_url}
                   />
                 )}
               </div>
@@ -416,9 +528,9 @@ const AdminNews: React.FC = () => {
                   )}
                 </div>
                 
-                {formData.additionalImages && formData.additionalImages.length > 0 ? (
+                {formData.additional_images && formData.additional_images.length > 0 ? (
                   <div className="grid grid-cols-2 gap-4 mt-4">
-                    {formData.additionalImages.map((image, index) => (
+                    {formData.additional_images.map((image, index) => (
                       <div key={index} className="relative group">
                         <div className="aspect-video w-full rounded-md overflow-hidden bg-slate-700">
                           <img 
@@ -447,10 +559,26 @@ const AdminNews: React.FC = () => {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+            <Button 
+              variant="outline" 
+              onClick={() => setIsDialogOpen(false)}
+              disabled={addNewsMutation.isPending || updateNewsMutation.isPending}
+            >
               Отмена
             </Button>
-            <Button onClick={handleSubmit}>Сохранить</Button>
+            <Button 
+              onClick={handleSubmit}
+              disabled={addNewsMutation.isPending || updateNewsMutation.isPending}
+            >
+              {(addNewsMutation.isPending || updateNewsMutation.isPending) ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Сохранение...
+                </>
+              ) : (
+                'Сохранить'
+              )}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -463,11 +591,26 @@ const AdminNews: React.FC = () => {
           </DialogHeader>
           <p className="py-4">Вы уверены, что хотите удалить эту новость? Это действие нельзя будет отменить.</p>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
+            <Button 
+              variant="outline" 
+              onClick={() => setIsDeleteDialogOpen(false)}
+              disabled={deleteNewsMutation.isPending}
+            >
               Отмена
             </Button>
-            <Button variant="destructive" onClick={handleDelete}>
-              Удалить
+            <Button 
+              variant="destructive" 
+              onClick={handleDelete}
+              disabled={deleteNewsMutation.isPending}
+            >
+              {deleteNewsMutation.isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Удаление...
+                </>
+              ) : (
+                'Удалить'
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>
