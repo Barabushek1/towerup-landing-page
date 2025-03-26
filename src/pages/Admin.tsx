@@ -11,6 +11,7 @@ import { supabase } from "@/integrations/supabase/client";
 import NewsManagement from '@/components/admin/NewsManagement';
 import VacanciesManagement from '@/components/admin/VacanciesManagement';
 import MessagesManagement from '@/components/admin/MessagesManagement';
+import CreateAdmin from '@/components/admin/CreateAdmin';
 import Login from '@/components/admin/Login';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
@@ -81,7 +82,12 @@ const Admin: React.FC = () => {
       <NavBar />
       <main className="py-16 container mx-auto px-6">
         {!session ? (
-          <Login />
+          <div>
+            <Login />
+            <div className="mt-8">
+              <CreateAdmin />
+            </div>
+          </div>
         ) : !isAdmin ? (
           <div className="bg-slate-800/40 rounded-xl p-8 border border-slate-700/30 max-w-md mx-auto text-center">
             <h2 className="text-2xl font-medium mb-4 text-slate-200 font-benzin">Доступ запрещен</h2>
@@ -116,6 +122,7 @@ const Admin: React.FC = () => {
                 <TabsTrigger value="news" className="font-benzin">Новости</TabsTrigger>
                 <TabsTrigger value="vacancies" className="font-benzin">Вакансии</TabsTrigger>
                 <TabsTrigger value="messages" className="font-benzin">Сообщения</TabsTrigger>
+                <TabsTrigger value="admins" className="font-benzin">Администраторы</TabsTrigger>
               </TabsList>
               <TabsContent value="news">
                 <NewsManagement />
@@ -125,6 +132,9 @@ const Admin: React.FC = () => {
               </TabsContent>
               <TabsContent value="messages">
                 <MessagesManagement />
+              </TabsContent>
+              <TabsContent value="admins">
+                <CreateAdmin />
               </TabsContent>
             </Tabs>
           </div>
