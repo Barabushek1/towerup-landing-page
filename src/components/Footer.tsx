@@ -1,9 +1,22 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { Facebook, Linkedin, Instagram, ArrowUp, MapPin, MessageSquare, PhoneCall } from 'lucide-react';
+import { Facebook, Linkedin, Instagram, ArrowUp, MessageSquare, PhoneCall } from 'lucide-react';
 
 const Footer: React.FC = () => {
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Show button when page is scrolled down 300px
+      const scrollPosition = window.scrollY;
+      setShowBackToTop(scrollPosition > 300);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -12,7 +25,7 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-brand-dark text-white pt-16 pb-8">
+    <footer className="bg-slate-800 text-white pt-16 pb-8">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
           {/* Company Info */}
@@ -98,14 +111,16 @@ const Footer: React.FC = () => {
             <a href="#" className="text-sm text-white/70 hover:text-brand-primary transition-colors">Политика cookies</a>
           </div>
           
-          {/* Back to top button */}
-          <button 
-            onClick={scrollToTop}
-            className="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-brand-primary text-white flex items-center justify-center shadow-lg hover:bg-brand-primary/90 transition-all duration-300 z-30 group"
-            aria-label="Наверх"
-          >
-            <ArrowUp className="h-5 w-5 group-hover:animate-bounce" />
-          </button>
+          {/* Back to top button - now only shows on scroll */}
+          {showBackToTop && (
+            <button 
+              onClick={scrollToTop}
+              className="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-brand-primary text-white flex items-center justify-center shadow-lg hover:bg-brand-primary/90 transition-all duration-300 z-30 group"
+              aria-label="Наверх"
+            >
+              <ArrowUp className="h-5 w-5 group-hover:animate-bounce" />
+            </button>
+          )}
         </div>
       </div>
     </footer>

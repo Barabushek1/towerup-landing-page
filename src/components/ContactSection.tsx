@@ -30,17 +30,17 @@ const ContactSection: React.FC = () => {
     {
       icon: <Mail className="h-5 w-5" />,
       label: "Эл. почта",
-      value: "contact@company.com"
+      value: "info@towerup.uz"
     },
     {
       icon: <Phone className="h-5 w-5" />,
       label: "Телефон",
-      value: "+1 (555) 123-4567"
+      value: "+998 (90) 123-45-67"
     },
     {
       icon: <MapPin className="h-5 w-5" />,
       label: "Адрес",
-      value: "123 Бизнес Авеню, Ташкент, 100000"
+      value: "TOWER UP, г. Ташкент, Узбекистан"
     }
   ];
 
@@ -85,7 +85,7 @@ const ContactSection: React.FC = () => {
               ))}
             </div>
             
-            <div className="bg-[#252525] rounded-xl p-8 border border-white/5">
+            <div className="bg-slate-800/40 rounded-xl p-8 border border-slate-700/30">
               <h3 className="text-xl font-medium mb-4 text-white">Рабочие часы</h3>
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -102,7 +102,7 @@ const ContactSection: React.FC = () => {
           
           {/* Contact Form */}
           <div className="scroll-animate-section">
-            <form className="bg-[#252525] p-8 rounded-xl border border-white/5 shadow-xl">
+            <form className="bg-slate-800/40 p-8 rounded-xl border border-slate-700/30 shadow-xl">
               <h3 className="text-xl font-medium mb-6 text-white">Отправьте нам сообщение</h3>
               
               <div className="space-y-6">
@@ -112,7 +112,7 @@ const ContactSection: React.FC = () => {
                     <input
                       type="text"
                       id="name"
-                      className="w-full px-4 py-3 rounded-lg bg-[#333] border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-white"
+                      className="w-full px-4 py-3 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all text-white"
                       placeholder="Ваше имя"
                     />
                   </div>
@@ -121,7 +121,7 @@ const ContactSection: React.FC = () => {
                     <input
                       type="email"
                       id="email"
-                      className="w-full px-4 py-3 rounded-lg bg-[#333] border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-white"
+                      className="w-full px-4 py-3 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all text-white"
                       placeholder="Ваш email"
                     />
                   </div>
@@ -132,7 +132,7 @@ const ContactSection: React.FC = () => {
                   <input
                     type="text"
                     id="subject"
-                    className="w-full px-4 py-3 rounded-lg bg-[#333] border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-white"
+                    className="w-full px-4 py-3 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all text-white"
                     placeholder="Тема сообщения"
                   />
                 </div>
@@ -142,7 +142,7 @@ const ContactSection: React.FC = () => {
                   <textarea
                     id="message"
                     rows={5}
-                    className="w-full px-4 py-3 rounded-lg bg-[#333] border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all resize-none text-white"
+                    className="w-full px-4 py-3 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all resize-none text-white"
                     placeholder="Ваше сообщение"
                   ></textarea>
                 </div>

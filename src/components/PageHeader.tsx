@@ -17,14 +17,14 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   className 
 }) => {
   return (
-    <div className={cn("relative w-full h-[40vh] md:h-[50vh] overflow-hidden", className)}>
+    <div className={cn("relative w-full h-[30vh] md:h-[40vh] overflow-hidden", className)}>
       {/* Background Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center z-0"
         style={{ backgroundImage: `url(${bgImage})` }}
       >
         {/* Gray gradient overlay instead of dark overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#161616]/80 to-[#1a1a1a]/90 z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-800/80 to-slate-900/90 z-10"></div>
       </div>
       
       {/* Wave decoration at bottom */}
@@ -36,7 +36,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
       
       {/* Content */}
       <div className="relative z-20 flex flex-col items-center justify-center h-full text-white px-6">
-        <h1 className="text-4xl md:text-6xl font-bold mb-4 text-center tracking-wider">{title}</h1>
+        <h1 className="text-3xl md:text-5xl font-bold mb-4 text-center tracking-wider">{title}</h1>
         
         {breadcrumb && (
           <div className="flex items-center space-x-2 text-sm md:text-base mt-4">

@@ -72,7 +72,7 @@ const HeroSection: React.FC = () => {
     >
       {isMobile ? (
         // Animated background for mobile
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-darker to-[#1a1f2c] overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 to-slate-800 overflow-hidden">
           <AnimatedBackground />
         </div>
       ) : (
@@ -80,7 +80,7 @@ const HeroSection: React.FC = () => {
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="relative w-full h-full">
             {/* Semi-transparent overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-brand-darker to-brand-dark opacity-80 z-10"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-900 to-slate-800 opacity-80 z-10"></div>
             
             {/* YouTube player container */}
             <div className="absolute inset-0 w-full h-full">
