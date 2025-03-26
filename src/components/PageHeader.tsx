@@ -7,18 +7,21 @@ interface PageHeaderProps {
   title: string;
   breadcrumb?: string;
   className?: string;
+  bgImage?: string;
 }
 
 const PageHeader: React.FC<PageHeaderProps> = ({ 
   title, 
   breadcrumb,
-  className 
+  className,
+  bgImage
 }) => {
   return (
     <div className={cn("relative w-full h-[30vh] md:h-[40vh] overflow-hidden", className)}>
-      {/* Gradient background instead of image */}
+      {/* Gradient background or image */}
       <div 
         className="absolute inset-0 bg-gradient-to-b from-slate-700 to-slate-900 z-0"
+        style={bgImage ? { backgroundImage: `url(${bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
       >
         {/* Gray gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-slate-700/80 to-slate-800/90 z-10"></div>
