@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { Menu, Phone, ChevronRight, Facebook, Instagram, MessageSquare, MapPin, Mail, PhoneCall } from 'lucide-react';
+import { Menu, Phone, ChevronRight, ChevronDown, Facebook, Instagram, MessageSquare, MapPin, Mail, PhoneCall } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import {
   NavigationMenu,
@@ -13,12 +13,15 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { Separator } from "@/components/ui/separator";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
 const NavBar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const isMobile = useIsMobile();
-  const [expandedSubmenu, setExpandedSubmenu] = useState<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -53,14 +56,6 @@ const NavBar: React.FC = () => {
     };
   }, [isMenuOpen]);
 
-  const toggleSubmenu = (key: string) => {
-    if (expandedSubmenu === key) {
-      setExpandedSubmenu(null);
-    } else {
-      setExpandedSubmenu(key);
-    }
-  };
-
   const companySubMenu = [
     { title: 'О нас', href: '/about' },
     { title: 'История', href: '/history' },
@@ -82,19 +77,42 @@ const NavBar: React.FC = () => {
     { title: 'Контакты', href: '/contact', key: 'contacts' },
   ];
 
-  // Mobile menu component
+  // Mobile menu component with collapsible submenus
   const MobileMenu = () => (
     <div className="bg-[#222] h-full overflow-auto">
       <nav className="flex flex-col w-full">
         {navLinks.map((link) => (
-          <Link
-            key={link.key}
-            to={link.href}
-            className="w-full flex items-center justify-between py-3.5 px-6 text-white border-b border-white/10 font-benzin text-base hover:bg-white/5"
-          >
-            <span>{link.title}</span>
-            <ChevronRight className="h-5 w-5" />
-          </Link>
+          link.hasSubmenu ? (
+            <Collapsible key={link.key} className="w-full">
+              <CollapsibleTrigger className="w-full flex items-center justify-between py-3.5 px-6 text-white border-b border-white/10 font-benzin text-base hover:bg-white/5">
+                <span>{link.title}</span>
+                <ChevronDown className="h-5 w-5" />
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <div className="bg-[#1a1a1a]">
+                  {link.submenu?.map((subItem) => (
+                    <Link
+                      key={subItem.title}
+                      to={subItem.href}
+                      className="w-full flex items-center py-3 px-8 text-gray-300 hover:text-white hover:bg-white/5 font-benzin text-sm border-b border-white/5"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {subItem.title}
+                    </Link>
+                  ))}
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
+          ) : (
+            <Link
+              key={link.key}
+              to={link.href}
+              className="w-full flex items-center justify-between py-3.5 px-6 text-white border-b border-white/10 font-benzin text-base hover:bg-white/5"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <span>{link.title}</span>
+            </Link>
+          )
         ))}
       </nav>
       
