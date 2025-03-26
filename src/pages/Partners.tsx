@@ -1,33 +1,45 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import PageHeader from '@/components/PageHeader';
-import { useAdminData } from '@/contexts/AdminDataContext';
-import { ExternalLink } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+
+interface Partner {
+  id: string;
+  name: string;
+  logo_url: string;
+  website_url: string;
+}
 
 const Partners: React.FC = () => {
-  const { partners } = useAdminData();
-  
-  // Используем данные админа, если доступны, иначе возвращаемся к заполнителям
-  const displayPartners = partners.length > 0 ? partners : [
-    { id: "default_1", name: "Партнёр 1", logo: "", url: "#" },
-    { id: "default_2", name: "Партнёр 2", logo: "", url: "#" },
-    { id: "default_3", name: "Партнёр 3", logo: "", url: "#" },
-    { id: "default_4", name: "Партнёр 4", logo: "", url: "#" },
-    { id: "default_5", name: "Партнёр 5", logo: "", url: "#" },
-    { id: "default_6", name: "Партнёр 6", logo: "", url: "#" }
-  ];
+  const { data: partners, isLoading, error } = useQuery({
+    queryKey: ['partners'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('partners')
+        .select('*')
+        .order('name');
+      
+      if (error) {
+        throw error;
+      }
+      
+      return data as Partner[];
+    }
+  });
 
   return (
     <div className="min-h-screen antialiased bg-[#161616] text-gray-200 overflow-x-hidden">
       <NavBar />
       <main>
         <PageHeader 
-          title="НАШИ ПАРТНЁРЫ" 
-          breadcrumb="ПАРТНЁРЫ"
+          title="ПАРТНЕРЫ" 
+          breadcrumb="ПАРТНЕРЫ"
         />
-      
+        
         <section className="py-16 md:py-24 bg-[#1a1a1a] relative">
           {/* Wave decoration at top */}
           <div className="absolute top-0 left-0 w-full rotate-180 z-10">
@@ -38,31 +50,50 @@ const Partners: React.FC = () => {
           
           <div className="container mx-auto px-6 relative z-20">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-bold mb-8 text-white font-benzin text-center">Надёжные партнёры</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-                {displayPartners.map((partner) => (
-                  <a 
-                    key={partner.id} 
-                    href={partner.url} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="bg-slate-800/40 border border-slate-700/30 rounded-lg p-6 flex flex-col items-center hover:border-primary/30 transition-all duration-300 transform hover:-translate-y-1 group"
-                  >
-                    <div className="w-24 h-24 bg-primary/10 rounded-full mb-4 flex items-center justify-center">
-                      {partner.logo ? (
-                        <img src={partner.logo} alt={partner.name} className="h-16 w-16 object-contain" />
-                      ) : (
-                        <span className="text-primary text-2xl">{partner.name.charAt(0)}</span>
-                      )}
-                    </div>
-                    <h3 className="text-xl font-medium text-white mb-2 font-benzin group-hover:text-primary transition-colors">{partner.name}</h3>
-                    <div className="flex items-center text-slate-300 group-hover:text-primary transition-colors">
-                      <span className="text-sm mr-1">Перейти на сайт</span>
-                      <ExternalLink size={14} />
-                    </div>
-                  </a>
-                ))}
-              </div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-8 text-slate-200 font-benzin text-center">Наши партнеры</h2>
+              <p className="text-lg text-slate-300 mb-12 text-center max-w-2xl mx-auto font-benzin">
+                TOWER UP гордится партнерством с ведущими компаниями отрасли, которые разделяют наше стремление к инновациям и качеству
+              </p>
+              
+              {isLoading ? (
+                <div className="flex justify-center items-center py-20">
+                  <Loader2 className="w-10 h-10 text-primary animate-spin" />
+                </div>
+              ) : error ? (
+                <div className="text-center py-10">
+                  <p className="text-red-400">Произошла ошибка при загрузке данных. Пожалуйста, попробуйте позже.</p>
+                </div>
+              ) : partners && partners.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                  {partners.map((partner) => (
+                    <a 
+                      key={partner.id}
+                      href={partner.website_url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="bg-slate-800/50 hover:bg-slate-800 transition-all p-6 rounded-xl border border-slate-700/30 flex flex-col items-center text-center group"
+                    >
+                      <div className="w-32 h-32 bg-slate-900/50 rounded-2xl p-4 flex items-center justify-center mb-4 group-hover:shadow-lg transition-all">
+                        {partner.logo_url ? (
+                          <img 
+                            src={partner.logo_url} 
+                            alt={partner.name}
+                            className="max-w-full max-h-full object-contain" 
+                          />
+                        ) : (
+                          <div className="text-4xl font-bold text-primary">{partner.name.charAt(0)}</div>
+                        )}
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-2 font-benzin">{partner.name}</h3>
+                      <span className="text-primary text-sm group-hover:underline">Посетить сайт</span>
+                    </a>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-10">
+                  <p className="text-slate-400">Информация о партнерах будет добавлена в ближайшее время.</p>
+                </div>
+              )}
             </div>
           </div>
           

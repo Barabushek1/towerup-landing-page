@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -83,12 +82,10 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     const storedNews = localStorage.getItem('news');
     const storedVacancies = localStorage.getItem('vacancies');
     const storedMessages = localStorage.getItem('messages');
-    const storedPartners = localStorage.getItem('partners');
-
+    
     if (storedNews) setNews(JSON.parse(storedNews));
     if (storedVacancies) setVacancies(JSON.parse(storedVacancies));
     if (storedMessages) setMessages(JSON.parse(storedMessages));
-    if (storedPartners) setPartners(JSON.parse(storedPartners));
   }, []);
 
   // Методы для управления новостями
@@ -172,24 +169,18 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   // Методы для управления партнерами
   const addPartner = (partnerItem: Omit<PartnerItem, 'id'>) => {
-    const newPartnerItem = { ...partnerItem, id: uuidv4() };
-    const updatedPartners = [...partners, newPartnerItem];
-    setPartners(updatedPartners);
-    localStorage.setItem('partners', JSON.stringify(updatedPartners));
+    console.log('addPartner called through context, but this is now handled by Supabase');
+    // Implementation is handled in the AdminPartners component using Supabase
   };
 
   const updatePartner = (id: string, partnerItem: Omit<PartnerItem, 'id'>) => {
-    const updatedPartners = partners.map(item => 
-      item.id === id ? { ...partnerItem, id } : item
-    );
-    setPartners(updatedPartners);
-    localStorage.setItem('partners', JSON.stringify(updatedPartners));
+    console.log('updatePartner called through context, but this is now handled by Supabase');
+    // Implementation is handled in the AdminPartners component using Supabase
   };
 
   const deletePartner = (id: string) => {
-    const updatedPartners = partners.filter(item => item.id !== id);
-    setPartners(updatedPartners);
-    localStorage.setItem('partners', JSON.stringify(updatedPartners));
+    console.log('deletePartner called through context, but this is now handled by Supabase');
+    // Implementation is handled in the AdminPartners component using Supabase
   };
 
   return (
