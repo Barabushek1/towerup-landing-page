@@ -53,7 +53,7 @@ const Index: React.FC = () => {
         <ContactSection />
         
         {/* Map Section */}
-        <section id="map" className="py-16 bg-[#1e1e1e]">
+        <section id="map" className="py-16 bg-[#1a1a1a]">
           <div className="container mx-auto px-6">
             <div className="flex flex-col items-center mb-12 scroll-animate-section">
               <h2 className="text-4xl font-bold mb-4 text-center text-white">Наше местоположение</h2>
