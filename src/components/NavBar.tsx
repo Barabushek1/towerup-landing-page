@@ -254,21 +254,24 @@ const NavBar: React.FC = () => {
               <Menu className="h-6 w-6 text-white" />
             </button>
             
-            {isMenuOpen && (
-              <div 
-                className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40" 
-                onClick={() => setIsMenuOpen(false)} 
-              />
-            )}
+            {/* Here's the fix - we're making the mobile menu fixed to the viewport */}
+            <div 
+              className={cn(
+                "fixed inset-0 bg-black/30 backdrop-blur-sm z-40",
+                isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
+              )}
+              onClick={() => setIsMenuOpen(false)} 
+            />
             
             <div 
               ref={menuRef}
               className={cn(
-                "fixed inset-0 z-50 transition-all duration-300 ease-in-out",
-                isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
+                "fixed inset-y-0 right-0 z-50 w-[85vw] max-w-xs bg-[#080C16] shadow-xl",
+                "transform transition-transform duration-300 ease-in-out",
+                isMenuOpen ? "translate-x-0" : "translate-x-full"
               )}
             >
-              <div className="flex flex-col h-full w-[85vw] max-w-xs bg-[#080C16] ml-auto">
+              <div className="flex flex-col h-full w-full">
                 <div className="flex items-center justify-between p-4 border-b border-white/10">
                   <Link to="/" className="flex items-center" onClick={() => setIsMenuOpen(false)}>
                     <img 
