@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
-// Types for our data
 export type NewsItem = {
   id: string;
   title: string;
@@ -9,6 +9,7 @@ export type NewsItem = {
   excerpt: string;
   content: string;
   imageUrl: string;
+  additionalImages?: string[];
 };
 
 export type VacancyItem = {
@@ -17,7 +18,16 @@ export type VacancyItem = {
   location: string;
   salary: string;
   type: string;
-  description: string;
+  description?: string;
+  requirements?: string;
+  benefits?: string;
+};
+
+export type PartnerItem = {
+  id: string;
+  name: string;
+  logo: string;
+  url: string;
 };
 
 export type MessageItem = {
@@ -26,22 +36,26 @@ export type MessageItem = {
   email: string;
   message: string;
   date: string;
-  isRead: boolean;
+  read: boolean;
 };
 
 type AdminDataContextType = {
   news: NewsItem[];
   vacancies: VacancyItem[];
   messages: MessageItem[];
-  addNews: (news: Omit<NewsItem, 'id'>) => void;
-  updateNews: (id: string, news: Partial<NewsItem>) => void;
+  partners: PartnerItem[];
+  addNews: (newsItem: Omit<NewsItem, 'id'>) => void;
+  updateNews: (id: string, newsItem: Omit<NewsItem, 'id'>) => void;
   deleteNews: (id: string) => void;
-  addVacancy: (vacancy: Omit<VacancyItem, 'id'>) => void;
-  updateVacancy: (id: string, vacancy: Partial<VacancyItem>) => void;
+  addVacancy: (vacancyItem: Omit<VacancyItem, 'id'>) => void;
+  updateVacancy: (id: string, vacancyItem: Omit<VacancyItem, 'id'>) => void;
   deleteVacancy: (id: string) => void;
-  addMessage: (message: Omit<MessageItem, 'id' | 'date' | 'isRead'>) => void;
-  markMessageAsRead: (id: string) => void;
+  addMessage: (messageItem: Omit<MessageItem, 'id' | 'date' | 'read'>) => void;
+  updateMessage: (id: string, messageItem: Partial<MessageItem>) => void;
   deleteMessage: (id: string) => void;
+  addPartner: (partnerItem: Omit<PartnerItem, 'id'>) => void;
+  updatePartner: (id: string, partnerItem: Omit<PartnerItem, 'id'>) => void;
+  deletePartner: (id: string) => void;
 };
 
 const AdminDataContext = createContext<AdminDataContextType | undefined>(undefined);
@@ -49,7 +63,7 @@ const AdminDataContext = createContext<AdminDataContextType | undefined>(undefin
 export const useAdminData = () => {
   const context = useContext(AdminDataContext);
   if (context === undefined) {
-    throw new Error('useAdminData must be used within an AdminDataProvider');
+    throw new Error('useAdminData должен использоваться внутри AdminDataProvider');
   }
   return context;
 };
@@ -58,101 +72,133 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [news, setNews] = useState<NewsItem[]>([]);
   const [vacancies, setVacancies] = useState<VacancyItem[]>([]);
   const [messages, setMessages] = useState<MessageItem[]>([]);
+  const [partners, setPartners] = useState<PartnerItem[]>([]);
 
-  // Load initial data from localStorage
+  // Загрузка данных при инициализации
   useEffect(() => {
     const storedNews = localStorage.getItem('news');
     const storedVacancies = localStorage.getItem('vacancies');
-    const storedMessages = localStorage.getItem('contactMessages');
+    const storedMessages = localStorage.getItem('messages');
+    const storedPartners = localStorage.getItem('partners');
 
     if (storedNews) setNews(JSON.parse(storedNews));
     if (storedVacancies) setVacancies(JSON.parse(storedVacancies));
     if (storedMessages) setMessages(JSON.parse(storedMessages));
+    if (storedPartners) setPartners(JSON.parse(storedPartners));
   }, []);
 
-  // Save to localStorage whenever data changes
-  useEffect(() => {
-    localStorage.setItem('news', JSON.stringify(news));
-  }, [news]);
-
-  useEffect(() => {
-    localStorage.setItem('vacancies', JSON.stringify(vacancies));
-  }, [vacancies]);
-
-  useEffect(() => {
-    localStorage.setItem('contactMessages', JSON.stringify(messages));
-  }, [messages]);
-
-  // News functions
+  // Методы для управления новостями
   const addNews = (newsItem: Omit<NewsItem, 'id'>) => {
-    const newNewsItem = {
-      ...newsItem,
-      id: `news_${Date.now()}`,
-    };
-    setNews([newNewsItem, ...news]);
+    const newNewsItem = { ...newsItem, id: uuidv4() };
+    const updatedNews = [...news, newNewsItem];
+    setNews(updatedNews);
+    localStorage.setItem('news', JSON.stringify(updatedNews));
   };
 
-  const updateNews = (id: string, newsItem: Partial<NewsItem>) => {
-    setNews(news.map(item => item.id === id ? { ...item, ...newsItem } : item));
+  const updateNews = (id: string, newsItem: Omit<NewsItem, 'id'>) => {
+    const updatedNews = news.map(item => 
+      item.id === id ? { ...newsItem, id } : item
+    );
+    setNews(updatedNews);
+    localStorage.setItem('news', JSON.stringify(updatedNews));
   };
 
   const deleteNews = (id: string) => {
-    setNews(news.filter(item => item.id !== id));
+    const updatedNews = news.filter(item => item.id !== id);
+    setNews(updatedNews);
+    localStorage.setItem('news', JSON.stringify(updatedNews));
   };
 
-  // Vacancy functions
-  const addVacancy = (vacancy: Omit<VacancyItem, 'id'>) => {
-    const newVacancy = {
-      ...vacancy,
-      id: `vacancy_${Date.now()}`,
-    };
-    setVacancies([newVacancy, ...vacancies]);
+  // Методы для управления вакансиями
+  const addVacancy = (vacancyItem: Omit<VacancyItem, 'id'>) => {
+    const newVacancyItem = { ...vacancyItem, id: uuidv4() };
+    const updatedVacancies = [...vacancies, newVacancyItem];
+    setVacancies(updatedVacancies);
+    localStorage.setItem('vacancies', JSON.stringify(updatedVacancies));
   };
 
-  const updateVacancy = (id: string, vacancy: Partial<VacancyItem>) => {
-    setVacancies(vacancies.map(item => item.id === id ? { ...item, ...vacancy } : item));
+  const updateVacancy = (id: string, vacancyItem: Omit<VacancyItem, 'id'>) => {
+    const updatedVacancies = vacancies.map(item => 
+      item.id === id ? { ...vacancyItem, id } : item
+    );
+    setVacancies(updatedVacancies);
+    localStorage.setItem('vacancies', JSON.stringify(updatedVacancies));
   };
 
   const deleteVacancy = (id: string) => {
-    setVacancies(vacancies.filter(item => item.id !== id));
+    const updatedVacancies = vacancies.filter(item => item.id !== id);
+    setVacancies(updatedVacancies);
+    localStorage.setItem('vacancies', JSON.stringify(updatedVacancies));
   };
 
-  // Message functions
-  const addMessage = (message: Omit<MessageItem, 'id' | 'date' | 'isRead'>) => {
-    const newMessage = {
-      ...message,
-      id: `message_${Date.now()}`,
-      date: new Date().toISOString(),
-      isRead: false,
+  // Методы для управления сообщениями
+  const addMessage = (messageItem: Omit<MessageItem, 'id' | 'date' | 'read'>) => {
+    const newMessageItem = { 
+      ...messageItem, 
+      id: uuidv4(), 
+      date: new Date().toISOString(), 
+      read: false 
     };
-    setMessages([newMessage, ...messages]);
+    const updatedMessages = [...messages, newMessageItem];
+    setMessages(updatedMessages);
+    localStorage.setItem('messages', JSON.stringify(updatedMessages));
   };
 
-  const markMessageAsRead = (id: string) => {
-    setMessages(messages.map(item => item.id === id ? { ...item, isRead: true } : item));
+  const updateMessage = (id: string, messageItem: Partial<MessageItem>) => {
+    const updatedMessages = messages.map(item => 
+      item.id === id ? { ...item, ...messageItem } : item
+    );
+    setMessages(updatedMessages);
+    localStorage.setItem('messages', JSON.stringify(updatedMessages));
   };
 
   const deleteMessage = (id: string) => {
-    setMessages(messages.filter(item => item.id !== id));
+    const updatedMessages = messages.filter(item => item.id !== id);
+    setMessages(updatedMessages);
+    localStorage.setItem('messages', JSON.stringify(updatedMessages));
+  };
+
+  // Методы для управления партнерами
+  const addPartner = (partnerItem: Omit<PartnerItem, 'id'>) => {
+    const newPartnerItem = { ...partnerItem, id: uuidv4() };
+    const updatedPartners = [...partners, newPartnerItem];
+    setPartners(updatedPartners);
+    localStorage.setItem('partners', JSON.stringify(updatedPartners));
+  };
+
+  const updatePartner = (id: string, partnerItem: Omit<PartnerItem, 'id'>) => {
+    const updatedPartners = partners.map(item => 
+      item.id === id ? { ...partnerItem, id } : item
+    );
+    setPartners(updatedPartners);
+    localStorage.setItem('partners', JSON.stringify(updatedPartners));
+  };
+
+  const deletePartner = (id: string) => {
+    const updatedPartners = partners.filter(item => item.id !== id);
+    setPartners(updatedPartners);
+    localStorage.setItem('partners', JSON.stringify(updatedPartners));
   };
 
   return (
-    <AdminDataContext.Provider
-      value={{
-        news,
-        vacancies,
-        messages,
-        addNews,
-        updateNews,
-        deleteNews,
-        addVacancy,
-        updateVacancy,
-        deleteVacancy,
-        addMessage,
-        markMessageAsRead,
-        deleteMessage,
-      }}
-    >
+    <AdminDataContext.Provider value={{ 
+      news, 
+      vacancies, 
+      messages, 
+      partners,
+      addNews, 
+      updateNews, 
+      deleteNews, 
+      addVacancy, 
+      updateVacancy, 
+      deleteVacancy, 
+      addMessage, 
+      updateMessage, 
+      deleteMessage,
+      addPartner,
+      updatePartner,
+      deletePartner
+    }}>
       {children}
     </AdminDataContext.Provider>
   );

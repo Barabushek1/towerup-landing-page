@@ -3,13 +3,14 @@ import React from 'react';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import { ArrowRight, Briefcase } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import PageHeader from '@/components/PageHeader';
 import { useAdminData } from '@/contexts/AdminDataContext';
 
 const Vacancies: React.FC = () => {
   const { vacancies } = useAdminData();
   
-  // Use admin data if available, otherwise fallback to placeholder data
+  // Используем данные админа, если доступны, иначе возвращаемся к заполнителям
   const displayVacancies = vacancies.length > 0 ? vacancies : [
     {
       id: "default_1",
@@ -107,13 +108,20 @@ const Vacancies: React.FC = () => {
                       </div>
                     </div>
                     
-                    <div className="mt-4 pt-4 border-t border-muted">
-                      <a 
-                        href="#contact" 
+                    <div className="mt-4 pt-4 border-t border-muted flex items-center justify-between">
+                      <Link
+                        to={`/vacancies/${item.id}`}
                         className="inline-flex items-center px-4 py-2 rounded-md bg-primary/10 text-primary hover:bg-primary/20 transition-colors font-benzin"
                       >
-                        <span>Откликнуться</span>
+                        <span>Подробнее</span>
                         <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                      
+                      <a 
+                        href="#contact" 
+                        className="text-slate-300 hover:text-primary transition-colors font-benzin text-sm"
+                      >
+                        Откликнуться
                       </a>
                     </div>
                   </div>

@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { Pencil, Trash2, Plus, MapPin, Coins, Clock } from 'lucide-react';
+import { Pencil, Trash2, Plus, MapPin, Coins, Clock, Briefcase } from 'lucide-react';
 
 const AdminVacancies: React.FC = () => {
   const { vacancies, addVacancy, updateVacancy, deleteVacancy } = useAdminData();
@@ -22,6 +22,8 @@ const AdminVacancies: React.FC = () => {
     salary: '',
     type: '',
     description: '',
+    requirements: '',
+    benefits: '',
   });
 
   const resetForm = () => {
@@ -31,6 +33,8 @@ const AdminVacancies: React.FC = () => {
       salary: '',
       type: '',
       description: '',
+      requirements: '',
+      benefits: '',
     });
     setCurrentVacancyId(null);
   };
@@ -48,6 +52,8 @@ const AdminVacancies: React.FC = () => {
       salary: vacancyItem.salary,
       type: vacancyItem.type,
       description: vacancyItem.description || '',
+      requirements: vacancyItem.requirements || '',
+      benefits: vacancyItem.benefits || '',
     });
     setIsDialogOpen(true);
   };
@@ -65,8 +71,8 @@ const AdminVacancies: React.FC = () => {
   const handleSubmit = () => {
     if (!formData.title || !formData.location || !formData.salary || !formData.type) {
       toast({
-        title: "Validation Error",
-        description: "Please fill all required fields",
+        title: "Ошибка валидации",
+        description: "Пожалуйста, заполните все обязательные поля",
         variant: "destructive",
       });
       return;
@@ -76,22 +82,22 @@ const AdminVacancies: React.FC = () => {
       if (currentVacancyId) {
         updateVacancy(currentVacancyId, formData);
         toast({
-          title: "Vacancy Updated",
-          description: "The vacancy has been updated successfully",
+          title: "Вакансия обновлена",
+          description: "Вакансия успешно обновлена",
         });
       } else {
         addVacancy(formData);
         toast({
-          title: "Vacancy Added",
-          description: "The vacancy has been added successfully",
+          title: "Вакансия добавлена",
+          description: "Вакансия успешно добавлена",
         });
       }
       setIsDialogOpen(false);
       resetForm();
     } catch (error) {
       toast({
-        title: "Error",
-        description: "An error occurred while saving the vacancy",
+        title: "Ошибка",
+        description: "Произошла ошибка при сохранении вакансии",
         variant: "destructive",
       });
     }
@@ -102,14 +108,14 @@ const AdminVacancies: React.FC = () => {
       try {
         deleteVacancy(currentVacancyId);
         toast({
-          title: "Vacancy Deleted",
-          description: "The vacancy has been deleted successfully",
+          title: "Вакансия удалена",
+          description: "Вакансия успешно удалена",
         });
         setIsDeleteDialogOpen(false);
       } catch (error) {
         toast({
-          title: "Error",
-          description: "An error occurred while deleting the vacancy",
+          title: "Ошибка",
+          description: "Произошла ошибка при удалении вакансии",
           variant: "destructive",
         });
       }
@@ -119,10 +125,10 @@ const AdminVacancies: React.FC = () => {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-white">Vacancies Management</h1>
+        <h1 className="text-3xl font-bold text-white">Управление вакансиями</h1>
         <Button onClick={openAddDialog} className="flex items-center">
           <Plus className="mr-2 h-4 w-4" />
-          Add Vacancy
+          Добавить вакансию
         </Button>
       </div>
 
@@ -131,11 +137,11 @@ const AdminVacancies: React.FC = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Position</TableHead>
-                <TableHead>Location</TableHead>
-                <TableHead>Salary</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead>Должность</TableHead>
+                <TableHead>Расположение</TableHead>
+                <TableHead>Зарплата</TableHead>
+                <TableHead>Тип</TableHead>
+                <TableHead className="text-right">Действия</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -171,21 +177,28 @@ const AdminVacancies: React.FC = () => {
         </div>
       ) : (
         <div className="bg-slate-800 rounded-lg border border-slate-700 p-8 text-center">
-          <p className="text-slate-400 mb-4">No vacancies yet</p>
-          <Button onClick={openAddDialog}>Add Your First Vacancy</Button>
+          <p className="text-slate-400 mb-4">Вакансии еще не добавлены</p>
+          <Button onClick={openAddDialog}>Добавить первую вакансию</Button>
         </div>
       )}
 
       {/* Add/Edit Vacancy Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="bg-slate-800 text-white border-slate-700">
+        <DialogContent className="bg-slate-800 text-white border-slate-700 max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>{currentVacancyId ? 'Edit Vacancy' : 'Add Vacancy'}</DialogTitle>
+            <DialogTitle>{currentVacancyId ? 'Редактировать вакансию' : 'Добавить вакансию'}</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="p-3 rounded-full bg-primary/10">
+                <Briefcase className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="text-lg font-medium">Основная информация</h3>
+            </div>
+            
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="title" className="text-right">
-                Position
+                Должность
               </Label>
               <Input
                 id="title"
@@ -198,7 +211,7 @@ const AdminVacancies: React.FC = () => {
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="location" className="text-right flex items-center">
                 <MapPin className="mr-2 h-4 w-4" />
-                Location
+                Расположение
               </Label>
               <Input
                 id="location"
@@ -211,34 +224,37 @@ const AdminVacancies: React.FC = () => {
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="salary" className="text-right flex items-center">
                 <Coins className="mr-2 h-4 w-4" />
-                Salary
+                Зарплата
               </Label>
               <Input
                 id="salary"
                 name="salary"
                 value={formData.salary}
                 onChange={handleInputChange}
-                placeholder="e.g. от 15 000 000 сум"
+                placeholder="например: от 15 000 000 сум"
                 className="col-span-3 bg-slate-700 border-slate-600"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="type" className="text-right flex items-center">
                 <Clock className="mr-2 h-4 w-4" />
-                Type
+                Тип занятости
               </Label>
               <Input
                 id="type"
                 name="type"
                 value={formData.type}
                 onChange={handleInputChange}
-                placeholder="e.g. Полная занятость"
+                placeholder="например: Полная занятость"
                 className="col-span-3 bg-slate-700 border-slate-600"
               />
             </div>
+            
+            <div className="h-px bg-slate-700 my-4"></div>
+            
             <div className="grid grid-cols-4 items-start gap-4">
               <Label htmlFor="description" className="text-right mt-2">
-                Description
+                Описание
               </Label>
               <Textarea
                 id="description"
@@ -246,15 +262,46 @@ const AdminVacancies: React.FC = () => {
                 value={formData.description}
                 onChange={handleInputChange}
                 rows={5}
+                placeholder="Введите подробное описание вакансии. Используйте двойную пустую строку для разделения параграфов."
+                className="col-span-3 bg-slate-700 border-slate-600"
+              />
+            </div>
+            
+            <div className="grid grid-cols-4 items-start gap-4">
+              <Label htmlFor="requirements" className="text-right mt-2">
+                Требования
+              </Label>
+              <Textarea
+                id="requirements"
+                name="requirements"
+                value={formData.requirements}
+                onChange={handleInputChange}
+                rows={5}
+                placeholder="Введите требования к кандидату. Для создания списка каждый пункт размещайте на новой строке."
+                className="col-span-3 bg-slate-700 border-slate-600"
+              />
+            </div>
+            
+            <div className="grid grid-cols-4 items-start gap-4">
+              <Label htmlFor="benefits" className="text-right mt-2">
+                Преимущества
+              </Label>
+              <Textarea
+                id="benefits"
+                name="benefits"
+                value={formData.benefits}
+                onChange={handleInputChange}
+                rows={5}
+                placeholder="Введите преимущества работы в компании. Для создания списка каждый пункт размещайте на новой строке."
                 className="col-span-3 bg-slate-700 border-slate-600"
               />
             </div>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
-              Cancel
+              Отмена
             </Button>
-            <Button onClick={handleSubmit}>Save</Button>
+            <Button onClick={handleSubmit}>Сохранить</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -263,15 +310,15 @@ const AdminVacancies: React.FC = () => {
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <DialogContent className="bg-slate-800 text-white border-slate-700">
           <DialogHeader>
-            <DialogTitle>Confirm Deletion</DialogTitle>
+            <DialogTitle>Подтверждение удаления</DialogTitle>
           </DialogHeader>
-          <p className="py-4">Are you sure you want to delete this vacancy? This action cannot be undone.</p>
+          <p className="py-4">Вы уверены, что хотите удалить эту вакансию? Это действие нельзя будет отменить.</p>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
-              Cancel
+              Отмена
             </Button>
             <Button variant="destructive" onClick={handleDelete}>
-              Delete
+              Удалить
             </Button>
           </DialogFooter>
         </DialogContent>

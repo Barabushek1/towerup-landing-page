@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { Pencil, Trash2, Plus, X, Calendar, Image } from 'lucide-react';
+import { Pencil, Trash2, Plus, X, Calendar, Image, Link as LinkIcon } from 'lucide-react';
 
 const AdminNews: React.FC = () => {
   const { news, addNews, updateNews, deleteNews } = useAdminData();
@@ -22,7 +22,9 @@ const AdminNews: React.FC = () => {
     excerpt: '',
     content: '',
     imageUrl: '',
+    additionalImages: []
   });
+  const [newImageUrl, setNewImageUrl] = useState<string>('');
 
   const resetForm = () => {
     setFormData({
@@ -31,7 +33,9 @@ const AdminNews: React.FC = () => {
       excerpt: '',
       content: '',
       imageUrl: '',
+      additionalImages: []
     });
+    setNewImageUrl('');
     setCurrentNewsId(null);
   };
 
@@ -48,6 +52,7 @@ const AdminNews: React.FC = () => {
       excerpt: newsItem.excerpt,
       content: newsItem.content,
       imageUrl: newsItem.imageUrl,
+      additionalImages: newsItem.additionalImages || []
     });
     setIsDialogOpen(true);
   };
@@ -62,11 +67,28 @@ const AdminNews: React.FC = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleAddImage = () => {
+    if (newImageUrl && !formData.additionalImages?.includes(newImageUrl)) {
+      setFormData((prev) => ({
+        ...prev,
+        additionalImages: [...(prev.additionalImages || []), newImageUrl]
+      }));
+      setNewImageUrl('');
+    }
+  };
+
+  const handleRemoveImage = (imageUrl: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      additionalImages: prev.additionalImages?.filter(img => img !== imageUrl) || []
+    }));
+  };
+
   const handleSubmit = () => {
     if (!formData.title || !formData.excerpt || !formData.content || !formData.imageUrl) {
       toast({
-        title: "Validation Error",
-        description: "Please fill all required fields",
+        title: "Ошибка валидации",
+        description: "Пожалуйста, заполните все обязательные поля",
         variant: "destructive",
       });
       return;
@@ -76,22 +98,22 @@ const AdminNews: React.FC = () => {
       if (currentNewsId) {
         updateNews(currentNewsId, formData);
         toast({
-          title: "News Updated",
-          description: "The news article has been updated successfully",
+          title: "Новость обновлена",
+          description: "Новость успешно обновлена",
         });
       } else {
         addNews(formData);
         toast({
-          title: "News Added",
-          description: "The news article has been added successfully",
+          title: "Новость добавлена",
+          description: "Новость успешно добавлена",
         });
       }
       setIsDialogOpen(false);
       resetForm();
     } catch (error) {
       toast({
-        title: "Error",
-        description: "An error occurred while saving the news",
+        title: "Ошибка",
+        description: "Произошла ошибка при сохранении новости",
         variant: "destructive",
       });
     }
@@ -102,14 +124,14 @@ const AdminNews: React.FC = () => {
       try {
         deleteNews(currentNewsId);
         toast({
-          title: "News Deleted",
-          description: "The news article has been deleted successfully",
+          title: "Новость удалена",
+          description: "Новость успешно удалена",
         });
         setIsDeleteDialogOpen(false);
       } catch (error) {
         toast({
-          title: "Error",
-          description: "An error occurred while deleting the news",
+          title: "Ошибка",
+          description: "Произошла ошибка при удалении новости",
           variant: "destructive",
         });
       }
@@ -119,10 +141,10 @@ const AdminNews: React.FC = () => {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-white">News Management</h1>
+        <h1 className="text-3xl font-bold text-white">Управление новостями</h1>
         <Button onClick={openAddDialog} className="flex items-center">
           <Plus className="mr-2 h-4 w-4" />
-          Add News
+          Добавить новость
         </Button>
       </div>
 
@@ -131,10 +153,10 @@ const AdminNews: React.FC = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[100px]">Image</TableHead>
-                <TableHead>Title</TableHead>
-                <TableHead className="w-[180px]">Date</TableHead>
-                <TableHead className="text-right w-[100px]">Actions</TableHead>
+                <TableHead className="w-[100px]">Изображение</TableHead>
+                <TableHead>Заголовок</TableHead>
+                <TableHead className="w-[180px]">Дата</TableHead>
+                <TableHead className="text-right w-[100px]">Действия</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -146,6 +168,9 @@ const AdminNews: React.FC = () => {
                         src={item.imageUrl} 
                         alt={item.title} 
                         className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = 'https://placehold.co/200x120?text=Error';
+                        }}
                       />
                     </div>
                   </TableCell>
@@ -177,21 +202,21 @@ const AdminNews: React.FC = () => {
         </div>
       ) : (
         <div className="bg-slate-800 rounded-lg border border-slate-700 p-8 text-center">
-          <p className="text-slate-400 mb-4">No news articles yet</p>
-          <Button onClick={openAddDialog}>Add Your First News</Button>
+          <p className="text-slate-400 mb-4">Новости еще не добавлены</p>
+          <Button onClick={openAddDialog}>Добавить первую новость</Button>
         </div>
       )}
 
       {/* Add/Edit News Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="bg-slate-800 text-white border-slate-700 max-w-2xl">
+        <DialogContent className="bg-slate-800 text-white border-slate-700 max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>{currentNewsId ? 'Edit News' : 'Add News'}</DialogTitle>
+            <DialogTitle>{currentNewsId ? 'Редактировать новость' : 'Добавить новость'}</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="title" className="text-right">
-                Title
+                Заголовок
               </Label>
               <Input
                 id="title"
@@ -204,7 +229,7 @@ const AdminNews: React.FC = () => {
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="date" className="text-right flex items-center">
                 <Calendar className="mr-2 h-4 w-4" />
-                Date
+                Дата
               </Label>
               <Input
                 id="date"
@@ -218,7 +243,7 @@ const AdminNews: React.FC = () => {
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="imageUrl" className="text-right flex items-center">
                 <Image className="mr-2 h-4 w-4" />
-                Image URL
+                URL главного изображения
               </Label>
               <Input
                 id="imageUrl"
@@ -229,9 +254,26 @@ const AdminNews: React.FC = () => {
                 className="col-span-3 bg-slate-700 border-slate-600"
               />
             </div>
+            {formData.imageUrl && (
+              <div className="grid grid-cols-4 gap-4">
+                <div className="text-right"></div>
+                <div className="col-span-3">
+                  <div className="w-full h-32 bg-slate-700 rounded-md overflow-hidden">
+                    <img 
+                      src={formData.imageUrl} 
+                      alt="Предпросмотр изображения" 
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'https://placehold.co/640x320?text=Error';
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
             <div className="grid grid-cols-4 items-start gap-4">
               <Label htmlFor="excerpt" className="text-right mt-2">
-                Excerpt
+                Короткое описание
               </Label>
               <Textarea
                 id="excerpt"
@@ -244,7 +286,7 @@ const AdminNews: React.FC = () => {
             </div>
             <div className="grid grid-cols-4 items-start gap-4">
               <Label htmlFor="content" className="text-right mt-2">
-                Content
+                Содержание
               </Label>
               <Textarea
                 id="content"
@@ -253,14 +295,68 @@ const AdminNews: React.FC = () => {
                 onChange={handleInputChange}
                 rows={6}
                 className="col-span-3 bg-slate-700 border-slate-600"
+                placeholder="Введите подробный текст новости. Используйте двойную пустую строку для разделения параграфов."
               />
+            </div>
+            
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label className="text-right flex items-center">
+                <Image className="mr-2 h-4 w-4" />
+                Галерея
+              </Label>
+              <div className="col-span-3 space-y-2">
+                <div className="flex items-center gap-2">
+                  <Input
+                    value={newImageUrl}
+                    onChange={(e) => setNewImageUrl(e.target.value)}
+                    placeholder="URL дополнительного изображения"
+                    className="flex-1 bg-slate-700 border-slate-600"
+                  />
+                  <Button 
+                    type="button" 
+                    variant="outline"
+                    onClick={handleAddImage}
+                    disabled={!newImageUrl}
+                  >
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </div>
+                
+                {formData.additionalImages && formData.additionalImages.length > 0 ? (
+                  <div className="grid grid-cols-2 gap-4 mt-4">
+                    {formData.additionalImages.map((image, index) => (
+                      <div key={index} className="relative group">
+                        <div className="aspect-video w-full rounded-md overflow-hidden bg-slate-700">
+                          <img 
+                            src={image} 
+                            alt={`Изображение ${index + 1}`} 
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = 'https://placehold.co/400x225?text=Error';
+                            }}
+                          />
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveImage(image)}
+                          className="absolute -top-2 -right-2 h-6 w-6 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-slate-400">Добавьте изображения для создания галереи.</p>
+                )}
+              </div>
             </div>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
-              Cancel
+              Отмена
             </Button>
-            <Button onClick={handleSubmit}>Save</Button>
+            <Button onClick={handleSubmit}>Сохранить</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -269,15 +365,15 @@ const AdminNews: React.FC = () => {
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <DialogContent className="bg-slate-800 text-white border-slate-700">
           <DialogHeader>
-            <DialogTitle>Confirm Deletion</DialogTitle>
+            <DialogTitle>Подтверждение удаления</DialogTitle>
           </DialogHeader>
-          <p className="py-4">Are you sure you want to delete this news article? This action cannot be undone.</p>
+          <p className="py-4">Вы уверены, что хотите удалить эту новость? Это действие нельзя будет отменить.</p>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
-              Cancel
+              Отмена
             </Button>
             <Button variant="destructive" onClick={handleDelete}>
-              Delete
+              Удалить
             </Button>
           </DialogFooter>
         </DialogContent>

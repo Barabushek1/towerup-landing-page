@@ -3,8 +3,22 @@ import React from 'react';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import PageHeader from '@/components/PageHeader';
+import { useAdminData } from '@/contexts/AdminDataContext';
+import { ExternalLink } from 'lucide-react';
 
 const Partners: React.FC = () => {
+  const { partners } = useAdminData();
+  
+  // Используем данные админа, если доступны, иначе возвращаемся к заполнителям
+  const displayPartners = partners.length > 0 ? partners : [
+    { id: "default_1", name: "Партнёр 1", logo: "", url: "#" },
+    { id: "default_2", name: "Партнёр 2", logo: "", url: "#" },
+    { id: "default_3", name: "Партнёр 3", logo: "", url: "#" },
+    { id: "default_4", name: "Партнёр 4", logo: "", url: "#" },
+    { id: "default_5", name: "Партнёр 5", logo: "", url: "#" },
+    { id: "default_6", name: "Партнёр 6", logo: "", url: "#" }
+  ];
+
   return (
     <div className="min-h-screen antialiased bg-[#161616] text-gray-200 overflow-x-hidden">
       <NavBar />
@@ -26,14 +40,27 @@ const Partners: React.FC = () => {
             <div className="max-w-4xl mx-auto">
               <h2 className="text-3xl md:text-4xl font-bold mb-8 text-white font-benzin text-center">Надёжные партнёры</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-                {[1, 2, 3, 4, 5, 6].map((item) => (
-                  <div key={item} className="bg-slate-800/40 border border-slate-700/30 rounded-lg p-6 flex flex-col items-center hover:border-primary/30 transition-all duration-300 transform hover:-translate-y-1">
+                {displayPartners.map((partner) => (
+                  <a 
+                    key={partner.id} 
+                    href={partner.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="bg-slate-800/40 border border-slate-700/30 rounded-lg p-6 flex flex-col items-center hover:border-primary/30 transition-all duration-300 transform hover:-translate-y-1 group"
+                  >
                     <div className="w-24 h-24 bg-primary/10 rounded-full mb-4 flex items-center justify-center">
-                      <span className="text-primary text-2xl">P{item}</span>
+                      {partner.logo ? (
+                        <img src={partner.logo} alt={partner.name} className="h-16 w-16 object-contain" />
+                      ) : (
+                        <span className="text-primary text-2xl">{partner.name.charAt(0)}</span>
+                      )}
                     </div>
-                    <h3 className="text-xl font-medium text-white mb-2 font-benzin">Партнёр {item}</h3>
-                    <p className="text-center text-slate-300 font-benzin">Описание партнера и сферы сотрудничества</p>
-                  </div>
+                    <h3 className="text-xl font-medium text-white mb-2 font-benzin group-hover:text-primary transition-colors">{partner.name}</h3>
+                    <div className="flex items-center text-slate-300 group-hover:text-primary transition-colors">
+                      <span className="text-sm mr-1">Перейти на сайт</span>
+                      <ExternalLink size={14} />
+                    </div>
+                  </a>
                 ))}
               </div>
             </div>

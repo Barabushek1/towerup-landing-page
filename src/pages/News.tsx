@@ -3,6 +3,7 @@ import React from 'react';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import { Clock, ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { 
   Pagination, 
   PaginationContent, 
@@ -17,7 +18,7 @@ import { useAdminData } from '@/contexts/AdminDataContext';
 const News: React.FC = () => {
   const { news } = useAdminData();
   
-  // Use admin data if available, otherwise fallback to placeholder data
+  // Используем данные админа, если доступны, иначе возвращаемся к заполнителям
   const displayNews = news.length > 0 ? news : [
     {
       id: "default_1",
@@ -114,13 +115,13 @@ const News: React.FC = () => {
                       <h3 className="text-xl font-medium text-slate-200 mb-2 font-benzin">{item.title}</h3>
                       <p className="text-muted-foreground mb-4 font-benzin line-clamp-3">{item.excerpt}</p>
                       
-                      <a 
-                        href="#" 
+                      <Link 
+                        to={`/news/${item.id}`}
                         className="inline-flex items-center text-primary font-medium hover:underline font-benzin group-hover:translate-x-1 transition-transform"
                       >
                         <span>Подробнее</span>
                         <ChevronRight className="ml-1 h-4 w-4" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 ))}

@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -18,12 +19,17 @@ import Construction from "./pages/Construction";
 import Design from "./pages/Design";
 import Solutions from "./pages/Solutions";
 
+// Детальные страницы
+import NewsDetail from "./pages/NewsDetail";
+import VacancyDetail from "./pages/VacancyDetail";
+
 // Admin Panel Routes
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminNews from "./pages/admin/AdminNews";
 import AdminVacancies from "./pages/admin/AdminVacancies";
 import AdminMessages from "./pages/admin/AdminMessages";
+import AdminPartners from "./pages/admin/AdminPartners";
 import AdminLayout from "./components/admin/AdminLayout";
 
 const queryClient = new QueryClient();
@@ -46,7 +52,9 @@ const App = () => (
         {/* Other main routes */}
         <Route path="/projects" element={<Projects />} />
         <Route path="/news" element={<News />} />
+        <Route path="/news/:id" element={<NewsDetail />} />
         <Route path="/vacancies" element={<Vacancies />} />
+        <Route path="/vacancies/:id" element={<VacancyDetail />} />
         <Route path="/contact" element={<Contact />} />
         
         {/* Services routes */}
@@ -60,6 +68,7 @@ const App = () => (
         <Route path="/admin/news" element={<AdminLayout><AdminNews /></AdminLayout>} />
         <Route path="/admin/vacancies" element={<AdminLayout><AdminVacancies /></AdminLayout>} />
         <Route path="/admin/messages" element={<AdminLayout><AdminMessages /></AdminLayout>} />
+        <Route path="/admin/partners" element={<AdminLayout><AdminPartners /></AdminLayout>} />
         
         {/* Catch-all route */}
         <Route path="*" element={<NotFound />} />
