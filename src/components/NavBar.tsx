@@ -1,6 +1,6 @@
 
-import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Menu, Phone, ChevronDown, Facebook, Instagram, MessageSquare, MapPin, Mail, PhoneCall } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -17,14 +17,21 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetClose
+} from "@/components/ui/sheet";
 
 const NavBar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const isMobile = useIsMobile();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
+  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
       const offset = window.scrollY;
@@ -42,32 +49,12 @@ const NavBar: React.FC = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node) && isMenuOpen) {
-        // Add a small delay to prevent premature closing
-        setTimeout(() => setIsMenuOpen(false), 100);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isMenuOpen]);
-
-  // Update body class when menu state changes
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.body.classList.add('menu-open');
-    } else {
-      document.body.classList.remove('menu-open');
-    }
-  }, [isMenuOpen]);
-
+  // Handle navigation and menu closing
   const handleNavigation = (href: string) => {
     setIsMenuOpen(false);
-    navigate(href);
+    if (location.pathname !== href) {
+      navigate(href);
+    }
   };
 
   const companySubMenu = [
@@ -104,27 +91,29 @@ const NavBar: React.FC = () => {
               <CollapsibleContent>
                 <div className="bg-[#1a1a1a]">
                   {link.submenu?.map((subItem) => (
-                    <Link
-                      key={subItem.title}
-                      to={subItem.href}
-                      className="w-full flex items-center py-2.5 px-6 text-gray-300 hover:text-white hover:bg-white/5 font-benzin text-sm border-b border-white/5"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {subItem.title}
-                    </Link>
+                    <SheetClose asChild key={subItem.title}>
+                      <Link
+                        to={subItem.href}
+                        className="w-full flex items-center py-2.5 px-6 text-gray-300 hover:text-white hover:bg-white/5 font-benzin text-sm border-b border-white/5"
+                        onClick={() => handleNavigation(subItem.href)}
+                      >
+                        {subItem.title}
+                      </Link>
+                    </SheetClose>
                   ))}
                 </div>
               </CollapsibleContent>
             </Collapsible>
           ) : (
-            <Link
-              key={link.key}
-              to={link.href}
-              className="w-full flex items-center justify-between py-3 px-4 text-white border-b border-white/10 font-benzin text-base hover:bg-white/5"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              <span>{link.title}</span>
-            </Link>
+            <SheetClose asChild key={link.key}>
+              <Link
+                to={link.href}
+                className="w-full flex items-center justify-between py-3 px-4 text-white border-b border-white/10 font-benzin text-base hover:bg-white/5"
+                onClick={() => handleNavigation(link.href)}
+              >
+                <span>{link.title}</span>
+              </Link>
+            </SheetClose>
           )
         ))}
       </nav>
@@ -249,63 +238,39 @@ const NavBar: React.FC = () => {
         )}
 
         {isMobile && (
-          <div className="z-50">
-            <button 
-              className="md:hidden focus:outline-none"
-              aria-label="Toggle menu"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+          <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+            <SheetTrigger asChild>
+              <button 
+                className="md:hidden focus:outline-none"
+                aria-label="Toggle menu"
+              >
+                <Menu className="h-6 w-6 text-white" />
+              </button>
+            </SheetTrigger>
+            <SheetContent 
+              side="right" 
+              className="p-0 w-[85vw] max-w-xs bg-[#080C16] text-white border-l border-white/10"
             >
-              <Menu className="h-6 w-6 text-white" />
-            </button>
-          </div>
-        )}
-      </div>
-
-      {isMobile && (
-        <>
-          <div 
-            className={cn(
-              "fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] transition-opacity duration-300",
-              isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
-            )}
-            onClick={() => setIsMenuOpen(false)}
-          />
-          
-          <div 
-            ref={menuRef}
-            className={cn(
-              "fixed inset-y-0 right-0 z-[101] w-[85vw] max-w-xs bg-[#080C16] shadow-xl",
-              "transition-transform duration-300 ease-in-out",
-              isMenuOpen ? "translate-x-0" : "translate-x-full"
-            )}
-            onClick={(e) => e.stopPropagation()} // Prevent clicks from propagating to overlay
-          >
-            <div className="flex flex-col h-full w-full">
               <div className="flex items-center justify-between p-4 border-b border-white/10">
-                <Link to="/" className="flex items-center" onClick={() => setIsMenuOpen(false)}>
+                <Link 
+                  to="/" 
+                  className="flex items-center" 
+                  onClick={() => setIsMenuOpen(false)}
+                >
                   <img 
                     src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png" 
                     alt="TOWERUP Logo" 
                     className="h-10 w-auto" 
                   />
                 </Link>
-                <button 
-                  className="text-white focus:outline-none"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
               </div>
-              
-              <div className="flex-1 overflow-auto">
+              <div className="overflow-y-auto max-h-[calc(100vh-64px)]">
                 <MobileMenu />
               </div>
-            </div>
-          </div>
-        </>
-      )}
+            </SheetContent>
+          </Sheet>
+        )}
+      </div>
     </header>
   );
 };
