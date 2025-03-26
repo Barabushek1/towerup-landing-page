@@ -8,6 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { Pencil, Trash2, Plus, Link as LinkIcon, Image } from 'lucide-react';
+import ImageUploader from '@/components/admin/ImageUploader';
 
 const AdminPartners: React.FC = () => {
   const { partners, addPartner, updatePartner, deletePartner } = useAdminData();
@@ -55,8 +56,12 @@ const AdminPartners: React.FC = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleLogoUploaded = (imageUrl: string) => {
+    setFormData(prev => ({ ...prev, logo: imageUrl }));
+  };
+
   const handleSubmit = () => {
-    if (!formData.name || !formData.logo || !formData.url) {
+    if (!formData.name || !formData.url) {
       toast({
         title: "Ошибка валидации",
         description: "Пожалуйста, заполните все обязательные поля",
@@ -207,19 +212,17 @@ const AdminPartners: React.FC = () => {
                 className="col-span-3 bg-slate-700 border-slate-600"
               />
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="logo" className="text-right flex items-center">
+            <div className="grid grid-cols-4 items-start gap-4">
+              <Label className="text-right flex items-center mt-2">
                 <Image className="mr-2 h-4 w-4" />
-                Логотип URL
+                Логотип
               </Label>
-              <Input
-                id="logo"
-                name="logo"
-                value={formData.logo}
-                onChange={handleInputChange}
-                placeholder="https://example.com/logo.png"
-                className="col-span-3 bg-slate-700 border-slate-600"
-              />
+              <div className="col-span-3">
+                <ImageUploader 
+                  onImageUploaded={handleLogoUploaded}
+                  defaultImage={formData.logo}
+                />
+              </div>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="url" className="text-right flex items-center">
@@ -235,20 +238,6 @@ const AdminPartners: React.FC = () => {
                 className="col-span-3 bg-slate-700 border-slate-600"
               />
             </div>
-            {formData.logo && (
-              <div className="mt-2 flex justify-center">
-                <div className="w-32 h-32 rounded-md overflow-hidden bg-slate-700 flex items-center justify-center">
-                  <img 
-                    src={formData.logo} 
-                    alt="Предпросмотр логотипа" 
-                    className="max-w-full max-h-full object-contain"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = 'https://placehold.co/200x200?text=Error';
-                    }}
-                  />
-                </div>
-              </div>
-            )}
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsDialogOpen(false)}>

@@ -13,7 +13,6 @@ type AdminContextType = {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
-  register: (email: string, password: string, name: string) => Promise<void>;
   isMaxAdminsReached: boolean;
 };
 
@@ -30,7 +29,7 @@ export const useAdmin = () => {
 export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [admin, setAdmin] = useState<Admin | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isMaxAdminsReached, setIsMaxAdminsReached] = useState<boolean>(false);
+  const [isMaxAdminsReached, setIsMaxAdminsReached] = useState<boolean>(true); // Always true to prevent registration
   const { toast } = useToast();
 
   useEffect(() => {
@@ -40,10 +39,20 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       setAdmin(JSON.parse(storedAdmin));
     }
     
-    // Проверка, достигнуто ли максимальное количество администраторов
+    // Создаем дефолтный аккаунт администратора, если его еще нет
     const admins = JSON.parse(localStorage.getItem('admins') || '[]');
-    setIsMaxAdminsReached(admins.length >= 1);
+    if (admins.length === 0) {
+      const defaultAdmin = {
+        id: '1',
+        email: 'admin@towerup.ru',
+        password: 'admin123',
+        name: 'Администратор',
+      };
+      
+      localStorage.setItem('admins', JSON.stringify([defaultAdmin]));
+    }
     
+    setIsMaxAdminsReached(true); // Запрещаем регистрацию новых администраторов
     setIsLoading(false);
   }, []);
 
@@ -71,72 +80,13 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   };
 
-  const register = async (email: string, password: string, name: string) => {
-    try {
-      // Проверка, не существует ли уже максимальное количество администраторов
-      const admins = JSON.parse(localStorage.getItem('admins') || '[]');
-      
-      if (admins.length >= 1) {
-        toast({
-          title: "Регистрация невозможна",
-          description: "Достигнуто максимальное количество администраторов",
-          variant: "destructive",
-        });
-        setIsMaxAdminsReached(true);
-        throw new Error('Достигнуто максимальное количество администраторов');
-      }
-      
-      // Проверка, не существует ли уже администратор с таким email
-      if (admins.some((a: any) => a.email === email)) {
-        toast({
-          title: "Ошибка регистрации",
-          description: "Администратор с таким email уже существует",
-          variant: "destructive",
-        });
-        throw new Error('Администратор с таким email уже существует');
-      }
-      
-      // Создание нового администратора
-      const newAdmin = {
-        id: Date.now().toString(),
-        email,
-        password,
-        name,
-      };
-      
-      admins.push(newAdmin);
-      localStorage.setItem('admins', JSON.stringify(admins));
-      
-      // Автоматический вход после регистрации
-      const adminData = {
-        id: newAdmin.id,
-        email: newAdmin.email,
-        name: newAdmin.name,
-      };
-      
-      setAdmin(adminData);
-      localStorage.setItem('admin', JSON.stringify(adminData));
-      
-      toast({
-        title: "Регистрация успешна",
-        description: "Аккаунт администратора успешно создан",
-      });
-      
-      // Обновление флага максимального количества администраторов
-      setIsMaxAdminsReached(true);
-    } catch (error) {
-      console.error('Ошибка регистрации:', error);
-      throw error;
-    }
-  };
-
   const logout = () => {
     setAdmin(null);
     localStorage.removeItem('admin');
   };
 
   return (
-    <AdminContext.Provider value={{ admin, isLoading, login, logout, register, isMaxAdminsReached }}>
+    <AdminContext.Provider value={{ admin, isLoading, login, logout, isMaxAdminsReached }}>
       {children}
     </AdminContext.Provider>
   );

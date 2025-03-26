@@ -9,7 +9,8 @@ import {
   Briefcase, 
   MessageSquare, 
   LogOut, 
-  User
+  User,
+  Users
 } from 'lucide-react';
 import { useAdminData } from '@/contexts/AdminDataContext';
 
@@ -37,6 +38,12 @@ const AdminSidebar: React.FC = () => {
       name: 'Вакансии',
       href: '/admin/vacancies',
       icon: <Briefcase className="h-5 w-5" />,
+      badge: null,
+    },
+    {
+      name: 'Партнеры',
+      href: '/admin/partners',
+      icon: <Users className="h-5 w-5" />,
       badge: null,
     },
     {
