@@ -49,11 +49,12 @@ const NavBar: React.FC = () => {
     };
   }, []);
 
-  // Handle navigation and menu closing
+  // Handle navigation and menu closing with scroll to top
   const handleNavigation = (href: string) => {
     setIsMenuOpen(false);
     if (location.pathname !== href) {
       navigate(href);
+      window.scrollTo(0, 0);
     }
   };
 

@@ -1,10 +1,15 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import PageHeader from '@/components/PageHeader';
 
 const History: React.FC = () => {
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="min-h-screen antialiased bg-[#161616] text-gray-200 overflow-x-hidden">
       <NavBar />
@@ -12,7 +17,6 @@ const History: React.FC = () => {
         <PageHeader 
           title="ИСТОРИЯ КОМПАНИИ" 
           breadcrumb="ИСТОРИЯ"
-          bgImage="/lovable-uploads/04b6c2ac-7819-4e19-b1aa-4501994fd9ec.png"
         />
         
         <section className="py-16 md:py-24">
