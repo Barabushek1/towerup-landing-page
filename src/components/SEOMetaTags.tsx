@@ -88,66 +88,66 @@ const SEOMetaTags: React.FC = () => {
     // Update meta description
     let metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute("content", metaData.description);
+      (metaDescription as HTMLMetaElement).content = metaData.description;
     } else {
       metaDescription = document.createElement('meta');
-      metaDescription.name = "description";
-      metaDescription.content = metaData.description;
+      metaDescription.setAttribute("name", "description");
+      metaDescription.setAttribute("content", metaData.description);
       document.head.appendChild(metaDescription);
     }
     
     // Add meta keywords
     let metaKeywords = document.querySelector('meta[name="keywords"]');
     if (metaKeywords) {
-      metaKeywords.setAttribute("content", metaData.keywords);
+      (metaKeywords as HTMLMetaElement).content = metaData.keywords;
     } else {
       metaKeywords = document.createElement('meta');
-      metaKeywords.name = "keywords";
-      metaKeywords.content = metaData.keywords;
+      metaKeywords.setAttribute("name", "keywords");
+      metaKeywords.setAttribute("content", metaData.keywords);
       document.head.appendChild(metaKeywords);
     }
 
     // Update canonical URL
     let canonicalLink = document.querySelector('link[rel="canonical"]');
     if (canonicalLink) {
-      canonicalLink.setAttribute("href", `${baseUrl}${currentPath}`);
+      (canonicalLink as HTMLLinkElement).href = `${baseUrl}${currentPath}`;
     } else {
       canonicalLink = document.createElement('link');
-      canonicalLink.rel = "canonical";
-      canonicalLink.href = `${baseUrl}${currentPath}`;
+      canonicalLink.setAttribute("rel", "canonical");
+      canonicalLink.setAttribute("href", `${baseUrl}${currentPath}`);
       document.head.appendChild(canonicalLink);
     }
     
     // Update Open Graph meta tags
     let ogUrl = document.querySelector('meta[property="og:url"]');
     if (ogUrl) {
-      ogUrl.setAttribute("content", `${baseUrl}${currentPath}`);
+      (ogUrl as HTMLMetaElement).content = `${baseUrl}${currentPath}`;
     }
     
     let ogTitle = document.querySelector('meta[property="og:title"]');
     if (ogTitle) {
-      ogTitle.setAttribute("content", metaData.title);
+      (ogTitle as HTMLMetaElement).content = metaData.title;
     }
     
     let ogDescription = document.querySelector('meta[property="og:description"]');
     if (ogDescription) {
-      ogDescription.setAttribute("content", metaData.description);
+      (ogDescription as HTMLMetaElement).content = metaData.description;
     }
     
     // Update Twitter meta tags
     let twitterUrl = document.querySelector('meta[property="twitter:url"]');
     if (twitterUrl) {
-      twitterUrl.setAttribute("content", `${baseUrl}${currentPath}`);
+      (twitterUrl as HTMLMetaElement).content = `${baseUrl}${currentPath}`;
     }
     
     let twitterTitle = document.querySelector('meta[property="twitter:title"]');
     if (twitterTitle) {
-      twitterTitle.setAttribute("content", metaData.title);
+      (twitterTitle as HTMLMetaElement).content = metaData.title;
     }
     
     let twitterDescription = document.querySelector('meta[property="twitter:description"]');
     if (twitterDescription) {
-      twitterDescription.setAttribute("content", metaData.description);
+      (twitterDescription as HTMLMetaElement).content = metaData.description;
     }
 
     // Add or update lastmod date in JSON-LD structured data
