@@ -1,8 +1,8 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { Menu, X, Phone, ChevronRight, Facebook, Instagram, MessageSquare, MapPin, Mail, PhoneCall } from 'lucide-react';
+import { Menu, Phone, ChevronRight, Facebook, Instagram, MessageSquare, MapPin, Mail, PhoneCall } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import {
   NavigationMenu,
@@ -19,6 +19,8 @@ const NavBar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const isMobile = useIsMobile();
   const [expandedSubmenu, setExpandedSubmenu] = useState<string | null>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,6 +38,20 @@ const NavBar: React.FC = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  useEffect(() => {
+    // Close menu when clicking outside
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node) && isMenuOpen) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMenuOpen]);
 
   const toggleSubmenu = (key: string) => {
     if (expandedSubmenu === key) {
@@ -202,21 +218,35 @@ const NavBar: React.FC = () => {
           </div>
         )}
 
-        {/* Mobile Navigation */}
+        {/* Mobile Navigation - Modified for click-outside closing */}
         {isMobile && (
-          <Sheet>
-            <SheetTrigger asChild>
-              <button 
-                className="md:hidden focus:outline-none"
-                aria-label="Toggle menu"
-              >
-                <Menu className="h-6 w-6 text-white" />
-              </button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-full max-w-xs p-0 bg-[#222] border-l-0">
+          <div ref={menuRef}>
+            <button 
+              className="md:hidden focus:outline-none"
+              aria-label="Toggle menu"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              <Menu className="h-6 w-6 text-white" />
+            </button>
+            
+            {/* Custom slide-out menu without the X icon */}
+            <div 
+              className={cn(
+                "fixed top-0 right-0 bottom-0 z-50 w-[250px] bg-[#222] shadow-xl transition-transform duration-300",
+                isMenuOpen ? "translate-x-0" : "translate-x-full"
+              )}
+            >
               <MobileMenu />
-            </SheetContent>
-          </Sheet>
+            </div>
+            
+            {/* Backdrop overlay */}
+            {isMenuOpen && (
+              <div 
+                className="fixed inset-0 bg-black/50 z-40"
+                onClick={() => setIsMenuOpen(false)}
+              />
+            )}
+          </div>
         )}
       </div>
     </header>

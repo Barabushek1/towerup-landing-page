@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { 
@@ -143,6 +144,7 @@ const ProjectsSection: React.FC = () => {
   const [carouselApi, setCarouselApi] = useState<any>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   
+  // Add autoplay functionality
   useEffect(() => {
     if (!carouselApi) return;
     
@@ -151,8 +153,19 @@ const ProjectsSection: React.FC = () => {
     };
     
     carouselApi.on('select', handleSelect);
+    
+    // Set up autoplay interval
+    const autoplayInterval = setInterval(() => {
+      if (carouselApi.canScrollNext()) {
+        carouselApi.scrollNext();
+      } else {
+        carouselApi.scrollTo(0);
+      }
+    }, 5000); // Change slide every 5 seconds
+    
     return () => {
       carouselApi.off('select', handleSelect);
+      clearInterval(autoplayInterval);
     };
   }, [carouselApi]);
   
