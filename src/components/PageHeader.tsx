@@ -18,10 +18,10 @@ const PageHeader: React.FC<PageHeaderProps> = ({
     <div className={cn("relative w-full h-[30vh] md:h-[40vh] overflow-hidden", className)}>
       {/* Gradient background instead of image */}
       <div 
-        className="absolute inset-0 bg-gradient-to-b from-slate-800 to-slate-900 z-0"
+        className="absolute inset-0 bg-gradient-to-b from-slate-700 to-slate-900 z-0"
       >
         {/* Gray gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-800/80 to-slate-900/90 z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-700/80 to-slate-800/90 z-10"></div>
       </div>
       
       {/* Wave decoration at bottom */}

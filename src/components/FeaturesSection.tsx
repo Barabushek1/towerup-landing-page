@@ -1,36 +1,11 @@
 
 import React, { useEffect, useRef } from 'react';
-import { 
-  Lightbulb, 
-  Globe, 
-  Shield, 
-  BarChart, 
-  Award, 
-  Users 
-} from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-interface FeatureCardProps {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  delay: number;
-}
-
-const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description, delay }) => (
-  <div 
-    className="scroll-animate-section rounded-2xl bg-[#2a2a2a] border border-gray-700/20 shadow-lg p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-    style={{ transitionDelay: `${delay}ms` }}
-  >
-    <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
-      <div className="text-primary">{icon}</div>
-    </div>
-    <h3 className="text-xl font-medium mb-3 text-white">{title}</h3>
-    <p className="text-gray-300">{description}</p>
-  </div>
-);
-
-const FeaturesSection: React.FC = () => {
+const ParallaxCTASection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const parallaxRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -47,73 +22,79 @@ const FeaturesSection: React.FC = () => {
     const elementsToObserve = sectionRef.current?.querySelectorAll('.scroll-animate-section');
     elementsToObserve?.forEach((el) => observer.observe(el));
     
+    // Parallax scroll effect
+    const handleScroll = () => {
+      if (!parallaxRef.current) return;
+      
+      const scrollPosition = window.scrollY;
+      const offset = scrollPosition * 0.4; // Adjust the parallax speed
+      parallaxRef.current.style.transform = `translateY(${offset}px)`;
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    
     return () => {
       elementsToObserve?.forEach((el) => observer.unobserve(el));
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
-  const features = [
-    {
-      icon: <Lightbulb className="h-7 w-7" />,
-      title: "Инновационные решения",
-      description: "Мы разрабатываем передовые решения, которые решают текущие задачи, предвидя будущие потребности."
-    },
-    {
-      icon: <Globe className="h-7 w-7" />,
-      title: "Глобальный охват",
-      description: "Наши услуги распространяются через границы, расширяя возможности бизнеса по всему миру с местным опытом и глобальным пониманием."
-    },
-    {
-      icon: <Shield className="h-7 w-7" />,
-      title: "Надежная безопасность",
-      description: "Мы внедряем надежные меры безопасности, обеспечивая защиту данных и операционную устойчивость."
-    },
-    {
-      icon: <BarChart className="h-7 w-7" />,
-      title: "Аналитика данных",
-      description: "Превращайте свои данные в практические выводы с помощью наших расширенных аналитических возможностей."
-    },
-    {
-      icon: <Award className="h-7 w-7" />,
-      title: "Качество и совершенство",
-      description: "Мы поддерживаем самые высокие стандарты качества в каждом проекте, обеспечивая исключительные результаты."
-    },
-    {
-      icon: <Users className="h-7 w-7" />,
-      title: "Экспертные консультации",
-      description: "Наша команда специалистов предоставляет персонализированное руководство, адаптированное к уникальным потребностям вашего бизнеса."
-    }
-  ];
-
   return (
-    <section id="services" ref={sectionRef} className="py-24 md:py-32 bg-[#1c1c1c] overflow-hidden">
-      <div className="container mx-auto px-6">
-        <div className="text-center max-w-3xl mx-auto mb-16 scroll-animate-section">
+    <section id="services" ref={sectionRef} className="py-24 md:py-40 bg-slate-200 overflow-hidden relative">
+      {/* Parallax background */}
+      <div 
+        ref={parallaxRef}
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url("https://images.unsplash.com/photo-1504307651254-35b1a7e39896?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+          transform: 'translateY(0px)',
+        }}
+      />
+      
+      {/* Content with dark overlay for readability */}
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="max-w-3xl mx-auto text-center scroll-animate-section">
           <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
-            Наши Услуги
+            Строим будущее вместе
           </span>
-          <h2 className="section-heading mb-6 text-white">
-            Комплексные решения для современных задач
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white leading-tight">
+            Реализуйте свои строительные мечты с Tower Up
           </h2>
-          <p className="section-subheading mx-auto text-gray-300">
-            Мы предлагаем широкий спектр услуг, разработанных для того, чтобы помочь бизнесу процветать в сегодняшнем конкурентном ландшафте.
+          <p className="text-lg md:text-xl text-white/80 mb-10 max-w-2xl mx-auto">
+            От проектирования до сдачи объекта — мы обеспечиваем полный цикл строительных работ с гарантией качества и в срок
           </p>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, index) => (
-            <FeatureCard
-              key={index}
-              icon={feature.icon}
-              title={feature.title}
-              description={feature.description}
-              delay={index * 100}
-            />
-          ))}
+          
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <a 
+              href="#contact" 
+              className={cn(
+                "button-hover-effect px-8 py-4 rounded-lg bg-primary text-white font-medium text-base",
+                "shadow-lg shadow-primary/30 flex items-center justify-center"
+              )}
+            >
+              <span>Связаться с нами</span>
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </a>
+            <a 
+              href="#projects" 
+              className={cn(
+                "button-hover-effect px-8 py-4 rounded-lg bg-white/10 text-white font-medium text-base",
+                "shadow-lg border border-white/20 flex items-center justify-center backdrop-blur-sm"
+              )}
+            >
+              <span>Наши проекты</span>
+            </a>
+          </div>
         </div>
       </div>
+      
+      {/* Decorative elements */}
+      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-slate-200 to-transparent z-10"></div>
     </section>
   );
 };
 
-export default FeaturesSection;
+export default ParallaxCTASection;
