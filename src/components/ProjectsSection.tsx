@@ -321,7 +321,7 @@ const ProjectsSection: React.FC = () => {
           
           <a 
             href="#contact" 
-            className="flex items-center text-primary font-medium hover:underline scroll-animate-section font-benzin"
+            className="flex items-center text-primary font-medium hover:underline scroll-animate-section bg-transparent px-4 py-2 rounded-lg border border-primary/30 font-benzin"
           >
             <span>Все проекты</span>
             <ArrowRight className="ml-2 h-4 w-4" />

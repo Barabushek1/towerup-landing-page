@@ -1,6 +1,6 @@
 
 import React, { useEffect, useRef } from 'react';
-import { ChevronDown, ArrowRight, Briefcase } from 'lucide-react';
+import { ArrowRight, Briefcase } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const HeroSection: React.FC = () => {
@@ -87,11 +87,9 @@ const HeroSection: React.FC = () => {
       
       <div className="container mx-auto px-6 py-10 relative z-20">
         <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
-          {/* Removed "Строительная компания" text as requested */}
-          
           <h1 className="font-benzin font-medium text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight mb-6 animate-slide-up opacity-0 text-white" style={{ animationDelay: '500ms' }}>
-            Строим будущее <br/>
-            <span className="text-brand-primary">вместе</span>
+            Надёжность и комфорт <br/>
+            <span className="text-brand-primary">в каждом проекте!</span>
           </h1>
           
           <p className="text-white/80 text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-10 animate-slide-up opacity-0 font-benzin" style={{ animationDelay: '700ms' }}>
@@ -122,8 +120,6 @@ const HeroSection: React.FC = () => {
           </div>
         </div>
       </div>
-      
-      {/* Removed "Далее" scroll indicator as requested */}
     </section>
   );
 };

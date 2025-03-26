@@ -77,11 +77,6 @@ const AboutSection: React.FC = () => {
       icon: <ShieldCheck className="w-10 h-10" />
     },
     {
-      number: "25",
-      label: "Лет на Рынке",
-      icon: <Clock className="w-10 h-10" />
-    },
-    {
       number: "20",
       label: "Производств",
       icon: <Award className="w-10 h-10" />
@@ -99,12 +94,13 @@ const AboutSection: React.FC = () => {
             <div className="relative z-10 ml-5 mt-5">
               <div className="overflow-hidden">
                 <img 
-                  src="/public/placeholder.svg" 
+                  src="https://riq3aaa.medianewsonline.com/assets/images/1-777x879.webp" 
                   alt="Company building" 
                   className="w-full h-[300px] lg:h-[400px] object-cover"
                 />
               </div>
-              
+            </div>
+          </div>
           
           {/* Right side with company description */}
           <div className="scroll-animate-section">

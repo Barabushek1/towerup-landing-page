@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { Facebook, Linkedin, Instagram, ArrowUp, MapPin, MessageSquare } from 'lucide-react';
+import { Facebook, Linkedin, Instagram, ArrowUp, MapPin, MessageSquare, PhoneCall } from 'lucide-react';
 
 const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -43,7 +43,7 @@ const Footer: React.FC = () => {
             </div>
           </div>
           
-          {/* Quick Links */}
+          {/* Quick Links - Updated to match navbar items */}
           <div>
             <h3 className="font-medium text-lg mb-6 text-white">Быстрые ссылки</h3>
             <ul className="space-y-3">
@@ -51,10 +51,16 @@ const Footer: React.FC = () => {
                 <a href="#home" className="text-white/70 hover:text-brand-primary transition-colors">Главная</a>
               </li>
               <li>
-                <a href="#about" className="text-white/70 hover:text-brand-primary transition-colors">О нас</a>
+                <a href="#about" className="text-white/70 hover:text-brand-primary transition-colors">О компании</a>
               </li>
               <li>
-                <a href="#products" className="text-white/70 hover:text-brand-primary transition-colors">Продукты</a>
+                <a href="#projects" className="text-white/70 hover:text-brand-primary transition-colors">Проекты</a>
+              </li>
+              <li>
+                <a href="#news" className="text-white/70 hover:text-brand-primary transition-colors">Новости</a>
+              </li>
+              <li>
+                <a href="#vacancies" className="text-white/70 hover:text-brand-primary transition-colors">Вакансии</a>
               </li>
               <li>
                 <a href="#contact" className="text-white/70 hover:text-brand-primary transition-colors">Контакты</a>
@@ -83,7 +89,7 @@ const Footer: React.FC = () => {
         
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/10">
           <p className="text-white/70 text-sm mb-4 md:mb-0">
-            © {new Date().getFullYear()} UP. Все права защищены.
+            © {new Date().getFullYear()} TOWERUP. Все права защищены.
           </p>
           
           <div className="flex space-x-8">
@@ -92,7 +98,7 @@ const Footer: React.FC = () => {
             <a href="#" className="text-sm text-white/70 hover:text-brand-primary transition-colors">Политика cookies</a>
           </div>
           
-          {/* Improved back to top button */}
+          {/* Back to top button */}
           <button 
             onClick={scrollToTop}
             className="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-brand-primary text-white flex items-center justify-center shadow-lg hover:bg-brand-primary/90 transition-all duration-300 z-30 group"
