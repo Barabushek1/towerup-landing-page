@@ -12,13 +12,16 @@ interface AdvantageItemProps {
 
 const AdvantageItem: React.FC<AdvantageItemProps> = ({ icon, title, description, index }) => {
   return (
-    <div className="scroll-animate-section" style={{ transitionDelay: `${index * 100}ms` }}>
-      <div className="flex flex-col items-center mb-8">
-        <div className="w-16 h-16 mb-4 text-white flex items-center justify-center">
-          {icon}
+    <div 
+      className="scroll-animate-section bg-[#222222] p-6 rounded-lg border border-white/5 shadow-lg transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl" 
+      style={{ transitionDelay: `${index * 100}ms` }}
+    >
+      <div className="flex flex-col h-full">
+        <div className="w-14 h-14 rounded-lg bg-primary/20 flex items-center justify-center mb-5">
+          <div className="text-primary">{icon}</div>
         </div>
-        <h3 className="text-xl font-semibold text-white mb-2">{title}</h3>
-        <p className="text-gray-300 text-center max-w-sm">{description}</p>
+        <h3 className="text-xl font-semibold text-white mb-3">{title}</h3>
+        <p className="text-gray-300 flex-grow">{description}</p>
       </div>
     </div>
   );
@@ -84,7 +87,7 @@ const AboutSection: React.FC = () => {
   ];
 
   return (
-    <section id="about" ref={sectionRef} className="bg-[#1f1f1f] text-white">
+    <section id="about" ref={sectionRef} className="bg-[#1a1a1a] text-white">
       {/* About Company Section */}
       <div className="container mx-auto px-6 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
@@ -129,18 +132,16 @@ const AboutSection: React.FC = () => {
       </div>
       
       {/* Advantages Section with dark background */}
-      <div className="bg-[#1a1a1a] py-20">
+      <div className="bg-[#212121] py-20">
         <div className="container mx-auto px-6">
           <div className="flex flex-col items-center mb-14">
-            <div className="text-7xl text-[#2a2a2a] font-bold mb-8">01</div>
-            
             <div className="flex items-center">
               <h2 className="text-primary uppercase font-medium text-xl tracking-wider">НАШИ ПРЕИМУЩЕСТВА</h2>
               <div className="h-[1px] w-20 bg-primary/50 ml-6"></div>
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             {advantages.map((advantage, index) => (
               <AdvantageItem
                 key={index}

@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import NavBar from '@/components/NavBar';
 import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
+import FeaturesSection from '@/components/FeaturesSection';
 import ProjectsSection from '@/components/ProjectsSection';
 import NewsVacanciesSection from '@/components/NewsVacanciesSection';
 import ContactSection from '@/components/ContactSection';
@@ -41,28 +42,29 @@ const Index: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen antialiased bg-background text-foreground overflow-x-hidden">
+    <div className="min-h-screen antialiased bg-[#161616] text-foreground overflow-x-hidden">
       <NavBar />
       <main>
         <HeroSection />
         <AboutSection />
+        <FeaturesSection />
         <ProjectsSection />
         <NewsVacanciesSection />
         <ContactSection />
         
         {/* Map Section */}
-        <section id="map" className="py-16 bg-muted">
+        <section id="map" className="py-16 bg-[#1e1e1e]">
           <div className="container mx-auto px-6">
             <div className="flex flex-col items-center mb-12 scroll-animate-section">
-              <h2 className="text-4xl font-bold mb-4 text-center">Наше местоположение</h2>
+              <h2 className="text-4xl font-bold mb-4 text-center text-white">Наше местоположение</h2>
               <div className="w-16 h-1 bg-brand-primary mb-6"></div>
-              <p className="text-muted-foreground text-lg max-w-2xl text-center mb-8">
+              <p className="text-gray-300 text-lg max-w-2xl text-center mb-8">
                 Мы находимся в центре Ташкента и всегда рады видеть вас в нашем офисе
               </p>
               
               <div className="flex items-center mb-8">
                 <MapPin className="w-6 h-6 text-brand-primary mr-2" />
-                <span className="text-lg font-medium">г. Ташкент, Узбекистан</span>
+                <span className="text-lg font-medium text-gray-200">г. Ташкент, Узбекистан</span>
               </div>
             </div>
             

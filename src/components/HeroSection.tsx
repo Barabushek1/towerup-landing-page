@@ -2,10 +2,13 @@
 import React, { useEffect, useRef } from 'react';
 import { ArrowRight, Briefcase } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
+import AnimatedBackground from './AnimatedBackground';
 
 const HeroSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
   
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -22,32 +25,35 @@ const HeroSection: React.FC = () => {
       observer.observe(sectionRef.current);
     }
     
-    // Load YouTube API
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+    // Only load YouTube API if not on mobile
+    if (!isMobile) {
+      // Load YouTube API
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
 
-    // Initialize YouTube player when API is ready
-    window.onYouTubeIframeAPIReady = () => {
-      new window.YT.Player('youtube-player', {
-        videoId: 'E_MGF3SdLrg',
-        playerVars: {
-          autoplay: 1,
-          loop: 1,
-          mute: 1,
-          controls: 0,
-          showinfo: 0,
-          rel: 0,
-          playlist: 'E_MGF3SdLrg',
-        },
-        events: {
-          onReady: (event) => {
-            event.target.playVideo();
+      // Initialize YouTube player when API is ready
+      window.onYouTubeIframeAPIReady = () => {
+        new window.YT.Player('youtube-player', {
+          videoId: 'E_MGF3SdLrg',
+          playerVars: {
+            autoplay: 1,
+            loop: 1,
+            mute: 1,
+            controls: 0,
+            showinfo: 0,
+            rel: 0,
+            playlist: 'E_MGF3SdLrg',
           },
-        },
-      });
-    };
+          events: {
+            onReady: (event) => {
+              event.target.playVideo();
+            },
+          },
+        });
+      };
+    }
     
     return () => {
       if (sectionRef.current) {
@@ -56,7 +62,7 @@ const HeroSection: React.FC = () => {
       // Clean up YouTube API
       delete window.onYouTubeIframeAPIReady;
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <section 
@@ -64,22 +70,29 @@ const HeroSection: React.FC = () => {
       ref={sectionRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden opacity-0 transition-opacity duration-1000"
     >
-      {/* YouTube Video Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="relative w-full h-full">
-          {/* Semi-transparent overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-brand-darker to-brand-dark opacity-80 z-10"></div>
-          
-          {/* YouTube player container */}
-          <div className="absolute inset-0 w-full h-full">
-            <div 
-              id="youtube-player" 
-              ref={playerRef}
-              className="absolute w-[300%] h-[300%] -top-[100%] -left-[100%]"
-            ></div>
+      {isMobile ? (
+        // Animated background for mobile
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-darker to-[#1a1f2c] overflow-hidden">
+          <AnimatedBackground />
+        </div>
+      ) : (
+        // YouTube Video Background for desktop
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="relative w-full h-full">
+            {/* Semi-transparent overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-brand-darker to-brand-dark opacity-80 z-10"></div>
+            
+            {/* YouTube player container */}
+            <div className="absolute inset-0 w-full h-full">
+              <div 
+                id="youtube-player" 
+                ref={playerRef}
+                className="absolute w-[300%] h-[300%] -top-[100%] -left-[100%]"
+              ></div>
+            </div>
           </div>
         </div>
-      </div>
+      )}
       
       {/* Decorative elements */}
       <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-brand-secondary rounded-full blur-3xl opacity-10 animate-float z-10"></div>

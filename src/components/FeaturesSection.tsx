@@ -18,14 +18,14 @@ interface FeatureCardProps {
 
 const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description, delay }) => (
   <div 
-    className="scroll-animate-section rounded-2xl bg-white border border-gray-100 shadow-sm p-8 hover:shadow-md transition-all duration-300 hover:-translate-y-1"
+    className="scroll-animate-section rounded-2xl bg-[#2a2a2a] border border-gray-700/20 shadow-lg p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
     style={{ transitionDelay: `${delay}ms` }}
   >
     <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
       <div className="text-primary">{icon}</div>
     </div>
-    <h3 className="text-xl font-medium mb-3 text-brand-dark">{title}</h3>
-    <p className="text-muted-foreground">{description}</p>
+    <h3 className="text-xl font-medium mb-3 text-white">{title}</h3>
+    <p className="text-gray-300">{description}</p>
   </div>
 );
 
@@ -86,16 +86,16 @@ const FeaturesSection: React.FC = () => {
   ];
 
   return (
-    <section id="services" ref={sectionRef} className="py-24 md:py-32 bg-gray-50 overflow-hidden">
+    <section id="services" ref={sectionRef} className="py-24 md:py-32 bg-[#1c1c1c] overflow-hidden">
       <div className="container mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16 scroll-animate-section">
           <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
             Наши Услуги
           </span>
-          <h2 className="section-heading mb-6 text-brand-dark">
+          <h2 className="section-heading mb-6 text-white">
             Комплексные решения для современных задач
           </h2>
-          <p className="section-subheading mx-auto text-muted-foreground">
+          <p className="section-subheading mx-auto text-gray-300">
             Мы предлагаем широкий спектр услуг, разработанных для того, чтобы помочь бизнесу процветать в сегодняшнем конкурентном ландшафте.
           </p>
         </div>
