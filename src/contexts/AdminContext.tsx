@@ -39,17 +39,25 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       setAdmin(JSON.parse(storedAdmin));
     }
     
-    // Создаем дефолтный аккаунт администратора, если его еще нет
-    const admins = JSON.parse(localStorage.getItem('admins') || '[]');
-    if (admins.length === 0) {
-      const defaultAdmin = {
-        id: '1',
-        email: 'admin@towerup.ru',
-        password: 'admin123',
-        name: 'Администратор',
-      };
-      
-      localStorage.setItem('admins', JSON.stringify([defaultAdmin]));
+    // Создаем или проверяем наличие дефолтного аккаунта администратора
+    const defaultAdmin = {
+      id: '1',
+      email: 'admin@towerup.ru',
+      password: 'admin123', // пароль будет доступен только в localStorage
+      name: 'Администратор',
+    };
+    
+    // Получаем текущий список администраторов
+    let admins = JSON.parse(localStorage.getItem('admins') || '[]');
+    
+    // Проверяем наличие дефолтного админа
+    const hasDefaultAdmin = admins.some((a: any) => a.id === '1');
+    
+    // Если дефолтный админ отсутствует, добавляем его
+    if (!hasDefaultAdmin) {
+      admins = [defaultAdmin];
+      localStorage.setItem('admins', JSON.stringify(admins));
+      console.log('Создан дефолтный аккаунт администратора');
     }
     
     setIsMaxAdminsReached(true); // Запрещаем регистрацию новых администраторов
@@ -58,22 +66,35 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const login = async (email: string, password: string) => {
     try {
-      // Симуляция вызова API в localStorage
+      // Получаем список администраторов из localStorage
       const admins = JSON.parse(localStorage.getItem('admins') || '[]');
-      const foundAdmin = admins.find((a: any) => a.email === email && a.password === password);
+      
+      // Ищем администратора с указанными учетными данными
+      const foundAdmin = admins.find((a: any) => 
+        a.email === email && a.password === password
+      );
+      
+      // Выводим для отладки
+      console.log('Trying to login with:', { email, password });
+      console.log('Available admins:', admins);
+      console.log('Found admin:', foundAdmin);
       
       if (!foundAdmin) {
         throw new Error('Неверные учетные данные');
       }
       
+      // Создаем объект администратора без пароля для хранения в состоянии
       const adminData = {
         id: foundAdmin.id,
         email: foundAdmin.email,
         name: foundAdmin.name,
       };
       
+      // Обновляем состояние и сохраняем в localStorage
       setAdmin(adminData);
       localStorage.setItem('admin', JSON.stringify(adminData));
+      
+      console.log('Успешный вход:', adminData);
     } catch (error) {
       console.error('Ошибка входа:', error);
       throw error;

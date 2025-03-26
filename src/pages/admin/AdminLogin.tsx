@@ -7,7 +7,6 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, LogIn } from 'lucide-react';
-import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const AdminLogin: React.FC = () => {
   const { admin, isLoading, login } = useAdmin();
@@ -62,11 +61,6 @@ const AdminLogin: React.FC = () => {
         <div className="p-6 bg-slate-800 border-b border-slate-700">
           <h2 className="text-2xl font-bold text-center text-white">TOWER UP Администратор</h2>
           <p className="text-slate-400 text-center mt-1">Доступ к панели администратора</p>
-          <Alert className="mt-4 bg-blue-900/20 border-blue-900 text-blue-300">
-            <AlertDescription>
-              Используйте email: <strong>admin@towerup.ru</strong> и пароль: <strong>admin123</strong> для входа
-            </AlertDescription>
-          </Alert>
         </div>
 
         <div className="p-6">
@@ -76,7 +70,7 @@ const AdminLogin: React.FC = () => {
               <Input
                 id="login-email"
                 type="email"
-                placeholder="admin@towerup.ru"
+                placeholder="Введите email"
                 value={loginEmail}
                 onChange={(e) => setLoginEmail(e.target.value)}
                 required
