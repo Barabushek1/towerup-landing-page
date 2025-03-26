@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -253,51 +252,54 @@ const NavBar: React.FC = () => {
             >
               <Menu className="h-6 w-6 text-white" />
             </button>
-            
-            {/* Here's the fix - we're making the mobile menu fixed to the viewport */}
-            <div 
-              className={cn(
-                "fixed inset-0 bg-black/30 backdrop-blur-sm z-40",
-                isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
-              )}
-              onClick={() => setIsMenuOpen(false)} 
-            />
-            
-            <div 
-              ref={menuRef}
-              className={cn(
-                "fixed inset-y-0 right-0 z-50 w-[85vw] max-w-xs bg-[#080C16] shadow-xl",
-                "transform transition-transform duration-300 ease-in-out",
-                isMenuOpen ? "translate-x-0" : "translate-x-full"
-              )}
-            >
-              <div className="flex flex-col h-full w-full">
-                <div className="flex items-center justify-between p-4 border-b border-white/10">
-                  <Link to="/" className="flex items-center" onClick={() => setIsMenuOpen(false)}>
-                    <img 
-                      src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png" 
-                      alt="TOWERUP Logo" 
-                      className="h-10 w-auto" 
-                    />
-                  </Link>
-                  <button 
-                    className="text-white focus:outline-none"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
-                
-                <div className="flex-1 overflow-auto">
-                  <MobileMenu />
-                </div>
-              </div>
-            </div>
           </div>
         )}
       </div>
+
+      {isMobile && (
+        <>
+          <div 
+            className={cn(
+              "fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] transition-opacity duration-300",
+              isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
+            )}
+            onClick={() => setIsMenuOpen(false)}
+          />
+          
+          <div 
+            ref={menuRef}
+            className={cn(
+              "fixed inset-y-0 right-0 z-[101] w-[85vw] max-w-xs bg-[#080C16] shadow-xl",
+              "transform transition-transform duration-300 ease-in-out",
+              isMenuOpen ? "translate-x-0" : "translate-x-full"
+            )}
+          >
+            <div className="flex flex-col h-full w-full">
+              <div className="flex items-center justify-between p-4 border-b border-white/10">
+                <Link to="/" className="flex items-center" onClick={() => setIsMenuOpen(false)}>
+                  <img 
+                    src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png" 
+                    alt="TOWERUP Logo" 
+                    className="h-10 w-auto" 
+                  />
+                </Link>
+                <button 
+                  className="text-white focus:outline-none"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              
+              <div className="flex-1 overflow-auto">
+                <MobileMenu />
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </header>
   );
 };
