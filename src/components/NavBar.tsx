@@ -1,7 +1,8 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { Menu, Phone, ChevronRight, ChevronDown, Facebook, Instagram, MessageSquare, MapPin, Mail, PhoneCall } from 'lucide-react';
+import { Menu, Phone, ChevronDown, Facebook, Instagram, MessageSquare, MapPin, Mail, PhoneCall } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import {
   NavigationMenu,
@@ -11,7 +12,6 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { Separator } from "@/components/ui/separator";
 import {
   Collapsible,
   CollapsibleContent,
@@ -93,9 +93,9 @@ const NavBar: React.FC = () => {
         {navLinks.map((link) => (
           link.hasSubmenu ? (
             <Collapsible key={link.key} className="w-full">
-              <CollapsibleTrigger className="w-full flex items-center justify-between py-3.5 px-6 text-white border-b border-white/10 font-benzin text-base hover:bg-white/5">
+              <CollapsibleTrigger className="w-full flex items-center justify-between py-3 px-4 text-white border-b border-white/10 font-benzin text-base hover:bg-white/5">
                 <span>{link.title}</span>
-                <ChevronDown className="h-5 w-5" />
+                <ChevronDown className="h-4 w-4" />
               </CollapsibleTrigger>
               <CollapsibleContent>
                 <div className="bg-[#1a1a1a]">
@@ -103,7 +103,7 @@ const NavBar: React.FC = () => {
                     <Link
                       key={subItem.title}
                       to={subItem.href}
-                      className="w-full flex items-center py-3 px-8 text-gray-300 hover:text-white hover:bg-white/5 font-benzin text-sm border-b border-white/5"
+                      className="w-full flex items-center py-2.5 px-6 text-gray-300 hover:text-white hover:bg-white/5 font-benzin text-sm border-b border-white/5"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       {subItem.title}
@@ -116,7 +116,7 @@ const NavBar: React.FC = () => {
             <Link
               key={link.key}
               to={link.href}
-              className="w-full flex items-center justify-between py-3.5 px-6 text-white border-b border-white/10 font-benzin text-base hover:bg-white/5"
+              className="w-full flex items-center justify-between py-3 px-4 text-white border-b border-white/10 font-benzin text-base hover:bg-white/5"
               onClick={() => setIsMenuOpen(false)}
             >
               <span>{link.title}</span>
@@ -125,36 +125,36 @@ const NavBar: React.FC = () => {
         ))}
       </nav>
       
-      <div className="mt-auto p-6">
-        <div className="mb-6">
-          <h3 className="text-white text-left font-benzin text-lg mb-3">Контакты</h3>
-          <div className="space-y-4">
-            <a href="#address" className="flex items-start text-left space-x-3 text-gray-300 hover:text-white">
-              <MapPin className="h-5 w-5 mt-0.5 flex-shrink-0" />
+      <div className="mt-6 px-4">
+        <div className="mb-5">
+          <h3 className="text-white text-left font-benzin text-base mb-2.5">Контакты</h3>
+          <div className="space-y-3">
+            <a href="#address" className="flex items-start text-left space-x-2.5 text-gray-300 hover:text-white">
+              <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
               <span className="text-sm">г. Ташкент, ул. Большая Якиманка, 24</span>
             </a>
-            <a href="mailto:info@example.com" className="flex items-center text-left space-x-3 text-gray-300 hover:text-white">
-              <Mail className="h-5 w-5 flex-shrink-0" />
+            <a href="mailto:info@example.com" className="flex items-center text-left space-x-2.5 text-gray-300 hover:text-white">
+              <Mail className="h-4 w-4 flex-shrink-0" />
               <span className="text-sm">info@towerup.uz</span>
             </a>
-            <a href="tel:+998901234567" className="flex items-center text-left space-x-3 text-gray-300 hover:text-white">
-              <PhoneCall className="h-5 w-5 flex-shrink-0" />
+            <a href="tel:+998901234567" className="flex items-center text-left space-x-2.5 text-gray-300 hover:text-white">
+              <PhoneCall className="h-4 w-4 flex-shrink-0" />
               <span className="text-sm">+998 90 123 45 67</span>
             </a>
           </div>
         </div>
         
         <div>
-          <h3 className="text-white text-left font-benzin text-lg mb-3">Соцсети</h3>
-          <div className="flex space-x-4 mt-2">
-            <a href="#facebook" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary">
-              <Facebook className="h-5 w-5" />
+          <h3 className="text-white text-left font-benzin text-base mb-2.5">Соцсети</h3>
+          <div className="flex space-x-3 mt-2">
+            <a href="#facebook" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary">
+              <Facebook className="h-4 w-4" />
             </a>
-            <a href="#telegram" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary">
-              <MessageSquare className="h-5 w-5" />
+            <a href="#telegram" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary">
+              <MessageSquare className="h-4 w-4" />
             </a>
-            <a href="#instagram" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary">
-              <Instagram className="h-5 w-5" />
+            <a href="#instagram" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary">
+              <Instagram className="h-4 w-4" />
             </a>
           </div>
         </div>
@@ -255,33 +255,38 @@ const NavBar: React.FC = () => {
             </button>
             
             {isMenuOpen && (
-              <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40" onClick={() => setIsMenuOpen(false)} />
+              <div 
+                className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40" 
+                onClick={() => setIsMenuOpen(false)} 
+              />
             )}
             
             <div 
+              ref={menuRef}
               className={cn(
                 "fixed inset-0 z-50 transition-all duration-300 ease-in-out",
-                isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+                isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
               )}
             >
-              <div className="w-full h-full flex flex-col">
-                <div className="container mx-auto px-6 py-5 flex items-center justify-between">
-                  <Link to="/" className="flex items-center">
+              <div className="flex flex-col h-full w-[85vw] max-w-xs bg-[#080C16] ml-auto">
+                <div className="flex items-center justify-between p-4 border-b border-white/10">
+                  <Link to="/" className="flex items-center" onClick={() => setIsMenuOpen(false)}>
                     <img 
                       src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png" 
                       alt="TOWERUP Logo" 
-                      className="h-12 w-auto" 
+                      className="h-10 w-auto" 
                     />
                   </Link>
                   <button 
-                    className="focus:outline-none"
+                    className="text-white focus:outline-none"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
                   </button>
                 </div>
+                
                 <div className="flex-1 overflow-auto">
                   <MobileMenu />
                 </div>
