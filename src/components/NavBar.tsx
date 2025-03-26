@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { Menu, X, Phone, ChevronRight, Facebook, Instagram, MessageSquare, Youtube, MapPin, Mail, PhoneCall } from 'lucide-react';
+import { Menu, X, Phone, ChevronRight, Facebook, Instagram, MessageSquare, Telegram, MapPin, Mail, PhoneCall } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import {
   NavigationMenu,
@@ -52,19 +52,6 @@ const NavBar: React.FC = () => {
     { title: 'Руководство', href: '/management' },
   ];
 
-  const servicesSubMenu = [
-    { title: 'Строительство объектов', href: '/construction' },
-    { title: 'Проектирование', href: '/design' },
-    { title: 'Решения для объектов', href: '/solutions' },
-  ];
-
-  const usefulLinksSubMenu = [
-    { title: 'О компании', href: '/about' },
-    { title: 'Наши работы', href: '/projects' },
-    { title: 'Новости', href: '/news' },
-    { title: 'Вакансии', href: '/vacancies' },
-  ];
-
   const navLinks = [
     { 
       title: 'О компании', 
@@ -81,108 +68,52 @@ const NavBar: React.FC = () => {
 
   // Mobile menu component
   const MobileMenu = () => (
-    <div className="space-y-6 p-6 pb-16 w-full">
-      {/* Main navigation */}
-      <div className="space-y-1">
+    <div className="bg-[#222] h-full overflow-auto">
+      <nav className="flex flex-col w-full">
         {navLinks.map((link) => (
-          <div key={link.key} className="w-full">
-            {link.hasSubmenu ? (
-              <>
-                <button 
-                  onClick={() => toggleSubmenu(link.key)}
-                  className="w-full flex items-center justify-between py-3 text-white font-benzin text-base"
-                >
-                  <span>{link.title}</span>
-                  <ChevronRight 
-                    className={cn(
-                      "h-5 w-5 transition-transform",
-                      expandedSubmenu === link.key ? "rotate-90" : ""
-                    )} 
-                  />
-                </button>
-                {expandedSubmenu === link.key && (
-                  <div className="pl-4 space-y-3 mt-1 mb-3">
-                    {link.submenu?.map((subItem) => (
-                      <Link
-                        key={subItem.title}
-                        to={subItem.href}
-                        className="block text-gray-300 hover:text-white text-sm py-1.5 font-benzin"
-                      >
-                        {subItem.title}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </>
-            ) : (
-              <Link
-                to={link.href}
-                className="w-full flex items-center justify-between py-3 text-white font-benzin text-base"
-              >
-                <span>{link.title}</span>
-                <ChevronRight className="h-5 w-5" />
-              </Link>
-            )}
-          </div>
+          <Link
+            key={link.key}
+            to={link.href}
+            className="w-full flex items-center justify-between py-3.5 px-6 text-white border-b border-white/10 font-benzin text-base hover:bg-white/5"
+          >
+            <span>{link.title}</span>
+            <ChevronRight className="h-5 w-5" />
+          </Link>
         ))}
-      </div>
-
-      <Separator className="bg-gray-700" />
+      </nav>
       
-      {/* Services Section */}
-      <div>
-        <h3 className="text-white text-left font-benzin text-lg mb-3">Услуги</h3>
-        <div className="space-y-3">
-          {servicesSubMenu.map((item) => (
-            <Link
-              key={item.title}
-              to={item.href}
-              className="flex items-center justify-between text-gray-300 hover:text-white py-1.5 text-base font-benzin"
-            >
-              <span>{item.title}</span>
-              <ChevronRight className="h-4 w-4" />
-            </Link>
-          ))}
+      <div className="mt-auto p-6">
+        <div className="mb-6">
+          <h3 className="text-white text-left font-benzin text-lg mb-3">Контакты</h3>
+          <div className="space-y-4">
+            <a href="#address" className="flex items-start text-left space-x-3 text-gray-300 hover:text-white">
+              <MapPin className="h-5 w-5 mt-0.5 flex-shrink-0" />
+              <span className="text-sm">г. Ташкент, ул. Большая Якиманка, 24</span>
+            </a>
+            <a href="mailto:info@example.com" className="flex items-center text-left space-x-3 text-gray-300 hover:text-white">
+              <Mail className="h-5 w-5 flex-shrink-0" />
+              <span className="text-sm">info@towerup.uz</span>
+            </a>
+            <a href="tel:+998901234567" className="flex items-center text-left space-x-3 text-gray-300 hover:text-white">
+              <PhoneCall className="h-5 w-5 flex-shrink-0" />
+              <span className="text-sm">+998 90 123 45 67</span>
+            </a>
+          </div>
         </div>
-      </div>
-      
-      <Separator className="bg-gray-700" />
-      
-      {/* Social Media Links */}
-      <div>
-        <h3 className="text-white text-left font-benzin text-lg mb-3">Соцсети</h3>
-        <div className="flex space-x-4 mt-2">
-          <a href="#facebook" className="text-gray-400 hover:text-white p-2">
-            <Facebook className="h-5 w-5" />
-          </a>
-          <a href="#message" className="text-gray-400 hover:text-white p-2">
-            <MessageSquare className="h-5 w-5" />
-          </a>
-          <a href="#instagram" className="text-gray-400 hover:text-white p-2">
-            <Instagram className="h-5 w-5" />
-          </a>
-          <a href="#youtube" className="text-gray-400 hover:text-white p-2">
-            <Youtube className="h-5 w-5" />
-          </a>
-        </div>
-      </div>
-      
-      {/* Contact Information */}
-      <div>
-        <h3 className="text-white text-left font-benzin text-lg mb-3">Контактные данные</h3>
-        <div className="space-y-4">
-          <a href="#address" className="flex items-start text-left space-x-3 text-gray-300 hover:text-white">
-            <MapPin className="h-5 w-5 mt-0.5 flex-shrink-0" />
-            <span className="text-sm">г. Москва, ул. Большая Якиманка, 24</span>
-          </a>
-          <a href="mailto:info@example.com" className="flex items-center text-left space-x-3 text-gray-300 hover:text-white">
-            <Mail className="h-5 w-5 flex-shrink-0" />
-            <span className="text-sm">info@example.com</span>
-          </a>
-          <a href="tel:+79257123000" className="flex items-center text-left space-x-3 text-gray-300 hover:text-white">
-            <PhoneCall className="h-5 w-5 flex-shrink-0" />
-            <span className="text-sm">+7 925 712 30 00</span>
-          </a>
+        
+        <div>
+          <h3 className="text-white text-left font-benzin text-lg mb-3">Соцсети</h3>
+          <div className="flex space-x-4 mt-2">
+            <a href="#facebook" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary">
+              <Facebook className="h-5 w-5" />
+            </a>
+            <a href="#telegram" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary">
+              <MessageSquare className="h-5 w-5" />
+            </a>
+            <a href="#instagram" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary">
+              <Instagram className="h-5 w-5" />
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -204,7 +135,7 @@ const NavBar: React.FC = () => {
         >
           <img 
             src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png" 
-            alt="UP Logo" 
+            alt="TOWERUP Logo" 
             className="h-12 md:h-16 w-auto" 
           />
         </Link>
@@ -282,7 +213,7 @@ const NavBar: React.FC = () => {
                 <Menu className="h-6 w-6 text-white" />
               </button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-full sm:max-w-md p-0 bg-[#1A2836] border-l border-gray-800">
+            <SheetContent side="right" className="w-full max-w-xs p-0 bg-[#222] border-l-0">
               <MobileMenu />
             </SheetContent>
           </Sheet>

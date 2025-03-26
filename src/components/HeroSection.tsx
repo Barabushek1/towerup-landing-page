@@ -92,10 +92,6 @@ const HeroSection: React.FC = () => {
             <span className="text-brand-primary">в каждом проекте!</span>
           </h1>
           
-          <p className="text-white/80 text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-10 animate-slide-up opacity-0 font-benzin" style={{ animationDelay: '700ms' }}>
-            Мы строим надежные объекты с использованием современных технологий и экологичных материалов для создания комфортного и устойчивого завтра.
-          </p>
-          
           <div className="flex flex-col sm:flex-row gap-4 mt-4 animate-slide-up opacity-0 w-full sm:w-auto justify-center" style={{ animationDelay: '900ms' }}>
             <a
               href="#about"

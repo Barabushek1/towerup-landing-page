@@ -20,7 +20,7 @@ const Footer: React.FC = () => {
             <h3 className="font-display text-xl font-semibold mb-6 text-white">
               <img 
                 src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png" 
-                alt="UP Logo" 
+                alt="TOWERUP Logo" 
                 className="h-12 w-auto mb-4" 
               />
             </h3>
@@ -77,7 +77,7 @@ const Footer: React.FC = () => {
               <p className="text-white/70 mb-6">Узбекистан</p>
               <p className="mb-2">
                 <span className="text-white/70">Email: </span>
-                <a href="mailto:contact@company.com" className="hover:text-brand-primary transition-colors">contact@company.com</a>
+                <a href="mailto:contact@towerup.uz" className="hover:text-brand-primary transition-colors">contact@towerup.uz</a>
               </p>
               <p>
                 <span className="text-white/70">Телефон: </span>
