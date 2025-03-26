@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import PageHeader from '@/components/PageHeader';
@@ -8,8 +8,63 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const Contact: React.FC = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!name || !email || !subject || !message) {
+      toast({
+        title: "Ошибка",
+        description: "Пожалуйста, заполните все поля",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    try {
+      setLoading(true);
+      
+      const { error } = await supabase
+        .from('contact_messages')
+        .insert([
+          { name, email, subject, message }
+        ]);
+        
+      if (error) throw error;
+      
+      toast({
+        title: "Успешно",
+        description: "Ваше сообщение отправлено. Мы свяжемся с вами в ближайшее время.",
+      });
+      
+      // Clear form
+      setName('');
+      setEmail('');
+      setSubject('');
+      setMessage('');
+      
+    } catch (error: any) {
+      console.error('Error submitting contact form:', error);
+      toast({
+        title: "Ошибка",
+        description: error.message || "Произошла ошибка при отправке сообщения. Пожалуйста, попробуйте позже.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen antialiased bg-[#161616] text-gray-200 overflow-x-hidden">
       <NavBar />
@@ -86,14 +141,17 @@ const Contact: React.FC = () => {
                 
                 <div className="bg-slate-800/40 rounded-xl p-8 border border-slate-700/30">
                   <h3 className="text-2xl font-medium mb-6 text-slate-200 font-benzin">Форма обратной связи</h3>
-                  <form className="space-y-5">
+                  <form className="space-y-5" onSubmit={handleSubmit}>
                     <div>
                       <Label htmlFor="name" className="text-slate-300 mb-1.5 block">Ваше имя</Label>
                       <Input 
                         id="name"
                         type="text" 
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                         placeholder="Введите ваше имя" 
                         className="w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 text-white"
+                        required
                       />
                     </div>
                     
@@ -102,8 +160,24 @@ const Contact: React.FC = () => {
                       <Input 
                         id="email"
                         type="email" 
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         placeholder="Введите ваш email" 
                         className="w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 text-white"
+                        required
+                      />
+                    </div>
+                    
+                    <div>
+                      <Label htmlFor="subject" className="text-slate-300 mb-1.5 block">Тема</Label>
+                      <Input 
+                        id="subject"
+                        type="text" 
+                        value={subject}
+                        onChange={(e) => setSubject(e.target.value)}
+                        placeholder="Тема сообщения" 
+                        className="w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 text-white"
+                        required
                       />
                     </div>
                     
@@ -111,21 +185,37 @@ const Contact: React.FC = () => {
                       <Label htmlFor="message" className="text-slate-300 mb-1.5 block">Сообщение</Label>
                       <Textarea 
                         id="message"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
                         placeholder="Ваше сообщение" 
                         rows={5}
                         className="w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none text-white"
+                        required
                       />
                     </div>
                     
                     <button 
                       type="submit" 
+                      disabled={loading}
                       className={cn(
                         "button-hover-effect w-full px-6 py-3 rounded-lg bg-primary text-white font-medium font-benzin",
                         "shadow-lg shadow-primary/20 transform transition flex items-center justify-center gap-2"
                       )}
                     >
-                      Отправить
-                      <Send className="h-4 w-4" />
+                      {loading ? (
+                        <>
+                          <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Отправка...
+                        </>
+                      ) : (
+                        <>
+                          Отправить
+                          <Send className="h-4 w-4" />
+                        </>
+                      )}
                     </button>
                   </form>
                 </div>
