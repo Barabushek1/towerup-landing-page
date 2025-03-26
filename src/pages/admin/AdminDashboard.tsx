@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useAdminData } from '@/contexts/AdminDataContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,7 +5,7 @@ import { FileText, Briefcase, MessageSquare, BarChart3 } from 'lucide-react';
 
 const AdminDashboard: React.FC = () => {
   const { news, vacancies, messages } = useAdminData();
-  const unreadMessages = messages.filter(msg => !msg.isRead).length;
+  const unreadMessages = messages.filter(msg => !msg.read).length;
 
   const stats = [
     {
@@ -100,7 +99,7 @@ const AdminDashboard: React.FC = () => {
               <div className="space-y-4">
                 {messages.slice(0, 5).map((item) => (
                   <div key={item.id} className="flex items-start gap-3 p-3 rounded-lg bg-slate-700/40">
-                    <div className={`w-2 h-2 rounded-full mt-2 ${item.isRead ? 'bg-slate-500' : 'bg-green-500'}`} />
+                    <div className={`w-2 h-2 rounded-full mt-2 ${item.read ? 'bg-slate-500' : 'bg-green-500'}`} />
                     <div>
                       <h3 className="font-medium text-white">{item.name}</h3>
                       <p className="text-sm text-slate-400">{item.email}</p>

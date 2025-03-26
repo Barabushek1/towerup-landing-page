@@ -18,7 +18,7 @@ const AdminSidebar: React.FC = () => {
   const location = useLocation();
   const { messages } = useAdminData();
   
-  const unreadMessages = messages.filter(msg => !msg.isRead).length;
+  const unreadMessages = messages.filter(msg => !msg.read).length;
 
   const navItems = [
     {

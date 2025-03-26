@@ -8,7 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Eye, Trash2, Mail, MailOpen, User, Calendar } from 'lucide-react';
 
 const AdminMessages: React.FC = () => {
-  const { messages, markMessageAsRead, deleteMessage } = useAdminData();
+  const { messages, updateMessage, deleteMessage } = useAdminData();
   const { toast } = useToast();
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -25,11 +25,15 @@ const AdminMessages: React.FC = () => {
     }).format(date);
   };
 
+  const markMessageAsRead = (id: string) => {
+    updateMessage(id, { read: true });
+  };
+
   const openViewDialog = (message: MessageItem) => {
     setCurrentMessage(message);
     setIsViewDialogOpen(true);
     
-    if (!message.isRead) {
+    if (!message.read) {
       markMessageAsRead(message.id);
     }
   };
@@ -81,10 +85,10 @@ const AdminMessages: React.FC = () => {
               {messages.map((item) => (
                 <TableRow 
                   key={item.id} 
-                  className={!item.isRead ? "bg-slate-700/30" : ""}
+                  className={!item.read ? "bg-slate-700/30" : ""}
                 >
                   <TableCell>
-                    {!item.isRead ? (
+                    {!item.read ? (
                       <div className="w-2 h-2 rounded-full bg-green-500"></div>
                     ) : null}
                   </TableCell>
@@ -101,7 +105,7 @@ const AdminMessages: React.FC = () => {
                         size="icon" 
                         onClick={() => openViewDialog(item)}
                       >
-                        {item.isRead ? (
+                        {item.read ? (
                           <MailOpen className="h-4 w-4" />
                         ) : (
                           <Mail className="h-4 w-4" />
