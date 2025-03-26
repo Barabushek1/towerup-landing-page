@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import PageHeader from '@/components/PageHeader';
@@ -8,8 +8,72 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
+import { useAdminData } from '@/contexts/AdminDataContext';
+import { useToast } from '@/hooks/use-toast';
 
 const Contact: React.FC = () => {
+  const { addMessage } = useAdminData();
+  const { toast } = useToast();
+  
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.name || !formData.email || !formData.message) {
+      toast({
+        title: "Заполните все поля",
+        description: "Пожалуйста, заполните все необходимые поля формы",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    try {
+      // Add message to admin panel
+      addMessage({
+        name: formData.name,
+        email: formData.email,
+        message: formData.message
+      });
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        message: ''
+      });
+      
+      toast({
+        title: "Сообщение отправлено",
+        description: "Спасибо! Ваше сообщение успешно отправлено.",
+      });
+    } catch (error) {
+      toast({
+        title: "Ошибка",
+        description: "Произошла ошибка при отправке сообщения. Пожалуйста, попробуйте еще раз.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen antialiased bg-[#161616] text-gray-200 overflow-x-hidden">
       <NavBar />
@@ -86,14 +150,18 @@ const Contact: React.FC = () => {
                 
                 <div className="bg-slate-800/40 rounded-xl p-8 border border-slate-700/30">
                   <h3 className="text-2xl font-medium mb-6 text-slate-200 font-benzin">Форма обратной связи</h3>
-                  <form className="space-y-5">
+                  <form className="space-y-5" onSubmit={handleSubmit}>
                     <div>
                       <Label htmlFor="name" className="text-slate-300 mb-1.5 block">Ваше имя</Label>
                       <Input 
                         id="name"
+                        name="name"
                         type="text" 
                         placeholder="Введите ваше имя" 
                         className="w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 text-white"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        required
                       />
                     </div>
                     
@@ -101,9 +169,13 @@ const Contact: React.FC = () => {
                       <Label htmlFor="email" className="text-slate-300 mb-1.5 block">Email</Label>
                       <Input 
                         id="email"
+                        name="email"
                         type="email" 
                         placeholder="Введите ваш email" 
                         className="w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 text-white"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
                       />
                     </div>
                     
@@ -111,9 +183,13 @@ const Contact: React.FC = () => {
                       <Label htmlFor="message" className="text-slate-300 mb-1.5 block">Сообщение</Label>
                       <Textarea 
                         id="message"
+                        name="message"
                         placeholder="Ваше сообщение" 
                         rows={5}
                         className="w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none text-white"
+                        value={formData.message}
+                        onChange={handleInputChange}
+                        required
                       />
                     </div>
                     
@@ -123,8 +199,9 @@ const Contact: React.FC = () => {
                         "button-hover-effect w-full px-6 py-3 rounded-lg bg-primary text-white font-medium font-benzin",
                         "shadow-lg shadow-primary/20 transform transition flex items-center justify-center gap-2"
                       )}
+                      disabled={isSubmitting}
                     >
-                      Отправить
+                      {isSubmitting ? 'Отправка...' : 'Отправить'}
                       <Send className="h-4 w-4" />
                     </button>
                   </form>

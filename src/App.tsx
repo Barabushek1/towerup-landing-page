@@ -19,6 +19,14 @@ import Construction from "./pages/Construction";
 import Design from "./pages/Design";
 import Solutions from "./pages/Solutions";
 
+// Admin Panel Routes
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminNews from "./pages/admin/AdminNews";
+import AdminVacancies from "./pages/admin/AdminVacancies";
+import AdminMessages from "./pages/admin/AdminMessages";
+import AdminLayout from "./components/admin/AdminLayout";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -47,6 +55,13 @@ const App = () => (
           <Route path="/construction" element={<Construction />} />
           <Route path="/design" element={<Design />} />
           <Route path="/solutions" element={<Solutions />} />
+          
+          {/* Admin Panel Routes */}
+          <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={<AdminLayout><AdminDashboard /></AdminLayout>} />
+          <Route path="/admin/news" element={<AdminLayout><AdminNews /></AdminLayout>} />
+          <Route path="/admin/vacancies" element={<AdminLayout><AdminVacancies /></AdminLayout>} />
+          <Route path="/admin/messages" element={<AdminLayout><AdminMessages /></AdminLayout>} />
           
           {/* Catch-all route */}
           <Route path="*" element={<NotFound />} />

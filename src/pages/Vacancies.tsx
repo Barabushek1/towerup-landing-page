@@ -4,44 +4,60 @@ import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import { ArrowRight, Briefcase } from 'lucide-react';
 import PageHeader from '@/components/PageHeader';
+import { useAdminData } from '@/contexts/AdminDataContext';
 
 const Vacancies: React.FC = () => {
-  const vacancies = [
+  const { vacancies } = useAdminData();
+  
+  // Use admin data if available, otherwise fallback to placeholder data
+  const displayVacancies = vacancies.length > 0 ? vacancies : [
     {
+      id: "default_1",
       title: "Главный инженер проекта",
       location: "Ташкент",
       salary: "от 15 000 000 сум",
-      type: "Полная занятость"
+      type: "Полная занятость",
+      description: ""
     },
     {
+      id: "default_2",
       title: "Архитектор",
       location: "Ташкент",
       salary: "от 12 000 000 сум",
-      type: "Полная занятость"
+      type: "Полная занятость",
+      description: ""
     },
     {
+      id: "default_3",
       title: "Прораб",
       location: "Ташкент",
       salary: "от 10 000 000 сум",
-      type: "Полная занятость"
+      type: "Полная занятость",
+      description: ""
     },
     {
+      id: "default_4",
       title: "Инженер-конструктор",
       location: "Дистанционно",
       salary: "от 9 000 000 сум",
-      type: "Полная занятость"
+      type: "Полная занятость",
+      description: ""
     },
     {
+      id: "default_5",
       title: "Специалист по закупкам",
       location: "Ташкент",
       salary: "от 8 500 000 сум",
-      type: "Полная занятость"
+      type: "Полная занятость",
+      description: ""
     },
     {
+      id: "default_6",
       title: "Бухгалтер",
       location: "Ташкент",
       salary: "от 8 000 000 сум",
-      type: "Полная занятость"
+      type: "Полная занятость",
+      description: ""
     }
   ];
 
@@ -67,9 +83,9 @@ const Vacancies: React.FC = () => {
               <h2 className="text-3xl md:text-4xl font-bold mb-8 text-slate-200 font-benzin text-center">Присоединяйтесь к нам</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {vacancies.map((item, index) => (
+                {displayVacancies.map((item) => (
                   <div
-                    key={index}
+                    key={item.id}
                     className="relative overflow-hidden rounded-lg border border-primary/10 p-6 shadow-sm bg-slate-800/40
                     transition-all duration-300 hover:shadow-md"
                   >
