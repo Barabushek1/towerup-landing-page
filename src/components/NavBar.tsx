@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Menu, Phone, ChevronDown, Facebook, Instagram, MessageSquare, MapPin, Mail, PhoneCall } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -22,6 +23,7 @@ const NavBar: React.FC = () => {
   const isMobile = useIsMobile();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,7 +45,8 @@ const NavBar: React.FC = () => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node) && isMenuOpen) {
-        setIsMenuOpen(false);
+        // Add a small delay to prevent premature closing
+        setTimeout(() => setIsMenuOpen(false), 100);
       }
     };
 
@@ -53,17 +56,19 @@ const NavBar: React.FC = () => {
     };
   }, [isMenuOpen]);
 
+  // Update body class when menu state changes
   useEffect(() => {
     if (isMenuOpen) {
       document.body.classList.add('menu-open');
     } else {
       document.body.classList.remove('menu-open');
     }
-
-    return () => {
-      document.body.classList.remove('menu-open');
-    };
   }, [isMenuOpen]);
+
+  const handleNavigation = (href: string) => {
+    setIsMenuOpen(false);
+    navigate(href);
+  };
 
   const companySubMenu = [
     { title: 'О нас', href: '/about' },
@@ -270,9 +275,10 @@ const NavBar: React.FC = () => {
             ref={menuRef}
             className={cn(
               "fixed inset-y-0 right-0 z-[101] w-[85vw] max-w-xs bg-[#080C16] shadow-xl",
-              "transform transition-transform duration-300 ease-in-out",
+              "transition-transform duration-300 ease-in-out",
               isMenuOpen ? "translate-x-0" : "translate-x-full"
             )}
+            onClick={(e) => e.stopPropagation()} // Prevent clicks from propagating to overlay
           >
             <div className="flex flex-col h-full w-full">
               <div className="flex items-center justify-between p-4 border-b border-white/10">
