@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -43,7 +42,6 @@ const NavBar: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // Close menu when clicking outside
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node) && isMenuOpen) {
         setIsMenuOpen(false);
@@ -56,16 +54,15 @@ const NavBar: React.FC = () => {
     };
   }, [isMenuOpen]);
 
-  // Disable body scroll when menu is open
   useEffect(() => {
     if (isMenuOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.classList.add('menu-open');
     } else {
-      document.body.style.overflow = '';
+      document.body.classList.remove('menu-open');
     }
 
     return () => {
-      document.body.style.overflow = '';
+      document.body.classList.remove('menu-open');
     };
   }, [isMenuOpen]);
 
@@ -90,9 +87,8 @@ const NavBar: React.FC = () => {
     { title: 'Контакты', href: '/contact', key: 'contacts' },
   ];
 
-  // Mobile menu component with collapsible submenus
   const MobileMenu = () => (
-    <div className="bg-[#222] h-full w-full overflow-auto">
+    <div className="bg-[#080C16] h-full w-full overflow-auto">
       <nav className="flex flex-col w-full">
         {navLinks.map((link) => (
           link.hasSubmenu ? (
@@ -187,7 +183,6 @@ const NavBar: React.FC = () => {
           />
         </Link>
 
-        {/* Desktop Navigation */}
         {!isMobile && (
           <div className="hidden md:flex items-center space-x-8">
             <NavigationMenu>
@@ -249,9 +244,8 @@ const NavBar: React.FC = () => {
           </div>
         )}
 
-        {/* Mobile Navigation */}
         {isMobile && (
-          <div className="z-50" ref={menuRef}>
+          <div className="z-50">
             <button 
               className="md:hidden focus:outline-none"
               aria-label="Toggle menu"
@@ -260,24 +254,37 @@ const NavBar: React.FC = () => {
               <Menu className="h-6 w-6 text-white" />
             </button>
             
-            {/* Fixed position overlay that covers the whole screen */}
-            <div 
-              className={cn(
-                "fixed inset-0 bg-black/50 z-40 transition-opacity duration-300",
-                isMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-              )}
-              onClick={() => setIsMenuOpen(false)}
-            />
+            {isMenuOpen && (
+              <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40" onClick={() => setIsMenuOpen(false)} />
+            )}
             
-            {/* Full-screen mobile menu */}
             <div 
               className={cn(
-                "fixed inset-0 z-50 transition-transform duration-300 ease-in-out transform pt-20",
-                isMenuOpen ? "translate-x-0" : "translate-x-full"
+                "fixed inset-0 z-50 transition-all duration-300 ease-in-out",
+                isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
               )}
             >
-              <div className="w-full h-full max-w-sm ml-auto bg-[#222] overflow-y-auto flex flex-col">
-                <MobileMenu />
+              <div className="w-full h-full flex flex-col">
+                <div className="container mx-auto px-6 py-5 flex items-center justify-between">
+                  <Link to="/" className="flex items-center">
+                    <img 
+                      src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png" 
+                      alt="TOWERUP Logo" 
+                      className="h-12 w-auto" 
+                    />
+                  </Link>
+                  <button 
+                    className="focus:outline-none"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+                <div className="flex-1 overflow-auto">
+                  <MobileMenu />
+                </div>
               </div>
             </div>
           </div>
