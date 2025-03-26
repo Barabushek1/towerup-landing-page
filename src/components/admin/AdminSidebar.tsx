@@ -22,25 +22,25 @@ const AdminSidebar: React.FC = () => {
 
   const navItems = [
     {
-      name: 'Dashboard',
+      name: 'Дашборд',
       href: '/admin/dashboard',
       icon: <LayoutDashboard className="h-5 w-5" />,
       badge: null,
     },
     {
-      name: 'News',
+      name: 'Новости',
       href: '/admin/news',
       icon: <FileText className="h-5 w-5" />,
       badge: null,
     },
     {
-      name: 'Vacancies',
+      name: 'Вакансии',
       href: '/admin/vacancies',
       icon: <Briefcase className="h-5 w-5" />,
       badge: null,
     },
     {
-      name: 'Messages',
+      name: 'Сообщения',
       href: '/admin/messages',
       icon: <MessageSquare className="h-5 w-5" />,
       badge: unreadMessages > 0 ? unreadMessages : null,
@@ -54,7 +54,7 @@ const AdminSidebar: React.FC = () => {
   return (
     <div className="w-64 bg-slate-800 text-white border-r border-slate-700 flex flex-col h-full">
       <div className="p-4 border-b border-slate-700">
-        <div className="text-lg font-bold text-primary">TOWER UP Admin</div>
+        <div className="text-lg font-bold text-primary">TOWER UP Админ</div>
       </div>
       
       <div className="p-4 border-b border-slate-700">
@@ -101,7 +101,7 @@ const AdminSidebar: React.FC = () => {
           className="flex items-center gap-3 text-slate-300 hover:text-white w-full px-3 py-2 rounded-md hover:bg-slate-700 transition-colors"
         >
           <LogOut className="h-5 w-5" />
-          <span>Logout</span>
+          <span>Выйти</span>
         </button>
       </div>
     </div>

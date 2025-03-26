@@ -1,9 +1,8 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
@@ -34,39 +33,37 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          
-          {/* Company routes */}
-          <Route path="/about" element={<About />} />
-          <Route path="/history" element={<History />} />
-          <Route path="/partners" element={<Partners />} />
-          <Route path="/management" element={<Management />} />
-          
-          {/* Other main routes */}
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/vacancies" element={<Vacancies />} />
-          <Route path="/contact" element={<Contact />} />
-          
-          {/* Services routes */}
-          <Route path="/construction" element={<Construction />} />
-          <Route path="/design" element={<Design />} />
-          <Route path="/solutions" element={<Solutions />} />
-          
-          {/* Admin Panel Routes */}
-          <Route path="/admin" element={<AdminLogin />} />
-          <Route path="/admin/dashboard" element={<AdminLayout><AdminDashboard /></AdminLayout>} />
-          <Route path="/admin/news" element={<AdminLayout><AdminNews /></AdminLayout>} />
-          <Route path="/admin/vacancies" element={<AdminLayout><AdminVacancies /></AdminLayout>} />
-          <Route path="/admin/messages" element={<AdminLayout><AdminMessages /></AdminLayout>} />
-          
-          {/* Catch-all route */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Index />} />
+        
+        {/* Company routes */}
+        <Route path="/about" element={<About />} />
+        <Route path="/history" element={<History />} />
+        <Route path="/partners" element={<Partners />} />
+        <Route path="/management" element={<Management />} />
+        
+        {/* Other main routes */}
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/news" element={<News />} />
+        <Route path="/vacancies" element={<Vacancies />} />
+        <Route path="/contact" element={<Contact />} />
+        
+        {/* Services routes */}
+        <Route path="/construction" element={<Construction />} />
+        <Route path="/design" element={<Design />} />
+        <Route path="/solutions" element={<Solutions />} />
+        
+        {/* Admin Panel Routes */}
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/admin/dashboard" element={<AdminLayout><AdminDashboard /></AdminLayout>} />
+        <Route path="/admin/news" element={<AdminLayout><AdminNews /></AdminLayout>} />
+        <Route path="/admin/vacancies" element={<AdminLayout><AdminVacancies /></AdminLayout>} />
+        <Route path="/admin/messages" element={<AdminLayout><AdminMessages /></AdminLayout>} />
+        
+        {/* Catch-all route */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </TooltipProvider>
   </QueryClientProvider>
 );
