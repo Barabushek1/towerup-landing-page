@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { Menu, X, Phone, ChevronRight, Facebook, Instagram, MessageSquare, Telegram, MapPin, Mail, PhoneCall } from 'lucide-react';
+import { Menu, X, Phone, ChevronRight, Facebook, Instagram, MessageSquare, MapPin, Mail, PhoneCall } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import {
   NavigationMenu,
