@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
+import PageHeader from '@/components/PageHeader';
 import { Calendar, ArrowLeft, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAdminData, NewsItem } from '@/contexts/AdminDataContext';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 
 const NewsDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -62,6 +64,35 @@ const NewsDetail: React.FC = () => {
     <div className="min-h-screen antialiased bg-[#161616] text-gray-200">
       <NavBar />
       
+      <PageHeader 
+        title={newsItem.title}
+        bgImage={newsItem.imageUrl}
+      />
+      
+      <div className="bg-[#1a1a1a] py-8">
+        <div className="container mx-auto px-6">
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link to="/">ГЛАВНАЯ</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link to="/news">НОВОСТИ</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <span className="text-white">{newsItem.title}</span>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
+      </div>
+      
       <main>
         <div className="bg-[#1a1a1a] py-16">
           <div className="container mx-auto px-6">
@@ -73,21 +104,11 @@ const NewsDetail: React.FC = () => {
                 </Button>
               </Link>
               
-              <h1 className="text-3xl md:text-4xl font-bold mb-4 font-benzin text-white">{newsItem.title}</h1>
-              
               <div className="flex items-center gap-6 text-muted-foreground mb-8">
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4" />
                   <span className="text-sm font-benzin">{newsItem.date}</span>
                 </div>
-              </div>
-              
-              <div className="aspect-video w-full rounded-lg overflow-hidden mb-8">
-                <img
-                  src={newsItem.imageUrl}
-                  alt={newsItem.title}
-                  className="w-full h-full object-cover"
-                />
               </div>
               
               <div className="prose prose-invert max-w-none font-benzin">

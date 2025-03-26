@@ -21,6 +21,7 @@ export type VacancyItem = {
   description?: string;
   requirements?: string;
   benefits?: string;
+  imageUrl?: string;
 };
 
 export type PartnerItem = {

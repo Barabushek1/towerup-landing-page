@@ -8,7 +8,8 @@ import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { Pencil, Trash2, Plus, MapPin, Coins, Clock, Briefcase } from 'lucide-react';
+import { Pencil, Trash2, Plus, MapPin, Coins, Clock, Briefcase, Image } from 'lucide-react';
+import ImageUploader from '@/components/admin/ImageUploader';
 
 const AdminVacancies: React.FC = () => {
   const { vacancies, addVacancy, updateVacancy, deleteVacancy } = useAdminData();
@@ -24,7 +25,9 @@ const AdminVacancies: React.FC = () => {
     description: '',
     requirements: '',
     benefits: '',
+    imageUrl: '',
   });
+  const [useUrlInput, setUseUrlInput] = useState<boolean>(false);
 
   const resetForm = () => {
     setFormData({
@@ -35,8 +38,10 @@ const AdminVacancies: React.FC = () => {
       description: '',
       requirements: '',
       benefits: '',
+      imageUrl: '',
     });
     setCurrentVacancyId(null);
+    setUseUrlInput(false);
   };
 
   const openAddDialog = () => {
@@ -54,6 +59,7 @@ const AdminVacancies: React.FC = () => {
       description: vacancyItem.description || '',
       requirements: vacancyItem.requirements || '',
       benefits: vacancyItem.benefits || '',
+      imageUrl: vacancyItem.imageUrl || '',
     });
     setIsDialogOpen(true);
   };
@@ -66,6 +72,10 @@ const AdminVacancies: React.FC = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleImageUploaded = (imageUrl: string) => {
+    setFormData(prev => ({ ...prev, imageUrl }));
   };
 
   const handleSubmit = () => {
@@ -248,6 +258,67 @@ const AdminVacancies: React.FC = () => {
                 placeholder="например: Полная занятость"
                 className="col-span-3 bg-slate-700 border-slate-600"
               />
+            </div>
+            
+            <div className="grid grid-cols-4 items-start gap-4">
+              <Label className="text-right flex items-center mt-2">
+                <Image className="mr-2 h-4 w-4" />
+                Изображение вакансии
+              </Label>
+              <div className="col-span-3">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      type="button" 
+                      className={!useUrlInput ? "bg-primary/20" : ""}
+                      onClick={() => setUseUrlInput(false)}
+                    >
+                      Загрузить
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      type="button" 
+                      className={`ml-2 ${useUrlInput ? "bg-primary/20" : ""}`}
+                      onClick={() => setUseUrlInput(true)}
+                    >
+                      URL
+                    </Button>
+                  </div>
+                </div>
+
+                {useUrlInput ? (
+                  <div>
+                    <Input
+                      id="imageUrl"
+                      name="imageUrl"
+                      value={formData.imageUrl}
+                      onChange={handleInputChange}
+                      placeholder="https://example.com/image.jpg"
+                      className="mb-2 bg-slate-700 border-slate-600"
+                    />
+                    {formData.imageUrl && (
+                      <div className="w-full h-32 bg-slate-700 rounded-md overflow-hidden">
+                        <img 
+                          src={formData.imageUrl} 
+                          alt="Предпросмотр изображения" 
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = 'https://placehold.co/640x320?text=Error';
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <ImageUploader 
+                    onImageUploaded={handleImageUploaded}
+                    defaultImage={formData.imageUrl}
+                  />
+                )}
+              </div>
             </div>
             
             <div className="h-px bg-slate-700 my-4"></div>

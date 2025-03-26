@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
+import PageHeader from '@/components/PageHeader';
 import { MapPin, Coins, Clock, Briefcase, ArrowLeft, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAdminData, VacancyItem } from '@/contexts/AdminDataContext';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 
 const VacancyDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -61,6 +63,35 @@ const VacancyDetail: React.FC = () => {
   return (
     <div className="min-h-screen antialiased bg-[#161616] text-gray-200">
       <NavBar />
+      
+      <PageHeader 
+        title={vacancy.title}
+        breadcrumb="ВАКАНСИИ"
+      />
+      
+      <div className="bg-[#1a1a1a] py-8">
+        <div className="container mx-auto px-6">
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link to="/">ГЛАВНАЯ</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link to="/vacancies">ВАКАНСИИ</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <span className="text-white">{vacancy.title}</span>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
+      </div>
       
       <main>
         <div className="bg-[#1a1a1a] py-16">

@@ -9,6 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { Pencil, Trash2, Plus, X, Calendar, Image, Link as LinkIcon } from 'lucide-react';
+import ImageUploader from '@/components/admin/ImageUploader';
 
 const AdminNews: React.FC = () => {
   const { news, addNews, updateNews, deleteNews } = useAdminData();
@@ -25,6 +26,7 @@ const AdminNews: React.FC = () => {
     additionalImages: []
   });
   const [newImageUrl, setNewImageUrl] = useState<string>('');
+  const [useUrlInput, setUseUrlInput] = useState<boolean>(false);
 
   const resetForm = () => {
     setFormData({
@@ -37,6 +39,7 @@ const AdminNews: React.FC = () => {
     });
     setNewImageUrl('');
     setCurrentNewsId(null);
+    setUseUrlInput(false);
   };
 
   const openAddDialog = () => {
@@ -67,6 +70,10 @@ const AdminNews: React.FC = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleMainImageUploaded = (imageUrl: string) => {
+    setFormData(prev => ({ ...prev, imageUrl }));
+  };
+
   const handleAddImage = () => {
     if (newImageUrl && !formData.additionalImages?.includes(newImageUrl)) {
       setFormData((prev) => ({
@@ -74,6 +81,15 @@ const AdminNews: React.FC = () => {
         additionalImages: [...(prev.additionalImages || []), newImageUrl]
       }));
       setNewImageUrl('');
+    }
+  };
+
+  const handleAddUploadedImage = (imageUrl: string) => {
+    if (imageUrl && !formData.additionalImages?.includes(imageUrl)) {
+      setFormData((prev) => ({
+        ...prev,
+        additionalImages: [...(prev.additionalImages || []), imageUrl]
+      }));
     }
   };
 
@@ -240,37 +256,66 @@ const AdminNews: React.FC = () => {
                 className="col-span-3 bg-slate-700 border-slate-600"
               />
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="imageUrl" className="text-right flex items-center">
+            <div className="grid grid-cols-4 items-start gap-4">
+              <Label className="text-right flex items-center mt-2">
                 <Image className="mr-2 h-4 w-4" />
-                URL главного изображения
+                Главное изображение
               </Label>
-              <Input
-                id="imageUrl"
-                name="imageUrl"
-                value={formData.imageUrl}
-                onChange={handleInputChange}
-                placeholder="https://example.com/image.jpg"
-                className="col-span-3 bg-slate-700 border-slate-600"
-              />
-            </div>
-            {formData.imageUrl && (
-              <div className="grid grid-cols-4 gap-4">
-                <div className="text-right"></div>
-                <div className="col-span-3">
-                  <div className="w-full h-32 bg-slate-700 rounded-md overflow-hidden">
-                    <img 
-                      src={formData.imageUrl} 
-                      alt="Предпросмотр изображения" 
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = 'https://placehold.co/640x320?text=Error';
-                      }}
-                    />
+              <div className="col-span-3">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      type="button" 
+                      className={!useUrlInput ? "bg-primary/20" : ""}
+                      onClick={() => setUseUrlInput(false)}
+                    >
+                      Загрузить
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      type="button" 
+                      className={`ml-2 ${useUrlInput ? "bg-primary/20" : ""}`}
+                      onClick={() => setUseUrlInput(true)}
+                    >
+                      URL
+                    </Button>
                   </div>
                 </div>
+
+                {useUrlInput ? (
+                  <div>
+                    <Input
+                      id="imageUrl"
+                      name="imageUrl"
+                      value={formData.imageUrl}
+                      onChange={handleInputChange}
+                      placeholder="https://example.com/image.jpg"
+                      className="mb-2 bg-slate-700 border-slate-600"
+                    />
+                    {formData.imageUrl && (
+                      <div className="w-full h-32 bg-slate-700 rounded-md overflow-hidden">
+                        <img 
+                          src={formData.imageUrl} 
+                          alt="Предпросмотр изображения" 
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = 'https://placehold.co/640x320?text=Error';
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <ImageUploader 
+                    onImageUploaded={handleMainImageUploaded}
+                    defaultImage={formData.imageUrl}
+                  />
+                )}
               </div>
-            )}
+            </div>
             <div className="grid grid-cols-4 items-start gap-4">
               <Label htmlFor="excerpt" className="text-right mt-2">
                 Короткое описание
@@ -299,27 +344,47 @@ const AdminNews: React.FC = () => {
               />
             </div>
             
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label className="text-right flex items-center">
+            <div className="grid grid-cols-4 items-start gap-4">
+              <Label className="text-right flex items-center mt-2">
                 <Image className="mr-2 h-4 w-4" />
                 Галерея
               </Label>
               <div className="col-span-3 space-y-2">
-                <div className="flex items-center gap-2">
-                  <Input
-                    value={newImageUrl}
-                    onChange={(e) => setNewImageUrl(e.target.value)}
-                    placeholder="URL дополнительного изображения"
-                    className="flex-1 bg-slate-700 border-slate-600"
-                  />
-                  <Button 
-                    type="button" 
-                    variant="outline"
-                    onClick={handleAddImage}
-                    disabled={!newImageUrl}
-                  >
-                    <Plus className="h-4 w-4" />
-                  </Button>
+                <div className="flex flex-col gap-4">
+                  <div className="flex items-center gap-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex-1"
+                      onClick={() => setUseUrlInput(!useUrlInput)}
+                    >
+                      {useUrlInput ? "Загрузить изображение" : "Ввести URL изображения"}
+                    </Button>
+                  </div>
+                  
+                  {useUrlInput ? (
+                    <div className="flex items-center gap-2">
+                      <Input
+                        value={newImageUrl}
+                        onChange={(e) => setNewImageUrl(e.target.value)}
+                        placeholder="URL дополнительного изображения"
+                        className="flex-1 bg-slate-700 border-slate-600"
+                      />
+                      <Button 
+                        type="button" 
+                        variant="outline"
+                        onClick={handleAddImage}
+                        disabled={!newImageUrl}
+                      >
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <ImageUploader
+                      onImageUploaded={handleAddUploadedImage}
+                      className="mt-2"
+                    />
+                  )}
                 </div>
                 
                 {formData.additionalImages && formData.additionalImages.length > 0 ? (
