@@ -97,7 +97,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       setAdmin(adminData);
       localStorage.setItem('admin', JSON.stringify(adminData));
       
-      return adminData;
+      // Don't return data to match the Promise<void> type
     } catch (error) {
       console.error('Registration error:', error);
       throw error;
