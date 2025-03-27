@@ -12,9 +12,12 @@ interface Vacancy {
   id: string;
   title: string;
   location: string;
-  salary: string;
-  type: string;
-  description?: string;
+  salary_range: string;
+  is_active: boolean;
+  description: string;
+  requirements?: string;
+  created_at: string;
+  updated_at: string;
 }
 
 const Vacancies: React.FC = () => {
@@ -40,49 +43,61 @@ const Vacancies: React.FC = () => {
       id: "default_1",
       title: "Главный инженер проекта",
       location: "Ташкент",
-      salary: "от 15 000 000 сум",
-      type: "Полная занятость",
-      description: ""
+      salary_range: "от 15 000 000 сум",
+      is_active: true,
+      description: "",
+      created_at: "",
+      updated_at: ""
     },
     {
       id: "default_2",
       title: "Архитектор",
       location: "Ташкент",
-      salary: "от 12 000 000 сум",
-      type: "Полная занятость",
-      description: ""
+      salary_range: "от 12 000 000 сум",
+      is_active: true,
+      description: "",
+      created_at: "",
+      updated_at: ""
     },
     {
       id: "default_3",
       title: "Прораб",
       location: "Ташкент",
-      salary: "от 10 000 000 сум",
-      type: "Полная занятость",
-      description: ""
+      salary_range: "от 10 000 000 сум",
+      is_active: true,
+      description: "",
+      created_at: "",
+      updated_at: ""
     },
     {
       id: "default_4",
       title: "Инженер-конструктор",
       location: "Дистанционно",
-      salary: "от 9 000 000 сум",
-      type: "Полная занятость",
-      description: ""
+      salary_range: "от 9 000 000 сум",
+      is_active: true,
+      description: "",
+      created_at: "",
+      updated_at: ""
     },
     {
       id: "default_5",
       title: "Специалист по закупкам",
       location: "Ташкент",
-      salary: "от 8 500 000 сум",
-      type: "Полная занятость",
-      description: ""
+      salary_range: "от 8 500 000 сум",
+      is_active: true,
+      description: "",
+      created_at: "",
+      updated_at: ""
     },
     {
       id: "default_6",
       title: "Бухгалтер",
       location: "Ташкент",
-      salary: "от 8 000 000 сум",
-      type: "Полная занятость",
-      description: ""
+      salary_range: "от 8 000 000 сум",
+      is_active: true,
+      description: "",
+      created_at: "",
+      updated_at: ""
     }
   ];
 
@@ -132,13 +147,13 @@ const Vacancies: React.FC = () => {
                               <span className="text-sm font-benzin">{item.location}</span>
                             </div>
                             <div className="flex items-center gap-2 text-muted-foreground">
-                              <span className="text-sm font-benzin">{item.type}</span>
+                              <span className="text-sm font-benzin">Полная занятость</span>
                             </div>
                           </div>
                         </div>
                         
                         <div className="text-right">
-                          <span className="font-medium text-brand-primary font-benzin">{item.salary}</span>
+                          <span className="font-medium text-brand-primary font-benzin">{item.salary_range}</span>
                         </div>
                       </div>
                       

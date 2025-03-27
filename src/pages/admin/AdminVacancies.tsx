@@ -1,31 +1,44 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { Pencil, Trash2, Plus, MapPin, Coins, Clock, Briefcase, Image, X, Loader2 } from 'lucide-react';
+import { Pencil, Trash2, Plus, X, Image, Link as LinkIcon, Loader2 } from 'lucide-react';
 import ImageUploader from '@/components/admin/ImageUploader';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
+// Update the type definitions for Vacancy
 interface VacancyItem {
   id: string;
   title: string;
   location: string;
-  salary: string;
-  type: string;
-  description?: string;
+  salary_range: string;
+  description: string;
   requirements?: string;
   benefits?: string;
+  is_active: boolean;
   image_url?: string;
   additional_images?: string[];
+  created_at: string;
+  updated_at: string;
 }
 
-type VacancyInput = Omit<VacancyItem, 'id'>;
+type VacancyInput = {
+  title: string;
+  location: string;
+  salary_range: string;
+  description: string;
+  requirements?: string;
+  benefits?: string;
+  is_active?: boolean;
+  image_url?: string;
+  additional_images?: string[];
+};
 
 const AdminVacancies: React.FC = () => {
   const { toast } = useToast();
@@ -36,18 +49,18 @@ const AdminVacancies: React.FC = () => {
   const [formData, setFormData] = useState<VacancyInput>({
     title: '',
     location: '',
-    salary: '',
-    type: '',
+    salary_range: '',
     description: '',
     requirements: '',
     benefits: '',
+    is_active: true,
     image_url: '',
     additional_images: []
   });
-  const [useUrlInput, setUseUrlInput] = useState<boolean>(false);
   const [newImageUrl, setNewImageUrl] = useState<string>('');
+  const [useUrlInput, setUseUrlInput] = useState<boolean>(false);
 
-  // Fetch vacancies
+  // Update the fetch function
   const { data: vacancies = [], isLoading, error } = useQuery({
     queryKey: ['vacancies'],
     queryFn: async () => {
@@ -55,28 +68,38 @@ const AdminVacancies: React.FC = () => {
         .from('vacancies')
         .select('*')
         .order('title');
-      
+    
       if (error) {
         throw error;
       }
-      
+    
       return data as VacancyItem[];
     }
   });
 
-  // Add vacancy mutation
+  // Update mutation with the correct structure for Supabase
   const addVacancyMutation = useMutation({
-    mutationFn: async (vacancy: VacancyInput) => {
+    mutationFn: async (vacancyItem: VacancyInput) => {
       const { data, error } = await supabase
         .from('vacancies')
-        .insert(vacancy)
+        .insert({
+          title: vacancyItem.title,
+          location: vacancyItem.location,
+          salary_range: vacancyItem.salary_range,
+          description: vacancyItem.description,
+          requirements: vacancyItem.requirements,
+          benefits: vacancyItem.benefits,
+          is_active: vacancyItem.is_active !== undefined ? vacancyItem.is_active : true,
+          image_url: vacancyItem.image_url,
+          additional_images: vacancyItem.additional_images || []
+        })
         .select()
         .single();
-      
+    
       if (error) {
         throw error;
       }
-      
+    
       return data;
     },
     onSuccess: () => {
@@ -88,7 +111,7 @@ const AdminVacancies: React.FC = () => {
       setIsDialogOpen(false);
       resetForm();
     },
-    onError: (error) => {
+    onError: (error: any) => {
       toast({
         title: "Ошибка",
         description: `Произошла ошибка при сохранении данных: ${error.message}`,
@@ -97,20 +120,30 @@ const AdminVacancies: React.FC = () => {
     }
   });
 
-  // Update vacancy mutation
+  // Update mutation with the correct structure for Supabase
   const updateVacancyMutation = useMutation({
-    mutationFn: async ({ id, vacancy }: { id: string; vacancy: VacancyInput }) => {
+    mutationFn: async ({ id, vacancyItem }: { id: string; vacancyItem: VacancyInput }) => {
       const { data, error } = await supabase
         .from('vacancies')
-        .update(vacancy)
+        .update({
+          title: vacancyItem.title,
+          location: vacancyItem.location,
+          salary_range: vacancyItem.salary_range,
+          description: vacancyItem.description,
+          requirements: vacancyItem.requirements,
+          benefits: vacancyItem.benefits,
+          is_active: vacancyItem.is_active !== undefined ? vacancyItem.is_active : true,
+          image_url: vacancyItem.image_url,
+          additional_images: vacancyItem.additional_images || []
+        })
         .eq('id', id)
         .select()
         .single();
-      
+    
       if (error) {
         throw error;
       }
-      
+    
       return data;
     },
     onSuccess: () => {
@@ -122,7 +155,7 @@ const AdminVacancies: React.FC = () => {
       setIsDialogOpen(false);
       resetForm();
     },
-    onError: (error) => {
+    onError: (error: any) => {
       toast({
         title: "Ошибка",
         description: `Произошла ошибка при обновлении данных: ${error.message}`,
@@ -138,7 +171,7 @@ const AdminVacancies: React.FC = () => {
         .from('vacancies')
         .delete()
         .eq('id', id);
-      
+    
       if (error) {
         throw error;
       }
@@ -151,7 +184,7 @@ const AdminVacancies: React.FC = () => {
       });
       setIsDeleteDialogOpen(false);
     },
-    onError: (error) => {
+    onError: (error: any) => {
       toast({
         title: "Ошибка",
         description: `Произошла ошибка при удалении вакансии: ${error.message}`,
@@ -164,17 +197,17 @@ const AdminVacancies: React.FC = () => {
     setFormData({
       title: '',
       location: '',
-      salary: '',
-      type: '',
+      salary_range: '',
       description: '',
       requirements: '',
       benefits: '',
+      is_active: true,
       image_url: '',
       additional_images: []
     });
+    setNewImageUrl('');
     setCurrentVacancyId(null);
     setUseUrlInput(false);
-    setNewImageUrl('');
   };
 
   const openAddDialog = () => {
@@ -182,17 +215,18 @@ const AdminVacancies: React.FC = () => {
     setIsDialogOpen(true);
   };
 
+  // Update form initialization
   const openEditDialog = (vacancyItem: VacancyItem) => {
     setCurrentVacancyId(vacancyItem.id);
     setFormData({
       title: vacancyItem.title,
       location: vacancyItem.location,
-      salary: vacancyItem.salary,
-      type: vacancyItem.type,
-      description: vacancyItem.description || '',
-      requirements: vacancyItem.requirements || '',
-      benefits: vacancyItem.benefits || '',
-      image_url: vacancyItem.image_url || '',
+      salary_range: vacancyItem.salary_range,
+      description: vacancyItem.description,
+      requirements: vacancyItem.requirements,
+      benefits: vacancyItem.benefits,
+      is_active: vacancyItem.is_active,
+      image_url: vacancyItem.image_url,
       additional_images: vacancyItem.additional_images || []
     });
     setIsDialogOpen(true);
@@ -208,7 +242,11 @@ const AdminVacancies: React.FC = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleImageUploaded = (imageUrl: string) => {
+  const handleCheckboxChange = (checked: boolean) => {
+    setFormData(prev => ({ ...prev, is_active: checked }));
+  };
+
+  const handleMainImageUploaded = (imageUrl: string) => {
     setFormData(prev => ({ ...prev, image_url: imageUrl }));
   };
 
@@ -239,7 +277,7 @@ const AdminVacancies: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    if (!formData.title || !formData.location || !formData.salary || !formData.type) {
+    if (!formData.title || !formData.location || !formData.salary_range || !formData.description) {
       toast({
         title: "Ошибка валидации",
         description: "Пожалуйста, заполните все обязательные поля",
@@ -249,7 +287,7 @@ const AdminVacancies: React.FC = () => {
     }
 
     if (currentVacancyId) {
-      updateVacancyMutation.mutate({ id: currentVacancyId, vacancy: formData });
+      updateVacancyMutation.mutate({ id: currentVacancyId, vacancyItem: formData });
     } else {
       addVacancyMutation.mutate(formData);
     }
@@ -293,38 +331,34 @@ const AdminVacancies: React.FC = () => {
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[100px]">Изображение</TableHead>
-                <TableHead>Должность</TableHead>
-                <TableHead>Расположение</TableHead>
+                <TableHead>Заголовок</TableHead>
+                <TableHead>Локация</TableHead>
                 <TableHead>Зарплата</TableHead>
-                <TableHead>Тип</TableHead>
-                <TableHead className="text-right">Действия</TableHead>
+                <TableHead className="w-[80px]">Активна</TableHead>
+                <TableHead className="text-right w-[100px]">Действия</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {vacancies.map((item) => (
                 <TableRow key={item.id}>
                   <TableCell>
-                    {item.image_url ? (
-                      <div className="w-16 h-12 rounded overflow-hidden">
-                        <img 
-                          src={item.image_url} 
-                          alt={item.title} 
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = 'https://placehold.co/200x120?text=Error';
-                          }}
-                        />
-                      </div>
-                    ) : (
-                      <div className="w-16 h-12 bg-slate-700 rounded flex items-center justify-center">
-                        <Briefcase className="h-6 w-6 text-slate-500" />
-                      </div>
-                    )}
+                    <div className="w-16 h-12 rounded overflow-hidden">
+                      <img 
+                        src={item.image_url || 'https://placehold.co/200x120?text=No+Image'}
+                        alt={item.title} 
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = 'https://placehold.co/200x120?text=Error';
+                        }}
+                      />
+                    </div>
                   </TableCell>
                   <TableCell className="font-medium">{item.title}</TableCell>
                   <TableCell>{item.location}</TableCell>
-                  <TableCell>{item.salary}</TableCell>
-                  <TableCell>{item.type}</TableCell>
+                  <TableCell>{item.salary_range}</TableCell>
+                  <TableCell>
+                    {item.is_active ? <Checkbox checked={true} disabled /> : <Checkbox checked={false} disabled />}
+                  </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
                       <Button 
@@ -363,16 +397,9 @@ const AdminVacancies: React.FC = () => {
             <DialogTitle>{currentVacancyId ? 'Редактировать вакансию' : 'Добавить вакансию'}</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="p-3 rounded-full bg-primary/10">
-                <Briefcase className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="text-lg font-medium">Основная информация</h3>
-            </div>
-            
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="title" className="text-right">
-                Должность
+                Заголовок
               </Label>
               <Input
                 id="title"
@@ -383,9 +410,8 @@ const AdminVacancies: React.FC = () => {
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="location" className="text-right flex items-center">
-                <MapPin className="mr-2 h-4 w-4" />
-                Расположение
+              <Label htmlFor="location" className="text-right">
+                Локация
               </Label>
               <Input
                 id="location"
@@ -396,38 +422,37 @@ const AdminVacancies: React.FC = () => {
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="salary" className="text-right flex items-center">
-                <Coins className="mr-2 h-4 w-4" />
+              <Label htmlFor="salary_range" className="text-right">
                 Зарплата
               </Label>
               <Input
-                id="salary"
-                name="salary"
-                value={formData.salary}
+                id="salary_range"
+                name="salary_range"
+                value={formData.salary_range}
                 onChange={handleInputChange}
-                placeholder="например: от 15 000 000 сум"
                 className="col-span-3 bg-slate-700 border-slate-600"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="type" className="text-right flex items-center">
-                <Clock className="mr-2 h-4 w-4" />
-                Тип занятости
+              <Label htmlFor="is_active" className="text-right">
+                Активна
               </Label>
-              <Input
-                id="type"
-                name="type"
-                value={formData.type}
-                onChange={handleInputChange}
-                placeholder="например: Полная занятость"
-                className="col-span-3 bg-slate-700 border-slate-600"
-              />
+              <div className="col-span-3 flex items-center">
+                <Checkbox 
+                  id="is_active" 
+                  checked={formData.is_active || false} 
+                  onCheckedChange={handleCheckboxChange}
+                  className="mr-2 data-[state=checked]:bg-primary"
+                />
+                <Label htmlFor="is_active" className="text-sm text-slate-300">
+                  Показывать вакансию
+                </Label>
+              </div>
             </div>
-            
             <div className="grid grid-cols-4 items-start gap-4">
               <Label className="text-right flex items-center mt-2">
                 <Image className="mr-2 h-4 w-4" />
-                Изображение вакансии
+                Главное изображение
               </Label>
               <div className="col-span-3">
                 <div className="flex items-center justify-between mb-2">
@@ -478,15 +503,12 @@ const AdminVacancies: React.FC = () => {
                   </div>
                 ) : (
                   <ImageUploader 
-                    onImageUploaded={handleImageUploaded}
+                    onImageUploaded={handleMainImageUploaded}
                     defaultImage={formData.image_url}
                   />
                 )}
               </div>
             </div>
-            
-            <div className="h-px bg-slate-700 my-4"></div>
-            
             <div className="grid grid-cols-4 items-start gap-4">
               <Label htmlFor="description" className="text-right mt-2">
                 Описание
@@ -496,12 +518,10 @@ const AdminVacancies: React.FC = () => {
                 name="description"
                 value={formData.description}
                 onChange={handleInputChange}
-                rows={5}
-                placeholder="Введите подробное описание вакансии. Используйте двойную пустую строку для разделения параграфов."
+                rows={3}
                 className="col-span-3 bg-slate-700 border-slate-600"
               />
             </div>
-            
             <div className="grid grid-cols-4 items-start gap-4">
               <Label htmlFor="requirements" className="text-right mt-2">
                 Требования
@@ -509,14 +529,12 @@ const AdminVacancies: React.FC = () => {
               <Textarea
                 id="requirements"
                 name="requirements"
-                value={formData.requirements}
+                value={formData.requirements || ''}
                 onChange={handleInputChange}
-                rows={5}
-                placeholder="Введите требования к кандидату. Для создания списка каждый пункт размещайте на новой строке."
+                rows={3}
                 className="col-span-3 bg-slate-700 border-slate-600"
               />
             </div>
-            
             <div className="grid grid-cols-4 items-start gap-4">
               <Label htmlFor="benefits" className="text-right mt-2">
                 Преимущества
@@ -524,10 +542,9 @@ const AdminVacancies: React.FC = () => {
               <Textarea
                 id="benefits"
                 name="benefits"
-                value={formData.benefits}
+                value={formData.benefits || ''}
                 onChange={handleInputChange}
-                rows={5}
-                placeholder="Введите преимущества работы в компании. Для создания списка каждый пункт размещайте на новой строке."
+                rows={3}
                 className="col-span-3 bg-slate-700 border-slate-600"
               />
             </div>

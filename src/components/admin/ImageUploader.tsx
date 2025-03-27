@@ -54,20 +54,23 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       const fileName = `${uuidv4()}.${fileExt}`;
       const filePath = `${fileName}`;
       
-      // Upload file to Supabase storage
+      // Use an AbortController for the upload
+      const abortController = new AbortController();
+      
+      // Upload file to Supabase storage - removed onUploadProgress since it's not in FileOptions
       const { data, error } = await supabase.storage
         .from('images')
         .upload(filePath, file, {
           cacheControl: '3600',
-          upsert: false,
-          onUploadProgress: (progress) => {
-            setUploadProgress(Math.round((progress.loaded / progress.total) * 100));
-          }
+          upsert: false
         });
       
       if (error) {
         throw error;
       }
+      
+      // Manually set progress to 100 since we can't track it
+      setUploadProgress(100);
       
       // Get the public URL of the uploaded file
       const { data: { publicUrl } } = supabase.storage

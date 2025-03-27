@@ -70,7 +70,7 @@ const AdminDashboard: React.FC = () => {
                   <div key={item.id} className="flex items-start gap-3 p-3 rounded-lg bg-slate-700/40">
                     <div className="w-12 h-12 rounded overflow-hidden flex-shrink-0">
                       <img 
-                        src={item.imageUrl} 
+                        src={item.image_url} 
                         alt={item.title} 
                         className="w-full h-full object-cover"
                       />

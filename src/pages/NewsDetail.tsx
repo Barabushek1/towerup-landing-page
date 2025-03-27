@@ -6,26 +6,57 @@ import Footer from '@/components/Footer';
 import PageHeader from '@/components/PageHeader';
 import { Calendar, ArrowLeft, Maximize2, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useAdminData, NewsItem } from '@/contexts/AdminDataContext';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
+
+interface NewsItem {
+  id: string;
+  title: string;
+  content: string;
+  image_url: string;
+  published_at: string;
+  summary: string;
+  created_at: string;
+  updated_at: string;
+  additional_images?: string[];
+}
 
 const NewsDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { news } = useAdminData();
   const [newsItem, setNewsItem] = useState<NewsItem | null>(null);
   const [loading, setLoading] = useState(true);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  useEffect(() => {
-    if (news && id) {
-      const item = news.find(item => item.id === id);
-      if (item) {
-        setNewsItem(item);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['news', id],
+    queryFn: async () => {
+      if (!id) return null;
+      
+      const { data, error } = await supabase
+        .from('news')
+        .select('*')
+        .eq('id', id)
+        .single();
+        
+      if (error) {
+        throw error;
       }
+      
+      return data as NewsItem;
+    },
+    enabled: !!id
+  });
+
+  useEffect(() => {
+    if (data) {
+      setNewsItem(data);
+      setLoading(false);
+    } else if (!isLoading) {
       setLoading(false);
     }
-  }, [news, id]);
+  }, [data, isLoading]);
 
   const openLightbox = (index: number) => {
     setCurrentImageIndex(index);
@@ -39,9 +70,9 @@ const NewsDetail: React.FC = () => {
   };
 
   const navigateImage = (direction: 'next' | 'prev') => {
-    if (!newsItem?.additionalImages) return;
+    if (!newsItem?.additional_images) return;
     
-    const imagesCount = newsItem.additionalImages.length;
+    const imagesCount = newsItem.additional_images.length;
     if (direction === 'next') {
       setCurrentImageIndex((currentImageIndex + 1) % imagesCount);
     } else {
@@ -68,6 +99,15 @@ const NewsDetail: React.FC = () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [lightboxOpen, currentImageIndex]);
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('ru-RU', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }).format(date);
+  };
 
   if (loading) {
     return (
@@ -151,7 +191,7 @@ const NewsDetail: React.FC = () => {
               {/* Main image displayed as a regular image, not background */}
               <div className="mb-8 rounded-lg overflow-hidden">
                 <img 
-                  src={newsItem.imageUrl} 
+                  src={newsItem.image_url} 
                   alt={newsItem.title}
                   className="w-full h-auto object-cover" 
                 />
@@ -160,12 +200,12 @@ const NewsDetail: React.FC = () => {
               <div className="flex items-center gap-6 text-muted-foreground mb-8">
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4" />
-                  <span className="text-sm font-benzin">{newsItem.date}</span>
+                  <span className="text-sm font-benzin">{formatDate(newsItem.published_at)}</span>
                 </div>
               </div>
               
               <div className="prose prose-invert max-w-none font-benzin">
-                <p className="text-lg font-medium mb-6">{newsItem.excerpt}</p>
+                <p className="text-lg font-medium mb-6">{newsItem.summary}</p>
                 
                 {newsItem.content.split('\n\n').map((paragraph, index) => (
                   <p key={index} className="mb-4">{paragraph}</p>
@@ -173,11 +213,11 @@ const NewsDetail: React.FC = () => {
               </div>
               
               {/* Photo Gallery with full-screen capability */}
-              {newsItem.additionalImages && newsItem.additionalImages.length > 0 && (
+              {newsItem.additional_images && newsItem.additional_images.length > 0 && (
                 <div className="mt-8">
                   <h2 className="text-2xl font-bold mb-4 font-benzin">Фотогалерея</h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    {newsItem.additionalImages.map((image, index) => (
+                    {newsItem.additional_images.map((image, index) => (
                       <div 
                         key={index} 
                         className="aspect-video rounded-lg overflow-hidden cursor-pointer relative group"
@@ -202,7 +242,7 @@ const NewsDetail: React.FC = () => {
       </main>
       
       {/* Lightbox for fullscreen image view */}
-      {lightboxOpen && newsItem.additionalImages && (
+      {lightboxOpen && newsItem.additional_images && (
         <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center">
           <div className="relative w-full h-full flex items-center justify-center">
             <div className="absolute top-4 right-4 z-10">
@@ -239,13 +279,13 @@ const NewsDetail: React.FC = () => {
             </div>
             
             <img
-              src={newsItem.additionalImages[currentImageIndex]}
+              src={newsItem.additional_images[currentImageIndex]}
               alt={`Фото ${currentImageIndex + 1}`}
               className="max-h-[90vh] max-w-[90vw] object-contain"
             />
             
             <div className="absolute bottom-4 left-0 right-0 text-center text-white">
-              {currentImageIndex + 1} / {newsItem.additionalImages.length}
+              {currentImageIndex + 1} / {newsItem.additional_images.length}
             </div>
           </div>
         </div>

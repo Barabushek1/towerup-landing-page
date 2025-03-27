@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -16,15 +16,15 @@ import { supabase } from '@/integrations/supabase/client';
 interface NewsItem {
   id: string;
   title: string;
-  date: string;
-  excerpt: string;
+  published_at: string;
+  summary: string;
   content: string;
   image_url: string;
   additional_images?: string[];
   featured?: boolean;
 }
 
-type NewsInput = Omit<NewsItem, 'id'>;
+type NewsInput = Omit<NewsItem, 'id' | 'created_at' | 'updated_at'>;
 
 const AdminNews: React.FC = () => {
   const { toast } = useToast();
@@ -34,8 +34,8 @@ const AdminNews: React.FC = () => {
   const [currentNewsId, setCurrentNewsId] = useState<string | null>(null);
   const [formData, setFormData] = useState<NewsInput>({
     title: '',
-    date: new Date().toISOString().split('T')[0],
-    excerpt: '',
+    published_at: new Date().toISOString().split('T')[0],
+    summary: '',
     content: '',
     image_url: '',
     additional_images: [],
@@ -51,7 +51,7 @@ const AdminNews: React.FC = () => {
       const { data, error } = await supabase
         .from('news')
         .select('*')
-        .order('date', { ascending: false });
+        .order('published_at', { ascending: false });
       
       if (error) {
         throw error;
@@ -66,7 +66,15 @@ const AdminNews: React.FC = () => {
     mutationFn: async (newsItem: NewsInput) => {
       const { data, error } = await supabase
         .from('news')
-        .insert(newsItem)
+        .insert({
+          title: newsItem.title,
+          published_at: newsItem.published_at,
+          summary: newsItem.summary,
+          content: newsItem.content,
+          image_url: newsItem.image_url,
+          additional_images: newsItem.additional_images || [],
+          featured: newsItem.featured || false
+        })
         .select()
         .single();
       
@@ -99,7 +107,15 @@ const AdminNews: React.FC = () => {
     mutationFn: async ({ id, newsItem }: { id: string; newsItem: NewsInput }) => {
       const { data, error } = await supabase
         .from('news')
-        .update(newsItem)
+        .update({
+          title: newsItem.title,
+          published_at: newsItem.published_at,
+          summary: newsItem.summary,
+          content: newsItem.content,
+          image_url: newsItem.image_url,
+          additional_images: newsItem.additional_images || [],
+          featured: newsItem.featured || false
+        })
         .eq('id', id)
         .select()
         .single();
@@ -160,8 +176,8 @@ const AdminNews: React.FC = () => {
   const resetForm = () => {
     setFormData({
       title: '',
-      date: new Date().toISOString().split('T')[0],
-      excerpt: '',
+      published_at: new Date().toISOString().split('T')[0],
+      summary: '',
       content: '',
       image_url: '',
       additional_images: [],
@@ -181,8 +197,8 @@ const AdminNews: React.FC = () => {
     setCurrentNewsId(newsItem.id);
     setFormData({
       title: newsItem.title,
-      date: newsItem.date,
-      excerpt: newsItem.excerpt,
+      published_at: newsItem.published_at.split('T')[0],
+      summary: newsItem.summary,
       content: newsItem.content,
       image_url: newsItem.image_url,
       additional_images: newsItem.additional_images || [],
@@ -236,7 +252,7 @@ const AdminNews: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    if (!formData.title || !formData.excerpt || !formData.content || !formData.image_url) {
+    if (!formData.title || !formData.summary || !formData.content || !formData.image_url) {
       toast({
         title: "Ошибка валидации",
         description: "Пожалуйста, заполните все обязательные поля",
@@ -256,6 +272,15 @@ const AdminNews: React.FC = () => {
     if (currentNewsId) {
       deleteNewsMutation.mutate(currentNewsId);
     }
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('ru-RU', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }).format(date);
   };
 
   if (isLoading) {
@@ -312,7 +337,7 @@ const AdminNews: React.FC = () => {
                     </div>
                   </TableCell>
                   <TableCell className="font-medium">{item.title}</TableCell>
-                  <TableCell>{item.date}</TableCell>
+                  <TableCell>{formatDate(item.published_at)}</TableCell>
                   <TableCell>
                     {item.featured && <Home className="h-4 w-4 text-primary" />}
                   </TableCell>
@@ -367,15 +392,15 @@ const AdminNews: React.FC = () => {
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="date" className="text-right flex items-center">
+              <Label htmlFor="published_at" className="text-right flex items-center">
                 <Calendar className="mr-2 h-4 w-4" />
                 Дата
               </Label>
               <Input
-                id="date"
-                name="date"
+                id="published_at"
+                name="published_at"
                 type="date"
-                value={formData.date}
+                value={formData.published_at}
                 onChange={handleInputChange}
                 className="col-span-3 bg-slate-700 border-slate-600"
               />
@@ -458,13 +483,13 @@ const AdminNews: React.FC = () => {
               </div>
             </div>
             <div className="grid grid-cols-4 items-start gap-4">
-              <Label htmlFor="excerpt" className="text-right mt-2">
+              <Label htmlFor="summary" className="text-right mt-2">
                 Короткое описание
               </Label>
               <Textarea
-                id="excerpt"
-                name="excerpt"
-                value={formData.excerpt}
+                id="summary"
+                name="summary"
+                value={formData.summary}
                 onChange={handleInputChange}
                 rows={3}
                 className="col-span-3 bg-slate-700 border-slate-600"

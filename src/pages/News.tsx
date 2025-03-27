@@ -19,10 +19,12 @@ import { supabase } from '@/integrations/supabase/client';
 interface NewsItem {
   id: string;
   title: string;
-  date: string;
-  excerpt: string;
   content: string;
   image_url: string;
+  published_at: string;
+  summary: string;
+  created_at: string;
+  updated_at: string;
 }
 
 const News: React.FC = () => {
@@ -32,7 +34,7 @@ const News: React.FC = () => {
       const { data, error } = await supabase
         .from('news')
         .select('*')
-        .order('date', { ascending: false });
+        .order('published_at', { ascending: false });
       
       if (error) {
         throw error;
@@ -56,34 +58,42 @@ const News: React.FC = () => {
     {
       id: "default_1",
       title: "Начало строительства нового жилого комплекса в центре города",
-      date: "15 июня 2023",
-      excerpt: "Мы рады сообщить о начале реализации масштабного проекта в центральном районе, который обеспечит город современным и комфортным жильем.",
+      published_at: "2023-06-15T00:00:00Z",
+      summary: "Мы рады сообщить о начале реализации масштабного проекта в центральном районе, который обеспечит город современным и комфортным жильем.",
       image_url: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-      content: ""
+      content: "",
+      created_at: "2023-06-15T00:00:00Z",
+      updated_at: "2023-06-15T00:00:00Z"
     },
     {
       id: "default_2",
       title: "Завершение проекта реконструкции исторического здания",
-      date: "28 мая 2023",
-      excerpt: "Успешно завершены работы по реконструкции исторического здания XIX века с сохранением его архитектурной ценности и добавлением современных элементов.",
+      published_at: "2023-05-28T00:00:00Z",
+      summary: "Успешно завершены работы по реконструкции исторического здания XIX века с сохранением его архитектурной ценности и добавлением современных элементов.",
       image_url: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-      content: ""
+      content: "",
+      created_at: "2023-05-28T00:00:00Z",
+      updated_at: "2023-05-28T00:00:00Z"
     },
     {
       id: "default_3",
       title: "Внедрение новых экологичных технологий строительства",
-      date: "10 мая 2023",
-      excerpt: "Наша компания начала использование инновационных экологически чистых материалов и технологий в строительстве, что значительно снижает воздействие на окружающую среду.",
+      published_at: "2023-05-10T00:00:00Z",
+      summary: "Наша компания начала использование инновационных экологически чистых материалов и технологий в строительстве, что значительно снижает воздействие на окружающую среду.",
       image_url: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-      content: ""
+      content: "",
+      created_at: "2023-05-10T00:00:00Z",
+      updated_at: "2023-05-10T00:00:00Z"
     },
     {
       id: "default_4",
       title: "Получение международного сертификата качества",
-      date: "5 мая 2023",
-      excerpt: "Наша компания получила международный сертификат качества ISO 9001, что подтверждает высокие стандарты нашей работы и приверженность к качеству.",
+      published_at: "2023-05-05T00:00:00Z",
+      summary: "Наша компания получила международный сертификат качества ISO 9001, что подтверждает высокие стандарты нашей работы и приверженность к качеству.",
       image_url: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-      content: ""
+      content: "",
+      created_at: "2023-05-05T00:00:00Z",
+      updated_at: "2023-05-05T00:00:00Z"
     }
   ];
 
@@ -134,10 +144,10 @@ const News: React.FC = () => {
                     <div className="p-6">
                       <div className="flex items-center text-slate-400 text-sm mb-3">
                         <Clock className="mr-2 h-4 w-4" />
-                        <span>{news.length > 0 ? formatDate(item.date) : item.date}</span>
+                        <span>{news.length > 0 ? formatDate(item.published_at) : formatDate(item.published_at)}</span>
                       </div>
                       <h3 className="text-xl font-bold text-slate-200 mb-3 font-benzin">{item.title}</h3>
-                      <p className="text-slate-400 mb-4 line-clamp-3">{item.excerpt}</p>
+                      <p className="text-slate-400 mb-4 line-clamp-3">{item.summary}</p>
                       <Link
                         to={`/news/${item.id}`}
                         className="inline-flex items-center text-primary hover:text-primary/80 font-medium transition-colors"

@@ -6,26 +6,59 @@ import Footer from '@/components/Footer';
 import PageHeader from '@/components/PageHeader';
 import { MapPin, Coins, Clock, Briefcase, ArrowLeft, ArrowRight, Maximize2, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useAdminData, VacancyItem } from '@/contexts/AdminDataContext';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
+
+interface VacancyItem {
+  id: string;
+  title: string;
+  location: string;
+  salary_range: string;
+  description: string;
+  requirements?: string;
+  is_active: boolean;
+  image_url?: string;
+  additional_images?: string[];
+  created_at: string;
+  updated_at: string;
+}
 
 const VacancyDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { vacancies } = useAdminData();
   const [vacancy, setVacancy] = useState<VacancyItem | null>(null);
   const [loading, setLoading] = useState(true);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['vacancy', id],
+    queryFn: async () => {
+      if (!id) return null;
+      
+      const { data, error } = await supabase
+        .from('vacancies')
+        .select('*')
+        .eq('id', id)
+        .single();
+        
+      if (error) {
+        throw error;
+      }
+      
+      return data as VacancyItem;
+    },
+    enabled: !!id
+  });
 
   useEffect(() => {
-    if (vacancies && id) {
-      const item = vacancies.find(item => item.id === id);
-      if (item) {
-        setVacancy(item);
-      }
+    if (data) {
+      setVacancy(data);
+      setLoading(false);
+    } else if (!isLoading) {
       setLoading(false);
     }
-  }, [vacancies, id]);
+  }, [data, isLoading]);
 
   const openLightbox = (index: number) => {
     setCurrentImageIndex(index);
@@ -39,9 +72,9 @@ const VacancyDetail: React.FC = () => {
   };
 
   const navigateImage = (direction: 'next' | 'prev') => {
-    if (!vacancy?.additionalImages) return;
+    if (!vacancy?.additional_images) return;
     
-    const imagesCount = vacancy.additionalImages.length;
+    const imagesCount = vacancy.additional_images.length;
     if (direction === 'next') {
       setCurrentImageIndex((currentImageIndex + 1) % imagesCount);
     } else {
@@ -149,10 +182,10 @@ const VacancyDetail: React.FC = () => {
               </Link>
               
               {/* Main image if available */}
-              {vacancy.imageUrl && (
+              {vacancy.image_url && (
                 <div className="mb-8 rounded-lg overflow-hidden">
                   <img 
-                    src={vacancy.imageUrl} 
+                    src={vacancy.image_url} 
                     alt={vacancy.title}
                     className="w-full h-auto object-cover" 
                   />
@@ -176,11 +209,11 @@ const VacancyDetail: React.FC = () => {
                   </div>
                   <div className="flex items-center">
                     <Coins className="h-5 w-5 text-primary mr-2" />
-                    <span className="font-benzin">{vacancy.salary}</span>
+                    <span className="font-benzin">{vacancy.salary_range}</span>
                   </div>
                   <div className="flex items-center">
                     <Clock className="h-5 w-5 text-primary mr-2" />
-                    <span className="font-benzin">{vacancy.type}</span>
+                    <span className="font-benzin">Полная занятость</span>
                   </div>
                 </div>
                 
@@ -208,17 +241,6 @@ const VacancyDetail: React.FC = () => {
                   </div>
                 )}
                 
-                {vacancy.benefits && (
-                  <div className="mb-8">
-                    <h2 className="text-xl font-bold mb-4 font-benzin border-b border-slate-700 pb-2">Мы предлагаем</h2>
-                    <ul className="list-disc list-inside font-benzin">
-                      {vacancy.benefits.split('\n').map((item, index) => (
-                        <li key={index} className="mb-2">{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                
                 <div className="mt-10">
                   <a 
                     href="#contact" 
@@ -231,11 +253,11 @@ const VacancyDetail: React.FC = () => {
               </div>
               
               {/* Photo Gallery with full-screen capability */}
-              {vacancy.additionalImages && vacancy.additionalImages.length > 0 && (
+              {vacancy.additional_images && vacancy.additional_images.length > 0 && (
                 <div className="mt-8">
                   <h2 className="text-2xl font-bold mb-4 font-benzin">Фотогалерея</h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    {vacancy.additionalImages.map((image, index) => (
+                    {vacancy.additional_images.map((image, index) => (
                       <div 
                         key={index} 
                         className="aspect-video rounded-lg overflow-hidden cursor-pointer relative group"
@@ -260,7 +282,7 @@ const VacancyDetail: React.FC = () => {
       </main>
       
       {/* Lightbox for fullscreen image view */}
-      {lightboxOpen && vacancy.additionalImages && (
+      {lightboxOpen && vacancy.additional_images && (
         <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center">
           <div className="relative w-full h-full flex items-center justify-center">
             <div className="absolute top-4 right-4 z-10">
@@ -297,13 +319,13 @@ const VacancyDetail: React.FC = () => {
             </div>
             
             <img
-              src={vacancy.additionalImages[currentImageIndex]}
+              src={vacancy.additional_images[currentImageIndex]}
               alt={`Фото ${currentImageIndex + 1}`}
               className="max-h-[90vh] max-w-[90vw] object-contain"
             />
             
             <div className="absolute bottom-4 left-0 right-0 text-center text-white">
-              {currentImageIndex + 1} / {vacancy.additionalImages.length}
+              {currentImageIndex + 1} / {vacancy.additional_images.length}
             </div>
           </div>
         </div>
