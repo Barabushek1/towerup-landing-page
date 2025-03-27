@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Loader2, Upload, X, Check } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { v4 as uuidv4 } from 'uuid';
+import { useToast } from '@/hooks/use-toast';
 
 interface ImageUploaderProps {
   onImageUploaded: (url: string) => void;
@@ -16,6 +17,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   defaultImage, 
   className 
 }) => {
+  const { toast } = useToast();
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [previewImage, setPreviewImage] = useState<string | undefined>(defaultImage);
@@ -54,19 +56,26 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       const fileName = `${uuidv4()}.${fileExt}`;
       const filePath = `${fileName}`;
       
-      console.log('Attempting to upload file to Supabase storage:', fileName);
+      console.log('Attempting to upload file to Supabase storage bucket "images":', fileName);
       
       // Upload file to Supabase storage with public bucket policy
       const { data, error } = await supabase.storage
         .from('images')
         .upload(filePath, file, {
           cacheControl: '3600',
-          upsert: false
+          upsert: true
         });
       
       if (error) {
         console.error('Error uploading image:', error);
-        throw error;
+        setError(`Ошибка загрузки: ${error.message || 'Неизвестная ошибка'}`);
+        toast({
+          title: "Ошибка загрузки",
+          description: error.message || "Не удалось загрузить изображение",
+          variant: "destructive",
+        });
+        setIsUploading(false);
+        return;
       }
       
       console.log('File uploaded successfully:', data);
@@ -83,9 +92,18 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       // Pass the URL to the parent component
       onImageUploaded(publicUrl);
       setSuccess(true);
+      toast({
+        title: "Изображение загружено",
+        description: "Файл успешно загружен",
+      });
     } catch (error: any) {
-      console.error('Error uploading image:', error);
+      console.error('Exception during image upload:', error);
       setError(`Ошибка загрузки: ${error.message || 'Неизвестная ошибка'}`);
+      toast({
+        title: "Ошибка загрузки",
+        description: error.message || "Не удалось загрузить изображение",
+        variant: "destructive",
+      });
     } finally {
       setIsUploading(false);
     }
