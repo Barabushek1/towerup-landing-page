@@ -28,22 +28,38 @@ const AdminMessages: React.FC = () => {
   const { data: messages = [], isLoading, error } = useQuery({
     queryKey: ['messages'],
     queryFn: async () => {
+      console.log('Fetching messages from Supabase');
+      
       const { data, error } = await supabase
         .from('messages')
         .select('*')
-        .order('date', { ascending: false });
+        .order('created_at', { ascending: false });
       
       if (error) {
+        console.error('Error fetching messages:', error);
         throw error;
       }
       
-      return data as MessageItem[];
+      // Map the Supabase data structure to our app's data structure
+      const formattedData = data.map(item => ({
+        id: item.id,
+        name: item.name,
+        email: item.email,
+        message: item.message,
+        date: item.created_at || item.date || new Date().toISOString(),
+        read: item.read || false
+      }));
+      
+      console.log('Fetched messages:', formattedData);
+      return formattedData as MessageItem[];
     }
   });
 
   // Update message mutation (mark as read)
   const updateMessageMutation = useMutation({
     mutationFn: async ({ id, read }: { id: string; read: boolean }) => {
+      console.log(`Marking message ${id} as read:`, read);
+      
       const { data, error } = await supabase
         .from('messages')
         .update({ read })
@@ -52,6 +68,7 @@ const AdminMessages: React.FC = () => {
         .single();
       
       if (error) {
+        console.error('Error updating message read status:', error);
         throw error;
       }
       
@@ -61,6 +78,7 @@ const AdminMessages: React.FC = () => {
       queryClient.invalidateQueries({ queryKey: ['messages'] });
     },
     onError: (error) => {
+      console.error('Error in update mutation:', error);
       toast({
         title: "Ошибка",
         description: `Произошла ошибка при обновлении сообщения: ${error}`,
@@ -72,12 +90,15 @@ const AdminMessages: React.FC = () => {
   // Delete message mutation
   const deleteMessageMutation = useMutation({
     mutationFn: async (id: string) => {
+      console.log(`Deleting message ${id}`);
+      
       const { error } = await supabase
         .from('messages')
         .delete()
         .eq('id', id);
       
       if (error) {
+        console.error('Error deleting message:', error);
         throw error;
       }
     },
@@ -90,6 +111,7 @@ const AdminMessages: React.FC = () => {
       setIsDeleteDialogOpen(false);
     },
     onError: (error) => {
+      console.error('Error in delete mutation:', error);
       toast({
         title: "Ошибка",
         description: `Произошла ошибка при удалении сообщения: ${error}`,
@@ -99,14 +121,21 @@ const AdminMessages: React.FC = () => {
   });
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('ru-RU', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    }).format(date);
+    if (!dateString) return '';
+    
+    try {
+      const date = new Date(dateString);
+      return new Intl.DateTimeFormat('ru-RU', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      }).format(date);
+    } catch (e) {
+      console.error('Error formatting date:', e);
+      return dateString;
+    }
   };
 
   const markMessageAsRead = (id: string) => {
@@ -145,6 +174,7 @@ const AdminMessages: React.FC = () => {
     return (
       <div className="p-6 bg-slate-800 rounded-lg border border-slate-700">
         <p className="text-red-400">Произошла ошибка при загрузке данных. Пожалуйста, попробуйте позже.</p>
+        <p className="text-red-400 mt-2">{String(error)}</p>
       </div>
     );
   }

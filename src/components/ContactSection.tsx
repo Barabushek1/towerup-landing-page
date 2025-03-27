@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -39,20 +38,23 @@ const ContactSection: React.FC = () => {
     try {
       console.log('Submitting message from contact section:', formData);
       
-      // Добавляем сообщение напрямую в базу данных
+      // Добавляем сообщение в базу данных
       const { data, error } = await supabase
         .from('messages')
         .insert({
           name: formData.name,
           email: formData.email,
           message: formData.message,
-          // Другие поля заполнятся значениями по умолчанию
+          created_at: new Date().toISOString(),
+          read: false
         });
       
       if (error) {
         console.error('Error submitting message:', error);
         throw error;
       }
+      
+      console.log('Message submitted successfully:', data);
       
       toast({
         title: "Успешно отправлено",
@@ -69,7 +71,7 @@ const ContactSection: React.FC = () => {
       console.error('Error in contact section form submission:', error);
       toast({
         title: "Ошибка отправки",
-        description: `Произошла ошибка при отправке сообщения: ${error.message}. Пожалуйста, попробуйте еще раз.`,
+        description: `Произошла ошибка при отправке сообщения: ${error.message || 'Неизвестная ошибка'}. Пожалуйста, попробуйте еще раз.`,
         variant: "destructive",
       });
     } finally {

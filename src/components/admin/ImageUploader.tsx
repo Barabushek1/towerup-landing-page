@@ -54,10 +54,9 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       const fileName = `${uuidv4()}.${fileExt}`;
       const filePath = `${fileName}`;
       
-      // Use an AbortController for the upload
-      const abortController = new AbortController();
+      console.log('Attempting to upload file to Supabase storage:', fileName);
       
-      // Upload file to Supabase storage - removed onUploadProgress since it's not supported
+      // Upload file to Supabase storage with public bucket policy
       const { data, error } = await supabase.storage
         .from('images')
         .upload(filePath, file, {
@@ -70,6 +69,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         throw error;
       }
       
+      console.log('File uploaded successfully:', data);
       // Manually set progress to 100 since we can't track it
       setUploadProgress(100);
       
@@ -78,12 +78,14 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         .from('images')
         .getPublicUrl(data.path);
       
+      console.log('Generated public URL:', publicUrl);
+      
       // Pass the URL to the parent component
       onImageUploaded(publicUrl);
       setSuccess(true);
     } catch (error: any) {
       console.error('Error uploading image:', error);
-      setError(`Ошибка загрузки: ${error.message}`);
+      setError(`Ошибка загрузки: ${error.message || 'Неизвестная ошибка'}`);
     } finally {
       setIsUploading(false);
     }
