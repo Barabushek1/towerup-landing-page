@@ -8,11 +8,10 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
-import { useAdminData } from '@/contexts/AdminDataContext';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const Contact: React.FC = () => {
-  const { addMessage } = useAdminData();
   const { toast } = useToast();
   
   const [formData, setFormData] = useState({
@@ -30,7 +29,7 @@ const Contact: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.name || !formData.email || !formData.message) {
@@ -45,12 +44,22 @@ const Contact: React.FC = () => {
     setIsSubmitting(true);
     
     try {
-      // Add message to admin panel
-      addMessage({
-        name: formData.name,
-        email: formData.email,
-        message: formData.message
-      });
+      console.log('Submitting message:', formData);
+      
+      // Добавляем сообщение напрямую в базу данных
+      const { data, error } = await supabase
+        .from('messages')
+        .insert({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          // Другие поля заполнятся значениями по умолчанию
+        });
+      
+      if (error) {
+        console.error('Error submitting message:', error);
+        throw error;
+      }
       
       // Reset form
       setFormData({
@@ -63,10 +72,11 @@ const Contact: React.FC = () => {
         title: "Сообщение отправлено",
         description: "Спасибо! Ваше сообщение успешно отправлено.",
       });
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Error in form submission:', error);
       toast({
         title: "Ошибка",
-        description: "Произошла ошибка при отправке сообщения. Пожалуйста, попробуйте еще раз.",
+        description: `Произошла ошибка при отправке сообщения: ${error.message}. Пожалуйста, попробуйте еще раз.`,
         variant: "destructive",
       });
     } finally {

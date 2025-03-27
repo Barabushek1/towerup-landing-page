@@ -1,10 +1,69 @@
-import React from 'react';
-import { useAdminData } from '@/contexts/AdminDataContext';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FileText, Briefcase, MessageSquare, BarChart3 } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+
+interface NewsItem {
+  id: string;
+  title: string;
+  image_url?: string;
+  created_at: string;
+}
+
+interface MessageItem {
+  id: string;
+  name: string;
+  email: string;
+  message: string;
+  read: boolean;
+}
 
 const AdminDashboard: React.FC = () => {
-  const { news, vacancies, messages } = useAdminData();
+  const [news, setNews] = useState<NewsItem[]>([]);
+  const [vacancies, setVacancies] = useState<any[]>([]);
+  const [messages, setMessages] = useState<MessageItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        // Загрузка новостей
+        const { data: newsData, error: newsError } = await supabase
+          .from('news')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (newsError) throw newsError;
+        setNews(newsData || []);
+
+        // Загрузка вакансий
+        const { data: vacanciesData, error: vacanciesError } = await supabase
+          .from('vacancies')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (vacanciesError) throw vacanciesError;
+        setVacancies(vacanciesData || []);
+
+        // Загрузка сообщений
+        const { data: messagesData, error: messagesError } = await supabase
+          .from('messages')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (messagesError) throw messagesError;
+        setMessages(messagesData || []);
+
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+  }, []);
+
   const unreadMessages = messages.filter(msg => !msg.read).length;
 
   const stats = [
@@ -73,11 +132,14 @@ const AdminDashboard: React.FC = () => {
                         src={item.image_url} 
                         alt={item.title} 
                         className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=No+Image';
+                        }}
                       />
                     </div>
                     <div>
                       <h3 className="font-medium text-white line-clamp-1">{item.title}</h3>
-                      <p className="text-sm text-slate-400">{item.date}</p>
+                      <p className="text-sm text-slate-400">{new Date(item.created_at).toLocaleDateString()}</p>
                     </div>
                   </div>
                 ))}

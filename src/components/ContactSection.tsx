@@ -4,11 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Phone, Mail, MapPin, Send } from 'lucide-react';
-import { useAdminData } from '@/contexts/AdminDataContext';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const ContactSection: React.FC = () => {
-  const { addMessage } = useAdminData();
   const { toast } = useToast();
   
   const [formData, setFormData] = useState({
@@ -23,7 +22,7 @@ const ContactSection: React.FC = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.name || !formData.email || !formData.message) {
@@ -38,11 +37,22 @@ const ContactSection: React.FC = () => {
     setIsSubmitting(true);
     
     try {
-      addMessage({
-        name: formData.name,
-        email: formData.email,
-        message: formData.message,
-      });
+      console.log('Submitting message from contact section:', formData);
+      
+      // Добавляем сообщение напрямую в базу данных
+      const { data, error } = await supabase
+        .from('messages')
+        .insert({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          // Другие поля заполнятся значениями по умолчанию
+        });
+      
+      if (error) {
+        console.error('Error submitting message:', error);
+        throw error;
+      }
       
       toast({
         title: "Успешно отправлено",
@@ -55,10 +65,11 @@ const ContactSection: React.FC = () => {
         email: '',
         message: '',
       });
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Error in contact section form submission:', error);
       toast({
         title: "Ошибка отправки",
-        description: "Произошла ошибка при отправке сообщения. Пожалуйста, попробуйте еще раз.",
+        description: `Произошла ошибка при отправке сообщения: ${error.message}. Пожалуйста, попробуйте еще раз.`,
         variant: "destructive",
       });
     } finally {

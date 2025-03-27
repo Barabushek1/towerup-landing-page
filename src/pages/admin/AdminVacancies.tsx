@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -64,15 +65,18 @@ const AdminVacancies: React.FC = () => {
   const { data: vacancies = [], isLoading, error } = useQuery({
     queryKey: ['vacancies'],
     queryFn: async () => {
+      console.log('Fetching vacancies...');
       const { data, error } = await supabase
         .from('vacancies')
         .select('*')
         .order('title');
     
       if (error) {
+        console.error('Error fetching vacancies:', error);
         throw error;
       }
-    
+      
+      console.log('Fetched vacancies:', data);
       return data as VacancyItem[];
     }
   });
@@ -80,27 +84,31 @@ const AdminVacancies: React.FC = () => {
   // Update mutation with the correct structure for Supabase
   const addVacancyMutation = useMutation({
     mutationFn: async (vacancyItem: VacancyInput) => {
+      console.log('Adding vacancy with data:', vacancyItem);
+      // Make sure all required fields are present for Supabase schema
+      const dataToInsert = {
+        title: vacancyItem.title,
+        location: vacancyItem.location,
+        salary_range: vacancyItem.salary_range,
+        description: vacancyItem.description,
+        requirements: vacancyItem.requirements || null,
+        benefits: vacancyItem.benefits || null,
+        is_active: vacancyItem.is_active !== undefined ? vacancyItem.is_active : true,
+        image_url: vacancyItem.image_url || null,
+        additional_images: vacancyItem.additional_images || []
+      };
+      
       const { data, error } = await supabase
         .from('vacancies')
-        .insert({
-          title: vacancyItem.title,
-          location: vacancyItem.location,
-          salary_range: vacancyItem.salary_range,
-          description: vacancyItem.description,
-          requirements: vacancyItem.requirements,
-          benefits: vacancyItem.benefits,
-          is_active: vacancyItem.is_active !== undefined ? vacancyItem.is_active : true,
-          image_url: vacancyItem.image_url,
-          additional_images: vacancyItem.additional_images || []
-        })
-        .select()
-        .single();
+        .insert(dataToInsert)
+        .select();
     
       if (error) {
+        console.error('Error adding vacancy:', error);
         throw error;
       }
     
-      return data;
+      return data[0];
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['vacancies'] });
@@ -112,6 +120,7 @@ const AdminVacancies: React.FC = () => {
       resetForm();
     },
     onError: (error: any) => {
+      console.error('Error during add mutation:', error);
       toast({
         title: "Ошибка",
         description: `Произошла ошибка при сохранении данных: ${error.message}`,
@@ -123,28 +132,32 @@ const AdminVacancies: React.FC = () => {
   // Update mutation with the correct structure for Supabase
   const updateVacancyMutation = useMutation({
     mutationFn: async ({ id, vacancyItem }: { id: string; vacancyItem: VacancyInput }) => {
+      console.log('Updating vacancy with id:', id, 'and data:', vacancyItem);
+      // Make sure all required fields are present for Supabase schema
+      const dataToUpdate = {
+        title: vacancyItem.title,
+        location: vacancyItem.location,
+        salary_range: vacancyItem.salary_range,
+        description: vacancyItem.description,
+        requirements: vacancyItem.requirements || null,
+        benefits: vacancyItem.benefits || null,
+        is_active: vacancyItem.is_active !== undefined ? vacancyItem.is_active : true,
+        image_url: vacancyItem.image_url || null,
+        additional_images: vacancyItem.additional_images || []
+      };
+      
       const { data, error } = await supabase
         .from('vacancies')
-        .update({
-          title: vacancyItem.title,
-          location: vacancyItem.location,
-          salary_range: vacancyItem.salary_range,
-          description: vacancyItem.description,
-          requirements: vacancyItem.requirements,
-          benefits: vacancyItem.benefits,
-          is_active: vacancyItem.is_active !== undefined ? vacancyItem.is_active : true,
-          image_url: vacancyItem.image_url,
-          additional_images: vacancyItem.additional_images || []
-        })
+        .update(dataToUpdate)
         .eq('id', id)
-        .select()
-        .single();
+        .select();
     
       if (error) {
+        console.error('Error updating vacancy:', error);
         throw error;
       }
     
-      return data;
+      return data[0];
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['vacancies'] });
@@ -156,6 +169,7 @@ const AdminVacancies: React.FC = () => {
       resetForm();
     },
     onError: (error: any) => {
+      console.error('Error during update mutation:', error);
       toast({
         title: "Ошибка",
         description: `Произошла ошибка при обновлении данных: ${error.message}`,
@@ -167,12 +181,14 @@ const AdminVacancies: React.FC = () => {
   // Delete vacancy mutation
   const deleteVacancyMutation = useMutation({
     mutationFn: async (id: string) => {
+      console.log('Deleting vacancy with id:', id);
       const { error } = await supabase
         .from('vacancies')
         .delete()
         .eq('id', id);
     
       if (error) {
+        console.error('Error deleting vacancy:', error);
         throw error;
       }
     },
@@ -185,6 +201,7 @@ const AdminVacancies: React.FC = () => {
       setIsDeleteDialogOpen(false);
     },
     onError: (error: any) => {
+      console.error('Error during delete mutation:', error);
       toast({
         title: "Ошибка",
         description: `Произошла ошибка при удалении вакансии: ${error.message}`,
@@ -217,6 +234,7 @@ const AdminVacancies: React.FC = () => {
 
   // Update form initialization
   const openEditDialog = (vacancyItem: VacancyItem) => {
+    console.log('Opening edit dialog with vacancy:', vacancyItem);
     setCurrentVacancyId(vacancyItem.id);
     setFormData({
       title: vacancyItem.title,
@@ -247,6 +265,7 @@ const AdminVacancies: React.FC = () => {
   };
 
   const handleMainImageUploaded = (imageUrl: string) => {
+    console.log('Main image uploaded:', imageUrl);
     setFormData(prev => ({ ...prev, image_url: imageUrl }));
   };
 
@@ -261,6 +280,7 @@ const AdminVacancies: React.FC = () => {
   };
 
   const handleAddUploadedImage = (imageUrl: string) => {
+    console.log('Additional image uploaded:', imageUrl);
     if (imageUrl && !formData.additional_images?.includes(imageUrl)) {
       setFormData((prev) => ({
         ...prev,

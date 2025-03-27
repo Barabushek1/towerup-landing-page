@@ -57,7 +57,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       // Use an AbortController for the upload
       const abortController = new AbortController();
       
-      // Upload file to Supabase storage - removed onUploadProgress since it's not in FileOptions
+      // Upload file to Supabase storage - removed onUploadProgress since it's not supported
       const { data, error } = await supabase.storage
         .from('images')
         .upload(filePath, file, {
@@ -66,6 +66,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         });
       
       if (error) {
+        console.error('Error uploading image:', error);
         throw error;
       }
       
