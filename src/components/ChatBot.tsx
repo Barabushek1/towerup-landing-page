@@ -32,7 +32,7 @@ const ChatBot = () => {
   // Initial welcome message
   useEffect(() => {
     if (!initialMessageRef.current && isOpen) {
-      const welcomeMessage = "Здравствуйте! Я консультант компании TOWER UP. Чем могу помочь с вашим проектом? Вы можете узнать о наших услугах архитектуры, строительства, дизайна или задать любые вопросы о компании.";
+      const welcomeMessage = "Здравствуйте! Я виртуальный помощник компании TOWERUP. Готов ответить на ваши вопросы о наших жилых комплексах, ценах и условиях покупки. Чем могу помочь?";
       setMessages([{
         role: 'assistant',
         content: welcomeMessage
