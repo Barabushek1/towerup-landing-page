@@ -60,7 +60,7 @@ export function mapNewsItemToSupabaseUpdate(news: Partial<Omit<NewsItem, 'id'>>)
 export function mapSupabaseMessageToMessageItem(message: SupabaseMessagesRow): MessageItem {
   return {
     id: message.id,
-    name: message.email.split('@')[0], // Fallback name from email
+    name: message.name || message.email.split('@')[0], // Fallback name from email if name is not provided
     email: message.email,
     message: message.message,
     date: message.created_at || message.date || new Date().toISOString(),
@@ -70,6 +70,7 @@ export function mapSupabaseMessageToMessageItem(message: SupabaseMessagesRow): M
 
 export function mapMessageItemToSupabaseInsert(message: Omit<MessageItem, 'id' | 'date' | 'read'>): SupabaseMessagesInsert {
   return {
+    name: message.name,
     email: message.email,
     message: message.message
   };
@@ -100,9 +101,9 @@ export function mapSupabaseVacancyToVacancyItem(vacancy: SupabaseVacanciesRow): 
     salary: vacancy.salary_range || '',
     type: 'fulltime', // Default value as it seems to be required but not in database
     description: vacancy.description,
-    requirements: vacancy.requirements,
-    benefits: vacancy.benefits,
-    image_url: vacancy.image_url
+    requirements: vacancy.requirements || '',
+    benefits: '',  // This field doesn't exist in the database schema, so we provide an empty string
+    image_url: ''  // This field doesn't exist in the database schema, so we provide an empty string
   };
 }
 
@@ -112,10 +113,9 @@ export function mapVacancyItemToSupabaseInsert(vacancy: Omit<VacancyItem, 'id'>)
     location: vacancy.location,
     salary_range: vacancy.salary,
     description: vacancy.description || '',
-    requirements: vacancy.requirements,
-    benefits: vacancy.benefits,
-    is_active: true,
-    image_url: vacancy.image_url
+    requirements: vacancy.requirements || '',
+    is_active: true
+    // We don't include benefits and image_url as they don't exist in the database schema
   };
 }
 
