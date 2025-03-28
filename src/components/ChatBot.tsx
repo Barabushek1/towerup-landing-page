@@ -201,7 +201,7 @@ const ChatBot = () => {
       <div className="fixed right-6 bottom-6 z-50">
         <button
           onClick={toggleChat}
-          className="p-3 rounded-full bg-brand-primary text-white shadow-lg transition-all duration-300 hover:bg-brand-primary/90"
+          className="p-3 rounded-full bg-brand-primary text-white shadow-lg transition-all duration-300 hover:bg-brand-primary/90 animate-pulse-slow hover:animate-none"
           aria-label="Чат с консультантом"
         >
           <MessageSquare size={24} />
@@ -229,17 +229,7 @@ const ChatBot = () => {
           </div>
 
           {/* Chat body */}
-          <div 
-            className="flex-1 overflow-y-auto p-4 bg-[#1a1a1a]"
-            style={{
-              backgroundImage: "url('/lovable-uploads/588f4168-3957-47f6-b722-795cfc295ea7.png')",
-              backgroundSize: "300px",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-              backgroundBlendMode: "luminosity",
-              opacity: 0.05
-            }}
-          >
+          <div className="flex-1 overflow-y-auto p-4 bg-[#1a1a1a]">
             {messages.map((msg, index) => (
               <div key={index} className={`mb-3 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
                 <div className={`inline-block px-4 py-3 rounded-lg ${
