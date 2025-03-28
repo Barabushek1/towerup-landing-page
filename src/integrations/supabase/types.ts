@@ -101,8 +101,10 @@ export type Database = {
       }
       news: {
         Row: {
+          additional_images: string[] | null
           content: string
           created_at: string
+          featured: boolean | null
           id: string
           image_url: string | null
           published_at: string
@@ -111,8 +113,10 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          additional_images?: string[] | null
           content: string
           created_at?: string
+          featured?: boolean | null
           id?: string
           image_url?: string | null
           published_at?: string
@@ -121,8 +125,10 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          additional_images?: string[] | null
           content?: string
           created_at?: string
+          featured?: boolean | null
           id?: string
           image_url?: string | null
           published_at?: string
@@ -156,6 +162,33 @@ export type Database = {
           name?: string
           updated_at?: string
           website_url?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          first_name: string | null
+          id: string
+          last_name: string | null
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          first_name?: string | null
+          id: string
+          last_name?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
         }
         Relationships: []
       }
@@ -208,7 +241,7 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      user_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never

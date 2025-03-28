@@ -24,7 +24,6 @@ interface VacancyItem {
   benefits?: string;
   is_active: boolean;
   image_url?: string;
-  additional_images?: string[];
   created_at: string;
   updated_at: string;
 }
@@ -38,7 +37,6 @@ type VacancyInput = {
   benefits?: string;
   is_active?: boolean;
   image_url?: string;
-  additional_images?: string[];
 };
 
 const AdminVacancies: React.FC = () => {
@@ -55,8 +53,7 @@ const AdminVacancies: React.FC = () => {
     requirements: '',
     benefits: '',
     is_active: true,
-    image_url: '',
-    additional_images: []
+    image_url: ''
   });
   const [newImageUrl, setNewImageUrl] = useState<string>('');
   const [useUrlInput, setUseUrlInput] = useState<boolean>(false);
@@ -94,8 +91,7 @@ const AdminVacancies: React.FC = () => {
         requirements: vacancyItem.requirements || null,
         benefits: vacancyItem.benefits || null,
         is_active: vacancyItem.is_active !== undefined ? vacancyItem.is_active : true,
-        image_url: vacancyItem.image_url || null,
-        additional_images: vacancyItem.additional_images || []
+        image_url: vacancyItem.image_url || null
       };
       
       const { data, error } = await supabase
@@ -142,8 +138,7 @@ const AdminVacancies: React.FC = () => {
         requirements: vacancyItem.requirements || null,
         benefits: vacancyItem.benefits || null,
         is_active: vacancyItem.is_active !== undefined ? vacancyItem.is_active : true,
-        image_url: vacancyItem.image_url || null,
-        additional_images: vacancyItem.additional_images || []
+        image_url: vacancyItem.image_url || null
       };
       
       const { data, error } = await supabase
@@ -219,8 +214,7 @@ const AdminVacancies: React.FC = () => {
       requirements: '',
       benefits: '',
       is_active: true,
-      image_url: '',
-      additional_images: []
+      image_url: ''
     });
     setNewImageUrl('');
     setCurrentVacancyId(null);
@@ -244,8 +238,7 @@ const AdminVacancies: React.FC = () => {
       requirements: vacancyItem.requirements,
       benefits: vacancyItem.benefits,
       is_active: vacancyItem.is_active,
-      image_url: vacancyItem.image_url,
-      additional_images: vacancyItem.additional_images || []
+      image_url: vacancyItem.image_url
     });
     setIsDialogOpen(true);
   };
@@ -267,33 +260,6 @@ const AdminVacancies: React.FC = () => {
   const handleMainImageUploaded = (imageUrl: string) => {
     console.log('Main image uploaded:', imageUrl);
     setFormData(prev => ({ ...prev, image_url: imageUrl }));
-  };
-
-  const handleAddImage = () => {
-    if (newImageUrl && !formData.additional_images?.includes(newImageUrl)) {
-      setFormData((prev) => ({
-        ...prev,
-        additional_images: [...(prev.additional_images || []), newImageUrl]
-      }));
-      setNewImageUrl('');
-    }
-  };
-
-  const handleAddUploadedImage = (imageUrl: string) => {
-    console.log('Additional image uploaded:', imageUrl);
-    if (imageUrl && !formData.additional_images?.includes(imageUrl)) {
-      setFormData((prev) => ({
-        ...prev,
-        additional_images: [...(prev.additional_images || []), imageUrl]
-      }));
-    }
-  };
-
-  const handleRemoveImage = (imageUrl: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      additional_images: prev.additional_images?.filter(img => img !== imageUrl) || []
-    }));
   };
 
   const handleSubmit = () => {
@@ -567,79 +533,6 @@ const AdminVacancies: React.FC = () => {
                 rows={3}
                 className="col-span-3 bg-slate-700 border-slate-600"
               />
-            </div>
-            
-            <div className="grid grid-cols-4 items-start gap-4">
-              <Label className="text-right flex items-center mt-2">
-                <Image className="mr-2 h-4 w-4" />
-                Галерея
-              </Label>
-              <div className="col-span-3 space-y-2">
-                <div className="flex flex-col gap-4">
-                  <div className="flex items-center gap-2">
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="flex-1"
-                      onClick={() => setUseUrlInput(!useUrlInput)}
-                    >
-                      {useUrlInput ? "Загрузить изображение" : "Ввести URL изображения"}
-                    </Button>
-                  </div>
-                  
-                  {useUrlInput ? (
-                    <div className="flex items-center gap-2">
-                      <Input
-                        value={newImageUrl}
-                        onChange={(e) => setNewImageUrl(e.target.value)}
-                        placeholder="URL дополнительного изображения"
-                        className="flex-1 bg-slate-700 border-slate-600"
-                      />
-                      <Button 
-                        type="button" 
-                        variant="outline"
-                        onClick={handleAddImage}
-                        disabled={!newImageUrl}
-                      >
-                        <Plus className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  ) : (
-                    <ImageUploader
-                      onImageUploaded={handleAddUploadedImage}
-                      className="mt-2"
-                    />
-                  )}
-                </div>
-                
-                {formData.additional_images && formData.additional_images.length > 0 ? (
-                  <div className="grid grid-cols-2 gap-4 mt-4">
-                    {formData.additional_images.map((image, index) => (
-                      <div key={index} className="relative group">
-                        <div className="aspect-video w-full rounded-md overflow-hidden bg-slate-700">
-                          <img 
-                            src={image} 
-                            alt={`Изображение ${index + 1}`} 
-                            className="w-full h-full object-cover"
-                            onError={(e) => {
-                              (e.target as HTMLImageElement).src = 'https://placehold.co/400x225?text=Error';
-                            }}
-                          />
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveImage(image)}
-                          className="absolute -top-2 -right-2 h-6 w-6 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                        >
-                          <X className="h-4 w-4" />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-sm text-slate-400">Добавьте изображения для создания галереи.</p>
-                )}
-              </div>
             </div>
           </div>
           <DialogFooter>
