@@ -1,20 +1,12 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageSquare, X, Send, Loader2, AlertCircle, ChevronDown } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { MessageSquare, X, Send, Loader2, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
 }
-
-// Color palette mapping for the brand colors
-const brandColors = {
-  primary: '#26AA56', // Brand green color
-  dark: '#283745',    // Brand dark color
-  background: '#161616'
-};
 
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -59,17 +51,45 @@ const ChatBot = () => {
     try {
       // Company information to help the AI provide accurate responses
       const companyInfo = `
-        TOWER UP - строительная компания, специализирующаяся на архитектуре и строительстве в Узбекистане.
-        Контактный номер: +998945811488
+        TOWERUP — это строительная компания, специализирующаяся на возведении современных жилых комплексов. 
+        Основной проект — ЖК Tower Up в Ташкенте.
+        Контактные номера: +998 55 510 00 03 или +998 55 511 00 03
+        В продаже есть 1-комнатные, 2-комнатные и 3-комнатные квартиры.
         Компания предлагает различные услуги: проектирование, строительство, дизайн интерьеров.
         Компания находится в г. Ташкент, Узбекистан.
-        У компании есть Instagram и Telegram для связи.
-        Процесс работы включает: консультацию, проектирование, строительство, контроль качества и сдачу проекта.
-        Наша команда создает уникальные архитектурные проекты, которые сочетают функциональность и эстетику.
       `;
       
       // System prompt to guide the AI's responses
-      const systemPrompt = "Вы - полезный ассистент компании TOWER UP. Отвечайте на вопросы, связанные с архитектурой, строительством и услугами компании. Если вас спрашивают о конкретной информации о компании, используйте предоставленную информацию. Будьте вежливы и профессиональны. Отвечайте на русском языке независимо от языка запроса. Используйте информацию о компании: " + companyInfo;
+      const systemPrompt = `
+        TOWERUP — это строительная компания, специализирующаяся на возведении современных жилых комплексов. 
+        Основной проект — ЖК Tower Up в Ташкенте. 
+        Ты — интеллектуальный чат-бот компании, созданный для общения с клиентами. 
+        Твоя задача — быстро и вежливо отвечать на вопросы пользователей о недвижимости, строительстве и услугах компании. 
+        
+        Основные функции: 
+        - приветствуй клиента и уточняй его запрос
+        - отвечай на часто задаваемые вопросы (FAQ)
+        - предоставляй информацию о наличии квартир, ценах и планировках
+        - сообщай о ходе строительства и сроках сдачи объектов
+        - давай ссылки на сайт, социальные сети и контактные номера
+        - принимай заявки на консультации и бронирование
+        
+        Если не можешь ответить, предлагай соединение с менеджером.
+        
+        Примеры диалогов:
+        Клиент: "Какие квартиры сейчас в продаже?" 
+        Ты: "В продаже есть 1-комнатные, 2-комнатные и 3-комнатные квартиры. Посмотрите планировки и цены на [сайт компании]. Хотите, я помогу с бронированием?"
+        
+        Клиент: "Когда сдача ЖК Tower Up?" 
+        Ты: "Сдача ЖК Tower Up планируется в 4 квартале 2025 года. Следите за обновлениями на нашем сайте и в соцсетях!"
+        
+        Клиент: "Как связаться с менеджером?" 
+        Ты: "Позвоните по номерам +998 55 510 00 03 или +998 55 511 00 03, либо оставьте заявку, и наш менеджер свяжется с вами."
+        
+        Если не можешь ответить на вопрос, говори: "К сожалению, я не могу помочь с этим вопросом. Давайте свяжу вас с нашим специалистом."
+        
+        Дополнительная информация о компании: ${companyInfo}
+      `;
       
       // Updated API endpoint and request format for Gemini API
       const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${API_KEY}`, {
@@ -88,7 +108,7 @@ const ChatBot = () => {
             {
               role: "model",
               parts: [
-                { text: "Понятно. Я буду действовать как полезный ассистент компании TOWER UP, используя предоставленную информацию и фокусируясь на архитектуре, строительстве и услугах компании." }
+                { text: "Понятно. Я буду действовать как интеллектуальный чат-бот компании TOWERUP, специализирующейся на строительстве жилых комплексов в Ташкенте." }
               ]
             },
             {
@@ -138,7 +158,7 @@ const ChatBot = () => {
         setErrorDetails(`Ошибка ${errorCode}: ${errorMessage}`);
         
         // Fallback response
-        assistantResponse = "Извините, возникла проблема с обработкой вашего запроса. Пожалуйста, попробуйте позже или свяжитесь с нами напрямую по номеру +998945811488.";
+        assistantResponse = "Извините, возникла проблема с обработкой вашего запроса. Пожалуйста, попробуйте позже или свяжитесь с нами напрямую по номеру +998 55 510 00 03.";
         
         console.error('Error in Gemini API response:', data);
       }
@@ -156,7 +176,7 @@ const ChatBot = () => {
       }
       
       // Error message
-      const errorMessage = "Извините, произошла ошибка при обработке вашего запроса. Пожалуйста, свяжитесь с нами по номеру +998945811488.";
+      const errorMessage = "Извините, произошла ошибка при обработке вашего запроса. Пожалуйста, свяжитесь с нами по номеру +998 55 510 00 03.";
       
       setMessages(prev => [...prev, { role: 'assistant', content: errorMessage }]);
       
@@ -178,36 +198,31 @@ const ChatBot = () => {
   return (
     <>
       {/* Chat button */}
-      <div className="fixed right-6 bottom-6 z-50 flex flex-col items-end">
+      <div className="fixed right-6 bottom-6 z-50">
         <button
           onClick={toggleChat}
-          className="p-3 rounded-full bg-brand-primary text-white shadow-lg transition-all duration-300 hover:bg-brand-primary/90 hover:shadow-xl"
-          aria-label="Консультация"
+          className="p-3 rounded-full bg-brand-primary text-white shadow-lg transition-all duration-300 hover:bg-brand-primary/90"
+          aria-label="Чат с консультантом"
         >
-          <div className="flex items-center justify-center">
-            <MessageSquare size={24} className="mr-2" />
-            <span className="font-medium pr-1">Консультация</span>
-          </div>
+          <MessageSquare size={24} />
         </button>
       </div>
 
       {/* Chat window */}
       {isOpen && (
-        <div className="fixed right-6 bottom-24 z-50 w-[350px] sm:w-[400px] rounded-2xl shadow-2xl overflow-hidden h-[500px] bg-[#1a1a1a] border border-brand-primary/20 animate-fade-in">
+        <div className="fixed right-6 bottom-24 z-50 w-[350px] sm:w-[400px] max-h-[80vh] flex flex-col rounded-t-xl rounded-b-xl shadow-2xl overflow-hidden border border-brand-primary/20 animate-fade-in">
           {/* Chat header */}
-          <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-brand-primary to-brand-primary/80 text-white">
+          <div className="flex items-center justify-between px-4 py-3 bg-brand-primary text-white">
             <div className="flex items-center">
-              <div className="h-10 w-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center mr-3">
-                <MessageSquare size={20} />
-              </div>
+              <MessageSquare size={20} className="mr-2" />
               <div>
-                <h3 className="font-medium text-base">Онлайн-консультант</h3>
+                <h3 className="font-medium">Онлайн-консультант</h3>
                 <p className="text-xs text-white/80">TOWER UP</p>
               </div>
             </div>
             <button 
               onClick={() => setIsOpen(false)} 
-              className="p-2 rounded-full hover:bg-white/10 transition-colors"
+              className="p-1 rounded-full hover:bg-white/10 transition-colors"
             >
               <X size={18} />
             </button>
@@ -215,19 +230,19 @@ const ChatBot = () => {
 
           {/* Chat body */}
           <div 
-            className="h-[380px] overflow-y-auto p-4 bg-[#1a1a1a] scrollbar-none"
+            className="flex-1 overflow-y-auto p-4 bg-[#1a1a1a]"
             style={{
               backgroundImage: "url('/lovable-uploads/588f4168-3957-47f6-b722-795cfc295ea7.png')",
               backgroundSize: "300px",
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
               backgroundBlendMode: "luminosity",
-              backgroundOpacity: "0.05"
+              opacity: 0.05
             }}
           >
             {messages.map((msg, index) => (
               <div key={index} className={`mb-3 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
-                <div className={`inline-block px-4 py-3 rounded-2xl ${
+                <div className={`inline-block px-4 py-3 rounded-lg ${
                   msg.role === 'user' 
                     ? 'bg-brand-primary text-white' 
                     : 'bg-[#252525] text-white/90 border border-white/10'
@@ -238,14 +253,14 @@ const ChatBot = () => {
             ))}
             {isLoading && (
               <div className="text-left mb-3">
-                <div className="inline-flex items-center px-4 py-3 rounded-2xl bg-[#252525] text-white/70 border border-white/10">
+                <div className="inline-flex items-center px-4 py-3 rounded-lg bg-[#252525] text-white/70 border border-white/10">
                   <Loader2 size={16} className="animate-spin mr-2" />
                   <span className="text-sm">TOWER UP отвечает...</span>
                 </div>
               </div>
             )}
             {errorDetails && (
-              <div className="mb-3 p-3 bg-red-900/20 border border-red-800/50 rounded-xl text-xs text-red-300 flex items-start">
+              <div className="mb-3 p-3 bg-red-900/20 border border-red-800/50 rounded-lg text-xs text-red-300 flex items-start">
                 <AlertCircle size={14} className="mr-2 mt-0.5 flex-shrink-0" />
                 <div>
                   <p className="font-semibold">Ошибка:</p>
@@ -257,33 +272,33 @@ const ChatBot = () => {
           </div>
 
           {/* Chat input */}
-          <div className="p-4 border-t border-white/10 bg-[#161616]">
+          <div className="p-2 border-t border-white/10 bg-[#161616]">
             <form 
               onSubmit={(e) => {
                 e.preventDefault();
                 handleSendMessage();
               }}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 bg-[#222] rounded-full overflow-hidden px-3"
             >
               <input
                 type="text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Введите ваш вопрос..."
-                className="w-full py-3 px-4 rounded-full border border-white/20 bg-[#252525] text-white focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all text-sm"
+                className="w-full py-3 px-1 bg-transparent border-none text-white focus:outline-none text-sm"
                 aria-label="Сообщение в чат"
               />
-              <Button
+              <button
                 type="submit"
-                className="p-3 h-auto w-auto bg-brand-primary text-white rounded-full hover:bg-brand-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="p-2 text-white rounded-full hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 disabled={!message.trim() || isLoading}
                 aria-label="Отправить сообщение"
               >
                 {isLoading ? 
                   <Loader2 size={18} className="animate-spin" /> : 
-                  <Send size={18} />
+                  <Send size={18} color="#26AA56" />
                 }
-              </Button>
+              </button>
             </form>
           </div>
         </div>
