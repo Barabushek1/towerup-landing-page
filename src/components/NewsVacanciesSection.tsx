@@ -1,9 +1,10 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { ArrowRight, Clock, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
+import { Button } from '@/components/ui/button';
+import { mapSupabaseNewsToNewsItem, safelyMapArray } from '@/utils/supabase-helpers';
 
 interface NewsItemProps {
   id: string;
@@ -91,7 +92,19 @@ const NewsVacanciesSection: React.FC = () => {
         }
         
         console.log('News data fetched:', data);
-        setNews(data || []);
+        if (data) {
+          const mappedNews = data.map(item => ({
+            id: item.id,
+            title: item.title,
+            published_at: item.published_at,
+            summary: item.summary,
+            image_url: item.image_url,
+            featured: item.featured
+          }));
+          setNews(mappedNews);
+        } else {
+          setNews([]);
+        }
       } catch (error) {
         console.error('Error:', error);
       } finally {
@@ -208,7 +221,21 @@ const NewsVacanciesSection: React.FC = () => {
                         .order('published_at', { ascending: false });
                       
                       if (error) throw error;
-                      setNews(data || []);
+                      
+                      if (data) {
+                        const mappedNews = data.map(item => ({
+                          id: item.id,
+                          title: item.title,
+                          published_at: item.published_at,
+                          summary: item.summary,
+                          image_url: item.image_url,
+                          featured: item.featured
+                        }));
+                        setNews(mappedNews);
+                      } else {
+                        setNews([]);
+                      }
+                      
                       setError(null);
                     } catch (err: any) {
                       console.error('Error refetching news:', err);
