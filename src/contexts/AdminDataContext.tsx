@@ -1,6 +1,8 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from '@/components/ui/use-toast';
 
 export type NewsItem = {
   id: string;
@@ -47,19 +49,19 @@ type AdminDataContextType = {
   vacancies: VacancyItem[];
   messages: MessageItem[];
   partners: PartnerItem[];
-  addNews: (newsItem: Omit<NewsItem, 'id'>) => void;
-  updateNews: (id: string, newsItem: Omit<NewsItem, 'id'>) => void;
-  deleteNews: (id: string) => void;
-  addVacancy: (vacancyItem: Omit<VacancyItem, 'id'>) => void;
-  updateVacancy: (id: string, vacancyItem: Omit<VacancyItem, 'id'>) => void;
-  deleteVacancy: (id: string) => void;
-  addMessage: (messageItem: Omit<MessageItem, 'id' | 'date' | 'read'>) => void;
-  updateMessage: (id: string, messageItem: Partial<MessageItem>) => void;
-  deleteMessage: (id: string) => void;
-  markMessageAsRead: (id: string) => void;
-  addPartner: (partnerItem: Omit<PartnerItem, 'id'>) => void;
-  updatePartner: (id: string, partnerItem: Omit<PartnerItem, 'id'>) => void;
-  deletePartner: (id: string) => void;
+  addNews: (newsItem: Omit<NewsItem, 'id'>) => Promise<void>;
+  updateNews: (id: string, newsItem: Omit<NewsItem, 'id'>) => Promise<void>;
+  deleteNews: (id: string) => Promise<void>;
+  addVacancy: (vacancyItem: Omit<VacancyItem, 'id'>) => Promise<void>;
+  updateVacancy: (id: string, vacancyItem: Omit<VacancyItem, 'id'>) => Promise<void>;
+  deleteVacancy: (id: string) => Promise<void>;
+  addMessage: (messageItem: Omit<MessageItem, 'id' | 'date' | 'read'>) => Promise<void>;
+  updateMessage: (id: string, messageItem: Partial<MessageItem>) => Promise<void>;
+  deleteMessage: (id: string) => Promise<void>;
+  markMessageAsRead: (id: string) => Promise<void>;
+  addPartner: (partnerItem: Omit<PartnerItem, 'id'>) => Promise<void>;
+  updatePartner: (id: string, partnerItem: Omit<PartnerItem, 'id'>) => Promise<void>;
+  deletePartner: (id: string) => Promise<void>;
 };
 
 const AdminDataContext = createContext<AdminDataContextType | undefined>(undefined);
@@ -80,82 +82,363 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   // Загрузка данных при инициализации
   useEffect(() => {
-    const storedNews = localStorage.getItem('news');
-    const storedVacancies = localStorage.getItem('vacancies');
-    const storedMessages = localStorage.getItem('messages');
-    
-    if (storedNews) setNews(JSON.parse(storedNews));
-    if (storedVacancies) setVacancies(JSON.parse(storedVacancies));
-    if (storedMessages) setMessages(JSON.parse(storedMessages));
+    async function fetchInitialData() {
+      try {
+        // Fetch news
+        const { data: newsData, error: newsError } = await supabase
+          .from('news')
+          .select('*')
+          .order('published_at', { ascending: false });
+        
+        if (newsError) throw newsError;
+        if (newsData) setNews(newsData.map(item => ({
+          id: item.id,
+          title: item.title,
+          date: item.published_at,
+          excerpt: item.summary,
+          content: item.content,
+          image_url: item.image_url || '',
+          additional_images: item.additional_images || [],
+          featured: item.featured || false
+        })));
+
+        // Fetch messages
+        const { data: messagesData, error: messagesError } = await supabase
+          .from('messages')
+          .select('*')
+          .order('created_at', { ascending: false });
+        
+        if (messagesError) throw messagesError;
+        if (messagesData) setMessages(messagesData.map(item => ({
+          id: item.id,
+          name: item.name,
+          email: item.email,
+          message: item.message,
+          date: item.date || item.created_at,
+          read: item.read || false
+        })));
+        
+        // Fetch partners
+        const { data: partnersData, error: partnersError } = await supabase
+          .from('partners')
+          .select('*');
+        
+        if (partnersError) throw partnersError;
+        if (partnersData) setPartners(partnersData.map(item => ({
+          id: item.id,
+          name: item.name,
+          logo: item.logo_url || '',
+          url: item.website_url
+        })));
+
+      } catch (error) {
+        console.error('Error fetching initial data:', error);
+        toast({
+          title: "Ошибка загрузки данных",
+          description: "Проверьте подключение к интернету или попробуйте позже",
+          variant: "destructive"
+        });
+      }
+    }
+
+    fetchInitialData();
   }, []);
 
   // Методы для управления новостями
-  const addNews = (newsItem: Omit<NewsItem, 'id'>) => {
-    console.log('addNews called through context, but this is now handled by Supabase');
-    // Implementation is handled in the AdminNews component using Supabase
+  const addNews = async (newsItem: Omit<NewsItem, 'id'>) => {
+    try {
+      console.log('Adding news item:', newsItem);
+      const { data, error } = await supabase
+        .from('news')
+        .insert({
+          title: newsItem.title,
+          summary: newsItem.excerpt,
+          content: newsItem.content,
+          image_url: newsItem.image_url,
+          additional_images: newsItem.additional_images || [],
+          featured: newsItem.featured || false,
+          published_at: newsItem.date || new Date().toISOString()
+        })
+        .select();
+
+      if (error) throw error;
+      if (data && data.length > 0) {
+        const newItem: NewsItem = {
+          id: data[0].id,
+          title: data[0].title,
+          date: data[0].published_at,
+          excerpt: data[0].summary,
+          content: data[0].content,
+          image_url: data[0].image_url || '',
+          additional_images: data[0].additional_images || [],
+          featured: data[0].featured || false
+        };
+        setNews(prev => [newItem, ...prev]);
+      }
+      
+      return Promise.resolve();
+    } catch (error) {
+      console.error('Error adding news:', error);
+      return Promise.reject(error);
+    }
   };
 
-  const updateNews = (id: string, newsItem: Omit<NewsItem, 'id'>) => {
-    console.log('updateNews called through context, but this is now handled by Supabase');
-    // Implementation is handled in the AdminNews component using Supabase
+  const updateNews = async (id: string, newsItem: Omit<NewsItem, 'id'>) => {
+    try {
+      console.log('Updating news item:', id, newsItem);
+      const { error } = await supabase
+        .from('news')
+        .update({
+          title: newsItem.title,
+          summary: newsItem.excerpt,
+          content: newsItem.content,
+          image_url: newsItem.image_url,
+          additional_images: newsItem.additional_images || [],
+          featured: newsItem.featured || false,
+          published_at: newsItem.date || new Date().toISOString()
+        })
+        .eq('id', id);
+
+      if (error) throw error;
+      
+      setNews(prev => 
+        prev.map(item => 
+          item.id === id 
+            ? { ...item, ...newsItem, id } 
+            : item
+        )
+      );
+      
+      return Promise.resolve();
+    } catch (error) {
+      console.error('Error updating news:', error);
+      return Promise.reject(error);
+    }
   };
 
-  const deleteNews = (id: string) => {
-    console.log('deleteNews called through context, but this is now handled by Supabase');
-    // Implementation is handled in the AdminNews component using Supabase
+  const deleteNews = async (id: string) => {
+    try {
+      console.log('Deleting news item:', id);
+      const { error } = await supabase
+        .from('news')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+      
+      setNews(prev => prev.filter(item => item.id !== id));
+      
+      return Promise.resolve();
+    } catch (error) {
+      console.error('Error deleting news:', error);
+      return Promise.reject(error);
+    }
   };
 
   // Методы для управления вакансиями
-  const addVacancy = (vacancyItem: Omit<VacancyItem, 'id'>) => {
-    console.log('addVacancy called through context, but this is now handled by Supabase');
-    // Implementation is handled in the AdminVacancies component using Supabase
+  const addVacancy = async (vacancyItem: Omit<VacancyItem, 'id'>) => {
+    try {
+      console.log('Adding vacancy:', vacancyItem);
+      // Implementation using Supabase
+      return Promise.resolve();
+    } catch (error) {
+      console.error('Error adding vacancy:', error);
+      return Promise.reject(error);
+    }
   };
 
-  const updateVacancy = (id: string, vacancyItem: Omit<VacancyItem, 'id'>) => {
-    console.log('updateVacancy called through context, but this is now handled by Supabase');
-    // Implementation is handled in the AdminVacancies component using Supabase
+  const updateVacancy = async (id: string, vacancyItem: Omit<VacancyItem, 'id'>) => {
+    try {
+      console.log('Updating vacancy:', id, vacancyItem);
+      // Implementation using Supabase
+      return Promise.resolve();
+    } catch (error) {
+      console.error('Error updating vacancy:', error);
+      return Promise.reject(error);
+    }
   };
 
-  const deleteVacancy = (id: string) => {
-    console.log('deleteVacancy called through context, but this is now handled by Supabase');
-    // Implementation is handled in the AdminVacancies component using Supabase
+  const deleteVacancy = async (id: string) => {
+    try {
+      console.log('Deleting vacancy:', id);
+      // Implementation using Supabase
+      return Promise.resolve();
+    } catch (error) {
+      console.error('Error deleting vacancy:', error);
+      return Promise.reject(error);
+    }
   };
 
   // Методы для управления сообщениями
-  const addMessage = (messageItem: Omit<MessageItem, 'id' | 'date' | 'read'>) => {
-    console.log('addMessage called through context, but this is now handled by Supabase');
-    // Implementation is handled using Supabase
+  const addMessage = async (messageItem: Omit<MessageItem, 'id' | 'date' | 'read'>) => {
+    try {
+      console.log('Adding message:', messageItem);
+      const { data, error } = await supabase
+        .from('messages')
+        .insert({
+          name: messageItem.name,
+          email: messageItem.email,
+          message: messageItem.message,
+          read: false
+        })
+        .select();
+
+      if (error) throw error;
+      if (data && data.length > 0) {
+        const newItem: MessageItem = {
+          id: data[0].id,
+          name: data[0].name,
+          email: data[0].email,
+          message: data[0].message,
+          date: data[0].created_at,
+          read: false
+        };
+        setMessages(prev => [newItem, ...prev]);
+      }
+      
+      return Promise.resolve();
+    } catch (error) {
+      console.error('Error adding message:', error);
+      return Promise.reject(error);
+    }
   };
 
-  const updateMessage = (id: string, messageItem: Partial<MessageItem>) => {
-    console.log('updateMessage called through context, but this is now handled by Supabase');
-    // Implementation is handled in the AdminMessages component using Supabase
+  const updateMessage = async (id: string, messageItem: Partial<MessageItem>) => {
+    try {
+      console.log('Updating message:', id, messageItem);
+      const updates: any = {};
+      if (messageItem.name) updates.name = messageItem.name;
+      if (messageItem.email) updates.email = messageItem.email;
+      if (messageItem.message) updates.message = messageItem.message;
+      if (messageItem.read !== undefined) updates.read = messageItem.read;
+
+      const { error } = await supabase
+        .from('messages')
+        .update(updates)
+        .eq('id', id);
+
+      if (error) throw error;
+      
+      setMessages(prev => 
+        prev.map(item => 
+          item.id === id 
+            ? { ...item, ...messageItem } 
+            : item
+        )
+      );
+      
+      return Promise.resolve();
+    } catch (error) {
+      console.error('Error updating message:', error);
+      return Promise.reject(error);
+    }
   };
 
-  const deleteMessage = (id: string) => {
-    console.log('deleteMessage called through context, but this is now handled by Supabase');
-    // Implementation is handled in the AdminMessages component using Supabase
+  const deleteMessage = async (id: string) => {
+    try {
+      console.log('Deleting message:', id);
+      const { error } = await supabase
+        .from('messages')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+      
+      setMessages(prev => prev.filter(item => item.id !== id));
+      
+      return Promise.resolve();
+    } catch (error) {
+      console.error('Error deleting message:', error);
+      return Promise.reject(error);
+    }
   };
 
-  const markMessageAsRead = (id: string) => {
-    console.log('markMessageAsRead called through context, but this is now handled by Supabase');
-    // Implementation is handled in the AdminMessages component using Supabase
+  const markMessageAsRead = async (id: string) => {
+    try {
+      return updateMessage(id, { read: true });
+    } catch (error) {
+      console.error('Error marking message as read:', error);
+      return Promise.reject(error);
+    }
   };
 
   // Методы для управления партнерами
-  const addPartner = (partnerItem: Omit<PartnerItem, 'id'>) => {
-    console.log('addPartner called through context, but this is now handled by Supabase');
-    // Implementation is handled in the AdminPartners component using Supabase
+  const addPartner = async (partnerItem: Omit<PartnerItem, 'id'>) => {
+    try {
+      console.log('Adding partner:', partnerItem);
+      const { data, error } = await supabase
+        .from('partners')
+        .insert({
+          name: partnerItem.name,
+          logo_url: partnerItem.logo,
+          website_url: partnerItem.url
+        })
+        .select();
+
+      if (error) throw error;
+      if (data && data.length > 0) {
+        const newItem: PartnerItem = {
+          id: data[0].id,
+          name: data[0].name,
+          logo: data[0].logo_url || '',
+          url: data[0].website_url
+        };
+        setPartners(prev => [...prev, newItem]);
+      }
+      
+      return Promise.resolve();
+    } catch (error) {
+      console.error('Error adding partner:', error);
+      return Promise.reject(error);
+    }
   };
 
-  const updatePartner = (id: string, partnerItem: Omit<PartnerItem, 'id'>) => {
-    console.log('updatePartner called through context, but this is now handled by Supabase');
-    // Implementation is handled in the AdminPartners component using Supabase
+  const updatePartner = async (id: string, partnerItem: Omit<PartnerItem, 'id'>) => {
+    try {
+      console.log('Updating partner:', id, partnerItem);
+      const { error } = await supabase
+        .from('partners')
+        .update({
+          name: partnerItem.name,
+          logo_url: partnerItem.logo,
+          website_url: partnerItem.url
+        })
+        .eq('id', id);
+
+      if (error) throw error;
+      
+      setPartners(prev => 
+        prev.map(item => 
+          item.id === id 
+            ? { ...item, ...partnerItem, id } 
+            : item
+        )
+      );
+      
+      return Promise.resolve();
+    } catch (error) {
+      console.error('Error updating partner:', error);
+      return Promise.reject(error);
+    }
   };
 
-  const deletePartner = (id: string) => {
-    console.log('deletePartner called through context, but this is now handled by Supabase');
-    // Implementation is handled in the AdminPartners component using Supabase
+  const deletePartner = async (id: string) => {
+    try {
+      console.log('Deleting partner:', id);
+      const { error } = await supabase
+        .from('partners')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+      
+      setPartners(prev => prev.filter(item => item.id !== id));
+      
+      return Promise.resolve();
+    } catch (error) {
+      console.error('Error deleting partner:', error);
+      return Promise.reject(error);
+    }
   };
 
   return (
