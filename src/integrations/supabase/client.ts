@@ -17,4 +17,11 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
   global: {
     fetch: fetch,
   },
+  db: {
+    schema: 'public',
+  },
+  storage: {
+    retryIntervals: 500,
+    maxRetryCount: 2,
+  },
 });

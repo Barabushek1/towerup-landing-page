@@ -70,11 +70,15 @@ const NewsVacanciesSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [news, setNews] = useState<NewsItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   
   useEffect(() => {
     const fetchNews = async () => {
       try {
         setIsLoading(true);
+        setError(null);
+        
+        console.log('Fetching news from Supabase...');
         const { data, error } = await supabase
           .from('news')
           .select('*')
@@ -82,9 +86,11 @@ const NewsVacanciesSection: React.FC = () => {
         
         if (error) {
           console.error('Error fetching news:', error);
+          setError(error.message);
           throw error;
         }
         
+        console.log('News data fetched:', data);
         setNews(data || []);
       } catch (error) {
         console.error('Error:', error);
@@ -186,6 +192,38 @@ const NewsVacanciesSection: React.FC = () => {
           {isLoading ? (
             <div className="flex justify-center items-center py-20">
               <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+            </div>
+          ) : error ? (
+            <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-6 text-center">
+              <p className="text-red-400">Ошибка загрузки данных: {error}</p>
+              <Button 
+                onClick={() => {
+                  setIsLoading(true);
+                  setNews([]);
+                  const fetchNews = async () => {
+                    try {
+                      const { data, error } = await supabase
+                        .from('news')
+                        .select('*')
+                        .order('published_at', { ascending: false });
+                      
+                      if (error) throw error;
+                      setNews(data || []);
+                      setError(null);
+                    } catch (err: any) {
+                      console.error('Error refetching news:', err);
+                      setError(err.message);
+                    } finally {
+                      setIsLoading(false);
+                    }
+                  };
+                  fetchNews();
+                }}
+                className="mt-4"
+                variant="outline"
+              >
+                Попробовать снова
+              </Button>
             </div>
           ) : (
             <>

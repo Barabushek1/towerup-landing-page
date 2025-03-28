@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -76,6 +75,10 @@ const AdminMessages: React.FC = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['messages'] });
+      toast({
+        title: "Статус сообщения обновлен",
+        description: "Сообщение отмечено как прочитанное",
+      });
     },
     onError: (error) => {
       console.error('Error in update mutation:', error);
@@ -175,6 +178,12 @@ const AdminMessages: React.FC = () => {
       <div className="p-6 bg-slate-800 rounded-lg border border-slate-700">
         <p className="text-red-400">Произошла ошибка при загрузке данных. Пожалуйста, попробуйте позже.</p>
         <p className="text-red-400 mt-2">{String(error)}</p>
+        <Button 
+          onClick={() => queryClient.invalidateQueries({ queryKey: ['messages'] })}
+          className="mt-4"
+        >
+          Попробовать снова
+        </Button>
       </div>
     );
   }
