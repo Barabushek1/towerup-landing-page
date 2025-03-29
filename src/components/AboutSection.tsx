@@ -1,21 +1,21 @@
-
 import React, { useEffect, useRef } from 'react';
 import { Button } from './ui/button';
 import { Building, Users, Cpu, ShieldCheck, Clock, Award } from 'lucide-react';
-
 interface AdvantageItemProps {
   icon: React.ReactNode;
   title: string;
   description: string;
   index: number;
 }
-
-const AdvantageItem: React.FC<AdvantageItemProps> = ({ icon, title, description, index }) => {
-  return (
-    <div 
-      className="scroll-animate-section bg-[#222222] p-6 rounded-lg border border-white/5 shadow-lg transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl" 
-      style={{ transitionDelay: `${index * 100}ms` }}
-    >
+const AdvantageItem: React.FC<AdvantageItemProps> = ({
+  icon,
+  title,
+  description,
+  index
+}) => {
+  return <div className="scroll-animate-section bg-[#222222] p-6 rounded-lg border border-white/5 shadow-lg transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl" style={{
+    transitionDelay: `${index * 100}ms`
+  }}>
       <div className="flex flex-col h-full">
         <div className="w-14 h-14 rounded-lg bg-primary/20 flex items-center justify-center mb-5">
           <div className="text-primary">{icon}</div>
@@ -23,71 +23,53 @@ const AdvantageItem: React.FC<AdvantageItemProps> = ({ icon, title, description,
         <h3 className="text-xl font-semibold text-white mb-3">{title}</h3>
         <p className="text-gray-300 flex-grow">{description}</p>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 const AboutSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in-view');
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-    
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
     const elementsToObserve = sectionRef.current?.querySelectorAll('.scroll-animate-section');
-    elementsToObserve?.forEach((el) => observer.observe(el));
-    
+    elementsToObserve?.forEach(el => observer.observe(el));
     return () => {
-      elementsToObserve?.forEach((el) => observer.unobserve(el));
+      elementsToObserve?.forEach(el => observer.unobserve(el));
     };
   }, []);
-
-  const advantages = [
-    {
-      icon: <Building className="w-10 h-10" />,
-      title: "ПРОФЕССИОНАЛИЗМ",
-      description: "Основа нашего профессионализма - сохранение собственных традиций и использование мировых инноваций."
-    },
-    {
-      icon: <Users className="w-10 h-10" />,
-      title: "ОПЫТ КОМПАНИИ",
-      description: "Нам не приходится доказывать качество нашей продукции. Ваше признание делает это за нас."
-    },
-    {
-      icon: <Cpu className="w-10 h-10" />,
-      title: "ОБОРУДОВАНИЕ",
-      description: "Технологическое превосходство используемого нами оборудования является элементом отличия компании TOWERUP."
-    }
-  ];
-
-  const stats = [
-    {
-      number: "350 000",
-      label: "м², производственная площадь",
-      icon: <Building className="w-10 h-10" />
-    },
-    {
-      number: "32",
-      label: "Страны Экспорта",
-      icon: <ShieldCheck className="w-10 h-10" />
-    },
-    {
-      number: "20",
-      label: "Производств",
-      icon: <Award className="w-10 h-10" />
-    }
-  ];
-
-  return (
-    <section id="about" ref={sectionRef} className="bg-[#1a1a1a] text-white">
+  const advantages = [{
+    icon: <Building className="w-10 h-10" />,
+    title: "ПРОФЕССИОНАЛИЗМ",
+    description: "Основа нашего профессионализма - сохранение собственных традиций и использование мировых инноваций."
+  }, {
+    icon: <Users className="w-10 h-10" />,
+    title: "ОПЫТ КОМПАНИИ",
+    description: "Нам не приходится доказывать качество нашей продукции. Ваше признание делает это за нас."
+  }, {
+    icon: <Cpu className="w-10 h-10" />,
+    title: "ОБОРУДОВАНИЕ",
+    description: "Технологическое превосходство используемого нами оборудования является элементом отличия компании TOWERUP."
+  }];
+  const stats = [{
+    number: "350 000",
+    label: "м², производственная площадь",
+    icon: <Building className="w-10 h-10" />
+  }, {
+    number: "32",
+    label: "Страны Экспорта",
+    icon: <ShieldCheck className="w-10 h-10" />
+  }, {
+    number: "20",
+    label: "Производств",
+    icon: <Award className="w-10 h-10" />
+  }];
+  return <section id="about" ref={sectionRef} className="bg-[#1a1a1a] text-white">
       {/* About Company Section */}
       <div className="container mx-auto px-6 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
@@ -96,11 +78,7 @@ const AboutSection: React.FC = () => {
             <div className="bg-primary absolute top-0 left-0 w-[100px] h-[100px] lg:w-[200px] lg:h-[200px] z-0"></div>
             <div className="relative z-10 ml-5 mt-5">
               <div className="overflow-hidden">
-                <img 
-                  src="https://riq3aaa.medianewsonline.com/assets/images/1-777x879.webp" 
-                  alt="Company building" 
-                  className="w-full h-[300px] lg:h-[400px] object-cover"
-                />
+                <img alt="Company building" src="/lovable-uploads/3f9fcd14-cb3f-4837-b43f-8ad96b4d53d3.jpg" className="w-full h-[300px] lg:h-[400px] object-cover" />
               </div>
             </div>
           </div>
@@ -142,15 +120,7 @@ const AboutSection: React.FC = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            {advantages.map((advantage, index) => (
-              <AdvantageItem
-                key={index}
-                icon={advantage.icon}
-                title={advantage.title}
-                description={advantage.description}
-                index={index}
-              />
-            ))}
+            {advantages.map((advantage, index) => <AdvantageItem key={index} icon={advantage.icon} title={advantage.title} description={advantage.description} index={index} />)}
           </div>
           
           <div className="flex justify-center mt-14">
@@ -160,8 +130,6 @@ const AboutSection: React.FC = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default AboutSection;
