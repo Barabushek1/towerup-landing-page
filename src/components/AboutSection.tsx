@@ -97,7 +97,7 @@ const AboutSection: React.FC = () => {
             <div className="relative z-10 ml-5 mt-5">
               <div className="overflow-hidden">
                 <img 
-                  src="https://riq3aaa.medianewsonline.com/assets/images/1-777x879.webp" 
+                  src="https://images.unsplash.com/photo-1741540420762-91a78becdf92?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
                   alt="Company building" 
                   className="w-full h-[300px] lg:h-[400px] object-cover"
                 />
