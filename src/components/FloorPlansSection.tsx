@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { TabsList, TabsTrigger, Tabs, TabsContent } from "@/components/ui/tabs";
 
-// Floor plan data
+// Floor plan data with updated counts and image
 const floorPlans = {
   "1-комнатные": [
     {
@@ -15,7 +15,7 @@ const floorPlans = {
       areaLabel: "площадь",
       price: "от 348 768 000 сум",
       monthly: "от 7 266 000 сум / мес. в рассрочку",
-      image: "/lovable-uploads/349569c7-e156-4d0f-9067-9010b4c0789a.png"
+      image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
     },
     {
       id: 2,
@@ -25,7 +25,7 @@ const floorPlans = {
       areaLabel: "площадь",
       price: "от 450 362 000 сум",
       monthly: "от 9 382 000 сум / мес. в рассрочку",
-      image: "/lovable-uploads/349569c7-e156-4d0f-9067-9010b4c0789a.png"
+      image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
     },
     {
       id: 3,
@@ -35,7 +35,7 @@ const floorPlans = {
       areaLabel: "площадь",
       price: "от 407 445 000 сум",
       monthly: "от 8 655 000 сум / мес. в рассрочку",
-      image: "/lovable-uploads/349569c7-e156-4d0f-9067-9010b4c0789a.png"
+      image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
     }
   ],
   "2-комнатные": [
@@ -47,7 +47,7 @@ const floorPlans = {
       areaLabel: "площадь",
       price: "от 688 176 000 сум",
       monthly: "от 14 337 000 сум / мес. в рассрочку",
-      image: "/lovable-uploads/349569c7-e156-4d0f-9067-9010b4c0789a.png"
+      image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
     },
     {
       id: 5,
@@ -57,19 +57,89 @@ const floorPlans = {
       areaLabel: "площадь",
       price: "от 736 910 000 сум",
       monthly: "от 15 352 000 сум / мес. в рассрочку",
-      image: "/lovable-uploads/349569c7-e156-4d0f-9067-9010b4c0789a.png"
+      image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    },
+    {
+      id: 6,
+      title: "2-комнатная",
+      subtitle: "квартира",
+      area: "65.18 м²",
+      areaLabel: "площадь",
+      price: "от 769 124 000 сум",
+      monthly: "от 16 023 000 сум / мес. в рассрочку",
+      image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    },
+    {
+      id: 7,
+      title: "2-комнатная",
+      subtitle: "квартира",
+      area: "60.55 м²",
+      areaLabel: "площадь",
+      price: "от 714 490 000 сум",
+      monthly: "от 14 885 000 сум / мес. в рассрочку",
+      image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    },
+    {
+      id: 8,
+      title: "2-комнатная",
+      subtitle: "квартира",
+      area: "64.37 м²",
+      areaLabel: "площадь",
+      price: "от 759 566 000 сум",
+      monthly: "от 15 824 000 сум / мес. в рассрочку",
+      image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
     }
   ],
   "3-комнатные": [
     {
-      id: 6,
+      id: 9,
       title: "3-комнатная",
       subtitle: "квартира",
       area: "84.76 м²",
       areaLabel: "площадь",
       price: "от 1 000 168 000 сум",
       monthly: "от 20 837 000 сум / мес. в рассрочку",
-      image: "/lovable-uploads/349569c7-e156-4d0f-9067-9010b4c0789a.png"
+      image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    },
+    {
+      id: 10,
+      title: "3-комнатная",
+      subtitle: "квартира",
+      area: "89.24 м²",
+      areaLabel: "площадь",
+      price: "от 1 053 032 000 сум",
+      monthly: "от 21 938 000 сум / мес. в рассрочку",
+      image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    },
+    {
+      id: 11,
+      title: "3-комнатная",
+      subtitle: "квартира",
+      area: "93.12 м²",
+      areaLabel: "площадь",
+      price: "от 1 098 816 000 сум",
+      monthly: "от 22 892 000 сум / мес. в рассрочку",
+      image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    },
+    {
+      id: 12,
+      title: "3-комнатная",
+      subtitle: "квартира",
+      area: "91.55 м²",
+      areaLabel: "площадь",
+      price: "от 1 080 290 000 сум",
+      monthly: "от 22 506 000 сум / мес. в рассрочку",
+      image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    },
+    {
+      id: 13,
+      title: "3-комнатная",
+      subtitle: "квартира",
+      area: "95.67 м²",
+      areaLabel: "площадь",
+      price: "от 1 128 906 000 сум",
+      monthly: "от 23 519 000 сум / мес. в рассрочку",
+      image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
     }
   ]
 };
@@ -129,12 +199,15 @@ const FloorPlansSection: React.FC = () => {
                           </div>
                         </div>
                         
-                        <div className="relative aspect-video bg-black/30 border-y border-slate-700/30">
+                        <div className="relative aspect-square bg-black/30 border-y border-slate-700/30 group cursor-pointer overflow-hidden">
                           <img 
                             src={plan.image} 
                             alt={`${plan.title} ${plan.area}`} 
-                            className="w-full h-full object-contain"
+                            className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
                           />
+                          <div className="absolute inset-0 bg-brand-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span className="text-white font-medium text-sm bg-brand-primary/80 px-3 py-1 rounded-full">Просмотреть</span>
+                          </div>
                         </div>
                         
                         <div className="p-6">
