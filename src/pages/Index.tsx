@@ -8,8 +8,6 @@ import ProjectsSection from '@/components/ProjectsSection';
 import NewsVacanciesSection from '@/components/NewsVacanciesSection';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
-import ChatBot from '@/components/ChatBot';
-import ScrollTopButton from '@/components/ScrollTopButton';
 import { MapPin } from 'lucide-react';
 
 const Index: React.FC = () => {
@@ -35,42 +33,10 @@ const Index: React.FC = () => {
       observer.observe(el);
     });
     
-    // Add smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        if (targetId && targetId !== '#') {
-          const targetElement = document.querySelector(targetId);
-          if (targetElement) {
-            targetElement.scrollIntoView({
-              behavior: 'smooth'
-            });
-          }
-        }
-      });
-    });
-    
     return () => {
       // Clean up observer
       document.querySelectorAll('.scroll-animate-section').forEach((el) => {
         observer.unobserve(el);
-      });
-      
-      // Clean up event listeners
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.removeEventListener('click', function (e) {
-          e.preventDefault();
-          const targetId = this.getAttribute('href');
-          if (targetId && targetId !== '#') {
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-              targetElement.scrollIntoView({
-                behavior: 'smooth'
-              });
-            }
-          }
-        });
       });
     };
   }, []);
@@ -121,12 +87,6 @@ const Index: React.FC = () => {
         </section>
       </main>
       <Footer />
-      
-      {/* Add ScrollTopButton component */}
-      <ScrollTopButton />
-      
-      {/* Add ChatBot component */}
-      <ChatBot />
     </div>
   );
 };

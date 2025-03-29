@@ -1,105 +1,196 @@
+
+@import './fonts.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import './fonts.css';
-
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 47.4% 11.2%;
+    --background: 0 0% 10%; /* Darker background */
+    --foreground: 210 20% 98%; /* Lighter text */
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --card: 0 0% 13%;
+    --card-foreground: 210 20% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 47.4% 11.2%;
+    --popover: 0 0% 13%;
+    --popover-foreground: 210 20% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 47.4% 11.2%;
- 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
- 
-    --primary: 222.1 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
- 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
- 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
- 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --primary: 147 63% 41%; /* Based on #26AA56 */
+    --primary-foreground: 0 0% 100%;
 
-    --ring: 222.1 83.2% 53.3%;
- 
+    --secondary: 208 52% 89%; /* Based on #D3E2F0 */
+    --secondary-foreground: 210 38% 22%;
+
+    --muted: 210 20% 15%;
+    --muted-foreground: 215 14% 68%;
+
+    --accent: 210 20% 15%;
+    --accent-foreground: 210 20% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 20% 98%;
+
+    --border: 215 14% 20%;
+    --input: 215 14% 20%;
+    --ring: 147 63% 41%; /* Same as primary */
+
     --radius: 0.5rem;
-  }
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
- 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 41.4% 31.4%;
- 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
- 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
- 
-    --border: 216 34% 17%;
-    --input: 216 34% 17%;
- 
-    --primary: 222.1 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
- 
-    --secondary: 215 27.9% 16.9%;
-    --secondary-foreground: 210 40% 98%;
- 
-    --accent: 216 34% 17%;
-    --accent-foreground: 210 40% 98%;
- 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
- 
-    --ring: 222.1 83.2% 53.3%;
- 
-    --radius: 0.5rem;
+    --sidebar-background: 0 0% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border font-benzin;
   }
-  
+
+  html {
+    @apply scroll-smooth;
+  }
+
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
-    @apply font-benzin;
+    @apply font-benzin tracking-tight font-medium;
   }
-  
-  .section-heading {
-    @apply text-4xl md:text-5xl font-extrabold;
+
+  h1 {
+    @apply text-4xl sm:text-5xl md:text-6xl;
   }
-  
-  .section-subheading {
-    @apply text-lg text-muted-foreground max-w-prose;
+
+  h2 {
+    @apply text-3xl sm:text-4xl;
+  }
+
+  h3 {
+    @apply text-2xl sm:text-3xl;
+  }
+
+  h4 {
+    @apply text-xl sm:text-2xl;
+  }
+
+  h5 {
+    @apply text-lg sm:text-xl;
+  }
+
+  h6 {
+    @apply text-base sm:text-lg;
+  }
+
+  p {
+    @apply leading-relaxed font-benzin;
   }
 }
 
-/* Scroll animations */
+@layer components {
+  .section-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 md:px-10 py-16 md:py-24;
+  }
+  
+  .section-heading {
+    @apply font-display font-medium text-3xl sm:text-4xl md:text-5xl mb-4;
+  }
+  
+  .section-subheading {
+    @apply text-muted-foreground text-lg md:text-xl max-w-3xl;
+  }
+
+  .reveal {
+    @apply opacity-0 transition-all duration-1000;
+  }
+
+  .reveal.active {
+    @apply opacity-100;
+  }
+
+  .reveal[data-animation="fade-in"] {
+    @apply animate-fade-in;
+  }
+
+  .reveal[data-animation="slide-up"] {
+    @apply animate-slide-up;
+  }
+
+  .reveal[data-animation="slide-down"] {
+    @apply animate-slide-down;
+  }
+
+  .reveal[data-animation="slide-in-left"] {
+    @apply animate-slide-in-left;
+  }
+
+  .reveal[data-animation="slide-in-right"] {
+    @apply animate-slide-in-right;
+  }
+
+  .nav-link {
+    @apply relative px-3 py-2 text-sm font-medium transition-colors hover:text-foreground/80;
+  }
+
+  .nav-link::after {
+    @apply content-[''] absolute w-0 h-0.5 bg-primary left-0 -bottom-1 transition-all duration-300;
+  }
+
+  .nav-link:hover::after {
+    @apply w-full;
+  }
+
+  .nav-link.active::after {
+    @apply w-full;
+  }
+  
+  .glass-card {
+    @apply rounded-2xl bg-white/10 backdrop-blur-xl backdrop-saturate-150 border border-white/10 shadow-lg;
+  }
+  
+  .button-hover-effect {
+    @apply relative overflow-hidden transition-all duration-500 ease-in-out;
+  }
+  
+  .button-hover-effect::before {
+    @apply content-[''] absolute left-0 top-0 h-full w-0 bg-foreground opacity-10 transition-all duration-500 ease-in-out;
+  }
+  
+  .button-hover-effect:hover::before {
+    @apply w-full;
+  }
+
+  /* Mobile optimized page header */
+  .page-header {
+    @apply relative flex flex-col items-center justify-center pt-24 pb-16 text-center px-4;
+    min-height: 40vh;
+  }
+
+  @media (min-width: 768px) {
+    .page-header {
+      min-height: 50vh;
+      @apply pt-32 pb-24;
+    }
+  }
+
+  .page-header-title {
+    @apply text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 z-10;
+  }
+}
+
+/* Smooth scrolling animations */
 .scroll-animate-section {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
 
 .scroll-animate-section.in-view {
@@ -107,88 +198,53 @@
   transform: translateY(0);
 }
 
-/* Ensure good contrast in forms */
-input, textarea, select {
-  @apply text-foreground;
+/* Mobile menu */
+.menu-open {
+  overflow: hidden !important;
 }
 
-/* Add the pulse animation for the chat button */
-@keyframes pulse-slow {
-  0% {
-    box-shadow: 0 0 0 0 rgba(38, 170, 86, 0.7);
+/* Animated background for mobile */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
   }
-  70% {
-    box-shadow: 0 0 0 15px rgba(38, 170, 86, 0);
+  50% {
+    transform: translateY(-10px);
   }
-  100% {
-    box-shadow: 0 0 0 0 rgba(38, 170, 86, 0);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.6;
   }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }
 
 .animate-pulse-slow {
-  animation: pulse-slow 2s infinite;
+  animation: pulse 4s ease-in-out infinite;
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.3s ease-in-out forwards;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+/* Responsive optimizations */
+@media (max-width: 640px) {
+  .container {
+    @apply px-4;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  
+  h1 {
+    @apply text-3xl;
   }
-}
-
-/* Tailwind CSS brand colors */
-:root {
-  --brand-primary: #26AA56;
-  --brand-primary-dark: #218F49;
-  --brand-secondary: #333333;
-  --brand-accent: #F7B500;
-}
-
-/* Add brand color utility classes */
-.bg-brand-primary {
-  background-color: var(--brand-primary);
-}
-
-.bg-brand-primary\/90 {
-  background-color: rgba(38, 170, 86, 0.9);
-}
-
-.bg-brand-primary\/80 {
-  background-color: rgba(38, 170, 86, 0.8);
-}
-
-.bg-brand-primary\/20 {
-  background-color: rgba(38, 170, 86, 0.2);
-}
-
-.bg-brand-primary\/10 {
-  background-color: rgba(38, 170, 86, 0.1);
-}
-
-.text-brand-primary {
-  color: var(--brand-primary);
-}
-
-.border-brand-primary {
-  border-color: var(--brand-primary);
-}
-
-.border-brand-primary\/20 {
-  border-color: rgba(38, 170, 86, 0.2);
-}
-
-.hover\:bg-brand-primary\/90:hover {
-  background-color: rgba(38, 170, 86, 0.9);
-}
-
-.shadow-brand-primary\/20 {
-  box-shadow: 0 4px 6px -1px rgba(38, 170, 86, 0.2);
+  
+  h2 {
+    @apply text-2xl;
+  }
+  
+  .section-padding {
+    @apply py-12;
+  }
 }

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { ArrowRight, Clock, ChevronRight } from 'lucide-react';
@@ -74,34 +73,6 @@ const NewsVacanciesSection: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
-  // Example news data (will be shown if no data from Supabase)
-  const exampleNews: NewsItem[] = [
-    {
-      id: "example_1",
-      title: "Старт продаж новых квартир в ЖК Tower Up",
-      published_at: "2025-03-15T00:00:00Z",
-      summary: "Рады сообщить о старте продаж новой очереди квартир в жилом комплексе Tower Up. Доступны 1-, 2- и 3-комнатные квартиры с современной планировкой и высококачественной отделкой.",
-      image_url: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-      featured: true
-    },
-    {
-      id: "example_2",
-      title: "Ход строительства ЖК Tower Up: март 2025",
-      published_at: "2025-03-10T00:00:00Z",
-      summary: "Представляем ежемесячный отчет о строительстве жилого комплекса Tower Up. Завершены основные монолитные работы, начата отделка фасадов. Строительство ведется строго по графику.",
-      image_url: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-      featured: true
-    },
-    {
-      id: "example_3",
-      title: "Обновление инфраструктуры района Tower Up",
-      published_at: "2025-02-28T00:00:00Z",
-      summary: "В рамках развития территории вокруг ЖК Tower Up, компания TOWERUP инвестирует в создание современной инфраструктуры: парки, детские площадки, торговые центры и спортивные объекты.",
-      image_url: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-      featured: true
-    }
-  ];
-  
   useEffect(() => {
     const fetchNews = async () => {
       try {
@@ -121,7 +92,7 @@ const NewsVacanciesSection: React.FC = () => {
         }
         
         console.log('News data fetched:', data);
-        if (data && data.length > 0) {
+        if (data) {
           const mappedNews = data.map(item => ({
             id: item.id,
             title: item.title,
@@ -132,13 +103,10 @@ const NewsVacanciesSection: React.FC = () => {
           }));
           setNews(mappedNews);
         } else {
-          // Use example news if no data from Supabase
-          setNews(exampleNews);
+          setNews([]);
         }
       } catch (error) {
         console.error('Error:', error);
-        // Use example news on error
-        setNews(exampleNews);
       } finally {
         setIsLoading(false);
       }
@@ -177,11 +145,35 @@ const NewsVacanciesSection: React.FC = () => {
   };
 
   // Filter featured news or get the latest 3 if none are featured
-  const displayNews = isLoading 
-    ? [] 
-    : (news.filter(item => item.featured).length > 0 
-        ? news.filter(item => item.featured).slice(0, 3) 
-        : news.slice(0, 3));
+  const displayNews = isLoading ? [] : (
+    news.length > 0 
+      ? (news.filter(item => item.featured).length > 0 
+          ? news.filter(item => item.featured).slice(0, 3) 
+          : news.slice(0, 3))
+      : [
+        {
+          id: "default_1",
+          title: "Начало строительства нового жилого комплекса в центре города",
+          published_at: "2023-06-15T00:00:00Z",
+          summary: "Мы рады сообщить о начале реализации масштабного проекта в центральном районе, который обеспечит город современным и комфортным жильем.",
+          image_url: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
+        },
+        {
+          id: "default_2",
+          title: "Завершение проекта реконструкции исторического здания",
+          published_at: "2023-05-28T00:00:00Z",
+          summary: "Успешно завершены работы по реконструкции исторического здания XIX века с сохранением его архитектурной ценности и добавлением современных элементов.",
+          image_url: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
+        },
+        {
+          id: "default_3",
+          title: "Внедрение новых экологичных технологий строительства",
+          published_at: "2023-05-10T00:00:00Z",
+          summary: "Наша компания начала использование инновационных экологически чистых материалов и технологий в строительстве, что значительно снижает воздействие на окружающую среду.",
+          image_url: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
+        }
+      ]
+  );
 
   return (
     <section 
@@ -230,7 +222,7 @@ const NewsVacanciesSection: React.FC = () => {
                       
                       if (error) throw error;
                       
-                      if (data && data.length > 0) {
+                      if (data) {
                         const mappedNews = data.map(item => ({
                           id: item.id,
                           title: item.title,
@@ -241,16 +233,13 @@ const NewsVacanciesSection: React.FC = () => {
                         }));
                         setNews(mappedNews);
                       } else {
-                        // Use example news if no data from Supabase
-                        setNews(exampleNews);
+                        setNews([]);
                       }
                       
                       setError(null);
                     } catch (err: any) {
                       console.error('Error refetching news:', err);
                       setError(err.message);
-                      // Use example news on error
-                      setNews(exampleNews);
                     } finally {
                       setIsLoading(false);
                     }
