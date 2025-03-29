@@ -1,10 +1,13 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageSquare, X, Send, Loader2, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+
 interface Message {
   role: 'user' | 'assistant';
   content: string;
 }
+
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState('');
@@ -12,10 +15,8 @@ const ChatBot = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorDetails, setErrorDetails] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const initialMessageRef = useRef(false);
-  const {
-    toast
-  } = useToast();
+  const initialMessageShownRef = useRef(false);
+  const { toast } = useToast();
 
   // API key
   const API_KEY = "AIzaSyBQohIy_Zf8eV9GMmk7oU-vpmZKblytm8Q";
@@ -29,17 +30,18 @@ const ChatBot = () => {
     }
   }, [messages]);
 
-  // Initial welcome message
+  // Initial welcome message - only add it once when chat is opened and empty
   useEffect(() => {
-    if (!initialMessageRef.current && isOpen) {
+    if (isOpen && messages.length === 0 && !initialMessageShownRef.current) {
       const welcomeMessage = "Здравствуйте! Я виртуальный помощник компании TOWERUP. Готов ответить на ваши вопросы о наших жилых комплексах, ценах и условиях покупки. Чем могу помочь?";
       setMessages([{
         role: 'assistant',
         content: welcomeMessage
       }]);
-      initialMessageRef.current = true;
+      initialMessageShownRef.current = true;
     }
-  }, [isOpen]);
+  }, [isOpen, messages.length]);
+
   const handleSendMessage = async () => {
     if (!message.trim()) return;
 
@@ -68,6 +70,9 @@ const ChatBot = () => {
         TOWERUP — это строительная компания, специализирующаяся на возведении современных жилых комплексов. 
         Основной проект — ЖК Tower Up в Ташкенте. 
         Ты — интеллектуальный чат-бот компании, созданный для общения с клиентами. 
+        
+        Начинай диалог с приветствия: "Здравствуйте! Я виртуальный помощник компании TOWERUP. Готов ответить на ваши вопросы о наших жилых комплексах, ценах и условиях покупки. Чем могу помочь?"
+        
         Твоя задача — быстро и вежливо отвечать на вопросы пользователей о недвижимости, строительстве и услугах компании. 
         
         Основные функции: 
@@ -90,10 +95,37 @@ const ChatBot = () => {
         Клиент: "Как связаться с менеджером?" 
         Ты: "Позвоните по номерам +998 55 510 00 03 или +998 55 511 00 03, либо оставьте заявку, и наш менеджер свяжется с вами."
         
-        Если не можешь ответить на вопрос, говори: "К сожалению, я не могу помочь с этим вопросом. Давайте свяжу вас с нашим специалистом."
+        Если бот не может ответить, он сообщает: "К сожалению, я не могу помочь с этим вопросом. Давайте свяжу вас с нашим специалистом."
         
         Дополнительная информация о компании: ${companyInfo}
       `;
+
+      // Create the conversation history for the API
+      const conversationHistory = [
+        {
+          role: "user",
+          parts: [{ text: systemPrompt }]
+        },
+        {
+          role: "model",
+          parts: [{ text: "Понятно. Я буду действовать как интеллектуальный чат-бот компании TOWERUP, специализирующейся на строительстве жилых комплексов в Ташкенте." }]
+        }
+      ];
+      
+      // Add previous messages to conversation history (maximum 5 messages to avoid token limits)
+      const recentMessages = messages.slice(-5);
+      recentMessages.forEach(msg => {
+        conversationHistory.push({
+          role: msg.role === "assistant" ? "model" : "user",
+          parts: [{ text: msg.content }]
+        });
+      });
+      
+      // Add the current user message
+      conversationHistory.push({
+        role: "user",
+        parts: [{ text: message }]
+      });
 
       // Updated API endpoint and request format for Gemini API
       const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${API_KEY}`, {
@@ -102,22 +134,7 @@ const ChatBot = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          contents: [{
-            role: "user",
-            parts: [{
-              text: systemPrompt
-            }]
-          }, {
-            role: "model",
-            parts: [{
-              text: "Понятно. Я буду действовать как интеллектуальный чат-бот компании TOWERUP, специализирующейся на строительстве жилых комплексов в Ташкенте."
-            }]
-          }, {
-            role: "user",
-            parts: [{
-              text: message
-            }]
-          }],
+          contents: conversationHistory,
           generationConfig: {
             temperature: 0.7,
             topK: 40,
