@@ -150,36 +150,36 @@ const ProjectsSection: React.FC = () => {
     title: 'Всё нужное — рядом',
     subtitle: 'TOWERUP',
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    imageUrl: "https://riq3aaa.medianewsonline.com/assets/images/n4b-686x412.webp"
+    imageUrl: "https://images.unsplash.com/photo-1742196642294-4a0a93fd337c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   }, {
     title: 'Удобный паркинг',
     subtitle: 'TOWERUP',
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    imageUrl: "https://riq3aaa.medianewsonline.com/assets/images/parking-275x183.webp"
+    imageUrl: "https://images.unsplash.com/photo-1742898958003-63577fe8776e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   }, {
     title: 'Ремонт под ключ',
     subtitle: 'TOWERUP',
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus.",
-    imageUrl: "https://riq3aaa.medianewsonline.com/assets/images/remont-686x412.webp"
+    imageUrl: "https://images.unsplash.com/photo-1742845918430-c6093f93f740?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   }];
   const projects = [{
     title: 'Жилой комплекс "Пушкин"',
     description: "Современный эко-комплекс из 5 домов с благоустроенной территорией, детскими площадками и парковой зоной.",
     location: "Ташкент",
     status: "Строится",
-    imageUrl: "https://riq3aaa.medianewsonline.com/assets/images/1-702x702.webp"
+    imageUrl: "https://images.unsplash.com/photo-1742855751015-5bda25456249?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   }, {
     title: 'Бизнес-центр "Бочка"',
     description: "Современный бизнес-центр класса А с конференц-залами, подземным паркингом и зелёной зоной отдыха.",
     location: "Ташкент",
     status: "Строится",
-    imageUrl: "https://images.unsplash.com/photo-1618172193763-c511deb635ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2064&q=80"
+    imageUrl: "https://images.unsplash.com/photo-1742330425089-1f91d18eaa4e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   }, {
     title: 'Жилой комплекс "Кумарык"',
     description: "Курортный комплекс из отеля 5* и апартаментов с панорамным видом на море и собственным пляжем.",
     location: "Ташкент",
     status: "Строится",
-    imageUrl: "https://riq3aaa.medianewsonline.com/assets/images/kumarik.webp"
+    imageUrl: "https://images.unsplash.com/photo-1618172193763-c511deb635ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2064&q=80&quot"
   }];
   return <section id="projects" ref={sectionRef} className="py-0 bg-black overflow-hidden">
       <div className="relative scroll-animate-section">
