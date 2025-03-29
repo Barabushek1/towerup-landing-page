@@ -13,37 +13,52 @@ import {
   PaginationPrevious 
 } from "@/components/ui/pagination";
 import PageHeader from '@/components/PageHeader';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
 
-interface NewsItem {
-  id: string;
-  title: string;
-  content: string;
-  image_url: string;
-  published_at: string;
-  summary: string;
-  created_at: string;
-  updated_at: string;
-}
+// Example news data with WebP images
+const exampleNews = [
+  {
+    id: "example_1",
+    title: "Начало строительства нового жилого комплекса в центре города",
+    published_at: "2025-03-15T00:00:00Z",
+    summary: "Мы рады сообщить о начале реализации масштабного проекта в центральном районе, который обеспечит город современным и комфортным жильем.",
+    image_url: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80&fm=webp",
+    content: "Мы рады сообщить о начале реализации масштабного проекта в центральном районе города. Новый жилой комплекс будет включать современные апартаменты различной площади, от компактных студий до просторных пентхаусов.\n\nВ проекте предусмотрены подземный паркинг, благоустроенная придомовая территория с детскими и спортивными площадками, а также коммерческие помещения на первых этажах зданий.\n\nСтроительство планируется завершить к концу 2027 года, а первые жильцы смогут въехать в свои новые квартиры уже в начале 2028 года.",
+    created_at: "2025-03-15T00:00:00Z",
+    updated_at: "2025-03-15T00:00:00Z"
+  },
+  {
+    id: "example_2",
+    title: "Завершение проекта реконструкции исторического здания",
+    published_at: "2025-02-28T00:00:00Z",
+    summary: "Успешно завершены работы по реконструкции исторического здания XIX века с сохранением его архитектурной ценности и добавлением современных элементов.",
+    image_url: "https://images.unsplash.com/photo-1577415124269-fc1140a69e91?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80&fm=webp",
+    content: "Успешно завершены работы по реконструкции исторического здания XIX века с сохранением его архитектурной ценности и добавлением современных элементов.\n\nРеконструкция заняла более двух лет и включала в себя укрепление фундамента, восстановление исторического фасада, замену перекрытий и инженерных коммуникаций.\n\nОсобое внимание было уделено воссозданию исторических деталей интерьера, таких как лепнина, паркет и двери. При этом здание оснащено современными системами безопасности, отопления и вентиляции.",
+    created_at: "2025-02-28T00:00:00Z",
+    updated_at: "2025-02-28T00:00:00Z"
+  },
+  {
+    id: "example_3",
+    title: "Внедрение новых экологичных технологий строительства",
+    published_at: "2025-01-20T00:00:00Z",
+    summary: "Наша компания начала использование инновационных экологически чистых материалов и технологий в строительстве, что значительно снижает воздействие на окружающую среду.",
+    image_url: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80&fm=webp",
+    content: "Наша компания начала использование инновационных экологически чистых материалов и технологий в строительстве, что значительно снижает воздействие на окружающую среду.\n\nНовые технологии включают в себя использование переработанных материалов, энергоэффективные решения и системы сбора и очистки дождевой воды.\n\nПервым проектом, в котором будут полностью применены эти технологии, станет жилой комплекс в экологическом районе города. Ожидается, что это позволит снизить потребление энергии на 30% и уменьшить выбросы CO2 на 25% по сравнению с традиционными методами строительства.",
+    created_at: "2025-01-20T00:00:00Z",
+    updated_at: "2025-01-20T00:00:00Z"
+  },
+  {
+    id: "example_4",
+    title: "Получение международного сертификата качества",
+    published_at: "2025-01-05T00:00:00Z",
+    summary: "Наша компания получила международный сертификат качества ISO 9001, что подтверждает высокие стандарты нашей работы и приверженность к качеству.",
+    image_url: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80&fm=webp",
+    content: "Наша компания получила международный сертификат качества ISO 9001, что подтверждает высокие стандарты нашей работы и приверженность к качеству.\n\nПроцесс сертификации включал в себя тщательную проверку всех аспектов нашей деятельности, от проектирования и строительства до взаимодействия с клиентами и поставщиками.\n\nПолученный сертификат является признанием нашего стремления к постоянному совершенствованию и поддержанию высокого уровня качества во всех проектах.",
+    created_at: "2025-01-05T00:00:00Z",
+    updated_at: "2025-01-05T00:00:00Z"
+  }
+];
 
 const News: React.FC = () => {
-  const { data: news = [], isLoading, error } = useQuery({
-    queryKey: ['news'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('news')
-        .select('*')
-        .order('published_at', { ascending: false });
-      
-      if (error) {
-        throw error;
-      }
-      
-      return data as NewsItem[];
-    }
-  });
-
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return new Intl.DateTimeFormat('ru-RU', {
@@ -53,49 +68,8 @@ const News: React.FC = () => {
     }).format(date);
   };
   
-  // Fallback news data
-  const displayNews = news.length > 0 ? news : [
-    {
-      id: "default_1",
-      title: "Начало строительства нового жилого комплекса в центре города",
-      published_at: "2023-06-15T00:00:00Z",
-      summary: "Мы рады сообщить о начале реализации масштабного проекта в центральном районе, который обеспечит город современным и комфортным жильем.",
-      image_url: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-      content: "",
-      created_at: "2023-06-15T00:00:00Z",
-      updated_at: "2023-06-15T00:00:00Z"
-    },
-    {
-      id: "default_2",
-      title: "Завершение проекта реконструкции исторического здания",
-      published_at: "2023-05-28T00:00:00Z",
-      summary: "Успешно завершены работы по реконструкции исторического здания XIX века с сохранением его архитектурной ценности и добавлением современных элементов.",
-      image_url: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-      content: "",
-      created_at: "2023-05-28T00:00:00Z",
-      updated_at: "2023-05-28T00:00:00Z"
-    },
-    {
-      id: "default_3",
-      title: "Внедрение новых экологичных технологий строительства",
-      published_at: "2023-05-10T00:00:00Z",
-      summary: "Наша компания начала использование инновационных экологически чистых материалов и технологий в строительстве, что значительно снижает воздействие на окружающую среду.",
-      image_url: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-      content: "",
-      created_at: "2023-05-10T00:00:00Z",
-      updated_at: "2023-05-10T00:00:00Z"
-    },
-    {
-      id: "default_4",
-      title: "Получение международного сертификата качества",
-      published_at: "2023-05-05T00:00:00Z",
-      summary: "Наша компания получила международный сертификат качества ISO 9001, что подтверждает высокие стандарты нашей работы и приверженность к качеству.",
-      image_url: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-      content: "",
-      created_at: "2023-05-05T00:00:00Z",
-      updated_at: "2023-05-05T00:00:00Z"
-    }
-  ];
+  // Use example news data
+  const displayNews = exampleNews;
 
   return (
     <div className="min-h-screen antialiased bg-[#161616] text-gray-200 overflow-x-hidden">
@@ -117,16 +91,7 @@ const News: React.FC = () => {
           <div className="container mx-auto px-6 relative z-20">
             <div className="max-w-5xl mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {isLoading ? (
-                  <div className="col-span-2 text-center py-20">
-                    <div className="animate-spin h-10 w-10 border-t-2 border-primary rounded-full mx-auto"></div>
-                    <p className="mt-4 text-slate-400">Загрузка новостей...</p>
-                  </div>
-                ) : error ? (
-                  <div className="col-span-2 text-center py-20">
-                    <p className="text-red-400">Произошла ошибка при загрузке новостей. Пожалуйста, попробуйте позже.</p>
-                  </div>
-                ) : displayNews.map((item) => (
+                {displayNews.map((item) => (
                   <div 
                     key={item.id} 
                     className="group relative overflow-hidden rounded-xl border border-primary/10 bg-slate-800/40 transition-all duration-300 hover:shadow-xl"
@@ -144,7 +109,7 @@ const News: React.FC = () => {
                     <div className="p-6">
                       <div className="flex items-center text-slate-400 text-sm mb-3">
                         <Clock className="mr-2 h-4 w-4" />
-                        <span>{news.length > 0 ? formatDate(item.published_at) : formatDate(item.published_at)}</span>
+                        <span>{formatDate(item.published_at)}</span>
                       </div>
                       <h3 className="text-xl font-bold text-slate-200 mb-3 font-benzin">{item.title}</h3>
                       <p className="text-slate-400 mb-4 line-clamp-3">{item.summary}</p>
