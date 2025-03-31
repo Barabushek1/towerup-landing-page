@@ -119,7 +119,8 @@ const AboutSection: React.FC = () => {
             className="relative scroll-animate-section order-2 lg:order-1 mt-8 lg:mt-0"
             variants={fadeInUp}
           >
-            <div className="hidden sm:block bg-primary absolute top-0 left-0 w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] lg:w-[200px] lg:h-[200px] z-0 opacity-80 blur-sm"></div>
+            {/* Restore green box for all devices */}
+            <div className="bg-primary absolute top-0 left-0 w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] lg:w-[200px] lg:h-[200px] z-0 opacity-80 blur-sm"></div>
             <div className="relative z-10 sm:ml-3 sm:mt-3">
               <motion.div 
                 className="overflow-hidden rounded-lg"
@@ -135,7 +136,7 @@ const AboutSection: React.FC = () => {
             </div>
           </motion.div>
           
-          {/* Right side with company description - Mobile optimized */}
+          {/* Right side with company description - Mobile optimized with fixed word spacing */}
           <motion.div 
             className="scroll-animate-section order-1 lg:order-2"
             variants={fadeInUp}
@@ -145,10 +146,13 @@ const AboutSection: React.FC = () => {
               <div className="h-[1px] w-16 sm:w-32 bg-primary/50 ml-4"></div>
             </div>
             
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
+            {/* Fixed text with proper spacing on mobile */}
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
               Инновационные
+              <br className="hidden sm:block" /> 
+              решения для 
               <br className="hidden sm:block" />
-              решения для современного
+              современного
               <br className="hidden sm:block" />
               строительства
             </h2>
