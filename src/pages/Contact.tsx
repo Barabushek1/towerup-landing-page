@@ -109,7 +109,8 @@ const Contact: React.FC = () => {
                       </div>
                       <div>
                         <h4 className="font-medium mb-1 text-slate-200">Адрес</h4>
-                        <p className="text-slate-300 font-benzin">TOWER UP, г. Ташкент, Узбекистан</p>
+                        <p className="text-slate-300 font-benzin font-thin">Город Ташкент, Сергелийский район, МСГ Янги Қумариқ.
+Ориентир: Моторный завод GM.</p>
                       </div>
                     </div>
                     
