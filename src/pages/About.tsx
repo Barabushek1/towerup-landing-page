@@ -62,7 +62,7 @@ const pulse = {
     transition: { 
       duration: 2, 
       repeat: Infinity, 
-      repeatType: "reverse"
+      repeatType: "reverse" as const
     }
   }
 };
@@ -186,7 +186,7 @@ const About: React.FC = () => {
   const faqItems = [
     {
       question: "Какие гарантии вы предоставляете на ваши объекты?",
-      answer: "Все наши объекты имеют гарантию 10 лет. Мы также обеспечиваем послегарантийное обслуживание и поддержку на протяжении всего срока эк��плуатации здания."
+      answer: "Все наши объекты имеют гарантию 10 лет. Мы также обеспечиваем послегарантийное обслуживание и поддержку на протяжении всего срока эксплуатации здания."
     },
     {
       question: "Какие инновационные технологии вы используете?",
@@ -390,7 +390,7 @@ const About: React.FC = () => {
                 transition={{ 
                   duration: 8, 
                   repeat: Infinity,
-                  repeatType: 'loop',
+                  repeatType: "loop",
                   ease: "easeInOut",
                   times: [0, 0.95, 1]
                 }}
