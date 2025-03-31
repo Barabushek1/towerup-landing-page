@@ -150,7 +150,7 @@ const ContactSection: React.FC = () => {
                 <div>
                   <h4 className="text-lg font-medium text-white mb-1">Email</h4>
                   <p className="text-slate-300">info@towerup.uz</p>
-                  <p className="text-slate-300">support@towerup.uz</p>
+                  
                 </div>
               </div>
               
