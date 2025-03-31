@@ -124,21 +124,21 @@ const AboutSection: React.FC = () => {
   return (
     <section id="about" ref={sectionRef} className="bg-[#1a1a1a] text-white">
       {/* About Company Section */}
-      <div className="container mx-auto px-6 py-20">
+      <div className="container mx-auto px-4 sm:px-6 py-16 sm:py-20">
         <motion.div 
-          className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-center"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={staggerContainer}
         >
-          {/* Left side with image and big number */}
+          {/* Left side with image and big number - Improved mobile display */}
           <motion.div 
-            className="relative scroll-animate-section"
+            className="relative scroll-animate-section order-2 lg:order-1"
             variants={fadeInUp}
           >
-            <div className="bg-primary absolute top-0 left-0 w-[100px] h-[100px] lg:w-[200px] lg:h-[200px] z-0 opacity-80 blur-sm"></div>
-            <div className="relative z-10 ml-5 mt-5">
+            <div className="bg-primary absolute top-0 left-0 w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] lg:w-[200px] lg:h-[200px] z-0 opacity-80 blur-sm"></div>
+            <div className="relative z-10 ml-3 sm:ml-5 mt-3 sm:mt-5">
               <motion.div 
                 className="overflow-hidden rounded-lg"
                 whileHover={{ scale: 1.03 }}
@@ -147,36 +147,36 @@ const AboutSection: React.FC = () => {
                 <img 
                   src="https://images.unsplash.com/photo-1741540420762-91a78becdf92?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
                   alt="Company building" 
-                  className="w-full h-[300px] lg:h-[400px] object-cover transition-transform duration-700 hover:scale-105 shadow-xl"
+                  className="w-full h-[250px] sm:h-[300px] lg:h-[400px] object-cover transition-transform duration-700 hover:scale-105 shadow-xl"
                 />
               </motion.div>
             </div>
           </motion.div>
           
-          {/* Right side with company description */}
+          {/* Right side with company description - Made mobile friendly */}
           <motion.div 
-            className="scroll-animate-section"
+            className="scroll-animate-section order-1 lg:order-2 mb-8 lg:mb-0"
             variants={fadeInUp}
           >
-            <div className="mb-5 flex items-center">
+            <div className="mb-4 sm:mb-5 flex items-center">
               <span className="text-primary uppercase font-medium text-sm tracking-wider">О КОМПАНИИ</span>
-              <div className="h-[1px] w-32 bg-primary/50 ml-4"></div>
+              <div className="h-[1px] w-16 sm:w-32 bg-primary/50 ml-4"></div>
             </div>
             
-            <h2 className="text-4xl lg:text-5xl font-bold mb-8">
-              Инновационные<br />
-              решения для современного<br />
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8">
+              Инновационные<br className="hidden sm:block" />
+              решения для современного<br className="hidden sm:block" />
               строительства
             </h2>
             
-            <div className="h-1 w-16 bg-primary mb-8"></div>
+            <div className="h-1 w-16 bg-primary mb-6 sm:mb-8"></div>
             
-            <p className="text-gray-300 leading-relaxed mb-10">
+            <p className="text-gray-300 leading-relaxed mb-8 sm:mb-10">
               Располагая крупнейшим в Средней Азии автоматизированным производственным комплексом, компания TOWERUP предлагает только современные решения, качество и надёжность которых проверены временем.
             </p>
             
             <Link to="/about">
-              <Button className="bg-primary hover:bg-primary/80 text-white px-8 group">
+              <Button className="bg-primary hover:bg-primary/80 text-white px-6 sm:px-8 py-2 group">
                 <span>УЗНАТЬ БОЛЬШЕ</span>
                 <ArrowRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
@@ -185,15 +185,15 @@ const AboutSection: React.FC = () => {
         </motion.div>
       </div>
       
-      {/* Advantages Section with dark background */}
-      <div className="bg-[#212121] py-20 relative overflow-hidden">
+      {/* Advantages Section with dark background - Improved for mobile */}
+      <div className="bg-[#212121] py-16 sm:py-20 relative overflow-hidden">
         {/* Background decorative elements */}
         <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#1a1a1a] to-transparent"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -z-0"></div>
-        <div className="absolute top-1/3 left-10 w-64 h-64 bg-blue-500/5 rounded-full blur-2xl -z-0"></div>
+        <div className="absolute bottom-0 right-0 w-80 sm:w-96 h-80 sm:h-96 bg-primary/5 rounded-full blur-3xl -z-0"></div>
+        <div className="absolute top-1/3 left-10 w-52 sm:w-64 h-52 sm:h-64 bg-blue-500/5 rounded-full blur-2xl -z-0"></div>
       
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="flex flex-col items-center mb-14">
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+          <div className="flex flex-col items-center mb-10 sm:mb-14">
             <motion.div 
               className="flex items-center"
               initial={{ opacity: 0, y: 20 }}
@@ -201,13 +201,13 @@ const AboutSection: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h2 className="text-primary uppercase font-medium text-xl tracking-wider">НАШИ ПРЕИМУЩЕСТВА</h2>
-              <div className="h-[1px] w-20 bg-primary/50 ml-6"></div>
+              <h2 className="text-primary uppercase font-medium text-lg sm:text-xl tracking-wider">НАШИ ПРЕИМУЩЕСТВА</h2>
+              <div className="h-[1px] w-12 sm:w-20 bg-primary/50 ml-4 sm:ml-6"></div>
             </motion.div>
           </div>
           
           <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6 md:gap-8"
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
@@ -225,14 +225,14 @@ const AboutSection: React.FC = () => {
           </motion.div>
           
           <motion.div 
-            className="flex justify-center mt-14"
+            className="flex justify-center mt-10 sm:mt-14"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
             <Link to="/about">
-              <Button className="bg-transparent hover:bg-primary/10 text-white border border-white/20 px-8 group">
+              <Button className="bg-transparent hover:bg-primary/10 text-white border border-white/20 px-6 sm:px-8 py-2 group">
                 <span>УЗНАТЬ БОЛЬШЕ</span>
                 <ArrowRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>

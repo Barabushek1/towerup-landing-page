@@ -70,33 +70,24 @@ const HeroSection: React.FC = () => {
       ref={sectionRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden opacity-0 transition-opacity duration-1000"
     >
-      {isMobile ? (
-        // Animated background for mobile
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 to-slate-800 overflow-hidden">
-          <AnimatedBackground />
+      {/* City Skyline Background Image - Used for both mobile and desktop */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="relative w-full h-full">
+          {/* Dark overlay for better text readability */}
+          <div className="absolute inset-0 bg-black bg-opacity-50 z-10"></div>
+          
+          {/* Background image */}
+          <img 
+            src="/lovable-uploads/974b63c5-2ebc-40fc-b325-3a655d7afe14.png"
+            alt="City Skyline" 
+            className="absolute w-full h-full object-cover object-center"
+          />
         </div>
-      ) : (
-        // YouTube Video Background for desktop
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="relative w-full h-full">
-            {/* Semi-transparent overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-slate-900 to-slate-800 opacity-80 z-10"></div>
-            
-            {/* YouTube player container */}
-            <div className="absolute inset-0 w-full h-full">
-              <div 
-                id="youtube-player" 
-                ref={playerRef}
-                className="absolute w-[300%] h-[300%] -top-[100%] -left-[100%]"
-              ></div>
-            </div>
-          </div>
-        </div>
-      )}
+      </div>
       
-      {/* Decorative elements */}
-      <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-brand-secondary rounded-full blur-3xl opacity-10 animate-float z-10"></div>
-      <div className="absolute bottom-1/4 right-1/3 w-96 h-96 bg-brand-primary/20 rounded-full blur-3xl opacity-10 animate-float z-10" style={{ animationDelay: '2s' }}></div>
+      {/* Animated background elements with reduced opacity */}
+      <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-brand-secondary rounded-full blur-3xl opacity-5 animate-float z-10"></div>
+      <div className="absolute bottom-1/4 right-1/3 w-96 h-96 bg-brand-primary/20 rounded-full blur-3xl opacity-5 animate-float z-10" style={{ animationDelay: '2s' }}></div>
       
       <div className="container mx-auto px-6 py-10 relative z-20">
         <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
