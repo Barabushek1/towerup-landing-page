@@ -3,6 +3,10 @@ import React, { useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { TabsList, TabsTrigger, Tabs, TabsContent } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog";
+import { X, Maximize, ZoomIn } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // Floor plan data with updated counts and image
 const floorPlans = {
@@ -146,17 +150,39 @@ const floorPlans = {
 
 const FloorPlansSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("1-комнатные");
+  const [selectedPlan, setSelectedPlan] = useState<number | null>(null);
+  const [isImageOpen, setIsImageOpen] = useState(false);
+  const isMobile = useIsMobile();
   
   const handleTabChange = (value: string) => {
     setActiveTab(value);
   };
 
+  const openFullScreenImage = (planId: number) => {
+    setSelectedPlan(planId);
+    setIsImageOpen(true);
+  };
+
+  const getSelectedPlanData = () => {
+    if (selectedPlan === null) return null;
+    
+    for (const category in floorPlans) {
+      const plan = floorPlans[category as keyof typeof floorPlans].find(
+        p => p.id === selectedPlan
+      );
+      if (plan) return plan;
+    }
+    return null;
+  };
+
+  const selectedPlanData = getSelectedPlanData();
+
   return (
-    <section id="floor-plans" className="py-16 bg-[#161616]">
-      <div className="container mx-auto px-6">
-        <div className="flex flex-col items-center mb-12 scroll-animate-section">
-          <h2 className="text-4xl font-bold mb-2 text-center text-brand-primary">ПЛАНИРОВКИ</h2>
-          <h3 className="text-2xl font-medium mb-6 text-center text-white">TOWERUP</h3>
+    <section id="floor-plans" className="py-10 md:py-16 bg-[#161616]">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="flex flex-col items-center mb-8 md:mb-12 scroll-animate-section">
+          <h2 className="text-3xl md:text-4xl font-bold mb-2 text-center text-brand-primary">ПЛАНИРОВКИ</h2>
+          <h3 className="text-xl md:text-2xl font-medium mb-6 text-center text-white">TOWERUP</h3>
           
           <Tabs 
             defaultValue="1-комнатные" 
@@ -164,12 +190,12 @@ const FloorPlansSection: React.FC = () => {
             value={activeTab}
             onValueChange={handleTabChange}
           >
-            <TabsList className="mb-8 w-full flex justify-center gap-4">
+            <TabsList className="mb-6 md:mb-8 w-full flex justify-center gap-2 md:gap-4 overflow-x-auto pb-2">
               {Object.keys(floorPlans).map((category) => (
                 <TabsTrigger 
                   key={category} 
                   value={category}
-                  className={`px-4 py-2 text-sm font-medium transition-all border border-brand-primary/20 hover:border-brand-primary/50 ${
+                  className={`px-3 py-2 text-xs md:text-sm font-medium transition-all border border-brand-primary/20 hover:border-brand-primary/50 whitespace-nowrap ${
                     activeTab === category 
                       ? "bg-brand-primary text-white" 
                       : "bg-transparent text-white"
@@ -180,57 +206,109 @@ const FloorPlansSection: React.FC = () => {
               ))}
             </TabsList>
             
-            {Object.entries(floorPlans).map(([category, plans]) => (
-              <TabsContent key={category} value={category} className="w-full">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {plans.map((plan) => (
-                    <Card 
-                      key={plan.id} 
-                      className="bg-[#1a1a1a] border border-slate-700/30 overflow-hidden rounded-xl hover:border-brand-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-brand-primary/5"
-                    >
-                      <CardContent className="p-0">
-                        <div className="p-6">
-                          <h3 className="text-brand-primary text-2xl font-bold">{plan.title}</h3>
-                          <p className="text-white/80 mb-2">{plan.subtitle}</p>
-                          
-                          <div className="my-4">
-                            <h4 className="text-brand-primary text-3xl font-bold">{plan.area}</h4>
-                            <p className="text-white/60">{plan.areaLabel}</p>
-                          </div>
-                        </div>
-                        
-                        <div className="relative aspect-square bg-black/30 border-y border-slate-700/30 group cursor-pointer overflow-hidden">
-                          <img 
-                            src={plan.image} 
-                            alt={`${plan.title} ${plan.area}`} 
-                            className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                          />
-                          <div className="absolute inset-0 bg-brand-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                            <span className="text-white font-medium text-sm bg-brand-primary/80 px-3 py-1 rounded-full">Просмотреть</span>
-                          </div>
-                        </div>
-                        
-                        <div className="p-6">
-                          <div className="mb-4">
-                            <h4 className="text-brand-primary text-xl font-bold">{plan.price}</h4>
-                            <p className="text-white/60 text-sm">{plan.monthly}</p>
-                          </div>
-                          
-                          <Button 
-                            className="w-full bg-brand-primary hover:bg-brand-primary/90 text-white"
-                          >
-                            Выбрать
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </TabsContent>
-            ))}
+            <AnimatePresence mode="wait">
+              {Object.entries(floorPlans).map(([category, plans]) => (
+                <TabsContent key={category} value={category} className="w-full">
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
+                  >
+                    {plans.map((plan) => (
+                      <motion.div 
+                        key={plan.id}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.3, delay: plan.id * 0.1 % 0.5 }}
+                      >
+                        <Card 
+                          className="bg-[#1a1a1a] border border-slate-700/30 overflow-hidden rounded-xl hover:border-brand-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-brand-primary/5"
+                        >
+                          <CardContent className="p-0">
+                            <div className="p-4 md:p-6">
+                              <h3 className="text-brand-primary text-xl md:text-2xl font-bold">{plan.title}</h3>
+                              <p className="text-white/80 mb-2">{plan.subtitle}</p>
+                              
+                              <div className="my-3 md:my-4">
+                                <h4 className="text-brand-primary text-2xl md:text-3xl font-bold">{plan.area}</h4>
+                                <p className="text-white/60">{plan.areaLabel}</p>
+                              </div>
+                            </div>
+                            
+                            <div className="relative aspect-square bg-black/30 border-y border-slate-700/30 group cursor-pointer overflow-hidden"
+                                 onClick={() => openFullScreenImage(plan.id)}>
+                              <img 
+                                src={plan.image} 
+                                alt={`${plan.title} ${plan.area}`} 
+                                className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                              />
+                              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <div className="flex flex-col items-center gap-2">
+                                  <ZoomIn className="h-8 w-8 text-white" />
+                                  <span className="text-white font-medium text-sm bg-brand-primary/80 px-3 py-1 rounded-full">Просмотреть</span>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <div className="p-4 md:p-6">
+                              <div className="mb-4">
+                                <h4 className="text-brand-primary text-lg md:text-xl font-bold">{plan.price}</h4>
+                                <p className="text-white/60 text-xs md:text-sm">{plan.monthly}</p>
+                              </div>
+                              
+                              <Button 
+                                className="w-full bg-brand-primary hover:bg-brand-primary/90 text-white"
+                              >
+                                Выбрать
+                              </Button>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                </TabsContent>
+              ))}
+            </AnimatePresence>
           </Tabs>
         </div>
       </div>
+
+      {/* Fullscreen Image Dialog */}
+      <Dialog open={isImageOpen} onOpenChange={setIsImageOpen}>
+        <DialogContent className="sm:max-w-[90vw] md:max-w-[80vw] lg:max-w-[70vw] max-h-[90vh] p-0 bg-black/95 border-gray-800">
+          <div className="relative w-full h-full flex flex-col">
+            <div className="absolute top-2 right-2 z-20">
+              <DialogClose className="rounded-full p-2 bg-black/50 hover:bg-black/70 text-white/80 hover:text-white transition-colors">
+                <X className="h-5 w-5" />
+              </DialogClose>
+            </div>
+            
+            {selectedPlanData && (
+              <div className="flex flex-col h-full">
+                <div className="p-4 md:p-6 flex-none">
+                  <h3 className="text-white text-xl md:text-2xl font-bold">
+                    {selectedPlanData.title} {selectedPlanData.subtitle}
+                  </h3>
+                  <p className="text-white/60">
+                    {selectedPlanData.area} • {selectedPlanData.price}
+                  </p>
+                </div>
+                
+                <div className="flex-1 overflow-hidden flex items-center justify-center p-4">
+                  <img
+                    src={selectedPlanData.image}
+                    alt={`${selectedPlanData.title} ${selectedPlanData.area}`}
+                    className="max-w-full max-h-full object-contain"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };

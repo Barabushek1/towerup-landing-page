@@ -9,6 +9,7 @@ import FloorPlansSection from '@/components/FloorPlansSection';
 import NewsVacanciesSection from '@/components/NewsVacanciesSection';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
+import ChatBot from '@/components/ChatBot';
 import { MapPin } from 'lucide-react';
 
 const Index: React.FC = () => {
@@ -89,6 +90,7 @@ const Index: React.FC = () => {
         </section>
       </main>
       <Footer />
+      <ChatBot />
     </div>
   );
 };
