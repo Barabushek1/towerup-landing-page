@@ -80,7 +80,7 @@ const Footer: React.FC = () => {
               <p className="text-white/70 mb-6">Узбекистан</p>
               <p className="mb-2">
                 <span className="text-white/70">Email: </span>
-                <a href="mailto:info@towerup.uz" className="hover:text-brand-primary transition-colors">contact@towerup.uz</a>
+                <a href="mailto:info@towerup.uz" className="hover:text-brand-primary transition-colors">info@towerup.uz</a>
               </p>
               <p>
                 <span className="text-white/70">Телефон: </span>
