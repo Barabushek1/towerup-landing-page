@@ -141,8 +141,8 @@ const Contact: React.FC = () => {
                           <p className="text-slate-200 font-benzin">9:00 - 18:00</p>
                         </div>
                         <div>
-                          <h5 className="text-sm text-slate-400 mb-1">Выходные</h5>
-                          <p className="text-slate-200 font-benzin">Закрыто</p>
+                          
+                          
                         </div>
                       </div>
                     </div>
