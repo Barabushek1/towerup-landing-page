@@ -5,82 +5,79 @@ import { Textarea } from "@/components/ui/textarea";
 import { Phone, Mail, MapPin, Send } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-
 const ContactSection: React.FC = () => {
-  const { toast } = useToast();
-  
+  const {
+    toast
+  } = useToast();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    message: '',
+    message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const {
+      name,
+      value
+    } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
     if (!formData.name || !formData.email || !formData.message) {
       toast({
         title: "Ошибка валидации",
         description: "Пожалуйста, заполните все поля формы",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
-    
     setIsSubmitting(true);
-    
     try {
       console.log('Submitting message from contact section:', formData);
-      
+
       // Добавляем сообщение в базу данных
-      const { data, error } = await supabase
-        .from('messages')
-        .insert({
-          name: formData.name,
-          email: formData.email,
-          message: formData.message,
-          created_at: new Date().toISOString(),
-          read: false
-        });
-      
+      const {
+        data,
+        error
+      } = await supabase.from('messages').insert({
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+        created_at: new Date().toISOString(),
+        read: false
+      });
       if (error) {
         console.error('Error submitting message:', error);
         throw error;
       }
-      
       console.log('Message submitted successfully:', data);
-      
       toast({
         title: "Успешно отправлено",
-        description: "Мы получили ваше сообщение и свяжемся с вами в ближайшее время",
+        description: "Мы получили ваше сообщение и свяжемся с вами в ближайшее время"
       });
-      
+
       // Reset form after successful submission
       setFormData({
         name: '',
         email: '',
-        message: '',
+        message: ''
       });
     } catch (error: any) {
       console.error('Error in contact section form submission:', error);
       toast({
         title: "Ошибка отправки",
         description: `Произошла ошибка при отправке сообщения: ${error.message || 'Неизвестная ошибка'}. Пожалуйста, попробуйте еще раз.`,
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setIsSubmitting(false);
     }
   };
-
-  return (
-    <section id="contact" className="py-16 bg-[#161616] relative overflow-hidden scroll-animate-section">
+  return <section id="contact" className="py-16 bg-[#161616] relative overflow-hidden scroll-animate-section">
       <div className="container mx-auto px-6">
         <div className="flex flex-col items-center mb-12">
           <h2 className="text-4xl font-bold mb-4 text-center text-white">Связаться с нами</h2>
@@ -98,50 +95,22 @@ const ContactSection: React.FC = () => {
               <form onSubmit={handleSubmit}>
                 <div className="space-y-4">
                   <div>
-                    <Input
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      placeholder="Ваше имя"
-                      className="bg-slate-800 border-slate-700 focus:border-primary"
-                    />
+                    <Input name="name" value={formData.name} onChange={handleInputChange} placeholder="Ваше имя" className="bg-slate-800 border-slate-700 focus:border-primary" />
                   </div>
                   <div>
-                    <Input
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      type="email"
-                      placeholder="Ваш email"
-                      className="bg-slate-800 border-slate-700 focus:border-primary"
-                    />
+                    <Input name="email" value={formData.email} onChange={handleInputChange} type="email" placeholder="Ваш email" className="bg-slate-800 border-slate-700 focus:border-primary" />
                   </div>
                   <div>
-                    <Textarea
-                      name="message"
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      placeholder="Ваше сообщение"
-                      rows={5}
-                      className="bg-slate-800 border-slate-700 focus:border-primary"
-                    />
+                    <Textarea name="message" value={formData.message} onChange={handleInputChange} placeholder="Ваше сообщение" rows={5} className="bg-slate-800 border-slate-700 focus:border-primary" />
                   </div>
-                  <Button 
-                    type="submit" 
-                    className="w-full" 
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? (
-                      <>
+                  <Button type="submit" className="w-full" disabled={isSubmitting}>
+                    {isSubmitting ? <>
                         <div className="animate-spin mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
                         Отправка...
-                      </>
-                    ) : (
-                      <>
+                      </> : <>
                         <Send className="mr-2 h-4 w-4" />
                         Отправить сообщение
-                      </>
-                    )}
+                      </>}
                   </Button>
                 </div>
               </form>
@@ -158,7 +127,8 @@ const ContactSection: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="text-lg font-medium text-white mb-1">Адрес</h4>
-                  <p className="text-slate-300">г. Ташкент, Узбекистан</p>
+                  <p className="text-slate-300">Город Ташкент, Сергелийский район, МСГ Янги Қумариқ.
+Ориентир: Моторный завод GM.</p>
                 </div>
               </div>
               
@@ -205,8 +175,6 @@ const ContactSection: React.FC = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default ContactSection;
