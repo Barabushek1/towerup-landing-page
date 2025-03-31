@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
@@ -10,88 +9,80 @@ import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-
 const Contact: React.FC = () => {
-  const { toast } = useToast();
-  
+  const {
+    toast
+  } = useToast();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
+    const {
+      name,
+      value
+    } = e.target;
+    setFormData(prev => ({
       ...prev,
       [name]: value
     }));
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
     if (!formData.name || !formData.email || !formData.message) {
       toast({
         title: "Заполните все поля",
         description: "Пожалуйста, заполните все необходимые поля формы",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
-    
     setIsSubmitting(true);
-    
     try {
       console.log('Submitting message:', formData);
-      
+
       // Добавляем сообщение напрямую в базу данных
-      const { data, error } = await supabase
-        .from('messages')
-        .insert({
-          name: formData.name,
-          email: formData.email,
-          message: formData.message,
-          // Другие поля заполнятся значениями по умолчанию
-        });
-      
+      const {
+        data,
+        error
+      } = await supabase.from('messages').insert({
+        name: formData.name,
+        email: formData.email,
+        message: formData.message
+        // Другие поля заполнятся значениями по умолчанию
+      });
       if (error) {
         console.error('Error submitting message:', error);
         throw error;
       }
-      
+
       // Reset form
       setFormData({
         name: '',
         email: '',
         message: ''
       });
-      
       toast({
         title: "Сообщение отправлено",
-        description: "Спасибо! Ваше сообщение успешно отправлено.",
+        description: "Спасибо! Ваше сообщение успешно отправлено."
       });
     } catch (error: any) {
       console.error('Error in form submission:', error);
       toast({
         title: "Ошибка",
         description: `Произошла ошибка при отправке сообщения: ${error.message}. Пожалуйста, попробуйте еще раз.`,
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setIsSubmitting(false);
     }
   };
-
-  return (
-    <div className="min-h-screen antialiased bg-[#161616] text-gray-200 overflow-x-hidden">
+  return <div className="min-h-screen antialiased bg-[#161616] text-gray-200 overflow-x-hidden">
       <NavBar />
       <main>
-        <PageHeader 
-          title="КОНТАКТЫ" 
-          breadcrumb="КОНТАКТЫ"
-        />
+        <PageHeader title="КОНТАКТЫ" breadcrumb="КОНТАКТЫ" />
       
         <section className="py-16 md:py-24 bg-[#1a1a1a] relative">
           {/* Wave decoration at top */}
@@ -146,7 +137,7 @@ const Contact: React.FC = () => {
                       <h4 className="font-medium mb-2 text-slate-200">Режим работы</h4>
                       <div className="grid grid-cols-2 gap-4 bg-slate-800/50 p-4 rounded-lg border border-slate-700/20">
                         <div>
-                          <h5 className="text-sm text-slate-400 mb-1">Будние дни</h5>
+                          <h5 className="text-sm text-slate-400 mb-1">Без выходных</h5>
                           <p className="text-slate-200 font-benzin">9:00 - 18:00</p>
                         </div>
                         <div>
@@ -163,54 +154,20 @@ const Contact: React.FC = () => {
                   <form className="space-y-5" onSubmit={handleSubmit}>
                     <div>
                       <Label htmlFor="name" className="text-slate-300 mb-1.5 block">Ваше имя</Label>
-                      <Input 
-                        id="name"
-                        name="name"
-                        type="text" 
-                        placeholder="Введите ваше имя" 
-                        className="w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 text-white"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        required
-                      />
+                      <Input id="name" name="name" type="text" placeholder="Введите ваше имя" className="w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 text-white" value={formData.name} onChange={handleInputChange} required />
                     </div>
                     
                     <div>
                       <Label htmlFor="email" className="text-slate-300 mb-1.5 block">Email</Label>
-                      <Input 
-                        id="email"
-                        name="email"
-                        type="email" 
-                        placeholder="Введите ваш email" 
-                        className="w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 text-white"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
-                      />
+                      <Input id="email" name="email" type="email" placeholder="Введите ваш email" className="w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 text-white" value={formData.email} onChange={handleInputChange} required />
                     </div>
                     
                     <div>
                       <Label htmlFor="message" className="text-slate-300 mb-1.5 block">Сообщение</Label>
-                      <Textarea 
-                        id="message"
-                        name="message"
-                        placeholder="Ваше сообщение" 
-                        rows={5}
-                        className="w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none text-white"
-                        value={formData.message}
-                        onChange={handleInputChange}
-                        required
-                      />
+                      <Textarea id="message" name="message" placeholder="Ваше сообщение" rows={5} className="w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none text-white" value={formData.message} onChange={handleInputChange} required />
                     </div>
                     
-                    <button 
-                      type="submit" 
-                      className={cn(
-                        "button-hover-effect w-full px-6 py-3 rounded-lg bg-primary text-white font-medium font-benzin",
-                        "shadow-lg shadow-primary/20 transform transition flex items-center justify-center gap-2"
-                      )}
-                      disabled={isSubmitting}
-                    >
+                    <button type="submit" className={cn("button-hover-effect w-full px-6 py-3 rounded-lg bg-primary text-white font-medium font-benzin", "shadow-lg shadow-primary/20 transform transition flex items-center justify-center gap-2")} disabled={isSubmitting}>
                       {isSubmitting ? 'Отправка...' : 'Отправить'}
                       <Send className="h-4 w-4" />
                     </button>
@@ -226,17 +183,9 @@ const Contact: React.FC = () => {
                 </div>
                 <div className="w-full rounded-xl overflow-hidden shadow-xl border border-slate-700/30">
                   <div className="aspect-video w-full">
-                    <iframe 
-                      src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7976.879721623986!2d69.25872!3d41.240959!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae61aaa924ee97%3A0x64bd413fa7c03f6d!2sTOWER%20UP!5e1!3m2!1sen!2sus!4v1742675836272!5m2!1sen!2sus" 
-                      width="100%" 
-                      height="100%" 
-                      style={{ border: 0 }} 
-                      allowFullScreen 
-                      loading="lazy" 
-                      referrerPolicy="no-referrer-when-downgrade"
-                      title="TOWER UP Location"
-                      className="w-full h-full"
-                    ></iframe>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7976.879721623986!2d69.25872!3d41.240959!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae61aaa924ee97%3A0x64bd413fa7c03f6d!2sTOWER%20UP!5e1!3m2!1sen!2sus!4v1742675836272!5m2!1sen!2sus" width="100%" height="100%" style={{
+                    border: 0
+                  }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="TOWER UP Location" className="w-full h-full"></iframe>
                   </div>
                 </div>
               </div>
@@ -252,8 +201,6 @@ const Contact: React.FC = () => {
         </section>
       </main>
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Contact;
