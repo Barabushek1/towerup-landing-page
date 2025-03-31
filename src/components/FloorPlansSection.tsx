@@ -1,11 +1,13 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { TabsList, TabsTrigger, Tabs, TabsContent } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog";
-import { X, ZoomIn } from "lucide-react";
+import { X, ZoomIn, ChevronLeft, ChevronRight } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { useIsMobile } from '@/hooks/use-mobile';
 
 // Floor plan data with updated counts and image
 const floorPlans = {
@@ -151,6 +153,8 @@ const FloorPlansSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("1-комнатные");
   const [selectedPlan, setSelectedPlan] = useState<number | null>(null);
   const [isImageOpen, setIsImageOpen] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
   
   const handleTabChange = (value: string) => {
     setActiveTab(value);
@@ -172,6 +176,44 @@ const FloorPlansSection: React.FC = () => {
     }
     return null;
   };
+
+  // Scroll buttons handlers
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -150, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 150, behavior: 'smooth' });
+    }
+  };
+
+  // Ensure the active tab is visible when it changes
+  useEffect(() => {
+    if (!scrollContainerRef.current) return;
+    
+    const container = scrollContainerRef.current;
+    const activeElement = container.querySelector(`[data-state="active"]`) as HTMLElement;
+    
+    if (activeElement) {
+      // Calculate position to center the element
+      const containerRect = container.getBoundingClientRect();
+      const elementRect = activeElement.getBoundingClientRect();
+      
+      const centerPosition = 
+        elementRect.left + 
+        elementRect.width / 2 - 
+        containerRect.left - 
+        containerRect.width / 2;
+      
+      container.scrollBy({
+        left: centerPosition,
+        behavior: 'smooth'
+      });
+    }
+  }, [activeTab]);
 
   const selectedPlanData = getSelectedPlanData();
 
@@ -206,21 +248,53 @@ const FloorPlansSection: React.FC = () => {
             value={activeTab}
             onValueChange={handleTabChange}
           >
-            <TabsList className="mb-8 w-full flex justify-center gap-3 overflow-x-auto pb-2 bg-transparent">
-              {Object.keys(floorPlans).map((category) => (
-                <TabsTrigger 
-                  key={category} 
-                  value={category}
-                  className={`px-5 py-2.5 text-sm font-medium transition-all border border-brand-primary/20 hover:border-brand-primary/50 rounded-lg ${
-                    activeTab === category 
-                      ? "bg-brand-primary text-white shadow-lg shadow-brand-primary/20" 
-                      : "bg-[#1a1a1a] text-white"
-                  }`}
-                >
-                  {category}
-                </TabsTrigger>
-              ))}
-            </TabsList>
+            <div className="relative mb-8 w-full">
+              {/* Left scroll button */}
+              <Button 
+                variant="outline" 
+                size="icon" 
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-[#1a1a1a]/90 border-brand-primary/30 text-brand-primary hover:bg-brand-primary/10 hover:text-brand-primary hover:border-brand-primary rounded-full hidden sm:flex"
+                onClick={scrollLeft}
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </Button>
+              
+              {/* Custom scrollable tab list */}
+              <div 
+                className="relative overflow-x-auto scrollbar-hide w-full flex items-center"
+                style={{
+                  scrollbarWidth: 'none',
+                  msOverflowStyle: 'none',
+                }}
+                ref={scrollContainerRef}
+              >
+                <div className="flex justify-start sm:justify-center w-full overflow-x-auto pb-3 pt-1 px-2 gap-3 snap-x snap-mandatory scroll-pl-6">
+                  {Object.keys(floorPlans).map((category) => (
+                    <TabsTrigger 
+                      key={category} 
+                      value={category}
+                      className={`px-5 py-2.5 min-w-[140px] sm:min-w-[160px] text-base font-medium transition-all border snap-center shrink-0
+                        ${activeTab === category 
+                          ? "border-brand-primary bg-brand-primary text-white shadow-lg shadow-brand-primary/20" 
+                          : "border-brand-primary/20 bg-[#1a1a1a] text-white hover:border-brand-primary/50"
+                        } rounded-lg flex-grow sm:flex-grow-0`}
+                    >
+                      {category}
+                    </TabsTrigger>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Right scroll button */}
+              <Button 
+                variant="outline" 
+                size="icon" 
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-[#1a1a1a]/90 border-brand-primary/30 text-brand-primary hover:bg-brand-primary/10 hover:text-brand-primary hover:border-brand-primary rounded-full hidden sm:flex"
+                onClick={scrollRight}
+              >
+                <ChevronRight className="h-5 w-5" />
+              </Button>
+            </div>
             
             <AnimatePresence mode="wait">
               {Object.entries(floorPlans).map(([category, plans]) => (
