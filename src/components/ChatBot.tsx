@@ -209,7 +209,7 @@ const ChatBot: React.FC = () => {
           </div>
           
           {/* Chat Messages */}
-          <div className="flex-grow p-4 overflow-y-auto bg-gray-50">
+          <div className="flex-grow p-4 overflow-y-auto bg-brand-secondary">
             {messages.map((msg, index) => <div key={index} className={`mb-4 ${msg.role === 'user' ? 'text-right' : ''}`}>
                 <div className={`inline-block rounded-lg p-3 max-w-[80%] ${msg.role === 'user' ? 'bg-primary text-white rounded-tr-none' : 'bg-gray-200 text-gray-800 rounded-tl-none'}`}>
                   {msg.content}
