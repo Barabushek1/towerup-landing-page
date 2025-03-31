@@ -75,15 +75,17 @@ const Footer: React.FC = () => {
             <h3 className="font-medium text-lg mb-6 text-white">Контакты</h3>
             <address className="not-italic">
               <p className="text-white/70 mb-2">ул. Бизнес, 123</p>
-              <p className="text-white/70 mb-2">Ташкент, 100000</p>
+              <p className="text-white/70 mb-2">Ташкент, МСГ Янги Қумариқ.
+Ориентир: Моторный завод GM.</p>
               <p className="text-white/70 mb-6">Узбекистан</p>
               <p className="mb-2">
                 <span className="text-white/70">Email: </span>
-                <a href="mailto:contact@towerup.uz" className="hover:text-brand-primary transition-colors">contact@towerup.uz</a>
+                <a href="mailto:info@towerup.uz" className="hover:text-brand-primary transition-colors">contact@towerup.uz</a>
               </p>
               <p>
                 <span className="text-white/70">Телефон: </span>
-                <a href="tel:+998901234567" className="hover:text-brand-primary transition-colors">+998 (90) 123-45-67</a>
+                <a href="tel:+998 55 510 00 03" className="hover:text-brand-primary transition-colors">+998 (55) 510-00-03</a>
+                <a href="tel:+998 55 511 00 03" className="hover:text-brand-primary transition-colors">+998 (55) 511-00-03</a>
               </p>
             </address>
           </div>
