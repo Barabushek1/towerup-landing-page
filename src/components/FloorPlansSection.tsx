@@ -2,12 +2,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { TabsList, TabsTrigger, Tabs, TabsContent } from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog";
 import { X, ZoomIn, ChevronLeft, ChevronRight } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useIsMobile } from '@/hooks/use-mobile';
+import * as TabsPrimitive from "@radix-ui/react-tabs";
+import * as RovingFocusPrimitive from '@radix-ui/react-roving-focus';
+import { cn } from "@/lib/utils";
 
 // Floor plan data with updated counts and image
 const floorPlans = {
@@ -235,6 +238,29 @@ const FloorPlansSection: React.FC = () => {
     exit: { opacity: 0, y: -10 }
   };
 
+  // Custom TabsTrigger component to avoid nesting issues with RovingFocus
+  const CustomTabsTrigger = React.forwardRef<
+    React.ElementRef<typeof TabsPrimitive.Trigger>,
+    React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
+  >(({ className, value, children, ...props }, ref) => (
+    <TabsPrimitive.Trigger
+      ref={ref}
+      value={value}
+      className={cn(
+        `px-5 py-2.5 min-w-[140px] sm:min-w-[160px] text-base font-medium transition-all border snap-center shrink-0
+        ${activeTab === value 
+          ? "border-brand-primary bg-brand-primary text-white shadow-lg shadow-brand-primary/20" 
+          : "border-brand-primary/20 bg-[#1a1a1a] text-white hover:border-brand-primary/50"
+        } rounded-lg flex-grow sm:flex-grow-0`,
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </TabsPrimitive.Trigger>
+  ));
+  CustomTabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
+
   return (
     <section id="floor-plans" className="py-16 bg-[#161616]">
       <div className="container mx-auto px-4 sm:px-6">
@@ -259,31 +285,31 @@ const FloorPlansSection: React.FC = () => {
                 <ChevronLeft className="h-5 w-5" />
               </Button>
               
-              {/* Custom scrollable tab list */}
-              <div 
-                className="relative overflow-x-auto scrollbar-hide w-full flex items-center"
-                style={{
-                  scrollbarWidth: 'none',
-                  msOverflowStyle: 'none',
-                }}
-                ref={scrollContainerRef}
+              {/* Custom scrollable tab list - directly using Radix primitives to avoid nesting issues */}
+              <RovingFocusPrimitive.Root 
+                orientation="horizontal"
+                loop 
+                className="w-full"
               >
-                <div className="flex justify-start sm:justify-center w-full overflow-x-auto pb-3 pt-1 px-2 gap-3 snap-x snap-mandatory scroll-pl-6">
-                  {Object.keys(floorPlans).map((category) => (
-                    <TabsTrigger 
-                      key={category} 
-                      value={category}
-                      className={`px-5 py-2.5 min-w-[140px] sm:min-w-[160px] text-base font-medium transition-all border snap-center shrink-0
-                        ${activeTab === category 
-                          ? "border-brand-primary bg-brand-primary text-white shadow-lg shadow-brand-primary/20" 
-                          : "border-brand-primary/20 bg-[#1a1a1a] text-white hover:border-brand-primary/50"
-                        } rounded-lg flex-grow sm:flex-grow-0`}
-                    >
-                      {category}
-                    </TabsTrigger>
-                  ))}
-                </div>
-              </div>
+                <TabsPrimitive.List 
+                  className="relative overflow-x-auto scrollbar-hide w-full flex items-center inline-flex h-10 rounded-md bg-muted"
+                  style={{
+                    scrollbarWidth: 'none',
+                    msOverflowStyle: 'none',
+                  }}
+                  ref={scrollContainerRef}
+                >
+                  <div className="flex justify-start sm:justify-center w-full overflow-x-auto pb-3 pt-1 px-2 gap-3 snap-x snap-mandatory scroll-pl-6">
+                    {Object.keys(floorPlans).map((category) => (
+                      <RovingFocusPrimitive.Item asChild key={category}>
+                        <CustomTabsTrigger value={category}>
+                          {category}
+                        </CustomTabsTrigger>
+                      </RovingFocusPrimitive.Item>
+                    ))}
+                  </div>
+                </TabsPrimitive.List>
+              </RovingFocusPrimitive.Root>
               
               {/* Right scroll button */}
               <Button 
