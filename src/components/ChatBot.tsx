@@ -230,7 +230,7 @@ const ChatBot: React.FC = () => {
           {/* Chat Input */}
           <div className="p-3 border-t">
             <div className="flex gap-2">
-              <input type="text" value={message} onChange={e => setMessage(e.target.value)} onKeyPress={e => e.key === 'Enter' && handleSendMessage()} placeholder="Напишите сообщение..." className="flex-grow rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-primary/50 bg-slate-800" />
+              <input type="text" value={message} onChange={e => setMessage(e.target.value)} onKeyPress={e => e.key === 'Enter' && handleSendMessage()} placeholder="Напишите сообщение..." className="flex-grow rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-primary/50 bg-brand-dark" />
               <Button onClick={handleSendMessage} disabled={isLoading || !message.trim()} className="bg-primary hover:bg-primary/90 text-white">
                 {isLoading ? <Loader2 className="animate-spin h-5 w-5" /> : <Send size={20} />}
               </Button>
