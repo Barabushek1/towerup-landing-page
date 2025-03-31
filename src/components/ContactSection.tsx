@@ -138,8 +138,8 @@ const ContactSection: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="text-lg font-medium text-white mb-1">Телефон</h4>
-                  <p className="text-slate-300">+998 99 123-45-67</p>
-                  <p className="text-slate-300">+998 99 987-65-43</p>
+                  <p className="text-slate-300">+998 55 510 00 03</p>
+                  <p className="text-slate-300">+998 55 511 00 03</p>
                 </div>
               </div>
               
