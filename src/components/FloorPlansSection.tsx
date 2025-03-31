@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -20,8 +21,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
-    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
   }, {
     id: 2,
     title: "1-комнатная",
@@ -30,8 +30,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
-    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
   }, {
     id: 3,
     title: "1-комнатная",
@@ -40,8 +39,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
-    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
   }],
   "2-комнатные": [{
     id: 4,
@@ -51,8 +49,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
-    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
   }, {
     id: 5,
     title: "2-комнатная",
@@ -61,8 +58,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
-    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
   }, {
     id: 6,
     title: "2-комнатная",
@@ -71,8 +67,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
-    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
   }, {
     id: 7,
     title: "2-комнатная",
@@ -81,8 +76,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
-    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
   }, {
     id: 8,
     title: "2-комнатная",
@@ -91,8 +85,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
-    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
   }],
   "3-комнатные": [{
     id: 9,
@@ -102,18 +95,16 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
-    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
   }, {
     id: 10,
-    title: "3-комна��ная",
+    title: "3-комнатная",
     subtitle: "квартира",
     area: "89.24 м²",
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
-    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
   }, {
     id: 11,
     title: "3-комнатная",
@@ -122,8 +113,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
-    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
   }, {
     id: 12,
     title: "3-комнатная",
@@ -132,8 +122,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
-    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
   }, {
     id: 13,
     title: "3-комнатная",
@@ -142,8 +131,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
-    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
   }]
 };
 
@@ -151,7 +139,6 @@ const FloorPlansSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("1-комнатные");
   const [selectedPlan, setSelectedPlan] = useState<number | null>(null);
   const [isImageOpen, setIsImageOpen] = useState(false);
-  const [viewMode, setViewMode] = useState<'plan' | '3d'>('plan');
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
 
@@ -322,6 +309,7 @@ const FloorPlansSection: React.FC = () => {
         </div>
       </div>
 
+      {/* Full Screen Floor Plan Dialog */}
       <Dialog open={isImageOpen} onOpenChange={setIsImageOpen}>
         <DialogContent className="sm:max-w-[90vw] md:max-w-[80vw] lg:max-w-[70vw] max-h-[90vh] p-0 bg-black/95 border-gray-800">
           <div className="relative w-full h-full flex flex-col">
@@ -343,57 +331,19 @@ const FloorPlansSection: React.FC = () => {
                         {selectedPlanData.area}
                       </p>
                     </div>
-                    
-                    <div className="flex">
-                      <ToggleGroup 
-                        type="single" 
-                        value={viewMode} 
-                        onValueChange={(value) => value && setViewMode(value as 'plan' | '3d')}
-                        className="bg-[#1a1a1a] border border-gray-700/30 rounded-lg p-1"
-                      >
-                        <ToggleGroupItem value="plan" aria-label="Show floor plan" className={cn(
-                          "rounded-md px-3 py-1.5 text-sm font-medium transition-all",
-                          viewMode === 'plan' ? "bg-brand-primary text-white" : "text-white/70 hover:text-white hover:bg-[#222]"
-                        )}>
-                          План
-                        </ToggleGroupItem>
-                        <ToggleGroupItem value="3d" aria-label="Show 3D model" className={cn(
-                          "rounded-md px-3 py-1.5 text-sm font-medium transition-all",
-                          viewMode === '3d' ? "bg-brand-primary text-white" : "text-white/70 hover:text-white hover:bg-[#222]"
-                        )}>
-                          3D Модель
-                        </ToggleGroupItem>
-                      </ToggleGroup>
-                    </div>
                   </div>
                 </div>
                 
                 <div className="flex-1 overflow-hidden flex items-center justify-center p-4">
-                  <AnimatePresence mode="wait">
-                    {viewMode === 'plan' ? (
-                      <motion.img
-                        key="plan"
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.95 }}
-                        transition={{ duration: 0.3 }}
-                        src={selectedPlanData.image}
-                        alt={`${selectedPlanData.title} ${selectedPlanData.area}`}
-                        className="max-w-full max-h-full object-contain"
-                      />
-                    ) : (
-                      <motion.img
-                        key="3d"
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.95 }}
-                        transition={{ duration: 0.3 }}
-                        src={selectedPlanData.model3d}
-                        alt={`3D модель ${selectedPlanData.title} ${selectedPlanData.area}`}
-                        className="max-w-full max-h-full object-contain"
-                      />
-                    )}
-                  </AnimatePresence>
+                  <motion.img
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.3 }}
+                    src={selectedPlanData.image}
+                    alt={`${selectedPlanData.title} ${selectedPlanData.area}`}
+                    className="max-w-full max-h-full object-contain"
+                  />
                 </div>
 
                 <div className="p-6 bg-[#1a1a1a] border-t border-gray-700/30">
