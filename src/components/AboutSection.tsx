@@ -2,6 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Button } from './ui/button';
 import { Building, Users, Cpu, ShieldCheck, Clock, Award } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface AdvantageItemProps {
   icon: React.ReactNode;
@@ -99,7 +100,7 @@ const AboutSection: React.FC = () => {
                 <img 
                   src="https://images.unsplash.com/photo-1741540420762-91a78becdf92?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
                   alt="Company building" 
-                  className="w-full h-[300px] lg:h-[400px] object-cover"
+                  className="w-full h-[300px] lg:h-[400px] object-cover transition-transform duration-700 hover:scale-105"
                 />
               </div>
             </div>
@@ -124,9 +125,11 @@ const AboutSection: React.FC = () => {
               Располагая крупнейшим в Средней Азии автоматизированным производственным комплексом, компания TOWERUP предлагает только современные решения, качество и надёжность которых проверены временем.
             </p>
             
-            <Button className="bg-primary hover:bg-primary/80 text-white px-8">
-              УЗНАТЬ БОЛЬШЕ
-            </Button>
+            <Link to="/about">
+              <Button className="bg-primary hover:bg-primary/80 text-white px-8">
+                УЗНАТЬ БОЛЬШЕ
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
@@ -154,9 +157,11 @@ const AboutSection: React.FC = () => {
           </div>
           
           <div className="flex justify-center mt-14">
-            <Button className="bg-transparent hover:bg-primary/10 text-white border border-white/20 px-8">
-              УЗНАТЬ БОЛЬШЕ
-            </Button>
+            <Link to="/about">
+              <Button className="bg-transparent hover:bg-primary/10 text-white border border-white/20 px-8">
+                УЗНАТЬ БОЛЬШЕ
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
