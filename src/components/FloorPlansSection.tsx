@@ -3,13 +3,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog";
-import { X, ZoomIn, ChevronLeft, ChevronRight } from "lucide-react";
+import { X, ZoomIn, ChevronLeft, ChevronRight, Phone, Mail } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useIsMobile } from '@/hooks/use-mobile';
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import * as RovingFocusPrimitive from '@radix-ui/react-roving-focus';
 import { cn } from "@/lib/utils";
+
 const floorPlans = {
   "1-комнатные": [{
     id: 1,
@@ -17,27 +18,30 @@ const floorPlans = {
     subtitle: "квартира",
     area: "31.01 м²",
     areaLabel: "площадь",
-    price: "от 348 768 000 сум",
-    monthly: "от 7 266 000 сум / мес. в рассрочку",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    price: "Цена по запросу",
+    monthly: "Узнайте условия у менеджера",
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
+    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
   }, {
     id: 2,
     title: "1-комнатная",
     subtitle: "квартира",
     area: "39.51 м²",
     areaLabel: "площадь",
-    price: "от 450 362 000 сум",
-    monthly: "от 9 382 000 сум / мес. в рассрочку",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    price: "Цена по запросу",
+    monthly: "Узнайте условия у менеджера",
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
+    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
   }, {
     id: 3,
     title: "1-комнатная",
     subtitle: "квартира",
     area: "35.43 м²",
     areaLabel: "площадь",
-    price: "от 407 445 000 сум",
-    monthly: "от 8 655 000 сум / мес. в рассрочку",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    price: "Цена по запросу",
+    monthly: "Узнайте условия у менеджера",
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
+    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
   }],
   "2-комнатные": [{
     id: 4,
@@ -45,45 +49,50 @@ const floorPlans = {
     subtitle: "квартира",
     area: "58.32 м²",
     areaLabel: "площадь",
-    price: "от 688 176 000 сум",
-    monthly: "от 14 337 000 сум / мес. в рассрочку",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    price: "Цена по запросу",
+    monthly: "Узнайте условия у менеджера",
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
+    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
   }, {
     id: 5,
     title: "2-комнатная",
     subtitle: "квартира",
     area: "62.45 м²",
     areaLabel: "площадь",
-    price: "от 736 910 000 сум",
-    monthly: "от 15 352 000 сум / мес. в рассрочку",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    price: "Цена по запросу",
+    monthly: "Узнайте условия у менеджера",
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
+    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
   }, {
     id: 6,
     title: "2-комнатная",
     subtitle: "квартира",
     area: "65.18 м²",
     areaLabel: "площадь",
-    price: "от 769 124 000 сум",
-    monthly: "от 16 023 000 сум / мес. в рассрочку",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    price: "Цена по запросу",
+    monthly: "Узнайте условия у менеджера",
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
+    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
   }, {
     id: 7,
     title: "2-комнатная",
     subtitle: "квартира",
     area: "60.55 м²",
     areaLabel: "площадь",
-    price: "от 714 490 000 сум",
-    monthly: "от 14 885 000 сум / мес. в рассрочку",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    price: "Цена по запросу",
+    monthly: "Узнайте условия у менеджера",
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
+    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
   }, {
     id: 8,
     title: "2-комнатная",
     subtitle: "квартира",
     area: "64.37 м²",
     areaLabel: "площадь",
-    price: "от 759 566 000 сум",
-    monthly: "от 15 824 000 сум / мес. в рассрочку",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    price: "Цена по запросу",
+    monthly: "Узнайте условия у менеджера",
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
+    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
   }],
   "3-комнатные": [{
     id: 9,
@@ -91,60 +100,70 @@ const floorPlans = {
     subtitle: "квартира",
     area: "84.76 м²",
     areaLabel: "площадь",
-    price: "от 1 000 168 000 сум",
-    monthly: "от 20 837 000 сум / мес. в рассрочку",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    price: "Цена по запросу",
+    monthly: "Узнайте условия у менеджера",
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
+    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
   }, {
     id: 10,
     title: "3-комна��ная",
     subtitle: "квартира",
     area: "89.24 м²",
     areaLabel: "площадь",
-    price: "от 1 053 032 000 сум",
-    monthly: "от 21 938 000 сум / мес. в рассрочку",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    price: "Цена по запросу",
+    monthly: "Узнайте условия у менеджера",
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
+    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
   }, {
     id: 11,
     title: "3-комнатная",
     subtitle: "квартира",
     area: "93.12 м²",
     areaLabel: "площадь",
-    price: "от 1 098 816 000 сум",
-    monthly: "от 22 892 000 сум / мес. в рассрочку",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    price: "Цена по запросу",
+    monthly: "Узнайте условия у менеджера",
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
+    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
   }, {
     id: 12,
     title: "3-комнатная",
     subtitle: "квартира",
     area: "91.55 м²",
     areaLabel: "площадь",
-    price: "от 1 080 290 000 сум",
-    monthly: "от 22 506 000 сум / мес. в рассрочку",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    price: "Цена по запросу",
+    monthly: "Узнайте условия у менеджера",
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
+    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
   }, {
     id: 13,
     title: "3-комнатная",
     subtitle: "квартира",
     area: "95.67 м²",
     areaLabel: "площадь",
-    price: "от 1 128 906 000 сум",
-    monthly: "от 23 519 000 сум / мес. в рассрочку",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    price: "Цена по запросу",
+    monthly: "Узнайте условия у менеджера",
+    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
+    model3d: "/lovable-uploads/157f2478-432c-4018-8f8e-5d9e9b555043.png"
   }]
 };
+
 const FloorPlansSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("1-комнатные");
   const [selectedPlan, setSelectedPlan] = useState<number | null>(null);
   const [isImageOpen, setIsImageOpen] = useState(false);
+  const [viewMode, setViewMode] = useState<'plan' | '3d'>('plan');
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+
   const handleTabChange = (value: string) => {
     setActiveTab(value);
   };
+
   const openFullScreenImage = (planId: number) => {
     setSelectedPlan(planId);
     setIsImageOpen(true);
   };
+
   const getSelectedPlanData = () => {
     if (selectedPlan === null) return null;
     for (const category in floorPlans) {
@@ -153,6 +172,7 @@ const FloorPlansSection: React.FC = () => {
     }
     return null;
   };
+
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollBy({
@@ -161,6 +181,7 @@ const FloorPlansSection: React.FC = () => {
       });
     }
   };
+
   const scrollRight = () => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollBy({
@@ -169,6 +190,7 @@ const FloorPlansSection: React.FC = () => {
       });
     }
   };
+
   useEffect(() => {
     if (!scrollContainerRef.current) return;
     const container = scrollContainerRef.current;
@@ -183,7 +205,9 @@ const FloorPlansSection: React.FC = () => {
       });
     }
   }, [activeTab]);
+
   const selectedPlanData = getSelectedPlanData();
+
   const containerVariants = {
     hidden: {
       opacity: 0
@@ -198,6 +222,7 @@ const FloorPlansSection: React.FC = () => {
       opacity: 0
     }
   };
+
   const itemVariants = {
     hidden: {
       opacity: 0,
@@ -212,6 +237,7 @@ const FloorPlansSection: React.FC = () => {
       y: -10
     }
   };
+
   const CustomTabsTrigger = React.forwardRef<React.ElementRef<typeof TabsPrimitive.Trigger>, React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>>(({
     className,
     value,
@@ -221,6 +247,7 @@ const FloorPlansSection: React.FC = () => {
       {children}
     </TabsPrimitive.Trigger>);
   CustomTabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
+
   return <section id="floor-plans" className="py-16 bg-[#161616]">
       <div className="container mx-auto px-4 sm:px-6">
         <div className="flex flex-col items-center mb-12 scroll-animate-section">
@@ -304,31 +331,100 @@ const FloorPlansSection: React.FC = () => {
               </DialogClose>
             </div>
             
-            {selectedPlanData && <div className="flex flex-col h-full">
+            {selectedPlanData && (
+              <div className="flex flex-col h-full">
                 <div className="p-6 flex-none">
-                  <h3 className="text-white text-xl sm:text-2xl font-bold">
-                    {selectedPlanData.title} {selectedPlanData.subtitle}
-                  </h3>
-                  <p className="text-white/60">
-                    {selectedPlanData.area} • {selectedPlanData.price}
-                  </p>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                      <h3 className="text-white text-xl sm:text-2xl font-bold">
+                        {selectedPlanData.title} {selectedPlanData.subtitle}
+                      </h3>
+                      <p className="text-white/60">
+                        {selectedPlanData.area}
+                      </p>
+                    </div>
+                    
+                    <div className="flex">
+                      <ToggleGroup 
+                        type="single" 
+                        value={viewMode} 
+                        onValueChange={(value) => value && setViewMode(value as 'plan' | '3d')}
+                        className="bg-[#1a1a1a] border border-gray-700/30 rounded-lg p-1"
+                      >
+                        <ToggleGroupItem value="plan" aria-label="Show floor plan" className={cn(
+                          "rounded-md px-3 py-1.5 text-sm font-medium transition-all",
+                          viewMode === 'plan' ? "bg-brand-primary text-white" : "text-white/70 hover:text-white hover:bg-[#222]"
+                        )}>
+                          План
+                        </ToggleGroupItem>
+                        <ToggleGroupItem value="3d" aria-label="Show 3D model" className={cn(
+                          "rounded-md px-3 py-1.5 text-sm font-medium transition-all",
+                          viewMode === '3d' ? "bg-brand-primary text-white" : "text-white/70 hover:text-white hover:bg-[#222]"
+                        )}>
+                          3D Модель
+                        </ToggleGroupItem>
+                      </ToggleGroup>
+                    </div>
+                  </div>
                 </div>
                 
                 <div className="flex-1 overflow-hidden flex items-center justify-center p-4">
-                  <motion.img initial={{
-                opacity: 0,
-                scale: 0.95
-              }} animate={{
-                opacity: 1,
-                scale: 1
-              }} transition={{
-                duration: 0.3
-              }} src={selectedPlanData.image} alt={`${selectedPlanData.title} ${selectedPlanData.area}`} className="max-w-full max-h-full object-contain" />
+                  <AnimatePresence mode="wait">
+                    {viewMode === 'plan' ? (
+                      <motion.img
+                        key="plan"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        transition={{ duration: 0.3 }}
+                        src={selectedPlanData.image}
+                        alt={`${selectedPlanData.title} ${selectedPlanData.area}`}
+                        className="max-w-full max-h-full object-contain"
+                      />
+                    ) : (
+                      <motion.img
+                        key="3d"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        transition={{ duration: 0.3 }}
+                        src={selectedPlanData.model3d}
+                        alt={`3D модель ${selectedPlanData.title} ${selectedPlanData.area}`}
+                        className="max-w-full max-h-full object-contain"
+                      />
+                    )}
+                  </AnimatePresence>
                 </div>
-              </div>}
+
+                <div className="p-6 bg-[#1a1a1a] border-t border-gray-700/30">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                      <h4 className="text-brand-primary text-xl font-bold">
+                        {selectedPlanData.price}
+                      </h4>
+                      <p className="text-white/60 text-sm">
+                        {selectedPlanData.monthly}
+                      </p>
+                    </div>
+                    
+                    <div className="flex flex-wrap gap-3">
+                      <Button className="bg-brand-primary hover:bg-brand-primary/90 text-white transition-colors flex items-center gap-2">
+                        <Phone className="h-4 w-4" />
+                        <span>Позвонить</span>
+                      </Button>
+                      <Button variant="outline" className="border-white/20 bg-transparent text-white hover:bg-white/10 transition-colors flex items-center gap-2">
+                        <Mail className="h-4 w-4" />
+                        <span>Запросить информацию</span>
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </DialogContent>
       </Dialog>
     </section>;
 };
+
 export default FloorPlansSection;
