@@ -1,9 +1,9 @@
-
 import React, { useEffect, useRef } from 'react';
 import { Button } from './ui/button';
 import { Building, Users, Cpu, ShieldCheck, Clock, Award, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface AdvantageItemProps {
   icon: React.ReactNode;
@@ -64,6 +64,7 @@ const AdvantageItem: React.FC<AdvantageItemProps> = ({ icon, title, description,
 
 const AboutSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
   
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -136,7 +137,7 @@ const AboutSection: React.FC = () => {
             </div>
           </motion.div>
           
-          {/* Right side with company description - Mobile optimized with fixed word spacing */}
+          {/* Right side with company description - Mobile optimized with shortened title for mobile */}
           <motion.div 
             className="scroll-animate-section order-1 lg:order-2"
             variants={fadeInUp}
@@ -146,16 +147,24 @@ const AboutSection: React.FC = () => {
               <div className="h-[1px] w-16 sm:w-32 bg-primary/50 ml-4"></div>
             </div>
             
-            {/* Fixed text with proper spacing on mobile */}
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
-              Инновационные
-              <br className="hidden sm:block" /> 
-              решения для 
-              <br className="hidden sm:block" />
-              современного
-              <br className="hidden sm:block" />
-              строительства
-            </h2>
+            {/* Use shorter title for mobile devices */}
+            {isMobile ? (
+              <h2 className="text-3xl font-bold mb-6 leading-tight">
+                Инновационные 
+                <br />
+                решения
+              </h2>
+            ) : (
+              <h2 className="text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+                Инновационные
+                <br /> 
+                решения для 
+                <br />
+                современного
+                <br />
+                строительства
+              </h2>
+            )}
             
             <div className="h-1 w-16 bg-primary mb-6"></div>
             

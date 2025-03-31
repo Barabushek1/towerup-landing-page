@@ -2,10 +2,12 @@
 import React, { useEffect, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const ParallaxCTASection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const parallaxRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
   
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -63,9 +65,13 @@ const ParallaxCTASection: React.FC = () => {
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white leading-tight">
             Реализуйте свои строительные мечты с Tower Up
           </h2>
-          <p className="text-lg md:text-xl text-white/80 mb-10 max-w-2xl mx-auto">
-            От проектирования до сдачи объекта — мы обеспечиваем полный цикл строительных работ с гарантией качества и в срок
-          </p>
+          
+          {/* Show paragraph only on desktop/tablet */}
+          {!isMobile && (
+            <p className="text-lg md:text-xl text-white/80 mb-10 max-w-2xl mx-auto">
+              От проектирования до сдачи объекта — мы обеспечиваем полный цикл строительных работ с гарантией качества и в срок
+            </p>
+          )}
           
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a 
