@@ -250,7 +250,7 @@ const FloorPlansSection: React.FC = () => {
                 scrollbarWidth: 'none',
                 msOverflowStyle: 'none'
               }} ref={scrollContainerRef}>
-                  <div className="flex justify-start sm:justify-center w-full overflow-x-auto pb-3 pt-1 px-2 gap-3 snap-x snap-mandatory scroll-pl-6">
+                  <div className="flex justify-start sm:justify-center w-full overflow-x-auto pb-3 pt-1 gap-3 snap-x snap-mandatory scroll-pl-6 px-[217px] mx-[4px] my-[88px] py-[34px]">
                     {Object.keys(floorPlans).map(category => <RovingFocusPrimitive.Item asChild key={category}>
                         <CustomTabsTrigger value={category}>
                           {category}
