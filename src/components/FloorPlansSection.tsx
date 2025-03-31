@@ -246,9 +246,7 @@ const FloorPlansSection: React.FC = () => {
                 </TabsPrimitive.List>
               </RovingFocusPrimitive.Root>
               
-              <button onClick={scrollRight} className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-[#1a1a1a]/80 backdrop-blur-sm rounded-full border border-white/10 text-white shadow-lg transition-opacity duration-200 hover:bg-[#222] focus:outline-none focus:ring-2 focus:ring-brand-primary/50 hidden sm:flex" aria-label="Scroll right">
-                
-              </button>
+              
             </div>
             
             <AnimatePresence mode="wait">
