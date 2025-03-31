@@ -18,6 +18,7 @@ import Contact from "./pages/Contact";
 import Construction from "./pages/Construction";
 import Design from "./pages/Design";
 import Solutions from "./pages/Solutions";
+import ChatBot from "./components/ChatBot";
 
 // Детальные страницы
 import NewsDetail from "./pages/NewsDetail";
@@ -73,6 +74,7 @@ const App = () => (
         {/* Catch-all route */}
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <ChatBot />
     </TooltipProvider>
   </QueryClientProvider>
 );
