@@ -1,11 +1,10 @@
 
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { ArrowRight, Clock, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
-import { mapSupabaseNewsToNewsItem } from '@/utils/supabase-helpers';
+import { useQuery } from '@tanstack/react-query';
 
 interface NewsItemProps {
   id: string;
@@ -60,42 +59,6 @@ const NewsItem: React.FC<NewsItemProps> = ({ id, title, date, excerpt, imageUrl,
 };
 
 const NewsVacanciesSection: React.FC = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const [news, setNews] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  
-  useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        setIsLoading(true);
-        const { data, error } = await supabase
-          .from('news')
-          .select('*')
-          .order('published_at', { ascending: false })
-          .limit(3);
-
-        if (error) {
-          console.error('Error fetching news for home page:', error);
-          throw error;
-        }
-
-        console.log('Fetched news for home page:', data);
-        
-        if (data) {
-          const mappedNews = data.map(item => mapSupabaseNewsToNewsItem(item));
-          setNews(mappedNews);
-        }
-        
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Exception fetching news for home page:', error);
-        setIsLoading(false);
-      }
-    };
-
-    fetchNews();
-  }, []);
-  
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return new Intl.DateTimeFormat('ru-RU', {
@@ -105,10 +68,30 @@ const NewsVacanciesSection: React.FC = () => {
     }).format(date);
   };
 
+  // Using React Query to fetch news data
+  const { data: news = [], isLoading, error } = useQuery({
+    queryKey: ['homePageNews'],
+    queryFn: async () => {
+      console.log('Fetching news for homepage...');
+      const { data, error } = await supabase
+        .from('news')
+        .select('*')
+        .order('published_at', { ascending: false })
+        .limit(3);
+
+      if (error) {
+        console.error('Error fetching homepage news:', error);
+        throw error;
+      }
+
+      console.log('Homepage news fetched successfully:', data);
+      return data || [];
+    }
+  });
+
   return (
     <section 
       id="news" 
-      ref={sectionRef} 
       className="py-24 md:py-32 overflow-hidden relative"
     >
       {/* Gradient background */}
@@ -136,6 +119,10 @@ const NewsVacanciesSection: React.FC = () => {
             <div className="flex justify-center py-20">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
             </div>
+          ) : error ? (
+            <div className="text-center py-12">
+              <p className="text-red-400 mb-4">Произошла ошибка при загрузке новостей</p>
+            </div>
           ) : news.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {news.map((item, index) => (
@@ -143,8 +130,8 @@ const NewsVacanciesSection: React.FC = () => {
                   key={item.id}
                   id={item.id}
                   title={item.title}
-                  date={formatDate(item.date)}
-                  excerpt={item.excerpt}
+                  date={formatDate(item.published_at)}
+                  excerpt={item.summary}
                   imageUrl={item.image_url || undefined}
                   index={index}
                 />

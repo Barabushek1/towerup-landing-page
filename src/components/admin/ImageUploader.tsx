@@ -1,186 +1,150 @@
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Loader2, Upload, X, Check, Plus } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { Loader2, Upload, X } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
-import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
 
 interface ImageUploaderProps {
   onImageUploaded: (url: string) => void;
   defaultImage?: string;
   className?: string;
-  isAdditionalImage?: boolean;
 }
 
 const ImageUploader: React.FC<ImageUploaderProps> = ({ 
   onImageUploaded, 
-  defaultImage, 
-  className,
-  isAdditionalImage = false
+  defaultImage,
+  className
 }) => {
-  const { toast } = useToast();
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [previewImage, setPreviewImage] = useState<string | undefined>(defaultImage);
+  const [imageUrl, setImageUrl] = useState<string>(defaultImage || '');
+  const [uploading, setUploading] = useState<boolean>(false);
+  const [previewMode, setPreviewMode] = useState<boolean>(!!defaultImage);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    
-    // Check file size (max 5 MB)
-    if (file.size > 5 * 1024 * 1024) {
-      setError('Файл слишком большой. Максимальный размер: 5 МБ');
-      toast({
-        title: "Ошибка загрузки",
-        description: "Файл слишком большой. Максимальный размер: 5 МБ",
-        variant: "destructive",
-      });
-      return;
+  useEffect(() => {
+    if (defaultImage && defaultImage !== imageUrl) {
+      setImageUrl(defaultImage);
+      setPreviewMode(true);
     }
-    
-    // Check file type
-    if (!file.type.startsWith('image/')) {
-      setError('Пожалуйста, выберите изображение');
-      toast({
-        title: "Ошибка загрузки",
-        description: "Пожалуйста, выберите изображение",
-        variant: "destructive",
-      });
-      return;
-    }
-    
-    setError(null);
-    setIsUploading(true);
-    setUploadProgress(0);
-    setSuccess(false);
-    
+  }, [defaultImage]);
+
+  async function uploadImage(event: React.ChangeEvent<HTMLInputElement>) {
     try {
-      // Create a preview URL
-      const previewUrl = URL.createObjectURL(file);
-      setPreviewImage(previewUrl);
-      
-      // For now, we'll use external image hosting
-      // In a production environment, you'd use proper file upload
-      setUploadProgress(50);
-      
-      // Simulate upload progress
-      setTimeout(() => {
-        setUploadProgress(100);
-        const imageUrl = previewUrl;
-        
-        // Pass the URL to the parent component
-        onImageUploaded(previewUrl);
-        setSuccess(true);
-        toast({
-          title: "Изображение загружено",
-          description: "Файл успешно загружен",
-        });
-        setIsUploading(false);
-      }, 1000);
-    } catch (error: any) {
-      console.error('Exception during image upload:', error);
-      setError(`Ошибка загрузки: ${error.message || 'Неизвестная ошибка'}`);
-      toast({
-        title: "Ошибка загрузки",
-        description: error.message || "Не удалось загрузить изображение",
-        variant: "destructive",
-      });
-      setIsUploading(false);
-    }
-  };
+      setError(null);
 
-  const handleClickUpload = () => {
-    fileInputRef.current?.click();
-  };
+      if (!event.target.files || event.target.files.length === 0) {
+        return;
+      }
 
-  const handleRemoveImage = () => {
-    setPreviewImage(undefined);
-    setSuccess(false);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+      const file = event.target.files[0];
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${uuidv4()}.${fileExt}`;
+      const filePath = `${fileName}`;
+
+      setUploading(true);
+
+      // Check for a reasonable image size (5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setError('Файл слишком большой. Максимальный размер 5MB.');
+        setUploading(false);
+        return;
+      }
+
+      // For local development, we'll use direct upload without Supabase Storage
+      // In a real app, you would use Supabase Storage
+      
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const dataUrl = e.target?.result as string;
+        console.log('Image uploaded successfully:', fileName);
+        setImageUrl(dataUrl);
+        setPreviewMode(true);
+        onImageUploaded(dataUrl);
+        setUploading(false);
+      };
+      reader.onerror = () => {
+        console.error('Error reading file');
+        setError('Ошибка при чтении файла');
+        setUploading(false);
+      };
+      reader.readAsDataURL(file);
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      setError('Ошибка при загрузке изображения');
+      setUploading(false);
     }
-    onImageUploaded('');
-  };
+  }
+
+  function handleRemoveImage() {
+    setImageUrl('');
+    setPreviewMode(false);
+    onImageUploaded(''); // Clear the image from the parent component
+  }
 
   return (
-    <div className={`w-full ${className}`}>
-      <input
-        type="file"
-        ref={fileInputRef}
-        onChange={handleFileChange}
-        accept="image/*"
-        className="hidden"
-      />
-      
-      {previewImage ? (
-        <div className="relative group">
-          <div className="aspect-video w-full rounded-md overflow-hidden bg-slate-700">
+    <div className={cn("w-full", className)}>
+      {previewMode && imageUrl ? (
+        <div className="relative">
+          <div className="aspect-video w-full h-48 rounded-md overflow-hidden bg-slate-700">
             <img 
-              src={previewImage} 
+              src={imageUrl}
               alt="Preview" 
               className="w-full h-full object-cover"
               onError={(e) => {
-                (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=Ошибка+загрузки';
+                (e.target as HTMLImageElement).src = 'https://placehold.co/640x360?text=Ошибка+загрузки';
               }}
             />
           </div>
-          
-          {/* Remove button */}
-          <button
-            type="button"
+          <Button
+            variant="destructive"
+            size="icon"
             onClick={handleRemoveImage}
-            className="absolute -top-2 -right-2 h-6 w-6 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute -top-2 -right-2 h-8 w-8 rounded-full"
+            type="button"
           >
             <X className="h-4 w-4" />
-          </button>
+          </Button>
           
-          {/* Upload status */}
-          {isUploading && (
-            <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center">
-              <Loader2 className="h-8 w-8 text-white animate-spin mb-2" />
-              <span className="text-white text-sm">{uploadProgress}%</span>
-            </div>
-          )}
-          
-          {/* Success icon */}
-          {success && !isUploading && (
-            <div className="absolute top-2 right-2 bg-green-500 rounded-full h-6 w-6 flex items-center justify-center">
-              <Check className="h-4 w-4 text-white" />
-            </div>
-          )}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setPreviewMode(false)}
+            className="mt-2"
+            type="button"
+          >
+            Изменить изображение
+          </Button>
         </div>
       ) : (
-        <Button
-          type="button"
-          variant={isAdditionalImage ? "outline" : "outline"}
-          onClick={handleClickUpload}
-          className={`w-full ${isAdditionalImage ? 'h-16' : 'h-32'} border-dashed border-slate-600 flex flex-col items-center justify-center bg-slate-700/50 hover:bg-slate-700`}
-          disabled={isUploading}
-        >
-          {isUploading ? (
-            <>
-              <Loader2 className="h-6 w-6 text-muted-foreground animate-spin mb-2" />
-              <span className="text-sm text-muted-foreground">Загрузка... {uploadProgress}%</span>
-            </>
-          ) : (
-            <>
-              {isAdditionalImage ? <Plus className="h-6 w-6 text-muted-foreground" /> : <Upload className="h-6 w-6 text-muted-foreground mb-2" />}
-              <span className="text-sm text-muted-foreground">{isAdditionalImage ? "Добавить изображение" : "Нажмите для загрузки изображения"}</span>
-            </>
+        <div className="flex flex-col items-center justify-center p-4 border-2 border-dashed border-slate-600 rounded-md bg-slate-800/50">
+          <label className="w-full cursor-pointer">
+            <div className="flex flex-col items-center justify-center py-6">
+              {uploading ? (
+                <Loader2 className="h-8 w-8 text-primary animate-spin" />
+              ) : (
+                <>
+                  <Upload className="h-8 w-8 text-slate-500 mb-2" />
+                  <p className="text-sm text-slate-400">Нажмите для загрузки изображения</p>
+                  <p className="text-xs text-slate-500 mt-1">JPG, PNG, GIF до 5MB</p>
+                </>
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={uploadImage}
+                disabled={uploading}
+                className="hidden"
+              />
+            </div>
+          </label>
+          {error && (
+            <p className="text-sm text-red-500 mt-2">{error}</p>
           )}
-        </Button>
-      )}
-      
-      {error && (
-        <div className="mt-2 text-red-400 text-sm">
-          {error}
         </div>
       )}
     </div>
   );
-};
+}
 
 export default ImageUploader;
