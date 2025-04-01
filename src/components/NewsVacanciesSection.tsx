@@ -36,16 +36,16 @@ const NewsItemComponent: React.FC<{ item: NewsItem; index: number }> = ({ item, 
   return (
     <Card 
       className={cn(
-        "scroll-animate-section relative overflow-hidden border border-primary/10 shadow-sm",
-        "transition-all duration-500 hover:shadow-md group h-full bg-slate-800/50", // Added explicit background
-        "opacity-100" // Make sure card is visible
+        "relative overflow-hidden border border-primary/10 shadow-sm",
+        "transition-all duration-500 hover:shadow-md group h-full",
+        "bg-slate-800/70 text-white opacity-100" // Ensure high contrast and visibility
       )}
       style={{ transitionDelay: `${index * 100}ms` }}
     >
       <div className="aspect-video w-full overflow-hidden">
         {!imageError ? (
           <img
-            src={item.image_url || 'https://placehold.co/640x360?text=Нет+изображения'}
+            src={item.image_url || 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800'}
             alt={item.title}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             onError={() => setImageError(true)}
@@ -53,25 +53,25 @@ const NewsItemComponent: React.FC<{ item: NewsItem; index: number }> = ({ item, 
           />
         ) : (
           <div className="flex items-center justify-center w-full h-full bg-slate-700">
-            <p className="text-sm text-slate-200">Нет изображения</p>
+            <p className="text-white">Нет изображения</p>
           </div>
         )}
       </div>
       
-      <CardHeader className="p-6 pb-2 bg-transparent">
-        <div className="flex items-center gap-2 text-muted-foreground mb-2">
-          <Clock className="h-4 w-4" />
-          <span className="text-sm font-benzin text-slate-400">{formatDate(item.published_at)}</span>
+      <CardHeader className="p-6 pb-2 bg-slate-800/70">
+        <div className="flex items-center gap-2 mb-2">
+          <Clock className="h-4 w-4 text-primary" />
+          <span className="text-sm font-benzin text-slate-300">{formatDate(item.published_at)}</span>
         </div>
         
-        <h3 className="text-xl font-medium text-slate-200 mb-2 font-benzin line-clamp-2">{item.title}</h3>
+        <h3 className="text-xl font-medium text-white mb-2 font-benzin line-clamp-2">{item.title}</h3>
       </CardHeader>
       
-      <CardContent className="px-6 py-2 bg-transparent">
-        <p className="text-muted-foreground mb-4 font-benzin line-clamp-3 text-slate-400">{item.summary}</p>
+      <CardContent className="px-6 py-2 bg-slate-800/70">
+        <p className="text-slate-300 mb-4 font-benzin line-clamp-3">{item.summary}</p>
       </CardContent>
       
-      <CardFooter className="px-6 pb-6 pt-0 bg-transparent">
+      <CardFooter className="px-6 pb-6 pt-0 bg-slate-800/70">
         <Link 
           to={`/news/${item.id}`}
           className="inline-flex items-center text-primary font-medium hover:underline font-benzin group-hover:translate-x-1 transition-transform"
@@ -87,20 +87,20 @@ const NewsItemComponent: React.FC<{ item: NewsItem; index: number }> = ({ item, 
 const NewsLoadingSkeleton = () => (
   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
     {[1, 2, 3].map((i) => (
-      <Card key={i} className="overflow-hidden border border-primary/10 shadow-sm bg-slate-800/50">
-        <Skeleton className="h-48 w-full" />
+      <Card key={i} className="overflow-hidden border border-primary/10 shadow-sm bg-slate-800/70">
+        <Skeleton className="h-48 w-full bg-slate-700" />
         <div className="p-6">
           <div className="flex items-center gap-2 mb-3">
-            <Skeleton className="h-4 w-4 rounded-full" />
-            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-4 w-4 rounded-full bg-slate-700" />
+            <Skeleton className="h-4 w-24 bg-slate-700" />
           </div>
-          <Skeleton className="h-7 w-3/4 mb-3" />
+          <Skeleton className="h-7 w-3/4 mb-3 bg-slate-700" />
           <div className="space-y-2">
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-5/6" />
-            <Skeleton className="h-4 w-4/6" />
+            <Skeleton className="h-4 w-full bg-slate-700" />
+            <Skeleton className="h-4 w-5/6 bg-slate-700" />
+            <Skeleton className="h-4 w-4/6 bg-slate-700" />
           </div>
-          <Skeleton className="h-6 w-24 mt-4" />
+          <Skeleton className="h-6 w-24 mt-4 bg-slate-700" />
         </div>
       </Card>
     ))}
@@ -153,29 +153,29 @@ const NewsVacanciesSection: React.FC = () => {
   return (
     <section 
       id="news" 
-      className="py-24 md:py-32 overflow-hidden relative"
+      className="py-24 md:py-32 overflow-hidden relative bg-slate-900"
     >
       {/* Gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-slate-800/60 -z-10"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-slate-900/90 -z-10"></div>
       
       {/* Decorative elements */}
       <div className="absolute top-1/3 right-1/4 w-64 h-64 bg-primary/10 rounded-full blur-3xl -z-5"></div>
       <div className="absolute bottom-1/3 left-1/3 w-72 h-72 bg-slate-700 rounded-full blur-3xl -z-5"></div>
       
       <div className="container mx-auto px-6">
-        <div className="text-center max-w-3xl mx-auto mb-12 scroll-animate-section">
+        <div className="text-center max-w-3xl mx-auto mb-12">
           <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6 font-benzin">
             Новости
           </span>
-          <h2 className="section-heading mb-6 text-slate-200 font-benzin">
+          <h2 className="text-4xl font-bold mb-6 text-white font-benzin">
             Будьте в курсе наших последних событий
           </h2>
-          <p className="section-subheading mx-auto text-muted-foreground font-benzin">
+          <p className="text-lg text-slate-300 mx-auto font-benzin">
             Следите за новостями компании и оставайтесь в курсе последних проектов и достижений
           </p>
         </div>
         
-        <div className="mb-10 scroll-animate-section">
+        <div className="mb-10">
           {loading ? (
             <NewsLoadingSkeleton />
           ) : error ? (
