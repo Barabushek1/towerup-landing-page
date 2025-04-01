@@ -128,18 +128,6 @@ export function safelyMapArray<T, R>(
   return array.map(mapFn);
 }
 
-// Validate image URL is accessible
-export async function validateImageUrl(url: string): Promise<boolean> {
-  if (!url) return false;
-  try {
-    const response = await fetch(url, { method: 'HEAD' });
-    return response.ok;
-  } catch (error) {
-    console.error('Error validating image URL:', error);
-    return false;
-  }
-}
-
 // Safely convert date strings to ISO format
 export function safelyFormatDate(dateString: string): string {
   try {

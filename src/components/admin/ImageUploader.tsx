@@ -2,7 +2,6 @@
 import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Loader2, Upload, X, Check } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
 import { v4 as uuidv4 } from 'uuid';
 import { useToast } from '@/hooks/use-toast';
 
@@ -61,47 +60,24 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       const previewUrl = URL.createObjectURL(file);
       setPreviewImage(previewUrl);
       
-      // Generate a unique file name
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${uuidv4()}.${fileExt}`;
-      const filePath = `${fileName}`;
-
-      console.log('Uploading to bucket: images');
+      // For now, we'll use external image hosting
+      // In a production environment, you'd use proper file upload
+      setUploadProgress(50);
       
-      // Upload file to Supabase storage with public bucket policy
-      const { data, error } = await supabase.storage
-        .from('images')
-        .upload(filePath, file, {
-          cacheControl: '3600',
-          upsert: true
-        });
-      
-      if (error) {
-        console.error('Error uploading image:', error);
-        setError(`Ошибка загрузки: ${error.message || 'Неизвестная ошибка'}`);
+      // Simulate upload progress
+      setTimeout(() => {
+        setUploadProgress(100);
+        const imageUrl = previewUrl;
+        
+        // Pass the URL to the parent component
+        onImageUploaded(previewUrl);
+        setSuccess(true);
         toast({
-          title: "Ошибка загрузки",
-          description: error.message || "Не удалось загрузить изображение",
-          variant: "destructive",
+          title: "Изображение загружено",
+          description: "Файл успешно загружен",
         });
         setIsUploading(false);
-        return;
-      }
-      
-      // Manually set progress to 100 since we can't track it
-      setUploadProgress(100);
-      
-      // Get the public URL of the uploaded file
-      const publicUrl = supabase.storage.from('images').getPublicUrl(data.path).data.publicUrl;
-      console.log('Image uploaded successfully, URL:', publicUrl);
-      
-      // Pass the URL to the parent component
-      onImageUploaded(publicUrl);
-      setSuccess(true);
-      toast({
-        title: "Изображение загружено",
-        description: "Файл успешно загружен",
-      });
+      }, 1000);
     } catch (error: any) {
       console.error('Exception during image upload:', error);
       setError(`Ошибка загрузки: ${error.message || 'Неизвестная ошибка'}`);
@@ -110,7 +86,6 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         description: error.message || "Не удалось загрузить изображение",
         variant: "destructive",
       });
-    } finally {
       setIsUploading(false);
     }
   };

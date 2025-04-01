@@ -1,9 +1,10 @@
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { ArrowRight, Clock, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { supabase } from '@/integrations/supabase/client';
 
 interface NewsItemProps {
   id: string;
@@ -12,6 +13,15 @@ interface NewsItemProps {
   excerpt: string;
   imageUrl?: string;
   index: number;
+}
+
+interface NewsData {
+  id: string;
+  title: string;
+  published_at: string;
+  summary: string;
+  image_url: string | null;
+  featured: boolean | null;
 }
 
 const NewsItem: React.FC<NewsItemProps> = ({ id, title, date, excerpt, imageUrl, index }) => {
@@ -57,36 +67,35 @@ const NewsItem: React.FC<NewsItemProps> = ({ id, title, date, excerpt, imageUrl,
   );
 };
 
-// Example news data with WebP images
-const exampleNews = [
-  {
-    id: "example_1",
-    title: "Начало строительства нового жилого комплекса в центре города",
-    published_at: "2025-03-15T00:00:00Z",
-    summary: "Мы рады сообщить о начале реализации масштабного проекта в центральном районе, который обеспечит город современным и комфортным жильем.",
-    image_url: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80&fm=webp",
-    featured: true
-  },
-  {
-    id: "example_2",
-    title: "Завершение проекта реконструкции исторического здания",
-    published_at: "2025-02-28T00:00:00Z",
-    summary: "Успешно завершены работы по реконструкции исторического здания XIX века с сохранением его архитектурной ценности и добавлением современных элементов.",
-    image_url: "https://images.unsplash.com/photo-1577415124269-fc1140a69e91?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80&fm=webp",
-    featured: true
-  },
-  {
-    id: "example_3",
-    title: "Внедрение новых экологичных технологий строительства",
-    published_at: "2025-01-20T00:00:00Z",
-    summary: "Наша компания начала использование инновационных экологически чистых материалов и технологий в строительстве, что значительно снижает воздействие на окружающую среду.",
-    image_url: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80&fm=webp",
-    featured: true
-  }
-];
-
 const NewsVacanciesSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const [news, setNews] = useState<NewsData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('news')
+          .select('id, title, published_at, summary, image_url, featured')
+          .order('published_at', { ascending: false })
+          .limit(3);
+
+        if (error) {
+          console.error('Error fetching news:', error);
+          throw error;
+        }
+
+        setNews(data || []);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching news:', error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchNews();
+  }, []);
   
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -97,8 +106,8 @@ const NewsVacanciesSection: React.FC = () => {
     }).format(date);
   };
 
-  // Use example news data
-  const displayNews = exampleNews;
+  // Use fallback news if loading or no news available
+  const displayNews = isLoading || news.length === 0 ? [] : news;
 
   return (
     <section 
@@ -127,19 +136,29 @@ const NewsVacanciesSection: React.FC = () => {
         </div>
         
         <div className="mb-10 scroll-animate-section">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {displayNews.map((item, index) => (
-              <NewsItem
-                key={item.id}
-                id={item.id}
-                title={item.title}
-                date={formatDate(item.published_at)}
-                excerpt={item.summary}
-                imageUrl={item.image_url}
-                index={index}
-              />
-            ))}
-          </div>
+          {isLoading ? (
+            <div className="flex justify-center py-20">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+            </div>
+          ) : displayNews.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {displayNews.map((item, index) => (
+                <NewsItem
+                  key={item.id}
+                  id={item.id}
+                  title={item.title}
+                  date={formatDate(item.published_at)}
+                  excerpt={item.summary}
+                  imageUrl={item.image_url || undefined}
+                  index={index}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-slate-400 mb-4">Пока нет новостей</p>
+            </div>
+          )}
           
           <div className="mt-10 text-center">
             <Link 

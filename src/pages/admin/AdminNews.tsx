@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,11 +7,11 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { Pencil, Trash2, Plus, X, Calendar, Image, Link as LinkIcon, Home, Loader2 } from 'lucide-react';
+import { Pencil, Trash2, Plus, X, Calendar, Image, Home, Loader2 } from 'lucide-react';
 import ImageUploader from '@/components/admin/ImageUploader';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { safelyFormatDate, validateImageUrl } from '@/utils/supabase-helpers';
+import { safelyFormatDate } from '@/utils/supabase-helpers';
 
 interface NewsItem {
   id: string;
@@ -46,60 +45,33 @@ const AdminNews: React.FC = () => {
   const [useUrlInput, setUseUrlInput] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  // Helper function to ensure the bucket exists before operations
-  const ensureStorageBucketExists = async () => {
-    try {
-      await supabase.storage.getBucket('images');
-      // Bucket exists
-    } catch (error) {
-      console.log('Bucket not found, attempting to create it');
-      try {
-        const { error: createError } = await supabase.storage.createBucket('images', {
-          public: true
-        });
-        if (createError) {
-          console.error('Error creating bucket:', createError);
-          throw createError;
-        }
-      } catch (err) {
-        console.error('Failed to create bucket:', err);
-        // Continue execution even if bucket creation fails
-        // as it might already exist but with limited permissions
-      }
-    }
-  };
-
-  // Fetch news data
   const { data: news = [], isLoading, error } = useQuery({
     queryKey: ['news'],
     queryFn: async () => {
-      // Ensure bucket exists
-      await ensureStorageBucketExists();
-      
+      console.log('Fetching news data...');
       const { data, error } = await supabase
         .from('news')
         .select('*')
         .order('published_at', { ascending: false });
       
       if (error) {
+        console.error('Error fetching news:', error);
         throw error;
       }
       
+      console.log('News data fetched successfully:', data);
       return data as NewsItem[];
     }
   });
 
-  // Add news mutation
   const addNewsMutation = useMutation({
     mutationFn: async (newsItem: NewsInput) => {
       setIsSubmitting(true);
       try {
         console.log('Adding news item:', newsItem);
         
-        // Format date properly to prevent date conversion issues
         const formattedDate = safelyFormatDate(newsItem.published_at || new Date().toISOString());
 
-        // Filter out empty additional images
         const filteredAdditionalImages = (newsItem.additional_images || []).filter(url => url);
 
         const { data, error } = await supabase
@@ -146,17 +118,14 @@ const AdminNews: React.FC = () => {
     }
   });
 
-  // Update news mutation with similar error handling improvements
   const updateNewsMutation = useMutation({
     mutationFn: async ({ id, newsItem }: { id: string; newsItem: NewsInput }) => {
       setIsSubmitting(true);
       try {
         console.log('Updating news item:', id, newsItem);
         
-        // Format date properly to prevent date conversion issues
         const formattedDate = safelyFormatDate(newsItem.published_at || new Date().toISOString());
 
-        // Filter out empty additional images
         const filteredAdditionalImages = (newsItem.additional_images || []).filter(url => url);
 
         const { data, error } = await supabase
@@ -204,7 +173,6 @@ const AdminNews: React.FC = () => {
     }
   });
 
-  // Delete news mutation
   const deleteNewsMutation = useMutation({
     mutationFn: async (id: string) => {
       setIsSubmitting(true);
@@ -318,7 +286,6 @@ const AdminNews: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    // Validate required fields
     if (!formData.title || !formData.summary || !formData.content) {
       toast({
         title: "Ошибка валидации",
@@ -326,23 +293,6 @@ const AdminNews: React.FC = () => {
         variant: "destructive",
       });
       return;
-    }
-
-    // Check main image
-    if (formData.image_url) {
-      try {
-        const isValid = await validateImageUrl(formData.image_url);
-        if (!isValid) {
-          toast({
-            title: "Предупреждение",
-            description: "Главное изображение может быть недоступно",
-            variant: "warning",
-          });
-        }
-      } catch (error) {
-        console.error('Error validating image URL:', error);
-        // Continue with submission despite validation error
-      }
     }
     
     try {
@@ -353,7 +303,6 @@ const AdminNews: React.FC = () => {
       }
     } catch (error) {
       console.error('Error submitting news:', error);
-      // Error handling is done in the mutation callbacks
     }
   };
 
@@ -472,7 +421,6 @@ const AdminNews: React.FC = () => {
         </div>
       )}
 
-      {/* Add/Edit News Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="bg-slate-800 text-white border-slate-700 max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
@@ -708,7 +656,6 @@ const AdminNews: React.FC = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Delete Confirmation Dialog */}
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <DialogContent className="bg-slate-800 text-white border-slate-700">
           <DialogHeader>
