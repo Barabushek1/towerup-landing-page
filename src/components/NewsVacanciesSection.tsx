@@ -5,6 +5,7 @@ import { ArrowRight, Clock, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
+import { mapSupabaseNewsToNewsItem } from '@/utils/supabase-helpers';
 
 interface NewsItemProps {
   id: string;
@@ -13,15 +14,6 @@ interface NewsItemProps {
   excerpt: string;
   imageUrl?: string;
   index: number;
-}
-
-interface NewsData {
-  id: string;
-  title: string;
-  published_at: string;
-  summary: string;
-  image_url: string | null;
-  featured: boolean | null;
 }
 
 const NewsItem: React.FC<NewsItemProps> = ({ id, title, date, excerpt, imageUrl, index }) => {
@@ -69,27 +61,34 @@ const NewsItem: React.FC<NewsItemProps> = ({ id, title, date, excerpt, imageUrl,
 
 const NewsVacanciesSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [news, setNews] = useState<NewsData[]>([]);
+  const [news, setNews] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
     const fetchNews = async () => {
       try {
+        setIsLoading(true);
         const { data, error } = await supabase
           .from('news')
-          .select('id, title, published_at, summary, image_url, featured')
+          .select('*')
           .order('published_at', { ascending: false })
           .limit(3);
 
         if (error) {
-          console.error('Error fetching news:', error);
+          console.error('Error fetching news for home page:', error);
           throw error;
         }
 
-        setNews(data || []);
+        console.log('Fetched news for home page:', data);
+        
+        if (data) {
+          const mappedNews = data.map(item => mapSupabaseNewsToNewsItem(item));
+          setNews(mappedNews);
+        }
+        
         setIsLoading(false);
       } catch (error) {
-        console.error('Error fetching news:', error);
+        console.error('Exception fetching news for home page:', error);
         setIsLoading(false);
       }
     };
@@ -105,9 +104,6 @@ const NewsVacanciesSection: React.FC = () => {
       day: 'numeric',
     }).format(date);
   };
-
-  // Use fallback news if loading or no news available
-  const displayNews = isLoading || news.length === 0 ? [] : news;
 
   return (
     <section 
@@ -140,15 +136,15 @@ const NewsVacanciesSection: React.FC = () => {
             <div className="flex justify-center py-20">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
             </div>
-          ) : displayNews.length > 0 ? (
+          ) : news.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {displayNews.map((item, index) => (
+              {news.map((item, index) => (
                 <NewsItem
                   key={item.id}
                   id={item.id}
                   title={item.title}
-                  date={formatDate(item.published_at)}
-                  excerpt={item.summary}
+                  date={formatDate(item.date)}
+                  excerpt={item.excerpt}
                   imageUrl={item.image_url || undefined}
                   index={index}
                 />

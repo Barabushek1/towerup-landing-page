@@ -1,7 +1,7 @@
 
 import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Loader2, Upload, X, Check } from 'lucide-react';
+import { Loader2, Upload, X, Check, Plus } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
 import { useToast } from '@/hooks/use-toast';
 
@@ -9,12 +9,14 @@ interface ImageUploaderProps {
   onImageUploaded: (url: string) => void;
   defaultImage?: string;
   className?: string;
+  isAdditionalImage?: boolean;
 }
 
 const ImageUploader: React.FC<ImageUploaderProps> = ({ 
   onImageUploaded, 
   defaultImage, 
-  className 
+  className,
+  isAdditionalImage = false
 }) => {
   const { toast } = useToast();
   const [isUploading, setIsUploading] = useState(false);
@@ -153,9 +155,9 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       ) : (
         <Button
           type="button"
-          variant="outline"
+          variant={isAdditionalImage ? "outline" : "outline"}
           onClick={handleClickUpload}
-          className="w-full h-32 border-dashed border-slate-600 flex flex-col items-center justify-center bg-slate-700/50 hover:bg-slate-700"
+          className={`w-full ${isAdditionalImage ? 'h-16' : 'h-32'} border-dashed border-slate-600 flex flex-col items-center justify-center bg-slate-700/50 hover:bg-slate-700`}
           disabled={isUploading}
         >
           {isUploading ? (
@@ -165,8 +167,8 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
             </>
           ) : (
             <>
-              <Upload className="h-6 w-6 text-muted-foreground mb-2" />
-              <span className="text-sm text-muted-foreground">Нажмите для загрузки изображения</span>
+              {isAdditionalImage ? <Plus className="h-6 w-6 text-muted-foreground" /> : <Upload className="h-6 w-6 text-muted-foreground mb-2" />}
+              <span className="text-sm text-muted-foreground">{isAdditionalImage ? "Добавить изображение" : "Нажмите для загрузки изображения"}</span>
             </>
           )}
         </Button>
