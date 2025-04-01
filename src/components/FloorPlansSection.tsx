@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -243,8 +242,6 @@ const FloorPlansSection: React.FC = () => {
           
           <Tabs defaultValue="1-комнатные" className="w-full max-w-5xl" value={activeTab} onValueChange={handleTabChange}>
             <div className="relative mb-8 w-full">
-              
-              
               <RovingFocusPrimitive.Root orientation="horizontal" loop className="w-full">
                 <TabsPrimitive.List className="relative overflow-x-auto scrollbar-hide w-full flex items-center justify-start sm:justify-center px-4 py-2 bg-[#131313] rounded-xl border border-white/5 shadow-inner" style={{
                 scrollbarWidth: 'none',
@@ -259,7 +256,6 @@ const FloorPlansSection: React.FC = () => {
                   </div>
                 </TabsPrimitive.List>
               </RovingFocusPrimitive.Root>
-              
               
             </div>
             
@@ -311,7 +307,7 @@ const FloorPlansSection: React.FC = () => {
 
       {/* Full Screen Floor Plan Dialog */}
       <Dialog open={isImageOpen} onOpenChange={setIsImageOpen}>
-        <DialogContent className="sm:max-w-[90vw] md:max-w-[80vw] lg:max-w-[70vw] max-h-[90vh] p-0 bg-black/95 border-gray-800">
+        <DialogContent className="sm:max-w-[90vw] md:max-w-[85vw] lg:max-w-[80vw] max-h-[95vh] p-0 bg-black border-gray-800">
           <div className="relative w-full h-full flex flex-col">
             <div className="absolute top-4 right-4 z-20">
               <DialogClose className="rounded-full p-2 bg-black/70 hover:bg-black/90 text-white/80 hover:text-white transition-colors flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-brand-primary/50">
@@ -321,7 +317,7 @@ const FloorPlansSection: React.FC = () => {
             
             {selectedPlanData && (
               <div className="flex flex-col h-full">
-                <div className="p-6 flex-none">
+                <div className="p-6 flex-none bg-[#0a0a0a] border-b border-gray-800/40">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
                       <h3 className="text-white text-xl sm:text-2xl font-bold">
@@ -334,7 +330,7 @@ const FloorPlansSection: React.FC = () => {
                   </div>
                 </div>
                 
-                <div className="flex-1 overflow-hidden flex items-center justify-center p-4">
+                <div className="flex-1 overflow-hidden flex items-center justify-center p-0 sm:p-4 bg-black">
                   <motion.img
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -342,11 +338,11 @@ const FloorPlansSection: React.FC = () => {
                     transition={{ duration: 0.3 }}
                     src={selectedPlanData.image}
                     alt={`${selectedPlanData.title} ${selectedPlanData.area}`}
-                    className="max-w-full max-h-full object-contain"
+                    className="max-w-full max-h-[70vh] w-auto h-auto object-contain"
                   />
                 </div>
 
-                <div className="p-6 bg-[#1a1a1a] border-t border-gray-700/30">
+                <div className="p-6 bg-[#0a0a0a] border-t border-gray-700/30">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
                       <h4 className="text-brand-primary text-xl font-bold">
