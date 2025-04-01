@@ -123,7 +123,7 @@ const NewsVacanciesSection: React.FC = () => {
     };
     fetchNews();
   }, []);
-  return <section id="news" className="py-24 md:py-32 overflow-hidden relative bg-zinc-900">
+  return <section id="news" className="py-24 md:py-32 overflow-hidden relative bg-neutral-950">
       {/* Gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-slate-900/90 -z-10"></div>
       
