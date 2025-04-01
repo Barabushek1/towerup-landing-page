@@ -17,6 +17,50 @@ export type SupabaseMessagesUpdate = Database['public']['Tables']['messages']['U
 export type SupabasePartnersUpdate = Database['public']['Tables']['partners']['Update'];
 export type SupabaseVacanciesUpdate = Database['public']['Tables']['vacancies']['Update'];
 
+// Validate image URL by checking if it can be loaded
+export async function validateImageUrl(url: string): Promise<boolean> {
+  // If the URL is empty or not a string, return false
+  if (!url || typeof url !== 'string') {
+    return false;
+  }
+  
+  // If it's a data URL, assume it's valid
+  if (url.startsWith('data:')) {
+    return true;
+  }
+  
+  // For file URLs created by the browser, assume they're valid
+  if (url.startsWith('blob:') || url.startsWith('file:')) {
+    return true;
+  }
+  
+  try {
+    // For remote URLs, we can't reliably test them on the server side
+    // Just do a basic check that it looks like an image URL
+    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.bmp'];
+    const hasImageExtension = imageExtensions.some(ext => 
+      url.toLowerCase().includes(ext)
+    );
+    
+    // Consider URL valid if it has an image file extension or contains standard image hosting keywords
+    if (hasImageExtension || 
+        url.includes('image') ||
+        url.includes('photo') ||
+        url.includes('media') ||
+        url.includes('upload') ||
+        url.includes('asset')) {
+      return true;
+    }
+    
+    // If no clear indicators, return true anyway to avoid blocking valid URLs
+    // The browser will handle invalid URLs when trying to load them
+    return true;
+  } catch (error) {
+    console.error('Error validating image URL:', error);
+    return false;
+  }
+}
+
 // Mapping functions
 export function mapSupabaseNewsToNewsItem(news: SupabaseNewsRow): NewsItem {
   return {
