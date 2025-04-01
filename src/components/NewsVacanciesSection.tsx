@@ -1,10 +1,10 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { ArrowRight, Clock, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
-import { useQuery } from '@tanstack/react-query';
+import { toast } from '@/components/ui/use-toast';
 
 interface NewsItemProps {
   id: string;
@@ -59,6 +59,11 @@ const NewsItem: React.FC<NewsItemProps> = ({ id, title, date, excerpt, imageUrl,
 };
 
 const NewsVacanciesSection: React.FC = () => {
+  const [news, setNews] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Format date function
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return new Intl.DateTimeFormat('ru-RU', {
@@ -68,26 +73,43 @@ const NewsVacanciesSection: React.FC = () => {
     }).format(date);
   };
 
-  // Using React Query to fetch news data
-  const { data: news = [], isLoading, error } = useQuery({
-    queryKey: ['homePageNews'],
-    queryFn: async () => {
-      console.log('Fetching news for homepage...');
-      const { data, error } = await supabase
-        .from('news')
-        .select('*')
-        .order('published_at', { ascending: false })
-        .limit(3);
-
-      if (error) {
-        console.error('Error fetching homepage news:', error);
-        throw error;
+  // Direct fetch from Supabase without React Query
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        setLoading(true);
+        console.log('Directly fetching news for homepage...');
+        
+        const { data, error } = await supabase
+          .from('news')
+          .select('*')
+          .order('published_at', { ascending: false })
+          .limit(3);
+        
+        if (error) {
+          console.error('Error fetching news:', error);
+          setError('Failed to load news');
+          toast({
+            title: "Ошибка загрузки новостей",
+            description: error.message,
+            variant: "destructive"
+          });
+          throw error;
+        }
+        
+        console.log('Homepage news fetched, count:', data?.length);
+        console.log('News data:', data);
+        setNews(data || []);
+        setLoading(false);
+      } catch (err) {
+        console.error('Exception in news fetch:', err);
+        setError('An unexpected error occurred');
+        setLoading(false);
       }
+    };
 
-      console.log('Homepage news fetched successfully:', data);
-      return data || [];
-    }
-  });
+    fetchNews();
+  }, []); // Empty dependency array ensures this runs once on mount
 
   return (
     <section 
@@ -115,13 +137,19 @@ const NewsVacanciesSection: React.FC = () => {
         </div>
         
         <div className="mb-10 scroll-animate-section">
-          {isLoading ? (
+          {loading ? (
             <div className="flex justify-center py-20">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
             </div>
           ) : error ? (
             <div className="text-center py-12">
-              <p className="text-red-400 mb-4">Произошла ошибка при загрузке новостей</p>
+              <p className="text-red-400 mb-4">{error}</p>
+              <button 
+                onClick={() => window.location.reload()}
+                className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
+              >
+                Попробовать снова
+              </button>
             </div>
           ) : news.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
