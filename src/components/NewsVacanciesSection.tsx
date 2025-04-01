@@ -5,85 +5,122 @@ import { ArrowRight, Clock, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/components/ui/use-toast';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 
-interface NewsItemProps {
+interface NewsItem {
   id: string;
   title: string;
-  date: string;
-  excerpt: string;
-  imageUrl?: string;
-  index: number;
+  published_at: string;
+  summary: string;
+  image_url: string | null;
 }
 
-const NewsItem: React.FC<NewsItemProps> = ({ id, title, date, excerpt, imageUrl, index }) => {
+const NewsItemComponent: React.FC<{ item: NewsItem; index: number }> = ({ item, index }) => {
+  const [imageError, setImageError] = useState(false);
+  
+  // Format date for display
+  const formatDate = (dateString: string) => {
+    try {
+      const date = new Date(dateString);
+      return new Intl.DateTimeFormat('ru-RU', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      }).format(date);
+    } catch (error) {
+      return dateString;
+    }
+  };
+  
   return (
-    <div
+    <Card 
       className={cn(
-        "scroll-animate-section relative overflow-hidden rounded-lg border border-primary/10 shadow-sm bg-background",
-        "transition-all duration-500 hover:shadow-md group"
+        "scroll-animate-section relative overflow-hidden border border-primary/10 shadow-sm bg-background",
+        "transition-all duration-500 hover:shadow-md group h-full"
       )}
       style={{ transitionDelay: `${index * 100}ms` }}
     >
-      {imageUrl && (
-        <div className="aspect-video w-full overflow-hidden">
+      <div className="aspect-video w-full overflow-hidden">
+        {!imageError ? (
           <img
-            src={imageUrl}
-            alt={title}
+            src={item.image_url || 'https://placehold.co/640x360?text=Нет+изображения'}
+            alt={item.title}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = 'https://placehold.co/640x360?text=Нет+изображения';
-            }}
+            onError={() => setImageError(true)}
+            loading="lazy"
           />
-        </div>
-      )}
+        ) : (
+          <div className="flex items-center justify-center w-full h-full bg-slate-800/50">
+            <p className="text-sm text-slate-400">Нет изображения</p>
+          </div>
+        )}
+      </div>
       
-      <div className="p-6">
-        <div className="flex items-center gap-2 text-muted-foreground mb-3">
+      <CardHeader className="p-6 pb-2">
+        <div className="flex items-center gap-2 text-muted-foreground mb-2">
           <Clock className="h-4 w-4" />
-          <span className="text-sm font-benzin">{date}</span>
+          <span className="text-sm font-benzin">{formatDate(item.published_at)}</span>
         </div>
         
-        <h3 className="text-xl font-medium text-slate-200 mb-2 font-benzin">{title}</h3>
-        <p className="text-muted-foreground mb-4 font-benzin line-clamp-3">{excerpt}</p>
-        
+        <h3 className="text-xl font-medium text-slate-200 mb-2 font-benzin line-clamp-2">{item.title}</h3>
+      </CardHeader>
+      
+      <CardContent className="px-6 py-2">
+        <p className="text-muted-foreground mb-4 font-benzin line-clamp-3">{item.summary}</p>
+      </CardContent>
+      
+      <CardFooter className="px-6 pb-6 pt-0">
         <Link 
-          to={`/news/${id}`}
+          to={`/news/${item.id}`}
           className="inline-flex items-center text-primary font-medium hover:underline font-benzin group-hover:translate-x-1 transition-transform"
         >
           <span>Подробнее</span>
           <ChevronRight className="ml-1 h-4 w-4" />
         </Link>
-      </div>
-    </div>
+      </CardFooter>
+    </Card>
   );
 };
 
+const NewsLoadingSkeleton = () => (
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+    {[1, 2, 3].map((i) => (
+      <Card key={i} className="overflow-hidden border border-primary/10 shadow-sm bg-background">
+        <Skeleton className="h-48 w-full" />
+        <div className="p-6">
+          <div className="flex items-center gap-2 mb-3">
+            <Skeleton className="h-4 w-4 rounded-full" />
+            <Skeleton className="h-4 w-24" />
+          </div>
+          <Skeleton className="h-7 w-3/4 mb-3" />
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-5/6" />
+            <Skeleton className="h-4 w-4/6" />
+          </div>
+          <Skeleton className="h-6 w-24 mt-4" />
+        </div>
+      </Card>
+    ))}
+  </div>
+);
+
 const NewsVacanciesSection: React.FC = () => {
-  const [news, setNews] = useState<any[]>([]);
+  const [news, setNews] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Format date function
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('ru-RU', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    }).format(date);
-  };
-
-  // Fetch news with no RLS restrictions (public access)
+  // Fetch news directly from Supabase
   useEffect(() => {
     const fetchNews = async () => {
       try {
         setLoading(true);
         console.log('Fetching news for homepage...');
         
-        // Remove any auth headers for anonymous access
         const { data, error } = await supabase
           .from('news')
-          .select('*')
+          .select('id, title, published_at, summary, image_url')
           .order('published_at', { ascending: false })
           .limit(3);
         
@@ -95,7 +132,7 @@ const NewsVacanciesSection: React.FC = () => {
             description: error.message,
             variant: "destructive"
           });
-          throw error;
+          return;
         }
         
         console.log('Homepage news fetched, count:', data?.length);
@@ -139,11 +176,9 @@ const NewsVacanciesSection: React.FC = () => {
         
         <div className="mb-10 scroll-animate-section">
           {loading ? (
-            <div className="flex justify-center py-20">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-            </div>
+            <NewsLoadingSkeleton />
           ) : error ? (
-            <div className="text-center py-12">
+            <div className="text-center py-12 bg-slate-800/30 rounded-lg border border-slate-700">
               <p className="text-red-400 mb-4">{error}</p>
               <button 
                 onClick={() => window.location.reload()}
@@ -155,19 +190,15 @@ const NewsVacanciesSection: React.FC = () => {
           ) : news.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
               {news.map((item, index) => (
-                <NewsItem
+                <NewsItemComponent
                   key={item.id}
-                  id={item.id}
-                  title={item.title}
-                  date={formatDate(item.published_at)}
-                  excerpt={item.summary}
-                  imageUrl={item.image_url || undefined}
+                  item={item}
                   index={index}
                 />
               ))}
             </div>
           ) : (
-            <div className="text-center py-12">
+            <div className="text-center py-12 bg-slate-800/30 rounded-lg border border-slate-700">
               <p className="text-slate-400 mb-4">Пока нет новостей</p>
             </div>
           )}
