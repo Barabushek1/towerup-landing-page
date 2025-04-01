@@ -36,8 +36,9 @@ const NewsItemComponent: React.FC<{ item: NewsItem; index: number }> = ({ item, 
   return (
     <Card 
       className={cn(
-        "scroll-animate-section relative overflow-hidden border border-primary/10 shadow-sm bg-background",
-        "transition-all duration-500 hover:shadow-md group h-full"
+        "scroll-animate-section relative overflow-hidden border border-primary/10 shadow-sm",
+        "transition-all duration-500 hover:shadow-md group h-full bg-slate-800/50", // Added explicit background
+        "opacity-100" // Make sure card is visible
       )}
       style={{ transitionDelay: `${index * 100}ms` }}
     >
@@ -51,26 +52,26 @@ const NewsItemComponent: React.FC<{ item: NewsItem; index: number }> = ({ item, 
             loading="lazy"
           />
         ) : (
-          <div className="flex items-center justify-center w-full h-full bg-slate-800/50">
-            <p className="text-sm text-slate-400">Нет изображения</p>
+          <div className="flex items-center justify-center w-full h-full bg-slate-700">
+            <p className="text-sm text-slate-200">Нет изображения</p>
           </div>
         )}
       </div>
       
-      <CardHeader className="p-6 pb-2">
+      <CardHeader className="p-6 pb-2 bg-transparent">
         <div className="flex items-center gap-2 text-muted-foreground mb-2">
           <Clock className="h-4 w-4" />
-          <span className="text-sm font-benzin">{formatDate(item.published_at)}</span>
+          <span className="text-sm font-benzin text-slate-400">{formatDate(item.published_at)}</span>
         </div>
         
         <h3 className="text-xl font-medium text-slate-200 mb-2 font-benzin line-clamp-2">{item.title}</h3>
       </CardHeader>
       
-      <CardContent className="px-6 py-2">
-        <p className="text-muted-foreground mb-4 font-benzin line-clamp-3">{item.summary}</p>
+      <CardContent className="px-6 py-2 bg-transparent">
+        <p className="text-muted-foreground mb-4 font-benzin line-clamp-3 text-slate-400">{item.summary}</p>
       </CardContent>
       
-      <CardFooter className="px-6 pb-6 pt-0">
+      <CardFooter className="px-6 pb-6 pt-0 bg-transparent">
         <Link 
           to={`/news/${item.id}`}
           className="inline-flex items-center text-primary font-medium hover:underline font-benzin group-hover:translate-x-1 transition-transform"
@@ -86,7 +87,7 @@ const NewsItemComponent: React.FC<{ item: NewsItem; index: number }> = ({ item, 
 const NewsLoadingSkeleton = () => (
   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
     {[1, 2, 3].map((i) => (
-      <Card key={i} className="overflow-hidden border border-primary/10 shadow-sm bg-background">
+      <Card key={i} className="overflow-hidden border border-primary/10 shadow-sm bg-slate-800/50">
         <Skeleton className="h-48 w-full" />
         <div className="p-6">
           <div className="flex items-center gap-2 mb-3">
