@@ -94,6 +94,8 @@ const AdminNews: React.FC = () => {
     mutationFn: async (newsItem: NewsInput) => {
       setIsSubmitting(true);
       try {
+        console.log('Adding news item:', newsItem);
+        
         // Format date properly to prevent date conversion issues
         const formattedDate = safelyFormatDate(newsItem.published_at || new Date().toISOString());
 
@@ -115,9 +117,11 @@ const AdminNews: React.FC = () => {
           .single();
         
         if (error) {
+          console.error('Supabase error adding news:', error);
           throw error;
         }
         
+        console.log('News item added successfully:', data);
         return data;
       } finally {
         setIsSubmitting(false);
@@ -142,11 +146,13 @@ const AdminNews: React.FC = () => {
     }
   });
 
-  // Update news mutation
+  // Update news mutation with similar error handling improvements
   const updateNewsMutation = useMutation({
     mutationFn: async ({ id, newsItem }: { id: string; newsItem: NewsInput }) => {
       setIsSubmitting(true);
       try {
+        console.log('Updating news item:', id, newsItem);
+        
         // Format date properly to prevent date conversion issues
         const formattedDate = safelyFormatDate(newsItem.published_at || new Date().toISOString());
 
@@ -169,9 +175,11 @@ const AdminNews: React.FC = () => {
           .single();
         
         if (error) {
+          console.error('Supabase error updating news:', error);
           throw error;
         }
         
+        console.log('News item updated successfully:', data);
         return data;
       } finally {
         setIsSubmitting(false);

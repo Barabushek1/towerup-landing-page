@@ -81,75 +81,122 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [partners, setPartners] = useState<PartnerItem[]>([]);
 
   const ensureStorageBucketExists = async (bucketName: string) => {
+    console.log(`Checking if bucket ${bucketName} exists...`);
     try {
-      await supabase.storage.getBucket(bucketName);
-      // Bucket exists
-    } catch (error) {
-      console.log(`Bucket ${bucketName} not found, attempting to create it`);
-      try {
-        const { error: createError } = await supabase.storage.createBucket(bucketName, {
-          public: true
-        });
-        if (createError) {
-          console.error(`Error creating bucket ${bucketName}:`, createError);
-          throw createError;
-        }
-      } catch (err) {
-        console.error(`Failed to create bucket ${bucketName}:`, err);
-        // Continue execution even if bucket creation fails
-        // as it might already exist but with limited permissions
+      const { data, error } = await supabase.storage.listBuckets();
+      
+      if (error) {
+        console.error('Error listing buckets:', error);
+        throw error;
       }
+      
+      const bucketExists = data?.some(bucket => bucket.name === bucketName);
+      
+      if (!bucketExists) {
+        console.log(`Bucket ${bucketName} not found, attempting to create it`);
+        try {
+          const { error: createError } = await supabase.storage.createBucket(bucketName, {
+            public: true
+          });
+          
+          if (createError) {
+            console.error(`Error creating bucket ${bucketName}:`, createError);
+            throw createError;
+          }
+          
+          console.log(`Bucket ${bucketName} created successfully`);
+        } catch (err) {
+          console.error(`Failed to create bucket ${bucketName}:`, err);
+          // Continue execution even if bucket creation fails
+          // as it might already exist but with limited permissions
+        }
+      } else {
+        console.log(`Bucket ${bucketName} already exists`);
+      }
+    } catch (error) {
+      console.error(`Error checking bucket ${bucketName}:`, error);
+      // Continue execution despite errors
     }
   };
 
   useEffect(() => {
     async function fetchInitialData() {
       try {
+        console.log('Fetching initial data for AdminDataContext...');
+        
+        // Ensure storage bucket exists
         await ensureStorageBucketExists('images');
         
+        // Fetch news data
+        console.log('Fetching news data...');
         const { data: newsData, error: newsError } = await supabase
           .from('news')
           .select('*')
           .order('published_at', { ascending: false });
         
-        if (newsError) throw newsError;
-        if (newsData) setNews(newsData.map(item => ({
-          id: item.id,
-          title: item.title,
-          date: item.published_at,
-          excerpt: item.summary,
-          content: item.content,
-          image_url: item.image_url || '',
-          additional_images: item.additional_images || [],
-          featured: item.featured || false
-        })));
+        if (newsError) {
+          console.error('Error fetching news:', newsError);
+          throw newsError;
+        }
+        
+        if (newsData) {
+          console.log(`Fetched ${newsData.length} news items`);
+          setNews(newsData.map(item => ({
+            id: item.id,
+            title: item.title,
+            date: item.published_at,
+            excerpt: item.summary,
+            content: item.content,
+            image_url: item.image_url || '',
+            additional_images: item.additional_images || [],
+            featured: item.featured || false
+          })));
+        }
 
+        // Fetch messages data
+        console.log('Fetching messages data...');
         const { data: messagesData, error: messagesError } = await supabase
           .from('messages')
           .select('*')
           .order('created_at', { ascending: false });
         
-        if (messagesError) throw messagesError;
-        if (messagesData) setMessages(messagesData.map(item => ({
-          id: item.id,
-          name: item.name,
-          email: item.email,
-          message: item.message,
-          date: item.date || item.created_at,
-          read: item.read || false
-        })));
+        if (messagesError) {
+          console.error('Error fetching messages:', messagesError);
+          throw messagesError;
+        }
         
+        if (messagesData) {
+          console.log(`Fetched ${messagesData.length} messages`);
+          setMessages(messagesData.map(item => ({
+            id: item.id,
+            name: item.name,
+            email: item.email,
+            message: item.message,
+            date: item.date || item.created_at,
+            read: item.read || false
+          })));
+        }
+
+        // Fetch partners data
+        console.log('Fetching partners data...');
         const { data: partnersData, error: partnersError } = await supabase
           .from('partners')
           .select('*');
         
-        if (partnersError) throw partnersError;
-        if (partnersData) setPartners(partnersData.map(item => ({
-          id: item.id,
-          name: item.name,
-          logo: item.logo_url || '',
-          url: item.website_url
-        })));
+        if (partnersError) {
+          console.error('Error fetching partners:', partnersError);
+          throw partnersError;
+        }
+        
+        if (partnersData) {
+          console.log(`Fetched ${partnersData.length} partners`);
+          setPartners(partnersData.map(item => ({
+            id: item.id,
+            name: item.name,
+            logo: item.logo_url || '',
+            url: item.website_url
+          })));
+        }
 
       } catch (error) {
         console.error('Error fetching initial data:', error);
