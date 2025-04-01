@@ -73,13 +73,14 @@ const NewsVacanciesSection: React.FC = () => {
     }).format(date);
   };
 
-  // Direct fetch from Supabase without React Query
+  // Fetch news with no RLS restrictions (public access)
   useEffect(() => {
     const fetchNews = async () => {
       try {
         setLoading(true);
-        console.log('Directly fetching news for homepage...');
+        console.log('Fetching news for homepage...');
         
+        // Remove any auth headers for anonymous access
         const { data, error } = await supabase
           .from('news')
           .select('*')
@@ -100,16 +101,16 @@ const NewsVacanciesSection: React.FC = () => {
         console.log('Homepage news fetched, count:', data?.length);
         console.log('News data:', data);
         setNews(data || []);
-        setLoading(false);
       } catch (err) {
         console.error('Exception in news fetch:', err);
         setError('An unexpected error occurred');
+      } finally {
         setLoading(false);
       }
     };
 
     fetchNews();
-  }, []); // Empty dependency array ensures this runs once on mount
+  }, []);
 
   return (
     <section 
@@ -152,7 +153,7 @@ const NewsVacanciesSection: React.FC = () => {
               </button>
             </div>
           ) : news.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
               {news.map((item, index) => (
                 <NewsItem
                   key={item.id}
