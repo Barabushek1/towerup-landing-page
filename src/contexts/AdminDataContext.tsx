@@ -1,8 +1,8 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/components/ui/use-toast';
+import { safelyFormatDate, validateImageUrl } from '@/utils/supabase-helpers';
 
 export type NewsItem = {
   id: string;
@@ -80,11 +80,33 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [messages, setMessages] = useState<MessageItem[]>([]);
   const [partners, setPartners] = useState<PartnerItem[]>([]);
 
-  // Загрузка данных при инициализации
+  const ensureStorageBucketExists = async (bucketName: string) => {
+    try {
+      await supabase.storage.getBucket(bucketName);
+      // Bucket exists
+    } catch (error) {
+      console.log(`Bucket ${bucketName} not found, attempting to create it`);
+      try {
+        const { error: createError } = await supabase.storage.createBucket(bucketName, {
+          public: true
+        });
+        if (createError) {
+          console.error(`Error creating bucket ${bucketName}:`, createError);
+          throw createError;
+        }
+      } catch (err) {
+        console.error(`Failed to create bucket ${bucketName}:`, err);
+        // Continue execution even if bucket creation fails
+        // as it might already exist but with limited permissions
+      }
+    }
+  };
+
   useEffect(() => {
     async function fetchInitialData() {
       try {
-        // Fetch news
+        await ensureStorageBucketExists('images');
+        
         const { data: newsData, error: newsError } = await supabase
           .from('news')
           .select('*')
@@ -102,7 +124,6 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
           featured: item.featured || false
         })));
 
-        // Fetch messages
         const { data: messagesData, error: messagesError } = await supabase
           .from('messages')
           .select('*')
@@ -118,7 +139,6 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
           read: item.read || false
         })));
         
-        // Fetch partners
         const { data: partnersData, error: partnersError } = await supabase
           .from('partners')
           .select('*');
@@ -144,20 +164,42 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     fetchInitialData();
   }, []);
 
-  // Методы для управления новостями
   const addNews = async (newsItem: Omit<NewsItem, 'id'>) => {
     try {
-      console.log('Adding news item:', newsItem);
+      if (!newsItem.title || !newsItem.excerpt || !newsItem.content) {
+        toast({
+          title: "Ошибка валидации",
+          description: "Пожалуйста, заполните все обязательные поля",
+          variant: "destructive"
+        });
+        return Promise.reject(new Error("Не все обязательные поля заполнены"));
+      }
+      
+      const formattedDate = safelyFormatDate(newsItem.date || new Date().toISOString());
+      
+      if (newsItem.image_url) {
+        const mainImageValid = await validateImageUrl(newsItem.image_url);
+        if (!mainImageValid) {
+          toast({
+            title: "Предупреждение",
+            description: "Главное изображение может быть недоступно",
+          });
+        }
+      }
+      
+      const filteredAdditionalImages = (newsItem.additional_images || []).filter(url => url);
+      
+      console.log('Adding news item with formatted date:', formattedDate);
       const { data, error } = await supabase
         .from('news')
         .insert({
           title: newsItem.title,
           summary: newsItem.excerpt,
           content: newsItem.content,
-          image_url: newsItem.image_url,
-          additional_images: newsItem.additional_images || [],
+          image_url: newsItem.image_url || null,
+          additional_images: filteredAdditionalImages.length > 0 ? filteredAdditionalImages : null,
           featured: newsItem.featured || false,
-          published_at: newsItem.date || new Date().toISOString()
+          published_at: formattedDate
         })
         .select();
 
@@ -177,25 +219,43 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       }
       
       return Promise.resolve();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error adding news:', error);
+      toast({
+        title: "Ошибка сохранения",
+        description: `Не удалось сохранить новость: ${error.message || "Неизвестная ошибка"}`,
+        variant: "destructive"
+      });
       return Promise.reject(error);
     }
   };
 
   const updateNews = async (id: string, newsItem: Omit<NewsItem, 'id'>) => {
     try {
-      console.log('Updating news item:', id, newsItem);
+      if (!newsItem.title || !newsItem.excerpt || !newsItem.content) {
+        toast({
+          title: "Ошибка валидации",
+          description: "Пожалуйста, заполните все обязательные поля",
+          variant: "destructive"
+        });
+        return Promise.reject(new Error("Не все обязательные поля заполнены"));
+      }
+      
+      const formattedDate = safelyFormatDate(newsItem.date || new Date().toISOString());
+      
+      const filteredAdditionalImages = (newsItem.additional_images || []).filter(url => url);
+      
+      console.log('Updating news item:', id, 'with formatted date:', formattedDate);
       const { error } = await supabase
         .from('news')
         .update({
           title: newsItem.title,
           summary: newsItem.excerpt,
           content: newsItem.content,
-          image_url: newsItem.image_url,
-          additional_images: newsItem.additional_images || [],
+          image_url: newsItem.image_url || null,
+          additional_images: filteredAdditionalImages.length > 0 ? filteredAdditionalImages : null,
           featured: newsItem.featured || false,
-          published_at: newsItem.date || new Date().toISOString()
+          published_at: formattedDate
         })
         .eq('id', id);
 
@@ -204,14 +264,28 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       setNews(prev => 
         prev.map(item => 
           item.id === id 
-            ? { ...item, ...newsItem, id } 
+            ? { 
+                ...item,
+                title: newsItem.title,
+                date: formattedDate,
+                excerpt: newsItem.excerpt,
+                content: newsItem.content,
+                image_url: newsItem.image_url,
+                additional_images: filteredAdditionalImages,
+                featured: newsItem.featured || false
+              } 
             : item
         )
       );
       
       return Promise.resolve();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error updating news:', error);
+      toast({
+        title: "Ошибка обновления",
+        description: `Не удалось обновить новость: ${error.message || "Неизвестная ошибка"}`,
+        variant: "destructive"
+      });
       return Promise.reject(error);
     }
   };
@@ -229,17 +303,20 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       setNews(prev => prev.filter(item => item.id !== id));
       
       return Promise.resolve();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error deleting news:', error);
+      toast({
+        title: "Ошибка удаления",
+        description: `Не удалось удалить новость: ${error.message || "Неизвестная ошибка"}`,
+        variant: "destructive"
+      });
       return Promise.reject(error);
     }
   };
 
-  // Методы для управления вакансиями
   const addVacancy = async (vacancyItem: Omit<VacancyItem, 'id'>) => {
     try {
       console.log('Adding vacancy:', vacancyItem);
-      // Implementation using Supabase
       return Promise.resolve();
     } catch (error) {
       console.error('Error adding vacancy:', error);
@@ -250,7 +327,6 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const updateVacancy = async (id: string, vacancyItem: Omit<VacancyItem, 'id'>) => {
     try {
       console.log('Updating vacancy:', id, vacancyItem);
-      // Implementation using Supabase
       return Promise.resolve();
     } catch (error) {
       console.error('Error updating vacancy:', error);
@@ -261,7 +337,6 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const deleteVacancy = async (id: string) => {
     try {
       console.log('Deleting vacancy:', id);
-      // Implementation using Supabase
       return Promise.resolve();
     } catch (error) {
       console.error('Error deleting vacancy:', error);
@@ -269,7 +344,6 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }
   };
 
-  // Методы для управления сообщениями
   const addMessage = async (messageItem: Omit<MessageItem, 'id' | 'date' | 'read'>) => {
     try {
       console.log('Adding message:', messageItem);
@@ -362,7 +436,6 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }
   };
 
-  // Методы для управления партнерами
   const addPartner = async (partnerItem: Omit<PartnerItem, 'id'>) => {
     try {
       console.log('Adding partner:', partnerItem);

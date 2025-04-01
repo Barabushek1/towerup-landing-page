@@ -32,12 +32,22 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     // Check file size (max 5 MB)
     if (file.size > 5 * 1024 * 1024) {
       setError('Файл слишком большой. Максимальный размер: 5 МБ');
+      toast({
+        title: "Ошибка загрузки",
+        description: "Файл слишком большой. Максимальный размер: 5 МБ",
+        variant: "destructive",
+      });
       return;
     }
     
     // Check file type
     if (!file.type.startsWith('image/')) {
       setError('Пожалуйста, выберите изображение');
+      toast({
+        title: "Ошибка загрузки",
+        description: "Пожалуйста, выберите изображение",
+        variant: "destructive",
+      });
       return;
     }
     
@@ -46,18 +56,32 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     setUploadProgress(0);
     setSuccess(false);
     
-    // Create a preview URL
-    const previewUrl = URL.createObjectURL(file);
-    setPreviewImage(previewUrl);
-    
     try {
+      // Create a preview URL
+      const previewUrl = URL.createObjectURL(file);
+      setPreviewImage(previewUrl);
+      
       // Generate a unique file name
       const fileExt = file.name.split('.').pop();
       const fileName = `${uuidv4()}.${fileExt}`;
       const filePath = `${fileName}`;
       
-      console.log('Attempting to upload file to Supabase storage bucket "images":', fileName);
-      
+      // Ensure the 'images' bucket exists before uploading
+      try {
+        await supabase.storage.getBucket('images');
+      } catch (bucketError) {
+        console.log('Bucket not found, attempting to create it:', bucketError);
+        
+        // Try to create the bucket if it doesn't exist
+        const { error: createBucketError } = await supabase.storage.createBucket('images', {
+          public: true
+        });
+        
+        if (createBucketError) {
+          throw new Error(`Unable to create bucket: ${createBucketError.message}`);
+        }
+      }
+
       // Upload file to Supabase storage with public bucket policy
       const { data, error } = await supabase.storage
         .from('images')
@@ -78,16 +102,11 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         return;
       }
       
-      console.log('File uploaded successfully:', data);
       // Manually set progress to 100 since we can't track it
       setUploadProgress(100);
       
       // Get the public URL of the uploaded file
-      const { data: { publicUrl } } = supabase.storage
-        .from('images')
-        .getPublicUrl(data.path);
-      
-      console.log('Generated public URL:', publicUrl);
+      const publicUrl = supabase.storage.from('images').getPublicUrl(data.path).data.publicUrl;
       
       // Pass the URL to the parent component
       onImageUploaded(publicUrl);

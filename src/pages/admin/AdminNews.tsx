@@ -12,6 +12,7 @@ import { Pencil, Trash2, Plus, X, Calendar, Image, Link as LinkIcon, Home, Loade
 import ImageUploader from '@/components/admin/ImageUploader';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { safelyFormatDate, validateImageUrl } from '@/utils/supabase-helpers';
 
 interface NewsItem {
   id: string;
@@ -43,11 +44,38 @@ const AdminNews: React.FC = () => {
   });
   const [newImageUrl, setNewImageUrl] = useState<string>('');
   const [useUrlInput, setUseUrlInput] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+  // Helper function to ensure the bucket exists before operations
+  const ensureStorageBucketExists = async () => {
+    try {
+      await supabase.storage.getBucket('images');
+      // Bucket exists
+    } catch (error) {
+      console.log('Bucket not found, attempting to create it');
+      try {
+        const { error: createError } = await supabase.storage.createBucket('images', {
+          public: true
+        });
+        if (createError) {
+          console.error('Error creating bucket:', createError);
+          throw createError;
+        }
+      } catch (err) {
+        console.error('Failed to create bucket:', err);
+        // Continue execution even if bucket creation fails
+        // as it might already exist but with limited permissions
+      }
+    }
+  };
 
   // Fetch news data
   const { data: news = [], isLoading, error } = useQuery({
     queryKey: ['news'],
     queryFn: async () => {
+      // Ensure bucket exists
+      await ensureStorageBucketExists();
+      
       const { data, error } = await supabase
         .from('news')
         .select('*')
@@ -64,25 +92,36 @@ const AdminNews: React.FC = () => {
   // Add news mutation
   const addNewsMutation = useMutation({
     mutationFn: async (newsItem: NewsInput) => {
-      const { data, error } = await supabase
-        .from('news')
-        .insert({
-          title: newsItem.title,
-          published_at: newsItem.published_at,
-          summary: newsItem.summary,
-          content: newsItem.content,
-          image_url: newsItem.image_url,
-          additional_images: newsItem.additional_images || [],
-          featured: newsItem.featured || false
-        })
-        .select()
-        .single();
-      
-      if (error) {
-        throw error;
+      setIsSubmitting(true);
+      try {
+        // Format date properly to prevent date conversion issues
+        const formattedDate = safelyFormatDate(newsItem.published_at || new Date().toISOString());
+
+        // Filter out empty additional images
+        const filteredAdditionalImages = (newsItem.additional_images || []).filter(url => url);
+
+        const { data, error } = await supabase
+          .from('news')
+          .insert({
+            title: newsItem.title,
+            published_at: formattedDate,
+            summary: newsItem.summary,
+            content: newsItem.content,
+            image_url: newsItem.image_url || null,
+            additional_images: filteredAdditionalImages.length > 0 ? filteredAdditionalImages : null,
+            featured: newsItem.featured || false
+          })
+          .select()
+          .single();
+        
+        if (error) {
+          throw error;
+        }
+        
+        return data;
+      } finally {
+        setIsSubmitting(false);
       }
-      
-      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['news'] });
@@ -93,7 +132,8 @@ const AdminNews: React.FC = () => {
       setIsDialogOpen(false);
       resetForm();
     },
-    onError: (error) => {
+    onError: (error: any) => {
+      console.error('Error adding news:', error);
       toast({
         title: "Ошибка",
         description: `Произошла ошибка при сохранении данных: ${error.message}`,
@@ -105,26 +145,37 @@ const AdminNews: React.FC = () => {
   // Update news mutation
   const updateNewsMutation = useMutation({
     mutationFn: async ({ id, newsItem }: { id: string; newsItem: NewsInput }) => {
-      const { data, error } = await supabase
-        .from('news')
-        .update({
-          title: newsItem.title,
-          published_at: newsItem.published_at,
-          summary: newsItem.summary,
-          content: newsItem.content,
-          image_url: newsItem.image_url,
-          additional_images: newsItem.additional_images || [],
-          featured: newsItem.featured || false
-        })
-        .eq('id', id)
-        .select()
-        .single();
-      
-      if (error) {
-        throw error;
+      setIsSubmitting(true);
+      try {
+        // Format date properly to prevent date conversion issues
+        const formattedDate = safelyFormatDate(newsItem.published_at || new Date().toISOString());
+
+        // Filter out empty additional images
+        const filteredAdditionalImages = (newsItem.additional_images || []).filter(url => url);
+
+        const { data, error } = await supabase
+          .from('news')
+          .update({
+            title: newsItem.title,
+            published_at: formattedDate,
+            summary: newsItem.summary,
+            content: newsItem.content,
+            image_url: newsItem.image_url || null,
+            additional_images: filteredAdditionalImages.length > 0 ? filteredAdditionalImages : null,
+            featured: newsItem.featured || false
+          })
+          .eq('id', id)
+          .select()
+          .single();
+        
+        if (error) {
+          throw error;
+        }
+        
+        return data;
+      } finally {
+        setIsSubmitting(false);
       }
-      
-      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['news'] });
@@ -135,7 +186,8 @@ const AdminNews: React.FC = () => {
       setIsDialogOpen(false);
       resetForm();
     },
-    onError: (error) => {
+    onError: (error: any) => {
+      console.error('Error updating news:', error);
       toast({
         title: "Ошибка",
         description: `Произошла ошибка при обновлении данных: ${error.message}`,
@@ -147,13 +199,18 @@ const AdminNews: React.FC = () => {
   // Delete news mutation
   const deleteNewsMutation = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase
-        .from('news')
-        .delete()
-        .eq('id', id);
-      
-      if (error) {
-        throw error;
+      setIsSubmitting(true);
+      try {
+        const { error } = await supabase
+          .from('news')
+          .delete()
+          .eq('id', id);
+        
+        if (error) {
+          throw error;
+        }
+      } finally {
+        setIsSubmitting(false);
       }
     },
     onSuccess: () => {
@@ -164,7 +221,8 @@ const AdminNews: React.FC = () => {
       });
       setIsDeleteDialogOpen(false);
     },
-    onError: (error) => {
+    onError: (error: any) => {
+      console.error('Error deleting news:', error);
       toast({
         title: "Ошибка",
         description: `Произошла ошибка при удалении новости: ${error.message}`,
@@ -200,7 +258,7 @@ const AdminNews: React.FC = () => {
       published_at: newsItem.published_at.split('T')[0],
       summary: newsItem.summary,
       content: newsItem.content,
-      image_url: newsItem.image_url,
+      image_url: newsItem.image_url || '',
       additional_images: newsItem.additional_images || [],
       featured: newsItem.featured || false
     });
@@ -251,8 +309,9 @@ const AdminNews: React.FC = () => {
     }));
   };
 
-  const handleSubmit = () => {
-    if (!formData.title || !formData.summary || !formData.content || !formData.image_url) {
+  const handleSubmit = async () => {
+    // Validate required fields
+    if (!formData.title || !formData.summary || !formData.content) {
       toast({
         title: "Ошибка валидации",
         description: "Пожалуйста, заполните все обязательные поля",
@@ -261,10 +320,32 @@ const AdminNews: React.FC = () => {
       return;
     }
 
-    if (currentNewsId) {
-      updateNewsMutation.mutate({ id: currentNewsId, newsItem: formData });
-    } else {
-      addNewsMutation.mutate(formData);
+    // Check main image
+    if (formData.image_url) {
+      try {
+        const isValid = await validateImageUrl(formData.image_url);
+        if (!isValid) {
+          toast({
+            title: "Предупреждение",
+            description: "Главное изображение может быть недоступно",
+            variant: "warning",
+          });
+        }
+      } catch (error) {
+        console.error('Error validating image URL:', error);
+        // Continue with submission despite validation error
+      }
+    }
+    
+    try {
+      if (currentNewsId) {
+        updateNewsMutation.mutate({ id: currentNewsId, newsItem: formData });
+      } else {
+        addNewsMutation.mutate(formData);
+      }
+    } catch (error) {
+      console.error('Error submitting news:', error);
+      // Error handling is done in the mutation callbacks
     }
   };
 
@@ -275,12 +356,17 @@ const AdminNews: React.FC = () => {
   };
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('ru-RU', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    }).format(date);
+    try {
+      const date = new Date(dateString);
+      return new Intl.DateTimeFormat('ru-RU', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      }).format(date);
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return dateString;
+    }
   };
 
   if (isLoading) {
@@ -295,6 +381,12 @@ const AdminNews: React.FC = () => {
     return (
       <div className="p-6 bg-slate-800 rounded-lg border border-slate-700">
         <p className="text-red-400">Произошла ошибка при загрузке данных. Пожалуйста, попробуйте позже.</p>
+        <Button 
+          onClick={() => queryClient.invalidateQueries({ queryKey: ['news'] })}
+          className="mt-4"
+        >
+          Попробовать снова
+        </Button>
       </div>
     );
   }
@@ -327,7 +419,7 @@ const AdminNews: React.FC = () => {
                   <TableCell>
                     <div className="w-16 h-12 rounded overflow-hidden">
                       <img 
-                        src={item.image_url} 
+                        src={item.image_url || 'https://placehold.co/200x120?text=No+Image'} 
                         alt={item.title} 
                         className="w-full h-full object-cover"
                         onError={(e) => {
@@ -587,15 +679,15 @@ const AdminNews: React.FC = () => {
             <Button 
               variant="outline" 
               onClick={() => setIsDialogOpen(false)}
-              disabled={addNewsMutation.isPending || updateNewsMutation.isPending}
+              disabled={isSubmitting}
             >
               Отмена
             </Button>
             <Button 
               onClick={handleSubmit}
-              disabled={addNewsMutation.isPending || updateNewsMutation.isPending}
+              disabled={isSubmitting}
             >
-              {(addNewsMutation.isPending || updateNewsMutation.isPending) ? (
+              {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Сохранение...
@@ -619,16 +711,16 @@ const AdminNews: React.FC = () => {
             <Button 
               variant="outline" 
               onClick={() => setIsDeleteDialogOpen(false)}
-              disabled={deleteNewsMutation.isPending}
+              disabled={isSubmitting}
             >
               Отмена
             </Button>
             <Button 
               variant="destructive" 
               onClick={handleDelete}
-              disabled={deleteNewsMutation.isPending}
+              disabled={isSubmitting}
             >
-              {deleteNewsMutation.isPending ? (
+              {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Удаление...

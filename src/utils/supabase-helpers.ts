@@ -37,7 +37,7 @@ export function mapNewsItemToSupabaseInsert(news: Omit<NewsItem, 'id'>): Supabas
     summary: news.excerpt,
     content: news.content,
     image_url: news.image_url,
-    additional_images: news.additional_images,
+    additional_images: news.additional_images || [],
     featured: news.featured,
     published_at: news.date
   };
@@ -126,4 +126,26 @@ export function safelyMapArray<T, R>(
 ): R[] {
   if (!array) return [];
   return array.map(mapFn);
+}
+
+// Validate image URL is accessible
+export async function validateImageUrl(url: string): Promise<boolean> {
+  if (!url) return false;
+  try {
+    const response = await fetch(url, { method: 'HEAD' });
+    return response.ok;
+  } catch (error) {
+    console.error('Error validating image URL:', error);
+    return false;
+  }
+}
+
+// Safely convert date strings to ISO format
+export function safelyFormatDate(dateString: string): string {
+  try {
+    return new Date(dateString).toISOString();
+  } catch (error) {
+    console.error('Error formatting date:', error);
+    return new Date().toISOString();
+  }
 }
