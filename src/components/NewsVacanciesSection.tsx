@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { ArrowRight, Clock, ChevronRight } from 'lucide-react';
@@ -7,7 +6,6 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/components/ui/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
-
 interface NewsItem {
   id: string;
   title: string;
@@ -15,10 +13,15 @@ interface NewsItem {
   summary: string;
   image_url: string | null;
 }
-
-const NewsItemComponent: React.FC<{ item: NewsItem; index: number }> = ({ item, index }) => {
+const NewsItemComponent: React.FC<{
+  item: NewsItem;
+  index: number;
+}> = ({
+  item,
+  index
+}) => {
   const [imageError, setImageError] = useState(false);
-  
+
   // Format date for display
   const formatDate = (dateString: string) => {
     try {
@@ -26,36 +29,20 @@ const NewsItemComponent: React.FC<{ item: NewsItem; index: number }> = ({ item, 
       return new Intl.DateTimeFormat('ru-RU', {
         year: 'numeric',
         month: 'long',
-        day: 'numeric',
+        day: 'numeric'
       }).format(date);
     } catch (error) {
       return dateString;
     }
   };
-  
-  return (
-    <Card 
-      className={cn(
-        "relative overflow-hidden border border-primary/10 shadow-sm",
-        "transition-all duration-500 hover:shadow-md group h-full",
-        "bg-slate-800/70 text-white opacity-100" // Ensure high contrast and visibility
-      )}
-      style={{ transitionDelay: `${index * 100}ms` }}
-    >
+  return <Card className={cn("relative overflow-hidden border border-primary/10 shadow-sm", "transition-all duration-500 hover:shadow-md group h-full", "bg-slate-800/70 text-white opacity-100" // Ensure high contrast and visibility
+  )} style={{
+    transitionDelay: `${index * 100}ms`
+  }}>
       <div className="aspect-video w-full overflow-hidden">
-        {!imageError ? (
-          <img
-            src={item.image_url || 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800'}
-            alt={item.title}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            onError={() => setImageError(true)}
-            loading="lazy"
-          />
-        ) : (
-          <div className="flex items-center justify-center w-full h-full bg-slate-700">
+        {!imageError ? <img src={item.image_url || 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800'} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onError={() => setImageError(true)} loading="lazy" /> : <div className="flex items-center justify-center w-full h-full bg-slate-700">
             <p className="text-white">Нет изображения</p>
-          </div>
-        )}
+          </div>}
       </div>
       
       <CardHeader className="p-6 pb-2 bg-slate-800/70">
@@ -72,22 +59,15 @@ const NewsItemComponent: React.FC<{ item: NewsItem; index: number }> = ({ item, 
       </CardContent>
       
       <CardFooter className="px-6 pb-6 pt-0 bg-slate-800/70">
-        <Link 
-          to={`/news/${item.id}`}
-          className="inline-flex items-center text-primary font-medium hover:underline font-benzin group-hover:translate-x-1 transition-transform"
-        >
+        <Link to={`/news/${item.id}`} className="inline-flex items-center text-primary font-medium hover:underline font-benzin group-hover:translate-x-1 transition-transform">
           <span>Подробнее</span>
           <ChevronRight className="ml-1 h-4 w-4" />
         </Link>
       </CardFooter>
-    </Card>
-  );
+    </Card>;
 };
-
-const NewsLoadingSkeleton = () => (
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-    {[1, 2, 3].map((i) => (
-      <Card key={i} className="overflow-hidden border border-primary/10 shadow-sm bg-slate-800/70">
+const NewsLoadingSkeleton = () => <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+    {[1, 2, 3].map(i => <Card key={i} className="overflow-hidden border border-primary/10 shadow-sm bg-slate-800/70">
         <Skeleton className="h-48 w-full bg-slate-700" />
         <div className="p-6">
           <div className="flex items-center gap-2 mb-3">
@@ -102,11 +82,8 @@ const NewsLoadingSkeleton = () => (
           </div>
           <Skeleton className="h-6 w-24 mt-4 bg-slate-700" />
         </div>
-      </Card>
-    ))}
-  </div>
-);
-
+      </Card>)}
+  </div>;
 const NewsVacanciesSection: React.FC = () => {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -118,13 +95,12 @@ const NewsVacanciesSection: React.FC = () => {
       try {
         setLoading(true);
         console.log('Fetching news for homepage...');
-        
-        const { data, error } = await supabase
-          .from('news')
-          .select('id, title, published_at, summary, image_url')
-          .order('published_at', { ascending: false })
-          .limit(3);
-        
+        const {
+          data,
+          error
+        } = await supabase.from('news').select('id, title, published_at, summary, image_url').order('published_at', {
+          ascending: false
+        }).limit(3);
         if (error) {
           console.error('Error fetching news:', error);
           setError('Failed to load news');
@@ -135,7 +111,6 @@ const NewsVacanciesSection: React.FC = () => {
           });
           return;
         }
-        
         console.log('Homepage news fetched, count:', data?.length);
         console.log('News data:', data);
         setNews(data || []);
@@ -146,15 +121,9 @@ const NewsVacanciesSection: React.FC = () => {
         setLoading(false);
       }
     };
-
     fetchNews();
   }, []);
-
-  return (
-    <section 
-      id="news" 
-      className="py-24 md:py-32 overflow-hidden relative bg-slate-900"
-    >
+  return <section id="news" className="py-24 md:py-32 overflow-hidden relative bg-zinc-900">
       {/* Gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-slate-900/90 -z-10"></div>
       
@@ -164,7 +133,7 @@ const NewsVacanciesSection: React.FC = () => {
       
       <div className="container mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6 font-benzin">
+          <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary font-medium mb-6 font-benzin text-3xl">
             Новости
           </span>
           <h2 className="text-4xl font-bold mb-6 text-white font-benzin">
@@ -176,47 +145,25 @@ const NewsVacanciesSection: React.FC = () => {
         </div>
         
         <div className="mb-10">
-          {loading ? (
-            <NewsLoadingSkeleton />
-          ) : error ? (
-            <div className="text-center py-12 bg-slate-800/30 rounded-lg border border-slate-700">
+          {loading ? <NewsLoadingSkeleton /> : error ? <div className="text-center py-12 bg-slate-800/30 rounded-lg border border-slate-700">
               <p className="text-red-400 mb-4">{error}</p>
-              <button 
-                onClick={() => window.location.reload()}
-                className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
-              >
+              <button onClick={() => window.location.reload()} className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors">
                 Попробовать снова
               </button>
-            </div>
-          ) : news.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-              {news.map((item, index) => (
-                <NewsItemComponent
-                  key={item.id}
-                  item={item}
-                  index={index}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12 bg-slate-800/30 rounded-lg border border-slate-700">
+            </div> : news.length > 0 ? <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+              {news.map((item, index) => <NewsItemComponent key={item.id} item={item} index={index} />)}
+            </div> : <div className="text-center py-12 bg-slate-800/30 rounded-lg border border-slate-700">
               <p className="text-slate-400 mb-4">Пока нет новостей</p>
-            </div>
-          )}
+            </div>}
           
           <div className="mt-10 text-center">
-            <Link 
-              to="/news" 
-              className="inline-flex items-center px-6 py-3 rounded-lg bg-primary text-white font-medium shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors font-benzin"
-            >
+            <Link to="/news" className="inline-flex items-center px-6 py-3 rounded-lg bg-primary text-white font-medium shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors font-benzin">
               Все новости
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default NewsVacanciesSection;
