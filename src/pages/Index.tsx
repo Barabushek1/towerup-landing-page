@@ -7,6 +7,7 @@ import FeaturesSection from '@/components/FeaturesSection';
 import ProjectsSection from '@/components/ProjectsSection';
 import FloorPlansSection from '@/components/FloorPlansSection';
 import NewsVacanciesSection from '@/components/NewsVacanciesSection';
+import PartnersShowcaseSection from '@/components/PartnersShowcaseSection';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
 import ChatBot from '@/components/ChatBot';
@@ -53,6 +54,7 @@ const Index: React.FC = () => {
         <ProjectsSection />
         <FloorPlansSection />
         <NewsVacanciesSection />
+        <PartnersShowcaseSection />
         <ContactSection />
         
         {/* Map Section */}
