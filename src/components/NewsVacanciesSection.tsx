@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { ArrowRight, Clock, ChevronRight } from 'lucide-react';
@@ -8,7 +7,6 @@ import { toast } from '@/components/ui/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { useIsMobile } from '@/hooks/use-mobile';
-
 interface NewsItem {
   id: string;
   title: string;
@@ -17,7 +15,6 @@ interface NewsItem {
   image_url: string | null;
   featured: boolean;
 }
-
 const NewsItemComponent: React.FC<{
   item: NewsItem;
   index: number;
@@ -41,39 +38,16 @@ const NewsItemComponent: React.FC<{
       return dateString;
     }
   };
-
-  return (
-    <Card 
-      className={cn(
-        "relative overflow-hidden border border-primary/20 shadow-md",
-        "transition-all duration-500 hover:shadow-lg group h-full",
-        "bg-slate-800 text-white"
-      )}
-      style={{
-        transitionDelay: `${index * 100}ms`
-      }}
-    >
+  return <Card className={cn("relative overflow-hidden border border-primary/20 shadow-md", "transition-all duration-500 hover:shadow-lg group h-full", "bg-slate-800 text-white")} style={{
+    transitionDelay: `${index * 100}ms`
+  }}>
       <div className="aspect-video w-full overflow-hidden">
-        {!imageError ? (
-          <img 
-            src={item.image_url || 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800'} 
-            alt={item.title} 
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
-            onError={() => setImageError(true)} 
-            loading="lazy" 
-          />
-        ) : (
-          <div className="flex items-center justify-center w-full h-full bg-slate-700">
+        {!imageError ? <img src={item.image_url || 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800'} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onError={() => setImageError(true)} loading="lazy" /> : <div className="flex items-center justify-center w-full h-full bg-slate-700">
             <p className="text-white">Нет изображения</p>
-          </div>
-        )}
+          </div>}
       </div>
       
-      {item.featured && (
-        <div className="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-sm font-bold z-10">
-          Важное
-        </div>
-      )}
+      {item.featured}
       
       <CardHeader className="p-6 pb-2">
         <div className="flex items-center gap-2 mb-2">
@@ -96,14 +70,10 @@ const NewsItemComponent: React.FC<{
           <ChevronRight className="ml-1 h-4 w-4" />
         </Link>
       </CardFooter>
-    </Card>
-  );
+    </Card>;
 };
-
-const NewsLoadingSkeleton = () => (
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-    {[1, 2, 3].map(i => (
-      <Card key={i} className="overflow-hidden border border-primary/10 shadow-sm bg-slate-800">
+const NewsLoadingSkeleton = () => <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+    {[1, 2, 3].map(i => <Card key={i} className="overflow-hidden border border-primary/10 shadow-sm bg-slate-800">
         <Skeleton className="h-48 w-full bg-slate-700" />
         <div className="p-6">
           <div className="flex items-center gap-2 mb-3">
@@ -118,11 +88,8 @@ const NewsLoadingSkeleton = () => (
           </div>
           <Skeleton className="h-6 w-24 mt-4 bg-slate-700" />
         </div>
-      </Card>
-    ))}
-  </div>
-);
-
+      </Card>)}
+  </div>;
 const NewsVacanciesSection: React.FC = () => {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -135,45 +102,34 @@ const NewsVacanciesSection: React.FC = () => {
       try {
         setLoading(true);
         console.log('Fetching news for homepage...');
-        
+
         // First, try to get featured news
-        const featuredQuery = await supabase
-          .from('news')
-          .select('id, title, published_at, summary, image_url, featured')
-          .eq('featured', true)
-          .order('published_at', { ascending: false })
-          .limit(3);
-        
+        const featuredQuery = await supabase.from('news').select('id, title, published_at, summary, image_url, featured').eq('featured', true).order('published_at', {
+          ascending: false
+        }).limit(3);
         if (featuredQuery.error) {
           console.error('Error fetching featured news:', featuredQuery.error);
           throw featuredQuery.error;
         }
-        
         const featuredNews = featuredQuery.data || [];
-        
+
         // If we don't have enough featured news, get the most recent ones to fill
         if (featuredNews.length < 3) {
           const remainingCount = 3 - featuredNews.length;
-          
-          const regularQuery = await supabase
-            .from('news')
-            .select('id, title, published_at, summary, image_url, featured')
-            .eq('featured', false)
-            .order('published_at', { ascending: false })
-            .limit(remainingCount);
-            
+          const regularQuery = await supabase.from('news').select('id, title, published_at, summary, image_url, featured').eq('featured', false).order('published_at', {
+            ascending: false
+          }).limit(remainingCount);
           if (regularQuery.error) {
             console.error('Error fetching regular news:', regularQuery.error);
             throw regularQuery.error;
           }
-          
+
           // Combine featured and regular news
           const combinedNews = [...featuredNews, ...(regularQuery.data || [])];
           setNews(combinedNews);
         } else {
           setNews(featuredNews);
         }
-        
         console.log('Homepage news fetched, count:', news?.length);
         console.log('News data:', news);
       } catch (err) {
@@ -188,12 +144,9 @@ const NewsVacanciesSection: React.FC = () => {
         setLoading(false);
       }
     };
-    
     fetchNews();
   }, []);
-
-  return (
-    <section id="news" className="py-24 md:py-32 overflow-hidden relative bg-neutral-950">
+  return <section id="news" className="py-24 md:py-32 overflow-hidden relative bg-neutral-950">
       {/* Gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-slate-900/90 -z-10"></div>
       
@@ -215,26 +168,16 @@ const NewsVacanciesSection: React.FC = () => {
         </div>
         
         <div className="mb-10">
-          {loading ? (
-            <NewsLoadingSkeleton />
-          ) : error ? (
-            <div className="text-center py-12 bg-slate-800 rounded-lg border border-slate-700">
+          {loading ? <NewsLoadingSkeleton /> : error ? <div className="text-center py-12 bg-slate-800 rounded-lg border border-slate-700">
               <p className="text-red-400 mb-4">{error}</p>
               <button onClick={() => window.location.reload()} className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors">
                 Попробовать снова
               </button>
-            </div>
-          ) : news.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-              {news.map((item, index) => (
-                <NewsItemComponent key={item.id} item={item} index={index} />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12 bg-slate-800 rounded-lg border border-slate-700">
+            </div> : news.length > 0 ? <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+              {news.map((item, index) => <NewsItemComponent key={item.id} item={item} index={index} />)}
+            </div> : <div className="text-center py-12 bg-slate-800 rounded-lg border border-slate-700">
               <p className="text-slate-400 mb-4">Пока нет новостей</p>
-            </div>
-          )}
+            </div>}
           
           <div className="mt-10 text-center">
             <Link to="/news" className="inline-flex items-center px-6 py-3 rounded-lg bg-primary text-white font-medium shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors font-benzin">
@@ -244,8 +187,6 @@ const NewsVacanciesSection: React.FC = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default NewsVacanciesSection;
