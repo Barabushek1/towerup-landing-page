@@ -1,11 +1,18 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
-import { HandshakeIcon } from 'lucide-react';
+import { HandshakeIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { 
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 interface Partner {
   id: string;
@@ -56,11 +63,9 @@ const PartnersShowcaseSection: React.FC = () => {
         </div>
         
         {isLoading ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 justify-items-center">
+          <div className="flex justify-center items-center gap-4">
             {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="flex flex-col items-center">
-                <Skeleton className="w-40 h-24 bg-slate-800 rounded-lg" />
-              </div>
+              <Skeleton key={i} className="w-40 h-24 bg-slate-800 rounded-lg" />
             ))}
           </div>
         ) : error ? (
@@ -69,35 +74,50 @@ const PartnersShowcaseSection: React.FC = () => {
             <p className="text-red-400 mb-4">Произошла ошибка при загрузке партнеров</p>
           </div>
         ) : partners.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 md:gap-10 justify-items-center">
-            {partners.map((partner) => (
-              <a
-                key={partner.id}
-                href={partner.website_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={cn(
-                  "group flex items-center justify-center p-6",
-                  "bg-slate-800/40 hover:bg-slate-800/80 rounded-xl border border-slate-700/50",
-                  "transition-all duration-300 hover:shadow-lg hover:border-primary/30",
-                  "w-full h-32 md:h-40"
-                )}
-              >
-                {partner.logo_url ? (
-                  <img
-                    src={partner.logo_url}
-                    alt={partner.name}
-                    className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).onerror = null;
-                      (e.target as HTMLImageElement).src = 'https://placehold.co/200x100?text=' + encodeURIComponent(partner.name);
-                    }}
-                  />
-                ) : (
-                  <span className="text-lg font-medium text-center text-white">{partner.name}</span>
-                )}
-              </a>
-            ))}
+          <div className="relative px-4 md:px-8">
+            <Carousel
+              opts={{
+                align: "center",
+                loop: true,
+              }}
+              className="w-full max-w-5xl mx-auto"
+            >
+              <CarouselContent>
+                {partners.map((partner) => (
+                  <CarouselItem key={partner.id} className="basis-full md:basis-1/3 lg:basis-1/5 pl-4">
+                    <a
+                      href={partner.website_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cn(
+                        "group flex items-center justify-center p-6",
+                        "bg-slate-800/40 hover:bg-slate-800/80 rounded-xl border border-slate-700/50",
+                        "transition-all duration-300 hover:shadow-lg hover:border-primary/30",
+                        "w-full h-32"
+                      )}
+                    >
+                      {partner.logo_url ? (
+                        <img
+                          src={partner.logo_url}
+                          alt={partner.name}
+                          className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).onerror = null;
+                            (e.target as HTMLImageElement).src = 'https://placehold.co/200x100?text=' + encodeURIComponent(partner.name);
+                          }}
+                        />
+                      ) : (
+                        <span className="text-lg font-medium text-center text-white">{partner.name}</span>
+                      )}
+                    </a>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <div className="hidden md:block">
+                <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 bg-primary hover:bg-primary/80 text-white" />
+                <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 bg-primary hover:bg-primary/80 text-white" />
+              </div>
+            </Carousel>
           </div>
         ) : (
           <div className="text-center py-10 bg-slate-800/50 rounded-lg border border-slate-700 max-w-lg mx-auto">

@@ -64,6 +64,16 @@ export function usePartnerSeeder(initialRun = true) {
             name: "Navien", 
             logo_url: "/lovable-uploads/1ccda16a-19d1-4757-b978-ff6f74ff4266.png", 
             website_url: "https://navien.ru" 
+          },
+          { 
+            name: "FabFix", 
+            logo_url: "/lovable-uploads/15a17ef8-36a7-48ae-a8b8-3a0d12f9ef2e.png", 
+            website_url: "https://fabfix.uz" 
+          },
+          { 
+            name: "Medos", 
+            logo_url: "/lovable-uploads/730337e0-b3d4-455c-9bb3-be0d3946df63.png", 
+            website_url: "https://medos.uz" 
           }
         ];
         

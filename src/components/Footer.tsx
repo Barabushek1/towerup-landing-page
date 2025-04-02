@@ -1,24 +1,31 @@
+
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { Facebook, Linkedin, Instagram, ArrowUp, MessageSquare, PhoneCall } from 'lucide-react';
+
 const Footer: React.FC = () => {
   const [showBackToTop, setShowBackToTop] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
       // Show button when page is scrolled down 300px
       const scrollPosition = window.scrollY;
       setShowBackToTop(scrollPosition > 300);
     };
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
   };
-  return <footer className="text-white pt-16 pb-8 bg-gray-800">
+
+  return (
+    <footer className="text-white pt-16 pb-8 bg-gray-800">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
           {/* Company Info */}
@@ -98,14 +105,22 @@ const Footer: React.FC = () => {
           
           <div className="flex space-x-8">
             <a href="#" className="text-sm text-white/70 hover:text-brand-primary transition-colors">Политика конфиденциальности</a>
-            
-            
           </div>
           
           {/* Back to top button - now only shows on scroll */}
-          {showBackToTop}
+          {showBackToTop && (
+            <button 
+              onClick={scrollToTop} 
+              className="fixed z-50 bottom-8 right-8 p-2 rounded-full bg-primary text-white shadow-lg hover:bg-primary-dark transition-all duration-300"
+              aria-label="Наверх"
+            >
+              <ArrowUp className="h-6 w-6" />
+            </button>
+          )}
         </div>
       </div>
-    </footer>;
+    </footer>
+  );
 };
+
 export default Footer;

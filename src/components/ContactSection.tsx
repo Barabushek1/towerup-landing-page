@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -5,55 +6,100 @@ import { Textarea } from "@/components/ui/textarea";
 import { Phone, Mail, MapPin, Send } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import {
+  RadioGroup,
+  RadioGroupItem
+} from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { Form, FormField, FormItem, FormControl, FormMessage } from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+
 const ContactSection: React.FC = () => {
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    message: ''
+    phone: '',
+    message: '',
+    contactMethod: 'phone' // Default to phone
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const {
-      name,
-      value
-    } = e.target;
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
   };
+  
+  const handleContactMethodChange = (value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      contactMethod: value
+    }));
+  };
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) {
+    
+    // Validate based on selected contact method
+    if (!formData.name) {
       toast({
         title: "Ошибка валидации",
-        description: "Пожалуйста, заполните все поля формы",
+        description: "Пожалуйста, укажите ваше имя",
         variant: "destructive"
       });
       return;
     }
+    
+    if (formData.contactMethod === 'email' && !formData.email) {
+      toast({
+        title: "Ошибка валидации",
+        description: "Пожалуйста, укажите ваш email",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (formData.contactMethod === 'phone' && !formData.phone) {
+      toast({
+        title: "Ошибка валидации",
+        description: "Пожалуйста, укажите ваш номер телефона",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (!formData.message) {
+      toast({
+        title: "Ошибка валидации",
+        description: "Пожалуйста, напишите сообщение",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     setIsSubmitting(true);
     try {
       console.log('Submitting message from contact section:', formData);
 
       // Добавляем сообщение в базу данных
-      const {
-        data,
-        error
-      } = await supabase.from('messages').insert({
+      const { data, error } = await supabase.from('messages').insert({
         name: formData.name,
         email: formData.email,
+        phone: formData.phone,
         message: formData.message,
+        contact_method: formData.contactMethod,
         created_at: new Date().toISOString(),
         read: false
       });
+      
       if (error) {
         console.error('Error submitting message:', error);
         throw error;
       }
+      
       console.log('Message submitted successfully:', data);
       toast({
         title: "Успешно отправлено",
@@ -64,7 +110,9 @@ const ContactSection: React.FC = () => {
       setFormData({
         name: '',
         email: '',
-        message: ''
+        phone: '',
+        message: '',
+        contactMethod: 'phone'
       });
     } catch (error: any) {
       console.error('Error in contact section form submission:', error);
@@ -77,7 +125,9 @@ const ContactSection: React.FC = () => {
       setIsSubmitting(false);
     }
   };
-  return <section id="contact" className="py-16 bg-[#161616] relative overflow-hidden scroll-animate-section">
+  
+  return (
+    <section id="contact" className="py-16 bg-[#161616] relative overflow-hidden scroll-animate-section">
       <div className="container mx-auto px-6">
         <div className="flex flex-col items-center mb-12">
           <h2 className="text-4xl font-bold mb-4 text-center text-white">Связаться с нами</h2>
@@ -95,22 +145,79 @@ const ContactSection: React.FC = () => {
               <form onSubmit={handleSubmit}>
                 <div className="space-y-4">
                   <div>
-                    <Input name="name" value={formData.name} onChange={handleInputChange} placeholder="Ваше имя" className="bg-slate-800 border-slate-700 focus:border-primary" />
+                    <Input 
+                      name="name" 
+                      value={formData.name} 
+                      onChange={handleInputChange} 
+                      placeholder="Ваше имя" 
+                      className="bg-slate-800 border-slate-700 focus:border-primary" 
+                    />
                   </div>
-                  <div>
-                    <Input name="email" value={formData.email} onChange={handleInputChange} type="email" placeholder="Ваш email" className="bg-slate-800 border-slate-700 focus:border-primary" />
+                  
+                  <div className="space-y-3">
+                    <Label className="text-white">Предпочитаемый способ связи</Label>
+                    <RadioGroup 
+                      value={formData.contactMethod} 
+                      onValueChange={handleContactMethodChange}
+                      className="flex flex-col space-y-1"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="phone" id="phone" />
+                        <Label htmlFor="phone" className="text-slate-300">Телефон</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="email" id="email" />
+                        <Label htmlFor="email" className="text-slate-300">Email</Label>
+                      </div>
+                    </RadioGroup>
                   </div>
+                  
+                  {formData.contactMethod === 'phone' ? (
+                    <div>
+                      <Input 
+                        name="phone" 
+                        value={formData.phone} 
+                        onChange={handleInputChange} 
+                        type="tel" 
+                        placeholder="Ваш номер телефона" 
+                        className="bg-slate-800 border-slate-700 focus:border-primary" 
+                      />
+                    </div>
+                  ) : (
+                    <div>
+                      <Input 
+                        name="email" 
+                        value={formData.email} 
+                        onChange={handleInputChange} 
+                        type="email" 
+                        placeholder="Ваш email" 
+                        className="bg-slate-800 border-slate-700 focus:border-primary" 
+                      />
+                    </div>
+                  )}
+                  
                   <div>
-                    <Textarea name="message" value={formData.message} onChange={handleInputChange} placeholder="Ваше сообщение" rows={5} className="bg-slate-800 border-slate-700 focus:border-primary" />
+                    <Textarea 
+                      name="message" 
+                      value={formData.message} 
+                      onChange={handleInputChange} 
+                      placeholder="Ваше сообщение" 
+                      rows={5} 
+                      className="bg-slate-800 border-slate-700 focus:border-primary" 
+                    />
                   </div>
                   <Button type="submit" className="w-full" disabled={isSubmitting}>
-                    {isSubmitting ? <>
+                    {isSubmitting ? (
+                      <>
                         <div className="animate-spin mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
                         Отправка...
-                      </> : <>
+                      </>
+                    ) : (
+                      <>
                         <Send className="mr-2 h-4 w-4" />
                         Отправить сообщение
-                      </>}
+                      </>
+                    )}
                   </Button>
                 </div>
               </form>
@@ -150,7 +257,6 @@ const ContactSection: React.FC = () => {
                 <div>
                   <h4 className="text-lg font-medium text-white mb-1">Email</h4>
                   <p className="text-slate-300">info@towerup.uz</p>
-                  
                 </div>
               </div>
               
@@ -175,6 +281,8 @@ const ContactSection: React.FC = () => {
           </div>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default ContactSection;

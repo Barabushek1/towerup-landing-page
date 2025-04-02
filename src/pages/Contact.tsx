@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
@@ -9,50 +10,91 @@ import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import {
+  RadioGroup,
+  RadioGroupItem
+} from "@/components/ui/radio-group";
+
 const Contact: React.FC = () => {
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    message: ''
+    phone: '',
+    message: '',
+    contactMethod: 'phone' // Default to phone
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const {
-      name,
-      value
-    } = e.target;
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
   };
+  
+  const handleContactMethodChange = (value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      contactMethod: value
+    }));
+  };
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) {
+    
+    // Validate based on selected contact method
+    if (!formData.name) {
       toast({
         title: "Заполните все поля",
-        description: "Пожалуйста, заполните все необходимые поля формы",
+        description: "Пожалуйста, укажите ваше имя",
         variant: "destructive"
       });
       return;
     }
+    
+    if (formData.contactMethod === 'email' && !formData.email) {
+      toast({
+        title: "Заполните все поля",
+        description: "Пожалуйста, укажите ваш email",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (formData.contactMethod === 'phone' && !formData.phone) {
+      toast({
+        title: "Заполните все поля",
+        description: "Пожалуйста, укажите ваш номер телефона",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (!formData.message) {
+      toast({
+        title: "Заполните все поля",
+        description: "Пожалуйста, напишите сообщение",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     setIsSubmitting(true);
     try {
       console.log('Submitting message:', formData);
 
       // Добавляем сообщение напрямую в базу данных
-      const {
-        data,
-        error
-      } = await supabase.from('messages').insert({
+      const { data, error } = await supabase.from('messages').insert({
         name: formData.name,
         email: formData.email,
-        message: formData.message
+        phone: formData.phone,
+        message: formData.message,
+        contact_method: formData.contactMethod
         // Другие поля заполнятся значениями по умолчанию
       });
+      
       if (error) {
         console.error('Error submitting message:', error);
         throw error;
@@ -62,8 +104,11 @@ const Contact: React.FC = () => {
       setFormData({
         name: '',
         email: '',
-        message: ''
+        phone: '',
+        message: '',
+        contactMethod: 'phone'
       });
+      
       toast({
         title: "Сообщение отправлено",
         description: "Спасибо! Ваше сообщение успешно отправлено."
@@ -79,7 +124,9 @@ const Contact: React.FC = () => {
       setIsSubmitting(false);
     }
   };
-  return <div className="min-h-screen antialiased bg-[#161616] text-gray-200 overflow-x-hidden">
+  
+  return (
+    <div className="min-h-screen antialiased bg-[#161616] text-gray-200 overflow-x-hidden">
       <NavBar />
       <main>
         <PageHeader title="КОНТАКТЫ" breadcrumb="КОНТАКТЫ" />
@@ -156,20 +203,88 @@ const Contact: React.FC = () => {
                   <form className="space-y-5" onSubmit={handleSubmit}>
                     <div>
                       <Label htmlFor="name" className="text-slate-300 mb-1.5 block">Ваше имя</Label>
-                      <Input id="name" name="name" type="text" placeholder="Введите ваше имя" className="w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 text-white" value={formData.name} onChange={handleInputChange} required />
+                      <Input 
+                        id="name" 
+                        name="name" 
+                        type="text" 
+                        placeholder="Введите ваше имя" 
+                        className="w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 text-white" 
+                        value={formData.name} 
+                        onChange={handleInputChange} 
+                        required 
+                      />
                     </div>
                     
                     <div>
-                      <Label htmlFor="email" className="text-slate-300 mb-1.5 block">Email</Label>
-                      <Input id="email" name="email" type="email" placeholder="Введите ваш email" className="w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 text-white" value={formData.email} onChange={handleInputChange} required />
+                      <Label className="text-slate-300 mb-1.5 block">Предпочитаемый способ связи</Label>
+                      <RadioGroup 
+                        value={formData.contactMethod} 
+                        onValueChange={handleContactMethodChange}
+                        className="flex flex-col space-y-1"
+                      >
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="phone" id="contact-phone" />
+                          <Label htmlFor="contact-phone" className="text-slate-300">Телефон</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="email" id="contact-email" />
+                          <Label htmlFor="contact-email" className="text-slate-300">Email</Label>
+                        </div>
+                      </RadioGroup>
                     </div>
+                    
+                    {formData.contactMethod === 'phone' ? (
+                      <div>
+                        <Label htmlFor="phone" className="text-slate-300 mb-1.5 block">Номер телефона</Label>
+                        <Input 
+                          id="phone" 
+                          name="phone" 
+                          type="tel" 
+                          placeholder="Введите номер телефона" 
+                          className="w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 text-white" 
+                          value={formData.phone} 
+                          onChange={handleInputChange} 
+                          required={formData.contactMethod === 'phone'} 
+                        />
+                      </div>
+                    ) : (
+                      <div>
+                        <Label htmlFor="email" className="text-slate-300 mb-1.5 block">Email</Label>
+                        <Input 
+                          id="email" 
+                          name="email" 
+                          type="email" 
+                          placeholder="Введите ваш email" 
+                          className="w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 text-white" 
+                          value={formData.email} 
+                          onChange={handleInputChange} 
+                          required={formData.contactMethod === 'email'} 
+                        />
+                      </div>
+                    )}
                     
                     <div>
                       <Label htmlFor="message" className="text-slate-300 mb-1.5 block">Сообщение</Label>
-                      <Textarea id="message" name="message" placeholder="Ваше сообщение" rows={5} className="w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none text-white" value={formData.message} onChange={handleInputChange} required />
+                      <Textarea 
+                        id="message" 
+                        name="message" 
+                        placeholder="Ваше сообщение" 
+                        rows={5} 
+                        className="w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none text-white" 
+                        value={formData.message} 
+                        onChange={handleInputChange} 
+                        required 
+                      />
                     </div>
                     
-                    <button type="submit" className={cn("button-hover-effect w-full px-6 py-3 rounded-lg bg-primary text-white font-medium font-benzin", "shadow-lg shadow-primary/20 transform transition flex items-center justify-center gap-2")} disabled={isSubmitting}>
+                    <button 
+                      type="submit" 
+                      className={cn(
+                        "button-hover-effect w-full px-6 py-3 rounded-lg bg-primary text-white font-medium font-benzin", 
+                        "shadow-lg shadow-primary/20 transform transition flex items-center justify-center gap-2"
+                      )} 
+                      disabled={isSubmitting}
+                    >
                       {isSubmitting ? 'Отправка...' : 'Отправить'}
                       <Send className="h-4 w-4" />
                     </button>
@@ -185,9 +300,17 @@ const Contact: React.FC = () => {
                 </div>
                 <div className="w-full rounded-xl overflow-hidden shadow-xl border border-slate-700/30">
                   <div className="aspect-video w-full">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7976.879721623986!2d69.25872!3d41.240959!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae61aaa924ee97%3A0x64bd413fa7c03f6d!2sTOWER%20UP!5e1!3m2!1sen!2sus!4v1742675836272!5m2!1sen!2sus" width="100%" height="100%" style={{
-                    border: 0
-                  }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="TOWER UP Location" className="w-full h-full"></iframe>
+                    <iframe 
+                      src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7976.879721623986!2d69.25872!3d41.240959!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae61aaa924ee97%3A0x64bd413fa7c03f6d!2sTOWER%20UP!5e1!3m2!1sen!2sus!4v1742675836272!5m2!1sen!2sus" 
+                      width="100%" 
+                      height="100%" 
+                      style={{ border: 0 }} 
+                      allowFullScreen 
+                      loading="lazy" 
+                      referrerPolicy="no-referrer-when-downgrade" 
+                      title="TOWER UP Location" 
+                      className="w-full h-full"
+                    ></iframe>
                   </div>
                 </div>
               </div>
@@ -203,6 +326,8 @@ const Contact: React.FC = () => {
         </section>
       </main>
       <Footer />
-    </div>;
+    </div>
+  );
 };
+
 export default Contact;
