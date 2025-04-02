@@ -99,7 +99,7 @@ const Footer: React.FC = () => {
           <div className="flex space-x-8">
             <a href="#" className="text-sm text-white/70 hover:text-brand-primary transition-colors">Политика конфиденциальности</a>
             <a href="#" className="text-sm text-white/70 hover:text-brand-primary transition-colors">Условия использования</a>
-            <a href="#" className="text-sm text-white/70 hover:text-brand-primary transition-colors">Политика cookies</a>
+            
           </div>
           
           {/* Back to top button - now only shows on scroll */}
