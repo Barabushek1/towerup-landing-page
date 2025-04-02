@@ -183,17 +183,10 @@ const ChatBot: React.FC = () => {
       {/* Chat Button */}
       <div className="fixed bottom-6 right-6 md:right-10 z-[9999] flex flex-col gap-4">
         {/* Back to top button */}
-        <Button onClick={() => window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      })} className="rounded-full bg-primary p-3 h-12 w-12 flex items-center justify-center shadow-lg hover:bg-primary/90">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-up text-white">
-            <path d="m18 15-6-6-6 6" />
-          </svg>
-        </Button>
+        
 
         {/* Chat button */}
-        <Button onClick={() => setIsOpen(true)} className="rounded-full bg-primary p-3 h-12 w-12 flex items-center justify-center shadow-lg hover:bg-primary/90 mx-0 my-[5px]">
+        <Button onClick={() => setIsOpen(true)} className="rounded-full bg-primary p-3 h-12 w-12 flex items-center justify-center shadow-lg hover:bg-primary/90 mx-[2px] my-[92px] px-[30px] py-[30px]">
           <MessageSquare className="text-white" />
         </Button>
       </div>
