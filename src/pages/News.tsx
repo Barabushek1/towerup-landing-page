@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/pagination";
 import PageHeader from '@/components/PageHeader';
 import { supabase } from '@/integrations/supabase/client';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface NewsItem {
   id: string;
@@ -22,6 +23,7 @@ interface NewsItem {
   summary: string;
   image_url: string | null;
   content: string;
+  featured: boolean;
 }
 
 const News: React.FC = () => {
@@ -30,6 +32,7 @@ const News: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 6;
+  const isMobile = useIsMobile();
   
   useEffect(() => {
     const fetchNews = async () => {
@@ -51,7 +54,7 @@ const News: React.FC = () => {
         // Then fetch the actual data for the current page
         const { data, error } = await supabase
           .from('news')
-          .select('id, title, published_at, summary, image_url, content')
+          .select('id, title, published_at, summary, image_url, content, featured')
           .order('published_at', { ascending: false })
           .range((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage - 1);
         
@@ -85,6 +88,15 @@ const News: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Function to calculate how many columns to use based on screen size
+  const getGridColumns = () => {
+    if (isMobile) {
+      return "grid-cols-1";
+    } else {
+      return "md:grid-cols-2";
+    }
+  };
+
   return (
     <div className="min-h-screen antialiased bg-[#161616] text-gray-200 overflow-x-hidden">
       <NavBar />
@@ -102,14 +114,14 @@ const News: React.FC = () => {
             </svg>
           </div>
           
-          <div className="container mx-auto px-6 relative z-20">
+          <div className="container mx-auto px-4 sm:px-6 relative z-20">
             <div className="max-w-5xl mx-auto">
               {isLoading ? (
                 <div className="flex justify-center py-20">
                   <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
                 </div>
               ) : news.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className={`grid ${getGridColumns()} gap-6 sm:gap-8`}>
                   {news.map((item) => (
                     <div 
                       key={item.id} 
@@ -125,13 +137,18 @@ const News: React.FC = () => {
                           }}
                         />
                       </div>
-                      <div className="p-6">
+                      {item.featured && (
+                        <div className="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-xs font-bold">
+                          Важное
+                        </div>
+                      )}
+                      <div className="p-4 sm:p-6">
                         <div className="flex items-center text-slate-400 text-sm mb-3">
                           <Clock className="mr-2 h-4 w-4" />
                           <span>{formatDate(item.published_at)}</span>
                         </div>
-                        <h3 className="text-xl font-bold text-slate-200 mb-3 font-benzin">{item.title}</h3>
-                        <p className="text-slate-400 mb-4 line-clamp-3">{item.summary}</p>
+                        <h3 className="text-lg sm:text-xl font-bold text-slate-200 mb-3 font-benzin line-clamp-2">{item.title}</h3>
+                        <p className="text-slate-400 mb-4 line-clamp-3 text-sm sm:text-base">{item.summary}</p>
                         <Link
                           to={`/news/${item.id}`}
                           className="inline-flex items-center text-primary hover:text-primary/80 font-medium transition-colors"
@@ -152,7 +169,7 @@ const News: React.FC = () => {
               
               {totalPages > 1 && (
                 <Pagination className="mt-10">
-                  <PaginationContent>
+                  <PaginationContent className="flex-wrap justify-center">
                     {currentPage > 1 && (
                       <PaginationItem>
                         <PaginationPrevious 
@@ -162,17 +179,52 @@ const News: React.FC = () => {
                       </PaginationItem>
                     )}
                     
-                    {Array.from({ length: totalPages }).map((_, index) => (
-                      <PaginationItem key={index}>
-                        <PaginationLink 
-                          className="cursor-pointer"
-                          onClick={() => handlePageChange(index + 1)}
-                          isActive={currentPage === index + 1}
-                        >
-                          {index + 1}
-                        </PaginationLink>
-                      </PaginationItem>
-                    ))}
+                    {Array.from({ length: totalPages }).map((_, index) => {
+                      // On mobile, show limited pagination numbers
+                      if (isMobile) {
+                        // Always show first, current, and last page
+                        if (
+                          index === 0 || 
+                          index === currentPage - 1 || 
+                          index === totalPages - 1 || 
+                          index === currentPage - 2 || 
+                          index === currentPage
+                        ) {
+                          return (
+                            <PaginationItem key={index}>
+                              <PaginationLink 
+                                className="cursor-pointer"
+                                onClick={() => handlePageChange(index + 1)}
+                                isActive={currentPage === index + 1}
+                              >
+                                {index + 1}
+                              </PaginationLink>
+                            </PaginationItem>
+                          );
+                        } else if (
+                          (index === 1 && currentPage > 3) || 
+                          (index === totalPages - 2 && currentPage < totalPages - 2)
+                        ) {
+                          // Show ellipsis
+                          return <PaginationItem key={index}>...</PaginationItem>;
+                        } else {
+                          return null;
+                        }
+                      } else {
+                        // On desktop, show all pagination numbers
+                        return (
+                          <PaginationItem key={index}>
+                            <PaginationLink 
+                              className="cursor-pointer"
+                              onClick={() => handlePageChange(index + 1)}
+                              isActive={currentPage === index + 1}
+                            >
+                              {index + 1}
+                            </PaginationLink>
+                          </PaginationItem>
+                        );
+                      }
+                    })}
                     
                     {currentPage < totalPages && (
                       <PaginationItem>

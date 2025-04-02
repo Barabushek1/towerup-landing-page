@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface NewsItem {
   id: string;
@@ -20,6 +21,7 @@ interface NewsItem {
   created_at: string;
   updated_at: string;
   additional_images?: string[];
+  featured: boolean;
 }
 
 const NewsDetail: React.FC = () => {
@@ -28,6 +30,7 @@ const NewsDetail: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const isMobile = useIsMobile();
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['news', id],
@@ -127,7 +130,7 @@ const NewsDetail: React.FC = () => {
     return (
       <div className="min-h-screen antialiased bg-[#161616] text-gray-200">
         <NavBar />
-        <main className="py-24 container mx-auto px-6">
+        <main className="py-24 container mx-auto px-4 sm:px-6">
           <div className="flex justify-center items-center py-24">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
           </div>
@@ -141,8 +144,8 @@ const NewsDetail: React.FC = () => {
     return (
       <div className="min-h-screen antialiased bg-[#161616] text-gray-200">
         <NavBar />
-        <main className="py-24 container mx-auto px-6">
-          <div className="max-w-4xl mx-auto bg-slate-800/40 rounded-lg p-8 border border-primary/10">
+        <main className="py-24 container mx-auto px-4 sm:px-6">
+          <div className="max-w-4xl mx-auto bg-slate-800/40 rounded-lg p-6 sm:p-8 border border-primary/10">
             <h1 className="text-2xl font-bold mb-4 font-benzin text-white">Новость не найдена</h1>
             <p className="mb-6 font-benzin">Запрашиваемая новость не существует или была удалена.</p>
             <Link to="/news">
@@ -167,9 +170,9 @@ const NewsDetail: React.FC = () => {
         breadcrumb="НОВОСТИ"
       />
       
-      <div className="bg-[#1a1a1a] py-8">
-        <div className="container mx-auto px-6">
-          <Breadcrumb>
+      <div className="bg-[#1a1a1a] py-6 sm:py-8">
+        <div className="container mx-auto px-4 sm:px-6">
+          <Breadcrumb className="text-sm sm:text-base">
             <BreadcrumbList>
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
@@ -184,7 +187,7 @@ const NewsDetail: React.FC = () => {
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <span className="text-white">{newsItem.title}</span>
+                <span className="text-white line-clamp-1">{newsItem.title}</span>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -192,15 +195,23 @@ const NewsDetail: React.FC = () => {
       </div>
       
       <main>
-        <div className="bg-[#1a1a1a] py-16">
-          <div className="container mx-auto px-6">
+        <div className="bg-[#1a1a1a] py-10 sm:py-16">
+          <div className="container mx-auto px-4 sm:px-6">
             <div className="max-w-4xl mx-auto">
               <Link to="/news">
                 <Button variant="outline" className="mb-6 flex items-center gap-2">
                   <ArrowLeft size={16} />
-                  Все новости
+                  <span className="hidden sm:inline">Все новости</span>
+                  <span className="inline sm:hidden">Назад</span>
                 </Button>
               </Link>
+              
+              {/* Featured badge */}
+              {newsItem.featured && (
+                <div className="inline-block bg-primary text-white px-4 py-2 rounded-full text-sm font-bold mb-4">
+                  Важное
+                </div>
+              )}
               
               {/* Main image displayed as a regular image, not background */}
               {newsItem.image_url && (
@@ -224,18 +235,19 @@ const NewsDetail: React.FC = () => {
               </div>
               
               <div className="prose prose-invert max-w-none font-benzin">
-                <p className="text-lg font-medium mb-6">{newsItem.summary}</p>
+                <h1 className="text-2xl sm:text-3xl font-bold mb-4 text-white">{newsItem.title}</h1>
+                <p className="text-base sm:text-lg font-medium mb-6 text-slate-300">{newsItem.summary}</p>
                 
                 {newsItem.content.split('\n\n').map((paragraph, index) => (
-                  <p key={index} className="mb-4">{paragraph}</p>
+                  <p key={index} className="mb-4 text-slate-200">{paragraph}</p>
                 ))}
               </div>
               
               {/* Photo Gallery with full-screen capability */}
               {newsItem.additional_images && newsItem.additional_images.length > 0 && (
-                <div className="mt-8">
-                  <h2 className="text-2xl font-bold mb-4 font-benzin">Фотогалерея</h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="mt-10">
+                  <h2 className="text-xl sm:text-2xl font-bold mb-6 font-benzin">Фотогалерея</h2>
+                  <div className={`grid grid-cols-1 ${isMobile ? '' : 'sm:grid-cols-2 md:grid-cols-3'} gap-4`}>
                     {newsItem.additional_images.map((image, index) => (
                       <div 
                         key={index} 
