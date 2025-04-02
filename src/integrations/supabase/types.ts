@@ -194,9 +194,11 @@ export type Database = {
       }
       vacancies: {
         Row: {
+          benefits: string | null
           created_at: string
           description: string
           id: string
+          image_url: string | null
           is_active: boolean | null
           location: string | null
           requirements: string | null
@@ -205,9 +207,11 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          benefits?: string | null
           created_at?: string
           description: string
           id?: string
+          image_url?: string | null
           is_active?: boolean | null
           location?: string | null
           requirements?: string | null
@@ -216,9 +220,11 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          benefits?: string | null
           created_at?: string
           description?: string
           id?: string
+          image_url?: string | null
           is_active?: boolean | null
           location?: string | null
           requirements?: string | null

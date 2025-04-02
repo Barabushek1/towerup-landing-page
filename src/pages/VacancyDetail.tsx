@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
@@ -45,7 +44,6 @@ const VacancyDetail = () => {
     enabled: !!id
   });
   
-  // Helper function to render content with line breaks
   const renderWithLineBreaks = (text: string | undefined) => {
     if (!text) return null;
     
@@ -64,7 +62,6 @@ const VacancyDetail = () => {
         />
         
         <section className="py-16 md:py-24 bg-[#1a1a1a] relative">
-          {/* Wave decoration at top */}
           <div className="absolute top-0 left-0 w-full rotate-180 z-10">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="w-full h-auto">
               <path fill="#161616" fillOpacity="1" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,218.7C672,203,768,149,864,128C960,107,1056,117,1152,128C1248,139,1344,149,1392,154.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
@@ -180,7 +177,6 @@ const VacancyDetail = () => {
             </div>
           </div>
           
-          {/* Wave decoration at bottom */}
           <div className="absolute bottom-0 left-0 w-full z-10">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="w-full h-auto">
               <path fill="#161616" fillOpacity="1" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,218.7C672,203,768,149,864,128C960,107,1056,117,1152,128C1248,139,1344,149,1392,154.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>

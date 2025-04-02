@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,7 +12,6 @@ import ImageUploader from '@/components/admin/ImageUploader';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
-// Update the type definitions for Vacancy
 interface VacancyItem {
   id: string;
   title: string;
@@ -58,7 +56,6 @@ const AdminVacancies: React.FC = () => {
   const [newImageUrl, setNewImageUrl] = useState<string>('');
   const [useUrlInput, setUseUrlInput] = useState<boolean>(false);
 
-  // Update the fetch function
   const { data: vacancies = [], isLoading, error } = useQuery({
     queryKey: ['vacancies'],
     queryFn: async () => {
@@ -78,11 +75,9 @@ const AdminVacancies: React.FC = () => {
     }
   });
 
-  // Update mutation with the correct structure for Supabase
   const addVacancyMutation = useMutation({
     mutationFn: async (vacancyItem: VacancyInput) => {
       console.log('Adding vacancy with data:', vacancyItem);
-      // Make sure all required fields are present for Supabase schema
       const dataToInsert = {
         title: vacancyItem.title,
         location: vacancyItem.location,
@@ -125,11 +120,9 @@ const AdminVacancies: React.FC = () => {
     }
   });
 
-  // Update mutation with the correct structure for Supabase
   const updateVacancyMutation = useMutation({
     mutationFn: async ({ id, vacancyItem }: { id: string; vacancyItem: VacancyInput }) => {
       console.log('Updating vacancy with id:', id, 'and data:', vacancyItem);
-      // Make sure all required fields are present for Supabase schema
       const dataToUpdate = {
         title: vacancyItem.title,
         location: vacancyItem.location,
@@ -173,7 +166,6 @@ const AdminVacancies: React.FC = () => {
     }
   });
 
-  // Delete vacancy mutation
   const deleteVacancyMutation = useMutation({
     mutationFn: async (id: string) => {
       console.log('Deleting vacancy with id:', id);
@@ -226,7 +218,6 @@ const AdminVacancies: React.FC = () => {
     setIsDialogOpen(true);
   };
 
-  // Update form initialization
   const openEditDialog = (vacancyItem: VacancyItem) => {
     console.log('Opening edit dialog with vacancy:', vacancyItem);
     setCurrentVacancyId(vacancyItem.id);
@@ -376,7 +367,6 @@ const AdminVacancies: React.FC = () => {
         </div>
       )}
 
-      {/* Add/Edit Vacancy Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="bg-slate-800 text-white border-slate-700 max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
@@ -560,7 +550,6 @@ const AdminVacancies: React.FC = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Delete Confirmation Dialog */}
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <DialogContent className="bg-slate-800 text-white border-slate-700">
           <DialogHeader>
