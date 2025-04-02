@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -6,12 +7,14 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { HandshakeIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+
 interface Partner {
   id: string;
   name: string;
   logo_url: string;
   website_url: string;
 }
+
 const PartnersShowcaseSection: React.FC = () => {
   const isMobile = useIsMobile();
 
@@ -34,6 +37,7 @@ const PartnersShowcaseSection: React.FC = () => {
       return data as Partner[];
     }
   });
+
   return <section className="py-24 relative bg-[#0f0f0f] overflow-hidden">
       {/* Background elements */}
       <div className="absolute inset-0 bg-gradient-to-bl from-primary/5 to-slate-900/50 -z-10"></div>
@@ -59,7 +63,12 @@ const PartnersShowcaseSection: React.FC = () => {
           </div> : partners.length > 0 ? <div className="relative px-4 md:px-8">
             <Carousel opts={{
           align: "center",
-          loop: true
+          loop: true,
+          // Add autoplay for mobile devices
+          ...(isMobile ? { 
+            autoplay: true, 
+            delay: 2000 
+          } : {})
         }} className="w-full max-w-5xl mx-auto">
               <CarouselContent>
                 {partners.map(partner => <CarouselItem key={partner.id} className="basis-full md:basis-1/3 lg:basis-1/5 pl-4">
@@ -86,4 +95,5 @@ const PartnersShowcaseSection: React.FC = () => {
       </div>
     </section>;
 };
+
 export default PartnersShowcaseSection;

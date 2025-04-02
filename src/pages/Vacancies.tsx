@@ -2,11 +2,12 @@
 import React from 'react';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
-import { ArrowRight, Briefcase } from 'lucide-react';
+import { ArrowRight, Briefcase, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import PageHeader from '@/components/PageHeader';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { useVacancySeeder } from '@/hooks/use-vacancy-seeder';
 
 interface Vacancy {
   id: string;
@@ -16,17 +17,23 @@ interface Vacancy {
   is_active: boolean;
   description: string;
   requirements?: string;
+  benefits?: string;
   created_at: string;
   updated_at: string;
+  image_url?: string;
 }
 
 const Vacancies: React.FC = () => {
+  // Seed initial vacancy data if needed
+  useVacancySeeder();
+  
   const { data: vacancies = [], isLoading, error } = useQuery({
     queryKey: ['vacancies'],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('vacancies')
         .select('*')
+        .eq('is_active', true)
         .order('title');
       
       if (error) {
@@ -36,70 +43,6 @@ const Vacancies: React.FC = () => {
       return data as Vacancy[];
     }
   });
-  
-  // Fallback vacancies data
-  const displayVacancies = vacancies.length > 0 ? vacancies : [
-    {
-      id: "default_1",
-      title: "Главный инженер проекта",
-      location: "Ташкент",
-      salary_range: "от 15 000 000 сум",
-      is_active: true,
-      description: "",
-      created_at: "",
-      updated_at: ""
-    },
-    {
-      id: "default_2",
-      title: "Архитектор",
-      location: "Ташкент",
-      salary_range: "от 12 000 000 сум",
-      is_active: true,
-      description: "",
-      created_at: "",
-      updated_at: ""
-    },
-    {
-      id: "default_3",
-      title: "Прораб",
-      location: "Ташкент",
-      salary_range: "от 10 000 000 сум",
-      is_active: true,
-      description: "",
-      created_at: "",
-      updated_at: ""
-    },
-    {
-      id: "default_4",
-      title: "Инженер-конструктор",
-      location: "Дистанционно",
-      salary_range: "от 9 000 000 сум",
-      is_active: true,
-      description: "",
-      created_at: "",
-      updated_at: ""
-    },
-    {
-      id: "default_5",
-      title: "Специалист по закупкам",
-      location: "Ташкент",
-      salary_range: "от 8 500 000 сум",
-      is_active: true,
-      description: "",
-      created_at: "",
-      updated_at: ""
-    },
-    {
-      id: "default_6",
-      title: "Бухгалтер",
-      location: "Ташкент",
-      salary_range: "от 8 000 000 сум",
-      is_active: true,
-      description: "",
-      created_at: "",
-      updated_at: ""
-    }
-  ];
 
   return (
     <div className="min-h-screen antialiased bg-[#161616] text-gray-200 overflow-x-hidden">
@@ -124,16 +67,16 @@ const Vacancies: React.FC = () => {
               
               {isLoading ? (
                 <div className="text-center py-20">
-                  <div className="animate-spin h-10 w-10 border-t-2 border-primary rounded-full mx-auto"></div>
+                  <Loader2 className="w-10 h-10 text-primary animate-spin mx-auto" />
                   <p className="mt-4 text-slate-400">Загрузка вакансий...</p>
                 </div>
               ) : error ? (
-                <div className="text-center py-20">
+                <div className="text-center py-10">
                   <p className="text-red-400">Произошла ошибка при загрузке вакансий. Пожалуйста, попробуйте позже.</p>
                 </div>
-              ) : (
+              ) : vacancies.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {displayVacancies.map((item) => (
+                  {vacancies.map((item) => (
                     <div
                       key={item.id}
                       className="relative overflow-hidden rounded-lg border border-primary/10 p-6 shadow-sm bg-slate-800/40
@@ -176,6 +119,10 @@ const Vacancies: React.FC = () => {
                     </div>
                   ))}
                 </div>
+              ) : (
+                <div className="text-center py-10">
+                  <p className="text-slate-400">В настоящее время нет открытых вакансий.</p>
+                </div>
               )}
               
               <div className="mt-16 p-8 rounded-lg bg-slate-800/40 border border-primary/10">
@@ -184,17 +131,19 @@ const Vacancies: React.FC = () => {
                     <Briefcase className="w-12 h-12 text-primary" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-medium text-slate-200 mb-2 font-benzin">Не нашли подходящую вакансию?</h3>
-                    <p className="text-muted-foreground mb-4 font-benzin">
+                    <h3 className="text-xl font-medium text-slate-200 mb-2 font-benzin text-center md:text-left">Не нашли подходящую вакансию?</h3>
+                    <p className="text-muted-foreground mb-4 font-benzin text-center md:text-left">
                       Отправьте нам свое резюме, и мы свяжемся с вами, когда появится подходящая позиция.
                     </p>
-                    <a 
-                      href="#contact" 
-                      className="inline-flex items-center px-5 py-2.5 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors font-benzin"
-                    >
-                      <span>Отправить резюме</span>
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </a>
+                    <div className="flex justify-center md:justify-start">
+                      <a 
+                        href="#contact" 
+                        className="inline-flex items-center px-5 py-2.5 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors font-benzin"
+                      >
+                        <span>Отправить резюме</span>
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>

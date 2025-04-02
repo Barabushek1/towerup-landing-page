@@ -12,8 +12,14 @@ import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
 import ChatBot from '@/components/ChatBot';
 import { MapPin } from 'lucide-react';
+import { usePartnerSeeder } from '@/hooks/use-partner-seeder';
+import { useVacancySeeder } from '@/hooks/use-vacancy-seeder';
 
 const Index: React.FC = () => {
+  // Seed initial data for partners and vacancies
+  usePartnerSeeder();
+  useVacancySeeder();
+  
   // Add smooth scrolling animations
   useEffect(() => {
     // Observer for scroll animations
