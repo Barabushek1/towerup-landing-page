@@ -1,6 +1,7 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react'; // Added useMemo
+
+import React, { useState, useRef, useEffect } from 'react';
 import { MessageSquare, X, Send, Loader2, AlertCircle } from 'lucide-react';
-import { Button } from './ui/button'; // Assuming path is correct
+import { Button } from './ui/button';
 
 interface Message {
     role: 'user' | 'assistant';
@@ -36,10 +37,10 @@ const ChatBot: React.FC = () => {
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const hasLoadedInitialHistory = useRef(false); // Flag to prevent premature saving
 
-    // IMPORTANT: API Key Management
-    const API_KEY = process.env.REACT_APP_GEMINI_API_KEY || "AIzaSyBYfZUfBELv6ywjtqxst8GW7koSUqpS_5E";
+    // IMPORTANT: API Key Management - Using import.meta.env instead of process.env
+    const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "AIzaSyBYfZUfBELv6ywjtqxst8GW7koSUqpS_5E";
 
-    // --- Popup Logic (Stays the same) ---
+    // --- Popup Logic ---
     useEffect(() => {
         const hasShownPopup = localStorage.getItem('towerupChatPopupShown');
         if (!hasShownPopup) {
@@ -55,14 +56,14 @@ const ChatBot: React.FC = () => {
         }
     }, [isOpen]);
 
-    // --- Scroll Logic (Stays the same) ---
+    // --- Scroll Logic ---
     useEffect(() => {
         if (isOpen && messagesEndRef.current) {
             messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
         }
     }, [messages, isOpen]);
 
-    // --- Save History to Local Storage --- VVVVV NEW VVVVV
+    // --- Save History to Local Storage ---
     useEffect(() => {
         // Only save after the initial history has been loaded/attempted
         if (hasLoadedInitialHistory.current) {
@@ -70,51 +71,38 @@ const ChatBot: React.FC = () => {
                 localStorage.setItem(CHAT_HISTORY_KEY, JSON.stringify(messages));
             } catch (error) {
                 console.error("Failed to save chat history to localStorage:", error);
-                // Maybe notify user if storage is full?
             }
         } else {
-            // Mark initial load as complete after the first render cycle
-            // where messages state is potentially populated from localStorage
             hasLoadedInitialHistory.current = true;
         }
-    }, [messages]); // Run whenever messages change
+    }, [messages]); 
 
-    // --- Initial Welcome Message (Modified) ---
+    // --- Initial Welcome Message ---
     useEffect(() => {
-        // Add welcome message only if chat is opened AND messages are currently empty
-        // This check runs *after* the initial load attempt from localStorage
-        if (isOpen && messages.length === 0 && !isLoading) { // Also check isLoading to avoid race condition
+        if (isOpen && messages.length === 0 && !isLoading) {
             const welcomeMessage = "Здравствуйте! Я ваш консультант по TOWERUP. Чем я могу помочь вам сегодня? Вы можете спросить о наших проектах (ЖК «Пушкин», ЖК «Кумарык», БЦ «Бочка»), услугах или компании.";
-            // Use setMessages carefully to not trigger immediate re-save before needed
             setMessages([{ role: 'assistant', content: welcomeMessage }]);
-            // No need for initialMessageRef anymore as we check messages.length
         }
-        // Optional: Clear history when chat is closed? Uncomment below.
-        // if (!isOpen) {
-        //     // setMessages([]); // Clears UI state
-        //     // localStorage.removeItem(CHAT_HISTORY_KEY); // Clears persistent storage
-        // }
-    }, [isOpen, isLoading]); // Depend on isOpen and isLoading
+    }, [isOpen, isLoading, messages.length]);
 
-    // --- Send Message Handler (Modified System Prompt) ---
+    // --- Send Message Handler ---
     const handleSendMessage = async () => {
         if (!message.trim() || !API_KEY || API_KEY === "YOUR_GEMINI_API_KEY_HERE") {
-             if (!API_KEY || API_KEY === "YOUR_GEMINI_API_KEY_HERE") {
+            if (!API_KEY || API_KEY === "YOUR_GEMINI_API_KEY_HERE") {
                 setErrorDetails("Ошибка конфигурации: API ключ не найден.");
                 console.error("Gemini API Key is missing or placeholder.");
-             }
+            }
             return;
         }
 
         const userMessage: Message = { role: 'user', content: message };
-        // Update state *before* API call to show user message immediately
         setMessages(prev => [...prev, userMessage]);
         const currentMessage = message;
         setMessage('');
         setIsLoading(true);
         setErrorDetails(null);
 
-        // Russian System Prompt (as translated before)
+        // Russian System Prompt
         const systemPrompt = `
         Вы — полезный, профессиональный и компетентный ассистент службы поддержки клиентов компании TOWERUP, ведущей строительно-девелоперской компании, базирующейся в Ташкенте, Узбекистан, и работающей по всей Центральной Азии. Ваша цель — предоставлять точную информацию о компании, ее проектах и услугах, основываясь *исключительно* на приведенной ниже информации. Будьте вежливы и сосредоточьтесь на запросах пользователей, связанных со строительством, недвижимостью, проектами и предложениями TOWERUP.
 
@@ -141,68 +129,62 @@ const ChatBot: React.FC = () => {
         `;
 
         // Prepare messages for API, including history
-        // The 'messages' state already contains the loaded history + the new user message
         const messagesForApi = [
-            // Map current state `messages` to the API format
             ...messages.map(msg => ({
                 role: msg.role === 'assistant' ? 'model' : 'user',
                 parts: [{ text: msg.content }]
-            })),
-            // Add the *very latest* user message (already included in the map above now)
-            // { role: "user", parts: [{ text: currentMessage }] } // No longer needed separately
+            }))
         ];
-
 
         try {
             const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    contents: messagesForApi, // Send the history + current message
+                    contents: messagesForApi,
                     systemInstruction: { parts: [{ text: systemPrompt }] },
-                    generationConfig: { /* ... */ },
-                    safetySettings: [ /* ... */ ]
+                    generationConfig: { },
+                    safetySettings: [ ]
                 })
             });
 
-            // --- Error Handling and Response Processing (Keep as before) ---
-             if (!response.ok) {
+            if (!response.ok) {
                 const errorData = await response.json().catch(() => ({}));
                 console.error('API Error Response:', errorData);
                 const errorMessage = errorData?.error?.message || `HTTP error! Status: ${response.status}`;
                 const errorCode = errorData?.error?.code || response.status;
                 throw new Error(`Ошибка API (${errorCode}): ${errorMessage}`);
             }
+            
             const data = await response.json();
             let assistantResponse = "";
+            
             if (data.candidates && data.candidates[0]) {
-                 const candidate = data.candidates[0];
-                 if (candidate.finishReason === "SAFETY") {
+                const candidate = data.candidates[0];
+                if (candidate.finishReason === "SAFETY") {
                     console.warn("Response blocked due to safety settings.");
                     assistantResponse = "Извините, я не могу ответить на этот запрос из-за ограничений безопасности.";
-                     setErrorDetails("Ответ заблокирован фильтром безопасности.");
-                 } else if (candidate.content && candidate.content.parts && candidate.content.parts[0]) {
+                    setErrorDetails("Ответ заблокирован фильтром безопасности.");
+                } else if (candidate.content && candidate.content.parts && candidate.content.parts[0]) {
                     assistantResponse = candidate.content.parts[0].text;
-                 } else {
-                     console.error('Unexpected API response structure (no content):', data);
-                     assistantResponse = "Извините, произошла неожиданная ошибка при получении ответа.";
-                     setErrorDetails("Не удалось извлечь ответ из API.");
-                 }
+                } else {
+                    console.error('Unexpected API response structure (no content):', data);
+                    assistantResponse = "Извините, произошла неожиданная ошибка при получении ответа.";
+                    setErrorDetails("Не удалось извлечь ответ из API.");
+                }
             } else {
-                 console.error('Unexpected API response structure (no candidates):', data);
-                 assistantResponse = "Извините, возникла проблема с получением ответа от сервера.";
-                 setErrorDetails("Некорректный формат ответа от API.");
+                console.error('Unexpected API response structure (no candidates):', data);
+                assistantResponse = "Извините, возникла проблема с получением ответа от сервера.";
+                setErrorDetails("Некорректный формат ответа от API.");
             }
-            // Add assistant response using the *functional update* form of setState
-            // This ensures we're updating based on the latest state if multiple responses came back quickly
-             setMessages(prev => [...prev, { role: 'assistant', content: assistantResponse }]);
+            
+            setMessages(prev => [...prev, { role: 'assistant', content: assistantResponse }]);
 
         } catch (error) {
-            // --- Error handling for fetch/processing (Keep as before) ---
             console.error('Error calling/processing Gemini API:', error);
             const errorMsg = error instanceof Error ? error.message : 'Произошла неизвестная ошибка сети или обработки.';
             setErrorDetails(`Ошибка: ${errorMsg}`);
-            // Add error message using functional update
+            
             setMessages(prev => [...prev, {
                 role: 'assistant',
                 content: `Извините, произошла ошибка (${errorMsg}). Пожалуйста, попробуйте позже или свяжитесь с нами через контакты на сайте.`
@@ -212,15 +194,13 @@ const ChatBot: React.FC = () => {
         }
     };
 
-
-    // --- JSX Render (Keep UI fixes and structure as before) ---
+    // JSX Render
     return (
         <>
             {/* Chat Popup Message */}
             {popupShown && !isOpen && (
                 <div className="fixed bottom-20 right-6 md:right-10 z-[9998] bg-white rounded-lg shadow-lg p-4 max-w-[300px] animate-slide-up border border-gray-200">
-                   {/* ... popup content ... */}
-                   <div className="flex justify-between items-start mb-2">
+                    <div className="flex justify-between items-start mb-2">
                         <span className="font-semibold text-gray-800">TOWERUP Ассистент</span>
                         <button onClick={() => setPopupShown(false)} className="text-gray-500 hover:text-gray-700">
                             <X size={18} />
@@ -258,29 +238,41 @@ const ChatBot: React.FC = () => {
                     {/* Chat Messages */}
                     <div className="flex-grow p-4 overflow-y-auto bg-gray-50">
                         {messages.map((msg, index) => (
-                            <div key={`${msg.role}-${index}`} // More stable key if content can be identical
+                            <div key={`${msg.role}-${index}`} 
                                 className={`mb-3 flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                                 <div className={`inline-block rounded-lg py-2 px-3 max-w-[85%] text-sm break-words ${msg.role === 'user' ? 'bg-primary text-white rounded-tr-none shadow-sm' : 'bg-gray-200 text-gray-800 rounded-tl-none shadow-sm'}`}>
-                                     {/* Basic Markdown rendering (same as before) */}
+                                    {/* Basic Markdown rendering */}
                                     {msg.content.split(/(\[.*?\]\(.*?\))/g).map((part, i) => {
                                         const match = part.match(/\[(.*?)\]\((.*?)\)/);
-                                        if (match) { return <a key={i} href={match[2]} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">{match[1]}</a>;}
+                                        if (match) { 
+                                            return <a key={i} href={match[2]} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">{match[1]}</a>;
+                                        }
                                         return part.split(/(\*\*.*?\*\*)/g).map((boldPart, j) => {
-                                             if (boldPart.startsWith('**') && boldPart.endsWith('**')) { return <strong key={`${i}-${j}`}>{boldPart.slice(2, -2)}</strong> }
-                                             return boldPart;
+                                            if (boldPart.startsWith('**') && boldPart.endsWith('**')) { 
+                                                return <strong key={`${i}-${j}`}>{boldPart.slice(2, -2)}</strong> 
+                                            }
+                                            return boldPart;
                                         });
                                     })}
                                 </div>
                             </div>
                         ))}
-                        {isLoading && ( /* Loading indicator */ )}
-                        {errorDetails && ( /* Error display */ )}
+                        {isLoading && (
+                            <div className="flex justify-center items-center p-4">
+                                <Loader2 className="animate-spin h-5 w-5 text-primary" />
+                            </div>
+                        )}
+                        {errorDetails && (
+                            <div className="flex items-center bg-red-50 p-3 rounded-md mb-3 text-sm">
+                                <AlertCircle className="text-red-500 mr-2 h-4 w-4 flex-shrink-0" />
+                                <span className="text-red-600">{errorDetails}</span>
+                            </div>
+                        )}
                         <div ref={messagesEndRef} />
                     </div>
 
                     {/* Chat Input */}
                     <div className="p-3 border-t bg-white rounded-b-lg">
-                         {/* Input and Send button (same as before) */}
                          <div className="flex gap-2">
                             <input
                                 type="text"
@@ -308,5 +300,3 @@ const ChatBot: React.FC = () => {
 };
 
 export default ChatBot;
-
-// Remember to add the CSS animations to your global CSS file if you haven't already.
