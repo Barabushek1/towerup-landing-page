@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageSquare, X, Send, Loader2, AlertCircle } from 'lucide-react';
 import { Button } from './ui/button'; // Assuming path is correct
@@ -18,8 +19,8 @@ const ChatBot: React.FC = () => {
     const initialMessageRef = useRef(false);
 
     // IMPORTANT: Treat API keys securely. Avoid hardcoding directly in source code for production.
-    // Consider using environment variables.
-    const API_KEY = process.env.REACT_APP_GEMINI_API_KEY || "YOUR_GEMINI_API_KEY_HERE"; // Replace placeholder if not using env vars
+    // Use environment variables in Vite with import.meta.env instead of process.env
+    const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "YOUR_GEMINI_API_KEY_HERE"; // Replace placeholder if not using env vars
 
     // --- Popup Logic ---
     useEffect(() => {
