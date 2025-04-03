@@ -170,7 +170,7 @@ const ProjectDetail: React.FC = () => {
           backgroundImage={project.mainImage}
         />
 
-                {/* === Hero Section (Approach 2: Feature-Focused Intro Grid) === */}
+        {/* === Hero Section (Approach 3: Editorial Style Grid) === */}
         <motion.section
           className="py-20 md:py-24 bg-gradient-to-b from-[#161616] to-[#1a1a1a] relative overflow-hidden"
           initial="hidden"
@@ -183,118 +183,121 @@ const ProjectDetail: React.FC = () => {
           <div className="absolute -right-64 -bottom-64 w-[500px] h-[500px] md:w-[600px] md:h-[600px] rounded-full bg-primary/5 filter blur-[100px] md:blur-[120px] animate-pulse animation-delay-2000 opacity-50 z-0"></div>
 
           <div className="container mx-auto px-6 relative z-10">
-             {/* Project Title & Subtitle */}
-             <div className="mb-10 md:mb-12 max-w-4xl"> {/* Limit width if needed */}
-               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2 leading-tight">{project.title}</h1>
-               <p className="text-xl md:text-2xl text-primary font-medium">{project.subtitle}</p>
-             </div>
+            {/* Use a 12-column grid for fine-grained control */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-x-8 xl:gap-x-12">
 
-             {/* --- Feature/Stats Grid --- */}
-             {/* Adjust grid columns for different screen sizes */}
-             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mb-12 md:mb-16">
+              {/* Title & Subtitle (Spanning multiple columns) */}
+              <div className="lg:col-span-12 mb-8 md:mb-10"> {/* Full width title */}
+                 <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-2 leading-tight">{project.title}</h1>
+                 <p className="text-xl md:text-2xl lg:text-3xl text-primary font-medium">{project.subtitle}</p>
+              </div>
 
-                {/* Video Block (Takes more space on larger screens) */}
-                {project.videoUrl && (
-                    <motion.div
-                        className="sm:col-span-2 lg:col-span-2 xl:row-span-2 rounded-xl overflow-hidden shadow-xl border border-slate-700/50 bg-black aspect-video relative" // Use aspect-video for sizing
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-                        viewport={{ once: true }}
-                    >
-                         <iframe
-                           className="absolute top-0 left-0 w-full h-full"
-                           src={project.videoUrl}
-                           title={`${project.title} - Видео обзор`}
-                           frameBorder="0"
-                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                           allowFullScreen
-                         ></iframe>
-                    </motion.div>
-                )}
+              {/* Description (Spanning left/center columns) */}
+              <div className="lg:col-span-7 xl:col-span-6 mb-10 lg:mb-0"> {/* Takes ~half the width */}
+                 <div className="prose prose-invert prose-lg max-w-none text-slate-200">
+                   {/* Optional: Drop Cap Example */}
+                   {/* <p><span className="float-left text-5xl font-bold mr-2 leading-none mt-1">Ж</span>илой комплекс...</p> */}
+                   <p>{project.description}</p>
+                 </div>
+              </div>
 
-                {/* Location Info */}
+              {/* Video (Spanning right columns, potentially slightly offset) */}
+              {project.videoUrl && (
                 <motion.div
-                    className="bg-slate-800/40 rounded-xl p-5 md:p-6 border border-slate-700/50 flex flex-col justify-center"
-                     initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} viewport={{ once: true }}
+                    className="lg:col-span-5 xl:col-span-6 lg:col-start-8 xl:col-start-7" // Position in the right columns
+                    initial={{ opacity: 0, x: 30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+                    viewport={{ once: true }}
                 >
-                    <MapPin className="w-7 h-7 text-primary mb-3"/>
-                    <h3 className="font-semibold text-white mb-1 text-lg">Расположение</h3>
-                    <p className="text-slate-300 text-sm">{project.location}</p>
+                  <div className="aspect-video bg-black rounded-xl overflow-hidden shadow-xl border border-slate-700/50 relative z-10 mb-10 lg:mb-0">
+                    <iframe
+                      className="absolute top-0 left-0 w-full h-full"
+                      src={project.videoUrl}
+                      title={`${project.title} - Видео обзор`}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
+                  </div>
                 </motion.div>
+              )}
 
-                {/* Status Info */}
+              {/* Info Section (Elegant List/Row - Spanning full width below) */}
+              <div className="lg:col-span-12 mt-12 md:mt-16 border-t border-slate-700/50 pt-8">
+                 <h3 className="text-xl font-semibold text-white mb-5">Основные характеристики</h3>
+                 {/* Use dl/dt/dd for semantic list or simple divs */}
+                 <div className="flex flex-wrap gap-x-8 sm:gap-x-12 gap-y-4">
+                    <div>
+                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Расположение</div>
+                        <div className="text-base font-medium text-white flex items-center gap-2"><MapPin className="w-4 h-4 text-primary"/>{project.location}</div>
+                    </div>
+                     <div>
+                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Год</div>
+                        <div className="text-base font-medium text-white flex items-center gap-2"><Calendar className="w-4 h-4 text-primary"/>{project.yearBuilt}</div>
+                    </div>
+                     <div>
+                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Площадь</div>
+                        <div className="text-base font-medium text-white flex items-center gap-2"><Home className="w-4 h-4 text-primary"/>{project.totalArea}</div>
+                    </div>
+                     <div>
+                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Статус</div>
+                        <div className="text-base font-medium text-white">
+                             <span className="bg-primary/20 px-2.5 py-0.5 rounded text-primary text-sm">
+                                {project.status}
+                             </span>
+                        </div>
+                    </div>
+                     <div>
+                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Этажность</div>
+                        <div className="text-base font-medium text-white flex items-center gap-2"><Building className="w-4 h-4 text-primary"/>{project.floors}</div>
+                    </div>
+                      <div>
+                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Юнитов</div>
+                        <div className="text-base font-medium text-white flex items-center gap-2"><Users className="w-4 h-4 text-primary"/>{project.apartmentsCount}</div>
+                    </div>
+                 </div>
+              </div>
+
+
+              {/* Features List & CTAs (Spanning full width below info) */}
+              <div className="lg:col-span-12 mt-12 md:mt-16">
                  <motion.div
-                    className="bg-gradient-to-br from-primary/15 to-slate-800/50 rounded-xl p-5 md:p-6 border border-primary/40 flex flex-col justify-center"
-                    initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }} viewport={{ once: true }}
+                  className="mb-10"
+                  variants={listVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.2 }}
                  >
-                     <Calendar className="w-7 h-7 text-primary mb-3"/> {/* Using Calendar icon as proxy */}
-                    <h3 className="font-semibold text-white mb-1 text-lg">Статус</h3>
-                     <span className="inline-block bg-primary/20 px-3 py-1 rounded-md text-primary font-medium text-sm self-start">
-                         {project.status}
-                     </span>
-                     <p className="text-slate-400 text-sm mt-2">({project.yearBuilt})</p> {/* Year added here */}
+                   <h3 className="text-2xl font-bold text-white mb-5">Особенности проекта</h3>
+                   {/* Can be single or multi-column depending on preference */}
+                   <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-3">
+                    {project.features.map((feature: string, index: number) => (
+                      <motion.li
+                        key={`${project.id}-feature-${index}`}
+                        className="flex items-center gap-3"
+                        variants={itemVariants}
+                      >
+                        <CheckCircle2 className="h-5 w-5 text-primary flex-shrink-0" />
+                        <span className="text-slate-200">{feature}</span>
+                      </motion.li>
+                    ))}
+                   </ul>
                  </motion.div>
 
-                {/* Key Feature 1 (Example: Parking) */}
-                {project.features.find(f => f.toLowerCase().includes("паркинг")) && (
-                     <motion.div
-                        className="bg-slate-800/40 rounded-xl p-5 md:p-6 border border-slate-700/50 flex flex-col justify-center"
-                        initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.4 }} viewport={{ once: true }}
-                     >
-                        <CheckCircle2 className="w-7 h-7 text-primary mb-3"/> {/* Generic Feature Icon */}
-                        <h3 className="font-semibold text-white mb-1 text-lg">Подземный паркинг</h3>
-                        <p className="text-slate-300 text-sm">Безопасное и удобное хранение автомобиля.</p>
-                     </motion.div>
-                 )}
+                 {/* Call to Action Buttons */}
+                 <div className="flex flex-wrap gap-4">
+                   <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground transition-colors duration-200 gap-2 shadow-lg hover:shadow-primary/40">
+                     Узнать цены
+                     <ArrowRight className="h-5 w-5" />
+                   </Button>
+                   <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 hover:border-white/50 transition-colors duration-200">
+                     Записаться на просмотр
+                   </Button>
+                 </div>
+              </div>
 
-                 {/* Area / Units Info */}
-                 <motion.div
-                    className="bg-slate-800/40 rounded-xl p-5 md:p-6 border border-slate-700/50 flex flex-col justify-center"
-                    initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.5 }} viewport={{ once: true }}
-                 >
-                     <Home className="w-7 h-7 text-primary mb-3"/>
-                    <h3 className="font-semibold text-white mb-1 text-lg">Площадь / Юниты</h3>
-                    <p className="text-slate-300 text-sm">Общая площадь: {project.totalArea}</p>
-                     <p className="text-slate-300 text-sm">{project.apartmentsCount} квартир/офисов</p>
-                 </motion.div>
-
-                 {/* Key Feature 2 (Example: Security) - Add more if space/design allows */}
-                {project.features.find(f => f.toLowerCase().includes("охрана") || f.toLowerCase().includes("охраняемая")) && (
-                     <motion.div
-                        className="bg-slate-800/40 rounded-xl p-5 md:p-6 border border-slate-700/50 flex flex-col justify-center xl:col-start-3" // Example positioning on XL
-                        initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.6 }} viewport={{ once: true }}
-                     >
-                        <CheckCircle2 className="w-7 h-7 text-primary mb-3"/> {/* Generic Feature Icon */}
-                        <h3 className="font-semibold text-white mb-1 text-lg">Охраняемая территория</h3>
-                        <p className="text-slate-300 text-sm">Круглосуточная охрана и видеонаблюдение.</p>
-                     </motion.div>
-                 )}
-             </div>
-
-             {/* Description (Placed after the grid) */}
-             <div className="prose prose-invert prose-lg max-w-none lg:max-w-4xl mx-auto mb-10 md:mb-12 text-slate-200 text-center lg:text-left">
-               <h3 className="text-2xl font-bold text-white mb-4">Подробнее о проекте</h3>
-               <p>{project.description}</p>
-             </div>
-
-             {/* Full Features List & CTAs (Can be centered or within a column) */}
-             <div className="max-w-4xl mx-auto">
-                 {/* Optional: Full Features List if needed */}
-                 {/* <motion.div className="mb-10" ... > ... </motion.div> */}
-
-                {/* Call to Action Buttons */}
-                <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                  <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground transition-colors duration-200 gap-2 shadow-lg hover:shadow-primary/40">
-                    Узнать цены
-                    <ArrowRight className="h-5 w-5" />
-                  </Button>
-                  <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 hover:border-white/50 transition-colors duration-200">
-                    Записаться на просмотр
-                  </Button>
-                </div>
-             </div>
-
+            </div> {/* End of 12-column grid */}
           </div>
         </motion.section>
 
