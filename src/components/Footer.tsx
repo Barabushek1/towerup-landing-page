@@ -1,29 +1,23 @@
-
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { Facebook, Linkedin, Instagram, ArrowUp, MessageSquare, PhoneCall } from 'lucide-react';
-
 const Footer: React.FC = () => {
   const [showBackToTop, setShowBackToTop] = useState(false);
-  
   useEffect(() => {
     const handleScroll = () => {
       // Show button when page is scrolled down 300px
       const scrollPosition = window.scrollY;
       setShowBackToTop(scrollPosition > 300);
     };
-    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
   };
-  
   return <footer className="text-white pt-16 pb-8 bg-gray-800">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
@@ -107,18 +101,11 @@ const Footer: React.FC = () => {
           </div>
           
           {/* Back to top button - now only shows on scroll */}
-          {showBackToTop && (
-            <button
-              onClick={scrollToTop}
-              className="fixed bottom-8 right-8 p-2 bg-primary hover:bg-primary/90 text-white rounded-full shadow-lg transition-all duration-300 z-50"
-              aria-label="Scroll to top"
-            >
+          {showBackToTop && <button onClick={scrollToTop} aria-label="Scroll to top" className="fixed bottom-8 right-8 p-2 bg-primary hover:bg-primary/90 text-white rounded-full shadow-lg transition-all duration-300 z-50 my-[77px]">
               <ArrowUp size={20} />
-            </button>
-          )}
+            </button>}
         </div>
       </div>
     </footer>;
 };
-
 export default Footer;
