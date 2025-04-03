@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
-import { HandshakeIcon } from 'lucide-react';
+import { HandshakeIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import useEmblaCarousel from 'embla-carousel-react';
 
@@ -23,18 +23,18 @@ const PartnersShowcaseSection: React.FC = () => {
     if (!emblaApi || !isMobile) return;
 
     let autoplay = setInterval(() => {
-      if (emblaApi) emblaApi.scrollNext();
+      emblaApi.scrollNext();
     }, 2000);
 
     return () => clearInterval(autoplay);
   }, [emblaApi, isMobile]);
 
+  // Функции для кнопок "назад/вперед"
+  const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
+
   // Получение данных из Supabase
-  const {
-    data: partners = [],
-    isLoading,
-    error
-  } = useQuery({
+  const { data: partners = [], isLoading, error } = useQuery({
     queryKey: ['partners-showcase'],
     queryFn: async () => {
       const { data, error } = await supabase.from('partners').select('*').order('name');
@@ -76,19 +76,23 @@ const PartnersShowcaseSection: React.FC = () => {
           </div>
         ) : partners.length > 0 ? (
           <div className="relative px-4 md:px-8">
+            {/* Карусель */}
             <div className="overflow-hidden" ref={emblaRef}>
               <div className="flex">
                 {partners.map(partner => (
-                  <div key={partner.id} className="flex-none w-1/3 md:w-1/5 p-4">
+                  <div
+                    key={partner.id}
+                    className="flex-none w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 p-2 sm:p-4"
+                  >
                     <a
                       href={partner.website_url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={cn(
-                        "group flex items-center justify-center p-6",
+                        "group flex items-center justify-center p-4 sm:p-6",
                         "bg-slate-800/40 hover:bg-slate-800/80 rounded-xl border border-slate-700/50",
                         "transition-all duration-300 hover:shadow-lg hover:border-primary/30",
-                        "w-full h-32"
+                        "w-full h-24 sm:h-32"
                       )}
                     >
                       {partner.logo_url ? (
@@ -102,12 +106,30 @@ const PartnersShowcaseSection: React.FC = () => {
                           }}
                         />
                       ) : (
-                        <span className="text-lg font-medium text-center text-white">{partner.name}</span>
+                        <span className="text-lg font-medium text-center text-white">
+                          {partner.name}
+                        </span>
                       )}
                     </a>
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* Кнопки управления (только для ПК) */}
+            <div className="hidden md:flex justify-between absolute inset-0 items-center">
+              <button
+                onClick={scrollPrev}
+                className="absolute left-0 top-1/2 -translate-y-1/2 bg-primary hover:bg-primary/80 text-white p-3 rounded-full shadow-lg"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+              <button
+                onClick={scrollNext}
+                className="absolute right-0 top-1/2 -translate-y-1/2 bg-primary hover:bg-primary/80 text-white p-3 rounded-full shadow-lg"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
             </div>
           </div>
         ) : (
