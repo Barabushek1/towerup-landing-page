@@ -3,6 +3,8 @@ import { cn } from '@/lib/utils';
 import { ArrowRight, ChevronRight, Building, MapPin, ExternalLink, ArrowLeft, ArrowDown } from 'lucide-react';
 import { Button } from './ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './ui/carousel';
+import { Link } from 'react-router-dom';
+
 interface ProjectCardProps {
   title: string;
   description: string;
@@ -10,14 +12,17 @@ interface ProjectCardProps {
   status: string;
   imageUrl?: string;
   index: number;
+  slug?: string;
 }
+
 const ProjectCard: React.FC<ProjectCardProps> = ({
   title,
   description,
   location,
   status,
   imageUrl,
-  index
+  index,
+  slug
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -25,16 +30,18 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   const handleTouchStart = () => {
     setIsTouched(!isTouched);
   };
-  return <div ref={cardRef} className={cn("scroll-animate-section relative group overflow-hidden rounded-2xl transition-all duration-500 cursor-pointer", "bg-brand-dark border border-brand-dark/10 shadow-sm h-[350px] md:h-[400px]")} style={{
-    transitionDelay: `${index * 100}ms`
-  }} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} onTouchStart={handleTouchStart}>
+  
+  const cardContent = (
+    <div ref={cardRef} className={cn("scroll-animate-section relative group overflow-hidden rounded-2xl transition-all duration-500 cursor-pointer", "bg-brand-dark border border-brand-dark/10 shadow-sm h-[350px] md:h-[400px]")} style={{
+      transitionDelay: `${index * 100}ms`
+    }} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} onTouchStart={handleTouchStart}>
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60 z-10"></div>
       
       <div className={cn("absolute inset-0 bg-gray-200 transition-transform duration-700 ease-in-out", isHovered || isTouched ? "scale-105" : "scale-100")} style={{
-      backgroundImage: imageUrl ? `url(${imageUrl})` : 'none',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center'
-    }}></div>
+        backgroundImage: imageUrl ? `url(${imageUrl})` : 'none',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      }}></div>
       
       <div className="absolute top-4 left-4 z-20 px-3 py-1 rounded-full bg-primary text-white text-xs font-medium font-benzin">
         {status}
@@ -59,8 +66,18 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           <ChevronRight className="h-4 w-4 text-white/90" />
         </div>
       </div>
-    </div>;
+    </div>
+  );
+  
+  return slug ? (
+    <Link to={`/projects/${slug}`}>
+      {cardContent}
+    </Link>
+  ) : (
+    cardContent
+  );
 };
+
 const FeaturedProject: React.FC<{
   title: string;
   subtitle: string;
@@ -103,12 +120,12 @@ const FeaturedProject: React.FC<{
       </div>
     </div>;
 };
+
 const ProjectsSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [carouselApi, setCarouselApi] = useState<any>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Add autoplay functionality
   useEffect(() => {
     if (!carouselApi) return;
     const handleSelect = () => {
@@ -116,20 +133,20 @@ const ProjectsSection: React.FC = () => {
     };
     carouselApi.on('select', handleSelect);
 
-    // Set up autoplay interval
     const autoplayInterval = setInterval(() => {
       if (carouselApi.canScrollNext()) {
         carouselApi.scrollNext();
       } else {
         carouselApi.scrollTo(0);
       }
-    }, 5000); // Change slide every 5 seconds
+    }, 5000);
 
     return () => {
       carouselApi.off('select', handleSelect);
       clearInterval(autoplayInterval);
     };
   }, [carouselApi]);
+
   useEffect(() => {
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -146,6 +163,7 @@ const ProjectsSection: React.FC = () => {
       elementsToObserve?.forEach(el => observer.unobserve(el));
     };
   }, []);
+
   const featuredProjects = [{
     title: 'Всё нужное — рядом',
     subtitle: 'TOWERUP',
@@ -162,31 +180,37 @@ const ProjectsSection: React.FC = () => {
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus.",
     imageUrl: "https://images.unsplash.com/photo-1742845918430-c6093f93f740?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   }];
+
   const projects = [{
     title: 'Жилой комплекс "Пушкин"',
     description: "Современный эко-комплекс из 5 домов с благоустроенной территорией, детскими площадками и парковой зоной.",
     location: "Ташкент",
     status: "Строится",
-    imageUrl: "https://images.unsplash.com/photo-1742855751015-5bda25456249?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    imageUrl: "https://images.unsplash.com/photo-1742855751015-5bda25456249?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    slug: "pushkin"
   }, {
     title: 'Бизнес-центр "Бочка"',
     description: "Современный бизнес-центр класса А с конференц-залами, подземным паркингом и зелёной зоной отдыха.",
     location: "Ташкент",
     status: "Строится",
-    imageUrl: "https://images.unsplash.com/photo-1742330425089-1f91d18eaa4e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    imageUrl: "https://images.unsplash.com/photo-1742330425089-1f91d18eaa4e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    slug: "bochka"
   }, {
     title: 'Жилой комплекс "Кумарык"',
     description: "Курортный комплекс из отеля 5* и апартаментов с панорамным видом на море и собственным пляжем.",
-    location: "Ташкент",
-    status: "Строится",
-    imageUrl: "https://images.unsplash.com/photo-1618172193763-c511deb635ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2064&q=80&quot"
+    location: "Иссык-Куль",
+    status: "Проектируется",
+    imageUrl: "https://images.unsplash.com/photo-1618172193763-c511deb635ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2064&q=80&quot",
+    slug: "kumaryk"
   }];
-  return <section id="projects" ref={sectionRef} className="py-0 bg-black overflow-hidden">
+
+  return (
+    <section id="projects" ref={sectionRef} className="py-0 bg-black overflow-hidden">
       <div className="relative scroll-animate-section">
         <Carousel setApi={setCarouselApi} opts={{
-        align: "start",
-        loop: true
-      }} className="w-full">
+          align: "start",
+          loop: true
+        }} className="w-full">
           <CarouselContent>
             {featuredProjects.map((project, index) => <CarouselItem key={index} className="pl-0 w-full">
                 <FeaturedProject title={project.title} subtitle={project.subtitle} description={project.description} imageUrl={project.imageUrl} index={index} />
@@ -228,16 +252,29 @@ const ProjectsSection: React.FC = () => {
             </p>
           </div>
           
-          <a href="#contact" className="flex items-center bg-primary text-white font-medium px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors scroll-animate-section font-benzin">
+          <Link to="/projects" className="flex items-center bg-primary text-white font-medium px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors scroll-animate-section font-benzin">
             <span>Все проекты</span>
             <ArrowRight className="ml-2 h-4 w-4" />
-          </a>
+          </Link>
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {projects.map((project, index) => <ProjectCard key={index} title={project.title} description={project.description} location={project.location} status={project.status} imageUrl={project.imageUrl} index={index} />)}
+          {projects.map((project, index) => (
+            <ProjectCard
+              key={index}
+              title={project.title}
+              description={project.description}
+              location={project.location}
+              status={project.status}
+              imageUrl={project.imageUrl}
+              index={index}
+              slug={project.slug}
+            />
+          ))}
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default ProjectsSection;

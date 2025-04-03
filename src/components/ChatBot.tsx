@@ -1,10 +1,13 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageSquare, X, Send, Loader2, AlertCircle } from 'lucide-react';
 import { Button } from './ui/button';
+
 interface Message {
   role: 'user' | 'assistant';
   content: string;
 }
+
 const ChatBot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState('');
@@ -53,6 +56,7 @@ const ChatBot: React.FC = () => {
       initialMessageRef.current = true;
     }
   }, [isOpen]);
+
   const handleSendMessage = async () => {
     if (!message.trim()) return;
 
@@ -65,6 +69,7 @@ const ChatBot: React.FC = () => {
     setMessage('');
     setIsLoading(true);
     setErrorDetails(null);
+
     try {
       // Company information to help the AI provide accurate responses
       const companyInfo = `
@@ -162,6 +167,7 @@ const ChatBot: React.FC = () => {
       setIsLoading(false);
     }
   };
+
   return <>
       {/* Chat Popup Message */}
       {popupShown && !isOpen && <div className="fixed bottom-24 right-6 md:right-10 z-[9999] bg-white rounded-lg shadow-lg p-4 max-w-[300px] animate-slide-up">
@@ -182,9 +188,6 @@ const ChatBot: React.FC = () => {
 
       {/* Chat Button */}
       <div className="fixed bottom-6 right-6 md:right-10 z-[9999] flex flex-col gap-4 px-0 my-[53px]">
-        {/* Back to top button */}
-        
-
         {/* Chat button */}
         <Button onClick={() => setIsOpen(true)} className="rounded-full bg-primary p-3 h-12 w-12 flex items-center justify-center shadow-lg hover:bg-primary/90 mx-[2px] px-[28px] py-[27px] my-[17px]">
           <MessageSquare className="text-white" />
@@ -232,4 +235,5 @@ const ChatBot: React.FC = () => {
         </div>}
     </>;
 };
+
 export default ChatBot;

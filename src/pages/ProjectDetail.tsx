@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
@@ -118,7 +117,7 @@ const projectsData = {
 };
 
 const ProjectDetail: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug?: string }>();
   const [project, setProject] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   
@@ -128,12 +127,12 @@ const ProjectDetail: React.FC = () => {
     
     // Simulate fetching project data
     setTimeout(() => {
-      if (id && projectsData[id as keyof typeof projectsData]) {
-        setProject(projectsData[id as keyof typeof projectsData]);
+      if (slug && projectsData[slug as keyof typeof projectsData]) {
+        setProject(projectsData[slug as keyof typeof projectsData]);
       }
       setLoading(false);
     }, 300);
-  }, [id]);
+  }, [slug]);
   
   if (loading) {
     return (
@@ -203,7 +202,14 @@ const ProjectDetail: React.FC = () => {
             <div className="flex flex-col lg:flex-row gap-12">
               <motion.div 
                 className="lg:w-2/3"
-                variants={sectionVariants}
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  visible: { 
+                    opacity: 1, 
+                    y: 0,
+                    transition: { duration: 0.6 }
+                  }
+                }}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
@@ -333,7 +339,14 @@ const ProjectDetail: React.FC = () => {
               
               <motion.div 
                 className="lg:w-1/3"
-                variants={sectionVariants}
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  visible: { 
+                    opacity: 1, 
+                    y: 0,
+                    transition: { duration: 0.6 }
+                  }
+                }}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}

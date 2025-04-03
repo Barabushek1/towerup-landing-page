@@ -1,23 +1,29 @@
+
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { Facebook, Linkedin, Instagram, ArrowUp, MessageSquare, PhoneCall } from 'lucide-react';
+
 const Footer: React.FC = () => {
   const [showBackToTop, setShowBackToTop] = useState(false);
+  
   useEffect(() => {
     const handleScroll = () => {
       // Show button when page is scrolled down 300px
       const scrollPosition = window.scrollY;
       setShowBackToTop(scrollPosition > 300);
     };
+    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+  
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
   };
+  
   return <footer className="text-white pt-16 pb-8 bg-gray-800">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
@@ -50,22 +56,22 @@ const Footer: React.FC = () => {
             <h3 className="font-medium text-lg mb-6 text-white">Быстрые ссылки</h3>
             <ul className="space-y-3">
               <li>
-                <a href="#home" className="text-white/70 hover:text-brand-primary transition-colors">Главная</a>
+                <a href="/" className="text-white/70 hover:text-brand-primary transition-colors">Главная</a>
               </li>
               <li>
-                <a href="#about" className="text-white/70 hover:text-brand-primary transition-colors">О компании</a>
+                <a href="/about" className="text-white/70 hover:text-brand-primary transition-colors">О компании</a>
               </li>
               <li>
-                <a href="#projects" className="text-white/70 hover:text-brand-primary transition-colors">Проекты</a>
+                <a href="/projects" className="text-white/70 hover:text-brand-primary transition-colors">Проекты</a>
               </li>
               <li>
-                <a href="#news" className="text-white/70 hover:text-brand-primary transition-colors">Новости</a>
+                <a href="/news" className="text-white/70 hover:text-brand-primary transition-colors">Новости</a>
               </li>
               <li>
-                <a href="#vacancies" className="text-white/70 hover:text-brand-primary transition-colors">Вакансии</a>
+                <a href="/vacancies" className="text-white/70 hover:text-brand-primary transition-colors">Вакансии</a>
               </li>
               <li>
-                <a href="#contact" className="text-white/70 hover:text-brand-primary transition-colors">Контакты</a>
+                <a href="/contact" className="text-white/70 hover:text-brand-primary transition-colors">Контакты</a>
               </li>
             </ul>
           </div>
@@ -101,9 +107,18 @@ const Footer: React.FC = () => {
           </div>
           
           {/* Back to top button - now only shows on scroll */}
-          {showBackToTop}
+          {showBackToTop && (
+            <button
+              onClick={scrollToTop}
+              className="fixed bottom-8 right-8 p-2 bg-primary hover:bg-primary/90 text-white rounded-full shadow-lg transition-all duration-300 z-50"
+              aria-label="Scroll to top"
+            >
+              <ArrowUp size={20} />
+            </button>
+          )}
         </div>
       </div>
     </footer>;
 };
+
 export default Footer;

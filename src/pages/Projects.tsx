@@ -1,4 +1,3 @@
-
 import React from 'react';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
@@ -101,7 +100,8 @@ const Projects: React.FC = () => {
       imageUrl: 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?q=80&w=2070&auto=format&fit=crop',
       status: 'Строится',
       completion: 'Q2 2026',
-      slug: 'bochka'
+      slug: 'bochka',
+      featured: false
     },
     {
       title: 'ЖК "Кумарык"',
@@ -111,7 +111,8 @@ const Projects: React.FC = () => {
       imageUrl: 'https://images.unsplash.com/photo-1459767129954-1b1c1f9b9ace?q=80&w=1170&auto=format&fit=crop',
       status: 'Проектируется',
       completion: 'Q3 2026',
-      slug: 'kumaryk'
+      slug: 'kumaryk',
+      featured: false
     }
   ];
 
