@@ -20,7 +20,7 @@ const Index: React.FC = () => {
   usePartnerSeeder();
   useVacancySeeder();
   
-  // Add smooth scrolling animations
+  // Add smooth scrolling animations and preload images
   useEffect(() => {
     // Observer for scroll animations
     const observer = new IntersectionObserver(
@@ -40,6 +40,35 @@ const Index: React.FC = () => {
     // Observe all elements with scroll-animate-section class
     document.querySelectorAll('.scroll-animate-section').forEach((el) => {
       observer.observe(el);
+    });
+    
+    // Preload images for better performance
+    const imagesToPreload = [
+      "/assets/Pushkin/1.jpg",
+      "/assets/Pushkin/2.jpg",
+      "/assets/Pushkin/3.jpg",
+      "/assets/Pushkin/5.jpg",
+      "/assets/Pushkin/6.jpg",
+      "/assets/Pushkin/8.jpg",
+      "/assets/Pushkin/9.jpg",
+      "/assets/Pushkin/10.jpg",
+      "/assets/Pushkin/11.jpg",
+      "/assets/Pushkin/12.jpg",
+      "/assets/Pushkin/13.jpg",
+      "/assets/Pushkin/14.jpg",
+      "/assets/Pushkin/15.jpg",
+      "/assets/Pushkin/16.jpg",
+      "/assets/Pushkin/17.jpg",
+      "/assets/Pushkin/18.jpg",
+      "/assets/Pushkin/20.jpg",
+      "/assets/Pushkin/21.jpg",
+      "/assets/Pushkin/22.jpg",
+      "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    ];
+    
+    imagesToPreload.forEach(src => {
+      const img = new Image();
+      img.src = src;
     });
     
     return () => {

@@ -18,9 +18,10 @@ import {
   ArrowRight
 } from 'lucide-react';
 import FloorPlansSection from '@/components/FloorPlansSection';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform, useAnimation, useInView } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { toast } from '@/components/ui/use-toast';
+import { toast } from '@/hooks/use-toast';
+import ChatBot from '@/components/ChatBot';
 
 interface ProjectData {
   id: string;
@@ -39,6 +40,8 @@ interface ProjectData {
   videoUrl?: string;
   youtubeId?: string;
   hasFloorPlans: boolean;
+  advantages: { icon: React.ElementType; title: string; description: string }[];
+  specs: { label: string; value: string }[];
 }
 
 const projectsData: Record<string, ProjectData> = {
@@ -84,6 +87,31 @@ const projectsData: Record<string, ProjectData> = {
         title: 'Инфраструктура',
         description: 'Собственная инфраструктура и социальные объекты'
       }
+    ],
+    advantages: [
+      {
+        icon: Building,
+        title: 'Современная архитектура',
+        description: 'Уникальный архитектурный проект с использованием современных материалов'
+      },
+      {
+        icon: Shield,
+        title: 'Энергоэффективность',
+        description: 'Технологии энергосбережения и умный дом'
+      },
+      {
+        icon: CheckCircle,
+        title: 'Качественные материалы',
+        description: 'Использование только проверенных и экологически чистых материалов'
+      }
+    ],
+    specs: [
+      { label: 'Класс жилья', value: 'Бизнес' },
+      { label: 'Этажность', value: '9-12' },
+      { label: 'Количество квартир', value: '350+' },
+      { label: 'Отделка', value: 'Предчистовая' },
+      { label: 'Высота потолков', value: '2.8-3.2 м' },
+      { label: 'Парковка', value: 'Подземная + наземная' }
     ],
     mainImage: '/assets/Pushkin/18.jpg',
     galleryImages: [
@@ -142,6 +170,31 @@ const projectsData: Record<string, ProjectData> = {
         description: 'Рестораны, кафе, фитнес-центр и магазины'
       }
     ],
+    advantages: [
+      {
+        icon: Building,
+        title: 'Престижное расположение',
+        description: 'В деловом центре города с отличной транспортной доступностью'
+      },
+      {
+        icon: Shield,
+        title: 'Современные технологии',
+        description: 'Умные системы управления зданием и энергоэффективность'
+      },
+      {
+        icon: CheckCircle,
+        title: 'Гибкие планировки',
+        description: 'Возможность организации пространства под любые бизнес-задачи'
+      }
+    ],
+    specs: [
+      { label: 'Класс', value: 'A' },
+      { label: 'Этажность', value: '15' },
+      { label: 'Площадь офисов', value: 'от 50 до 1000 м²' },
+      { label: 'Отделка', value: 'Shell&Core / под ключ' },
+      { label: 'Высота потолков', value: '3.6 м' },
+      { label: 'Парковка', value: '200 м/мест' }
+    ],
     mainImage: 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?q=80&w=2070&auto=format&fit=crop',
     galleryImages: [
       { url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop', alt: 'БЦ Бочка - Фасад' },
@@ -183,6 +236,31 @@ const projectsData: Record<string, ProjectData> = {
         description: 'Рестораны, спа-центр, бассейны и спортивные площадки'
       }
     ],
+    advantages: [
+      {
+        icon: Building,
+        title: 'Потрясающие виды',
+        description: 'Панорамные окна с видом на горы и озеро'
+      },
+      {
+        icon: Shield,
+        title: 'Премиум-сервис',
+        description: 'Обслуживание уровня 5-звездочного отеля'
+      },
+      {
+        icon: CheckCircle,
+        title: 'Инвестиционная привлекательность',
+        description: 'Высокий потенциал роста стоимости и возможность сдачи в аренду'
+      }
+    ],
+    specs: [
+      { label: 'Класс', value: 'Премиум' },
+      { label: 'Этажность', value: '4-7' },
+      { label: 'Площадь апартаментов', value: '50-200 м²' },
+      { label: 'Отделка', value: 'Под ключ' },
+      { label: 'Инфраструктура', value: 'Спа, бассейны, рестораны' },
+      { label: 'Пляж', value: 'Собственный, 150 м' }
+    ],
     mainImage: 'https://images.unsplash.com/photo-1459767129954-1b1c1f9b9ace?q=80&w=1170&auto=format&fit=crop',
     galleryImages: [
       { url: 'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?q=80&w=1949&auto=format&fit=crop', alt: 'ЖК Кумарык - Вид на озеро' },
@@ -193,37 +271,22 @@ const projectsData: Record<string, ProjectData> = {
   }
 };
 
-// Intersection observer for animation triggers
-const useIntersectionObserver = (
-  elementRef: React.RefObject<Element>,
-  threshold = 0.1
-) => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold }
-    );
-
-    const currentElement = elementRef.current;
-    if (currentElement) {
-      observer.observe(currentElement);
-    }
-
-    return () => {
-      if (currentElement) {
-        observer.unobserve(currentElement);
-      }
-    };
-  }, [elementRef, threshold]);
-
-  return isVisible;
+// Animated section component
+const AnimatedSection = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
+  
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
 };
 
 // YouTube Player setup
@@ -277,34 +340,65 @@ const YouTubePlayer = ({ videoId }: { videoId: string }) => {
   );
 };
 
+const ParallaxImage = ({ imageUrl }: { imageUrl: string }) => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"]
+  });
+  
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.6, 1, 0.6]);
+  
+  return (
+    <motion.div 
+      ref={ref}
+      className="w-full h-[50vh] md:h-[60vh] overflow-hidden relative"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
+      <motion.div 
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ 
+          backgroundImage: `url(${imageUrl})`,
+          y,
+          opacity
+        }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/50" />
+    </motion.div>
+  );
+};
+
 const ProjectDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const project = slug ? projectsData[slug] : null;
   
-  // Refs for scroll animations
-  const featuresSectionRef = useRef<HTMLDivElement>(null);
-  const videoSectionRef = useRef<HTMLDivElement>(null);
-  const gallerySectionRef = useRef<HTMLDivElement>(null);
-  const floorPlansSectionRef = useRef<HTMLDivElement>(null);
-  const locationSectionRef = useRef<HTMLDivElement>(null);
-  
-  const isFeaturesVisible = useIntersectionObserver(featuresSectionRef);
-  const isVideoVisible = useIntersectionObserver(videoSectionRef);
-  const isGalleryVisible = useIntersectionObserver(gallerySectionRef);
-  const isFloorPlansVisible = useIntersectionObserver(floorPlansSectionRef);
-  const isLocationVisible = useIntersectionObserver(locationSectionRef);
+  const [preloadedImages, setPreloadedImages] = useState<boolean>(false);
+  const [imagesLoaded, setImagesLoaded] = useState<Record<string, boolean>>({});
 
+  // Preload images for smoother experience
   useEffect(() => {
     window.scrollTo(0, 0);
     
-    // Preload gallery images
-    if (project) {
-      project.galleryImages.forEach(image => {
-        const img = new Image();
-        img.src = image.url;
+    if (project && !preloadedImages) {
+      const imagePromises = project.galleryImages.map((image) => {
+        return new Promise<void>((resolve) => {
+          const img = new Image();
+          img.onload = () => {
+            setImagesLoaded(prev => ({...prev, [image.url]: true}));
+            resolve();
+          };
+          img.src = image.url;
+        });
+      });
+      
+      Promise.all(imagePromises).then(() => {
+        setPreloadedImages(true);
       });
     }
-  }, [slug, project]);
+  }, [slug, project, preloadedImages]);
   
   const handleContactClick = () => {
     toast({
@@ -326,25 +420,19 @@ const ProjectDetail: React.FC = () => {
     );
   }
   
-  // Animation variants
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-  };
+  // Scroll progress for overall page
+  const { scrollYProgress } = useScroll();
   
-  const staggerChildren = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.2 } }
-  };
-  
-  const featureItem = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-  };
-
   return (
     <div className="min-h-screen antialiased bg-[#161616] text-gray-200 overflow-x-hidden">
       <NavBar />
+      
+      {/* Progress bar at top of page */}
+      <motion.div 
+        className="fixed top-0 left-0 right-0 h-1 bg-primary z-50"
+        style={{ scaleX: scrollYProgress, transformOrigin: "0%" }}
+      />
+      
       <main>
         <PageHeader 
           title={project.fullTitle}
@@ -363,11 +451,7 @@ const ProjectDetail: React.FC = () => {
           <div className="container mx-auto px-6 relative z-20">
             <div className="max-w-5xl mx-auto">
               {/* Project Info Header */}
-              <motion.div 
-                initial="hidden"
-                animate="visible"
-                variants={fadeInUp}
-              >
+              <AnimatedSection>
                 <div className="flex flex-wrap gap-3 mb-6">
                   <div className="px-3 py-1 bg-primary text-white text-sm rounded-full">
                     {project.status}
@@ -382,54 +466,117 @@ const ProjectDetail: React.FC = () => {
                   </div>
                 </div>
                 
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white relative">
+                <motion.h1 
+                  className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white relative"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.3 }}
+                >
                   <span className="relative inline-block">
                     {project.fullTitle}
-                    <span className="absolute -bottom-1 left-0 w-1/3 h-1 bg-primary"></span>
+                    <motion.span 
+                      className="absolute -bottom-1 left-0 h-1 bg-primary"
+                      initial={{ width: "0%" }}
+                      animate={{ width: "33%" }}
+                      transition={{ duration: 0.8, delay: 1 }}
+                    ></motion.span>
                   </span>
-                </h1>
+                </motion.h1>
                 
-                <div className="text-lg text-gray-300 mb-12 max-w-3xl">
+                <motion.div 
+                  className="text-lg text-gray-300 mb-12 max-w-3xl"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 0.6 }}
+                >
                   {project.description}
+                </motion.div>
+              </AnimatedSection>
+              
+              {/* Technical Specifications */}
+              <AnimatedSection className="mb-16">
+                <h2 className="text-2xl md:text-3xl font-bold mb-8 flex items-center">
+                  <span className="w-10 h-1 bg-primary mr-4 hidden sm:block"></span>
+                  Технические характеристики
+                </h2>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                  {project.specs.map((spec, index) => (
+                    <motion.div 
+                      key={index} 
+                      className="bg-slate-800/30 p-5 rounded-lg border border-slate-700/20"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                    >
+                      <p className="text-gray-400 text-sm">{spec.label}</p>
+                      <p className="text-white font-medium text-lg">{spec.value}</p>
+                    </motion.div>
+                  ))}
                 </div>
-              </motion.div>
+              </AnimatedSection>
               
               {/* Features */}
-              <motion.div 
-                ref={featuresSectionRef}
-                initial="hidden"
-                animate={isFeaturesVisible ? "visible" : "hidden"}
-                variants={staggerChildren}
-                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-16"
-              >
-                {project.features.map((feature, index) => (
-                  <motion.div 
-                    key={index} 
-                    variants={featureItem}
-                    whileHover={{ 
-                      scale: 1.03,
-                      boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" 
-                    }}
-                    className="bg-slate-800/50 p-6 rounded-xl border border-slate-700/30 backdrop-blur-sm transition-all duration-300"
-                  >
-                    <div className="mb-4 bg-primary/10 p-3 rounded-lg inline-block">
-                      <feature.icon className="h-6 w-6 text-primary" />
-                    </div>
-                    <h3 className="text-xl font-medium mb-2">{feature.title}</h3>
-                    <p className="text-gray-400">{feature.description}</p>
-                  </motion.div>
-                ))}
-              </motion.div>
+              <AnimatedSection className="mb-16">
+                <h2 className="text-2xl md:text-3xl font-bold mb-8 flex items-center">
+                  <span className="w-10 h-1 bg-primary mr-4 hidden sm:block"></span>
+                  Особенности проекта
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                  {project.features.map((feature, index) => (
+                    <motion.div 
+                      key={index} 
+                      whileHover={{ 
+                        scale: 1.03,
+                        boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" 
+                      }}
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      className="bg-slate-800/50 p-6 rounded-xl border border-slate-700/30 backdrop-blur-sm transition-all duration-300"
+                    >
+                      <div className="mb-4 bg-primary/10 p-3 rounded-lg inline-block">
+                        <feature.icon className="h-6 w-6 text-primary" />
+                      </div>
+                      <h3 className="text-xl font-medium mb-2">{feature.title}</h3>
+                      <p className="text-gray-400">{feature.description}</p>
+                    </motion.div>
+                  ))}
+                </div>
+              </AnimatedSection>
+              
+              {/* Parallax image section */}
+              <div className="my-20">
+                <ParallaxImage imageUrl={project.galleryImages[0]?.url || project.mainImage} />
+              </div>
+              
+              {/* Advantages */}
+              <AnimatedSection className="mb-16">
+                <h2 className="text-2xl md:text-3xl font-bold mb-8 flex items-center">
+                  <span className="w-10 h-1 bg-primary mr-4 hidden sm:block"></span>
+                  Преимущества
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {project.advantages.map((advantage, index) => (
+                    <motion.div 
+                      key={index}
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: index * 0.2 }}
+                      className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 p-6 rounded-xl border border-slate-700/20 shadow-lg"
+                    >
+                      <div className="bg-primary/20 p-3 rounded-full inline-flex mb-4">
+                        <advantage.icon className="h-6 w-6 text-primary" />
+                      </div>
+                      <h3 className="text-xl font-medium mb-2 text-white">{advantage.title}</h3>
+                      <p className="text-gray-400">{advantage.description}</p>
+                    </motion.div>
+                  ))}
+                </div>
+              </AnimatedSection>
               
               {/* Video */}
               {project.youtubeId && (
-                <motion.div 
-                  className="mb-16"
-                  ref={videoSectionRef}
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={isVideoVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-                  transition={{ duration: 0.8 }}
-                >
+                <AnimatedSection className="mb-16">
                   <h2 className="text-2xl md:text-3xl font-bold mb-8 flex items-center">
                     <span className="w-10 h-1 bg-primary mr-4 hidden sm:block"></span>
                     Видеопрезентация проекта
@@ -437,23 +584,17 @@ const ProjectDetail: React.FC = () => {
                   <div className="rounded-xl overflow-hidden shadow-2xl shadow-primary/5">
                     <YouTubePlayer videoId={project.youtubeId} />
                   </div>
-                </motion.div>
+                </AnimatedSection>
               )}
               
               {/* Gallery */}
-              <motion.div 
-                className="mb-16"
-                ref={gallerySectionRef}
-                initial={{ opacity: 0 }}
-                animate={isGalleryVisible ? { opacity: 1 } : { opacity: 0 }}
-                transition={{ duration: 0.8 }}
-              >
+              <AnimatedSection className="mb-16">
                 <h2 className="text-2xl md:text-3xl font-bold mb-8 flex items-center">
                   <span className="w-10 h-1 bg-primary mr-4 hidden sm:block"></span>
                   Галерея проекта
                 </h2>
                 <ProjectGallery images={project.galleryImages} />
-              </motion.div>
+              </AnimatedSection>
               
               {/* Call to action */}
               <motion.div 
@@ -480,28 +621,17 @@ const ProjectDetail: React.FC = () => {
               
               {/* Floor Plans - Only for projects with floor plans */}
               {project.hasFloorPlans && (
-                <motion.div 
-                  className="mb-16"
-                  ref={floorPlansSectionRef}
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={isFloorPlansVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-                  transition={{ duration: 0.8 }}
-                >
+                <AnimatedSection className="mb-16">
                   <h2 className="text-2xl md:text-3xl font-bold mb-8 flex items-center">
                     <span className="w-10 h-1 bg-primary mr-4 hidden sm:block"></span>
                     Планировки квартир
                   </h2>
                   <FloorPlansSection />
-                </motion.div>
+                </AnimatedSection>
               )}
               
               {/* Location */}
-              <motion.div 
-                ref={locationSectionRef}
-                initial={{ opacity: 0, y: 40 }}
-                animate={isLocationVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-                transition={{ duration: 0.8 }}
-              >
+              <AnimatedSection>
                 <h2 className="text-2xl md:text-3xl font-bold mb-8 flex items-center">
                   <span className="w-10 h-1 bg-primary mr-4 hidden sm:block"></span>
                   Расположение
@@ -518,7 +648,7 @@ const ProjectDetail: React.FC = () => {
                     title="Расположение на карте"
                   />
                 </div>
-              </motion.div>
+              </AnimatedSection>
             </div>
           </div>
           
@@ -531,6 +661,7 @@ const ProjectDetail: React.FC = () => {
         </section>
       </main>
       <Footer />
+      <ChatBot />
     </div>
   );
 };

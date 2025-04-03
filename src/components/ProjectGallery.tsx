@@ -13,7 +13,7 @@ import {
   DialogContent,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { ArrowLeft, ArrowRight, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, X, ZoomIn } from 'lucide-react';
 import { Button } from './ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -119,11 +119,17 @@ const ProjectGallery = ({ images }: ProjectGalleryProps) => {
                             whileHover={{ scale: 1.05 }}
                             transition={{ duration: 0.4 }}
                           />
+                          <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <div className="flex flex-col items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                              <ZoomIn className="h-8 w-8 text-white" />
+                              <span className="text-white bg-primary/80 px-3 py-1 rounded-full text-sm">Просмотреть</span>
+                            </div>
+                          </div>
                         </div>
                       </CardContent>
                     </Card>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[90vw] h-[90vh] p-0 bg-black/95 border-0">
+                  <DialogContent className="max-w-screen max-h-screen w-screen h-screen p-0 m-0 bg-black/95 border-0 rounded-none">
                     <AnimatePresence mode="wait">
                       <motion.div 
                         key={currentImageIndex}
@@ -154,7 +160,7 @@ const ProjectGallery = ({ images }: ProjectGalleryProps) => {
                         <motion.img
                           src={images[currentImageIndex].url}
                           alt={images[currentImageIndex].alt || `Project image ${currentImageIndex + 1}`}
-                          className="max-h-full max-w-full object-contain"
+                          className="max-h-[90vh] max-w-[90vw] object-contain"
                           initial={{ opacity: 0, scale: 0.9 }}
                           animate={{ opacity: 1, scale: 1 }}
                           transition={{ duration: 0.3 }}
