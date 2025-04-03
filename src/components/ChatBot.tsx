@@ -273,9 +273,27 @@ const ChatBot: React.FC = () => {
                                 </div>
                             </div>
                         ))}
-                        {isLoading && ( /* Loading indicator */ )}
-                        {errorDetails && ( /* Error display */ )}
-                        <div ref={messagesEndRef} />
+
+                        {/* --- VVVVV FIX IS HERE VVVVV --- */}
+                        {/* Loading Indicator */}
+                        {isLoading && (
+                            <div className="flex justify-start mb-3">
+                                 <div className="inline-flex items-center gap-2 rounded-lg py-2 px-3 bg-gray-200 text-gray-500 shadow-sm">
+                                    <Loader2 className="animate-spin h-4 w-4" />
+                                    <span className="text-sm italic">Печатает...</span>
+                                </div>
+                            </div>
+                        )}
+                         {/* Error Display */}
+                        {errorDetails && (
+                            <div className="flex items-center p-2 mb-3 text-red-700 bg-red-100 rounded-lg border border-red-200">
+                                <AlertCircle className="mr-2 h-5 w-5 flex-shrink-0" />
+                                <span className="text-xs">{errorDetails}</span>
+                            </div>
+                        )}
+                         {/* --- ^^^^^ FIX IS HERE ^^^^^ --- */}
+
+                        <div ref={messagesEndRef} /> {/* Anchor for scrolling */}
                     </div>
 
                     {/* Chat Input */}
