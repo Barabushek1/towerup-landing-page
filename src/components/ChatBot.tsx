@@ -18,7 +18,7 @@ const ChatBot: React.FC = () => {
 
   // IMPORTANT: Treat API keys securely. Avoid hardcoding directly in source code for production.
   // Use environment variables in Vite with import.meta.env instead of process.env
-  const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "YOUR_GEMINI_API_KEY_HERE"; // Replace placeholder if not using env vars
+  const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "AIzaSyCPKKHz-nWIS2g4ZxZNq4fe2mB5E2EEJOI"; // Replace placeholder if not using env vars
 
   // --- Popup Logic ---
   useEffect(() => {
