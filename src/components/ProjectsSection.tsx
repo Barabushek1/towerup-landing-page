@@ -252,7 +252,7 @@ const ProjectsSection: React.FC = () => {
             </p>
           </div>
           
-          <Link to="/projects" className="flex items-center bg-primary text-white font-medium px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors scroll-animate-section font-benzin">
+          <Link to="https://towerup.uz/projects" className="flex items-center bg-primary text-white font-medium px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors scroll-animate-section font-benzin">
             <span>Все проекты</span>
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
