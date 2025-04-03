@@ -62,19 +62,7 @@ const ChatBot: React.FC = () => {
     }
   }, [messages, isOpen]);
 
-  // --- Save History to Local Storage ---
-  useEffect(() => {
-    // Only save after the initial history has been loaded/attempted
-    if (hasLoadedInitialHistory.current) {
-      try {
-        localStorage.setItem(CHAT_HISTORY_KEY, JSON.stringify(messages));
-      } catch (error) {
-        console.error("Failed to save chat history to localStorage:", error);
-      }
-    } else {
-      hasLoadedInitialHistory.current = true;
-    }
-  }, [messages]);
+
 
   // --- Initial Welcome Message ---
   useEffect(() => {
