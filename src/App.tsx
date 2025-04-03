@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,6 +13,7 @@ import History from "./pages/History";
 import Partners from "./pages/Partners";
 import Management from "./pages/Management";
 import Projects from "./pages/Projects";
+import ProjectDetail from "./pages/ProjectDetail";
 import News from "./pages/News";
 import Vacancies from "./pages/Vacancies";
 import Contact from "./pages/Contact";
@@ -56,6 +58,7 @@ const AppContent = () => {
           
           {/* Other main routes */}
           <Route path="/projects" element={<Projects />} />
+          <Route path="/projects/:slug" element={<ProjectDetail />} />
           <Route path="/news" element={<News />} />
           <Route path="/news/:id" element={<NewsDetail />} />
           <Route path="/vacancies" element={<Vacancies />} />
