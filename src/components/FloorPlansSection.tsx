@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import * as RovingFocusPrimitive from '@radix-ui/react-roving-focus';
 import { cn } from "@/lib/utils";
+
 const floorPlans = {
   "1-комнатные": [{
     id: 1,
@@ -19,7 +21,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/14.jpg"
+    image: "/assets/Pushkin/floor-plan.png"
   }, {
     id: 2,
     title: "1-комнатная",
@@ -28,7 +30,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/14.jpg"
+    image: "/assets/Pushkin/floor-plan.png"
   }, {
     id: 3,
     title: "1-комнатная",
@@ -37,7 +39,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/14.jpg"
+    image: "/assets/Pushkin/floor-plan.png"
   }],
   "2-комнатные": [{
     id: 4,
@@ -47,7 +49,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/14.jpg"
+    image: "/assets/Pushkin/floor-plan.png"
   }, {
     id: 5,
     title: "2-комнатная",
@@ -56,7 +58,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/14.jpg"
+    image: "/assets/Pushkin/floor-plan.png"
   }, {
     id: 6,
     title: "2-комнатная",
@@ -65,7 +67,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/14.jpg"
+    image: "/assets/Pushkin/floor-plan.png"
   }, {
     id: 7,
     title: "2-комнатная",
@@ -74,7 +76,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/14.jpg"
+    image: "/assets/Pushkin/floor-plan.png"
   }, {
     id: 8,
     title: "2-комнатная",
@@ -83,7 +85,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/14.jpg"
+    image: "/assets/Pushkin/floor-plan.png"
   }],
   "3-комнатные": [{
     id: 9,
@@ -93,7 +95,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/14.jpg"
+    image: "/assets/Pushkin/floor-plan.png"
   }, {
     id: 10,
     title: "3-комнатная",
@@ -102,7 +104,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/14.jpg"
+    image: "/assets/Pushkin/floor-plan.png"
   }, {
     id: 11,
     title: "3-комнатная",
@@ -111,7 +113,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/14.jpg"
+    image: "/assets/Pushkin/floor-plan.png"
   }, {
     id: 12,
     title: "3-комнатная",
@@ -120,7 +122,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/14.jpg"
+    image: "/assets/Pushkin/floor-plan.png"
   }, {
     id: 13,
     title: "3-комнатная",
@@ -129,22 +131,26 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/14.jpg"
+    image: "/assets/Pushkin/floor-plan.png"
   }]
 };
+
 const FloorPlansSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("1-комнатные");
   const [selectedPlan, setSelectedPlan] = useState<number | null>(null);
   const [isImageOpen, setIsImageOpen] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+
   const handleTabChange = (value: string) => {
     setActiveTab(value);
   };
+
   const openFullScreenImage = (planId: number) => {
     setSelectedPlan(planId);
     setIsImageOpen(true);
   };
+
   const getSelectedPlanData = () => {
     if (selectedPlan === null) return null;
     for (const category in floorPlans) {
@@ -153,6 +159,7 @@ const FloorPlansSection: React.FC = () => {
     }
     return null;
   };
+
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollBy({
@@ -161,6 +168,7 @@ const FloorPlansSection: React.FC = () => {
       });
     }
   };
+
   const scrollRight = () => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollBy({
@@ -169,6 +177,7 @@ const FloorPlansSection: React.FC = () => {
       });
     }
   };
+
   useEffect(() => {
     if (!scrollContainerRef.current) return;
     const container = scrollContainerRef.current;
@@ -183,7 +192,9 @@ const FloorPlansSection: React.FC = () => {
       });
     }
   }, [activeTab]);
+
   const selectedPlanData = getSelectedPlanData();
+
   const containerVariants = {
     hidden: {
       opacity: 0
@@ -198,6 +209,7 @@ const FloorPlansSection: React.FC = () => {
       opacity: 0
     }
   };
+
   const itemVariants = {
     hidden: {
       opacity: 0,
@@ -212,6 +224,7 @@ const FloorPlansSection: React.FC = () => {
       y: -10
     }
   };
+
   const CustomTabsTrigger = React.forwardRef<React.ElementRef<typeof TabsPrimitive.Trigger>, React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>>(({
     className,
     value,
@@ -221,6 +234,144 @@ const FloorPlansSection: React.FC = () => {
       {children}
     </TabsPrimitive.Trigger>);
   CustomTabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
-  return;
+
+  return <section id="floor-plans" className="py-16 bg-[#161616]">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="flex flex-col items-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-2 text-center text-brand-primary">ПЛАНИРОВКИ</h2>
+          <h3 className="text-xl sm:text-2xl font-medium mb-8 text-center text-white">TOWERUP</h3>
+          
+          <Tabs defaultValue="1-комнатные" className="w-full max-w-5xl" value={activeTab} onValueChange={handleTabChange}>
+            <div className="relative mb-8 w-full">
+              <RovingFocusPrimitive.Root orientation="horizontal" loop className="w-full">
+                <TabsPrimitive.List className="relative overflow-x-auto scrollbar-hide w-full flex items-center justify-start sm:justify-center px-4 py-2 bg-[#131313] rounded-xl border border-white/5 shadow-inner" style={{
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none'
+              }} ref={scrollContainerRef}>
+                  <div className="flex gap-3 w-max sm:w-auto sm:mx-auto">
+                    {Object.keys(floorPlans).map(category => <RovingFocusPrimitive.Item asChild key={category}>
+                        <CustomTabsTrigger value={category}>
+                          {category}
+                        </CustomTabsTrigger>
+                      </RovingFocusPrimitive.Item>)}
+                  </div>
+                </TabsPrimitive.List>
+              </RovingFocusPrimitive.Root>
+              
+            </div>
+            
+            <AnimatePresence mode="wait">
+              {Object.entries(floorPlans).map(([category, plans]) => <TabsContent key={category} value={category} className="w-full">
+                  <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {plans.map(plan => <motion.div key={plan.id} variants={itemVariants} className="h-full">
+                        <Card className="bg-[#1a1a1a] border border-slate-700/30 overflow-hidden rounded-xl hover:border-brand-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-brand-primary/5 h-full flex flex-col">
+                          <CardContent className="p-0 h-full flex flex-col">
+                            <div className="p-5 sm:p-6">
+                              <h3 className="text-brand-primary text-xl sm:text-2xl font-bold">{plan.title}</h3>
+                              <p className="text-white/80 mb-2">{plan.subtitle}</p>
+                              
+                              <div className="my-4">
+                                <h4 className="text-brand-primary text-2xl sm:text-3xl font-bold">{plan.area}</h4>
+                                <p className="text-white/60">{plan.areaLabel}</p>
+                              </div>
+                            </div>
+                            
+                            <div className="relative aspect-square bg-gray-800 border-y border-slate-700/30 group cursor-pointer overflow-hidden flex-shrink-0" onClick={() => openFullScreenImage(plan.id)}>
+                              <img src={plan.image} alt={`${plan.title} ${plan.area}`} className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105" />
+                              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <div className="flex flex-col items-center gap-2">
+                                  <ZoomIn className="h-8 w-8 text-white" />
+                                  <span className="text-white font-medium text-sm bg-brand-primary/80 px-3 py-1 rounded-full">Просмотреть</span>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <div className="p-5 sm:p-6 mt-auto">
+                              <div className="mb-4">
+                                <h4 className="text-brand-primary text-lg sm:text-xl font-bold">{plan.price}</h4>
+                                <p className="text-white/60 text-xs sm:text-sm">{plan.monthly}</p>
+                              </div>
+                              
+                              <Button className="w-full bg-brand-primary hover:bg-brand-primary/90 text-white transition-colors">
+                                Выбрать
+                              </Button>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </motion.div>)}
+                  </motion.div>
+                </TabsContent>)}
+            </AnimatePresence>
+          </Tabs>
+        </div>
+      </div>
+
+      {/* Full Screen Floor Plan Dialog */}
+      <Dialog open={isImageOpen} onOpenChange={setIsImageOpen}>
+        <DialogContent className="sm:max-w-[90vw] md:max-w-[85vw] lg:max-w-[80vw] max-h-[95vh] p-0 bg-black border-gray-800">
+          <div className="relative w-full h-full flex flex-col">
+            <div className="absolute top-4 right-4 z-20">
+              <DialogClose className="rounded-full p-2 bg-black/70 hover:bg-black/90 text-white/80 hover:text-white transition-colors flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-brand-primary/50">
+                <X className="h-5 w-5" />
+              </DialogClose>
+            </div>
+            
+            {selectedPlanData && (
+              <div className="flex flex-col h-full">
+                <div className="p-6 flex-none bg-[#0a0a0a] border-b border-gray-800/40">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                      <h3 className="text-white text-xl sm:text-2xl font-bold">
+                        {selectedPlanData.title} {selectedPlanData.subtitle}
+                      </h3>
+                      <p className="text-white/60">
+                        {selectedPlanData.area}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex-1 overflow-hidden flex items-center justify-center p-0 sm:p-4 bg-black">
+                  <motion.img
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.3 }}
+                    src={selectedPlanData.image}
+                    alt={`${selectedPlanData.title} ${selectedPlanData.area}`}
+                    className="max-w-full max-h-[70vh] w-auto h-auto object-contain"
+                  />
+                </div>
+
+                <div className="p-6 bg-[#0a0a0a] border-t border-gray-700/30">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                      <h4 className="text-brand-primary text-xl font-bold">
+                        {selectedPlanData.price}
+                      </h4>
+                      <p className="text-white/60 text-sm">
+                        {selectedPlanData.monthly}
+                      </p>
+                    </div>
+                    
+                    <div className="flex flex-wrap gap-3">
+                      <Button className="bg-brand-primary hover:bg-brand-primary/90 text-white transition-colors flex items-center gap-2">
+                        <Phone className="h-4 w-4" />
+                        <span>Позвонить</span>
+                      </Button>
+                      <Button variant="outline" className="border-white/20 bg-transparent text-white hover:bg-white/10 transition-colors flex items-center gap-2">
+                        <Mail className="h-4 w-4" />
+                        <span>Запросить информацию</span>
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+    </section>;
 };
+
 export default FloorPlansSection;
