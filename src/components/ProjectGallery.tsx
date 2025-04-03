@@ -119,8 +119,8 @@ const ProjectGallery = ({ images }: ProjectGalleryProps) => {
                             whileHover={{ scale: 1.05 }}
                             transition={{ duration: 0.4 }}
                           />
-                          <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                            <div className="flex flex-col items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div className="absolute inset-0 bg-black/30 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <div className="flex flex-col items-center gap-2">
                               <ZoomIn className="h-8 w-8 text-white" />
                               <span className="text-white bg-primary/80 px-3 py-1 rounded-full text-sm">Просмотреть</span>
                             </div>
@@ -129,7 +129,7 @@ const ProjectGallery = ({ images }: ProjectGalleryProps) => {
                       </CardContent>
                     </Card>
                   </DialogTrigger>
-                  <DialogContent className="max-w-screen max-h-screen w-screen h-screen p-0 m-0 bg-black/95 border-0 rounded-none">
+                  <DialogContent className="max-w-[100vw] max-h-[100vh] w-[100vw] h-[100vh] p-0 m-0 bg-black/95 border-0 rounded-none">
                     <AnimatePresence mode="wait">
                       <motion.div 
                         key={currentImageIndex}

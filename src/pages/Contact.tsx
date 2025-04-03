@@ -14,6 +14,7 @@ import {
   RadioGroup,
   RadioGroupItem
 } from "@/components/ui/radio-group";
+import ScrollToTopButton from '@/components/ScrollToTopButton';
 
 const Contact: React.FC = () => {
   const { toast } = useToast();
@@ -85,14 +86,14 @@ const Contact: React.FC = () => {
     try {
       console.log('Submitting message:', formData);
 
-      // Добавляем сообщение напрямую в базу данных
+      // Remove contact_method from the inserted data
       const { data, error } = await supabase.from('messages').insert({
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
         message: formData.message,
-        contact_method: formData.contactMethod
-        // Другие поля заполнятся значениями по умолчанию
+        read: false
+        // contact_method field removed since it's causing the error
       });
       
       if (error) {
@@ -326,6 +327,7 @@ const Contact: React.FC = () => {
         </section>
       </main>
       <Footer />
+      <ScrollToTopButton />
     </div>
   );
 };

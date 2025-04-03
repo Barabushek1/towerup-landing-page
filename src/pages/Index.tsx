@@ -14,6 +14,7 @@ import ChatBot from '@/components/ChatBot';
 import { MapPin } from 'lucide-react';
 import { usePartnerSeeder } from '@/hooks/use-partner-seeder';
 import { useVacancySeeder } from '@/hooks/use-vacancy-seeder';
+import ScrollToTopButton from '@/components/ScrollToTopButton';
 
 const Index: React.FC = () => {
   // Seed initial data for partners and vacancies
@@ -63,7 +64,8 @@ const Index: React.FC = () => {
       "/assets/Pushkin/20.jpg",
       "/assets/Pushkin/21.jpg",
       "/assets/Pushkin/22.jpg",
-      "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+      "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
+      "/lovable-uploads/f33c0024-7a3c-4110-864c-856ff30a1689.png"
     ];
     
     imagesToPreload.forEach(src => {
@@ -128,6 +130,7 @@ const Index: React.FC = () => {
       </main>
       <Footer />
       <ChatBot />
+      <ScrollToTopButton />
     </div>
   );
 };
