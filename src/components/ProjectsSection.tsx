@@ -244,7 +244,7 @@ const ProjectsSection: React.FC = () => {
         {
             title: 'Жилой комплекс "Кумарык"',
             description: "Курортный комплекс из отеля 5* и апартаментов с панорамным видом на море и собственным пляжем.",
-            location: "Иссык-Куль",
+            location: "Ташкент",
             status: "Проектируется",
             imageUrl: "https://images.unsplash.com/photo-1618172193763-c511deb635ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2064&q=80",
             slug: "kumaryk"
