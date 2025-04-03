@@ -1,11 +1,11 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
 import { HandshakeIcon } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import useEmblaCarousel from 'embla-carousel-react';
 
 interface Partner {
   id: string;
@@ -16,21 +16,18 @@ interface Partner {
 
 const PartnersShowcaseSection: React.FC = () => {
   const isMobile = useIsMobile();
-  const carouselRef = useRef<HTMLDivElement>(null);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
 
-  // Автопрокрутка для мобильных устройств
+  // Автопрокрутка
   useEffect(() => {
-    if (!isMobile) return;
+    if (!emblaApi || !isMobile) return;
 
-    const interval = setInterval(() => {
-      if (carouselRef.current) {
-        const nextButton = carouselRef.current.querySelector('[data-next-button]') as HTMLButtonElement;
-        nextButton?.click();
-      }
+    let autoplay = setInterval(() => {
+      if (emblaApi) emblaApi.scrollNext();
     }, 2000);
 
-    return () => clearInterval(interval);
-  }, [isMobile]);
+    return () => clearInterval(autoplay);
+  }, [emblaApi, isMobile]);
 
   // Получение данных из Supabase
   const {
@@ -79,10 +76,10 @@ const PartnersShowcaseSection: React.FC = () => {
           </div>
         ) : partners.length > 0 ? (
           <div className="relative px-4 md:px-8">
-            <Carousel ref={carouselRef} className="w-full max-w-5xl mx-auto">
-              <CarouselContent>
+            <div className="overflow-hidden" ref={emblaRef}>
+              <div className="flex">
                 {partners.map(partner => (
-                  <CarouselItem key={partner.id} className="basis-full md:basis-1/3 lg:basis-1/5 pl-4">
+                  <div key={partner.id} className="flex-none w-1/3 md:w-1/5 p-4">
                     <a
                       href={partner.website_url}
                       target="_blank"
@@ -108,14 +105,10 @@ const PartnersShowcaseSection: React.FC = () => {
                         <span className="text-lg font-medium text-center text-white">{partner.name}</span>
                       )}
                     </a>
-                  </CarouselItem>
+                  </div>
                 ))}
-              </CarouselContent>
-              <div className="hidden md:block">
-                <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 bg-primary hover:bg-primary/80 text-white" />
-                <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 bg-primary hover:bg-primary/80 text-white" />
               </div>
-            </Carousel>
+            </div>
           </div>
         ) : (
           <div className="text-center py-10 bg-slate-800/50 rounded-lg border border-slate-700 max-w-lg mx-auto">
