@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -20,7 +21,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    image: "/assets/Pushkin/14.jpg"
   }, {
     id: 2,
     title: "1-комнатная",
@@ -29,7 +30,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    image: "/assets/Pushkin/14.jpg"
   }, {
     id: 3,
     title: "1-комнатная",
@@ -38,7 +39,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    image: "/assets/Pushkin/14.jpg"
   }],
   "2-комнатные": [{
     id: 4,
@@ -48,7 +49,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    image: "/assets/Pushkin/14.jpg"
   }, {
     id: 5,
     title: "2-комнатная",
@@ -57,7 +58,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    image: "/assets/Pushkin/14.jpg"
   }, {
     id: 6,
     title: "2-комнатная",
@@ -66,7 +67,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    image: "/assets/Pushkin/14.jpg"
   }, {
     id: 7,
     title: "2-комнатная",
@@ -75,7 +76,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    image: "/assets/Pushkin/14.jpg"
   }, {
     id: 8,
     title: "2-комнатная",
@@ -84,7 +85,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    image: "/assets/Pushkin/14.jpg"
   }],
   "3-комнатные": [{
     id: 9,
@@ -94,7 +95,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    image: "/assets/Pushkin/14.jpg"
   }, {
     id: 10,
     title: "3-комнатная",
@@ -103,7 +104,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    image: "/assets/Pushkin/14.jpg"
   }, {
     id: 11,
     title: "3-комнатная",
@@ -112,7 +113,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    image: "/assets/Pushkin/14.jpg"
   }, {
     id: 12,
     title: "3-комнатная",
@@ -121,7 +122,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    image: "/assets/Pushkin/14.jpg"
   }, {
     id: 13,
     title: "3-комнатная",
@@ -130,7 +131,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png"
+    image: "/assets/Pushkin/14.jpg"
   }]
 };
 
@@ -236,7 +237,7 @@ const FloorPlansSection: React.FC = () => {
 
   return <section id="floor-plans" className="py-16 bg-[#161616]">
       <div className="container mx-auto px-4 sm:px-6">
-        <div className="flex flex-col items-center mb-12 scroll-animate-section">
+        <div className="flex flex-col items-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold mb-2 text-center text-brand-primary">ПЛАНИРОВКИ</h2>
           <h3 className="text-xl sm:text-2xl font-medium mb-8 text-center text-white">TOWERUP</h3>
           
@@ -275,7 +276,7 @@ const FloorPlansSection: React.FC = () => {
                               </div>
                             </div>
                             
-                            <div className="relative aspect-square bg-black/30 border-y border-slate-700/30 group cursor-pointer overflow-hidden flex-shrink-0" onClick={() => openFullScreenImage(plan.id)}>
+                            <div className="relative aspect-square bg-gray-800 border-y border-slate-700/30 group cursor-pointer overflow-hidden flex-shrink-0" onClick={() => openFullScreenImage(plan.id)}>
                               <img src={plan.image} alt={`${plan.title} ${plan.area}`} className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105" />
                               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                                 <div className="flex flex-col items-center gap-2">

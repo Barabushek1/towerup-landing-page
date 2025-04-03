@@ -1,45 +1,56 @@
 
-import React, { useEffect, useState } from 'react';
-import { ChevronUp } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import React, { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { ArrowUp } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const ScrollToTopButton: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
 
+  // Show button when page is scrolled down 300px
+  const toggleVisibility = () => {
+    if (window.scrollY > 300) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
+  };
+
+  // Add scroll event listener when the component mounts
   useEffect(() => {
-    const toggleVisibility = () => {
-      if (window.pageYOffset > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
-    };
-
     window.addEventListener('scroll', toggleVisibility);
-
     return () => window.removeEventListener('scroll', toggleVisibility);
   }, []);
 
+  // Scroll to top smoothly
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: 'smooth',
     });
   };
 
   return (
-    <button
-      className={cn(
-        "fixed bottom-6 right-6 p-3 rounded-full bg-brand-primary text-white shadow-lg z-50",
-        "hover:bg-primary/90 transition-all duration-300 transform",
-        "active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary",
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          className="fixed bottom-6 right-6 z-50"
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.5 }}
+          transition={{ duration: 0.2 }}
+        >
+          <Button
+            onClick={scrollToTop}
+            size="icon"
+            className="h-12 w-12 rounded-full bg-primary text-white shadow-lg hover:bg-primary/90"
+            aria-label="Scroll to top"
+          >
+            <ArrowUp className="h-5 w-5" />
+          </Button>
+        </motion.div>
       )}
-      onClick={scrollToTop}
-      aria-label="Прокрутить вверх"
-    >
-      <ChevronUp size={24} />
-    </button>
+    </AnimatePresence>
   );
 };
 

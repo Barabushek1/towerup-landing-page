@@ -148,7 +148,7 @@ const ProjectGallery = ({ images }: ProjectGalleryProps) => {
 
       {/* Fullscreen Gallery Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-[100vw] w-screen h-screen p-0 m-0 bg-black border-0 rounded-none flex items-center justify-center">
+        <DialogContent className="max-w-full w-screen h-screen p-0 m-0 bg-black border-0 rounded-none flex items-center justify-center">
           <div className="w-full h-full flex items-center justify-center relative">
             <Button
               variant="ghost"
@@ -168,7 +168,7 @@ const ProjectGallery = ({ images }: ProjectGalleryProps) => {
               <ArrowLeft className="h-5 w-5" />
             </Button>
             
-            <AnimatePresence mode="popLayout">
+            <AnimatePresence mode="wait">
               <motion.img
                 key={currentImageIndex}
                 src={images[currentImageIndex].url}
