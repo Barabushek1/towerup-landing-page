@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
@@ -14,9 +14,13 @@ import {
   MapPin, 
   ParkingSquare, 
   Shield, 
-  Trees
+  Trees,
+  ArrowRight
 } from 'lucide-react';
 import FloorPlansSection from '@/components/FloorPlansSection';
+import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import { toast } from '@/components/ui/use-toast';
 
 interface ProjectData {
   id: string;
@@ -33,6 +37,7 @@ interface ProjectData {
   mainImage: string;
   galleryImages: { url: string; alt?: string }[];
   videoUrl?: string;
+  youtubeId?: string;
   hasFloorPlans: boolean;
 }
 
@@ -101,7 +106,7 @@ const projectsData: Record<string, ProjectData> = {
       { url: '/assets/Pushkin/21.jpg', alt: 'ЖК Пушкин - Дворовая территория' },
       { url: '/assets/Pushkin/22.jpg', alt: 'ЖК Пушкин - Общий вид' },
     ],
-    videoUrl: 'https://vimeo.com/1072138142/d395d65dd9?share=copy',
+    youtubeId: 'aBZMFKzGuoM',
     hasFloorPlans: true
   },
   'bochka': {
@@ -188,13 +193,125 @@ const projectsData: Record<string, ProjectData> = {
   }
 };
 
+// Intersection observer for animation triggers
+const useIntersectionObserver = (
+  elementRef: React.RefObject<Element>,
+  threshold = 0.1
+) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold }
+    );
+
+    const currentElement = elementRef.current;
+    if (currentElement) {
+      observer.observe(currentElement);
+    }
+
+    return () => {
+      if (currentElement) {
+        observer.unobserve(currentElement);
+      }
+    };
+  }, [elementRef, threshold]);
+
+  return isVisible;
+};
+
+// YouTube Player setup
+const YouTubePlayer = ({ videoId }: { videoId: string }) => {
+  const playerRef = useRef<HTMLDivElement>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  useEffect(() => {
+    // Load YouTube API
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+
+    // Create YouTube Player once API is loaded
+    const onYouTubeIframeAPIReady = () => {
+      if (!playerRef.current) return;
+      
+      new window.YT.Player(playerRef.current, {
+        videoId: videoId,
+        playerVars: {
+          autoplay: 0,
+          controls: 1,
+          rel: 0,
+          showinfo: 0,
+        },
+        events: {
+          onReady: () => setIsLoading(false),
+        }
+      });
+    };
+
+    // Set up global callback
+    window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
+
+    // Clean up
+    return () => {
+      window.onYouTubeIframeAPIReady = () => {};
+    };
+  }, [videoId]);
+
+  return (
+    <div className="aspect-video w-full rounded-xl overflow-hidden relative">
+      {isLoading && (
+        <div className="absolute inset-0 bg-slate-900/80 flex items-center justify-center">
+          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
+      <div ref={playerRef} className="w-full h-full" />
+    </div>
+  );
+};
+
 const ProjectDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const project = slug ? projectsData[slug] : null;
+  
+  // Refs for scroll animations
+  const featuresSectionRef = useRef<HTMLDivElement>(null);
+  const videoSectionRef = useRef<HTMLDivElement>(null);
+  const gallerySectionRef = useRef<HTMLDivElement>(null);
+  const floorPlansSectionRef = useRef<HTMLDivElement>(null);
+  const locationSectionRef = useRef<HTMLDivElement>(null);
+  
+  const isFeaturesVisible = useIntersectionObserver(featuresSectionRef);
+  const isVideoVisible = useIntersectionObserver(videoSectionRef);
+  const isGalleryVisible = useIntersectionObserver(gallerySectionRef);
+  const isFloorPlansVisible = useIntersectionObserver(floorPlansSectionRef);
+  const isLocationVisible = useIntersectionObserver(locationSectionRef);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [slug]);
+    
+    // Preload gallery images
+    if (project) {
+      project.galleryImages.forEach(image => {
+        const img = new Image();
+        img.src = image.url;
+      });
+    }
+  }, [slug, project]);
+  
+  const handleContactClick = () => {
+    toast({
+      title: "Заявка отправлена",
+      description: "Наш менеджер свяжется с вами в ближайшее время",
+    });
+  };
 
   if (!project) {
     return (
@@ -208,6 +325,22 @@ const ProjectDetail: React.FC = () => {
       </div>
     );
   }
+  
+  // Animation variants
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+  };
+  
+  const staggerChildren = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.2 } }
+  };
+  
+  const featureItem = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  };
 
   return (
     <div className="min-h-screen antialiased bg-[#161616] text-gray-200 overflow-x-hidden">
@@ -229,78 +362,151 @@ const ProjectDetail: React.FC = () => {
           
           <div className="container mx-auto px-6 relative z-20">
             <div className="max-w-5xl mx-auto">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="px-3 py-1 bg-primary text-white text-sm rounded-full">
-                  {project.status}
+              {/* Project Info Header */}
+              <motion.div 
+                initial="hidden"
+                animate="visible"
+                variants={fadeInUp}
+              >
+                <div className="flex flex-wrap gap-3 mb-6">
+                  <div className="px-3 py-1 bg-primary text-white text-sm rounded-full">
+                    {project.status}
+                  </div>
+                  <div className="flex items-center gap-1 text-gray-400">
+                    <MapPin className="h-4 w-4 text-primary" />
+                    <span>{project.location}</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-gray-400">
+                    <CalendarClock className="h-4 w-4 text-primary" />
+                    <span>Сдача: {project.completion}</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-1 text-gray-400">
-                  <MapPin className="h-4 w-4 text-primary" />
-                  <span>{project.location}</span>
+                
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white relative">
+                  <span className="relative inline-block">
+                    {project.fullTitle}
+                    <span className="absolute -bottom-1 left-0 w-1/3 h-1 bg-primary"></span>
+                  </span>
+                </h1>
+                
+                <div className="text-lg text-gray-300 mb-12 max-w-3xl">
+                  {project.description}
                 </div>
-                <div className="flex items-center gap-1 text-gray-400">
-                  <CalendarClock className="h-4 w-4 text-primary" />
-                  <span>Сдача: {project.completion}</span>
-                </div>
-              </div>
-              
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-                {project.fullTitle}
-              </h1>
-              
-              <div className="text-lg text-gray-300 mb-12 max-w-3xl">
-                {project.description}
-              </div>
+              </motion.div>
               
               {/* Features */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-16">
+              <motion.div 
+                ref={featuresSectionRef}
+                initial="hidden"
+                animate={isFeaturesVisible ? "visible" : "hidden"}
+                variants={staggerChildren}
+                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-16"
+              >
                 {project.features.map((feature, index) => (
-                  <div key={index} className="bg-slate-800/50 p-6 rounded-xl border border-slate-700/30">
+                  <motion.div 
+                    key={index} 
+                    variants={featureItem}
+                    whileHover={{ 
+                      scale: 1.03,
+                      boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" 
+                    }}
+                    className="bg-slate-800/50 p-6 rounded-xl border border-slate-700/30 backdrop-blur-sm transition-all duration-300"
+                  >
                     <div className="mb-4 bg-primary/10 p-3 rounded-lg inline-block">
                       <feature.icon className="h-6 w-6 text-primary" />
                     </div>
                     <h3 className="text-xl font-medium mb-2">{feature.title}</h3>
                     <p className="text-gray-400">{feature.description}</p>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
               
               {/* Video */}
-              {project.videoUrl && (
-                <div className="mb-16">
-                  <h2 className="text-2xl md:text-3xl font-bold mb-8">Видеопрезентация проекта</h2>
-                  <div className="aspect-video w-full rounded-xl overflow-hidden">
-                    <iframe
-                      src={project.videoUrl}
-                      width="100%"
-                      height="100%"
-                      frameBorder="0"
-                      allow="autoplay; fullscreen; picture-in-picture"
-                      allowFullScreen
-                      title={`${project.fullTitle} - видео`}
-                      className="w-full h-full"
-                    ></iframe>
+              {project.youtubeId && (
+                <motion.div 
+                  className="mb-16"
+                  ref={videoSectionRef}
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={isVideoVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+                  transition={{ duration: 0.8 }}
+                >
+                  <h2 className="text-2xl md:text-3xl font-bold mb-8 flex items-center">
+                    <span className="w-10 h-1 bg-primary mr-4 hidden sm:block"></span>
+                    Видеопрезентация проекта
+                  </h2>
+                  <div className="rounded-xl overflow-hidden shadow-2xl shadow-primary/5">
+                    <YouTubePlayer videoId={project.youtubeId} />
                   </div>
-                </div>
+                </motion.div>
               )}
               
               {/* Gallery */}
-              <div className="mb-16">
-                <h2 className="text-2xl md:text-3xl font-bold mb-8">Галерея проекта</h2>
+              <motion.div 
+                className="mb-16"
+                ref={gallerySectionRef}
+                initial={{ opacity: 0 }}
+                animate={isGalleryVisible ? { opacity: 1 } : { opacity: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <h2 className="text-2xl md:text-3xl font-bold mb-8 flex items-center">
+                  <span className="w-10 h-1 bg-primary mr-4 hidden sm:block"></span>
+                  Галерея проекта
+                </h2>
                 <ProjectGallery images={project.galleryImages} />
-              </div>
+              </motion.div>
               
-              {/* Floor Plans - Only for the Pushkin project */}
-              {project.hasFloorPlans && (
-                <div className="mb-16">
-                  <h2 className="text-2xl md:text-3xl font-bold mb-8">Планировки квартир</h2>
-                  <FloorPlansSection standalone={true} />
+              {/* Call to action */}
+              <motion.div 
+                className="mb-16 bg-gradient-to-r from-slate-800/80 to-slate-900/80 p-8 rounded-2xl border border-slate-700/30 shadow-xl"
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                  <div>
+                    <h3 className="text-2xl font-bold mb-2">Заинтересовал проект?</h3>
+                    <p className="text-gray-400">Свяжитесь с нами для получения подробной информации о проекте и условиях приобретения.</p>
+                  </div>
+                  <Button 
+                    onClick={handleContactClick}
+                    className="bg-primary hover:bg-primary/90 text-white px-6 py-6 rounded-xl text-lg font-medium flex items-center gap-2 shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all"
+                  >
+                    Связаться с нами
+                    <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+                  </Button>
                 </div>
+              </motion.div>
+              
+              {/* Floor Plans - Only for projects with floor plans */}
+              {project.hasFloorPlans && (
+                <motion.div 
+                  className="mb-16"
+                  ref={floorPlansSectionRef}
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={isFloorPlansVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+                  transition={{ duration: 0.8 }}
+                >
+                  <h2 className="text-2xl md:text-3xl font-bold mb-8 flex items-center">
+                    <span className="w-10 h-1 bg-primary mr-4 hidden sm:block"></span>
+                    Планировки квартир
+                  </h2>
+                  <FloorPlansSection />
+                </motion.div>
               )}
               
               {/* Location */}
-              <div>
-                <h2 className="text-2xl md:text-3xl font-bold mb-8">Расположение</h2>
-                <div className="rounded-xl overflow-hidden h-[400px]">
+              <motion.div 
+                ref={locationSectionRef}
+                initial={{ opacity: 0, y: 40 }}
+                animate={isLocationVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+                transition={{ duration: 0.8 }}
+              >
+                <h2 className="text-2xl md:text-3xl font-bold mb-8 flex items-center">
+                  <span className="w-10 h-1 bg-primary mr-4 hidden sm:block"></span>
+                  Расположение
+                </h2>
+                <div className="rounded-xl overflow-hidden h-[400px] shadow-2xl shadow-primary/5">
                   <iframe 
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d191885.5026427678!2d69.13928787792154!3d41.282737347591396!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8b0cc379e9c3%3A0xa5a9323b4aa5cb98!2z0KLQsNGI0LrQtdC90YIsINCj0LfQsdC10LrQuNGB0YLQsNC9!5e0!3m2!1sru!2sru!4v1712237318152!5m2!1sru!2sru" 
                     width="100%" 
@@ -312,7 +518,7 @@ const ProjectDetail: React.FC = () => {
                     title="Расположение на карте"
                   />
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
           
