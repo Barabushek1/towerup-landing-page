@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
@@ -28,28 +27,38 @@ const projectsData = {
     mainImage: "/assets/Pushkin/1.jpg",
     logo: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
     status: "Строительство",
-    features: [
-      "Подземный паркинг",
-      "Охраняемая территория",
-      "Детская площадка",
-      "Спортивная площадка",
-      "Видеонаблюдение",
-      "Консьерж-сервис",
-      "Высококачественные материалы",
-      "Современные технологии"
-    ],
-    images: [
-      { url: "/assets/Pushkin/1.jpg", alt: "ЖК Пушкин - Вид спереди" },
-      { url: "/assets/Pushkin/2.jpg", alt: "ЖК Пушкин - Внешний вид" },
-      { url: "/assets/Pushkin/3.jpg", alt: "ЖК Пушкин - Территория" },
-      { url: "/assets/Pushkin/5.jpg", alt: "ЖК Пушкин - Холл" },
-      { url: "/assets/Pushkin/6.jpg", alt: "ЖК Пушкин - Квартира" },
-      { url: "/assets/Pushkin/8.jpg", alt: "ЖК Пушкин - Фасад" },
-      { url: "/assets/Pushkin/9.jpg", alt: "ЖК Пушкин - Ночной вид" },
-      { url: "/assets/Pushkin/10.jpg", alt: "ЖК Пушкин - Вечерний вид" },
-      { url: "/assets/Pushkin/11.jpg", alt: "ЖК Пушкин - Вид сбоку" },
-      { url: "/assets/Pushkin/14.jpg", alt: "ЖК Пушкин - План территории" }
-    ],
+    features: ["Подземный паркинг", "Охраняемая территория", "Детская площадка", "Спортивная площадка", "Видеонаблюдение", "Консьерж-сервис", "Высококачественные материалы", "Современные технологии"],
+    images: [{
+      url: "/assets/Pushkin/1.jpg",
+      alt: "ЖК Пушкин - Вид спереди"
+    }, {
+      url: "/assets/Pushkin/2.jpg",
+      alt: "ЖК Пушкин - Внешний вид"
+    }, {
+      url: "/assets/Pushkin/3.jpg",
+      alt: "ЖК Пушкин - Территория"
+    }, {
+      url: "/assets/Pushkin/5.jpg",
+      alt: "ЖК Пушкин - Холл"
+    }, {
+      url: "/assets/Pushkin/6.jpg",
+      alt: "ЖК Пушкин - Квартира"
+    }, {
+      url: "/assets/Pushkin/8.jpg",
+      alt: "ЖК Пушкин - Фасад"
+    }, {
+      url: "/assets/Pushkin/9.jpg",
+      alt: "ЖК Пушкин - Ночной вид"
+    }, {
+      url: "/assets/Pushkin/10.jpg",
+      alt: "ЖК Пушкин - Вечерний вид"
+    }, {
+      url: "/assets/Pushkin/11.jpg",
+      alt: "ЖК Пушкин - Вид сбоку"
+    }, {
+      url: "/assets/Pushkin/14.jpg",
+      alt: "ЖК Пушкин - План территории"
+    }],
     videoUrl: "https://www.youtube.com/embed/aBZMFKzGuoM",
     hasFloorPlans: true
   },
@@ -64,24 +73,23 @@ const projectsData = {
     totalArea: "18 000 м²",
     floors: "12",
     apartmentsCount: "144",
-    mainImage: "/assets/Pushkin/2.jpg", // Временно используем изображение из Pushkin
+    mainImage: "/assets/Pushkin/2.jpg",
+    // Временно используем изображение из Pushkin
     logo: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
     status: "Проектирование",
-    features: [
-      "Современный дизайн",
-      "Просторные планировки",
-      "Зеленые зоны отдыха",
-      "Детская площадка",
-      "Подземный паркинг",
-      "Охрана 24/7",
-      "Развитая инфраструктура"
-    ],
-    images: [
-      { url: "/assets/Pushkin/2.jpg", alt: "ЖК Кумарык - Визуализация" },
-      { url: "/assets/Pushkin/3.jpg", alt: "ЖК Кумарык - Территория" },
-      { url: "/assets/Pushkin/5.jpg", alt: "ЖК Кумарык - Внутренний двор" }
-    ],
-    videoUrl: "https://www.youtube.com/embed/aBZMFKzGuoM", // Временно используем тот же видео
+    features: ["Современный дизайн", "Просторные планировки", "Зеленые зоны отдыха", "Детская площадка", "Подземный паркинг", "Охрана 24/7", "Развитая инфраструктура"],
+    images: [{
+      url: "/assets/Pushkin/2.jpg",
+      alt: "ЖК Кумарык - Визуализация"
+    }, {
+      url: "/assets/Pushkin/3.jpg",
+      alt: "ЖК Кумарык - Территория"
+    }, {
+      url: "/assets/Pushkin/5.jpg",
+      alt: "ЖК Кумарык - Внутренний двор"
+    }],
+    videoUrl: "https://www.youtube.com/embed/aBZMFKzGuoM",
+    // Временно используем тот же видео
     hasFloorPlans: false
   },
   "bochka": {
@@ -94,38 +102,40 @@ const projectsData = {
     yearBuilt: "2021",
     totalArea: "12 000 м²",
     floors: "8",
-    apartmentsCount: "60", // офисы
-    mainImage: "/assets/Pushkin/8.jpg", // Временно используем изображение из Pushkin
+    apartmentsCount: "60",
+    // офисы
+    mainImage: "/assets/Pushkin/8.jpg",
+    // Временно используем изображение из Pushkin
     logo: "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
     status: "Завершено",
-    features: [
-      "Панорамное остекление",
-      "Современная инженерия",
-      "Конференц-залы",
-      "Ресторан и кафе",
-      "Подземный паркинг",
-      "Охрана 24/7",
-      "Центральная локация"
-    ],
-    images: [
-      { url: "/assets/Pushkin/8.jpg", alt: "БЦ Бочка - Фасад" },
-      { url: "/assets/Pushkin/9.jpg", alt: "БЦ Бочка - Ночной вид" },
-      { url: "/assets/Pushkin/11.jpg", alt: "БЦ Бочка - Вид сбоку" }
-    ],
-    videoUrl: "https://www.youtube.com/embed/aBZMFKzGuoM", // Временно используем тот же видео
+    features: ["Панорамное остекление", "Современная инженерия", "Конференц-залы", "Ресторан и кафе", "Подземный паркинг", "Охрана 24/7", "Центральная локация"],
+    images: [{
+      url: "/assets/Pushkin/8.jpg",
+      alt: "БЦ Бочка - Фасад"
+    }, {
+      url: "/assets/Pushkin/9.jpg",
+      alt: "БЦ Бочка - Ночной вид"
+    }, {
+      url: "/assets/Pushkin/11.jpg",
+      alt: "БЦ Бочка - Вид сбоку"
+    }],
+    videoUrl: "https://www.youtube.com/embed/aBZMFKzGuoM",
+    // Временно используем тот же видео
     hasFloorPlans: false
   }
 };
-
 const ProjectDetail: React.FC = () => {
-  const { slug } = useParams<{ slug?: string }>();
+  const {
+    slug
+  } = useParams<{
+    slug?: string;
+  }>();
   const [project, setProject] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  
   useEffect(() => {
     // Scroll to top on page load
     window.scrollTo(0, 0);
-    
+
     // Simulate fetching project data
     setTimeout(() => {
       if (slug && projectsData[slug as keyof typeof projectsData]) {
@@ -134,39 +144,39 @@ const ProjectDetail: React.FC = () => {
       setLoading(false);
     }, 300);
   }, [slug]);
-  
   if (loading) {
-    return (
-      <div className="min-h-screen bg-[#161616] flex items-center justify-center">
+    return <div className="min-h-screen bg-[#161616] flex items-center justify-center">
         <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    );
+      </div>;
   }
-  
   if (!project) {
-    return (
-      <div className="min-h-screen bg-[#161616] flex flex-col items-center justify-center text-white">
+    return <div className="min-h-screen bg-[#161616] flex flex-col items-center justify-center text-white">
         <h2 className="text-3xl font-bold mb-4">Проект не найден</h2>
         <p className="mb-6">Извините, запрашиваемый проект не существует.</p>
         <Button asChild>
           <Link to="/projects">Вернуться к проектам</Link>
         </Button>
-      </div>
-    );
+      </div>;
   }
-  
+
   // Animation variants
   const sectionVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
+    hidden: {
+      opacity: 0,
+      y: 30
+    },
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { duration: 0.6 }
+      transition: {
+        duration: 0.6
+      }
     }
   };
-  
   const listVariants = {
-    hidden: { opacity: 0 },
+    hidden: {
+      opacity: 0
+    },
     visible: {
       opacity: 1,
       transition: {
@@ -175,21 +185,20 @@ const ProjectDetail: React.FC = () => {
       }
     }
   };
-  
   const itemVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: { opacity: 1, x: 0 }
+    hidden: {
+      opacity: 0,
+      x: -20
+    },
+    visible: {
+      opacity: 1,
+      x: 0
+    }
   };
-  
-  return (
-    <div className="min-h-screen antialiased bg-[#161616] text-foreground overflow-x-hidden">
+  return <div className="min-h-screen antialiased bg-[#161616] text-foreground overflow-x-hidden">
       <NavBar />
       <main>
-        <PageHeader 
-          title={project.title} 
-          breadcrumb={`ПРОЕКТЫ / ${project.title.toUpperCase()}`} 
-          backgroundImage={project.mainImage}
-        />
+        <PageHeader title={project.title} breadcrumb={`ПРОЕКТЫ / ${project.title.toUpperCase()}`} backgroundImage={project.mainImage} />
         
         {/* Hero Section */}
         <section className="py-16 bg-[#1a1a1a] relative overflow-hidden">
@@ -201,28 +210,23 @@ const ProjectDetail: React.FC = () => {
           
           <div className="container mx-auto px-6 relative z-10">
             <div className="flex flex-col lg:flex-row gap-12">
-              <motion.div 
-                className="lg:w-2/3"
-                variants={{
-                  hidden: { opacity: 0, y: 30 },
-                  visible: { 
-                    opacity: 1, 
-                    y: 0,
-                    transition: { duration: 0.6 }
-                  }
-                }}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-              >
+              <motion.div className="lg:w-2/3" variants={{
+              hidden: {
+                opacity: 0,
+                y: 30
+              },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: {
+                  duration: 0.6
+                }
+              }
+            }} initial="hidden" whileInView="visible" viewport={{
+              once: true
+            }}>
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="h-14 w-14 p-1 bg-white/10 backdrop-blur-sm rounded-xl">
-                    <img 
-                      src={project.logo} 
-                      alt={`${project.title} логотип`}
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
+                  
                   <div>
                     <h1 className="text-2xl md:text-3xl font-bold text-white">{project.title}</h1>
                     <p className="text-brand-primary">{project.subtitle}</p>
@@ -304,25 +308,15 @@ const ProjectDetail: React.FC = () => {
                   </div>
                 </div>
                 
-                <motion.div 
-                  className="mb-8" 
-                  variants={listVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                >
+                <motion.div className="mb-8" variants={listVariants} initial="hidden" whileInView="visible" viewport={{
+                once: true
+              }}>
                   <h3 className="text-xl font-bold text-white mb-4">Особенности проекта</h3>
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {project.features.map((feature: string, index: number) => (
-                      <motion.li 
-                        key={index} 
-                        className="flex items-center gap-2"
-                        variants={itemVariants}
-                      >
+                    {project.features.map((feature: string, index: number) => <motion.li key={index} className="flex items-center gap-2" variants={itemVariants}>
                         <span className="w-2 h-2 bg-brand-primary rounded-full"></span>
                         <span className="text-slate-300">{feature}</span>
-                      </motion.li>
-                    ))}
+                      </motion.li>)}
                   </ul>
                 </motion.div>
                 
@@ -338,29 +332,23 @@ const ProjectDetail: React.FC = () => {
                 </div>
               </motion.div>
               
-              <motion.div 
-                className="lg:w-1/3"
-                variants={{
-                  hidden: { opacity: 0, y: 30 },
-                  visible: { 
-                    opacity: 1, 
-                    y: 0,
-                    transition: { duration: 0.6 }
-                  }
-                }}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-              >
+              <motion.div className="lg:w-1/3" variants={{
+              hidden: {
+                opacity: 0,
+                y: 30
+              },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: {
+                  duration: 0.6
+                }
+              }
+            }} initial="hidden" whileInView="visible" viewport={{
+              once: true
+            }}>
                 <div className="relative h-0 pb-[56.25%] bg-black rounded-xl overflow-hidden">
-                  <iframe
-                    className="absolute top-0 left-0 w-full h-full"
-                    src={project.videoUrl}
-                    title={`${project.title} видео`}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe>
+                  <iframe className="absolute top-0 left-0 w-full h-full" src={project.videoUrl} title={`${project.title} видео`} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
                 </div>
               </motion.div>
             </div>
@@ -370,13 +358,9 @@ const ProjectDetail: React.FC = () => {
         {/* Gallery Section */}
         <section className="py-16 bg-[#161616]">
           <div className="container mx-auto px-6">
-            <motion.div 
-              className="flex flex-col items-center mb-12"
-              variants={sectionVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
+            <motion.div className="flex flex-col items-center mb-12" variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{
+            once: true
+          }}>
               <h2 className="text-3xl font-bold mb-2 text-brand-primary">ГАЛЕРЕЯ</h2>
               <h3 className="text-xl font-medium mb-6 text-white">{project.title}</h3>
               <p className="text-slate-300 text-lg max-w-3xl text-center">
@@ -394,13 +378,9 @@ const ProjectDetail: React.FC = () => {
         {/* Location Section */}
         <section className="py-16 bg-[#1a1a1a]">
           <div className="container mx-auto px-6">
-            <motion.div 
-              className="flex flex-col items-center mb-12"
-              variants={sectionVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
+            <motion.div className="flex flex-col items-center mb-12" variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{
+            once: true
+          }}>
               <h2 className="text-3xl font-bold mb-2 text-white">РАСПОЛОЖЕНИЕ</h2>
               <div className="w-16 h-1 bg-brand-primary mb-6"></div>
               <p className="text-slate-300 text-lg max-w-3xl text-center mb-8">
@@ -413,25 +393,13 @@ const ProjectDetail: React.FC = () => {
               </div>
             </motion.div>
             
-            <motion.div 
-              className="w-full rounded-xl overflow-hidden shadow-xl border border-slate-700/30"
-              variants={sectionVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
+            <motion.div className="w-full rounded-xl overflow-hidden shadow-xl border border-slate-700/30" variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{
+            once: true
+          }}>
               <div className="aspect-video w-full">
-                <iframe 
-                  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7976.879721623986!2d69.25872!3d41.240959!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae61aaa924ee97%3A0x64bd413fa7c03f6d!2sTOWER%20UP!5e1!3m2!1sen!2sus!4v1742675836272!5m2!1sen!2sus" 
-                  width="100%" 
-                  height="100%" 
-                  style={{ border: 0 }} 
-                  allowFullScreen 
-                  loading="lazy" 
-                  referrerPolicy="no-referrer-when-downgrade" 
-                  title="Project Location"
-                  className="w-full h-full"
-                ></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7976.879721623986!2d69.25872!3d41.240959!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae61aaa924ee97%3A0x64bd413fa7c03f6d!2sTOWER%20UP!5e1!3m2!1sen!2sus!4v1742675836272!5m2!1sen!2sus" width="100%" height="100%" style={{
+                border: 0
+              }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Project Location" className="w-full h-full"></iframe>
               </div>
             </motion.div>
           </div>
@@ -439,8 +407,6 @@ const ProjectDetail: React.FC = () => {
       </main>
       <Footer />
       <ScrollToTopButton />
-    </div>
-  );
+    </div>;
 };
-
 export default ProjectDetail;
