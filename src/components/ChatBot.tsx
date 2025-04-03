@@ -181,12 +181,12 @@ const ChatBot: React.FC = () => {
         </div>}
 
       {/* Chat Button */}
-      <div className="fixed bottom-6 right-6 md:right-10 z-[9999] flex flex-col gap-4">
+      <div className="fixed bottom-6 right-6 md:right-10 z-[9999] flex flex-col gap-4 px-0 my-[53px]">
         {/* Back to top button */}
         
 
         {/* Chat button */}
-        <Button onClick={() => setIsOpen(true)} className="rounded-full bg-primary p-3 h-12 w-12 flex items-center justify-center shadow-lg hover:bg-primary/90 mx-[2px] my-[92px] px-[30px] py-[30px]">
+        <Button onClick={() => setIsOpen(true)} className="rounded-full bg-primary p-3 h-12 w-12 flex items-center justify-center shadow-lg hover:bg-primary/90 mx-[2px] px-[28px] py-[27px] my-[17px]">
           <MessageSquare className="text-white" />
         </Button>
       </div>

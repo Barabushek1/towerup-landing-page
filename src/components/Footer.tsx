@@ -101,9 +101,7 @@ const Footer: React.FC = () => {
           </div>
           
           {/* Back to top button - now only shows on scroll */}
-          {showBackToTop && <button onClick={scrollToTop} aria-label="Наверх" className="fixed z-50 bottom-8 right-8 p-2 rounded-full bg-primary text-white shadow-lg hover:bg-primary-dark transition-all duration-300 px-[15px] py-[15px] mx-[14px]">
-              <ArrowUp className="h-6 w-6" />
-            </button>}
+          {showBackToTop}
         </div>
       </div>
     </footer>;
