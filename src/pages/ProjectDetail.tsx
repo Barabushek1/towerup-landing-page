@@ -170,7 +170,7 @@ const ProjectDetail: React.FC = () => {
           backgroundImage={project.mainImage}
         />
 
-        {/* === Hero Section (Approach 1: Asymmetrical Balance) === */}
+                {/* === Hero Section (Approach 2: Feature-Focused Intro Grid) === */}
         <motion.section
           className="py-20 md:py-24 bg-gradient-to-b from-[#161616] to-[#1a1a1a] relative overflow-hidden"
           initial="hidden"
@@ -178,87 +178,113 @@ const ProjectDetail: React.FC = () => {
           viewport={{ once: true, amount: 0.1 }}
           variants={sectionVariants}
         >
-          {/* Subtle background animated elements (Keep these) */}
+          {/* Background Blobs (Keep these) */}
           <div className="absolute -left-64 -top-64 w-[500px] h-[500px] md:w-[600px] md:h-[600px] rounded-full bg-primary/5 filter blur-[100px] md:blur-[120px] animate-pulse opacity-50 z-0"></div>
           <div className="absolute -right-64 -bottom-64 w-[500px] h-[500px] md:w-[600px] md:h-[600px] rounded-full bg-primary/5 filter blur-[100px] md:blur-[120px] animate-pulse animation-delay-2000 opacity-50 z-0"></div>
 
           <div className="container mx-auto px-6 relative z-10">
-            {/* Use relative positioning on the container for potential absolute positioning of children if needed later */}
-            <div className="relative flex flex-col lg:flex-row lg:items-start lg:gap-10">
+             {/* Project Title & Subtitle */}
+             <div className="mb-10 md:mb-12 max-w-4xl"> {/* Limit width if needed */}
+               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2 leading-tight">{project.title}</h1>
+               <p className="text-xl md:text-2xl text-primary font-medium">{project.subtitle}</p>
+             </div>
 
-              {/* Left Column: Text Content */}
-              {/* Takes more space initially, video will be positioned relative to this flow or offset */}
-              <div className="lg:w-7/12 xl:w-2/3 flex-shrink-0 mb-10 lg:mb-0">
-                {/* Project Title & Subtitle */}
-                <div className="mb-6 md:mb-8">
-                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2 leading-tight">{project.title}</h1>
-                  <p className="text-xl md:text-2xl text-primary font-medium">{project.subtitle}</p>
-                </div>
+             {/* --- Feature/Stats Grid --- */}
+             {/* Adjust grid columns for different screen sizes */}
+             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mb-12 md:mb-16">
 
-                {/* Description */}
-                <div className="prose prose-invert prose-lg max-w-none lg:max-w-2xl mb-8 md:mb-10 text-slate-200">
-                  <p>{project.description}</p>
-                </div>
+                {/* Video Block (Takes more space on larger screens) */}
+                {project.videoUrl && (
+                    <motion.div
+                        className="sm:col-span-2 lg:col-span-2 xl:row-span-2 rounded-xl overflow-hidden shadow-xl border border-slate-700/50 bg-black aspect-video relative" // Use aspect-video for sizing
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+                        viewport={{ once: true }}
+                    >
+                         <iframe
+                           className="absolute top-0 left-0 w-full h-full"
+                           src={project.videoUrl}
+                           title={`${project.title} - Видео обзор`}
+                           frameBorder="0"
+                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                           allowFullScreen
+                         ></iframe>
+                    </motion.div>
+                )}
 
-                {/* --- Key Info Row --- */}
-                <div className="mb-10 md:mb-12">
-                   <h3 className="text-xl font-semibold text-white mb-4">Ключевые детали</h3>
-                   <div className="flex flex-wrap gap-x-6 sm:gap-x-8 gap-y-4 border-t border-slate-700/50 pt-4">
-                       {/* Location */}
-                       <div className="flex items-center gap-2.5 text-sm sm:text-base">
-                            <MapPin className="w-5 h-5 text-primary flex-shrink-0"/>
-                            <span className='text-slate-300'>{project.location}</span>
-                       </div>
-                       {/* Year Built */}
-                       <div className="flex items-center gap-2.5 text-sm sm:text-base">
-                            <Calendar className="w-5 h-5 text-primary flex-shrink-0"/>
-                             <span className="text-slate-400 mr-1">Построен:</span>
-                            <span className='font-medium text-white'>{project.yearBuilt}</span>
-                       </div>
-                       {/* Total Area */}
-                       <div className="flex items-center gap-2.5 text-sm sm:text-base">
-                            <Home className="w-5 h-5 text-primary flex-shrink-0"/>
-                             <span className="text-slate-400 mr-1">Площадь:</span>
-                            <span className='font-medium text-white'>{project.totalArea}</span>
-                       </div>
-                       {/* Status */}
-                       <div className="flex items-center gap-2.5 text-sm sm:text-base">
-                           {/* Simple Status Display */}
-                           <span className="text-slate-400">Статус:</span>
-                            <span className="bg-primary/20 px-2.5 py-0.5 rounded-md text-primary font-medium text-xs sm:text-sm">
-                                {project.status}
-                            </span>
-                       </div>
-                   </div>
-                </div>
-
-
-                {/* Features List */}
+                {/* Location Info */}
                 <motion.div
-                  className="mb-10"
-                  variants={listVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.2 }}
+                    className="bg-slate-800/40 rounded-xl p-5 md:p-6 border border-slate-700/50 flex flex-col justify-center"
+                     initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} viewport={{ once: true }}
                 >
-                  <h3 className="text-2xl font-bold text-white mb-5">Особенности проекта</h3>
-                  {/* Using one column now as the section is wider */}
-                  <ul className="space-y-2.5">
-                    {project.features.map((feature: string, index: number) => (
-                      <motion.li
-                        key={`${project.id}-feature-${index}`}
-                        className="flex items-center gap-3"
-                        variants={itemVariants}
-                      >
-                        <CheckCircle2 className="h-5 w-5 text-primary flex-shrink-0" />
-                        <span className="text-slate-200">{feature}</span>
-                      </motion.li>
-                    ))}
-                  </ul>
+                    <MapPin className="w-7 h-7 text-primary mb-3"/>
+                    <h3 className="font-semibold text-white mb-1 text-lg">Расположение</h3>
+                    <p className="text-slate-300 text-sm">{project.location}</p>
                 </motion.div>
 
+                {/* Status Info */}
+                 <motion.div
+                    className="bg-gradient-to-br from-primary/15 to-slate-800/50 rounded-xl p-5 md:p-6 border border-primary/40 flex flex-col justify-center"
+                    initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }} viewport={{ once: true }}
+                 >
+                     <Calendar className="w-7 h-7 text-primary mb-3"/> {/* Using Calendar icon as proxy */}
+                    <h3 className="font-semibold text-white mb-1 text-lg">Статус</h3>
+                     <span className="inline-block bg-primary/20 px-3 py-1 rounded-md text-primary font-medium text-sm self-start">
+                         {project.status}
+                     </span>
+                     <p className="text-slate-400 text-sm mt-2">({project.yearBuilt})</p> {/* Year added here */}
+                 </motion.div>
+
+                {/* Key Feature 1 (Example: Parking) */}
+                {project.features.find(f => f.toLowerCase().includes("паркинг")) && (
+                     <motion.div
+                        className="bg-slate-800/40 rounded-xl p-5 md:p-6 border border-slate-700/50 flex flex-col justify-center"
+                        initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.4 }} viewport={{ once: true }}
+                     >
+                        <CheckCircle2 className="w-7 h-7 text-primary mb-3"/> {/* Generic Feature Icon */}
+                        <h3 className="font-semibold text-white mb-1 text-lg">Подземный паркинг</h3>
+                        <p className="text-slate-300 text-sm">Безопасное и удобное хранение автомобиля.</p>
+                     </motion.div>
+                 )}
+
+                 {/* Area / Units Info */}
+                 <motion.div
+                    className="bg-slate-800/40 rounded-xl p-5 md:p-6 border border-slate-700/50 flex flex-col justify-center"
+                    initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.5 }} viewport={{ once: true }}
+                 >
+                     <Home className="w-7 h-7 text-primary mb-3"/>
+                    <h3 className="font-semibold text-white mb-1 text-lg">Площадь / Юниты</h3>
+                    <p className="text-slate-300 text-sm">Общая площадь: {project.totalArea}</p>
+                     <p className="text-slate-300 text-sm">{project.apartmentsCount} квартир/офисов</p>
+                 </motion.div>
+
+                 {/* Key Feature 2 (Example: Security) - Add more if space/design allows */}
+                {project.features.find(f => f.toLowerCase().includes("охрана") || f.toLowerCase().includes("охраняемая")) && (
+                     <motion.div
+                        className="bg-slate-800/40 rounded-xl p-5 md:p-6 border border-slate-700/50 flex flex-col justify-center xl:col-start-3" // Example positioning on XL
+                        initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.6 }} viewport={{ once: true }}
+                     >
+                        <CheckCircle2 className="w-7 h-7 text-primary mb-3"/> {/* Generic Feature Icon */}
+                        <h3 className="font-semibold text-white mb-1 text-lg">Охраняемая территория</h3>
+                        <p className="text-slate-300 text-sm">Круглосуточная охрана и видеонаблюдение.</p>
+                     </motion.div>
+                 )}
+             </div>
+
+             {/* Description (Placed after the grid) */}
+             <div className="prose prose-invert prose-lg max-w-none lg:max-w-4xl mx-auto mb-10 md:mb-12 text-slate-200 text-center lg:text-left">
+               <h3 className="text-2xl font-bold text-white mb-4">Подробнее о проекте</h3>
+               <p>{project.description}</p>
+             </div>
+
+             {/* Full Features List & CTAs (Can be centered or within a column) */}
+             <div className="max-w-4xl mx-auto">
+                 {/* Optional: Full Features List if needed */}
+                 {/* <motion.div className="mb-10" ... > ... </motion.div> */}
+
                 {/* Call to Action Buttons */}
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
                   <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground transition-colors duration-200 gap-2 shadow-lg hover:shadow-primary/40">
                     Узнать цены
                     <ArrowRight className="h-5 w-5" />
@@ -267,32 +293,8 @@ const ProjectDetail: React.FC = () => {
                     Записаться на просмотр
                   </Button>
                 </div>
-              </div>
+             </div>
 
-              {/* Right Column: Video - Adjusted for Asymmetry */}
-              {project.videoUrl && (
-                // Use flex-grow on lg+ so it takes remaining space, but limit its width.
-                // Add margin-top to push it down, negative margin-left for potential overlap.
-                <motion.div
-                    className="w-full lg:w-5/12 xl:w-1/3 lg:flex-shrink-0 lg:mt-20 xl:mt-24 lg:-ml-8 xl:-ml-12" // Adjust mt and -ml for desired offset/overlap
-                    initial={{ opacity: 0, x: 30 }} // Animate from right
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-                    viewport={{ once: true }}
-                >
-                  <div className="aspect-video bg-black rounded-xl overflow-hidden shadow-xl border border-slate-700/50 relative z-10"> {/* Ensure video is above bg blobs */}
-                    <iframe
-                      className="absolute top-0 left-0 w-full h-full"
-                      src={project.videoUrl}
-                      title={`${project.title} - Видео обзор`}
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    ></iframe>
-                  </div>
-                </motion.div>
-              )}
-            </div> {/* End of relative flex container */}
           </div>
         </motion.section>
 
