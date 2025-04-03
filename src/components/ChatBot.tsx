@@ -31,7 +31,7 @@ const ChatBot: React.FC = () => {
         setTimeout(() => {
           setPopupShown(false);
         }, 10000);
-      }, 3000);
+      }, 7000);
       localStorage.setItem('towerupChatPopupShown', 'true');
     }
   }, []);
