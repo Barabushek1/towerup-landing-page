@@ -40,7 +40,7 @@ const ScrollToTopButton: React.FC = () => {
     }} transition={{
       duration: 0.2
     }} className="fixed bottom-6 right-6 z-50 my-[57px]">
-          <Button onClick={scrollToTop} size="icon" aria-label="Scroll to top" className="h-12 w-12 rounded-full bg-primary text-white shadow-lg hover:bg-primary/90 my-[87px]">
+          <Button onClick={scrollToTop} size="icon" aria-label="Scroll to top" className="h-12 w-12 rounded-full bg-primary text-white shadow-lg hover:bg-primary/90 my-[46px]">
             <ArrowUp className="h-5 w-5" />
           </Button>
         </motion.div>}
