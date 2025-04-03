@@ -3,38 +3,32 @@ import { cn } from '@/lib/utils';
 import { Facebook, Linkedin, Instagram, ArrowUp, Send, PhoneCall } from 'lucide-react'; // Removed MessageSquare, Added Send
 
 const Footer: React.FC = () => {
-    const [showBackToTop, setShowBackToTop] = useState(false);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            const scrollPosition = window.scrollY;
-            setShowBackToTop(scrollPosition > 300);
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
-    const scrollToTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setShowBackToTop(scrollPosition > 300);
     };
-
-    return (
-        <footer className="text-white pt-16 pb-8 bg-gray-800"> {/* Consider using theme color like bg-slate-900 or bg-background */}
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+  return <footer className="text-white pt-16 pb-8 bg-gray-800"> {/* Consider using theme color like bg-slate-900 or bg-background */}
             <div className="container mx-auto px-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
                     {/* Company Info */}
                     <div>
                         {/* Logo */}
                         <a href="/" aria-label="TOWERUP Home"> {/* Added aria-label */}
-                            <img
-                                src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png" // Ensure this path is correct relative to public folder
-                                alt="TOWERUP Logo"
-                                className="h-10 w-auto mb-4" // Adjusted height slightly
-                                loading="lazy" // Added lazy loading
-                            />
+                            <img src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png" // Ensure this path is correct relative to public folder
+            alt="TOWERUP Logo" className="h-10 w-auto mb-4" // Adjusted height slightly
+            loading="lazy" // Added lazy loading
+            />
                          </a>
                         <p className="text-white/70 mb-6 text-sm"> {/* Adjusted text size */}
                             За годы существования компания TOWERUP зарекомендовала себя как надежного и ответственного застройщика.
@@ -81,18 +75,18 @@ const Footer: React.FC = () => {
                         <address className="not-italic text-sm"> {/* Adjusted text size */}
                             {/* Removed redundant "ул. Бизнес, 123" if the other address is correct */}
                             <p className="text-white/70 mb-2 leading-relaxed"> {/* Added leading-relaxed */}
-                                г. Ташкент, Сергелийский р-н,<br/> МСГ Янги Қумариқ.<br/> Ориентир: Моторный завод GM.
+                                г. Ташкент, Сергелийский р-н,<br /> МСГ Янги Қумариқ.<br /> Ориентир: Моторный завод GM.
                             </p>
                             {/* <p className="text-white/70 mb-6">Узбекистан</p> Removed if redundant */}
                             <div className="mt-4 space-y-2"> {/* Added spacing */}
                                 <p className="flex items-center">
                                     <a href="mailto:info@towerup.uz" className="text-white/70 hover:text-primary transition-colors flex items-center gap-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-mail flex-shrink-0"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-mail flex-shrink-0"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
                                         info@towerup.uz
                                     </a>
                                 </p>
                                 <p className="flex items-center gap-2 text-white/70">
-                                    <PhoneCall size={16} className="text-primary flex-shrink-0"/>
+                                    <PhoneCall size={16} className="text-primary flex-shrink-0" />
                                     <span className='flex flex-col'>
                                         <a href="tel:+998555100003" className="hover:text-primary transition-colors">+998 (55) 510-00-03</a>
                                         <a href="tel:+998555110003" className="hover:text-primary transition-colors">+998 (55) 511-00-03</a>
@@ -117,20 +111,7 @@ const Footer: React.FC = () => {
 
              {/* Back to top button - Position adjusted slightly, check against ChatBot button */}
              {/* Ensure z-index allows it to be above content but potentially below ChatBot if needed */}
-             {showBackToTop && (
-                 <button
-                    onClick={scrollToTop}
-                    aria-label="Scroll to top"
-                    className={cn(
-                        "fixed bottom-6 right-20 md:right-28 p-3 bg-primary hover:bg-primary/90 text-white rounded-full shadow-lg transition-opacity duration-300 z-[9990]", // Placed next to chatbot button approx
-                        showBackToTop ? "opacity-100" : "opacity-0 pointer-events-none"
-                    )}
-                 >
-                    <ArrowUp size={20} />
-                 </button>
-             )}
-        </footer>
-    );
+             {showBackToTop}
+        </footer>;
 };
-
 export default Footer;
