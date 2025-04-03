@@ -154,10 +154,10 @@ const ProjectDetail: React.FC = () => {
                 playlist: videoId,      // Required for loop
                 rel: '0',               // Hide related videos
                 // --- Optional ---
-                // autoplay: '1',       // Autoplay (requires mute)
-                // mute: '1',           // Mute (required for autoplay)
-                // modestbranding: '1', // Reduce YouTube logo
-                // vq: 'hd1080'       // Suggest 1080p (NOT guaranteed)
+                autoplay: '1',       // Autoplay (requires mute)
+                mute: '1',           // Mute (required for autoplay)
+                modestbranding: '1', // Reduce YouTube logo
+                vq: 'hd1080'       // Suggest 1080p (NOT guaranteed)
             });
             return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
         }
