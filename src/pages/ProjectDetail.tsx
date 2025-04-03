@@ -258,56 +258,64 @@ const ProjectDetail: React.FC = () => {
                                 </div>
                             )}
 
-                            {/* Info Section (Main Stats) */}
-                            <div className="lg:col-span-12 mt-12 md:mt-16 border-t border-slate-700/50 pt-8">
-                                <h3 className="text-xl font-semibold text-white mb-5">Основные характеристики</h3>
-                                <div className="flex flex-wrap gap-x-8 sm:gap-x-12 gap-y-4">
-                                    <div>
-                                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Расположение</div>
-                                        <div className="text-base font-medium text-white flex items-center gap-2"><MapPin className="w-4 h-4 text-primary"/>{project.location}</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Год</div>
-                                        <div className="text-base font-medium text-white flex items-center gap-2"><Calendar className="w-4 h-4 text-primary"/>{project.yearBuilt}</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Площадь</div>
-                                        <div className="text-base font-medium text-white flex items-center gap-2"><Home className="w-4 h-4 text-primary"/>{project.totalArea}</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Статус</div>
-                                        <div className="text-base font-medium text-white">
-                                            <span className="bg-primary/20 px-2.5 py-0.5 rounded text-primary text-sm">
-                                                {project.status}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Этажность</div>
-                                        <div className="text-base font-medium text-white flex items-center gap-2"><Building className="w-4 h-4 text-primary"/>{project.floors}</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Юнитов</div>
-                                        <div className="text-base font-medium text-white flex items-center gap-2"><Users className="w-4 h-4 text-primary"/>{project.apartmentsCount}</div>
-                                    </div>
-                                </div>
+              {/* Info Section (Main Stats) */}
+              <div className="lg:col-span-12 mt-12 md:mt-16 border-t border-slate-700/50 pt-8">
+                 <h3 className="text-xl font-semibold text-white mb-5">Основные характеристики</h3>
+                 <div className="flex flex-wrap gap-x-8 sm:gap-x-12 gap-y-4">
+                    {/* Location */}
+                    <div>
+                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Расположение</div>
+                        <div className="text-base font-medium text-white flex items-center gap-2"><MapPin className="w-4 h-4 text-primary"/>{project.location}</div>
+                    </div>
+                    {/* Year */}
+                     <div>
+                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Год</div>
+                        <div className="text-base font-medium text-white flex items-center gap-2"><Calendar className="w-4 h-4 text-primary"/>{project.yearBuilt}</div>
+                    </div>
+                    {/* Area */}
+                     <div>
+                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Площадь</div>
+                        <div className="text-base font-medium text-white flex items-center gap-2"><Home className="w-4 h-4 text-primary"/>{project.totalArea}</div>
+                    </div>
+                    {/* Status */}
+                     <div>
+                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Статус</div>
+                        <div className="text-base font-medium text-white">
+                             <span className="bg-primary/20 px-2.5 py-0.5 rounded text-primary text-sm">
+                                {project.status}
+                             </span>
+                        </div>
+                    </div>
+                    {/* Floors */}
+                     <div>
+                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Этажность</div>
+                        <div className="text-base font-medium text-white flex items-center gap-2"><Building className="w-4 h-4 text-primary"/>{project.floors}</div>
+                    </div>
+                    {/* Number of Premises (Changed from Units) */}
+                      <div>
+                        {/* CHANGE IS HERE VVV */}
+                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Помещений</div>
+                        {/* CHANGE IS HERE ^^^ */}
+                        <div className="text-base font-medium text-white flex items-center gap-2"><Users className="w-4 h-4 text-primary"/>{project.apartmentsCount}</div>
+                    </div>
+                 </div>
 
-                                {/* Added Quick Jump Links */}
-                                <div className="mt-6 pt-4 border-t border-slate-800/50 flex flex-wrap items-center gap-x-6 gap-y-2">
-                                     <span className="text-sm text-slate-400 mr-2">Быстрый переход:</span>
-                                     <a href="#gallery" className="text-sm text-slate-300 hover:text-primary transition-colors flex items-center gap-1.5">
-                                        <ImageIcon size={14} /> Галерея
-                                     </a>
-                                     {project.hasFloorPlans && (
-                                         <a href="#floor-plans" className="text-sm text-slate-300 hover:text-primary transition-colors flex items-center gap-1.5">
-                                            <LayoutGrid size={14} /> Планировки
-                                         </a>
-                                     )}
-                                     <a href="#location" className="text-sm text-slate-300 hover:text-primary transition-colors flex items-center gap-1.5">
-                                        <Map size={14} /> Расположение
-                                     </a>
-                                 </div>
-                            </div>
+                 {/* Added Quick Jump Links */}
+                 <div className="mt-6 pt-4 border-t border-slate-800/50 flex flex-wrap items-center gap-x-6 gap-y-2">
+                      <span className="text-sm text-slate-400 mr-2">Быстрый переход:</span>
+                      <a href="#gallery" className="text-sm text-slate-300 hover:text-primary transition-colors flex items-center gap-1.5">
+                         <ImageIcon size={14} /> Галерея
+                      </a>
+                      {project.hasFloorPlans && (
+                          <a href="#floor-plans" className="text-sm text-slate-300 hover:text-primary transition-colors flex items-center gap-1.5">
+                             <LayoutGrid size={14} /> Планировки
+                          </a>
+                      )}
+                      <a href="#location" className="text-sm text-slate-300 hover:text-primary transition-colors flex items-center gap-1.5">
+                         <Map size={14} /> Расположение
+                      </a>
+                  </div>
+              </div>
 
                             {/* Full Features List & CTAs */}
                             <div className="lg:col-span-12 mt-12 md:mt-16">
