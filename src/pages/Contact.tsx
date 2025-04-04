@@ -86,14 +86,16 @@ const Contact: React.FC = () => {
     try {
       console.log('Submitting message:', formData);
 
-      // Remove contact_method from the inserted data
-      const { data, error } = await supabase.from('messages').insert({
+      // Insert message with only fields that exist in the messages table
+      const { error } = await supabase.from('messages').insert({
         name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
+        email: formData.email || '',
         message: formData.message,
-        read: false
-        // contact_method field removed since it's causing the error
+        read: false,
+        // Include phone in the message body if it's provided
+        ...(formData.phone ? { 
+          message: `${formData.message}\n\nТелефон для связи: ${formData.phone}` 
+        } : {})
       });
       
       if (error) {

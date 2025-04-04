@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -83,18 +84,19 @@ const ContactSection: React.FC = () => {
     try {
       console.log('Submitting message from contact section:', formData);
 
-      // Insert message into the database - don't include contact_method column 
-      // since it's missing in the database
+      // Insert message into the database with only fields that exist in the table
       const { error } = await supabase
         .from('messages')
         .insert([
           {
             name: formData.name,
-            email: formData.email || null,
-            phone: formData.phone || null,
+            email: formData.email || '',
             message: formData.message,
-            read: false
-            // contact_method removed as it's causing the error
+            read: false,
+            // phone is missing from the database schema, so we'll include it in the message
+            ...(formData.phone ? { 
+              message: `${formData.message}\n\nТелефон для связи: ${formData.phone}` 
+            } : {})
           }
         ]);
       
