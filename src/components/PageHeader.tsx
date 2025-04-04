@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 export interface PageHeaderProps {
   title: string;
   breadcrumb: string;
-  backgroundImage?: string; // Add this property to fix the type error
+  backgroundImage?: string;
 }
 
 const PageHeader: React.FC<PageHeaderProps> = ({ title, breadcrumb, backgroundImage }) => {

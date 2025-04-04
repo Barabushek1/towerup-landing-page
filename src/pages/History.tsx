@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
@@ -8,7 +7,6 @@ import { ArrowRight, Flag, Building, Award, Target, Rocket, Clock, MapPin } from
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-// Animation variants
 const fadeInUp = {
   hidden: { opacity: 0, y: 40 },
   visible: { 
@@ -131,7 +129,7 @@ const History: React.FC = () => {
         <PageHeader 
           title="ИСТОРИЯ КОМПАНИИ" 
           breadcrumb="ИСТОРИЯ"
-          bgImage="https://images.unsplash.com/photo-1554469384-e58fac16e23a?q=80&w=2070&auto=format&fit=crop"
+          backgroundImage="https://images.unsplash.com/photo-1554469384-e58fac16e23a?q=80&w=2070&auto=format&fit=crop"
         />
         
         {/* Intro Section */}

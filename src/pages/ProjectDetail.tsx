@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useMemo } from 'react'; // Added useMemo
+import React, { useEffect, useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import NavBar from '@/components/NavBar'; // Adjust path if needed
-import Footer from '@/components/Footer'; // Adjust path if needed
-import PageHeader from '@/components/PageHeader'; // Adjust path if needed
+import NavBar from '@/components/NavBar';
+import Footer from '@/components/Footer';
+import PageHeader from '@/components/PageHeader';
 import {
     MapPin,
     Calendar,
@@ -15,13 +15,12 @@ import {
     LayoutGrid,
     Map
 } from 'lucide-react';
-import { Button } from '@/components/ui/button'; // Adjust path if needed
-import ProjectGallery from '@/components/ProjectGallery'; // Adjust path if needed
+import { Button } from '@/components/ui/button';
+import ProjectGallery from '@/components/ProjectGallery';
 import { motion } from 'framer-motion';
-import FloorPlansSection from '@/components/FloorPlansSection'; // Adjust path if needed
-import ScrollToTopButton from '@/components/ScrollToTopButton'; // Adjust path if needed
+import FloorPlansSection from '@/components/FloorPlansSection';
+import ScrollToTopButton from '@/components/ScrollToTopButton';
 
-// --- TypeScript Interfaces ---
 interface ProjectImage {
     url: string;
     alt: string;
@@ -61,7 +60,6 @@ interface IProject {
     hasFloorPlans: boolean;
 }
 
-// --- Project Data (Hardcoded Example) ---
 const projectsData: Record<string, IProject> = {
     "pushkin": {
         id: "pushkin",
@@ -81,7 +79,7 @@ const projectsData: Record<string, IProject> = {
         keyBenefits: [
             { icon: Home, title: "Просторные планировки", description: "Функциональные квартиры с продуманным зонированием." },
             { icon: MapPin, title: "Престижный район", description: "Развитая инфраструктура и удобная транспортная доступность." },
-            { icon: Users, title: "Благоустроенная территория", description: "Детские и спортивные площадки, зоны отдыха." }
+            { icon: Users, title: "Благоустроенная территория", description: "Д��тские и спортивные площадки, зоны отдыха." }
         ],
         architectQuote: {
             text: "Мы стремились создать не просто жилье, а пространство для жизни, где каждая деталь способствует комфорту и эстетическому удовольствию.",
@@ -89,13 +87,12 @@ const projectsData: Record<string, IProject> = {
         },
         features: ["Подземный паркинг", "Охраняемая территория", "Детская площадка", "Спортивная площадка", "Видеонаблюдение", "Консьерж-сервис", "Высококачественные материалы", "Современные технологии"],
         images: [{ url: "/assets/Pushkin/1.jpg", alt: "ЖК Пушкин - Вид спереди" }, { url: "/assets/Pushkin/2.jpg", alt: "ЖК Пушкин - Внешний вид" }, { url: "/assets/Pushkin/3.jpg", alt: "ЖК Пушкин - Территория" }, { url: "/assets/Pushkin/5.jpg", alt: "ЖК Пушкин - Холл" }, { url: "/assets/Pushkin/6.jpg", alt: "ЖК Пушкин - Квартира" }, { url: "/assets/Pushkin/8.jpg", alt: "ЖК Пушкин - Фасад" }, { url: "/assets/Pushkin/9.jpg", alt: "ЖК Пушкин - Ночной вид" }, { url: "/assets/Pushkin/10.jpg", alt: "ЖК Пушкин - Вечерний вид" }, { url: "/assets/Pushkin/11.jpg", alt: "ЖК Пушкин - Вид сбоку" }, { url: "/assets/Pushkin/14.jpg", alt: "ЖК Пушкин - План территории" }],
-        videoUrl: "https://www.youtube.com/embed/aBZMFKzGuoM", // Standard Embed URL for data
+        videoUrl: "https://www.youtube.com/embed/aBZMFKzGuoM",
         hasFloorPlans: true
     },
     // ... other projects defined similarly ...
 };
 
-// --- React Component ---
 const ProjectDetail: React.FC = () => {
     const { slug } = useParams<{ slug?: string }>();
     const [project, setProject] = useState<IProject | null>(null);
@@ -112,7 +109,6 @@ const ProjectDetail: React.FC = () => {
         return () => clearTimeout(timer);
     }, [slug]);
 
-    // --- Animation Variants ---
     const sectionVariants = {
         hidden: { opacity: 0, y: 30 },
         visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
@@ -126,7 +122,6 @@ const ProjectDetail: React.FC = () => {
         visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: "easeOut" } }
     };
 
-    // --- Helper to extract YouTube ID --- VVVVV ADDED BACK VVVVV
     const getYouTubeId = (url: string | undefined): string | null => {
         if (!url) return null;
         try {
@@ -134,7 +129,7 @@ const ProjectDetail: React.FC = () => {
             if (urlObj.hostname === 'www.youtube.com' || urlObj.hostname === 'youtube.com') {
                 const pathParts = urlObj.pathname.split('/');
                 if (pathParts[1] === 'embed' && pathParts[2]) {
-                    return pathParts[2].split('?')[0]; // Remove query params from ID
+                    return pathParts[2].split('?')[0];
                 }
             }
         } catch (e) {
@@ -144,28 +139,24 @@ const ProjectDetail: React.FC = () => {
         return null;
     };
 
-    // --- Build Enhanced Video URL --- VVVVV ADDED BACK VVVVV
     const enhancedVideoUrl = useMemo(() => {
         const videoId = getYouTubeId(project?.videoUrl);
         if (videoId) {
             const params = new URLSearchParams({
-                controls: '0',          // Hide controls
-                loop: '1',              // Enable loop
-                playlist: videoId,      // Required for loop
-                rel: '0',               // Hide related videos
-                // --- Optional ---
-                autoplay: '1',       // Autoplay (requires mute)
-                mute: '1',           // Mute (required for autoplay)
-                modestbranding: '1', // Reduce YouTube logo
-                vq: 'hd1080'       // Suggest 1080p (NOT guaranteed)
+                controls: '0',
+                loop: '1',
+                playlist: videoId,
+                rel: '0',
+                autoplay: '1',
+                mute: '1',
+                modestbranding: '1',
+                vq: 'hd1080'
             });
             return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
         }
-        return project?.videoUrl; // Fallback to original URL
+        return project?.videoUrl;
     }, [project?.videoUrl]);
 
-
-    // --- Loading State ---
     if (loading) {
         return (
             <div className="min-h-screen bg-background flex items-center justify-center">
@@ -174,7 +165,6 @@ const ProjectDetail: React.FC = () => {
         );
     }
 
-    // --- Not Found State ---
     if (!project) {
         return (
             <div className="min-h-screen bg-background flex flex-col text-foreground">
@@ -193,7 +183,6 @@ const ProjectDetail: React.FC = () => {
         );
     }
 
-    // --- Main Component Render ---
     return (
         <div className="min-h-screen antialiased bg-background text-foreground overflow-x-hidden">
             <NavBar />
@@ -204,7 +193,6 @@ const ProjectDetail: React.FC = () => {
                     backgroundImage={project.mainImage}
                 />
 
-                {/* === Hero Section (Editorial Style Grid - ENHANCED) === */}
                 <motion.section
                     className="pt-20 pb-12 md:pt-24 md:pb-16 bg-gradient-to-b from-[#161616] to-[#1a1a1a] relative overflow-hidden"
                     initial="hidden"
@@ -212,18 +200,11 @@ const ProjectDetail: React.FC = () => {
                     viewport={{ once: true, amount: 0.05 }}
                     variants={sectionVariants}
                 >
-                    {/* Background Blobs */}
                     <div className="absolute -left-64 -top-64 w-[500px] h-[500px] md:w-[600px] md:h-[600px] rounded-full bg-primary/5 filter blur-[100px] md:blur-[120px] animate-pulse opacity-50 z-0"></div>
                     <div className="absolute -right-64 -bottom-64 w-[500px] h-[500px] md:w-[600px] md:h-[600px] rounded-full bg-primary/5 filter blur-[100px] md:blur-[120px] animate-pulse animation-delay-2000 opacity-50 z-0"></div>
 
-                    {/* Placeholder for Visual Context Snippet */}
-                    {/* <div className="absolute inset-0 z-0 opacity-[0.02] bg-[url('/path/to/subtle-pattern.svg')] bg-repeat"></div> */}
-
                     <div className="container mx-auto px-6 relative z-10">
-                        {/* Use a 12-column grid */}
                         <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-x-8 xl:gap-x-12">
-
-                            {/* Title, Subtitle, Tagline */}
                             <div className="lg:col-span-12 mb-8 md:mb-10">
                                 <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-2 leading-tight">{project.title}</h1>
                                 <p className="text-xl md:text-2xl lg:text-3xl text-primary font-medium mb-3">{project.subtitle}</p>
@@ -232,7 +213,6 @@ const ProjectDetail: React.FC = () => {
                                 )}
                             </div>
 
-                            {/* Description & Quote */}
                             <div className="lg:col-span-7 xl:col-span-6 mb-10 lg:mb-12">
                                 <div className="prose prose-invert prose-lg max-w-none text-slate-200 mb-8">
                                     <p>{project.description}</p>
@@ -245,7 +225,6 @@ const ProjectDetail: React.FC = () => {
                                 )}
                             </div>
 
-                            {/* Video (Using enhanced URL) */}
                             {project.videoUrl && (
                                 <motion.div
                                     className="lg:col-span-5 xl:col-span-6 lg:col-start-8 xl:col-start-7 mb-10 lg:mb-12"
@@ -255,20 +234,20 @@ const ProjectDetail: React.FC = () => {
                                     viewport={{ once: true, amount: 0.3 }}
                                 >
                                     <div className="aspect-video bg-black rounded-xl overflow-hidden shadow-xl border border-slate-700/50 relative z-10">
-                                        {/* CHANGE IS HERE: Use enhancedVideoUrl */}
                                         <iframe
                                             className="absolute top-0 left-0 w-full h-full"
-                                            src={enhancedVideoUrl} // Using the modified URL
+                                            src={enhancedVideoUrl}
                                             title={`${project.title} - Видео фон`}
                                             frameBorder="0"
                                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                            // allowFullScreen removed as controls are hidden
+                                            allowFullScreen={true}
+                                            loading="lazy"
+                                            referrerPolicy="no-referrer-when-downgrade"
                                         ></iframe>
                                     </div>
                                 </motion.div>
                             )}
 
-                            {/* Key Benefits Section */}
                             {project.keyBenefits && project.keyBenefits.length > 0 && (
                                 <div className="lg:col-span-12 my-10 md:my-12 lg:mt-0">
                                     <h3 className="text-2xl font-bold text-white mb-6 text-center lg:text-left">Ключевые преимущества</h3>
@@ -295,27 +274,22 @@ const ProjectDetail: React.FC = () => {
                                 </div>
                             )}
 
-                            {/* Info Section (Main Stats) */}
                             <div className="lg:col-span-12 mt-12 md:mt-16 border-t border-slate-700/50 pt-8">
                                 <h3 className="text-xl font-semibold text-white mb-5">Основные характеристики</h3>
                                 <div className="flex flex-wrap gap-x-8 sm:gap-x-12 gap-y-4">
-                                    {/* Location */}
                                     <div>
                                         <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Расположение</div>
                                         <div className="text-base font-medium text-white flex items-center gap-2"><MapPin className="w-4 h-4 text-primary"/>{project.location}</div>
                                     </div>
-                                    {/* Year */}
-                                     <div>
+                                    <div>
                                         <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Год</div>
                                         <div className="text-base font-medium text-white flex items-center gap-2"><Calendar className="w-4 h-4 text-primary"/>{project.yearBuilt}</div>
                                     </div>
-                                    {/* Area */}
-                                     <div>
+                                    <div>
                                         <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Площадь</div>
                                         <div className="text-base font-medium text-white flex items-center gap-2"><Home className="w-4 h-4 text-primary"/>{project.totalArea}</div>
                                     </div>
-                                    {/* Status */}
-                                     <div>
+                                    <div>
                                         <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Статус</div>
                                         <div className="text-base font-medium text-white">
                                              <span className="bg-primary/20 px-2.5 py-0.5 rounded text-primary text-sm">
@@ -323,19 +297,16 @@ const ProjectDetail: React.FC = () => {
                                              </span>
                                         </div>
                                     </div>
-                                    {/* Floors */}
-                                     <div>
+                                    <div>
                                         <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Этажность</div>
                                         <div className="text-base font-medium text-white flex items-center gap-2"><Building className="w-4 h-4 text-primary"/>{project.floors}</div>
                                     </div>
-                                    {/* Number of Premises */}
                                     <div>
                                         <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Помещений</div>
                                         <div className="text-base font-medium text-white flex items-center gap-2"><Users className="w-4 h-4 text-primary"/>{project.apartmentsCount}</div>
                                     </div>
                                 </div>
 
-                                {/* Added Quick Jump Links */}
                                 <div className="mt-6 pt-4 border-t border-slate-800/50 flex flex-wrap items-center gap-x-6 gap-y-2">
                                      <span className="text-sm text-slate-400 mr-2">Быстрый переход:</span>
                                      <a href="#gallery" className="text-sm text-slate-300 hover:text-primary transition-colors flex items-center gap-1.5">
@@ -352,7 +323,6 @@ const ProjectDetail: React.FC = () => {
                                  </div>
                             </div>
 
-                            {/* Full Features List & CTAs */}
                             <div className="lg:col-span-12 mt-12 md:mt-16">
                                 <motion.div
                                     className="mb-10"
@@ -376,7 +346,6 @@ const ProjectDetail: React.FC = () => {
                                     </ul>
                                 </motion.div>
 
-                                {/* Call to Action Buttons */}
                                 <div className="flex flex-wrap gap-4">
                                     <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground transition-colors duration-200 gap-2 shadow-lg hover:shadow-primary/40">
                                         Узнать цены
@@ -388,11 +357,10 @@ const ProjectDetail: React.FC = () => {
                                 </div>
                             </div>
 
-                        </div> {/* End of 12-column grid */}
+                        </div>
                     </div>
                 </motion.section>
 
-                {/* --- Gallery Section --- */}
                 <section id="gallery" className="py-20 md:py-24 bg-[#161616]">
                   <div className="container mx-auto px-6">
                     <motion.div
@@ -411,12 +379,11 @@ const ProjectDetail: React.FC = () => {
                       variants={sectionVariants}
                       initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }}
                     >
-                      <ProjectGallery images={project.images} />
+                      <ProjectGallery projectId={project.id} images={project.images} />
                     </motion.div>
                   </div>
                 </section>
 
-                {/* --- Floor Plans Section (Conditional) --- */}
                 {project.hasFloorPlans && (
                   <motion.div
                     id="floor-plans"
@@ -428,7 +395,6 @@ const ProjectDetail: React.FC = () => {
                   </motion.div>
                 )}
 
-                {/* --- Location Section --- */}
                 <section id="location" className="py-20 md:py-24 bg-[#1a1a1a]">
                   <div className="container mx-auto px-6">
                     <motion.div

@@ -3,30 +3,39 @@ import { ArrowLeft, ArrowRight, X } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { cn } from '@/lib/utils';
 
-interface ProjectGalleryProps {
-  projectId?: string; // Add this to accept the projectId prop
+interface ProjectImage {
+  url: string;
+  alt: string;
 }
 
-const ProjectGallery: React.FC<ProjectGalleryProps> = ({ projectId }) => {
-  const [images, setImages] = useState<string[]>([]);
+interface ProjectGalleryProps {
+  projectId?: string;
+  images?: ProjectImage[];
+}
+
+const ProjectGallery: React.FC<ProjectGalleryProps> = ({ projectId, images: propImages }) => {
+  const [images, setImages] = useState<string[] | ProjectImage[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    // Mock image URLs for demonstration
-    const mockImages = [
-      '/lovable-uploads/01.jpeg',
-      '/lovable-uploads/02.jpeg',
-      '/lovable-uploads/03.jpeg',
-      '/lovable-uploads/04.jpeg',
-      '/lovable-uploads/05.jpeg',
-      '/lovable-uploads/06.jpeg',
-      '/lovable-uploads/07.jpeg',
-      '/lovable-uploads/08.jpeg',
-      '/lovable-uploads/09.jpeg',
-    ];
-    setImages(mockImages);
-  }, []);
+    if (propImages && propImages.length > 0) {
+      setImages(propImages);
+    } else {
+      const mockImages = [
+        '/lovable-uploads/01.jpeg',
+        '/lovable-uploads/02.jpeg',
+        '/lovable-uploads/03.jpeg',
+        '/lovable-uploads/04.jpeg',
+        '/lovable-uploads/05.jpeg',
+        '/lovable-uploads/06.jpeg',
+        '/lovable-uploads/07.jpeg',
+        '/lovable-uploads/08.jpeg',
+        '/lovable-uploads/09.jpeg',
+      ];
+      setImages(mockImages);
+    }
+  }, [propImages]);
 
   const nextImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -43,17 +52,20 @@ const ProjectGallery: React.FC<ProjectGalleryProps> = ({ projectId }) => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  
-  // You can now use projectId if needed for filtering images or other purposes
-  // e.g., useEffect(() => { if(projectId) { // filter images } }, [projectId]);
-  
+
+  const getCurrentImageUrl = () => {
+    const currentImage = images[currentImageIndex];
+    return typeof currentImage === 'string' ? currentImage : currentImage.url;
+  };
+
   return (
     <div className="relative">
-      {/* Gallery Preview */}
       <div className="relative h-64 md:h-96 overflow-hidden rounded-lg shadow-md cursor-pointer" onClick={openModal}>
         <img
-          src={images[currentImageIndex]}
-          alt={`Project Gallery Image ${currentImageIndex + 1}`}
+          src={getCurrentImageUrl()}
+          alt={typeof images[currentImageIndex] === 'string' 
+               ? `Project Gallery Image ${currentImageIndex + 1}` 
+               : (images[currentImageIndex] as ProjectImage).alt}
           className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
         />
         <div className="absolute top-2 left-2 bg-black/50 text-white p-1 rounded text-xs">
@@ -69,7 +81,6 @@ const ProjectGallery: React.FC<ProjectGalleryProps> = ({ projectId }) => {
         </div>
       </div>
 
-      {/* Image Modal */}
       <div
         className={cn(
           "fixed top-0 left-0 w-full h-full bg-black/80 z-50 flex items-center justify-center transition-opacity",
@@ -79,10 +90,12 @@ const ProjectGallery: React.FC<ProjectGalleryProps> = ({ projectId }) => {
       >
         <div className="relative w-full max-w-5xl max-h-screen p-4">
           <img
-            src={images[currentImageIndex]}
-            alt={`Project Gallery Image ${currentImageIndex + 1}`}
+            src={getCurrentImageUrl()}
+            alt={typeof images[currentImageIndex] === 'string' 
+                 ? `Project Gallery Image ${currentImageIndex + 1}` 
+                 : (images[currentImageIndex] as ProjectImage).alt}
             className="object-contain w-full h-full rounded-lg"
-            onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking on image
+            onClick={(e) => e.stopPropagation()}
           />
           <Button
             variant="ghost"

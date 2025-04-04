@@ -120,7 +120,7 @@ const Projects: React.FC = () => {
     <div className="min-h-screen antialiased bg-[#161616] text-gray-200 overflow-x-hidden">
       <NavBar />
       <main>
-        <PageHeader title="НАШИ ПРОЕКТЫ" breadcrumb="ПРОЕКТЫ" bgImage="/assets/Pushkin/17.jpg" />
+        <PageHeader title="НАШИ ПРОЕКТЫ" breadcrumb="ПРОЕКТЫ" backgroundImage="/assets/Pushkin/17.jpg" />
         <section className="py-16 md:py-24 bg-[#1a1a1a] relative">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto mb-12 text-center">
