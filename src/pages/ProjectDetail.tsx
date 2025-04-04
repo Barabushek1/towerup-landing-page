@@ -82,7 +82,7 @@ const projectsData: Record<string, IProject> = {
             { icon: Users, title: "Благоустроенная территория", description: "Д��тские и спортивные площадки, зоны отдыха." }
         ],
         architectQuote: {
-            text: "Мы стремились создать не просто жилье, а пространство для жизни, где каждая деталь способствует комфорту и эстетическому удовольствию.",
+            text: "Мы стремились создать не просто жилье, а пространство ��ля жизни, где каждая деталь способствует комфорту и эстетическому удовольствию.",
             author: "А. Иванов, Главный архитектор"
         },
         features: ["Подземный паркинг", "Охраняемая территория", "Детская площадка", "Спортивная площадка", "Видеонаблюдение", "Консьерж-сервис", "Высококачественные материалы", "Современные технологии"],
@@ -379,7 +379,7 @@ const ProjectDetail: React.FC = () => {
                       variants={sectionVariants}
                       initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }}
                     >
-                      <ProjectGallery projectId={project.id} images={project.images} />
+                      <ProjectGallery images={project.images} />
                     </motion.div>
                   </div>
                 </section>
