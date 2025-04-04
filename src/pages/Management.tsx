@@ -46,7 +46,7 @@ const Management: React.FC = () => {
         
         <section className="py-16 md:py-24 bg-[#1a1a1a]">
           <div className="container mx-auto px-6">
-            <div className="max-w-5xl mx-auto mb-16 scroll-animate-section">
+            <div className="max-w-5xl mx-auto mb-16">
               <h2 className="text-3xl md:text-4xl font-bold mb-8 text-white font-benzin text-center">О нашей команде</h2>
               <div className="bg-[#222] border border-gray-700/30 rounded-xl p-7 shadow-xl">
                 <p className="text-gray-300 leading-relaxed mb-4">
@@ -78,11 +78,11 @@ const Management: React.FC = () => {
               </div>
             </div>
             
-            <div className="mb-16 scroll-animate-section">
+            <div className="mb-16">
               <ProjectGallery images={managementImages} />
             </div>
 
-            <div className="scroll-animate-section">
+            <div>
               <Tabs defaultValue="executives" className="max-w-5xl mx-auto">
                 <div className="flex justify-center mb-8">
                   <TabsList className="bg-[#222] p-1">
