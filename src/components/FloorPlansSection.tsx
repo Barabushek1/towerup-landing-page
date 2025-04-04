@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,6 +10,10 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import * as RovingFocusPrimitive from '@radix-ui/react-roving-focus';
 import { cn } from "@/lib/utils";
+
+interface FloorPlansSectionProps {
+  projectId?: string;
+}
 
 const floorPlans = {
   "1-комнатные": [{
@@ -135,7 +138,7 @@ const floorPlans = {
   }]
 };
 
-const FloorPlansSection: React.FC = () => {
+const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({ projectId }) => {
   const [activeTab, setActiveTab] = useState<string>("1-комнатные");
   const [selectedPlan, setSelectedPlan] = useState<number | null>(null);
   const [isImageOpen, setIsImageOpen] = useState(false);
