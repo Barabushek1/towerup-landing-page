@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, ArrowRight, X } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -17,10 +18,12 @@ const ProjectGallery: React.FC<ProjectGalleryProps> = ({ projectId, images: prop
   const [images, setImages] = useState<string[] | ProjectImage[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (propImages && propImages.length > 0) {
       setImages(propImages);
+      setIsLoading(false);
     } else {
       const mockImages = [
         '/lovable-uploads/01.jpeg',
@@ -34,14 +37,17 @@ const ProjectGallery: React.FC<ProjectGalleryProps> = ({ projectId, images: prop
         '/lovable-uploads/09.jpeg',
       ];
       setImages(mockImages);
+      setIsLoading(false);
     }
   }, [propImages]);
 
   const nextImage = () => {
+    if (images.length === 0) return;
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
 
   const prevImage = () => {
+    if (images.length === 0) return;
     setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
   };
 
@@ -54,18 +60,44 @@ const ProjectGallery: React.FC<ProjectGalleryProps> = ({ projectId, images: prop
   };
 
   const getCurrentImageUrl = () => {
+    if (images.length === 0 || currentImageIndex >= images.length) {
+      return "/placeholder.svg"; // Fallback image
+    }
+    
     const currentImage = images[currentImageIndex];
     return typeof currentImage === 'string' ? currentImage : currentImage.url;
   };
+
+  const getCurrentImageAlt = () => {
+    if (images.length === 0 || currentImageIndex >= images.length) {
+      return "Gallery placeholder image";
+    }
+    
+    return typeof images[currentImageIndex] === 'string' 
+      ? `Project Gallery Image ${currentImageIndex + 1}` 
+      : (images[currentImageIndex] as ProjectImage).alt;
+  };
+
+  if (isLoading) {
+    return (
+      <div className="relative h-64 md:h-96 bg-slate-800 animate-pulse rounded-lg"></div>
+    );
+  }
+
+  if (images.length === 0) {
+    return (
+      <div className="relative h-64 md:h-96 bg-slate-800 rounded-lg flex items-center justify-center">
+        <p className="text-slate-400">No images available</p>
+      </div>
+    );
+  }
 
   return (
     <div className="relative">
       <div className="relative h-64 md:h-96 overflow-hidden rounded-lg shadow-md cursor-pointer" onClick={openModal}>
         <img
           src={getCurrentImageUrl()}
-          alt={typeof images[currentImageIndex] === 'string' 
-               ? `Project Gallery Image ${currentImageIndex + 1}` 
-               : (images[currentImageIndex] as ProjectImage).alt}
+          alt={getCurrentImageAlt()}
           className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
         />
         <div className="absolute top-2 left-2 bg-black/50 text-white p-1 rounded text-xs">
@@ -91,9 +123,7 @@ const ProjectGallery: React.FC<ProjectGalleryProps> = ({ projectId, images: prop
         <div className="relative w-full max-w-5xl max-h-screen p-4">
           <img
             src={getCurrentImageUrl()}
-            alt={typeof images[currentImageIndex] === 'string' 
-                 ? `Project Gallery Image ${currentImageIndex + 1}` 
-                 : (images[currentImageIndex] as ProjectImage).alt}
+            alt={getCurrentImageAlt()}
             className="object-contain w-full h-full rounded-lg"
             onClick={(e) => e.stopPropagation()}
           />
