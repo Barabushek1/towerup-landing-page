@@ -48,9 +48,7 @@ const ParallaxCTASection: React.FC = () => {
           <span className="inline-block px-3 py-1 rounded-full bg-brand-primary/20 text-brand-primary font-medium mb-6 text-base">
             Строим будущее вместе
           </span>
-          <h2 className="md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-brand-secondary text-4xl">
-            Реализуйте свои строительные мечты с Tower Up
-          </h2>
+          <h2 className="md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-brand-secondary text-4xl">Реализуйте свои  мечты с Tower Up</h2>
           
           {/* Show paragraph only on desktop/tablet */}
           {!isMobile && <p className="text-lg md:text-xl text-white/80 mb-10 max-w-2xl mx-auto">
