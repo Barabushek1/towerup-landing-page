@@ -4,146 +4,190 @@ import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
 import { HandshakeIcon, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useIsMobile } from '@/hooks/use-mobile';
+// Removed: import { useIsMobile } from '@/hooks/use-mobile'; // No longer needed for this logic
 import useEmblaCarousel from 'embla-carousel-react';
 
 interface Partner {
-  id: string;
-  name: string;
-  logo_url: string;
-  website_url: string;
+    id: string;
+    name: string;
+    logo_url: string;
+    website_url: string;
 }
 
 const PartnersShowcaseSection: React.FC = () => {
-  const isMobile = useIsMobile();
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+    // Removed: const isMobile = useIsMobile(); // No longer needed here
+    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start' }); // Added align: 'start'
 
-  // Автопрокрутка
-  useEffect(() => {
-    if (!emblaApi || !isMobile) return;
+    // --- VVVVV MODIFIED AUTOPLAY EFFECT VVVVV ---
+    // Автопрокрутка (теперь для всех устройств)
+    useEffect(() => {
+        if (!emblaApi) return; // Only check if emblaApi exists
 
-    let autoplay = setInterval(() => {
-      emblaApi.scrollNext();
-    }, 2000);
+        let autoplay: NodeJS.Timeout | null = null;
 
-    return () => clearInterval(autoplay);
-  }, [emblaApi, isMobile]);
+        const startAutoplay = () => {
+            stopAutoplay();
+            autoplay = setInterval(() => {
+                emblaApi?.scrollNext();
+            }, 3000); // Interval set to 3 seconds
+        };
 
-  // Функции для кнопок "назад/вперед"
-  const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
-  const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
+        const stopAutoplay = () => {
+            if (autoplay) clearInterval(autoplay);
+        };
 
-  // Получение данных из Supabase
-  const { data: partners = [], isLoading, error } = useQuery({
-    queryKey: ['partners-showcase'],
-    queryFn: async () => {
-      const { data, error } = await supabase.from('partners').select('*').order('name');
-      if (error) {
-        console.error('Error fetching partners:', error);
-        throw error;
-      }
-      return data as Partner[];
-    }
-  });
+        // Optional: Pause on hover for usability
+        const carouselElement = emblaApi.containerNode();
+        carouselElement.addEventListener('mouseenter', stopAutoplay);
+        carouselElement.addEventListener('mouseleave', startAutoplay);
 
-  return (
-    <section className="py-24 relative bg-[#0f0f0f] overflow-hidden">
-      {/* Фоновые элементы */}
-      <div className="absolute inset-0 bg-gradient-to-bl from-primary/5 to-slate-900/50 -z-10"></div>
-      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-primary/5 rounded-full blur-3xl -z-5"></div>
+        startAutoplay(); // Start autoplay
 
-      <div className="container mx-auto px-6">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary font-medium mb-6 font-benzin text-3xl">
-            Партнеры
-          </span>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white font-benzin">
-            Наши надежные партнеры
-          </h2>
-        </div>
+        // Cleanup
+        return () => {
+            stopAutoplay();
+            carouselElement.removeEventListener('mouseenter', stopAutoplay);
+            carouselElement.removeEventListener('mouseleave', startAutoplay);
+        };
+    }, [emblaApi]); // Dependency is now only emblaApi
+     // --- ^^^^^ MODIFIED AUTOPLAY EFFECT ^^^^^ ---
 
-        {/* Скелетон загрузки */}
-        {isLoading ? (
-          <div className="flex justify-center items-center gap-4">
-            {[1, 2, 3, 4, 5].map(i => (
-              <Skeleton key={i} className="w-40 h-24 bg-slate-800 rounded-lg" />
-            ))}
-          </div>
-        ) : error ? (
-          <div className="text-center py-10 bg-slate-800/50 rounded-lg border border-slate-700 max-w-lg mx-auto">
-            <HandshakeIcon className="h-16 w-16 text-slate-500 mx-auto mb-4" />
-            <p className="text-red-400 mb-4">Произошла ошибка при загрузке партнеров</p>
-          </div>
-        ) : partners.length > 0 ? (
-          <div className="relative px-4 md:px-8">
-            {/* Карусель */}
-            <div className="overflow-hidden" ref={emblaRef}>
-              <div className="flex">
-                {partners.map(partner => (
-                  <div
-                    key={partner.id}
-                    className="flex-none w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 p-2 sm:p-4"
-                  >
-                    <a
-                      href={partner.website_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={cn(
-                        "group flex items-center justify-center p-4 sm:p-6",
-                        "bg-slate-800/40 hover:bg-slate-800/80 rounded-xl border border-slate-700/50",
-                        "transition-all duration-300 hover:shadow-lg hover:border-primary/30",
-                        "w-full h-24 sm:h-32"
-                      )}
-                    >
-                      {partner.logo_url ? (
-                        <img
-                          src={partner.logo_url}
-                          alt={partner.name}
-                          className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                          onError={e => {
-                            (e.target as HTMLImageElement).onerror = null;
-                            (e.target as HTMLImageElement).src = 'https://placehold.co/200x100?text=' + encodeURIComponent(partner.name);
-                          }}
-                        />
-                      ) : (
-                        <span className="text-lg font-medium text-center text-white">
-                          {partner.name}
-                        </span>
-                      )}
-                    </a>
-                  </div>
-                ))}
-              </div>
+    // Functions for prev/next buttons (remain the same)
+    const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
+    const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
+
+    // Fetching data from Supabase (remains the same)
+    const { data: partners = [], isLoading, error } = useQuery({
+        queryKey: ['partners-showcase'],
+        queryFn: async () => {
+            const { data, error } = await supabase.from('partners').select('*').order('name');
+            if (error) {
+                console.error('Error fetching partners:', error);
+                throw error;
+            }
+            return data as Partner[];
+        }
+    });
+
+    return (
+        <section className="py-16 md:py-24 relative bg-[#0f0f0f] overflow-hidden"> {/* Adjusted padding */}
+            {/* Background elements */}
+            <div className="absolute inset-0 bg-gradient-to-bl from-primary/5 via-transparent to-slate-900/50 -z-10 opacity-70"></div>
+            <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-primary/5 rounded-full blur-3xl -z-5 opacity-50"></div>
+            <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl -z-5 opacity-50"></div>
+
+
+            <div className="container mx-auto px-4 sm:px-6"> {/* Adjusted padding */}
+                {/* Section Header */}
+                <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
+                    <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary font-medium mb-4 font-benzin text-sm md:text-base uppercase tracking-wider"> {/* Adjusted padding/size */}
+                        Партнеры
+                    </span>
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-white font-benzin"> {/* Adjusted sizes */}
+                        Наши надежные партнеры
+                    </h2>
+                    {/* Optional Subtitle */}
+                    {/* <p className="text-slate-400 text-base md:text-lg">Компании, которым мы доверяем и с которыми строим будущее.</p> */}
+                </div>
+
+                {/* Loading Skeleton */}
+                {isLoading ? (
+                    <div className="flex justify-center items-center gap-4 overflow-x-hidden pb-4"> {/* Added padding-bottom */}
+                        {[...Array(5)].map((_, i) => ( // Use Array constructor
+                            <Skeleton key={i} className="w-36 h-24 sm:w-40 sm:h-28 bg-slate-800 rounded-lg flex-shrink-0" />
+                        ))}
+                    </div>
+                ) : error ? (
+                    // Error State
+                     <div className="text-center py-10 px-6 bg-slate-800/50 rounded-lg border border-red-700/50 max-w-md mx-auto">
+                        <HandshakeIcon className="h-12 w-12 text-red-500 mx-auto mb-4" />
+                        <p className="text-red-400 mb-2 text-lg font-semibold">Ошибка загрузки</p>
+                        <p className="text-slate-400 text-sm">Не удалось получить список партнеров. Пожалуйста, попробуйте обновить страницу позже.</p>
+                    </div>
+                ) : partners.length > 0 ? (
+                    // Carousel Implementation
+                    <div className="relative px-0 md:px-8"> {/* Removed horizontal padding on mobile */}
+                        <div className="overflow-hidden -mx-2 sm:-mx-4" ref={emblaRef}> {/* Negative margin to counter padding */}
+                            <div className="flex"> {/* Embla flex container */}
+                                {partners.concat(partners).map((partner, index) => ( // Duplicate partners for seamless loop appearance
+                                    <div
+                                        key={`${partner.id}-${index}`} // Unique key for duplicated items
+                                        className="flex-shrink-0 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/6 px-2 sm:px-4" // Adjusted widths and added px
+                                        style={{ minWidth: 0 }} // Prevent flex items from growing
+                                    >
+                                        <a
+                                            href={partner.website_url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label={`Visit ${partner.name} website`}
+                                            className={cn(
+                                                "group flex items-center justify-center p-4 sm:p-6",
+                                                "bg-slate-800/40 hover:bg-slate-800/80 rounded-xl border border-slate-700/50",
+                                                "transition-all duration-300 hover:shadow-lg hover:border-primary/30",
+                                                "w-full h-24 sm:h-32", // Fixed height for consistency
+                                                "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-slate-900" // Added focus styles
+                                            )}
+                                        >
+                                            {partner.logo_url ? (
+                                                <img
+                                                    src={partner.logo_url}
+                                                    alt={`${partner.name} logo`}
+                                                    className="max-w-[80%] max-h-[70%] object-contain transition-transform duration-300 group-hover:scale-105" // Adjusted size constraints
+                                                    loading="lazy" // Lazy load logos
+                                                    onError={e => { // Basic Fallback
+                                                        (e.target as HTMLImageElement).style.display = 'none'; // Hide broken image
+                                                        const parent = (e.target as HTMLImageElement).parentElement;
+                                                        if (parent) {
+                                                            const textFallback = document.createElement('span');
+                                                            textFallback.className = 'text-sm font-medium text-center text-white/70';
+                                                            textFallback.textContent = partner.name;
+                                                            parent.appendChild(textFallback);
+                                                        }
+                                                    }}
+                                                />
+                                            ) : (
+                                                <span className="text-sm font-medium text-center text-white/70">
+                                                    {partner.name}
+                                                </span>
+                                            )}
+                                        </a>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Control Buttons (Desktop Only) */}
+                        <div className="hidden md:block"> {/* Keep hidden on mobile */}
+                            <button
+                                onClick={scrollPrev}
+                                aria-label="Previous partner logo"
+                                className="absolute left-0 top-1/2 -translate-y-1/2 transform -translate-x-2 bg-primary hover:bg-primary/80 text-white p-2 rounded-full shadow-lg transition-opacity opacity-70 hover:opacity-100 z-10 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-slate-900"
+                            >
+                                <ChevronLeft className="w-5 h-5" />
+                            </button>
+                            <button
+                                onClick={scrollNext}
+                                aria-label="Next partner logo"
+                                className="absolute right-0 top-1/2 -translate-y-1/2 transform translate-x-2 bg-primary hover:bg-primary/80 text-white p-2 rounded-full shadow-lg transition-opacity opacity-70 hover:opacity-100 z-10 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-slate-900"
+                            >
+                                <ChevronRight className="w-5 h-5" />
+                            </button>
+                        </div>
+                    </div>
+                ) : (
+                    // Empty State
+                     <div className="text-center py-10 px-6 bg-slate-800/50 rounded-lg border border-slate-700 max-w-md mx-auto">
+                        <HandshakeIcon className="h-12 w-12 text-slate-500 mx-auto mb-4" />
+                        <p className="text-slate-400 text-base">Партнеры пока не добавлены.</p>
+                        <p className="text-slate-500 text-sm mt-1">Скоро здесь появится информация о наших надежных партнерах.</p>
+                    </div>
+                )}
+
+                {/* Decorative bottom line (optional) */}
+                {/* <div className="w-full max-w-xs h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent mx-auto mt-16 md:mt-20"></div> */}
             </div>
-
-            {/* Кнопки управления (только для ПК) */}
-            <div className="hidden md:flex justify-between absolute inset-0 items-center">
-              <button
-                onClick={scrollPrev}
-                className="absolute left-0 top-1/2 -translate-y-1/2 bg-primary hover:bg-primary/80 text-white p-3 rounded-full shadow-lg"
-              >
-                <ChevronLeft className="w-6 h-6" />
-              </button>
-              <button
-                onClick={scrollNext}
-                className="absolute right-0 top-1/2 -translate-y-1/2 bg-primary hover:bg-primary/80 text-white p-3 rounded-full shadow-lg"
-              >
-                <ChevronRight className="w-6 h-6" />
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className="text-center py-10 bg-slate-800/50 rounded-lg border border-slate-700 max-w-lg mx-auto">
-            <HandshakeIcon className="h-16 w-16 text-slate-500 mx-auto mb-4" />
-            <p className="text-slate-400">Партнеры пока не добавлены</p>
-          </div>
-        )}
-
-        {/* Декоративная нижняя линия */}
-        <div className="w-full max-w-md h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent mx-auto mt-20"></div>
-      </div>
-    </section>
-  );
+        </section>
+    );
 };
 
 export default PartnersShowcaseSection;
