@@ -55,14 +55,20 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const login = async (email: string, password: string) => {
     try {
-      // Using a custom fetch approach instead of the typed RPC function
-      // This bypasses TypeScript's strict checking of RPC function names
+      console.log('Attempting login with:', { email });
+      
+      // Using edge function to verify admin credentials
       const { data, error } = await supabase.functions.invoke('verify-admin-credentials', {
         body: { email, password },
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Login error:', error);
+        throw error;
+      }
 
+      console.log('Login response:', data);
+      
       if (!data || !Array.isArray(data) || data.length === 0) {
         throw new Error('Неверные учетные данные');
       }
