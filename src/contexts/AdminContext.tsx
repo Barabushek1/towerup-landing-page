@@ -42,18 +42,6 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           setAdmin(JSON.parse(storedAdmin));
         }
         
-        // Fetch admin data from Supabase to verify credentials
-        const { data: adminData, error } = await supabase
-          .from('admin_users')
-          .select('*')
-          .single();
-
-        if (error) {
-          console.error('Error fetching admin data:', error);
-          setAdmin(null);
-          localStorage.removeItem('admin');
-        }
-
         setIsMaxAdminsReached(true);
         setIsLoading(false);
       } catch (error) {
@@ -67,32 +55,53 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const login = async (email: string, password: string) => {
     try {
-      // Query the admin_users table to find the admin with the given email
-      const { data: adminData, error } = await supabase
-        .from('admin_users')
-        .select('*')
-        .eq('email', email)
-        .single();
+      // We'll use a direct check for our known admin credentials
+      // since we have a fixed admin account
+      if (email === 'towerup@admin.ru' && password === 'Towerup_admin1234') {
+        // Query the admin_users table to check if admin exists
+        const { data: adminData, error } = await supabase
+          .from('admin_users')
+          .select('*')
+          .eq('email', email);
 
-      if (error || !adminData) {
+        // Create admin user in database if not found
+        let adminInfo: Admin;
+
+        if (error || !adminData || adminData.length === 0) {
+          // Admin not found in database, create one
+          const { data: newAdmin, error: insertError } = await supabase
+            .from('admin_users')
+            .insert([
+              { email: 'towerup@admin.ru', name: 'Администратор' }
+            ])
+            .select()
+            .single();
+
+          if (insertError) {
+            console.error('Error creating admin:', insertError);
+            throw new Error('Ошибка создания администратора');
+          }
+
+          adminInfo = {
+            id: newAdmin.id,
+            email: newAdmin.email,
+            name: newAdmin.name || 'Администратор'
+          };
+        } else {
+          // Admin found in database
+          adminInfo = {
+            id: adminData[0].id,
+            email: adminData[0].email,
+            name: adminData[0].name || 'Администратор'
+          };
+        }
+
+        setAdmin(adminInfo);
+        localStorage.setItem('admin', JSON.stringify(adminInfo));
+        console.log('Успешный вход:', adminInfo);
+      } else {
         throw new Error('Неверные учетные данные');
       }
-
-      // For demonstration, we're using the default password
-      // In a real application, you should use proper authentication
-      if (password !== 'Towerup_admin1234') {
-        throw new Error('Неверные учетные данные');
-      }
-
-      const adminInfo = {
-        id: adminData.id,
-        email: adminData.email,
-        name: adminData.name,
-      };
-
-      setAdmin(adminInfo);
-      localStorage.setItem('admin', JSON.stringify(adminInfo));
-      console.log('Успешный вход:', adminInfo);
     } catch (error) {
       console.error('Ошибка входа:', error);
       throw error;
