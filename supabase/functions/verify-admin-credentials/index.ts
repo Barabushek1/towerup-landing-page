@@ -27,65 +27,25 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
     
-    // For testing, let's add a fallback if the RPC doesn't exist
-    try {
-      // First attempt to use the RPC function
-      const { data, error } = await supabaseClient
-        .rpc('verify_admin_credentials', {
-          p_email: email,
-          p_password: password
-        });
-      
-      if (error) throw error;
-      
-      return new Response(
-        JSON.stringify(data),
-        { 
-          headers: { 
-            ...corsHeaders,
-            'Content-Type': 'application/json' 
-          },
-          status: 200 
-        }
-      );
-    } catch (rpcError) {
-      console.error('RPC Error:', rpcError);
-      
-      // Fallback: direct query if RPC isn't available yet
-      const { data, error } = await supabaseClient
-        .from('admin_users')
-        .select('id, email, name')
-        .eq('email', email)
-        .single();
-      
-      if (error) throw error;
-      
-      // For demonstration purposes - in production we should never do this
-      // We're bypassing password checking during this migration period
-      if (data && email === 'towerup@admin.ru' && password === 'Towerup_admin1234') {
-        return new Response(
-          JSON.stringify([data]),
-          { 
-            headers: { 
-              ...corsHeaders,
-              'Content-Type': 'application/json' 
-            },
-            status: 200 
-          }
-        );
-      } else {
-        return new Response(
-          JSON.stringify({ error: 'Invalid credentials' }),
-          { 
-            headers: { 
-              ...corsHeaders,
-              'Content-Type': 'application/json' 
-            },
-            status: 400 
-          }
-        );
+    // Call the RPC function to verify admin credentials
+    const { data, error } = await supabaseClient
+      .rpc('verify_admin_credentials', {
+        p_email: email,
+        p_password: password
+      });
+    
+    if (error) throw error;
+    
+    return new Response(
+      JSON.stringify(data),
+      { 
+        headers: { 
+          ...corsHeaders,
+          'Content-Type': 'application/json' 
+        },
+        status: 200 
       }
-    }
+    );
   } catch (error) {
     console.error('Error in verify-admin-credentials function:', error);
     
@@ -101,3 +61,4 @@ serve(async (req) => {
     );
   }
 });
+
