@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -29,7 +28,7 @@ export const useAdmin = () => {
 export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [admin, setAdmin] = useState<Admin | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isMaxAdminsReached, setIsMaxAdminsReached] = useState<boolean>(true); // Always true to prevent registration
+  const [isMaxAdminsReached, setIsMaxAdminsReached] = useState<boolean>(true);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -42,25 +41,20 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     // Создаем или проверяем наличие дефолтного аккаунта администратора
     const defaultAdmin = {
       id: '1',
-      email: 'admin@towerup.ru',
-      password: 'admin123', // пароль будет доступен только в localStorage
+      email: 'towerup@admin.ru',
+      password: 'Towerup_admin1234',
       name: 'Администратор',
     };
     
     // Получаем текущий список администраторов
     let admins = JSON.parse(localStorage.getItem('admins') || '[]');
     
-    // Проверяем наличие дефолтного админа
-    const hasDefaultAdmin = admins.some((a: any) => a.id === '1');
+    // Удаляем старые учетные данные и добавляем новые
+    admins = [defaultAdmin];
+    localStorage.setItem('admins', JSON.stringify(admins));
+    console.log('Учетные данные администратора обновлены');
     
-    // Если дефолтный админ отсутствует, добавляем его
-    if (!hasDefaultAdmin) {
-      admins = [defaultAdmin];
-      localStorage.setItem('admins', JSON.stringify(admins));
-      console.log('Создан дефолтный аккаунт администратора');
-    }
-    
-    setIsMaxAdminsReached(true); // Запрещаем регистрацию новых администраторов
+    setIsMaxAdminsReached(true);
     setIsLoading(false);
   }, []);
 
