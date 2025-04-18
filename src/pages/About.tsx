@@ -16,7 +16,6 @@ import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carouse
 import { Card, CardContent } from '@/components/ui/card';
 import { useIsMobile } from '@/hooks/use-mobile';
 
-// Animation variants
 const fadeInUp = {
   hidden: { opacity: 0, y: 40 },
   visible: { 
@@ -289,7 +288,7 @@ const About: React.FC = () => {
         <section className="py-16 bg-[#161616]">
           <div className="container mx-auto px-6">
             <motion.div 
-              className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10"
+              className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4 md:gap-10"
               variants={staggerContainer}
               initial="hidden"
               whileInView="visible"
@@ -299,10 +298,10 @@ const About: React.FC = () => {
                 <motion.div 
                   key={index}
                   variants={fadeInUp}
-                  className="bg-[#1E1E1E] p-6 md:p-8 rounded-lg border border-white/5 text-center hover:border-primary/30 transition-all duration-300 transform hover:translate-y-[-5px]"
+                  className="bg-[#1E1E1E] p-4 sm:p-6 md:p-8 rounded-lg border border-white/5 text-center hover:border-primary/30 transition-all duration-300 transform hover:translate-y-[-5px]"
                 >
-                  <h3 className="text-3xl md:text-4xl font-bold text-primary mb-2">{stat.number}</h3>
-                  <p className="text-sm md:text-base text-gray-400">{stat.label}</p>
+                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-1 sm:mb-2">{stat.number}</h3>
+                  <p className="text-xs sm:text-sm md:text-base text-gray-400 leading-tight">{stat.label}</p>
                 </motion.div>
               ))}
             </motion.div>
