@@ -55,21 +55,28 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const login = async (email: string, password: string) => {
     try {
-      // Hard-coded admin credentials check - no database operations
-      if (email === 'towerup@admin.ru' && password === 'Towerup_admin1234') {
-        const adminInfo: Admin = {
-          // Generate a consistent ID for the admin
-          id: '00000000-0000-0000-0000-000000000000',
-          email: 'towerup@admin.ru',
-          name: 'Администратор'
-        };
-        
-        setAdmin(adminInfo);
-        localStorage.setItem('admin', JSON.stringify(adminInfo));
-        console.log('Успешный вход:', adminInfo);
-      } else {
+      // Query the admin_users table and verify password using pgcrypto
+      const { data: adminData, error } = await supabase
+        .rpc('verify_admin_credentials', {
+          p_email: email,
+          p_password: password
+        });
+
+      if (error) throw error;
+
+      if (!adminData) {
         throw new Error('Неверные учетные данные');
       }
+
+      const adminInfo: Admin = {
+        id: adminData.id,
+        email: adminData.email,
+        name: adminData.name || 'Администратор'
+      };
+      
+      setAdmin(adminInfo);
+      localStorage.setItem('admin', JSON.stringify(adminInfo));
+      console.log('Успешный вход:', adminInfo);
     } catch (error) {
       console.error('Ошибка входа:', error);
       throw error;
