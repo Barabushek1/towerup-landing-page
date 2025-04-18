@@ -55,47 +55,15 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const login = async (email: string, password: string) => {
     try {
-      // We'll use a direct check for our known admin credentials
-      // since we have a fixed admin account
+      // Hard-coded admin credentials check - no database operations
       if (email === 'towerup@admin.ru' && password === 'Towerup_admin1234') {
-        // Query the admin_users table to check if admin exists
-        const { data: adminData, error } = await supabase
-          .from('admin_users')
-          .select('*')
-          .eq('email', email);
-
-        // Create admin user in database if not found
-        let adminInfo: Admin;
-
-        if (error || !adminData || adminData.length === 0) {
-          // Admin not found in database, create one
-          const { data: newAdmin, error: insertError } = await supabase
-            .from('admin_users')
-            .insert([
-              { email: 'towerup@admin.ru', name: 'Администратор' }
-            ])
-            .select()
-            .single();
-
-          if (insertError) {
-            console.error('Error creating admin:', insertError);
-            throw new Error('Ошибка создания администратора');
-          }
-
-          adminInfo = {
-            id: newAdmin.id,
-            email: newAdmin.email,
-            name: newAdmin.name || 'Администратор'
-          };
-        } else {
-          // Admin found in database
-          adminInfo = {
-            id: adminData[0].id,
-            email: adminData[0].email,
-            name: adminData[0].name || 'Администратор'
-          };
-        }
-
+        const adminInfo: Admin = {
+          // Generate a consistent ID for the admin
+          id: '00000000-0000-0000-0000-000000000000',
+          email: 'towerup@admin.ru',
+          name: 'Администратор'
+        };
+        
         setAdmin(adminInfo);
         localStorage.setItem('admin', JSON.stringify(adminInfo));
         console.log('Успешный вход:', adminInfo);
