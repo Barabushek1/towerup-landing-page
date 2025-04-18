@@ -246,6 +246,14 @@ export type Database = {
         Args: { user_id: string }
         Returns: boolean
       }
+      verify_admin_credentials: {
+        Args: { p_email: string; p_password: string }
+        Returns: {
+          id: string
+          email: string
+          name: string
+        }[]
+      }
     }
     Enums: {
       user_role: "admin" | "user"
