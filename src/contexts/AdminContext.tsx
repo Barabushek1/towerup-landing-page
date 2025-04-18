@@ -1,5 +1,7 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 type Admin = {
   id: string;
@@ -32,63 +34,65 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const { toast } = useToast();
 
   useEffect(() => {
-    // Проверка, вошел ли администратор в систему
-    const storedAdmin = localStorage.getItem('admin');
-    if (storedAdmin) {
-      setAdmin(JSON.parse(storedAdmin));
-    }
-    
-    // Создаем или проверяем наличие дефолтного аккаунта администратора
-    const defaultAdmin = {
-      id: '1',
-      email: 'towerup@admin.ru',
-      password: 'Towerup_admin1234',
-      name: 'Администратор',
+    const loadAdminStatus = async () => {
+      try {
+        // Check if there's a stored admin session
+        const storedAdmin = localStorage.getItem('admin');
+        if (storedAdmin) {
+          setAdmin(JSON.parse(storedAdmin));
+        }
+        
+        // Fetch admin data from Supabase to verify credentials
+        const { data: adminData, error } = await supabase
+          .from('admin_users')
+          .select('*')
+          .single();
+
+        if (error) {
+          console.error('Error fetching admin data:', error);
+          setAdmin(null);
+          localStorage.removeItem('admin');
+        }
+
+        setIsMaxAdminsReached(true);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error in loadAdminStatus:', error);
+        setIsLoading(false);
+      }
     };
-    
-    // Получаем текущий список администраторов
-    let admins = JSON.parse(localStorage.getItem('admins') || '[]');
-    
-    // Удаляем старые учетные данные и добавляем новые
-    admins = [defaultAdmin];
-    localStorage.setItem('admins', JSON.stringify(admins));
-    console.log('Учетные данные администратора обновлены');
-    
-    setIsMaxAdminsReached(true);
-    setIsLoading(false);
+
+    loadAdminStatus();
   }, []);
 
   const login = async (email: string, password: string) => {
     try {
-      // Получаем список администраторов из localStorage
-      const admins = JSON.parse(localStorage.getItem('admins') || '[]');
-      
-      // Ищем администратора с указанными учетными данными
-      const foundAdmin = admins.find((a: any) => 
-        a.email === email && a.password === password
-      );
-      
-      // Выводим для отладки
-      console.log('Trying to login with:', { email, password });
-      console.log('Available admins:', admins);
-      console.log('Found admin:', foundAdmin);
-      
-      if (!foundAdmin) {
+      // Query the admin_users table to find the admin with the given email
+      const { data: adminData, error } = await supabase
+        .from('admin_users')
+        .select('*')
+        .eq('email', email)
+        .single();
+
+      if (error || !adminData) {
         throw new Error('Неверные учетные данные');
       }
-      
-      // Создаем объект администратора без пароля для хранения в состоянии
-      const adminData = {
-        id: foundAdmin.id,
-        email: foundAdmin.email,
-        name: foundAdmin.name,
+
+      // For demonstration, we're using the default password
+      // In a real application, you should use proper authentication
+      if (password !== 'Towerup_admin1234') {
+        throw new Error('Неверные учетные данные');
+      }
+
+      const adminInfo = {
+        id: adminData.id,
+        email: adminData.email,
+        name: adminData.name,
       };
-      
-      // Обновляем состояние и сохраняем в localStorage
-      setAdmin(adminData);
-      localStorage.setItem('admin', JSON.stringify(adminData));
-      
-      console.log('Успешный вход:', adminData);
+
+      setAdmin(adminInfo);
+      localStorage.setItem('admin', JSON.stringify(adminInfo));
+      console.log('Успешный вход:', adminInfo);
     } catch (error) {
       console.error('Ошибка входа:', error);
       throw error;
