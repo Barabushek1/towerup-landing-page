@@ -55,20 +55,15 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const login = async (email: string, password: string) => {
     try {
-      // Query the admin_users table and verify password using pgcrypto
-      // Using type assertion to handle the RPC function
-      const { data, error } = await supabase
-        .rpc('verify_admin_credentials', {
-          p_email: email,
-          p_password: password
-        }) as unknown as { 
-          data: Array<{id: string, email: string, name: string | null}> | null, 
-          error: Error | null 
-        };
+      // Using a custom fetch approach instead of the typed RPC function
+      // This bypasses TypeScript's strict checking of RPC function names
+      const { data, error } = await supabase.functions.invoke('verify-admin-credentials', {
+        body: { email, password },
+      });
 
       if (error) throw error;
 
-      if (!data || data.length === 0) {
+      if (!data || !Array.isArray(data) || data.length === 0) {
         throw new Error('Неверные учетные данные');
       }
 
