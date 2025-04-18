@@ -56,7 +56,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const login = async (email: string, password: string) => {
     try {
       // Query the admin_users table and verify password using pgcrypto
-      const { data: adminData, error } = await supabase
+      const { data, error } = await supabase
         .rpc('verify_admin_credentials', {
           p_email: email,
           p_password: password
@@ -64,10 +64,13 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
       if (error) throw error;
 
-      if (!adminData) {
+      if (!data || data.length === 0) {
         throw new Error('Неверные учетные данные');
       }
 
+      // Extract the first result from the data array
+      const adminData = data[0];
+      
       const adminInfo: Admin = {
         id: adminData.id,
         email: adminData.email,
