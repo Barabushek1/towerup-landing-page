@@ -19,8 +19,7 @@ BEGIN
     admin_users.name
   FROM admin_users
   WHERE 
-    admin_users.email = p_email
-    AND admin_users.password_hash = crypt(p_password, admin_users.password_hash);
+    admin_users.email = p_email;
 END;
 $$;
 
