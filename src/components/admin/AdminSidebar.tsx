@@ -10,7 +10,8 @@ import {
   LogOut, 
   User,
   Users,
-  Shield
+  Shield,
+  FileSearch
 } from 'lucide-react';
 import { useAdminData } from '@/contexts/AdminDataContext';
 
@@ -56,6 +57,12 @@ const AdminSidebar: React.FC = () => {
       name: 'Журнал действий',
       href: '/admin/audit-logs',
       icon: <Shield className="h-5 w-5" />,
+      badge: null,
+    },
+    {
+      name: 'Системный журнал',
+      href: '/admin/detailed-audit-logs',
+      icon: <FileSearch className="h-5 w-5" />,
       badge: null,
     }
   ];

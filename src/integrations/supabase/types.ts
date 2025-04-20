@@ -13,28 +13,58 @@ export type Database = {
         Row: {
           action_type: string
           admin_email: string | null
+          browser: string | null
+          cpu_cores: number | null
           created_at: string
           details: Json | null
+          device_type: string | null
           id: string
           ip_address: string | null
+          language: string | null
+          memory: string | null
+          network_type: string | null
+          os: string | null
+          platform: string | null
+          screen_resolution: string | null
+          timezone: string | null
           user_agent: string | null
         }
         Insert: {
           action_type: string
           admin_email?: string | null
+          browser?: string | null
+          cpu_cores?: number | null
           created_at?: string
           details?: Json | null
+          device_type?: string | null
           id?: string
           ip_address?: string | null
+          language?: string | null
+          memory?: string | null
+          network_type?: string | null
+          os?: string | null
+          platform?: string | null
+          screen_resolution?: string | null
+          timezone?: string | null
           user_agent?: string | null
         }
         Update: {
           action_type?: string
           admin_email?: string | null
+          browser?: string | null
+          cpu_cores?: number | null
           created_at?: string
           details?: Json | null
+          device_type?: string | null
           id?: string
           ip_address?: string | null
+          language?: string | null
+          memory?: string | null
+          network_type?: string | null
+          os?: string | null
+          platform?: string | null
+          screen_resolution?: string | null
+          timezone?: string | null
           user_agent?: string | null
         }
         Relationships: []

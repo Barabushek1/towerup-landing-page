@@ -22,6 +22,7 @@ import Design from "./pages/Design";
 import Solutions from "./pages/Solutions";
 import ChatBot from "./components/ChatBot";
 import AdminAuditLogs from "./pages/admin/AdminAuditLogs";
+import AdminDetailedAuditLogs from "./pages/admin/AdminDetailedAuditLogs";
 
 // Detailed pages
 import NewsDetail from "./pages/NewsDetail";
@@ -79,6 +80,7 @@ const AppContent = () => {
           <Route path="/admin/messages" element={<AdminLayout><AdminMessages /></AdminLayout>} />
           <Route path="/admin/partners" element={<AdminLayout><AdminPartners /></AdminLayout>} />
           <Route path="/admin/audit-logs" element={<AdminLayout><AdminAuditLogs /></AdminLayout>} />
+          <Route path="/admin/detailed-audit-logs" element={<AdminLayout><AdminDetailedAuditLogs /></AdminLayout>} />
           
           {/* Catch-all route */}
           <Route path="*" element={<NotFound />} />
