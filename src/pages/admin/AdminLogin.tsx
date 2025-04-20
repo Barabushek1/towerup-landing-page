@@ -9,7 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2, LogIn, UserPlus } from 'lucide-react';
 
 const AdminLogin: React.FC = () => {
-  const { admin, isLoading, login, signup } = useAdmin();
+  const { admin, isLoading, login, signup, isMaxAdminsReached } = useAdmin();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -67,9 +67,10 @@ const AdminLogin: React.FC = () => {
       });
       navigate('/admin/dashboard');
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Signup failed";
       toast({
         title: "Signup Error",
-        description: error instanceof Error ? error.message : "Signup failed",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
@@ -153,6 +154,12 @@ const AdminLogin: React.FC = () => {
             </form>
           ) : (
             <form onSubmit={handleSignup} className="space-y-4">
+              {isMaxAdminsReached && (
+                <div className="bg-yellow-900/50 border border-yellow-700 text-yellow-200 p-3 rounded mb-4">
+                  Maximum number of admin accounts reached (2). Please contact an existing administrator.
+                </div>
+              )}
+            
               <div className="space-y-2">
                 <Label htmlFor="signup-name">Name</Label>
                 <Input
@@ -163,6 +170,7 @@ const AdminLogin: React.FC = () => {
                   onChange={(e) => setSignupName(e.target.value)}
                   required
                   className="bg-slate-700 border-slate-600 text-white"
+                  disabled={isMaxAdminsReached}
                 />
               </div>
 
@@ -176,6 +184,7 @@ const AdminLogin: React.FC = () => {
                   onChange={(e) => setSignupEmail(e.target.value)}
                   required
                   className="bg-slate-700 border-slate-600 text-white"
+                  disabled={isMaxAdminsReached}
                 />
               </div>
               
@@ -189,10 +198,15 @@ const AdminLogin: React.FC = () => {
                   onChange={(e) => setSignupPassword(e.target.value)}
                   required
                   className="bg-slate-700 border-slate-600 text-white"
+                  disabled={isMaxAdminsReached}
                 />
               </div>
               
-              <Button type="submit" className="w-full" disabled={isSignupLoading}>
+              <Button 
+                type="submit" 
+                className="w-full" 
+                disabled={isSignupLoading || isMaxAdminsReached}
+              >
                 {isSignupLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

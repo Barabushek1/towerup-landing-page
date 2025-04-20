@@ -47,7 +47,43 @@ serve(async (req) => {
       }
       
       if (existingUser) {
-        throw new Error('Email already in use');
+        return new Response(
+          JSON.stringify({ error: 'Email already in use' }),
+          { 
+            headers: { 
+              ...corsHeaders,
+              'Content-Type': 'application/json' 
+            },
+            status: 400 
+          }
+        );
+      }
+      
+      // Check if we've reached the max admin count (now 2)
+      const { count, error: countError } = await supabaseClient
+        .from('admin_users')
+        .select('*', { count: 'exact', head: true });
+        
+      if (countError) throw countError;
+      
+      if (count !== null && count >= 2) {
+        return new Response(
+          JSON.stringify({ error: 'Maximum number of admin users reached (2)' }),
+          { 
+            headers: { 
+              ...corsHeaders,
+              'Content-Type': 'application/json' 
+            },
+            status: 400 
+          }
+        );
+      }
+      
+      // Hash the password
+      const { data: hashData } = await supabaseClient.auth.admin.generateHash(password);
+      
+      if (!hashData) {
+        throw new Error('Failed to hash password');
       }
       
       // Insert new admin user
@@ -56,8 +92,7 @@ serve(async (req) => {
         .insert({
           email,
           name: name || email.split('@')[0],
-          password_hash: supabaseClient.auth.admin
-            .hashPassword(password)
+          password_hash: hashData.hash
         })
         .select();
       
@@ -100,7 +135,16 @@ serve(async (req) => {
       );
     } catch (rpcError) {
       console.error('Login failed:', rpcError);
-      throw new Error('Invalid credentials');
+      return new Response(
+        JSON.stringify({ error: 'Invalid credentials' }),
+        { 
+          headers: { 
+            ...corsHeaders,
+            'Content-Type': 'application/json' 
+          },
+          status: 401 
+        }
+      );
     }
   } catch (error) {
     console.error('Error in verify-admin-credentials function:', error);

@@ -64,8 +64,8 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         
         if (error) throw error;
         
-        // Assuming we want to limit to 5 admin users
-        setIsMaxAdminsReached(count !== null && count >= 5);
+        // Changed from 5 to 2 admin users limit
+        setIsMaxAdminsReached(count !== null && count >= 2);
         setIsLoading(false);
       } catch (error) {
         console.error('Error in loadAdminStatus:', error);
@@ -81,7 +81,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const signup = async (email: string, password: string, name: string) => {
     if (isMaxAdminsReached) {
-      throw new Error('Maximum number of admin users reached');
+      throw new Error('Maximum number of admin users reached (2)');
     }
 
     try {
