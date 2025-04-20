@@ -39,7 +39,22 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       try {
         const storedAdmin = localStorage.getItem('admin');
         if (storedAdmin) {
-          setAdmin(JSON.parse(storedAdmin));
+          const parsedAdmin = JSON.parse(storedAdmin);
+          
+          // Verify if the admin still exists in the database
+          const { data, error } = await supabase
+            .from('admin_users')
+            .select('id')
+            .eq('id', parsedAdmin.id)
+            .single();
+          
+          if (error || !data) {
+            console.log('Stored admin no longer exists in database, logging out');
+            localStorage.removeItem('admin');
+            setAdmin(null);
+          } else {
+            setAdmin(parsedAdmin);
+          }
         }
         
         // Check total number of admin users
@@ -54,6 +69,9 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setIsLoading(false);
       } catch (error) {
         console.error('Error in loadAdminStatus:', error);
+        // In case of error, still set loading to false but clear admin
+        localStorage.removeItem('admin');
+        setAdmin(null);
         setIsLoading(false);
       }
     };

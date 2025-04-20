@@ -1,20 +1,21 @@
 
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
-import { AdminProvider } from './contexts/AdminContext.tsx'
-import { AdminDataProvider } from './contexts/AdminDataContext.tsx'
-import { BrowserRouter } from 'react-router-dom'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
+import './index.css';
+import './fonts.css';
+import { AdminProvider } from './contexts/AdminContext';
+import { AdminDataProvider } from './contexts/AdminDataContext';
 
-// Enable handling of sub-paths for Vercel deployment
-const basename = import.meta.env.BASE_URL || "/"
-
-createRoot(document.getElementById("root")!).render(
-  <BrowserRouter basename={basename}>
-    <AdminProvider>
-      <AdminDataProvider>
-        <App />
-      </AdminDataProvider>
-    </AdminProvider>
-  </BrowserRouter>
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <AdminProvider>
+        <AdminDataProvider>
+          <App />
+        </AdminDataProvider>
+      </AdminProvider>
+    </BrowserRouter>
+  </React.StrictMode>
 );
