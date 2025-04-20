@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAdmin } from '@/contexts/AdminContext';
@@ -10,7 +9,8 @@ import {
   MessageSquare, 
   LogOut, 
   User,
-  Users
+  Users,
+  Shield
 } from 'lucide-react';
 import { useAdminData } from '@/contexts/AdminDataContext';
 
@@ -51,6 +51,12 @@ const AdminSidebar: React.FC = () => {
       href: '/admin/messages',
       icon: <MessageSquare className="h-5 w-5" />,
       badge: unreadMessages > 0 ? unreadMessages : null,
+    },
+    {
+      name: 'Журнал действий',
+      href: '/admin/audit-logs',
+      icon: <Shield className="h-5 w-5" />,
+      badge: null,
     }
   ];
 

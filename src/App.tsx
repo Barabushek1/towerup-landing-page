@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -21,19 +20,7 @@ import Construction from "./pages/Construction";
 import Design from "./pages/Design";
 import Solutions from "./pages/Solutions";
 import ChatBot from "./components/ChatBot";
-
-// Детальные страницы
-import NewsDetail from "./pages/NewsDetail";
-import VacancyDetail from "./pages/VacancyDetail";
-
-// Admin Panel Routes
-import AdminLogin from "./pages/admin/AdminLogin";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminNews from "./pages/admin/AdminNews";
-import AdminVacancies from "./pages/admin/AdminVacancies";
-import AdminMessages from "./pages/admin/AdminMessages";
-import AdminPartners from "./pages/admin/AdminPartners";
-import AdminLayout from "./components/admin/AdminLayout";
+import AdminAuditLogs from "./pages/admin/AdminAuditLogs";
 
 const queryClient = new QueryClient();
 
@@ -77,6 +64,7 @@ const AppContent = () => {
           <Route path="/admin/vacancies" element={<AdminLayout><AdminVacancies /></AdminLayout>} />
           <Route path="/admin/messages" element={<AdminLayout><AdminMessages /></AdminLayout>} />
           <Route path="/admin/partners" element={<AdminLayout><AdminPartners /></AdminLayout>} />
+          <Route path="/admin/audit-logs" element={<AdminLayout><AdminAuditLogs /></AdminLayout>} />
           
           {/* Catch-all route */}
           <Route path="*" element={<NotFound />} />
