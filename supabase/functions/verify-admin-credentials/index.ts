@@ -1,7 +1,7 @@
 
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.7.1';
-import * as bcrypt from 'https://deno.land/x/bcrypt@v0.4.0/mod.ts';
+import { compare, hash, genSalt } from 'https://deno.land/x/bcrypt@v0.2.4/mod.ts';
 
 interface RequestBody {
   email: string;
@@ -81,9 +81,9 @@ serve(async (req) => {
       }
       
       try {
-        // Hash the password with Deno-compatible bcrypt (v0.4.0)
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
+        // Hash the password with Deno-compatible bcrypt (v0.2.4)
+        const salt = await genSalt(10);
+        const hashedPassword = await hash(password, salt);
         
         // Insert new admin user
         const { data: newUser, error: insertError } = await supabaseClient
@@ -147,7 +147,7 @@ serve(async (req) => {
       
       try {
         // Compare the provided password with the stored hash
-        const passwordMatches = await bcrypt.compare(password, userData.password_hash);
+        const passwordMatches = await compare(password, userData.password_hash);
         
         if (!passwordMatches) {
           return new Response(
