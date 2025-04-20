@@ -1,7 +1,7 @@
 
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.7.1';
-import * as bcrypt from 'https://deno.land/x/bcrypt/mod.ts';
+import * as bcrypt from 'https://deno.land/x/bcrypt@v0.4.0/mod.ts';
 
 interface RequestBody {
   email: string;
@@ -80,36 +80,50 @@ serve(async (req) => {
         );
       }
       
-      // Hash the password with Deno-compatible bcrypt
-      const hashedPassword = await bcrypt.hash(password);
-      
-      // Insert new admin user
-      const { data: newUser, error: insertError } = await supabaseClient
-        .from('admin_users')
-        .insert({
-          email,
-          name: name || email.split('@')[0],
-          password_hash: hashedPassword
-        })
-        .select();
-      
-      if (insertError) throw insertError;
-      
-      return new Response(
-        JSON.stringify(newUser),
-        { 
-          headers: { 
-            ...corsHeaders,
-            'Content-Type': 'application/json' 
-          },
-          status: 200 
-        }
-      );
+      try {
+        // Hash the password with Deno-compatible bcrypt (v0.4.0)
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        
+        // Insert new admin user
+        const { data: newUser, error: insertError } = await supabaseClient
+          .from('admin_users')
+          .insert({
+            email,
+            name: name || email.split('@')[0],
+            password_hash: hashedPassword
+          })
+          .select();
+        
+        if (insertError) throw insertError;
+        
+        return new Response(
+          JSON.stringify(newUser),
+          { 
+            headers: { 
+              ...corsHeaders,
+              'Content-Type': 'application/json' 
+            },
+            status: 200 
+          }
+        );
+      } catch (bcryptError) {
+        console.error('Bcrypt error:', bcryptError);
+        return new Response(
+          JSON.stringify({ error: 'Password hashing failed' }),
+          { 
+            headers: { 
+              ...corsHeaders,
+              'Content-Type': 'application/json' 
+            },
+            status: 500 
+          }
+        );
+      }
     }
     
     // Login action
     try {
-      // For login, we'll use a modified approach since the SQL function expects a crypt-compatible hash
       // First, get the user details including the password hash
       const { data: userData, error: userError } = await supabaseClient
         .from('admin_users')
@@ -131,35 +145,49 @@ serve(async (req) => {
         );
       }
       
-      // Compare the provided password with the stored hash
-      const passwordMatches = await bcrypt.compare(password, userData.password_hash);
-      
-      if (!passwordMatches) {
+      try {
+        // Compare the provided password with the stored hash
+        const passwordMatches = await bcrypt.compare(password, userData.password_hash);
+        
+        if (!passwordMatches) {
+          return new Response(
+            JSON.stringify({ error: 'Invalid credentials' }),
+            { 
+              headers: { 
+                ...corsHeaders,
+                'Content-Type': 'application/json' 
+              },
+              status: 401 
+            }
+          );
+        }
+        
+        // If password matches, return the user data (excluding the password hash)
+        const { password_hash, ...userDataWithoutPassword } = userData;
+        
         return new Response(
-          JSON.stringify({ error: 'Invalid credentials' }),
+          JSON.stringify([userDataWithoutPassword]),
           { 
             headers: { 
               ...corsHeaders,
               'Content-Type': 'application/json' 
             },
-            status: 401 
+            status: 200 
+          }
+        );
+      } catch (bcryptError) {
+        console.error('Password verification error:', bcryptError);
+        return new Response(
+          JSON.stringify({ error: 'Password verification failed' }),
+          { 
+            headers: { 
+              ...corsHeaders,
+              'Content-Type': 'application/json' 
+            },
+            status: 500 
           }
         );
       }
-      
-      // If password matches, return the user data (excluding the password hash)
-      const { password_hash, ...userDataWithoutPassword } = userData;
-      
-      return new Response(
-        JSON.stringify([userDataWithoutPassword]),
-        { 
-          headers: { 
-            ...corsHeaders,
-            'Content-Type': 'application/json' 
-          },
-          status: 200 
-        }
-      );
     } catch (rpcError) {
       console.error('Login failed:', rpcError);
       return new Response(
