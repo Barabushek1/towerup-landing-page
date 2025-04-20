@@ -6,17 +6,24 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, LogIn } from 'lucide-react';
+import { Loader2, LogIn, UserPlus } from 'lucide-react';
 
 const AdminLogin: React.FC = () => {
-  const { admin, isLoading, login } = useAdmin();
+  const { admin, isLoading, login, signup } = useAdmin();
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // Состояние формы входа
+  // Login state
   const [loginEmail, setLoginEmail] = useState<string>('');
   const [loginPassword, setLoginPassword] = useState<string>('');
   const [isLoginLoading, setIsLoginLoading] = useState<boolean>(false);
+
+  // Signup state
+  const [signupEmail, setSignupEmail] = useState<string>('');
+  const [signupPassword, setSignupPassword] = useState<string>('');
+  const [signupName, setSignupName] = useState<string>('');
+  const [isSignupLoading, setIsSignupLoading] = useState<boolean>(false);
+  const [isSignupMode, setIsSignupMode] = useState<boolean>(false);
 
   useEffect(() => {
     if (admin) {
@@ -31,19 +38,42 @@ const AdminLogin: React.FC = () => {
     try {
       await login(loginEmail, loginPassword);
       toast({
-        title: "Вход выполнен успешно",
-        description: "Добро пожаловать в панель администратора",
+        title: "Login Successful",
+        description: "Welcome to the admin panel",
         variant: "default",
       });
       navigate('/admin/dashboard');
     } catch (error) {
       toast({
-        title: "Ошибка входа",
-        description: "Неверный email или пароль",
+        title: "Login Error",
+        description: "Invalid email or password",
         variant: "destructive",
       });
     } finally {
       setIsLoginLoading(false);
+    }
+  };
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSignupLoading(true);
+    
+    try {
+      await signup(signupEmail, signupPassword, signupName);
+      toast({
+        title: "Account Created",
+        description: "Your admin account has been created",
+        variant: "default",
+      });
+      navigate('/admin/dashboard');
+    } catch (error) {
+      toast({
+        title: "Signup Error",
+        description: error instanceof Error ? error.message : "Signup failed",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSignupLoading(false);
     }
   };
 
@@ -59,52 +89,135 @@ const AdminLogin: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center bg-slate-900 p-4">
       <div className="w-full max-w-md bg-slate-800 rounded-lg shadow-xl border border-slate-700 overflow-hidden">
         <div className="p-6 bg-slate-800 border-b border-slate-700">
-          <h2 className="text-2xl font-bold text-center text-white">TOWER UP Администратор</h2>
-          <p className="text-slate-400 text-center mt-1">Доступ к панели администратора</p>
+          <h2 className="text-2xl font-bold text-center text-white">
+            {isSignupMode ? "Create Admin Account" : "TOWER UP Admin"}
+          </h2>
+          <p className="text-slate-400 text-center mt-1">
+            {isSignupMode ? "Set up your admin credentials" : "Access to admin panel"}
+          </p>
         </div>
 
         <div className="p-6">
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="login-email">Email</Label>
-              <Input
-                id="login-email"
-                type="email"
-                placeholder="Введите email"
-                value={loginEmail}
-                onChange={(e) => setLoginEmail(e.target.value)}
-                required
-                className="bg-slate-700 border-slate-600 text-white"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="login-password">Пароль</Label>
-              <Input
-                id="login-password"
-                type="password"
-                placeholder="••••••••"
-                value={loginPassword}
-                onChange={(e) => setLoginPassword(e.target.value)}
-                required
-                className="bg-slate-700 border-slate-600 text-white"
-              />
-            </div>
-            
-            <Button type="submit" className="w-full" disabled={isLoginLoading}>
-              {isLoginLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Вход...
-                </>
-              ) : (
-                <>
-                  <LogIn className="mr-2 h-4 w-4" />
-                  Войти
-                </>
-              )}
-            </Button>
-          </form>
+          {!isSignupMode ? (
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="login-email">Email</Label>
+                <Input
+                  id="login-email"
+                  type="email"
+                  placeholder="Enter email"
+                  value={loginEmail}
+                  onChange={(e) => setLoginEmail(e.target.value)}
+                  required
+                  className="bg-slate-700 border-slate-600 text-white"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="login-password">Password</Label>
+                <Input
+                  id="login-password"
+                  type="password"
+                  placeholder="••••••••"
+                  value={loginPassword}
+                  onChange={(e) => setLoginPassword(e.target.value)}
+                  required
+                  className="bg-slate-700 border-slate-600 text-white"
+                />
+              </div>
+              
+              <Button type="submit" className="w-full" disabled={isLoginLoading}>
+                {isLoginLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Logging in...
+                  </>
+                ) : (
+                  <>
+                    <LogIn className="mr-2 h-4 w-4" />
+                    Login
+                  </>
+                )}
+              </Button>
+
+              <div className="text-center mt-4">
+                <Button 
+                  type="button" 
+                  variant="link" 
+                  onClick={() => setIsSignupMode(true)}
+                  className="text-primary"
+                >
+                  Create new admin account
+                </Button>
+              </div>
+            </form>
+          ) : (
+            <form onSubmit={handleSignup} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="signup-name">Name</Label>
+                <Input
+                  id="signup-name"
+                  type="text"
+                  placeholder="Enter your name"
+                  value={signupName}
+                  onChange={(e) => setSignupName(e.target.value)}
+                  required
+                  className="bg-slate-700 border-slate-600 text-white"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="signup-email">Email</Label>
+                <Input
+                  id="signup-email"
+                  type="email"
+                  placeholder="Enter email"
+                  value={signupEmail}
+                  onChange={(e) => setSignupEmail(e.target.value)}
+                  required
+                  className="bg-slate-700 border-slate-600 text-white"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="signup-password">Password</Label>
+                <Input
+                  id="signup-password"
+                  type="password"
+                  placeholder="••••••••"
+                  value={signupPassword}
+                  onChange={(e) => setSignupPassword(e.target.value)}
+                  required
+                  className="bg-slate-700 border-slate-600 text-white"
+                />
+              </div>
+              
+              <Button type="submit" className="w-full" disabled={isSignupLoading}>
+                {isSignupLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Creating account...
+                  </>
+                ) : (
+                  <>
+                    <UserPlus className="mr-2 h-4 w-4" />
+                    Create Account
+                  </>
+                )}
+              </Button>
+
+              <div className="text-center mt-4">
+                <Button 
+                  type="button" 
+                  variant="link" 
+                  onClick={() => setIsSignupMode(false)}
+                  className="text-primary"
+                >
+                  Back to Login
+                </Button>
+              </div>
+            </form>
+          )}
         </div>
       </div>
     </div>

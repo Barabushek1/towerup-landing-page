@@ -13,6 +13,7 @@ type AdminContextType = {
   admin: Admin | null;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
+  signup: (email: string, password: string, name: string) => Promise<void>;
   logout: () => void;
   isMaxAdminsReached: boolean;
 };
@@ -22,7 +23,7 @@ const AdminContext = createContext<AdminContextType | undefined>(undefined);
 export const useAdmin = () => {
   const context = useContext(AdminContext);
   if (context === undefined) {
-    throw new Error('useAdmin должен использоваться внутри AdminProvider');
+    throw new Error('useAdmin must be used within an AdminProvider');
   }
   return context;
 };
@@ -30,19 +31,26 @@ export const useAdmin = () => {
 export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [admin, setAdmin] = useState<Admin | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isMaxAdminsReached, setIsMaxAdminsReached] = useState<boolean>(true);
+  const [isMaxAdminsReached, setIsMaxAdminsReached] = useState<boolean>(false);
   const { toast } = useToast();
 
   useEffect(() => {
     const loadAdminStatus = async () => {
       try {
-        // Check if there's a stored admin session
         const storedAdmin = localStorage.getItem('admin');
         if (storedAdmin) {
           setAdmin(JSON.parse(storedAdmin));
         }
         
-        setIsMaxAdminsReached(true);
+        // Check total number of admin users
+        const { count, error } = await supabase
+          .from('admin_users')
+          .select('*', { count: 'exact', head: true });
+        
+        if (error) throw error;
+        
+        // Assuming we want to limit to 5 admin users
+        setIsMaxAdminsReached(count !== null && count >= 5);
         setIsLoading(false);
       } catch (error) {
         console.error('Error in loadAdminStatus:', error);
@@ -53,11 +61,49 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     loadAdminStatus();
   }, []);
 
+  const signup = async (email: string, password: string, name: string) => {
+    if (isMaxAdminsReached) {
+      throw new Error('Maximum number of admin users reached');
+    }
+
+    try {
+      const { data, error } = await supabase.functions.invoke('verify-admin-credentials', {
+        body: { 
+          email, 
+          password,
+          action: 'signup',
+          name
+        },
+      });
+
+      if (error) {
+        console.error('Signup error:', error);
+        throw error;
+      }
+
+      if (!data || !Array.isArray(data) || data.length === 0) {
+        throw new Error('Signup failed');
+      }
+
+      const adminData = data[0];
+      
+      const adminInfo: Admin = {
+        id: adminData.id,
+        email: adminData.email,
+        name: adminData.name || name
+      };
+      
+      setAdmin(adminInfo);
+      localStorage.setItem('admin', JSON.stringify(adminInfo));
+      console.log('Signup successful:', adminInfo);
+    } catch (error) {
+      console.error('Signup error:', error);
+      throw error;
+    }
+  };
+
   const login = async (email: string, password: string) => {
     try {
-      console.log('Attempting login with:', { email });
-      
-      // Using edge function to verify admin credentials
       const { data, error } = await supabase.functions.invoke('verify-admin-credentials', {
         body: { email, password },
       });
@@ -67,26 +113,23 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         throw error;
       }
 
-      console.log('Login response:', data);
-      
       if (!data || !Array.isArray(data) || data.length === 0) {
-        throw new Error('Неверные учетные данные');
+        throw new Error('Invalid credentials');
       }
 
-      // Extract the first result from the data array
       const adminData = data[0];
       
       const adminInfo: Admin = {
         id: adminData.id,
         email: adminData.email,
-        name: adminData.name || 'Администратор'
+        name: adminData.name || 'Administrator'
       };
       
       setAdmin(adminInfo);
       localStorage.setItem('admin', JSON.stringify(adminInfo));
-      console.log('Успешный вход:', adminInfo);
+      console.log('Login successful:', adminInfo);
     } catch (error) {
-      console.error('Ошибка входа:', error);
+      console.error('Login error:', error);
       throw error;
     }
   };
@@ -97,7 +140,14 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   return (
-    <AdminContext.Provider value={{ admin, isLoading, login, logout, isMaxAdminsReached }}>
+    <AdminContext.Provider value={{ 
+      admin, 
+      isLoading, 
+      login, 
+      signup, 
+      logout, 
+      isMaxAdminsReached 
+    }}>
       {children}
     </AdminContext.Provider>
   );

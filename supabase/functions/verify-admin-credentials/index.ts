@@ -5,6 +5,8 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.7.1';
 interface RequestBody {
   email: string;
   password: string;
+  action?: 'login' | 'signup';
+  name?: string;
 }
 
 serve(async (req) => {
@@ -19,7 +21,12 @@ serve(async (req) => {
   }
   
   try {
-    const { email, password } = await req.json() as RequestBody;
+    const { 
+      email, 
+      password, 
+      action = 'login',
+      name 
+    } = await req.json() as RequestBody;
     
     // Create a Supabase client with the project URL and service_role key
     const supabaseClient = createClient(
@@ -27,9 +34,49 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
     
-    // Try the main RPC function first
+    if (action === 'signup') {
+      // Check if email already exists
+      const { data: existingUser, error: existingUserError } = await supabaseClient
+        .from('admin_users')
+        .select('email')
+        .eq('email', email)
+        .single();
+      
+      if (existingUserError && existingUserError.code !== 'PGRST116') {
+        throw existingUserError;
+      }
+      
+      if (existingUser) {
+        throw new Error('Email already in use');
+      }
+      
+      // Insert new admin user
+      const { data: newUser, error: insertError } = await supabaseClient
+        .from('admin_users')
+        .insert({
+          email,
+          name: name || email.split('@')[0],
+          password_hash: supabaseClient.auth.admin
+            .hashPassword(password)
+        })
+        .select();
+      
+      if (insertError) throw insertError;
+      
+      return new Response(
+        JSON.stringify(newUser),
+        { 
+          headers: { 
+            ...corsHeaders,
+            'Content-Type': 'application/json' 
+          },
+          status: 200 
+        }
+      );
+    }
+    
+    // Login action
     try {
-      console.log('Attempting to verify admin credentials via RPC function');
       const { data, error } = await supabaseClient
         .rpc('verify_admin_credentials', {
           p_email: email,
@@ -41,7 +88,6 @@ serve(async (req) => {
         throw error;
       }
       
-      console.log('RPC function success, returning data:', data);
       return new Response(
         JSON.stringify(data),
         { 
@@ -53,44 +99,14 @@ serve(async (req) => {
         }
       );
     } catch (rpcError) {
-      console.error('RPC function failed, attempting fallback:', rpcError);
-      
-      // Fallback: direct query with password check for known admin
-      if (email === 'towerup@admin.ru' && password === 'Towerup_admin1234') {
-        console.log('Using hardcoded admin fallback');
-        
-        // Get admin user details
-        const { data, error } = await supabaseClient
-          .from('admin_users')
-          .select('id, email, name')
-          .eq('email', email)
-          .single();
-        
-        if (error) {
-          console.error('Error fetching admin details in fallback:', error);
-          throw error;
-        }
-        
-        // Return data in the same format as the RPC function would
-        return new Response(
-          JSON.stringify([data]),
-          { 
-            headers: { 
-              ...corsHeaders,
-              'Content-Type': 'application/json' 
-            },
-            status: 200 
-          }
-        );
-      } else {
-        throw new Error('Invalid credentials or RPC function not available');
-      }
+      console.error('Login failed:', rpcError);
+      throw new Error('Invalid credentials');
     }
   } catch (error) {
     console.error('Error in verify-admin-credentials function:', error);
     
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: error instanceof Error ? error.message : 'An error occurred' }),
       { 
         headers: { 
           ...corsHeaders,
