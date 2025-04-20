@@ -1,13 +1,28 @@
 
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.7.1';
-import { compare, hash, genSalt } from 'https://deno.land/x/bcrypt@v0.2.4/mod.ts';
+import { createHash } from 'https://deno.land/std@0.177.0/node/crypto.ts';
 
 interface RequestBody {
   email: string;
   password: string;
   action?: 'login' | 'signup';
   name?: string;
+}
+
+// Simple password hashing function that doesn't rely on bcrypt
+function hashPassword(password: string, salt?: string): { hash: string; salt: string } {
+  const newSalt = salt || crypto.randomUUID().replace(/-/g, '');
+  const hash = createHash('sha256')
+    .update(password + newSalt)
+    .digest('hex');
+  return { hash, salt: newSalt };
+}
+
+// Verify a password against a stored hash
+function verifyPassword(password: string, storedHash: string, salt: string): boolean {
+  const { hash } = hashPassword(password, salt);
+  return hash === storedHash;
 }
 
 serve(async (req) => {
@@ -81,17 +96,16 @@ serve(async (req) => {
       }
       
       try {
-        // Hash the password with Deno-compatible bcrypt (v0.2.4)
-        const salt = await genSalt(10);
-        const hashedPassword = await hash(password, salt);
+        // Hash the password with our custom function
+        const { hash: hashedPassword, salt } = hashPassword(password);
         
-        // Insert new admin user
+        // Insert new admin user with the hash and salt
         const { data: newUser, error: insertError } = await supabaseClient
           .from('admin_users')
           .insert({
             email,
             name: name || email.split('@')[0],
-            password_hash: hashedPassword
+            password_hash: `${salt}:${hashedPassword}` // Store both salt and hash
           })
           .select();
         
@@ -107,8 +121,8 @@ serve(async (req) => {
             status: 200 
           }
         );
-      } catch (bcryptError) {
-        console.error('Bcrypt error:', bcryptError);
+      } catch (error) {
+        console.error('Password hashing error:', error);
         return new Response(
           JSON.stringify({ error: 'Password hashing failed' }),
           { 
@@ -146,8 +160,13 @@ serve(async (req) => {
       }
       
       try {
+        // Parse stored password hash and salt
+        const [salt, storedHash] = userData.password_hash.split(':');
+        
         // Compare the provided password with the stored hash
-        const passwordMatches = await compare(password, userData.password_hash);
+        const passwordMatches = storedHash ? 
+          verifyPassword(password, storedHash, salt) : 
+          false;
         
         if (!passwordMatches) {
           return new Response(
@@ -175,8 +194,8 @@ serve(async (req) => {
             status: 200 
           }
         );
-      } catch (bcryptError) {
-        console.error('Password verification error:', bcryptError);
+      } catch (verifyError) {
+        console.error('Password verification error:', verifyError);
         return new Response(
           JSON.stringify({ error: 'Password verification failed' }),
           { 
