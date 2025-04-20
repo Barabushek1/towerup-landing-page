@@ -10,6 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Pencil, Trash2, Plus, Link as LinkIcon, Image, Loader2 } from 'lucide-react';
 import ImageUploader from '@/components/admin/ImageUploader';
 import { supabase } from '@/integrations/supabase/client';
+import { useAdmin } from '@/contexts/AdminContext';
 
 interface Partner {
   id: string;
@@ -22,6 +23,7 @@ type PartnerInput = Omit<Partner, 'id'>;
 
 const AdminPartners: React.FC = () => {
   const { toast } = useToast();
+  const { admin } = useAdmin();
   const queryClient = useQueryClient();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -31,6 +33,28 @@ const AdminPartners: React.FC = () => {
     logo_url: '',
     website_url: '',
   });
+
+  // Log audit trail for partner actions
+  const logAuditTrail = async (actionType: string, details?: any) => {
+    try {
+      // Collect system information
+      const userAgent = navigator.userAgent;
+      
+      // Try to get IP address (this is a client-side approximation)
+      const ipResponse = await fetch('https://api.ipify.org?format=json');
+      const { ip } = await ipResponse.json();
+
+      await supabase.from('admin_audit_logs').insert({
+        action_type: actionType,
+        admin_email: admin?.email || 'Unknown',
+        ip_address: ip,
+        user_agent: userAgent,
+        details: details ? JSON.stringify(details) : null
+      });
+    } catch (error) {
+      console.error('Failed to log audit trail:', error);
+    }
+  };
 
   // Fetch partners
   const { data: partners = [], isLoading, error } = useQuery({
@@ -61,6 +85,9 @@ const AdminPartners: React.FC = () => {
       if (error) {
         throw error;
       }
+      
+      // Log audit trail for partner creation
+      await logAuditTrail('PARTNER_CREATED', { partnerName: partner.name });
       
       return data;
     },
@@ -96,6 +123,12 @@ const AdminPartners: React.FC = () => {
         throw error;
       }
       
+      // Log audit trail for partner update
+      await logAuditTrail('PARTNER_UPDATED', { 
+        partnerId: id, 
+        partnerName: partner.name 
+      });
+      
       return data;
     },
     onSuccess: () => {
@@ -127,6 +160,9 @@ const AdminPartners: React.FC = () => {
       if (error) {
         throw error;
       }
+      
+      // Log audit trail for partner deletion
+      await logAuditTrail('PARTNER_DELETED', { partnerId: id });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['partners'] });
