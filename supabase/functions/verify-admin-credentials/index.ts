@@ -1,4 +1,3 @@
-
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.7.1';
 import { createHash } from 'https://deno.land/std@0.177.0/node/crypto.ts';
@@ -75,16 +74,16 @@ serve(async (req) => {
         );
       }
       
-      // Check if we've reached the max admin count (now 2)
+      // Check if we've reached the max admin count (now 3)
       const { count, error: countError } = await supabaseClient
         .from('admin_users')
         .select('*', { count: 'exact', head: true });
         
       if (countError) throw countError;
       
-      if (count !== null && count >= 2) {
+      if (count !== null && count >= 3) {
         return new Response(
-          JSON.stringify({ error: 'Maximum number of admin users reached (2)' }),
+          JSON.stringify({ error: 'Maximum number of admin users reached (3)' }),
           { 
             headers: { 
               ...corsHeaders,
