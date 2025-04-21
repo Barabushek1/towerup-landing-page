@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAdmin } from '@/contexts/AdminContext';
@@ -32,7 +31,7 @@ const signupSchema = z.object({
 });
 
 const AdminLogin: React.FC = () => {
-  const { admin, isLoading, login, signup, isMaxAdminsReached } = useAdmin();
+  const { admin, isLoading, login, signup } = useAdmin();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isLoginLoading, setIsLoginLoading] = useState<boolean>(false);
@@ -129,8 +128,8 @@ const AdminLogin: React.FC = () => {
           <Tabs defaultValue="login" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-6">
               <TabsTrigger value="login">Login</TabsTrigger>
-              <TabsTrigger value="signup" disabled={isMaxAdminsReached}>
-                {isMaxAdminsReached ? "Max Admins (3)" : "Signup"}
+              <TabsTrigger value="signup">
+                Signup
               </TabsTrigger>
             </TabsList>
             
@@ -193,85 +192,79 @@ const AdminLogin: React.FC = () => {
             </TabsContent>
             
             <TabsContent value="signup">
-              {isMaxAdminsReached ? (
-                <div className="text-center p-4 text-amber-400">
-                  Maximum number of admin users (3) has been reached.
-                </div>
-              ) : (
-                <Form {...signupForm}>
-                  <form onSubmit={signupForm.handleSubmit(handleSignup)} className="space-y-4">
-                    <FormField
-                      control={signupForm.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Name</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="Enter your name"
-                              className="bg-slate-700 border-slate-600 text-white"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+              <Form {...signupForm}>
+                <form onSubmit={signupForm.handleSubmit(handleSignup)} className="space-y-4">
+                  <FormField
+                    control={signupForm.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Name</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter your name"
+                            className="bg-slate-700 border-slate-600 text-white"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                     
-                    <FormField
-                      control={signupForm.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Email</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="Enter your email"
-                              type="email"
-                              className="bg-slate-700 border-slate-600 text-white"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                  <FormField
+                    control={signupForm.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter your email"
+                            type="email"
+                            className="bg-slate-700 border-slate-600 text-white"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                     
-                    <FormField
-                      control={signupForm.control}
-                      name="password"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Password</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="Choose a password"
-                              type="password"
-                              className="bg-slate-700 border-slate-600 text-white"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                  <FormField
+                    control={signupForm.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Choose a password"
+                            type="password"
+                            className="bg-slate-700 border-slate-600 text-white"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                     
-                    <Button type="submit" className="w-full" disabled={isSignupLoading}>
-                      {isSignupLoading ? (
-                        <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Creating account...
-                        </>
-                      ) : (
-                        <>
-                          <UserPlus className="mr-2 h-4 w-4" />
-                          Create Account
-                        </>
-                      )}
-                    </Button>
-                  </form>
-                </Form>
-              )}
+                  <Button type="submit" className="w-full" disabled={isSignupLoading}>
+                    {isSignupLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Creating account...
+                      </>
+                    ) : (
+                      <>
+                        <UserPlus className="mr-2 h-4 w-4" />
+                        Create Account
+                      </>
+                    )}
+                  </Button>
+                </form>
+              </Form>
             </TabsContent>
           </Tabs>
         </div>

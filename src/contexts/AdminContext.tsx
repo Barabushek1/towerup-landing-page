@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
@@ -15,7 +14,6 @@ type AdminContextType = {
   login: (email: string, password: string) => Promise<void>;
   signup: (email: string, password: string, name: string) => Promise<void>;
   logout: () => void;
-  isMaxAdminsReached: boolean;
 };
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
@@ -31,7 +29,6 @@ export const useAdmin = () => {
 export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [admin, setAdmin] = useState<Admin | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isMaxAdminsReached, setIsMaxAdminsReached] = useState<boolean>(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -57,19 +54,9 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           }
         }
         
-        // Check total number of admin users
-        const { count, error } = await supabase
-          .from('admin_users')
-          .select('*', { count: 'exact', head: true });
-        
-        if (error) throw error;
-        
-        // Changed from 5 to 2 admin users limit
-        setIsMaxAdminsReached(count !== null && count >= 2);
         setIsLoading(false);
       } catch (error) {
         console.error('Error in loadAdminStatus:', error);
-        // In case of error, still set loading to false but clear admin
         localStorage.removeItem('admin');
         setAdmin(null);
         setIsLoading(false);
@@ -80,10 +67,6 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, []);
 
   const signup = async (email: string, password: string, name: string) => {
-    if (isMaxAdminsReached) {
-      throw new Error('Maximum number of admin users reached (2)');
-    }
-
     try {
       const { data, error } = await supabase.functions.invoke('verify-admin-credentials', {
         body: { 
@@ -163,8 +146,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       isLoading, 
       login, 
       signup, 
-      logout, 
-      isMaxAdminsReached 
+      logout
     }}>
       {children}
     </AdminContext.Provider>

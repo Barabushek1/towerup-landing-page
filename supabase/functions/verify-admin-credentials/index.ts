@@ -74,26 +74,6 @@ serve(async (req) => {
         );
       }
       
-      // Check if we've reached the max admin count (now 3)
-      const { count, error: countError } = await supabaseClient
-        .from('admin_users')
-        .select('*', { count: 'exact', head: true });
-        
-      if (countError) throw countError;
-      
-      if (count !== null && count >= 5) {
-        return new Response(
-          JSON.stringify({ error: 'Maximum number of admin users reached (3)' }),
-          { 
-            headers: { 
-              ...corsHeaders,
-              'Content-Type': 'application/json' 
-            },
-            status: 400 
-          }
-        );
-      }
-      
       try {
         // Hash the password with our custom function
         const { hash: hashedPassword, salt } = hashPassword(password);
