@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FileText, Briefcase, MessageSquare, BarChart3 } from 'lucide-react';
@@ -100,29 +101,32 @@ const AdminDashboard: React.FC = () => {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-white">Dashboard</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-white">Dashboard</h1>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-6 md:mb-8">
         {stats.map((stat, index) => (
-          <Card key={index} className={`${stat.color} bg-opacity-10 border`}>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-slate-300">{stat.title}</CardTitle>
+          <div
+            key={index}
+            className={`rounded-xl ${stat.color} border transition-all min-w-0 flex-1`}
+          >
+            <div className="flex items-center justify-between px-4 pt-4 pb-2">
+              <span className="text-xs sm:text-sm font-medium text-slate-300">{stat.title}</span>
               {stat.icon}
-            </CardHeader>
-            <CardContent>
-              <div className={`text-3xl font-bold ${stat.textColor}`}>{stat.value}</div>
-            </CardContent>
-          </Card>
+            </div>
+            <div className={`px-4 pb-3 md:pb-6`}>
+              <div className={`text-2xl md:text-3xl font-bold ${stat.textColor}`}>{stat.value}</div>
+            </div>
+          </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="bg-slate-800 border-slate-700">
-          <CardHeader>
-            <CardTitle className="text-xl text-white">Recent News</CardTitle>
-          </CardHeader>
-          <CardContent>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-6">
+        <div className="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden">
+          <div className="px-4 py-3 border-b border-slate-700">
+            <span className="text-lg md:text-xl font-semibold text-white">Recent News</span>
+          </div>
+          <div className="p-4">
             {news.length > 0 ? (
               <div className="space-y-4">
                 {news.slice(0, 5).map((item) => (
@@ -137,9 +141,9 @@ const AdminDashboard: React.FC = () => {
                         }}
                       />
                     </div>
-                    <div>
-                      <h3 className="font-medium text-white line-clamp-1">{item.title}</h3>
-                      <p className="text-sm text-slate-400">{new Date(item.created_at).toLocaleDateString()}</p>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-medium text-white line-clamp-1 break-words">{item.title}</h3>
+                      <p className="text-xs md:text-sm text-slate-400">{new Date(item.created_at).toLocaleDateString()}</p>
                     </div>
                   </div>
                 ))}
@@ -149,23 +153,23 @@ const AdminDashboard: React.FC = () => {
                 <p>No news articles yet</p>
               </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card className="bg-slate-800 border-slate-700">
-          <CardHeader>
-            <CardTitle className="text-xl text-white">Recent Messages</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <div className="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden">
+          <div className="px-4 py-3 border-b border-slate-700">
+            <span className="text-lg md:text-xl font-semibold text-white">Recent Messages</span>
+          </div>
+          <div className="p-4">
             {messages.length > 0 ? (
               <div className="space-y-4">
                 {messages.slice(0, 5).map((item) => (
                   <div key={item.id} className="flex items-start gap-3 p-3 rounded-lg bg-slate-700/40">
                     <div className={`w-2 h-2 rounded-full mt-2 ${item.read ? 'bg-slate-500' : 'bg-green-500'}`} />
-                    <div>
-                      <h3 className="font-medium text-white">{item.name}</h3>
-                      <p className="text-sm text-slate-400">{item.email}</p>
-                      <p className="text-sm text-slate-300 line-clamp-2 mt-1">{item.message}</p>
+                    <div className="min-w-0">
+                      <h3 className="font-medium text-white break-words">{item.name}</h3>
+                      <p className="text-xs md:text-sm text-slate-400">{item.email}</p>
+                      <p className="text-xs md:text-sm text-slate-300 line-clamp-2 mt-1 break-words">{item.message}</p>
                     </div>
                   </div>
                 ))}
@@ -175,8 +179,8 @@ const AdminDashboard: React.FC = () => {
                 <p>No messages yet</p>
               </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
   );
