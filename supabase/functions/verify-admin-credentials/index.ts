@@ -81,7 +81,7 @@ serve(async (req) => {
         
       if (countError) throw countError;
       
-      if (count !== null && count >= 3) {
+      if (count !== null && count >= 5) {
         return new Response(
           JSON.stringify({ error: 'Maximum number of admin users reached (3)' }),
           { 
