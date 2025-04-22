@@ -188,7 +188,7 @@ const NavBar: React.FC = () => {
           <div className="hidden md:flex items-center space-x-8">
             <NavigationMenu>
               <NavigationMenuList>
-                {navLinks.map((link) => (
+                {navLinks.map((link) =>
                   link.hasSubmenu ? (
                     <NavigationMenuItem key={link.title}>
                       <NavigationMenuTrigger className={cn(
@@ -228,7 +228,7 @@ const NavBar: React.FC = () => {
                       </Link>
                     </NavigationMenuItem>
                   )
-                ))}
+                )}
               </NavigationMenuList>
             </NavigationMenu>
 
