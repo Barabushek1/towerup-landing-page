@@ -1,7 +1,10 @@
+
 import React, { useEffect, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { Link } from 'react-router-dom';
+
 const ParallaxCTASection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const parallaxRef = useRef<HTMLDivElement>(null);
@@ -60,9 +63,9 @@ const ParallaxCTASection: React.FC = () => {
               <span>Связаться с нами</span>
               <ArrowRight className="ml-2 h-5 w-5" />
             </a>
-            <a href="#projects" className={cn("button-hover-effect px-8 py-4 rounded-lg bg-white/10 text-white font-medium text-base", "shadow-lg border border-white/20 flex items-center justify-center backdrop-blur-sm")}>
+            <Link to="/projects" className={cn("button-hover-effect px-8 py-4 rounded-lg bg-white/10 text-white font-medium text-base", "shadow-lg border border-white/20 flex items-center justify-center backdrop-blur-sm")}>
               <span>Наши проекты</span>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
