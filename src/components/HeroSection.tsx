@@ -1,9 +1,9 @@
-
 import React, { useEffect, useRef } from 'react';
 import { ArrowRight, Briefcase } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import AnimatedBackground from './AnimatedBackground';
+import { Link } from 'react-router-dom';
 
 const HeroSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -75,8 +75,8 @@ const HeroSection: React.FC = () => {
               Узнать подробнее
               <ArrowRight className="h-4 w-4" />
             </a>
-            <a
-              href="https://towerup.uz/projects"
+            <Link
+              to="/projects"
               className={cn(
                 "button-hover-effect px-6 py-3 rounded-lg bg-white/20 text-white font-medium font-benzin w-full sm:w-auto text-center",
                 "shadow backdrop-blur-sm border border-white/30 transform transition hover:-translate-y-0.5 flex items-center justify-center gap-2"
@@ -84,7 +84,7 @@ const HeroSection: React.FC = () => {
             >
               Проекты
               <Briefcase className="h-4 w-4" />
-            </a>
+            </Link>
           </div>
         </div>
       </div>
