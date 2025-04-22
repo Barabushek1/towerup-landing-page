@@ -76,9 +76,9 @@ const NavBar: React.FC = () => {
       hasSubmenu: true,
       submenu: [
         { title: 'ЖК "Пушкин"', href: '/projects/pushkin' },
-        { title: 'БЦ "Бочка"', href: '/projects/bochka' },
-        { title: 'ЖК "Кумарык"', href: '/projects/kumaryk' },
         { title: 'Массив "Янги Узбекистан"', href: '/projects/newuzbekistan' },
+        { title: 'БЦ "Бочка"', href: '/projects/bochka' },
+        { title: 'ЖК "Кумарык"', href: '/projects/kumaryk' }
       ]
     },
     { title: 'Новости', href: '/news', key: 'news' },
@@ -191,23 +191,37 @@ const NavBar: React.FC = () => {
                 {navLinks.map((link) => (
                   link.hasSubmenu ? (
                     <NavigationMenuItem key={link.title}>
-                      <NavigationMenuTrigger className={cn(
-                        "font-benzin tracking-wide hover:text-brand-primary transition-colors duration-300",
-                        scrolled ? "text-white bg-transparent" : "text-white bg-transparent",
-                        "hover:bg-transparent focus:bg-transparent"
-                      )}>
+                      <NavigationMenuTrigger 
+                        className={cn(
+                          "font-benzin tracking-wide hover:text-brand-primary transition-colors duration-300 group",
+                          scrolled ? "text-white bg-transparent" : "text-white bg-transparent",
+                          "hover:bg-transparent focus:bg-transparent relative"
+                        )}
+                      >
                         {link.title}
+                        <span 
+                          className="absolute bottom-0 left-0 w-full h-0.5 bg-brand-primary 
+                          transform scale-x-0 group-hover:scale-x-100 transition-transform 
+                          duration-300 origin-left"
+                        />
                       </NavigationMenuTrigger>
                       <NavigationMenuContent>
-                        <ul className="grid w-[200px] gap-3 p-4 bg-white/90 backdrop-blur-md">
+                        <ul className="grid w-[250px] gap-3 p-4 bg-white/90 backdrop-blur-md 
+                          shadow-lg rounded-lg border border-gray-100 
+                          origin-top-left animate-slide-in-right">
                           {link.submenu?.map((subItem) => (
                             <li key={subItem.title}>
                               <NavigationMenuLink asChild>
                                 <Link
                                   to={subItem.href}
-                                  className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-brand-dark font-benzin"
+                                  className="block select-none space-y-1 rounded-md p-3 
+                                  leading-none no-underline outline-none transition-colors 
+                                  hover:bg-brand-primary/10 hover:text-brand-primary 
+                                  text-brand-dark font-benzin group"
                                 >
-                                  <div className="text-sm font-medium leading-none">{subItem.title}</div>
+                                  <div className="text-sm font-medium leading-none group-hover:translate-x-1 transition-transform">
+                                    {subItem.title}
+                                  </div>
                                 </Link>
                               </NavigationMenuLink>
                             </li>
