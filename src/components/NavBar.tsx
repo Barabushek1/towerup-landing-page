@@ -30,7 +30,6 @@ const NavBar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
       const offset = window.scrollY;
@@ -48,7 +47,6 @@ const NavBar: React.FC = () => {
     };
   }, []);
 
-  // Handle navigation and menu closing
   const handleNavigation = (href: string) => {
     setIsMenuOpen(false);
     if (location.pathname !== href) {
@@ -71,7 +69,17 @@ const NavBar: React.FC = () => {
       key: 'company',
       submenu: companySubMenu 
     },
-    { title: 'Проекты', href: '/projects', key: 'projects' },
+    { 
+      title: 'Проекты', 
+      href: '/projects', 
+      key: 'projects',
+      hasSubmenu: true,
+      submenu: [
+        { title: 'ЖК "Пушкин"', href: '/projects/pushkin' },
+        { title: 'БЦ "Бочка"', href: '/projects/bochka' },
+        { title: 'ЖК "Кумарык"', href: '/projects/kumaryk' },
+      ]
+    },
     { title: 'Новости', href: '/news', key: 'news' },
     { title: 'Вакансии', href: '/vacancies', key: 'vacancies' },
     { title: 'Контакты', href: '/contact', key: 'contacts' },
