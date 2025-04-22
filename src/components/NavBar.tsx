@@ -78,6 +78,7 @@ const NavBar: React.FC = () => {
         { title: 'ЖК "Пушкин"', href: '/projects/pushkin' },
         { title: 'БЦ "Бочка"', href: '/projects/bochka' },
         { title: 'ЖК "Кумарык"', href: '/projects/kumaryk' },
+        { title: 'Массив "Янги Узбекистан"', href: '/projects/newuzbekistan' },
       ]
     },
     { title: 'Новости', href: '/news', key: 'news' },
