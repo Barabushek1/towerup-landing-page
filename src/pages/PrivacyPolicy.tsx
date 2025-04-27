@@ -7,7 +7,7 @@ const PrivacyPolicy = () => {
     <div className="min-h-screen bg-background">
       <PageHeader 
         title="Политика конфиденциальности"
-        description="Информация о том, как мы обрабатываем ваши данные"
+        breadcrumb="Политика конфиденциальности"
       />
       
       <div className="container mx-auto px-6 py-12">

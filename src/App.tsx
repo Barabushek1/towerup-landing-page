@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -14,14 +15,23 @@ import Management from "./pages/Management";
 import Projects from "./pages/Projects";
 import ProjectDetail from "./pages/ProjectDetail";
 import News from "./pages/News";
+import NewsDetail from "./pages/NewsDetail";
 import Vacancies from "./pages/Vacancies";
+import VacancyDetail from "./pages/VacancyDetail";
 import Contact from "./pages/Contact";
 import Construction from "./pages/Construction";
 import Design from "./pages/Design";
 import Solutions from "./pages/Solutions";
 import ChatBot from "./components/ChatBot";
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminNews from "./pages/admin/AdminNews";
+import AdminVacancies from "./pages/admin/AdminVacancies";
+import AdminMessages from "./pages/admin/AdminMessages";
+import AdminPartners from "./pages/admin/AdminPartners";
 import AdminAuditLogs from "./pages/admin/AdminAuditLogs";
 import AdminDetailedAuditLogs from "./pages/admin/AdminDetailedAuditLogs";
+import AdminLayout from "./components/admin/AdminLayout";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 const queryClient = new QueryClient();
