@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef } from 'react';
 import { ArrowRight, Briefcase } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -37,6 +38,7 @@ const HeroSection: React.FC = () => {
       id="home" 
       ref={sectionRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden opacity-0 transition-opacity duration-1000"
+      aria-label="Главная секция"
     >
       {/* Modern City Skyline Background Image */}
       <div className="absolute inset-0 overflow-hidden">
@@ -44,11 +46,13 @@ const HeroSection: React.FC = () => {
           {/* Light overlay for better text readability */}
           <div className="absolute inset-0 bg-black bg-opacity-20 z-10"></div>
           
-          {/* Background image */}
+          {/* Background image with loading optimization */}
           <img 
             src="/lovable-uploads/499747fd-cec7-42ad-a52d-b4a550043793.png"
-            alt="Modern Glass Buildings" 
+            alt="Современные стеклянные здания" 
             className="absolute w-full h-full object-cover object-center"
+            loading="eager" 
+            fetchpriority="high"
           />
         </div>
       </div>
@@ -71,6 +75,7 @@ const HeroSection: React.FC = () => {
                 "button-hover-effect px-6 py-3 rounded-lg bg-brand-primary text-white font-medium font-benzin w-full sm:w-auto text-center",
                 "shadow-lg shadow-brand-primary/20 transform transition hover:-translate-y-0.5 flex items-center justify-center gap-2"
               )}
+              aria-label="Узнать больше о компании"
             >
               Узнать подробнее
               <ArrowRight className="h-4 w-4" />
@@ -81,6 +86,7 @@ const HeroSection: React.FC = () => {
                 "button-hover-effect px-6 py-3 rounded-lg bg-white/20 text-white font-medium font-benzin w-full sm:w-auto text-center",
                 "shadow backdrop-blur-sm border border-white/30 transform transition hover:-translate-y-0.5 flex items-center justify-center gap-2"
               )}
+              aria-label="Перейти к странице проектов"
             >
               Проекты
               <Briefcase className="h-4 w-4" />
