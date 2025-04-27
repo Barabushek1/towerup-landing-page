@@ -52,7 +52,7 @@ const HeroSection: React.FC = () => {
             alt="Современные стеклянные здания" 
             className="absolute w-full h-full object-cover object-center"
             loading="eager" 
-            fetchpriority="high"
+            fetchPriority="high"
           />
         </div>
       </div>
