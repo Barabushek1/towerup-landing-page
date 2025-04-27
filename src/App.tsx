@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -23,24 +22,11 @@ import Solutions from "./pages/Solutions";
 import ChatBot from "./components/ChatBot";
 import AdminAuditLogs from "./pages/admin/AdminAuditLogs";
 import AdminDetailedAuditLogs from "./pages/admin/AdminDetailedAuditLogs";
-
-// Detailed pages
-import NewsDetail from "./pages/NewsDetail";
-import VacancyDetail from "./pages/VacancyDetail";
-
-// Admin Panel Routes
-import AdminLogin from "./pages/admin/AdminLogin";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminNews from "./pages/admin/AdminNews";
-import AdminVacancies from "./pages/admin/AdminVacancies";
-import AdminMessages from "./pages/admin/AdminMessages";
-import AdminPartners from "./pages/admin/AdminPartners";
-import AdminLayout from "./components/admin/AdminLayout";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 const queryClient = new QueryClient();
 
 const AppContent = () => {
-  // Seed partners data if needed
   usePartnerSeeder();
   
   return (
@@ -52,13 +38,11 @@ const AppContent = () => {
         <Routes>
           <Route path="/" element={<Index />} />
           
-          {/* Company routes */}
           <Route path="/about" element={<About />} />
           <Route path="/history" element={<History />} />
           <Route path="/partners" element={<Partners />} />
           <Route path="/management" element={<Management />} />
           
-          {/* Other main routes */}
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/:slug" element={<ProjectDetail />} />
           <Route path="/news" element={<News />} />
@@ -67,12 +51,10 @@ const AppContent = () => {
           <Route path="/vacancies/:id" element={<VacancyDetail />} />
           <Route path="/contact" element={<Contact />} />
           
-          {/* Services routes */}
           <Route path="/construction" element={<Construction />} />
           <Route path="/design" element={<Design />} />
           <Route path="/solutions" element={<Solutions />} />
           
-          {/* Admin Panel Routes */}
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminLayout><AdminDashboard /></AdminLayout>} />
           <Route path="/admin/news" element={<AdminLayout><AdminNews /></AdminLayout>} />
@@ -82,7 +64,7 @@ const AppContent = () => {
           <Route path="/admin/audit-logs" element={<AdminLayout><AdminAuditLogs /></AdminLayout>} />
           <Route path="/admin/detailed-audit-logs" element={<AdminLayout><AdminDetailedAuditLogs /></AdminLayout>} />
           
-          {/* Catch-all route */}
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ChatBot />

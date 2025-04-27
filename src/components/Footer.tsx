@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { Facebook, Linkedin, Instagram, ArrowUp, Send, PhoneCall } from 'lucide-react'; // Removed MessageSquare, Added Send
+import { Facebook, Linkedin, Instagram, ArrowUp, Send, PhoneCall } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -18,48 +19,38 @@ const Footer: React.FC = () => {
       behavior: 'smooth'
     });
   };
-  return <footer className="text-white pt-16 pb-8 bg-gray-800"> {/* Consider using theme color like bg-slate-900 or bg-background */}
+  return <footer className="text-white pt-16 pb-8 bg-gray-800">
             <div className="container mx-auto px-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
-                    {/* Company Info */}
                     <div>
-                        {/* Logo */}
-                        <a href="/" aria-label="TOWERUP Home"> {/* Added aria-label */}
-                            <img src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png" // Ensure this path is correct relative to public folder
-            alt="TOWERUP Logo" className="h-10 w-auto mb-4" // Adjusted height slightly
-            loading="lazy" // Added lazy loading
+                        <a href="/" aria-label="TOWERUP Home">
+                            <img src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png"
+            alt="TOWERUP Logo" className="h-10 w-auto mb-4"
+            loading="lazy"
             />
                          </a>
-                        <p className="text-white/70 mb-6 text-sm"> {/* Adjusted text size */}
+                        <p className="text-white/70 mb-6 text-sm">
                             За годы существования компания TOWERUP зарекомендовала себя как надежного и ответственного застройщика.
                         </p>
-                        {/* Social Links */}
-                        <div className="flex space-x-3"> {/* Reduced spacing slightly */}
-                            {/* Facebook */}
+                        <div className="flex space-x-3">
                             <a href="#" target="_blank" rel="noopener noreferrer" aria-label="TOWERUP Facebook" className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary transition-colors hover:bg-primary hover:text-white">
                                 <Facebook className="h-5 w-5" />
                             </a>
-                            {/* Telegram (Replaced MessageSquare) */}
-                             {/* --- VVVVV CHANGE IS HERE VVVVV --- */}
                             <a href="https://t.me/towerup_uz" target="_blank" rel="noopener noreferrer" aria-label="TOWERUP Telegram" className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary transition-colors hover:bg-primary hover:text-white">
-                                <Send className="h-5 w-5" /> {/* Using Send icon */}
+                                <Send className="h-5 w-5" />
                             </a>
-                             {/* --- ^^^^^ CHANGE IS HERE ^^^^^ --- */}
-                            {/* LinkedIn */}
                             <a href="#" target="_blank" rel="noopener noreferrer" aria-label="TOWERUP LinkedIn" className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary transition-colors hover:bg-primary hover:text-white">
                                 <Linkedin className="h-5 w-5" />
                             </a>
-                            {/* Instagram */}
                             <a href="#" target="_blank" rel="noopener noreferrer" aria-label="TOWERUP Instagram" className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary transition-colors hover:bg-primary hover:text-white">
                                 <Instagram className="h-5 w-5" />
                             </a>
                         </div>
                     </div>
 
-                    {/* Quick Links */}
                     <div>
-                        <h3 className="font-medium text-base mb-5 text-white uppercase tracking-wider">Навигация</h3> {/* Adjusted styling */}
-                        <ul className="space-y-2.5"> {/* Adjusted spacing */}
+                        <h3 className="font-medium text-base mb-5 text-white uppercase tracking-wider">Навигация</h3>
+                        <ul className="space-y-2.5">
                             <li><a href="/" className="text-sm text-white/70 hover:text-primary transition-colors">Главная</a></li>
                             <li><a href="/about" className="text-sm text-white/70 hover:text-primary transition-colors">О компании</a></li>
                             <li><a href="/projects" className="text-sm text-white/70 hover:text-primary transition-colors">Проекты</a></li>
@@ -69,16 +60,13 @@ const Footer: React.FC = () => {
                         </ul>
                     </div>
 
-                    {/* Contact */}
                     <div>
-                        <h3 className="font-medium text-base mb-5 text-white uppercase tracking-wider">Контакты</h3> {/* Adjusted styling */}
-                        <address className="not-italic text-sm"> {/* Adjusted text size */}
-                            {/* Removed redundant "ул. Бизнес, 123" if the other address is correct */}
-                            <p className="text-white/70 mb-2 leading-relaxed"> {/* Added leading-relaxed */}
+                        <h3 className="font-medium text-base mb-5 text-white uppercase tracking-wider">Контакты</h3>
+                        <address className="not-italic text-sm">
+                            <p className="text-white/70 mb-2 leading-relaxed">
                                 г. Ташкент, Сергелийский р-н,<br /> МСГ Янги Қумариқ.<br /> Ориентир: Моторный завод GM.
                             </p>
-                            {/* <p className="text-white/70 mb-6">Узбекистан</p> Removed if redundant */}
-                            <div className="mt-4 space-y-2"> {/* Added spacing */}
+                            <div className="mt-4 space-y-2">
                                 <p className="flex items-center">
                                     <a href="mailto:info@towerup.uz" className="text-white/70 hover:text-primary transition-colors flex items-center gap-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-mail flex-shrink-0"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
@@ -97,21 +85,20 @@ const Footer: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Bottom Bar */}
                 <div className="flex flex-col md:flex-row justify-between items-center pt-6 border-t border-white/10">
-                    <p className="text-white/50 text-xs mb-4 md:mb-0"> {/* Adjusted text size/color */}
+                    <p className="text-white/50 text-xs mb-4 md:mb-0">
                         © {new Date().getFullYear()} TOWERUP. Все права защищены.
                     </p>
-                    <div className="flex space-x-6"> {/* Adjusted spacing */}
-                        <a href="#" className="text-xs text-white/50 hover:text-primary transition-colors">Политика конфиденциальности</a>
-                        {/* Add other links like Terms of Service if needed */}
+                    <div className="flex space-x-6">
+                        <Link to="/privacy-policy" className="text-xs text-white/50 hover:text-primary transition-colors">
+                            Политика конфиденциальности
+                        </Link>
                     </div>
                 </div>
             </div>
 
-             {/* Back to top button - Position adjusted slightly, check against ChatBot button */}
-             {/* Ensure z-index allows it to be above content but potentially below ChatBot if needed */}
-             {showBackToTop}
+            {showBackToTop}
         </footer>;
 };
+
 export default Footer;
