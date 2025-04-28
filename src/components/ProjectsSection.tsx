@@ -4,6 +4,7 @@ import { ArrowRight, ChevronRight, Building, MapPin, ExternalLink, ArrowLeft, Ar
 import { Button } from './ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './ui/carousel';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 // --- ProjectCard Component ---
 interface ProjectCardProps {
@@ -279,39 +280,71 @@ const ProjectsSection: React.FC = () => {
                 </div>
             </div>
 
-            <div className="container mx-auto px-4 sm:px-6 py-16 sm:py-24 lg:py-32">
-                <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-10 md:mb-16">
-                    <div className="max-w-2xl mb-8 lg:mb-0 scroll-animate-section">
-                        <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4 md:mb-6 font-benzin">
-                            Наши Проекты
-                        </span>
-                        <h2 className="section-heading mb-4 md:mb-6 text-2xl md:text-3xl lg:text-4xl font-bold text-white font-benzin">
-                            Инновационные проекты, созданные для будущего
-                        </h2>
-                        <p className="section-subheading text-sm md:text-base text-gray-400 font-benzin">
-                            Познакомьтесь с нашими знаковыми проектами, которые мы создаем с использованием современных технологий и бескомпромиссных стандартов качества.
-                        </p>
-                    </div>
-
-                    <a href="/projects" className="flex items-center bg-primary text-white font-medium px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors scroll-animate-section font-benzin">
-                        <span>Все проекты</span>
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                    </a>
+            <div className="relative">
+                {/* Animated background gradient */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black pointer-events-none" />
+                
+                {/* Animated dot pattern background */}
+                <div className="absolute inset-0 opacity-10">
+                    <div className="absolute w-full h-full" 
+                         style={{
+                             backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0)',
+                             backgroundSize: '32px 32px'
+                         }} />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                    {projects.map((project, index) => (
-                        <ProjectCard
-                            key={index}
-                            title={project.title}
-                            description={project.description}
-                            location={project.location}
-                            status={project.status}
-                            imageUrl={project.imageUrl}
-                            index={index}
-                            slug={project.slug}
-                        />
-                    ))}
+                <div className="container mx-auto px-4 sm:px-6 py-16 sm:py-24 lg:py-32 relative z-10">
+                    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-10 md:mb-16 scroll-animate-section">
+                        <motion.div 
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="max-w-2xl mb-8 lg:mb-0"
+                        >
+                            <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4 md:mb-6 font-benzin backdrop-blur-sm">
+                                Наши Проекты
+                            </span>
+                            <h2 className="section-heading mb-4 md:mb-6 text-2xl md:text-3xl lg:text-4xl font-bold text-white font-benzin">
+                                Инновационные проекты, созданные для будущего
+                            </h2>
+                            <p className="section-subheading text-sm md:text-base text-gray-400 font-benzin">
+                                Познакомьтесь с нашими знаковыми проектами, которые мы создаем с использованием современных технологий и бескомпромиссных стандартов качества.
+                            </p>
+                        </motion.div>
+
+                        <motion.a 
+                            href="/projects"
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                            className="group flex items-center bg-primary/10 hover:bg-primary text-white font-medium px-6 py-3 rounded-lg transition-all duration-300 backdrop-blur-sm border border-primary/20 hover:border-primary scroll-animate-section font-benzin"
+                        >
+                            <span className="group-hover:translate-x-1 transition-transform duration-300">Все проекты</span>
+                            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
+                        </motion.a>
+                    </div>
+
+                    <motion.div 
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.3 }}
+                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+                    >
+                        {projects.map((project, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                            >
+                                <ProjectCard {...project} index={index} />
+                            </motion.div>
+                        ))}
+                    </motion.div>
                 </div>
             </div>
         </section>
