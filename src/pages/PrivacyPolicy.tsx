@@ -1,10 +1,21 @@
 
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import PageHeader from '@/components/PageHeader';
+import NavBar from '@/components/NavBar';
+import Footer from '@/components/Footer';
 
 const PrivacyPolicy = () => {
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Политика конфиденциальности | TOWERUP</title>
+        <meta name="description" content="Политика конфиденциальности TOWERUP. Узнайте, как мы собираем, используем и защищаем информацию, которую вы предоставляете при использовании нашего веб-сайта." />
+        <meta name="robots" content="noindex, follow" />
+        <link rel="canonical" href="https://towerup.uz/privacy-policy" />
+      </Helmet>
+      
+      <NavBar />
       <PageHeader 
         title="Политика конфиденциальности"
         breadcrumb="Политика конфиденциальности"
@@ -42,6 +53,8 @@ const PrivacyPolicy = () => {
           </ul>
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 };

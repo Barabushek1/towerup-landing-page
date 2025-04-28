@@ -1,5 +1,6 @@
 
 import React, { useEffect, lazy, Suspense } from 'react';
+import { Helmet } from 'react-helmet-async';
 import NavBar from '@/components/NavBar';
 import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
@@ -98,6 +99,26 @@ const Index: React.FC = () => {
 
   return (
     <div className="min-h-screen antialiased bg-[#161616] text-foreground overflow-x-hidden">
+      <Helmet>
+        <title>TOWERUP | Лучший застройщик элитной недвижимости в Ташкенте</title>
+        <meta name="description" content="TOWER UP - современный жилой комплекс премиум-класса в Ташкенте. Элитные квартиры с панорамными видами, высококачественной отделкой и подземным паркингом." />
+        <meta name="keywords" content="towerup, TOWERUP, Tower Up, жилой комплекс, недвижимость Ташкент, элитная недвижимость, ЖК Пушкин" />
+        <link rel="canonical" href="https://towerup.uz/" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://towerup.uz/" />
+        <meta property="og:title" content="TOWERUP | Лучший застройщик элитной недвижимости в Ташкенте" />
+        <meta property="og:description" content="TOWER UP - современный жилой комплекс премиум-класса в Ташкенте. Элитные квартиры с панорамными видами и высококачественной отделкой." />
+        <meta property="og:image" content="https://towerup.uz/og-image.png" />
+        
+        {/* Twitter */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://towerup.uz/" />
+        <meta property="twitter:title" content="TOWERUP | Лучший застройщик элитной недвижимости в Ташкенте" />
+        <meta property="twitter:description" content="TOWER UP - современный жилой комплекс премиум-класса в Ташкенте. Элитные квартиры с панорамными видами и высококачественной отделкой." />
+      </Helmet>
+
       <NavBar />
       <main>
         <HeroSection />

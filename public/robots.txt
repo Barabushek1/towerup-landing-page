@@ -1,7 +1,22 @@
 
+# www.robotstxt.org/
+
 User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /admin/*
 
+# Block specific bots from crawling some content
+User-agent: AdsBot-Google
+Allow: /
+Disallow: /privacy-policy/
+
+# Block large language model crawlers (optional)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+# Sitemaps
 Sitemap: https://towerup.uz/sitemap.xml
