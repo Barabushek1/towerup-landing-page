@@ -1,8 +1,9 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Building } from 'lucide-react';
+import { Building, ArrowRight } from 'lucide-react';
 import ProjectFeatureCard from './ProjectFeatureCard';
+import { motion } from 'framer-motion';
 
 const ProjectsSection: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -58,77 +59,95 @@ const ProjectsSection: React.FC = () => {
     }
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
+
   return (
     <section
       id="projects"
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#161616] py-20 lg:py-32"
+      className="relative overflow-hidden py-20 lg:py-32"
+      style={{
+        background: 'linear-gradient(to bottom, #161616, #0c0c0c)',
+      }}
     >
-      {/* Background Pattern */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-primary/5 to-transparent" />
-        <div className="absolute inset-y-0 right-0 w-1/2 bg-gradient-to-l from-primary/5 to-transparent" />
+      {/* Background Elements */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 opacity-5" 
+          style={{ 
+            backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)', 
+            backgroundSize: '30px 30px' 
+          }}>
+        </div>
+
+        {/* Background Blobs */}
+        <div className="absolute -left-40 top-0 h-96 w-96 rounded-full bg-primary/10 blur-3xl"></div>
+        <div className="absolute -right-40 bottom-0 h-96 w-96 rounded-full bg-primary/5 blur-3xl"></div>
       </div>
 
       <div className="container relative z-10 mx-auto px-4">
         {/* Section Header */}
-        <div className={cn(
-          "mb-16 max-w-2xl transition-all duration-1000",
-          isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-        )}>
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="mb-16 max-w-2xl"
+        >
           <div className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
             <Building className="mr-2 h-4 w-4" />
             Наши Проекты
           </div>
-          <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
-            Создаем будущее<br />в настоящем
+          <h2 className="mt-4 text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+            Создаем будущее<br className="hidden md:block" /> в настоящем
           </h2>
-          <p className="mt-4 text-lg text-gray-400">
+          <p className="mt-6 text-lg text-gray-400 leading-relaxed">
             Откройте для себя наши знаковые проекты, воплощающие инновации, комфорт и стиль
           </p>
-        </div>
+        </motion.div>
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project, index) => (
-            <div
-              key={project.slug}
-              className={cn(
-                "transition-all duration-1000 delay-[var(--delay)]",
-                isVisible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"
-              )}
-              style={{ '--delay': `${index * 200}ms` } as React.CSSProperties}
-            >
+            <div key={project.slug} className="h-full">
               <ProjectFeatureCard {...project} index={index} />
             </div>
           ))}
         </div>
 
         {/* CTA Button */}
-        <div className={cn(
-          "mt-12 text-center transition-all duration-1000 delay-700",
-          isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-        )}>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="mt-12 text-center"
+        >
           <a
             href="/projects"
-            className="inline-flex items-center rounded-lg bg-primary px-6 py-3 text-sm font-medium text-white transition-all duration-300 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20"
+            className="group inline-flex items-center gap-2 rounded-lg bg-gradient-to-br from-primary to-primary/80 px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:shadow-lg hover:shadow-primary/20"
           >
-            Все проекты
-            <svg
-              className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
+            <span>Все проекты</span>
+            <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
           </a>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
