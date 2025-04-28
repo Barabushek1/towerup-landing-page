@@ -5,6 +5,7 @@ import NavBar from '@/components/NavBar';
 import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
 import FeaturesSection from '@/components/FeaturesSection';
+import TestimonialSliderSection from '@/components/TestimonialSliderSection';
 import { MapPin } from 'lucide-react';
 import { usePartnerSeeder } from '@/hooks/use-partner-seeder';
 import { useVacancySeeder } from '@/hooks/use-vacancy-seeder';
@@ -124,6 +125,9 @@ const Index: React.FC = () => {
         <HeroSection />
         <AboutSection />
         <FeaturesSection />
+        
+        {/* Testimonial Slider Section */}
+        <TestimonialSliderSection />
         
         {/* Lazy-loaded sections with suspense fallbacks */}
         <Suspense fallback={<SectionSkeleton />}>
