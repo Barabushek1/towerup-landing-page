@@ -1,11 +1,11 @@
+
 import React from 'react';
-import NavBar from '@/components/NavBar'; // Assuming path is correct
-import Footer from '@/components/Footer'; // Assuming path is correct
-import PageHeader from '@/components/PageHeader'; // Assuming path is correct
-import { Link } from 'react-router-dom';
+import NavBar from '@/components/NavBar';
+import Footer from '@/components/Footer';
+import PageHeader from '@/components/PageHeader';
 import { ArrowRight, Building, Calendar, MapPin } from 'lucide-react';
-import { Button } from '@/components/ui/button'; // Assuming path is correct
-import { cn } from '@/lib/utils'; // Assuming path is correct
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 // --- Interface (No changes needed) ---
 interface ProjectCardProps {
@@ -20,7 +20,7 @@ interface ProjectCardProps {
     featured?: boolean;
 }
 
-// --- ProjectCard Component (Incorporating Mobile Fixes) ---
+// --- ProjectCard Component (Updated to use anchor tags) ---
 const ProjectCard: React.FC<ProjectCardProps> = ({
     title,
     type,
@@ -80,20 +80,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                             <span>{completion}</span>
                         </div>
                     )}
-                    {/* Optional: Type (can be redundant) */}
-                    {/* <div className="flex items-center gap-1">
-                        <Building className="h-3.5 w-3.5 text-primary flex-shrink-0" />
-                        <span>{type}</span>
-                    </div> */}
                 </div>
 
                 {/* Link Button */}
-                <Link to={`/projects/${slug}`} className="inline-block" tabIndex={-1}>
+                <a href={`/projects/${slug}`} className="inline-block" tabIndex={-1}>
                     <Button variant="secondary" size="sm" className="group/btn bg-white/10 hover:bg-white/20 text-white border-none">
                         Подробнее
                         <ArrowRight className="ml-1.5 h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
                     </Button>
-                </Link>
+                </a>
             </div>
         </div>
     );

@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import PageHeader from '@/components/PageHeader';
@@ -70,10 +71,11 @@ const VacancyDetail = () => {
           
           <div className="container mx-auto px-6 relative z-20">
             <div className="max-w-4xl mx-auto">
-              <Link to="/vacancies" className="inline-flex items-center text-primary hover:text-primary/80 mb-8 font-benzin">
+              {/* Changed Link to a regular anchor tag */}
+              <a href="/vacancies" className="inline-flex items-center text-primary hover:text-primary/80 mb-8 font-benzin">
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Назад к вакансиям
-              </Link>
+              </a>
               
               {isLoading ? (
                 <div className="text-center py-20">
@@ -83,13 +85,14 @@ const VacancyDetail = () => {
               ) : error || !vacancy ? (
                 <div className="text-center py-20">
                   <p className="text-red-400">Вакансия не найдена или произошла ошибка при загрузке.</p>
-                  <Link 
-                    to="/vacancies" 
+                  {/* Changed Link to a regular anchor tag */}
+                  <a 
+                    href="/vacancies" 
                     className="inline-flex items-center px-5 py-2.5 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors font-benzin mt-4"
                   >
                     <ArrowLeft className="mr-2 h-4 w-4" />
                     Вернуться к списку вакансий
-                  </Link>
+                  </a>
                 </div>
               ) : (
                 <>

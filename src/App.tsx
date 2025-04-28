@@ -38,59 +38,53 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 const queryClient = new QueryClient();
 const helmetContext = {};
 
-const AppContent = () => {
+const App = () => {
   usePartnerSeeder();
   
   return (
-    <>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          
-          <Route path="/about" element={<About />} />
-          <Route path="/history" element={<History />} />
-          <Route path="/partners" element={<Partners />} />
-          <Route path="/management" element={<Management />} />
-          
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/projects/:slug" element={<ProjectDetail />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/news/:id" element={<NewsDetail />} />
-          <Route path="/vacancies" element={<Vacancies />} />
-          <Route path="/vacancies/:id" element={<VacancyDetail />} />
-          <Route path="/contact" element={<Contact />} />
-          
-          <Route path="/construction" element={<Construction />} />
-          <Route path="/design" element={<Design />} />
-          <Route path="/solutions" element={<Solutions />} />
-          
-          <Route path="/admin" element={<AdminLogin />} />
-          <Route path="/admin/dashboard" element={<AdminLayout><AdminDashboard /></AdminLayout>} />
-          <Route path="/admin/news" element={<AdminLayout><AdminNews /></AdminLayout>} />
-          <Route path="/admin/vacancies" element={<AdminLayout><AdminVacancies /></AdminLayout>} />
-          <Route path="/admin/messages" element={<AdminLayout><AdminMessages /></AdminLayout>} />
-          <Route path="/admin/partners" element={<AdminLayout><AdminPartners /></AdminLayout>} />
-          <Route path="/admin/audit-logs" element={<AdminLayout><AdminAuditLogs /></AdminLayout>} />
-          <Route path="/admin/detailed-audit-logs" element={<AdminLayout><AdminDetailedAuditLogs /></AdminLayout>} />
-          
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <ChatBot />
-      </TooltipProvider>
-    </>
+    <HelmetProvider context={helmetContext}>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <ScrollToTop />
+          <Routes>
+            <Route path="/" element={<Index />} />
+            
+            <Route path="/about" element={<About />} />
+            <Route path="/history" element={<History />} />
+            <Route path="/partners" element={<Partners />} />
+            <Route path="/management" element={<Management />} />
+            
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/projects/:slug" element={<ProjectDetail />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/news/:id" element={<NewsDetail />} />
+            <Route path="/vacancies" element={<Vacancies />} />
+            <Route path="/vacancies/:id" element={<VacancyDetail />} />
+            <Route path="/contact" element={<Contact />} />
+            
+            <Route path="/construction" element={<Construction />} />
+            <Route path="/design" element={<Design />} />
+            <Route path="/solutions" element={<Solutions />} />
+            
+            <Route path="/admin" element={<AdminLogin />} />
+            <Route path="/admin/dashboard" element={<AdminLayout><AdminDashboard /></AdminLayout>} />
+            <Route path="/admin/news" element={<AdminLayout><AdminNews /></AdminLayout>} />
+            <Route path="/admin/vacancies" element={<AdminLayout><AdminVacancies /></AdminLayout>} />
+            <Route path="/admin/messages" element={<AdminLayout><AdminMessages /></AdminLayout>} />
+            <Route path="/admin/partners" element={<AdminLayout><AdminPartners /></AdminLayout>} />
+            <Route path="/admin/audit-logs" element={<AdminLayout><AdminAuditLogs /></AdminLayout>} />
+            <Route path="/admin/detailed-audit-logs" element={<AdminLayout><AdminDetailedAuditLogs /></AdminLayout>} />
+            
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <ChatBot />
+        </TooltipProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
   );
 };
-
-const App = () => (
-  <HelmetProvider context={helmetContext}>
-    <QueryClientProvider client={queryClient}>
-      <AppContent />
-    </QueryClientProvider>
-  </HelmetProvider>
-);
 
 export default App;

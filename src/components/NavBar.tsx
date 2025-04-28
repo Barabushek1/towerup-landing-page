@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Menu, Phone, ChevronDown, Facebook, Instagram, MessageSquare, MapPin, Mail, PhoneCall } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -27,7 +28,6 @@ const NavBar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const isMobile = useIsMobile();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
@@ -46,13 +46,6 @@ const NavBar: React.FC = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
-  const handleNavigation = (href: string) => {
-    setIsMenuOpen(false);
-    if (location.pathname !== href) {
-      navigate(href);
-    }
-  };
 
   const companySubMenu = [
     { title: 'О нас', href: '/about' },
@@ -100,13 +93,12 @@ const NavBar: React.FC = () => {
                 <div className="bg-[#1a1a1a]">
                   {link.submenu?.map((subItem) => (
                     <SheetClose asChild key={subItem.title}>
-                      <Link
-                        to={subItem.href}
+                      <a
+                        href={subItem.href}
                         className="w-full flex items-center py-2.5 px-6 text-gray-300 hover:text-white hover:bg-white/5 font-benzin text-sm border-b border-white/5"
-                        onClick={() => handleNavigation(subItem.href)}
                       >
                         {subItem.title}
-                      </Link>
+                      </a>
                     </SheetClose>
                   ))}
                 </div>
@@ -114,13 +106,12 @@ const NavBar: React.FC = () => {
             </Collapsible>
           ) : (
             <SheetClose asChild key={link.key}>
-              <Link
-                to={link.href}
+              <a
+                href={link.href}
                 className="w-full flex items-center justify-between py-3 px-4 text-white border-b border-white/10 font-benzin text-base hover:bg-white/5"
-                onClick={() => handleNavigation(link.href)}
               >
                 <span>{link.title}</span>
-              </Link>
+              </a>
             </SheetClose>
           )
         ))}
@@ -173,8 +164,8 @@ const NavBar: React.FC = () => {
       )}
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
-        <Link 
-          to="/" 
+        <a 
+          href="/" 
           className="flex items-center"
         >
           <img 
@@ -182,7 +173,7 @@ const NavBar: React.FC = () => {
             alt="TOWERUP Logo" 
             className="h-12 md:h-16 w-auto" 
           />
-        </Link>
+        </a>
 
         {!isMobile && (
           <div className="hidden md:flex items-center space-x-8">
@@ -203,12 +194,12 @@ const NavBar: React.FC = () => {
                           {link.submenu?.map((subItem) => (
                             <li key={subItem.title}>
                               <NavigationMenuLink asChild>
-                                <Link
-                                  to={subItem.href}
+                                <a
+                                  href={subItem.href}
                                   className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-brand-dark font-benzin"
                                 >
                                   <div className="text-sm font-medium leading-none">{subItem.title}</div>
-                                </Link>
+                                </a>
                               </NavigationMenuLink>
                             </li>
                           ))}
@@ -217,23 +208,23 @@ const NavBar: React.FC = () => {
                     </NavigationMenuItem>
                   ) : (
                     <NavigationMenuItem key={link.title}>
-                      <Link
-                        to={link.href}
+                      <a
+                        href={link.href}
                         className={cn(
                           "nav-link tracking-wide hover:text-brand-primary transition-colors duration-300 font-benzin px-3 py-2",
                           scrolled ? "text-white" : "text-white"
                         )}
                       >
                         {link.title}
-                      </Link>
+                      </a>
                     </NavigationMenuItem>
                   )
                 )}
               </NavigationMenuList>
             </NavigationMenu>
 
-            <Link
-              to="/contact"
+            <a
+              href="/contact"
               className={cn(
                 "flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-primary text-white font-medium",
                 "shadow-lg shadow-brand-primary/20 transform transition hover:-translate-y-0.5 font-benzin"
@@ -241,7 +232,7 @@ const NavBar: React.FC = () => {
             >
               <Phone className="h-4 w-4" />
               Консультация
-            </Link>
+            </a>
           </div>
         )}
 
@@ -260,8 +251,8 @@ const NavBar: React.FC = () => {
               className="p-0 w-[85vw] max-w-xs bg-[#080C16] text-white border-l border-white/10"
             >
               <div className="flex items-center justify-between p-4 border-b border-white/10">
-                <Link 
-                  to="/" 
+                <a 
+                  href="/" 
                   className="flex items-center" 
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -270,7 +261,7 @@ const NavBar: React.FC = () => {
                     alt="TOWERUP Logo" 
                     className="h-10 w-auto" 
                   />
-                </Link>
+                </a>
               </div>
               <div className="overflow-y-auto max-h-[calc(100vh-64px)]">
                 <MobileMenu />
