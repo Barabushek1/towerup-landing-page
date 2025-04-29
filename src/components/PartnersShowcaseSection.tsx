@@ -78,7 +78,7 @@ const PartnersShowcaseSection: React.FC = () => {
             }, 180); // Cache for 3 hours
         },
         staleTime: 1000 * 60 * 60, // Consider data fresh for 1 hour
-        cacheTime: 1000 * 60 * 60 * 3, // Keep in React Query cache for 3 hours
+        gcTime: 1000 * 60 * 60 * 3, // Keep in React Query cache for 3 hours
     });
 
     return (

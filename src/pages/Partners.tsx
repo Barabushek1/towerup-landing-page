@@ -33,7 +33,7 @@ const Partners: React.FC = () => {
       }, 120); // Cache for 2 hours
     },
     staleTime: 1000 * 60 * 60, // Consider data fresh for 1 hour
-    cacheTime: 1000 * 60 * 60 * 2, // Keep in React Query cache for 2 hours
+    gcTime: 1000 * 60 * 60 * 2, // Keep in React Query cache for 2 hours
   });
 
   return (
