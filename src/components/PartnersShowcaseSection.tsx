@@ -1,11 +1,12 @@
+
 import React, { useEffect, useState, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
 import { HandshakeIcon, ChevronLeft, ChevronRight } from 'lucide-react';
-// Removed: import { useIsMobile } from '@/hooks/use-mobile'; // No longer needed for this logic
 import useEmblaCarousel from 'embla-carousel-react';
+import { getCachedData } from '@/utils/cache-utils';
 
 interface Partner {
     id: string;
@@ -15,58 +16,69 @@ interface Partner {
 }
 
 const PartnersShowcaseSection: React.FC = () => {
-    // Removed: const isMobile = useIsMobile(); // No longer needed here
-    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start' }); // Added align: 'start'
+    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start' });
 
-    // --- VVVVV MODIFIED AUTOPLAY EFFECT VVVVV ---
-    // Автопрокрутка (теперь для всех устройств)
+    // --- Optimized autoplay effect ---
     useEffect(() => {
-        if (!emblaApi) return; // Only check if emblaApi exists
+        if (!emblaApi) return;
 
         let autoplay: NodeJS.Timeout | null = null;
 
         const startAutoplay = () => {
             stopAutoplay();
             autoplay = setInterval(() => {
-                emblaApi?.scrollNext();
-            }, 3000); // Interval set to 3 seconds
+                if (document.visibilityState === 'visible') { // Only scroll when tab is visible
+                    emblaApi?.scrollNext();
+                }
+            }, 3000);
         };
 
         const stopAutoplay = () => {
             if (autoplay) clearInterval(autoplay);
         };
 
-        // Optional: Pause on hover for usability
+        // Pause on hover for usability
         const carouselElement = emblaApi.containerNode();
         carouselElement.addEventListener('mouseenter', stopAutoplay);
         carouselElement.addEventListener('mouseleave', startAutoplay);
+        
+        // Also pause when tab is hidden
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                startAutoplay();
+            } else {
+                stopAutoplay();
+            }
+        });
 
-        startAutoplay(); // Start autoplay
+        startAutoplay();
 
-        // Cleanup
         return () => {
             stopAutoplay();
             carouselElement.removeEventListener('mouseenter', stopAutoplay);
             carouselElement.removeEventListener('mouseleave', startAutoplay);
+            document.removeEventListener('visibilitychange', () => {});
         };
-    }, [emblaApi]); // Dependency is now only emblaApi
-     // --- ^^^^^ MODIFIED AUTOPLAY EFFECT ^^^^^ ---
+    }, [emblaApi]);
 
-    // Functions for prev/next buttons (remain the same)
     const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
     const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
 
-    // Fetching data from Supabase (remains the same)
+    // Fetching data with improved caching
     const { data: partners = [], isLoading, error } = useQuery({
         queryKey: ['partners-showcase'],
         queryFn: async () => {
-            const { data, error } = await supabase.from('partners').select('*').order('name');
-            if (error) {
-                console.error('Error fetching partners:', error);
-                throw error;
-            }
-            return data as Partner[];
-        }
+            return getCachedData('partners_showcase', async () => {
+                const { data, error } = await supabase.from('partners').select('*').order('name');
+                if (error) {
+                    console.error('Error fetching partners:', error);
+                    throw error;
+                }
+                return data as Partner[];
+            }, 180); // Cache for 3 hours
+        },
+        staleTime: 1000 * 60 * 60, // Consider data fresh for 1 hour
+        cacheTime: 1000 * 60 * 60 * 3, // Keep in React Query cache for 3 hours
     });
 
     return (

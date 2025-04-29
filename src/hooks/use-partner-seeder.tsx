@@ -1,6 +1,7 @@
 
 import { useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { needsSeedingCheck } from '@/utils/cache-utils';
 
 interface Partner {
   name: string;
@@ -10,7 +11,8 @@ interface Partner {
 
 export function usePartnerSeeder(initialRun = true) {
   useEffect(() => {
-    if (!initialRun) return;
+    // Skip if not initial run or already checked in this session
+    if (!initialRun || !needsSeedingCheck('partners')) return;
 
     const seedPartnersIfNeeded = async () => {
       try {

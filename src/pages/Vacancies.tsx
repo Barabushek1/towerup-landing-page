@@ -7,6 +7,7 @@ import PageHeader from '@/components/PageHeader';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useVacancySeeder } from '@/hooks/use-vacancy-seeder';
+import { getCachedData } from '@/utils/cache-utils';
 
 interface Vacancy {
   id: string;
@@ -29,18 +30,22 @@ const Vacancies: React.FC = () => {
   const { data: vacancies = [], isLoading, error } = useQuery({
     queryKey: ['vacancies'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('vacancies')
-        .select('*')
-        .eq('is_active', true)
-        .order('title');
-      
-      if (error) {
-        throw error;
-      }
-      
-      return data as Vacancy[];
-    }
+      return getCachedData('vacancies_list', async () => {
+        const { data, error } = await supabase
+          .from('vacancies')
+          .select('*')
+          .eq('is_active', true)
+          .order('title');
+        
+        if (error) {
+          throw error;
+        }
+        
+        return data as Vacancy[];
+      }, 120); // Cache for 2 hours
+    },
+    staleTime: 1000 * 60 * 60, // Consider data fresh for 1 hour
+    cacheTime: 1000 * 60 * 60 * 2, // Keep in React Query cache for 2 hours
   });
 
   return (

@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import PageHeader from '@/components/PageHeader';
 import { Loader2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { getCachedData } from '@/utils/cache-utils';
 
 interface Partner {
   id: string;
@@ -18,17 +19,21 @@ const Partners: React.FC = () => {
   const { data: partners, isLoading, error } = useQuery({
     queryKey: ['partners'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('partners')
-        .select('*')
-        .order('name');
-      
-      if (error) {
-        throw error;
-      }
-      
-      return data as Partner[];
-    }
+      return getCachedData('partners_list', async () => {
+        const { data, error } = await supabase
+          .from('partners')
+          .select('*')
+          .order('name');
+        
+        if (error) {
+          throw error;
+        }
+        
+        return data as Partner[];
+      }, 120); // Cache for 2 hours
+    },
+    staleTime: 1000 * 60 * 60, // Consider data fresh for 1 hour
+    cacheTime: 1000 * 60 * 60 * 2, // Keep in React Query cache for 2 hours
   });
 
   return (

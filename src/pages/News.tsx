@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
@@ -15,6 +14,7 @@ import {
 import PageHeader from '@/components/PageHeader';
 import { supabase } from '@/integrations/supabase/client';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { getCachedData } from '@/utils/cache-utils';
 
 interface NewsItem {
   id: string;
@@ -37,33 +37,50 @@ const News: React.FC = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        // First get the count for pagination
-        const { count, error: countError } = await supabase
-          .from('news')
-          .select('*', { count: 'exact', head: true });
+        // Use sessionStorage to cache the count so we don't keep fetching it
+        let totalCount = 0;
+        const cachedCountStr = sessionStorage.getItem('news_total_count');
         
-        if (countError) {
-          console.error('Error getting news count:', countError);
-          throw countError;
+        if (!cachedCountStr) {
+          // First get the count for pagination
+          const { count, error: countError } = await supabase
+            .from('news')
+            .select('*', { count: 'exact', head: true });
+          
+          if (countError) {
+            console.error('Error getting news count:', countError);
+            throw countError;
+          }
+          
+          totalCount = count || 0;
+          // Cache the count for future use
+          sessionStorage.setItem('news_total_count', totalCount.toString());
+        } else {
+          totalCount = parseInt(cachedCountStr, 10);
         }
         
-        const totalCount = count || 0;
         const calculatedTotalPages = Math.ceil(totalCount / itemsPerPage);
         setTotalPages(calculatedTotalPages > 0 ? calculatedTotalPages : 1);
         
         // Then fetch the actual data for the current page
-        const { data, error } = await supabase
-          .from('news')
-          .select('id, title, published_at, summary, image_url, content, featured')
-          .order('published_at', { ascending: false })
-          .range((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage - 1);
+        // Cache key includes page number to cache each page separately
+        const key = `news_page_${currentPage}`;
+        const pageData = await getCachedData<NewsItem[]>(key, async () => {
+          const { data, error } = await supabase
+            .from('news')
+            .select('id, title, published_at, summary, image_url, content, featured')
+            .order('published_at', { ascending: false })
+            .range((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage - 1);
+          
+          if (error) {
+            console.error('Error fetching news:', error);
+            throw error;
+          }
+          
+          return data || [];
+        }, 60); // Cache for 1 hour
         
-        if (error) {
-          console.error('Error fetching news:', error);
-          throw error;
-        }
-        
-        setNews(data || []);
+        setNews(pageData);
         setIsLoading(false);
       } catch (error) {
         console.error('Error in news fetching:', error);

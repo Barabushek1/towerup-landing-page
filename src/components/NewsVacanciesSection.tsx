@@ -8,6 +8,7 @@ import { toast } from '@/components/ui/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { getCachedData } from '@/utils/cache-utils';
 
 interface NewsItem {
   id: string;
@@ -130,57 +131,60 @@ const NewsVacanciesSection: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const isMobile = useIsMobile();
 
-  // Fetch news from Supabase with priority for featured news
+  // Fetch news from Supabase with caching for better performance
   useEffect(() => {
     const fetchNews = async () => {
       try {
         setLoading(true);
         console.log('Fetching news for homepage...');
 
-        // First, try to get featured news
-        const featuredQuery = await supabase
-          .from('news')
-          .select('id, title, published_at, summary, image_url, featured')
-          .eq('featured', true)
-          .order('published_at', { ascending: false });
-          
-        if (featuredQuery.error) {
-          console.error('Error fetching featured news:', featuredQuery.error);
-          throw featuredQuery.error;
-        }
-        
-        // Get featured news and ensure we have an array
-        const featuredNews = featuredQuery.data || [];
-        console.log(`Found ${featuredNews.length} featured news items`);
-
-        // If we don't have enough featured news, get the most recent ones to fill
-        let combinedNews = [...featuredNews];
-        
-        if (featuredNews.length < 3) {
-          const remainingCount = 3 - featuredNews.length;
-          console.log(`Fetching ${remainingCount} additional recent news items`);
-          
-          // Get the IDs of featured news to exclude them from the regular query
-          const featuredIds = featuredNews.map(item => item.id);
-          
-          const regularQuery = await supabase
+        // Get news with caching
+        const combinedNews = await getCachedData<NewsItem[]>('homepage_news', async () => {
+          // First, try to get featured news
+          const featuredQuery = await supabase
             .from('news')
             .select('id, title, published_at, summary, image_url, featured')
-            .not('id', 'in', featuredIds.length > 0 ? `(${featuredIds.join(',')})` : '(null)')
-            .order('published_at', { ascending: false })
-            .limit(remainingCount);
+            .eq('featured', true)
+            .order('published_at', { ascending: false });
             
-          if (regularQuery.error) {
-            console.error('Error fetching regular news:', regularQuery.error);
-            throw regularQuery.error;
+          if (featuredQuery.error) {
+            console.error('Error fetching featured news:', featuredQuery.error);
+            throw featuredQuery.error;
           }
           
-          // Combine featured and regular news
-          combinedNews = [...featuredNews, ...(regularQuery.data || [])];
-        }
-        
-        // Limit to 3 items in case we have more than 3 featured items
-        combinedNews = combinedNews.slice(0, 3);
+          // Get featured news and ensure we have an array
+          const featuredNews = featuredQuery.data || [];
+          console.log(`Found ${featuredNews.length} featured news items`);
+
+          // If we don't have enough featured news, get the most recent ones to fill
+          let combinedResults = [...featuredNews];
+          
+          if (featuredNews.length < 3) {
+            const remainingCount = 3 - featuredNews.length;
+            console.log(`Fetching ${remainingCount} additional recent news items`);
+            
+            // Get the IDs of featured news to exclude them from the regular query
+            const featuredIds = featuredNews.map(item => item.id);
+            
+            const regularQuery = await supabase
+              .from('news')
+              .select('id, title, published_at, summary, image_url, featured')
+              .not('id', 'in', featuredIds.length > 0 ? `(${featuredIds.join(',')})` : '(null)')
+              .order('published_at', { ascending: false })
+              .limit(remainingCount);
+              
+            if (regularQuery.error) {
+              console.error('Error fetching regular news:', regularQuery.error);
+              throw regularQuery.error;
+            }
+            
+            // Combine featured and regular news
+            combinedResults = [...featuredNews, ...(regularQuery.data || [])];
+          }
+          
+          // Limit to 3 items in case we have more than 3 featured items
+          return combinedResults.slice(0, 3);
+        }, 60); // Cache for 1 hour
         
         setNews(combinedNews);
         console.log('Homepage news fetched, count:', combinedNews.length);

@@ -29,13 +29,19 @@ const SectionSkeleton = () => (
   </div>
 );
 
+// Track if the interaction observer has been initialized
+let observerInitialized = false;
+
 const Index: React.FC = () => {
-  // Seed initial data for partners and vacancies
+  // Seed initial data for partners and vacancies (now with optimized checks)
   usePartnerSeeder();
   useVacancySeeder();
   
   // Add smooth scrolling animations and preload images
   useEffect(() => {
+    // Skip if already initialized to prevent duplicate observers
+    if (observerInitialized) return;
+    
     // Observer for scroll animations
     const observer = new IntersectionObserver(
       (entries) => {
@@ -56,44 +62,68 @@ const Index: React.FC = () => {
       observer.observe(el);
     });
     
-    // Preload critical images for better performance
-    const criticalImages = [
-      "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
-      "/lovable-uploads/f33c0024-7a3c-4110-864c-856ff30a1689.png"
-    ];
+    observerInitialized = true;
     
-    criticalImages.forEach(src => {
-      const img = new Image();
-      img.src = src;
-    });
+    // More efficient image preloading
+    const preloadCriticalImages = () => {
+      const criticalImages = [
+        "/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png",
+        "/lovable-uploads/f33c0024-7a3c-4110-864c-856ff30a1689.png"
+      ];
+      
+      // Preload critical images sequentially to avoid overwhelming the browser
+      let index = 0;
+      const loadNextImage = () => {
+        if (index < criticalImages.length) {
+          const img = new Image();
+          img.onload = loadNextImage;
+          img.src = criticalImages[index++];
+        }
+      };
+      
+      loadNextImage();
+    };
     
-    // Preload non-critical images after page load
+    // Start preloading critical images right away
+    preloadCriticalImages();
+    
+    // Preload non-critical images after page load, when browser is idle
     const preloadNonCriticalImages = () => {
+      if (document.visibilityState !== 'visible') return; // Don't preload when tab is not visible
+      
       const nonCriticalImages = [
         "/assets/Pushkin/1.jpg",
         "/assets/Pushkin/2.jpg",
         "/assets/Pushkin/18.jpg"
       ];
       
+      // Create preload link elements instead of new Image()
+      // This gives the browser more control over priority
       nonCriticalImages.forEach(src => {
-        const img = new Image();
-        img.src = src;
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = src;
+        document.head.appendChild(link);
       });
     };
     
     // Use requestIdleCallback for non-critical preloading when browser is idle
     if ('requestIdleCallback' in window) {
-      window.requestIdleCallback(preloadNonCriticalImages);
+      window.requestIdleCallback(preloadNonCriticalImages, { timeout: 2000 });
     } else {
       // Fallback for browsers that don't support requestIdleCallback
-      setTimeout(preloadNonCriticalImages, 1000);
+      setTimeout(preloadNonCriticalImages, 2000);
     }
     
     return () => {
       // Clean up observer
-      document.querySelectorAll('.scroll-animate-section').forEach((el) => {
-        observer.unobserve(el);
-      });
+      if (observer) {
+        document.querySelectorAll('.scroll-animate-section').forEach((el) => {
+          observer.unobserve(el);
+        });
+        observerInitialized = false;
+      }
     };
   }, []);
 
