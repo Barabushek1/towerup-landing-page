@@ -152,7 +152,7 @@ const ProjectsSection: React.FC = () => {
             stopAutoplay();
             autoplayInterval = setInterval(() => {
                 carouselApi?.scrollNext();
-            }, 5000);
+            }, 4000);
         };
         const stopAutoplay = () => {
             if (autoplayInterval) clearInterval(autoplayInterval);
