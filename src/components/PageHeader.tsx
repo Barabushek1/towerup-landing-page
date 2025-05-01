@@ -39,6 +39,16 @@ const PageHeader: React.FC<PageHeaderProps> = ({
     return () => clearInterval(timer);
   }, [autoplay, images.length, interval]);
 
+  // Preload images to prevent flickering during transitions
+  useEffect(() => {
+    if (images.length > 0) {
+      images.forEach(src => {
+        const img = new Image();
+        img.src = src;
+      });
+    }
+  }, [images]);
+
   return (
     <div className={cn(
       "relative py-24 md:py-32 bg-cover bg-center bg-no-repeat isolate overflow-hidden",

@@ -9,6 +9,7 @@ import { MapPin } from 'lucide-react';
 import { usePartnerSeeder } from '@/hooks/use-partner-seeder';
 import { useVacancySeeder } from '@/hooks/use-vacancy-seeder';
 import ScrollToTopButton from '@/components/ScrollToTopButton';
+import ProjectAdvantagesBanner from '@/components/ProjectAdvantagesBanner';
 
 // Lazy load non-critical components for better initial load performance
 const ProjectsSection = lazy(() => import('@/components/ProjectsSection'));
@@ -159,6 +160,9 @@ const Index: React.FC = () => {
         <Suspense fallback={<SectionSkeleton />}>
           <ProjectsSection />
         </Suspense>
+        
+        {/* Add the new project advantages banner after projects section */}
+        <ProjectAdvantagesBanner />
         
         <Suspense fallback={<SectionSkeleton />}>
           <NewsVacanciesSection />

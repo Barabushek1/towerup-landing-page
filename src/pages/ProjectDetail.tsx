@@ -13,13 +13,28 @@ import {
     CheckCircle2,
     Image as ImageIcon,
     LayoutGrid,
-    Map
+    Map,
+    School,
+    Car,
+    Percent,
+    Paintbrush
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ProjectGallery from '@/components/ProjectGallery';
 import { motion } from 'framer-motion';
 import FloorPlansSection from '@/components/FloorPlansSection';
 import ScrollToTopButton from '@/components/ScrollToTopButton';
+import {
+    Card,
+    CardContent
+} from "@/components/ui/card";
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "@/components/ui/carousel";
 
 interface ProjectImage {
     url: string;
@@ -30,6 +45,13 @@ interface ProjectBenefit {
     icon: React.ElementType;
     title: string;
     description: string;
+}
+
+interface ProjectAdvantage {
+    icon: React.ElementType;
+    title: string;
+    description: string;
+    image: string;
 }
 
 interface ArchitectQuote {
@@ -58,6 +80,7 @@ interface IProject {
     keyBenefits?: ProjectBenefit[];
     architectQuote?: ArchitectQuote;
     hasFloorPlans: boolean;
+    advantages?: ProjectAdvantage[];
 }
 
 const projectsData: Record<string, IProject> = {
@@ -88,7 +111,33 @@ const projectsData: Record<string, IProject> = {
         features: ["Подземный паркинг", "Охраняемая территория", "Детская площадка", "Спортивная площадка", "Видеонаблюдение", "Консьерж-сервис", "Высококачественные материалы", "Современные технологии"],
         images: [{ url: "/assets/Pushkin/1.jpg", alt: "ЖК Пушкин - Вид спереди" }, { url: "/assets/Pushkin/2.jpg", alt: "ЖК Пушкин - Внешний вид" }, { url: "/assets/Pushkin/3.jpg", alt: "ЖК Пушкин - Территория" }, { url: "/assets/Pushkin/5.jpg", alt: "ЖК Пушкин - Холл" }, { url: "/assets/Pushkin/6.jpg", alt: "ЖК Пушкин - Квартира" }, { url: "/assets/Pushkin/8.jpg", alt: "ЖК Пушкин - Фасад" }, { url: "/assets/Pushkin/9.jpg", alt: "ЖК Пушкин - Ночной вид" }, { url: "/assets/Pushkin/10.jpg", alt: "ЖК Пушкин - Вечерний вид" }, { url: "/assets/Pushkin/11.jpg", alt: "ЖК Пушкин - Вид сбоку" }, { url: "/assets/Pushkin/14.jpg", alt: "ЖК Пушкин - План территории" }],
         videoUrl: "https://www.youtube.com/embed/aBZMFKzGuoM",
-        hasFloorPlans: true
+        hasFloorPlans: true,
+        advantages: [
+            { 
+                icon: School, 
+                title: "Всё нужное - рядом", 
+                description: "Школа, детский сад, зеленая зона, детские площадки и поликлиника в шаговой доступности.", 
+                image: "https://i.imgur.com/Gpxq4xr.png" 
+            },
+            { 
+                icon: Car, 
+                title: "Удобный паркинг", 
+                description: "Многоуровневый надземный паркинг для жителей комплекса и их гостей.", 
+                image: "https://i.imgur.com/JHUJPdb.png" 
+            },
+            { 
+                icon: Percent, 
+                title: "Рассрочка 0% до 2-х лет", 
+                description: "Самые выгодные условия приобретения недвижимости в нашем комплексе.", 
+                image: "https://i.imgur.com/V4hFuba.png" 
+            },
+            { 
+                icon: Paintbrush, 
+                title: "Ремонт под ключ", 
+                description: "Возможность приобрести квартиру с полностью готовым ремонтом от застройщика.", 
+                image: "https://i.imgur.com/nTzlAUG.png" 
+            }
+        ]
     },
     // ... other projects defined similarly ...
 };
@@ -246,6 +295,53 @@ const ProjectDetail: React.FC = () => {
                                         ></iframe>
                                     </div>
                                 </motion.div>
+                            )}
+
+                            {project.advantages && project.advantages.length > 0 && (
+                                <div className="lg:col-span-12 my-16">
+                                    <h2 className="text-3xl font-bold mb-8 text-white text-center">Преимущества проекта</h2>
+                                    <Carousel 
+                                        className="w-full max-w-6xl mx-auto"
+                                        opts={{
+                                            align: "start",
+                                            loop: true
+                                        }}
+                                    >
+                                        <CarouselContent className="-ml-2 md:-ml-4">
+                                            {project.advantages.map((advantage, index) => (
+                                                <CarouselItem key={`advantage-${index}`} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
+                                                    <div className="h-full">
+                                                        <Card className="border-slate-800 bg-slate-900/60 h-full">
+                                                            <div className="p-1">
+                                                                <div className="relative w-full aspect-[4/3] overflow-hidden rounded-t-md">
+                                                                    <img 
+                                                                        src={advantage.image} 
+                                                                        alt={advantage.title} 
+                                                                        className="w-full h-full object-cover"
+                                                                    />
+                                                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                                                                    <div className="absolute bottom-3 left-3 flex items-center gap-2">
+                                                                        <div className="w-10 h-10 rounded-full bg-primary/90 flex items-center justify-center">
+                                                                            <advantage.icon className="w-5 h-5 text-white" />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <CardContent className="pt-5 pb-6">
+                                                                <h3 className="text-xl font-bold text-white mb-2">{advantage.title}</h3>
+                                                                <p className="text-slate-300 text-sm">{advantage.description}</p>
+                                                            </CardContent>
+                                                        </Card>
+                                                    </div>
+                                                </CarouselItem>
+                                            ))}
+                                        </CarouselContent>
+                                        <div className="hidden md:flex">
+                                            <CarouselPrevious className="absolute -left-12 top-1/2" />
+                                            <CarouselNext className="absolute -right-12 top-1/2" />
+                                        </div>
+                                    </Carousel>
+                                </div>
                             )}
 
                             {project.keyBenefits && project.keyBenefits.length > 0 && (
