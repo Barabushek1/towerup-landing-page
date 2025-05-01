@@ -1,20 +1,71 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
 
 export interface PageHeaderProps {
   title: string;
   breadcrumb: string;
   backgroundImage?: string;
+  backgroundImages?: string[];
+  autoplay?: boolean;
+  interval?: number;
 }
 
-const PageHeader: React.FC<PageHeaderProps> = ({ title, breadcrumb, backgroundImage }) => {
+const PageHeader: React.FC<PageHeaderProps> = ({ 
+  title, 
+  breadcrumb, 
+  backgroundImage, 
+  backgroundImages = [],
+  autoplay = false,
+  interval = 4000
+}) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const images = backgroundImages.length > 0 
+    ? backgroundImages 
+    : (backgroundImage ? [backgroundImage] : []);
+
+  useEffect(() => {
+    if (!autoplay || images.length <= 1) return;
+    
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, interval);
+    
+    return () => clearInterval(timer);
+  }, [autoplay, images.length, interval]);
+
   return (
     <div className={cn(
       "relative py-24 md:py-32 bg-cover bg-center bg-no-repeat isolate overflow-hidden",
       "before:absolute before:inset-0 before:bg-black/50 before:z-10"
-    )}
-    style={{ backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'linear-gradient(to right, rgba(22, 22, 22, 0.9), rgba(22, 22, 22, 0.8))' }}>
+    )}>
+      {images.length > 0 ? (
+        <div className="absolute inset-0 w-full h-full">
+          {images.map((image, index) => (
+            <div 
+              key={index}
+              className={cn(
+                "absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000",
+                currentImageIndex === index ? "opacity-100" : "opacity-0"
+              )}
+              style={{ backgroundImage: `url(${image})` }}
+              aria-hidden="true"
+            />
+          ))}
+        </div>
+      ) : (
+        <div 
+          className="absolute inset-0 w-full h-full bg-cover bg-center"
+          style={{ backgroundImage: 'linear-gradient(to right, rgba(22, 22, 22, 0.9), rgba(22, 22, 22, 0.8))' }}
+          aria-hidden="true"
+        />
+      )}
+      
       <div className="container mx-auto px-6 relative z-20 text-center">
         <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">{title}</h1>
         {breadcrumb && (

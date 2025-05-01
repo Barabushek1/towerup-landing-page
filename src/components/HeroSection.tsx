@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Briefcase } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -10,7 +10,16 @@ const HeroSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
+  // Define the images for the carousel
+  const heroImages = [
+    "/lovable-uploads/499747fd-cec7-42ad-a52d-b4a550043793.png", // Original image
+    "https://i.pinimg.com/736x/f8/cc/00/f8cc0089171204a27e7e5a94df9d79fe.jpg", // First additional image
+    "https://i.pinimg.com/736x/53/9e/42/539e427b32ba88aba116165bff75eed2.jpg", // Second additional image
+  ];
+  
+  // Auto-rotate background images every 4 seconds
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -33,6 +42,23 @@ const HeroSection: React.FC = () => {
     };
   }, []);
 
+  // Set up image rotation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
+    }, 4000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  // Preload images for smooth transitions
+  useEffect(() => {
+    heroImages.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+
   return (
     <section 
       id="home" 
@@ -46,14 +72,20 @@ const HeroSection: React.FC = () => {
           {/* Light overlay for better text readability */}
           <div className="absolute inset-0 bg-black bg-opacity-20 z-10"></div>
           
-          {/* Background image with loading optimization */}
-          <img 
-            src="/lovable-uploads/499747fd-cec7-42ad-a52d-b4a550043793.png"
-            alt="Современные стеклянные здания" 
-            className="absolute w-full h-full object-cover object-center"
-            loading="eager" 
-            fetchPriority="high"
-          />
+          {/* Image carousel with fade transition */}
+          {heroImages.map((image, index) => (
+            <img 
+              key={index}
+              src={image}
+              alt={`Современный жилой комплекс ${index + 1}`} 
+              className={cn(
+                "absolute w-full h-full object-cover object-center transition-opacity duration-1000",
+                currentImageIndex === index ? "opacity-100" : "opacity-0"
+              )}
+              loading={index === 0 ? "eager" : "lazy"} 
+              fetchPriority={index === 0 ? "high" : "auto"}
+            />
+          ))}
         </div>
       </div>
       
@@ -93,6 +125,21 @@ const HeroSection: React.FC = () => {
             </Link>
           </div>
         </div>
+      </div>
+      
+      {/* Optional: Image pagination indicators */}
+      <div className="absolute bottom-8 left-0 right-0 z-20 flex justify-center gap-2">
+        {heroImages.map((_, index) => (
+          <button 
+            key={index}
+            className={cn(
+              "w-2 h-2 rounded-full transition-all duration-300",
+              currentImageIndex === index ? "bg-white w-4" : "bg-white/40"
+            )}
+            onClick={() => setCurrentImageIndex(index)}
+            aria-label={`Перейти к изображению ${index + 1}`}
+          />
+        ))}
       </div>
     </section>
   );
