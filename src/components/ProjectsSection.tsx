@@ -189,20 +189,20 @@ const ProjectsSection: React.FC = () => {
             title: 'Всё нужное — рядом',
             subtitle: 'ЖК «Кумарык»',
             description: "Совреенный жилой комплекс в престижном районе.",
-            imageUrl: "https://i.pinimg.com/736x/0f/9c/50/0f9c50ad3c8927fd4b64f934cd3f40c8.jpg",
+            imageUrl: "https://i.imgur.com/gvSrzzp.jpeg",
             slug: "pushkin"
         },
         {
             title: 'Удобный паркинг',
             subtitle: 'TOWERUP Проекты',
             description: "Безопасное и комфортное место для вашего автомобиля.",
-            imageUrl: "https://i.pinimg.com/736x/41/bd/38/41bd38e601fd7d090e8015387c97c8d1.jpg",
+            imageUrl: "https://i.imgur.com/JHUJPdb.png",
         },
         {
             title: 'Ремонт под ключ',
             subtitle: 'TOWERUP Сервисы',
             description: "Готовые решения для вашего комфорта.",
-            imageUrl: "https://i.pinimg.com/736x/41/ab/c6/41abc67a124ab2964986738014229398.jpg",
+            imageUrl: "https://i.imgur.com/nTzlAUG.png",
         }
     ];
 
