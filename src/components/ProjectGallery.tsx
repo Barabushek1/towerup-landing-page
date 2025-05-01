@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { 
   Carousel, 
@@ -141,8 +142,8 @@ const ProjectGallery = ({ images }: ProjectGalleryProps) => {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="hidden md:flex" />
-        <CarouselNext className="hidden md:flex" />
+        <CarouselPrevious />
+        <CarouselNext />
       </Carousel>
 
       {/* Fullscreen Gallery Dialog */}

@@ -1,8 +1,10 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, School, Car, Percent, Paintbrush } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
+
 const ProjectAdvantagesBanner: React.FC = () => {
   const advantages = [{
     icon: School,

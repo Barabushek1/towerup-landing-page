@@ -101,7 +101,7 @@ const projectsData: Record<string, IProject> = {
         status: "Строительство",
         keyBenefits: [
             { icon: Home, title: "Просторные планировки", description: "Функциональные квартиры с продуманным зонированием." },
-            { icon: MapPin, title: "Престижный район", description: "Развитая инфраструктура и удобная транспортная доступность." },
+            { icon: MapPin, title: "Престижный район", description: "Развитая инф��аструктура и удобная транспортная доступность." },
             { icon: Users, title: "Благоустроенная территория", description: "Детские и спортивные площадки, зоны отдыха." }
         ],
         architectQuote: {
@@ -336,9 +336,9 @@ const ProjectDetail: React.FC = () => {
                                                 </CarouselItem>
                                             ))}
                                         </CarouselContent>
-                                        <div className="hidden md:flex">
-                                            <CarouselPrevious className="absolute -left-12 top-1/2" />
-                                            <CarouselNext className="absolute -right-12 top-1/2" />
+                                        <div className="flex">
+                                            <CarouselPrevious />
+                                            <CarouselNext />
                                         </div>
                                     </Carousel>
                                 </div>
