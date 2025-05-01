@@ -189,7 +189,7 @@ const ProjectsSection: React.FC = () => {
             title: 'Всё нужное — рядом',
             subtitle: 'ЖК «Кумарык»',
             description: "Совреенный жилой комплекс в престижном районе.",
-            imageUrl: "/public/n4b.jpg",
+            imageUrl: "https://i.pinimg.com/736x/0f/9c/50/0f9c50ad3c8927fd4b64f934cd3f40c8.jpg",
             slug: "pushkin"
         },
         {
