@@ -118,7 +118,7 @@ const AboutSection: React.FC = () => {
               stiffness: 400,
               damping: 10
             }}>
-                <img src="https://images.unsplash.com/photo-1741540420762-91a78becdf92?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Company building" className="w-full h-[250px] sm:h-[300px] lg:h-[400px] object-cover transition-transform duration-700 hover:scale-105 shadow-xl" />
+                <img src="https://i.pinimg.com/736x/37/21/8d/37218da10099de1ae1ca3f62019ba961.jpg" alt="Company building" className="w-full h-[250px] sm:h-[300px] lg:h-[400px] object-cover transition-transform duration-700 hover:scale-105 shadow-xl" />
               </motion.div>
             </div>
           </motion.div>
