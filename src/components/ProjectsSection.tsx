@@ -187,9 +187,9 @@ const ProjectsSection: React.FC = () => {
     const featuredProjects = [
         {
             title: 'Всё нужное — рядом',
-            subtitle: 'ЖК «Пушкин»',
-            description: "Современный жилой комплекс в престижном районе.",
-            imageUrl: "https://images.unsplash.com/photo-1742196642294-4a0a93fd337c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            subtitle: 'ЖК «Кумарык»',
+            description: "Совреенный жилой комплекс в престижном районе.",
+            imageUrl: "public/n4b.jpg",
             slug: "pushkin"
         },
         {
