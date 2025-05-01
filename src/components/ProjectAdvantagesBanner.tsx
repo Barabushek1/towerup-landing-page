@@ -64,7 +64,7 @@ const ProjectAdvantagesBanner: React.FC = () => {
         once: true,
         amount: 0.1
       }}>
-          {advantages.map((advantage, index) => <motion.div key={`home-advantage-${index}`} className="group relative rounded-lg overflow-hidden bg-slate-900 border border-slate-800 shadow-lg" variants={itemVariants}>
+          {advantages.map((advantage, index) => <motion.div key={`home-advantage-${index}`} variants={itemVariants} className="group relative rounded-lg overflow-hidden border border-slate-800 shadow-lg bg-gray-800">
               <div className="h-48 relative overflow-hidden">
                 <img src={advantage.image} alt={advantage.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
