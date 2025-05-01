@@ -196,7 +196,7 @@ const ProjectsSection: React.FC = () => {
             title: 'Удобный паркинг',
             subtitle: 'TOWERUP Проекты',
             description: "Безопасное и комфортное место для вашего автомобиля.",
-            imageUrl: "https://images.unsplash.com/photo-1742898958003-63577fe8776e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            imageUrl: "https://www.pinterest.com/68dec8e5-504f-414d-8c60-3b50c6c36167",
         },
         {
             title: 'Ремонт под ключ',
