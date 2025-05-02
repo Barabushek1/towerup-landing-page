@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -16,6 +17,28 @@ interface FloorPlansSectionProps {
   projectId?: string;
   pricePerSqm?: number;
 }
+
+// Update the floor plan type to include the areaNum property
+interface FloorPlan {
+  id: number;
+  title: string;
+  subtitle: string;
+  area: string;
+  areaNum: number; // Add this property to the type
+  areaLabel: string;
+  price: string;
+  monthly: string;
+  image: string;
+}
+
+// Helper function to extract the numeric area from the area string
+const extractAreaNumber = (areaString: string): number => {
+  const areaMatch = areaString.match(/(\d+(?:\.\d+)?)/);
+  if (areaMatch) {
+    return parseFloat(areaMatch[1]);
+  }
+  return 0;
+};
 
 const floorPlans = {
   "1-комнатные": [{
@@ -54,6 +77,7 @@ const floorPlans = {
     title: "2-комнатная",
     subtitle: "квартира",
     area: "58.32 м²",
+    areaNum: 58.32,
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
@@ -63,6 +87,7 @@ const floorPlans = {
     title: "2-комнатная",
     subtitle: "квартира",
     area: "62.45 м²",
+    areaNum: 62.45,
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
@@ -72,6 +97,7 @@ const floorPlans = {
     title: "2-комнатная",
     subtitle: "квартира",
     area: "65.18 м²",
+    areaNum: 65.18,
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
@@ -81,6 +107,7 @@ const floorPlans = {
     title: "2-комнатная",
     subtitle: "квартира",
     area: "60.55 м²",
+    areaNum: 60.55,
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
@@ -90,6 +117,7 @@ const floorPlans = {
     title: "2-комнатная",
     subtitle: "квартира",
     area: "64.37 м²",
+    areaNum: 64.37,
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
@@ -100,6 +128,7 @@ const floorPlans = {
     title: "3-комнатная",
     subtitle: "квартира",
     area: "84.76 м²",
+    areaNum: 84.76,
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
@@ -109,6 +138,7 @@ const floorPlans = {
     title: "3-комнатная",
     subtitle: "квартира",
     area: "89.24 м²",
+    areaNum: 89.24,
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
@@ -118,6 +148,7 @@ const floorPlans = {
     title: "3-комнатная",
     subtitle: "квартира",
     area: "93.12 м²",
+    areaNum: 93.12,
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
@@ -127,6 +158,7 @@ const floorPlans = {
     title: "3-комнатная",
     subtitle: "квартира",
     area: "91.55 м²",
+    areaNum: 91.55,
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
@@ -136,6 +168,7 @@ const floorPlans = {
     title: "3-комнатная",
     subtitle: "квартира",
     area: "95.67 м²",
+    areaNum: 95.67,
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
@@ -300,7 +333,8 @@ const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({
               {Object.entries(floorPlans).map(([category, plans]) => <TabsContent key={category} value={category} className="w-full">
                   <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {plans.map(plan => {
-                      const calculatedPrice = plan.areaNum ? plan.areaNum * pricePerSqm : 0;
+                      // Use the existing areaNum property instead of extracting it again
+                      const calculatedPrice = plan.areaNum * pricePerSqm;
                       
                       return (
                         <motion.div key={plan.id} variants={itemVariants} className="h-full">
@@ -375,16 +409,14 @@ const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({
                         {selectedPlanData.area}
                       </p>
                     </div>
-                    {selectedPlanData.areaNum && (
-                      <div className="bg-[#131313] px-4 py-2 rounded-lg border border-brand-primary/20">
-                        <h4 className="text-brand-primary font-bold text-lg">
-                          {formatNumberWithSpaces(selectedPlanData.areaNum * pricePerSqm)} сум
-                        </h4>
-                        <p className="text-xs text-white/50">
-                          {formatNumberWithSpaces(pricePerSqm)} сум/м²
-                        </p>
-                      </div>
-                    )}
+                    <div className="bg-[#131313] px-4 py-2 rounded-lg border border-brand-primary/20">
+                      <h4 className="text-brand-primary font-bold text-lg">
+                        {formatNumberWithSpaces(selectedPlanData.areaNum * pricePerSqm)} сум
+                      </h4>
+                      <p className="text-xs text-white/50">
+                        {formatNumberWithSpaces(pricePerSqm)} сум/м²
+                      </p>
+                    </div>
                   </div>
                 </div>
                 
@@ -404,10 +436,7 @@ const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
                       <h4 className="text-brand-primary text-xl font-bold">
-                        {selectedPlanData.areaNum 
-                          ? formatNumberWithSpaces(selectedPlanData.areaNum * pricePerSqm) + " сум"
-                          : selectedPlanData.price
-                        }
+                        {formatNumberWithSpaces(selectedPlanData.areaNum * pricePerSqm)} сум
                       </h4>
                       <p className="text-white/60 text-sm">
                         {selectedPlanData.monthly}
