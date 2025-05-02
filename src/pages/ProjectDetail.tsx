@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import PageHeader from '@/components/PageHeader';
-import { MapPin, Calendar, ArrowRight, Home, Building, Users, CheckCircle2, Image as ImageIcon, LayoutGrid, Map, School, Car, Percent, Paintbrush } from 'lucide-react';
+import { MapPin, Calendar, ArrowRight, Home, Building, Users, CheckCircle2, Image as ImageIcon, LayoutGrid, Map, School, Car, Percent, Paintbrush, Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ProjectGallery from '@/components/ProjectGallery';
 import { motion } from 'framer-motion';
@@ -11,6 +11,8 @@ import FloorPlansSection from '@/components/FloorPlansSection';
 import ScrollToTopButton from '@/components/ScrollToTopButton';
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import ApartmentCalculator from '@/components/ApartmentCalculator';
+
 interface ProjectImage {
   url: string;
   alt: string;
@@ -76,7 +78,7 @@ const projectsData: Record<string, IProject> = {
     }, {
       icon: MapPin,
       title: "Престижный район",
-      description: "Развитая инф��аструктура и удобная транспортная доступность."
+      description: "Развитая инфраструктура и удобная транспортная доступность."
     }, {
       icon: Users,
       title: "Благоустроенная территория",
@@ -152,6 +154,8 @@ const ProjectDetail: React.FC = () => {
   }>();
   const [project, setProject] = useState<IProject | null>(null);
   const [loading, setLoading] = useState(true);
+  const [pricePerSqm, setPricePerSqm] = useState<number>(12000000); // Default 12 million sum
+
   useEffect(() => {
     window.scrollTo(0, 0);
     const timer = setTimeout(() => {
@@ -465,11 +469,35 @@ const ProjectDetail: React.FC = () => {
                   </div>
                 </section>
 
+                {/* Calculator Section */}
+                <motion.section className="py-16 bg-[#161616]" id="calculator" variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{
+                    once: true,
+                    amount: 0.2
+                }}>
+                  <div className="container mx-auto px-6">
+                    <div className="flex flex-col items-center mb-12 text-center">
+                      <h2 className="text-3xl md:text-4xl font-bold mb-3 text-white uppercase tracking-wider flex items-center gap-2">
+                        <Calculator className="text-brand-primary w-8 h-8" />
+                        Расчет стоимости
+                      </h2>
+                      <div className="w-20 h-1 bg-brand-primary mb-6 rounded-full"></div>
+                      <p className="text-slate-300 text-lg max-w-3xl mb-8">
+                        Рассчитайте примерную стоимость квартиры в жилом комплексе {project.title}, 
+                        основываясь на текущей цене за квадратный метр.
+                      </p>
+                    </div>
+                    
+                    <div className="max-w-2xl mx-auto">
+                      <ApartmentCalculator defaultPricePerSqm={pricePerSqm} />
+                    </div>
+                  </div>
+                </motion.section>
+
                 {project.hasFloorPlans && <motion.div id="floor-plans" variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{
         once: true,
         amount: 0.2
       }} className="py-20 md:py-24 bg-[#1a1a1a]">
-                    <FloorPlansSection projectId={project.id} />
+                    <FloorPlansSection projectId={project.id} pricePerSqm={pricePerSqm} />
                   </motion.div>}
 
                 <section id="location" className="py-20 md:py-24 bg-[#1a1a1a]">

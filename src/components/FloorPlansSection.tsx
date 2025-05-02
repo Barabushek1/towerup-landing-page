@@ -3,16 +3,18 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog";
-import { X, ZoomIn, ChevronLeft, ChevronRight, Phone, Mail } from "lucide-react";
+import { X, ZoomIn, ChevronLeft, ChevronRight, Phone, Mail, Calculator } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useIsMobile } from '@/hooks/use-mobile';
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import * as RovingFocusPrimitive from '@radix-ui/react-roving-focus';
 import { cn } from "@/lib/utils";
+import { formatNumberWithSpaces } from "@/utils/format-utils";
 
 interface FloorPlansSectionProps {
   projectId?: string;
+  pricePerSqm?: number;
 }
 
 const floorPlans = {
@@ -21,6 +23,7 @@ const floorPlans = {
     title: "1-комнатная",
     subtitle: "квартира",
     area: "31.01 м²",
+    areaNum: 31.01,
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
@@ -30,6 +33,7 @@ const floorPlans = {
     title: "1-комнатная",
     subtitle: "квартира",
     area: "39.51 м²",
+    areaNum: 39.51,
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
@@ -39,6 +43,7 @@ const floorPlans = {
     title: "1-комнатная",
     subtitle: "квартира",
     area: "35.43 м²",
+    areaNum: 35.43,
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
@@ -138,7 +143,10 @@ const floorPlans = {
   }]
 };
 
-const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({ projectId }) => {
+const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({ 
+  projectId,
+  pricePerSqm = 12000000 // Default 12 million sum per square meter
+}) => {
   const [activeTab, setActiveTab] = useState<string>("1-комнатные");
   const [selectedPlan, setSelectedPlan] = useState<number | null>(null);
   const [isImageOpen, setIsImageOpen] = useState(false);
@@ -161,6 +169,16 @@ const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({ projectId }) => {
       if (plan) return plan;
     }
     return null;
+  };
+
+  // Calculate price from area
+  const calculatePrice = (areaText: string): number => {
+    const areaMatch = areaText.match(/(\d+(?:\.\d+)?)/);
+    if (areaMatch) {
+      const area = parseFloat(areaMatch[1]);
+      return area * pricePerSqm;
+    }
+    return 0;
   };
 
   const scrollLeft = () => {
@@ -246,6 +264,9 @@ const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({ projectId }) => {
           
           <Tabs defaultValue="1-комнатные" className="w-full max-w-5xl" value={activeTab} onValueChange={handleTabChange}>
             <div className="relative mb-8 w-full">
+              <button onClick={scrollLeft} className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors hidden sm:flex">
+                <ChevronLeft className="h-5 w-5" />
+              </button>
               <RovingFocusPrimitive.Root orientation="horizontal" loop className="w-full">
                 <TabsPrimitive.List className="relative overflow-x-auto scrollbar-hide w-full flex items-center justify-start sm:justify-center px-4 py-2 bg-[#131313] rounded-xl border border-white/5 shadow-inner" style={{
                 scrollbarWidth: 'none',
@@ -260,48 +281,71 @@ const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({ projectId }) => {
                   </div>
                 </TabsPrimitive.List>
               </RovingFocusPrimitive.Root>
+              <button onClick={scrollRight} className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors hidden sm:flex">
+                <ChevronRight className="h-5 w-5" />
+              </button>
               
+              {/* Mobile scroll buttons */}
+              <div className="flex justify-center mt-3 sm:hidden">
+                <button onClick={scrollLeft} className="p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors mr-2">
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+                <button onClick={scrollRight} className="p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors">
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+              </div>
             </div>
             
             <AnimatePresence mode="wait">
               {Object.entries(floorPlans).map(([category, plans]) => <TabsContent key={category} value={category} className="w-full">
                   <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {plans.map(plan => <motion.div key={plan.id} variants={itemVariants} className="h-full">
-                        <Card className="bg-[#1a1a1a] border border-slate-700/30 overflow-hidden rounded-xl hover:border-brand-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-brand-primary/5 h-full flex flex-col">
-                          <CardContent className="p-0 h-full flex flex-col">
-                            <div className="p-5 sm:p-6">
-                              <h3 className="text-brand-primary text-xl sm:text-2xl font-bold">{plan.title}</h3>
-                              <p className="text-white/80 mb-2">{plan.subtitle}</p>
-                              
-                              <div className="my-4">
-                                <h4 className="text-brand-primary text-2xl sm:text-3xl font-bold">{plan.area}</h4>
-                                <p className="text-white/60">{plan.areaLabel}</p>
-                              </div>
-                            </div>
-                            
-                            <div className="relative aspect-square bg-gray-800 border-y border-slate-700/30 group cursor-pointer overflow-hidden flex-shrink-0" onClick={() => openFullScreenImage(plan.id)}>
-                              <img src={plan.image} alt={`${plan.title} ${plan.area}`} className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105" />
-                              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                <div className="flex flex-col items-center gap-2">
-                                  <ZoomIn className="h-8 w-8 text-white" />
-                                  <span className="text-white font-medium text-sm bg-brand-primary/80 px-3 py-1 rounded-full">Просмотреть</span>
+                    {plans.map(plan => {
+                      const calculatedPrice = plan.areaNum ? plan.areaNum * pricePerSqm : 0;
+                      
+                      return (
+                        <motion.div key={plan.id} variants={itemVariants} className="h-full">
+                          <Card className="bg-[#1a1a1a] border border-slate-700/30 overflow-hidden rounded-xl hover:border-brand-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-brand-primary/5 h-full flex flex-col">
+                            <CardContent className="p-0 h-full flex flex-col">
+                              <div className="p-5 sm:p-6">
+                                <h3 className="text-brand-primary text-xl sm:text-2xl font-bold">{plan.title}</h3>
+                                <p className="text-white/80 mb-2">{plan.subtitle}</p>
+                                
+                                <div className="my-4">
+                                  <h4 className="text-brand-primary text-2xl sm:text-3xl font-bold">{plan.area}</h4>
+                                  <p className="text-white/60">{plan.areaLabel}</p>
                                 </div>
                               </div>
-                            </div>
-                            
-                            <div className="p-5 sm:p-6 mt-auto">
-                              <div className="mb-4">
-                                <h4 className="text-brand-primary text-lg sm:text-xl font-bold">{plan.price}</h4>
-                                <p className="text-white/60 text-xs sm:text-sm">{plan.monthly}</p>
+                              
+                              <div className="relative aspect-square bg-gray-800 border-y border-slate-700/30 group cursor-pointer overflow-hidden flex-shrink-0" onClick={() => openFullScreenImage(plan.id)}>
+                                <img src={plan.image} alt={`${plan.title} ${plan.area}`} className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105" />
+                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                  <div className="flex flex-col items-center gap-2">
+                                    <ZoomIn className="h-8 w-8 text-white" />
+                                    <span className="text-white font-medium text-sm bg-brand-primary/80 px-3 py-1 rounded-full">Просмотреть</span>
+                                  </div>
+                                </div>
                               </div>
                               
-                              <Button className="w-full bg-brand-primary hover:bg-brand-primary/90 text-white transition-colors">
-                                Выбрать
-                              </Button>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </motion.div>)}
+                              <div className="p-5 sm:p-6 mt-auto">
+                                <div className="mb-4">
+                                  <h4 className="text-brand-primary text-lg sm:text-xl font-bold">
+                                    {formatNumberWithSpaces(calculatedPrice)} сум
+                                  </h4>
+                                  <p className="text-white/60 text-xs sm:text-sm flex items-center gap-1">
+                                    <Calculator className="w-3 h-3 text-brand-primary/70" />
+                                    {formatNumberWithSpaces(pricePerSqm)} сум/м²
+                                  </p>
+                                </div>
+                                
+                                <Button className="w-full bg-brand-primary hover:bg-brand-primary/90 text-white transition-colors">
+                                  Выбрать
+                                </Button>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        </motion.div>
+                      );
+                    })}
                   </motion.div>
                 </TabsContent>)}
             </AnimatePresence>
@@ -331,6 +375,16 @@ const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({ projectId }) => {
                         {selectedPlanData.area}
                       </p>
                     </div>
+                    {selectedPlanData.areaNum && (
+                      <div className="bg-[#131313] px-4 py-2 rounded-lg border border-brand-primary/20">
+                        <h4 className="text-brand-primary font-bold text-lg">
+                          {formatNumberWithSpaces(selectedPlanData.areaNum * pricePerSqm)} сум
+                        </h4>
+                        <p className="text-xs text-white/50">
+                          {formatNumberWithSpaces(pricePerSqm)} сум/м²
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
                 
@@ -350,7 +404,10 @@ const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({ projectId }) => {
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
                       <h4 className="text-brand-primary text-xl font-bold">
-                        {selectedPlanData.price}
+                        {selectedPlanData.areaNum 
+                          ? formatNumberWithSpaces(selectedPlanData.areaNum * pricePerSqm) + " сум"
+                          : selectedPlanData.price
+                        }
                       </h4>
                       <p className="text-white/60 text-sm">
                         {selectedPlanData.monthly}
