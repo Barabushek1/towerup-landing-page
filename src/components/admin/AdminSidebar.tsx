@@ -13,7 +13,8 @@ import {
   Users,
   Shield,
   FileSearch,
-  Menu // Using allowed icon: menu
+  Menu,
+  Settings // Using allowed icon: settings
 } from 'lucide-react';
 import { useAdminData } from '@/contexts/AdminDataContext';
 
@@ -59,6 +60,12 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, onClose }) => {
       href: '/admin/messages',
       icon: <MessageSquare className="h-5 w-5" />,
       badge: unreadMessages > 0 ? unreadMessages : null,
+    },
+    {
+      name: 'Цены планировок',
+      href: '/admin/floor-prices',
+      icon: <Settings className="h-5 w-5" />,
+      badge: null,
     },
     {
       name: 'Журнал действий',

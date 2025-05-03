@@ -16,3 +16,24 @@ export const extractAreaNumber = (areaString: string): number => {
   }
   return 0;
 };
+
+/**
+ * Format price per square meter for display
+ */
+export const formatPricePerSqm = (price: number): string => {
+  return `${formatNumberWithSpaces(price)} сум/м²`;
+};
+
+/**
+ * Format price for display
+ */
+export const formatPrice = (price: number): string => {
+  return `${formatNumberWithSpaces(price)} сум`;
+};
+
+/**
+ * Calculate total price based on area and price per square meter
+ */
+export const calculateTotalPrice = (area: number, pricePerSqm: number): number => {
+  return area * pricePerSqm;
+};

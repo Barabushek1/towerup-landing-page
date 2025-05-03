@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -34,6 +33,7 @@ import AdminAuditLogs from "./pages/admin/AdminAuditLogs";
 import AdminDetailedAuditLogs from "./pages/admin/AdminDetailedAuditLogs";
 import AdminLayout from "./components/admin/AdminLayout";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import AdminFloorPrices from './pages/admin/AdminFloorPrices';
 
 const queryClient = new QueryClient();
 const helmetContext = {};
@@ -76,6 +76,7 @@ const App = () => {
             <Route path="/admin/partners" element={<AdminLayout><AdminPartners /></AdminLayout>} />
             <Route path="/admin/audit-logs" element={<AdminLayout><AdminAuditLogs /></AdminLayout>} />
             <Route path="/admin/detailed-audit-logs" element={<AdminLayout><AdminDetailedAuditLogs /></AdminLayout>} />
+            <Route path="/admin/floor-prices" element={<AdminFloorPrices />} />
             
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="*" element={<NotFound />} />
