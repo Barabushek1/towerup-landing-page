@@ -69,7 +69,7 @@ const NavBar: React.FC = () => {
       hasSubmenu: true,
       submenu: [
         { title: 'ЖК "Пушкин"', href: '/projects/pushkin' },
-        { title: 'ТРЦ "Бочка"', href: '/projects/trcbochka' },
+        { title: 'ТРЦ "Бочка"', href: '/projects/trcbochka' }, // Updated link to TRC Bochka
         { title: 'БЦ "Бочка"', href: '/projects/bochka' },
         { title: 'Массив "Янги Узбекистан"', href: '/projects/newuzbekistan' },
       ]

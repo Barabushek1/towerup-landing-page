@@ -23,6 +23,7 @@ import Contact from "./pages/Contact";
 import Construction from "./pages/Construction";
 import Design from "./pages/Design";
 import Solutions from "./pages/Solutions";
+import TrcBochka from "./pages/TrcBochka"; // Added import for TRC Bochka page
 import ChatBot from "./components/ChatBot";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -59,6 +60,7 @@ const App = () => {
             
             <Route path="/projects" element={<Projects />} />
             <Route path="/projects/:slug" element={<ProjectDetail />} />
+            <Route path="/projects/trcbochka" element={<TrcBochka />} /> {/* Added route for TRC Bochka page */}
             <Route path="/news" element={<News />} />
             <Route path="/news/:id" element={<NewsDetail />} />
             <Route path="/vacancies" element={<Vacancies />} />
