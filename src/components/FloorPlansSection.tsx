@@ -11,7 +11,9 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import * as RovingFocusPrimitive from '@radix-ui/react-roving-focus';
 import { cn } from "@/lib/utils";
-import { formatNumberWithSpaces } from "@/utils/format-utils";
+import { formatNumberWithSpaces, getPricePerSqmForType } from "@/utils/format-utils";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 interface FloorPlansSectionProps {
   projectId?: string;
@@ -30,15 +32,6 @@ interface FloorPlan {
   monthly: string;
   image: string;
 }
-
-// Helper function to extract the numeric area from the area string
-const extractAreaNumber = (areaString: string): number => {
-  const areaMatch = areaString.match(/(\d+(?:\.\d+)?)/);
-  if (areaMatch) {
-    return parseFloat(areaMatch[1]);
-  }
-  return 0;
-};
 
 const floorPlans = {
   "1-комнатные": [{
@@ -176,15 +169,39 @@ const floorPlans = {
   }]
 };
 
-const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({ 
-  projectId,
-  pricePerSqm = 12000000 // Default 12 million sum per square meter
-}) => {
+const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({ projectId }) => {
   const [activeTab, setActiveTab] = useState<string>("1-комнатные");
   const [selectedPlan, setSelectedPlan] = useState<number | null>(null);
   const [isImageOpen, setIsImageOpen] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+  
+  // Fetch floor prices from Supabase
+  const { data: floorPrices, isLoading: pricesLoading } = useQuery({
+    queryKey: ['floorPrices'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('floor_prices')
+        .select('*');
+      
+      if (error) {
+        console.error("Error fetching floor prices:", error);
+        throw new Error(`Error fetching floor prices: ${error.message}`);
+      }
+      
+      return data;
+    }
+  });
+  
+  // Get the current price per sqm for the active tab
+  const getPricePerSqm = () => {
+    if (pricesLoading || !floorPrices) return 12000000; // Default fallback
+    
+    const priceData = floorPrices.find(price => price.apartment_type === activeTab);
+    return priceData ? priceData.price_per_sqm : 12000000;
+  };
+  
+  const currentPricePerSqm = getPricePerSqm();
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
@@ -205,13 +222,8 @@ const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({
   };
 
   // Calculate price from area
-  const calculatePrice = (areaText: string): number => {
-    const areaMatch = areaText.match(/(\d+(?:\.\d+)?)/);
-    if (areaMatch) {
-      const area = parseFloat(areaMatch[1]);
-      return area * pricePerSqm;
-    }
-    return 0;
+  const calculatePrice = (area: number): number => {
+    return area * currentPricePerSqm;
   };
 
   const scrollLeft = () => {
@@ -289,6 +301,26 @@ const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({
     </TabsPrimitive.Trigger>);
   CustomTabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
 
+  // Show loading state if prices are still loading
+  if (pricesLoading) {
+    return (
+      <section id="floor-plans" className="py-16 bg-[#161616]">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="flex flex-col items-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-2 text-center text-brand-primary">ПЛАНИРОВКИ</h2>
+            <h3 className="text-xl sm:text-2xl font-medium mb-8 text-center text-white">TOWERUP</h3>
+            <div className="w-full flex justify-center py-12">
+              <div className="animate-pulse flex items-center justify-center">
+                <div className="h-8 w-8 border-4 border-t-brand-primary border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin"></div>
+                <span className="ml-3 text-white">Загрузка цен...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return <section id="floor-plans" className="py-16 bg-[#161616]">
       <div className="container mx-auto px-4 sm:px-6">
         <div className="flex flex-col items-center mb-12">
@@ -333,8 +365,7 @@ const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({
               {Object.entries(floorPlans).map(([category, plans]) => <TabsContent key={category} value={category} className="w-full">
                   <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {plans.map(plan => {
-                      // Use the existing areaNum property instead of extracting it again
-                      const calculatedPrice = plan.areaNum * pricePerSqm;
+                      const calculatedPrice = calculatePrice(plan.areaNum);
                       
                       return (
                         <motion.div key={plan.id} variants={itemVariants} className="h-full">
@@ -367,7 +398,7 @@ const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({
                                   </h4>
                                   <p className="text-white/60 text-xs sm:text-sm flex items-center gap-1">
                                     <Calculator className="w-3 h-3 text-brand-primary/70" />
-                                    {formatNumberWithSpaces(pricePerSqm)} сум/м²
+                                    {formatNumberWithSpaces(currentPricePerSqm)} сум/м²
                                   </p>
                                 </div>
                                 
@@ -411,10 +442,10 @@ const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({
                     </div>
                     <div className="bg-[#131313] px-4 py-2 rounded-lg border border-brand-primary/20">
                       <h4 className="text-brand-primary font-bold text-lg">
-                        {formatNumberWithSpaces(selectedPlanData.areaNum * pricePerSqm)} сум
+                        {formatNumberWithSpaces(calculatePrice(selectedPlanData.areaNum))} сум
                       </h4>
                       <p className="text-xs text-white/50">
-                        {formatNumberWithSpaces(pricePerSqm)} сум/м²
+                        {formatNumberWithSpaces(currentPricePerSqm)} сум/м²
                       </p>
                     </div>
                   </div>
@@ -436,7 +467,7 @@ const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
                       <h4 className="text-brand-primary text-xl font-bold">
-                        {formatNumberWithSpaces(selectedPlanData.areaNum * pricePerSqm)} сум
+                        {formatNumberWithSpaces(calculatePrice(selectedPlanData.areaNum))} сум
                       </h4>
                       <p className="text-white/60 text-sm">
                         {selectedPlanData.monthly}
