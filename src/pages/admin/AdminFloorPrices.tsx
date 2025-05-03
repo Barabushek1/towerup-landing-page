@@ -12,9 +12,18 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { formatNumberWithSpaces, formatPricePerSqm } from "@/utils/format-utils";
-import { Settings } from "lucide-react";
+import { Settings, Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-// Example floor plan types - these would typically come from a database
+// Define types for floor price data
+interface FloorPrice {
+  id: string;
+  apartment_type: string;
+  price_per_sqm: number;
+}
+
+// Example floor plan types
 const floorPlanTypes = [
   { id: "1-комнатные", label: "1-комнатные" },
   { id: "2-комнатные", label: "2-комнатные" },
@@ -29,48 +38,113 @@ type PriceFormValues = z.infer<typeof priceSchema>;
 
 const AdminFloorPrices = () => {
   const [currentTab, setCurrentTab] = useState("1-комнатные");
+  const queryClient = useQueryClient();
   
-  // Example: In a real app, these would be loaded from and saved to a database
-  const [prices, setPrices] = useState({
-    "1-комнатные": 12000000,
-    "2-комнатные": 12000000,
-    "3-комнатные": 12000000,
+  // Fetch floor prices from Supabase
+  const { data: floorPrices, isLoading, error } = useQuery({
+    queryKey: ['floorPrices'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('floor_prices')
+        .select('*');
+      
+      if (error) {
+        throw new Error(`Error fetching floor prices: ${error.message}`);
+      }
+      
+      return data as FloorPrice[];
+    },
+  });
+
+  // Create a mutation to update floor prices
+  const updatePriceMutation = useMutation({
+    mutationFn: async ({ apartment_type, price_per_sqm }: { apartment_type: string, price_per_sqm: number }) => {
+      const { data, error } = await supabase
+        .from('floor_prices')
+        .update({ price_per_sqm })
+        .eq('apartment_type', apartment_type)
+        .select();
+      
+      if (error) {
+        throw new Error(`Error updating floor price: ${error.message}`);
+      }
+      
+      return data;
+    },
+    onSuccess: () => {
+      // Invalidate and refetch the floor prices data
+      queryClient.invalidateQueries({ queryKey: ['floorPrices'] });
+      
+      toast({
+        title: "Цена обновлена",
+        description: `Новая цена для ${currentTab} успешно сохранена`,
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Ошибка",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
   });
 
   // Create a form for each tab
   const form = useForm<PriceFormValues>({
     resolver: zodResolver(priceSchema),
     defaultValues: {
-      pricePerSqm: prices[currentTab as keyof typeof prices],
+      pricePerSqm: 12000000, // Default value before loading
     },
   });
 
-  // Update form values when tab changes
+  // Update form values when tab changes or data is loaded
   useEffect(() => {
-    form.reset({
-      pricePerSqm: prices[currentTab as keyof typeof prices],
-    });
-  }, [currentTab, form, prices]);
+    if (floorPrices) {
+      const currentPrice = floorPrices.find(
+        (price) => price.apartment_type === currentTab
+      );
+      
+      if (currentPrice) {
+        form.reset({
+          pricePerSqm: currentPrice.price_per_sqm,
+        });
+      }
+    }
+  }, [currentTab, floorPrices, form]);
 
   const handleTabChange = (value: string) => {
     setCurrentTab(value);
   };
 
   const onSubmit = (data: PriceFormValues) => {
-    // Update the price for the current floor plan type
-    setPrices({
-      ...prices,
-      [currentTab]: data.pricePerSqm,
-    });
-
-    // In a real app, you would send this to a database or API
-    // For example: supabase.from('prices').upsert({ type: currentTab, price_per_sqm: data.pricePerSqm })
-
-    toast({
-      title: "Цена обновлена",
-      description: `Новая цена для ${currentTab}: ${formatPricePerSqm(data.pricePerSqm)}`,
+    updatePriceMutation.mutate({
+      apartment_type: currentTab,
+      price_per_sqm: data.pricePerSqm,
     });
   };
+
+  if (isLoading) {
+    return (
+      <AdminLayout>
+        <div className="container mx-auto px-4 py-8 flex items-center justify-center h-64">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <span className="ml-2 text-lg">Загрузка цен...</span>
+        </div>
+      </AdminLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <AdminLayout>
+        <div className="container mx-auto px-4 py-8">
+          <div className="bg-red-500/20 border border-red-500 text-red-700 p-4 rounded-md">
+            <p>Ошибка загрузки данных: {error instanceof Error ? error.message : 'Неизвестная ошибка'}</p>
+          </div>
+        </div>
+      </AdminLayout>
+    );
+  }
 
   return (
     <AdminLayout>
@@ -162,7 +236,19 @@ const AdminFloorPrices = () => {
                         </div>
                       </div>
                       
-                      <Button type="submit">Сохранить</Button>
+                      <Button 
+                        type="submit" 
+                        disabled={updatePriceMutation.isPending}
+                      >
+                        {updatePriceMutation.isPending ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Сохранение...
+                          </>
+                        ) : (
+                          'Сохранить'
+                        )}
+                      </Button>
                     </form>
                   </Form>
                 </TabsContent>
@@ -171,10 +257,7 @@ const AdminFloorPrices = () => {
           </CardContent>
           <CardFooter className="flex flex-col items-start border-t border-slate-700 pt-4">
             <p className="text-sm text-slate-400 mb-2">
-              * В реальном приложении эти цены будут сохраняться в базе данных и применяться к планировкам на сайте
-            </p>
-            <p className="text-sm text-slate-400">
-              * Для интеграции с реальной базой данных необходимо реализовать соответствующий API
+              * Цены автоматически обновляются в базе данных и применяются к планировкам на сайте
             </p>
           </CardFooter>
         </Card>

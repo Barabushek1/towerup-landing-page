@@ -129,6 +129,30 @@ export type Database = {
         }
         Relationships: []
       }
+      floor_prices: {
+        Row: {
+          apartment_type: string
+          created_at: string
+          id: string
+          price_per_sqm: number
+          updated_at: string
+        }
+        Insert: {
+          apartment_type: string
+          created_at?: string
+          id?: string
+          price_per_sqm: number
+          updated_at?: string
+        }
+        Update: {
+          apartment_type?: string
+          created_at?: string
+          id?: string
+          price_per_sqm?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           created_at: string | null
