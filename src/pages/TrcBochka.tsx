@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 import { motion, useInView, useAnimation } from 'framer-motion';
 import NavBar from '@/components/NavBar';
@@ -31,7 +30,7 @@ const TrcBochka: React.FC = () => {
   const AnimatedSection = ({ children, className = '' }: { children: React.ReactNode, className?: string }) => {
     const controls = useAnimation();
     const ref = useRef(null);
-    const inView = useInView(ref, { once: true, threshold: 0.2 });
+    const inView = useInView(ref, { once: true });
     
     useEffect(() => {
       if (inView) {
@@ -79,7 +78,7 @@ const TrcBochka: React.FC = () => {
               <motion.div variants={fadeInUp} className="order-2 lg:order-1">
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Инновационный торгово-развлекательный центр</h2>
                 <p className="text-lg leading-relaxed text-gray-300 mb-6">
-                  ТРЦ «Бочка» — уникальный архитектурный проект в Ташкентской области, сочетающий в себе инновационные технологии и эстетику современного дизайна. Центральный элемент фасада, выполненный в форме бочки, символизирует изобилие и является визитной карточкой комплекса.
+                  ТРЦ «Бочка» — уникальный архитектурный проект в Ташкентской области, сочетающий в себе инновационные технологии и эстетику современного дизайна. Центральный элемент фасада, выполненн��й в форме бочки, символизирует изобилие и является визитной карточкой комплекса.
                 </p>
                 <p className="text-lg leading-relaxed text-gray-300 mb-8">
                   Этот многофункциональный центр предлагает не только торговые площади, но и разнообразные развлекательные зоны, рестораны, кафе и комфортные общественные пространства, создавая новое место притяжения для жителей и гостей региона.

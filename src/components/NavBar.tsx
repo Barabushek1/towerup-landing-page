@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -49,7 +48,6 @@ const NavBar: React.FC = () => {
 
   const companySubMenu = [
     { title: 'О нас', href: '/about' },
-    { title: 'История', href: '/history' },
     { title: 'Партнёры', href: '/partners' },
     { title: 'Руководство', href: '/management' },
   ];

@@ -10,7 +10,6 @@ import { usePartnerSeeder } from "./hooks/use-partner-seeder";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import About from "./pages/About";
-import History from "./pages/History";
 import Partners from "./pages/Partners";
 import Management from "./pages/Management";
 import Projects from "./pages/Projects";
@@ -23,7 +22,7 @@ import Contact from "./pages/Contact";
 import Construction from "./pages/Construction";
 import Design from "./pages/Design";
 import Solutions from "./pages/Solutions";
-import TrcBochka from "./pages/TrcBochka"; // Added import for TRC Bochka page
+import TrcBochka from "./pages/TrcBochka"; 
 import ChatBot from "./components/ChatBot";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -54,13 +53,12 @@ const App = () => {
             <Route path="/" element={<Index />} />
             
             <Route path="/about" element={<About />} />
-            <Route path="/history" element={<History />} />
             <Route path="/partners" element={<Partners />} />
             <Route path="/management" element={<Management />} />
             
             <Route path="/projects" element={<Projects />} />
             <Route path="/projects/:slug" element={<ProjectDetail />} />
-            <Route path="/projects/trcbochka" element={<TrcBochka />} /> {/* Added route for TRC Bochka page */}
+            <Route path="/projects/trcbochka" element={<TrcBochka />} />
             <Route path="/news" element={<News />} />
             <Route path="/news/:id" element={<NewsDetail />} />
             <Route path="/vacancies" element={<Vacancies />} />

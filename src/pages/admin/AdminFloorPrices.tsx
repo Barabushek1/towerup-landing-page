@@ -23,7 +23,7 @@ interface FloorPrice {
   price_per_sqm: number;
 }
 
-// Example floor plan types
+// Floor plan types
 const floorPlanTypes = [
   { id: "1-комнатные", label: "1-комнатные" },
   { id: "2-комнатные", label: "2-комнатные" },
@@ -150,24 +150,24 @@ const AdminFloorPrices = () => {
     <AdminLayout>
       <div className="container mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-bold">Управление ценами планировок</h1>
+          <h1 className="text-xl sm:text-2xl font-bold">Управление ценами планировок</h1>
         </div>
 
         <Card className="bg-slate-800 border-slate-700">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
               <Settings className="h-5 w-5 text-primary" />
               Настройки цен за квадратный метр
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-sm sm:text-base">
               Установите цены за квадратный метр для разных типов квартир
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Tabs value={currentTab} onValueChange={handleTabChange}>
-              <TabsList className="mb-6 bg-slate-700">
+            <Tabs value={currentTab} onValueChange={handleTabChange} className="w-full">
+              <TabsList className="mb-6 bg-slate-700 w-full flex justify-start overflow-x-auto">
                 {floorPlanTypes.map((type) => (
-                  <TabsTrigger key={type.id} value={type.id}>
+                  <TabsTrigger key={type.id} value={type.id} className="flex-1 min-w-[120px]">
                     {type.label}
                   </TabsTrigger>
                 ))}
@@ -182,9 +182,9 @@ const AdminFloorPrices = () => {
                         name="pricePerSqm"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Цена за м² ({type.label})</FormLabel>
-                            <div className="flex items-center gap-4">
-                              <FormControl>
+                            <FormLabel className="text-base sm:text-lg">Цена за м² ({type.label})</FormLabel>
+                            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                              <FormControl className="w-full">
                                 <Slider
                                   min={1000000}
                                   max={50000000}
@@ -194,15 +194,17 @@ const AdminFloorPrices = () => {
                                   className="flex-1"
                                 />
                               </FormControl>
-                              <FormControl>
-                                <Input
-                                  type="number"
-                                  value={field.value / 1000000}
-                                  onChange={(e) => field.onChange(Number(e.target.value) * 1000000)}
-                                  className="w-24 bg-slate-700 border-slate-600"
-                                />
-                              </FormControl>
-                              <span className="text-sm text-slate-400">млн сум</span>
+                              <div className="flex items-center gap-2 w-full sm:w-auto">
+                                <FormControl>
+                                  <Input
+                                    type="number"
+                                    value={field.value / 1000000}
+                                    onChange={(e) => field.onChange(Number(e.target.value) * 1000000)}
+                                    className="w-24 bg-slate-700 border-slate-600"
+                                  />
+                                </FormControl>
+                                <span className="text-sm text-slate-400 whitespace-nowrap">млн сум</span>
+                              </div>
                             </div>
                             <FormDescription className="text-sm text-slate-400 mt-2">
                               Текущая цена: {formatPricePerSqm(field.value)}
@@ -213,24 +215,24 @@ const AdminFloorPrices = () => {
                       />
 
                       <div className="bg-slate-700/50 p-4 rounded-md">
-                        <h4 className="text-sm font-medium mb-2">Примеры расчета стоимости:</h4>
-                        <div className="space-y-2">
+                        <h4 className="text-sm font-medium mb-3">Примеры расчета стоимости:</h4>
+                        <div className="space-y-2 text-sm">
                           {type.id === "1-комнатные" && (
                             <>
-                              <p className="text-sm">31 м² × {formatNumberWithSpaces(form.watch("pricePerSqm"))} сум/м² = {formatNumberWithSpaces(31 * form.watch("pricePerSqm"))} сум</p>
-                              <p className="text-sm">39 м² × {formatNumberWithSpaces(form.watch("pricePerSqm"))} сум/м² = {formatNumberWithSpaces(39 * form.watch("pricePerSqm"))} сум</p>
+                              <p>31 м² × {formatNumberWithSpaces(form.watch("pricePerSqm"))} сум/м² = {formatNumberWithSpaces(31 * form.watch("pricePerSqm"))} сум</p>
+                              <p>39 м² × {formatNumberWithSpaces(form.watch("pricePerSqm"))} сум/м² = {formatNumberWithSpaces(39 * form.watch("pricePerSqm"))} сум</p>
                             </>
                           )}
                           {type.id === "2-комнатные" && (
                             <>
-                              <p className="text-sm">58 м² × {formatNumberWithSpaces(form.watch("pricePerSqm"))} сум/м² = {formatNumberWithSpaces(58 * form.watch("pricePerSqm"))} сум</p>
-                              <p className="text-sm">65 м² × {formatNumberWithSpaces(form.watch("pricePerSqm"))} сум/м² = {formatNumberWithSpaces(65 * form.watch("pricePerSqm"))} сум</p>
+                              <p>58 м² × {formatNumberWithSpaces(form.watch("pricePerSqm"))} сум/м² = {formatNumberWithSpaces(58 * form.watch("pricePerSqm"))} сум</p>
+                              <p>65 м² × {formatNumberWithSpaces(form.watch("pricePerSqm"))} сум/м² = {formatNumberWithSpaces(65 * form.watch("pricePerSqm"))} сум</p>
                             </>
                           )}
                           {type.id === "3-комнатные" && (
                             <>
-                              <p className="text-sm">85 м² × {formatNumberWithSpaces(form.watch("pricePerSqm"))} сум/м² = {formatNumberWithSpaces(85 * form.watch("pricePerSqm"))} сум</p>
-                              <p className="text-sm">95 м² × {formatNumberWithSpaces(form.watch("pricePerSqm"))} сум/м² = {formatNumberWithSpaces(95 * form.watch("pricePerSqm"))} сум</p>
+                              <p>85 м² × {formatNumberWithSpaces(form.watch("pricePerSqm"))} сум/м² = {formatNumberWithSpaces(85 * form.watch("pricePerSqm"))} сум</p>
+                              <p>95 м² × {formatNumberWithSpaces(form.watch("pricePerSqm"))} сум/м² = {formatNumberWithSpaces(95 * form.watch("pricePerSqm"))} сум</p>
                             </>
                           )}
                         </div>
@@ -239,6 +241,7 @@ const AdminFloorPrices = () => {
                       <Button 
                         type="submit" 
                         disabled={updatePriceMutation.isPending}
+                        className="w-full sm:w-auto"
                       >
                         {updatePriceMutation.isPending ? (
                           <>
@@ -256,7 +259,7 @@ const AdminFloorPrices = () => {
             </Tabs>
           </CardContent>
           <CardFooter className="flex flex-col items-start border-t border-slate-700 pt-4">
-            <p className="text-sm text-slate-400 mb-2">
+            <p className="text-xs sm:text-sm text-slate-400 mb-2">
               * Цены автоматически обновляются в базе данных и применяются к планировкам на сайте
             </p>
           </CardFooter>
