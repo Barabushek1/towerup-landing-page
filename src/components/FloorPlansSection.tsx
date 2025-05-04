@@ -69,103 +69,103 @@ const floorPlans = {
     id: 4,
     title: "2-комнатная",
     subtitle: "квартира",
-    area: "58.32 м²",
-    areaNum: 58.32,
+    area: "52.2 м²",
+    areaNum: 52.2,
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "public/assets/Pushkin/floors/2/4.png"
+    image: "https://raw.githubusercontent.com/Barabushek1/towerup-landing-page/refs/heads/main/public/assets/Pushkin/floors/2/5.png?token=GHSAT0AAAAAADDFNFPMGDJ6FVSCEJCXTMO42AXRSJA"
   }, {
     id: 5,
     title: "2-комнатная",
     subtitle: "квартира",
-    area: "62.45 м²",
-    areaNum: 62.45,
+    area: "50.52 м²",
+    areaNum: 50.52,
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/floor-plan.png"
+    image: "https://raw.githubusercontent.com/Barabushek1/towerup-landing-page/refs/heads/main/public/assets/Pushkin/floors/2/6.png?token=GHSAT0AAAAAADDFNFPN7BU5ZWELAVO2OJ2I2AXRS5A"
   }, {
     id: 6,
     title: "2-комнатная",
     subtitle: "квартира",
-    area: "65.18 м²",
-    areaNum: 65.18,
+    area: "57.62 м²",
+    areaNum: 57.62,
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/floor-plan.png"
+    image: "https://raw.githubusercontent.com/Barabushek1/towerup-landing-page/refs/heads/main/public/assets/Pushkin/floors/2/7.png?token=GHSAT0AAAAAADDFNFPML4YUM7ZBZSRFHUF62AXRTNA"
   }, {
     id: 7,
     title: "2-комнатная",
     subtitle: "квартира",
-    area: "60.55 м²",
-    areaNum: 60.55,
+    area: "50.98 м²",
+    areaNum: 50.98,
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/floor-plan.png"
+    image: "https://raw.githubusercontent.com/Barabushek1/towerup-landing-page/refs/heads/main/public/assets/Pushkin/floors/2/8.png?token=GHSAT0AAAAAADDFNFPNA2Q5NHITM3BOVJDM2AXRT3Q"
   }, {
     id: 8,
     title: "2-комнатная",
     subtitle: "квартира",
-    area: "64.37 м²",
-    areaNum: 64.37,
+    area: "54.85 м²",
+    areaNum: 54.85,
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/floor-plan.png"
+    image: "https://raw.githubusercontent.com/Barabushek1/towerup-landing-page/refs/heads/main/public/assets/Pushkin/floors/2/4.png?token=GHSAT0AAAAAADDFNFPMHXHMEX56I2ECAQEW2AXRR4Q"
   }],
   "3-комнатные": [{
     id: 9,
     title: "3-комнатная",
     subtitle: "квартира",
-    area: "84.76 м²",
-    areaNum: 84.76,
+    area: "67.21 м²",
+    areaNum: 67.21,
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/floor-plan.png"
+    image: "https://raw.githubusercontent.com/Barabushek1/towerup-landing-page/refs/heads/main/public/assets/Pushkin/floors/3/9.png?token=GHSAT0AAAAAADDFNFPNDWCKXFI3GNXUQAVI2AXRXOA"
   }, {
     id: 10,
     title: "3-комнатная",
     subtitle: "квартира",
-    area: "89.24 м²",
-    areaNum: 89.24,
+    area: "65.25 м²",
+    areaNum: 65.25,
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/floor-plan.png"
+    image: "https://raw.githubusercontent.com/Barabushek1/towerup-landing-page/refs/heads/main/public/assets/Pushkin/floors/3/10.png?token=GHSAT0AAAAAADDFNFPNGY56FME3E7RYH5OE2AXRUIA"
   }, {
     id: 11,
     title: "3-комнатная",
     subtitle: "квартира",
-    area: "93.12 м²",
-    areaNum: 93.12,
+    area: "75.5 м²",
+    areaNum: 75.5,
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/floor-plan.png"
+    image: "https://raw.githubusercontent.com/Barabushek1/towerup-landing-page/refs/heads/main/public/assets/Pushkin/floors/3/11.png?token=GHSAT0AAAAAADDFNFPMKSAQB4YOWKLA5FVY2AXRVOA"
   }, {
     id: 12,
     title: "3-комнатная",
     subtitle: "квартира",
-    area: "91.55 м²",
-    areaNum: 91.55,
+    area: "69.65 м²",
+    areaNum: 69.65,
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/floor-plan.png"
+    image: "https://raw.githubusercontent.com/Barabushek1/towerup-landing-page/refs/heads/main/public/assets/Pushkin/floors/3/12.png?token=GHSAT0AAAAAADDFNFPMHQFUBHDVPTNK4CN42AXRWEQ"
   }, {
     id: 13,
     title: "3-комнатная",
     subtitle: "квартира",
-    area: "95.67 м²",
-    areaNum: 95.67,
+    area: "84.24 м²",
+    areaNum: 84.24,
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/floor-plan.png"
+    image: "https://raw.githubusercontent.com/Barabushek1/towerup-landing-page/refs/heads/main/public/assets/Pushkin/floors/3/13.png?token=GHSAT0AAAAAADDFNFPMHJEZU5OKCSU2ECHY2AXRWWQ"
   }]
 };
 
