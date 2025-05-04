@@ -8,42 +8,39 @@ import { motion } from 'framer-motion';
 
 // --- ProjectCard Component ---
 interface ProjectCardProps {
-    title: string;
-    description: string;
-    location: string;
-    status: string;
-    imageUrl?: string;
-    index: number;
-    slug?: string;
+  title: string;
+  description: string;
+  location: string;
+  status: string;
+  imageUrl?: string;
+  index: number;
+  slug?: string;
 }
-
 const ProjectCard: React.FC<ProjectCardProps> = ({
-    title,
-    description,
-    location,
-    status,
-    imageUrl,
-    index,
-    slug
+  title,
+  description,
+  location,
+  status,
+  imageUrl,
+  index,
+  slug
 }) => {
-    const cardRef = useRef<HTMLDivElement>(null);
-    const [isHovered, setIsHovered] = useState(false);
-    const [isTouched, setIsTouched] = useState(false);
-    const handleTouchStart = () => {
-        setIsTouched(!isTouched);
-    };
-
-    const cardContent = (
-        <div ref={cardRef} className={cn("scroll-animate-section relative group overflow-hidden rounded-2xl transition-all duration-500 cursor-pointer", "bg-brand-dark border border-brand-dark/10 shadow-sm h-[350px] md:h-[400px]")} style={{
-            transitionDelay: `${index * 100}ms`
-        }} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} onTouchStart={handleTouchStart}>
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isTouched, setIsTouched] = useState(false);
+  const handleTouchStart = () => {
+    setIsTouched(!isTouched);
+  };
+  const cardContent = <div ref={cardRef} className={cn("scroll-animate-section relative group overflow-hidden rounded-2xl transition-all duration-500 cursor-pointer", "bg-brand-dark border border-brand-dark/10 shadow-sm h-[350px] md:h-[400px]")} style={{
+    transitionDelay: `${index * 100}ms`
+  }} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} onTouchStart={handleTouchStart}>
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60 z-10"></div>
 
             <div className={cn("absolute inset-0 bg-gray-200 transition-transform duration-700 ease-in-out", isHovered || isTouched ? "scale-105" : "scale-100")} style={{
-                backgroundImage: imageUrl ? `url(${imageUrl})` : 'none',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center'
-            }}></div>
+      backgroundImage: imageUrl ? `url(${imageUrl})` : 'none',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center'
+    }}></div>
 
             <div className="absolute top-4 left-4 z-20 px-3 py-1 rounded-full bg-primary text-white text-xs font-medium font-benzin">
                 {status}
@@ -68,40 +65,32 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 <ChevronRight className="h-4 w-4 text-white/90" />
                 </div>
             </div>
-        </div>
-    );
-
-    return slug ? (
-        <a href={`/projects/${slug}`} aria-label={`View project ${title}`}>
+        </div>;
+  return slug ? <a href={`/projects/${slug}`} aria-label={`View project ${title}`}>
             {cardContent}
-        </a>
-    ) : (
-        cardContent
-    );
+        </a> : cardContent;
 };
-
 
 // --- FeaturedProject Component ---
 const FeaturedProject: React.FC<{
-    title: string;
-    subtitle: string;
-    description: string;
-    imageUrl: string;
-    index: number;
-    slug?: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  imageUrl: string;
+  index: number;
+  slug?: string;
 }> = ({
-    title,
-    subtitle,
-    description,
-    imageUrl,
-    index,
-    slug
+  title,
+  subtitle,
+  description,
+  imageUrl,
+  index,
+  slug
 }) => {
-        return (
-            <div className="relative w-full h-[600px] md:h-[700px] overflow-hidden">
+  return <div className="relative w-full h-[600px] md:h-[700px] overflow-hidden">
                 <div className="absolute inset-0 bg-cover bg-center" style={{
-                    backgroundImage: `url(${imageUrl})`
-                }} />
+      backgroundImage: `url(${imageUrl})`
+    }} />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent" />
 
                 <div className="relative z-10 h-full flex flex-col justify-center px-8 md:px-16 lg:px-24">
@@ -129,127 +118,104 @@ const FeaturedProject: React.FC<{
                         </div>
                     </div>
                 </div>
-            </div>
-        );
-    };
-
+            </div>;
+};
 
 // --- ProjectsSection Component ---
 const ProjectsSection: React.FC = () => {
-    const sectionRef = useRef<HTMLDivElement>(null);
-    const [carouselApi, setCarouselApi] = useState<any>(null);
-    const [currentSlide, setCurrentSlide] = useState(0);
-
-    useEffect(() => {
-        if (!carouselApi) return;
-        const handleSelect = () => {
-            setCurrentSlide(carouselApi.selectedScrollSnap());
-        };
-        carouselApi.on('select', handleSelect);
-
-        let autoplayInterval: NodeJS.Timeout | null = null;
-        const startAutoplay = () => {
-            stopAutoplay();
-            autoplayInterval = setInterval(() => {
-                carouselApi?.scrollNext();
-            }, 4000);
-        };
-        const stopAutoplay = () => {
-            if (autoplayInterval) clearInterval(autoplayInterval);
-        };
-
-        startAutoplay();
-        const carouselElement = carouselApi.containerNode();
-        carouselElement.addEventListener('mouseenter', stopAutoplay);
-        carouselElement.addEventListener('mouseleave', startAutoplay);
-
-        return () => {
-            carouselApi.off('select', handleSelect);
-            stopAutoplay();
-            carouselElement.removeEventListener('mouseenter', stopAutoplay);
-            carouselElement.removeEventListener('mouseleave', startAutoplay);
-        };
-    }, [carouselApi]);
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                }
-            });
-        }, { threshold: 0.1 });
-        const elementsToObserve = sectionRef.current?.querySelectorAll('.scroll-animate-section');
-        elementsToObserve?.forEach(el => observer.observe(el));
-        return () => elementsToObserve?.forEach(el => el && observer.unobserve(el));
-    }, []);
-
-    const featuredProjects = [
-        {
-            title: 'Всё нужное — рядом',
-            subtitle: 'ЖК «Кумарык»',
-            description: "Совреенный жилой комплекс в престижном районе.",
-            imageUrl: "https://i.imgur.com/gvSrzzp.jpeg",
-            slug: "pushkin"
-        },
-        {
-            title: 'Удобный паркинг',
-            subtitle: 'TOWERUP Проекты',
-            description: "Безопасное и комфортное место для вашего автомобиля.",
-            imageUrl: "https://i.imgur.com/JHUJPdb.png",
-        },
-        {
-            title: 'Ремонт под ключ',
-            subtitle: 'TOWERUP Сервисы',
-            description: "Готовые решения для вашего комфорта.",
-            imageUrl: "https://i.imgur.com/nTzlAUG.png",
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [carouselApi, setCarouselApi] = useState<any>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  useEffect(() => {
+    if (!carouselApi) return;
+    const handleSelect = () => {
+      setCurrentSlide(carouselApi.selectedScrollSnap());
+    };
+    carouselApi.on('select', handleSelect);
+    let autoplayInterval: NodeJS.Timeout | null = null;
+    const startAutoplay = () => {
+      stopAutoplay();
+      autoplayInterval = setInterval(() => {
+        carouselApi?.scrollNext();
+      }, 4000);
+    };
+    const stopAutoplay = () => {
+      if (autoplayInterval) clearInterval(autoplayInterval);
+    };
+    startAutoplay();
+    const carouselElement = carouselApi.containerNode();
+    carouselElement.addEventListener('mouseenter', stopAutoplay);
+    carouselElement.addEventListener('mouseleave', startAutoplay);
+    return () => {
+      carouselApi.off('select', handleSelect);
+      stopAutoplay();
+      carouselElement.removeEventListener('mouseenter', stopAutoplay);
+      carouselElement.removeEventListener('mouseleave', startAutoplay);
+    };
+  }, [carouselApi]);
+  useEffect(() => {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
         }
-    ];
-
-    const projects = [
-        {
-            title: 'Жилой комплекс "Пушкин"',
-            description: "Современный эко-комплекс из 5 домов с благоустроенной территорией, детскими площадками и парковой зоной.",
-            location: "Ташкент",
-            status: "Строится",
-            imageUrl: "/assets/Pushkin/18.jpg",
-            slug: "pushkin"
-        },
-        {
-            title: 'Бизнес-центр "Бочка"',
-            description: "Современный бизнес-центр класса А с конференц-залами, подземным паркингом и зелёной зоной отдыха.",
-            location: "Ташкент",
-            status: "Строится",
-            imageUrl: "https://images.unsplash.com/photo-1742330425089-1f91d18eaa4e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            slug: "bochka"
-        },
-        {
-            title: 'Жилой комплекс "Кумарык"',
-            description: "Курортный комплекс из отеля 5* и апартаментов с панорамным видом на море и собственным пляжем.",
-            location: "Ташкент",
-            status: "Проектируется",
-            imageUrl: "https://images.unsplash.com/photo-1618172193763-c511deb635ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2064&q=80",
-            slug: "kumaryk"
-        }
-    ];
-
-    return (
-        <section id="projects" ref={sectionRef} className="py-0 bg-black overflow-hidden">
+      });
+    }, {
+      threshold: 0.1
+    });
+    const elementsToObserve = sectionRef.current?.querySelectorAll('.scroll-animate-section');
+    elementsToObserve?.forEach(el => observer.observe(el));
+    return () => elementsToObserve?.forEach(el => el && observer.unobserve(el));
+  }, []);
+  const featuredProjects = [{
+    title: 'Всё нужное — рядом',
+    subtitle: 'ЖК «Кумарык»',
+    description: "Совреенный жилой комплекс в престижном районе.",
+    imageUrl: "https://i.imgur.com/gvSrzzp.jpeg",
+    slug: "pushkin"
+  }, {
+    title: 'Удобный паркинг',
+    subtitle: 'TOWERUP Проекты',
+    description: "Безопасное и комфортное место для вашего автомобиля.",
+    imageUrl: "https://i.imgur.com/JHUJPdb.png"
+  }, {
+    title: 'Ремонт под ключ',
+    subtitle: 'TOWERUP Сервисы',
+    description: "Готовые решения для вашего комфорта.",
+    imageUrl: "https://i.imgur.com/nTzlAUG.png"
+  }];
+  const projects = [{
+    title: 'Жилой комплекс "Пушкин"',
+    description: "Современный эко-комплекс из 5 домов с благоустроенной территорией, детскими площадками и парковой зоной.",
+    location: "Ташкент",
+    status: "Строится",
+    imageUrl: "/assets/Pushkin/18.jpg",
+    slug: "pushkin"
+  }, {
+    title: 'Бизнес-центр "Бочка"',
+    description: "Современный бизнес-центр класса А с конференц-залами, подземным паркингом и зелёной зоной отдыха.",
+    location: "Ташкент",
+    status: "Строится",
+    imageUrl: "https://images.unsplash.com/photo-1742330425089-1f91d18eaa4e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    slug: "bochka"
+  }, {
+    title: 'Жилой комплекс "Кумарык"',
+    description: "Курортный комплекс из отеля 5* и апартаментов с панорамным видом на море и собственным пляжем.",
+    location: "Ташкент",
+    status: "Проектируется",
+    imageUrl: "https://images.unsplash.com/photo-1618172193763-c511deb635ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2064&q=80",
+    slug: "kumaryk"
+  }];
+  return <section id="projects" ref={sectionRef} className="py-0 bg-black overflow-hidden">
             <div className="relative scroll-animate-section">
-                <Carousel setApi={setCarouselApi} opts={{ align: "start", loop: true }} className="w-full">
+                <Carousel setApi={setCarouselApi} opts={{
+        align: "start",
+        loop: true
+      }} className="w-full">
                     <CarouselContent>
-                        {featuredProjects.map((project, index) => (
-                            <CarouselItem key={index} className="pl-0 w-full">
-                                <FeaturedProject
-                                    title={project.title}
-                                    subtitle={project.subtitle}
-                                    description={project.description}
-                                    imageUrl={project.imageUrl}
-                                    index={index}
-                                    slug={project.slug}
-                                />
-                            </CarouselItem>
-                        ))}
+                        {featuredProjects.map((project, index) => <CarouselItem key={index} className="pl-0 w-full">
+                                <FeaturedProject title={project.title} subtitle={project.subtitle} description={project.description} imageUrl={project.imageUrl} index={index} slug={project.slug} />
+                            </CarouselItem>)}
                     </CarouselContent>
 
                     <div className="absolute left-8 md:left-16 lg:left-24 bottom-8 z-20 flex items-center gap-4">
@@ -258,14 +224,7 @@ const ProjectsSection: React.FC = () => {
                         </Button>
 
                         <div className="flex items-center gap-2">
-                            {featuredProjects.map((_, index) => (
-                                <button
-                                    key={index}
-                                    className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${currentSlide === index ? "bg-primary w-8" : "bg-white/50 hover:bg-white/80"}`}
-                                    onClick={() => carouselApi?.scrollTo(index)}
-                                    aria-label={`Go to slide ${index + 1}`}
-                                />
-                            ))}
+                            {featuredProjects.map((_, index) => <button key={index} className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${currentSlide === index ? "bg-primary w-8" : "bg-white/50 hover:bg-white/80"}`} onClick={() => carouselApi?.scrollTo(index)} aria-label={`Go to slide ${index + 1}`} />)}
                         </div>
 
                         <Button variant="outline" size="icon" className="rounded-full border-white/20 bg-black/30 backdrop-blur-sm text-white hover:bg-white/10" onClick={() => carouselApi?.scrollNext()} aria-label="Next slide">
@@ -286,22 +245,25 @@ const ProjectsSection: React.FC = () => {
                 
                 {/* Animated dot pattern background */}
                 <div className="absolute inset-0 opacity-10">
-                    <div className="absolute w-full h-full" 
-                         style={{
-                             backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0)',
-                             backgroundSize: '32px 32px'
-                         }} />
+                    <div className="absolute w-full h-full" style={{
+          backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0)',
+          backgroundSize: '32px 32px'
+        }} />
                 </div>
 
                 <div className="container mx-auto px-4 sm:px-6 py-16 sm:py-24 lg:py-32 relative z-10">
                     <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-10 md:mb-16 scroll-animate-section">
-                        <motion.div 
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                            className="max-w-2xl mb-8 lg:mb-0"
-                        >
+                        <motion.div initial={{
+            opacity: 0,
+            y: 20
+          }} whileInView={{
+            opacity: 1,
+            y: 0
+          }} viewport={{
+            once: true
+          }} transition={{
+            duration: 0.6
+          }} className="max-w-2xl mb-8 lg:mb-0">
                             <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4 md:mb-6 font-benzin backdrop-blur-sm">
                                 Наши Проекты
                             </span>
@@ -313,42 +275,52 @@ const ProjectsSection: React.FC = () => {
                             </p>
                         </motion.div>
 
-                        <motion.a 
-                            href="/projects"
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
-                            className="group flex items-center bg-primary/10 hover:bg-primary text-white font-medium px-6 py-3 rounded-lg transition-all duration-300 backdrop-blur-sm border border-primary/20 hover:border-primary scroll-animate-section font-benzin"
-                        >
-                            <span className="group-hover:translate-x-1 transition-transform duration-300">Все проекты</span>
+                        <motion.a href="/projects" initial={{
+            opacity: 0,
+            x: -20
+          }} whileInView={{
+            opacity: 1,
+            x: 0
+          }} viewport={{
+            once: true
+          }} transition={{
+            duration: 0.6,
+            delay: 0.2
+          }} className="group flex items-center bg-primary/10 hover:bg-primary text-white font-medium px-6 py-3 rounded-lg transition-all duration-300 backdrop-blur-sm border border-primary/20 hover:border-primary scroll-animate-section font-benzin">
+                            <span className="group-hover:translate-x-1 transition-transform duration-300 text-brand-secondary">Все проекты</span>
                             <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
                         </motion.a>
                     </div>
 
-                    <motion.div 
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8, delay: 0.3 }}
-                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
-                    >
-                        {projects.map((project, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
-                            >
+                    <motion.div initial={{
+          opacity: 0,
+          y: 40
+        }} whileInView={{
+          opacity: 1,
+          y: 0
+        }} viewport={{
+          once: true
+        }} transition={{
+          duration: 0.8,
+          delay: 0.3
+        }} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                        {projects.map((project, index) => <motion.div key={index} initial={{
+            opacity: 0,
+            y: 20
+          }} whileInView={{
+            opacity: 1,
+            y: 0
+          }} viewport={{
+            once: true
+          }} transition={{
+            duration: 0.5,
+            delay: index * 0.1
+          }}>
                                 <ProjectCard {...project} index={index} />
-                            </motion.div>
-                        ))}
+                            </motion.div>)}
                     </motion.div>
                 </div>
             </div>
-        </section>
-    );
+        </section>;
 };
-
 export default ProjectsSection;
