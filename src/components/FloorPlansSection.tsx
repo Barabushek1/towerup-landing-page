@@ -74,7 +74,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/floor-plan.png"
+    image: "public/assets/Pushkin/floors/2/4.png"
   }, {
     id: 5,
     title: "2-комнатная",
