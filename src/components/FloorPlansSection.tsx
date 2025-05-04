@@ -114,7 +114,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "https://raw.githubusercontent.com/Barabushek1/towerup-landing-page/refs/heads/main/public/assets/Pushkin/floors/2/4.png?token=GHSAT0AAAAAADDFNFPMHXHMEX56I2ECAQEW2AXRR4Q"
+    image: "public/assets/Pushkin/floors/2/4.png"
   }],
   "3-комнатные": [{
     id: 9,
