@@ -43,7 +43,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "https://imgur.com/PW2thZ0"
+    image: "https://i.imgur.com/PW2thZ0.png"
   }, {
     id: 2,
     title: "1-комнатная",
@@ -53,7 +53,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "https://imgur.com/a/2FxpLZ6"
+    image: "https://i.imgur.com/O15CmEG.png"
   }, {
     id: 3,
     title: "1-комнатная",
@@ -63,7 +63,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "https://imgur.com/8c02C2C"
+    image: "https://i.imgur.com/8c02C2C.png"
   }],
   "2-комнатные": [{
     id: 4,
