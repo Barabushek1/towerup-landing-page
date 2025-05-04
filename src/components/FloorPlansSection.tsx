@@ -43,7 +43,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/floors/1.png"
+    image: "https://imgur.com/PW2thZ0"
   }, {
     id: 2,
     title: "1-комнатная",
@@ -53,7 +53,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/floors/2.webp"
+    image: "https://imgur.com/a/2FxpLZ6"
   }, {
     id: 3,
     title: "1-комнатная",
@@ -63,7 +63,7 @@ const floorPlans = {
     areaLabel: "площадь",
     price: "Цена по запросу",
     monthly: "Узнайте условия у менеджера",
-    image: "/assets/Pushkin/floors/3.png"
+    image: "https://imgur.com/8c02C2C"
   }],
   "2-комнатные": [{
     id: 4,
