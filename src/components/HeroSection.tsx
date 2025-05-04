@@ -15,8 +15,8 @@ const HeroSection: React.FC = () => {
   // Define the images for the carousel
   const heroImages = [
     "/lovable-uploads/499747fd-cec7-42ad-a52d-b4a550043793.png", // Original image
-    "https://i.pinimg.com/736x/f8/cc/00/f8cc0089171204a27e7e5a94df9d79fe.jpg", // First additional image
-    "https://i.pinimg.com/736x/53/9e/42/539e427b32ba88aba116165bff75eed2.jpg", // Second additional image
+    "https://i.imgur.com/jQAr3bM.jpeg", // First additional image
+    "https://i.imgur.com/3geqXON.jpeg", // Second additional image
   ];
   
   // Auto-rotate background images every 4 seconds
