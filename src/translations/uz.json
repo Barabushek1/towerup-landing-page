@@ -325,5 +325,26 @@
   "projectsSection.projects.kumaryk.title": "«Kumaryq» turar-joy majmuasi",
   "projectsSection.projects.kumaryk.description": "5* mehmonxona va panoramali dengiz manzarali hamda shaxsiy plajli apartamentlardan iborat kurort majmuasi.",
   "projectsSection.projects.kumaryk.location": "Toshkent",
-  "projectsSection.projects.kumaryk.status": "Loyihalanmoqda"
+  "projectsSection.projects.kumaryk.status": "Loyihalanmoqda",
+  "projectAdvantages": {
+    "title": "«Pushkin» turar-joy majmuasining afzalliklari",
+    "description": "«Pushkin» turar-joy majmuasi — zamonaviy qulay uy-joy standarti bo'lib, qulay joylashuv, sifatli qurilish va kelajakdagi yashovchilar haqida g'amxo'rlikni o'zida mujassam etgan.",
+    "nearby": {
+      "title": "Kerak narsalarning barchasi - yaqin",
+      "description": "Maktab, bog'cha, yashil zona va boshqa infratuzilma obyektlari."
+    },
+    "parking": {
+      "title": "Qulay avtoturargoh",
+      "description": "Kompleks aholi uchun ko'p darajali yerustki avtoturargoh."
+    },
+    "installment": {
+      "title": "0% bo'lib to'lash",
+      "description": "2 yilgacha qulay sotib olish shartlari."
+    },
+    "metro": {
+      "title": "Metrodan 4 daqiqa",
+      "description": "10-bekat metrosi piyoda masofada joylashgan."
+    },
+    "learnMore": "Batafsil ma'lumot"
+  }
 }

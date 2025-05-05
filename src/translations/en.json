@@ -310,7 +310,7 @@
   "projectsSection.sectionTitle": "Our Projects",
   "projectsSection.sectionHeading": "Innovative projects designed for the future",
   "projectsSection.sectionDescription": "Explore our signature projects that we create using modern technologies and uncompromising quality standards.",
-
+  
   "projectsSection.featured.nearby.title": "Everything you need — nearby",
   "projectsSection.featured.nearby.subtitle": "RC «Kumaryk»",
   "projectsSection.featured.nearby.description": "Modern residential complex in a prestigious area.",
@@ -336,5 +336,27 @@
   "projectsSection.projects.kumaryk.title": "Residential Complex \"Kumaryk\"",
   "projectsSection.projects.kumaryk.description": "Resort complex consisting of a 5* hotel and apartments with panoramic sea views and a private beach.",
   "projectsSection.projects.kumaryk.location": "Tashkent",
-  "projectsSection.projects.kumaryk.status": "In Design"
+  "projectsSection.projects.kumaryk.status": "In Design",
+  
+  "projectAdvantages": {
+    "title": "Advantages of RC «Pushkin»",
+    "description": "Residential complex «Pushkin» is a standard of modern comfortable housing, combining a convenient location, quality construction, and care for future residents.",
+    "nearby": {
+      "title": "Everything you need - nearby",
+      "description": "School, kindergarten, green area and other infrastructure facilities."
+    },
+    "parking": {
+      "title": "Convenient parking",
+      "description": "Multi-level above-ground parking for residents of the complex."
+    },
+    "installment": {
+      "title": "0% Installment",
+      "description": "Favorable purchase conditions for up to 2 years."
+    },
+    "metro": {
+      "title": "4 minutes from metro",
+      "description": "10th station metro is within walking distance."
+    },
+    "learnMore": "Learn more"
+  }
 }

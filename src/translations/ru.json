@@ -1,4 +1,3 @@
-
 {
   "testModeIndicator": "Сайт работает в тестовом режиме",
   
@@ -18,7 +17,6 @@
   "nav.design": "Проектирование",
   "nav.solutions": "Решения",
   "nav.consultation": "Консультация",
-  
   "footer.companyName": "TOWER UP",
   "footer.companyDesc": "Мы создаем современные проекты премиум-класса, отвечающие высоким стандартам качества и комфорта.",
   "footer.navigation": "Навигация",
@@ -159,6 +157,18 @@
   
   "management.contact": "Контактная информация",
   
+    "management.careers.title": "Присоединяйтесь к нашей команде",
+  "management.careers.desc": "TOWER UP предлагает уникальные возможности для профессионального и карьерного роста. Мы ценим инициативу, креативность и стремление к постоянному развитию.",
+  "management.careers.benefits": "Преимущества работы у нас",
+  "management.careers.benefits.salary": "Конкурентоспособная заработная плата",
+  "management.careers.benefits.social": "Расширенный социальный пакет",
+  "management.careers.benefits.training": "Программы обучения и развития",
+  "management.careers.benefits.projects": "Работа над интересными проектами",
+  "management.careers.apply": "Как подать заявку",
+  "management.careers.apply.desc1": "Отправьте свое резюме на hr@towerup.ru, указав в теме письма интересующую вас должность.",
+  "management.careers.apply.desc2": "Вы также можете ознакомиться с текущими вакансиями в разделе «Вакансии» на нашем сайте.",
+  "management.careers.office": "Центральный офис",
+  
   "news.title": "НОВОСТИ",
   "news.notFound": "Новости не найдены",
   "news.notFoundDesc": "В данный момент новости отсутствуют. Пожалуйста, проверьте позже.",
@@ -247,7 +257,7 @@
   "newUzbekistan.apartments.threeBedroom.desc": "Просторные планировки для больших семей",
   "newUzbekistan.apartments.premium.title": "Премиум Квартиры",
   "newUzbekistan.apartments.premium.desc": "Эксклюзивные планировки с премиальной отделкой и панорамными видами",
-  "newUzbekistan.apartments.floorLayout": "План Этажа",
+    "newUzbekistan.apartments.floorLayout": "План Этажа",
   "newUzbekistan.apartments.floorLayoutDesc": "Полный план этажа, показывающий расположение всех квартир на одном этаже",
   "newUzbekistan.apartments.viewDetails": "Посмотреть Детали",
   "newUzbekistan.apartments.bedrooms": "Спальни",
@@ -295,7 +305,6 @@
   "common.close": "Закрыть",
   "common.previous": "Предыдущий",
   "common.next": "Следующий",
-
   "aboutSection.title": "О КОМПАНИИ",
   "aboutSection.shortTitle": "Инновационные",
   "aboutSection.shortTitleSolution": "решения",
@@ -305,7 +314,7 @@
   "aboutSection.longTitle4": "строительства",
   "aboutSection.text": "Ведущая строительная компания, специализирующаяся на реализации инновационных проектов и строительстве высотных зданий. С момента основания компания стремится воплощать самые амбициозные и сложные архитектурные идеи, предлагая клиентам решения на самом высоком уровне.",
   "aboutSection.learnMore": "УЗНАТЬ БОЛЬШЕ",
-  "aboutSection.readMore": "Подробнее",
+    "aboutSection.readMore": "Подробнее",
   "aboutSection.buildingImage": "Здание компании",
   "aboutSection.ourAdvantages": "НАШИ ПРЕИМУЩЕСТВА",
   "aboutSection.advantages.professionalism.title": "ПРОФЕССИОНАЛИЗМ",
@@ -315,7 +324,7 @@
   "aboutSection.advantages.equipment.title": "ОБОРУДОВАНИЕ",
   "aboutSection.advantages.equipment.desc": "Технологическое превосходство используемого нами оборудования является элементом отличия компании TOWERUP.",
   
-  "featuresSection.ariaLabel": "Наши услуги",
+   "featuresSection.ariaLabel": "Наши услуги",
   "featuresSection.subtitle": "Строим будущее вместе",
   "featuresSection.title": "Реализуйте свои мечты с Tower Up",
   "featuresSection.description": "От проектирования до сдачи объекта — мы обеспечиваем полный цикл строительных работ с гарантией качества и в срок",
@@ -328,7 +337,7 @@
   "projectsSection.viewProject": "Просмотр проекта",
   "projectsSection.learnMore": "УЗНАТЬ БОЛЬШЕ",
   "projectsSection.allProjects": "ВСЕ ПРОЕКТЫ",
-  "projectsSection.previousSlide": "Предыдущий слайд",
+   "projectsSection.previousSlide": "Предыдущий слайд",
   "projectsSection.nextSlide": "Следующий слайд",
   "projectsSection.goToSlide": "Перейти к слайду",
   "projectsSection.ourProjects": "НАШИ ПРОЕКТЫ",
@@ -361,6 +370,26 @@
   "projectsSection.projects.kumaryk.title": "Жилой комплекс «Кумарык»",
   "projectsSection.projects.kumaryk.description": "Курортный комплекс, состоящий из 5* отеля и апартаментов с панорамными видами на море и частным пляжем.",
   "projectsSection.projects.kumaryk.location": "Ташкент",
-  "projectsSection.projects.kumaryk.status": "Проектируется"
+  "projectsSection.projects.kumaryk.status": "Проектируется",
+  "projectAdvantages": {
+    "title": "Преимущества ЖК «Пушкин»",
+    "description": "Жилой комплекс «Пушкин» — это стандарт современного комфортного жилья, сочетающий в себе удачное расположение, качественное строительство и заботу о будущих жителях.",
+    "nearby": {
+      "title": "Всё нужное - рядом",
+      "description": "Школа, детский сад, зеленая зона и другие объекты инфраструктуры."
+    },
+    "parking": {
+      "title": "Удобный паркинг",
+      "description": "Многоуровневый надземный паркинг для жителей комплекса."
+    },
+    "installment": {
+      "title": "Рассрочка 0%",
+      "description": "Выгодные условия приобретения до 2-х лет."
+    },
+    "metro": {
+      "title": "4 минуты от метро",
+      "description": "Станция метро 10-я в шаговой доступности."
+    },
+    "learnMore": "Узнать подробнее"
+  }
 }
-
