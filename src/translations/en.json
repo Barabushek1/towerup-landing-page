@@ -425,7 +425,7 @@
   "collaboration.partners.categories.engineering": "Engineering Systems",
 
 
-   "collaboration.partners.items.sinceLabel": "Since", // e.g. "Since 2015"
+   "collaboration.partners.items.sinceLabel": "Since",
   "collaboration.partners.items.projectsLabel": "Projects",
   "collaboration.partners.items.employeesLabel": "Employees",
   "collaboration.partners.items.buttonDetails": "Details about partner",
@@ -496,9 +496,8 @@
   "collaboration.contactBlock.phoneLabel": "Phone",
   "collaboration.contactBlock.button": "Contact Us",
 
-  // Add other pages/sections translation keys here from your project
-  // Example:
-  "dateFormat": "en-US", // Key to store locale for date formatting
+
+  "dateFormat": "en-US",
 
   "newUzbekistan.apartments.bedrooms": "Bedrooms",
   "newUzbekistan.apartments.bathrooms": "Bathrooms",
