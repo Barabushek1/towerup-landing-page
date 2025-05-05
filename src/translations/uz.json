@@ -65,9 +65,10 @@
   "home.advantages.security": "24/7 xavfsizlik",
   "home.advantages.planning": "O'ylangan rejalashtirish",
   
-  "home.news.title": "YANGILIKLAR VA VAKANSIYALAR",
-  "home.news.subtitle": "Kompaniyamiz haqida dolzarb ma'lumotlar va ochiq vakansiyalar",
+  "home.news.title": "YANGILIKLAR",
+  "home.news.subtitle": "Kompaniyamiz haqida dolzarb ma'lumotlar",
   "home.news.all": "Barcha yangiliklar",
+  "home.news.description" : "Kompaniya yangiliklarini kuzatib boring va so'nggi loyihalar va yutuqlardan xabardor bo'ling",
   "home.vacancies.all": "Barcha vakansiyalar",
   
   "home.partners.title": "BIZNING HAMKORLAR",

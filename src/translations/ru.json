@@ -66,8 +66,9 @@
   "home.advantages.security": "Круглосуточная безопасность",
   "home.advantages.planning": "Продуманные планировки",
   
-  "home.news.title": "НОВОСТИ И ВАКАНСИИ",
-  "home.news.subtitle": "Актуальная информация о нашей компании и открытые вакансии",
+  "home.news.title": "НОВОСТИ",
+  "home.news.subtitle": "Актуальная информация о нашей компании",
+  "home.news.description" : "Следите за новостями компании и будьте в курсе последних проектов и достижений",
   "home.news.all": "Все новости",
   "home.vacancies.all": "Все вакансии",
   

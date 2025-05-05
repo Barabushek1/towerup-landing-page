@@ -65,9 +65,10 @@
   "home.advantages.security": "24/7 security",
   "home.advantages.planning": "Well-thought-out layouts",
   
-  "home.news.title": "NEWS AND VACANCIES",
-  "home.news.subtitle": "Current information about our company and open vacancies",
+  "home.news.title": "NEWS",
+  "home.news.subtitle": "Current information about our company",
   "home.news.all": "All News",
+  "home.news.description" : "Follow company news and stay updated on the latest projects and achievements",
   "home.vacancies.all": "All Vacancies",
   
   "home.partners.title": "OUR PARTNERS",
