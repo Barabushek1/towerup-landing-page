@@ -3,28 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
-import { 
-  Building, 
-  Map, 
-  Users, 
-  TreeDeciduous, 
-  MapPin, 
-  Shield, 
-  Lightbulb,
-  Home,
-  HeartPulse,
-  ShoppingBag,
-  Utensils,
-  Dumbbell,
-  PartyPopper,
-  Calendar,
-  Car,
-  ParkingCircle
-} from 'lucide-react';
 
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
-import PageHeader from '../components/PageHeader';
 import HeroSection from '../components/newuzbekistan/HeroSection';
 import OverviewSection from '../components/newuzbekistan/OverviewSection';
 import MasterplanSection from '../components/newuzbekistan/MasterplanSection';
@@ -62,31 +43,33 @@ const NewUzbekistan: React.FC = () => {
         <meta property="og:type" content="website" />
       </Helmet>
 
-      <NavBar />
-      
-      <main className="overflow-x-hidden">
-        <HeroSection />
+      <div className="bg-[#1A1F2C] text-white min-h-screen">
+        <NavBar />
         
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={loaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <OverviewSection />
-          <MasterplanSection />
-          <FeaturesSection />
-          <ApartmentsSection />
-          <InfrastructureSection />
-          <GallerySection />
-          <ProgressSection />
-          <LocationSection />
-          <InvestmentSection />
-          <ContactSection />
-        </motion.div>
-      </main>
+        <main className="overflow-x-hidden">
+          <HeroSection />
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={loaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <OverviewSection />
+            <MasterplanSection />
+            <FeaturesSection />
+            <ApartmentsSection />
+            <InfrastructureSection />
+            <GallerySection />
+            <ProgressSection />
+            <LocationSection />
+            <InvestmentSection />
+            <ContactSection />
+          </motion.div>
+        </main>
 
-      <ScrollToTopButton />
-      <Footer />
+        <ScrollToTopButton />
+        <Footer />
+      </div>
     </>
   );
 };

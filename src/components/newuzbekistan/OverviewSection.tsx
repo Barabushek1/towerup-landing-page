@@ -31,7 +31,7 @@ const OverviewSection: React.FC = () => {
   return (
     <section 
       id="overview" 
-      className="py-20 bg-gradient-to-b from-blue-50 to-white"
+      className="py-20 bg-[#1A1F2C] text-white"
       ref={sectionRef}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -43,14 +43,14 @@ const OverviewSection: React.FC = () => {
         >
           <motion.h2 
             variants={itemVariants}
-            className="text-3xl md:text-4xl font-bold mb-3 text-gray-900"
+            className="text-3xl md:text-4xl font-bold mb-3 text-white"
           >
             {t('newUzbekistan.overview.title')}
           </motion.h2>
           
           <motion.p 
             variants={itemVariants} 
-            className="text-xl text-blue-600 mb-10"
+            className="text-xl text-[#9b87f5] mb-10"
           >
             {t('newUzbekistan.overview.subtitle')}
           </motion.p>
@@ -61,7 +61,7 @@ const OverviewSection: React.FC = () => {
           >
             <motion.div 
               variants={itemVariants}
-              className="rounded-xl overflow-hidden shadow-xl"
+              className="rounded-xl overflow-hidden shadow-[0_0_15px_rgba(155,135,245,0.3)]"
             >
               <img 
                 src="/lovable-uploads/b7b815c6-44d8-4e9a-93e9-75538f6d0233.png" 
@@ -73,21 +73,21 @@ const OverviewSection: React.FC = () => {
             <motion.div variants={containerVariants} className="flex flex-col justify-center">
               <motion.p 
                 variants={itemVariants}
-                className="text-gray-700 mb-4"
+                className="text-gray-300 mb-4"
               >
                 {t('newUzbekistan.overview.desc1')}
               </motion.p>
               
               <motion.p 
                 variants={itemVariants}
-                className="text-gray-700 mb-4"
+                className="text-gray-300 mb-4"
               >
                 {t('newUzbekistan.overview.desc2')}
               </motion.p>
               
               <motion.p 
                 variants={itemVariants}
-                className="text-gray-700"
+                className="text-gray-300"
               >
                 {t('newUzbekistan.overview.desc3')}
               </motion.p>
@@ -100,7 +100,7 @@ const OverviewSection: React.FC = () => {
           >
             <a 
               href="#masterplan" 
-              className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors group"
+              className="inline-flex items-center text-[#9b87f5] hover:text-[#7E69AB] transition-colors group"
             >
               <span className="mr-2 text-lg font-medium">{t('home.about.button')}</span>
               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
