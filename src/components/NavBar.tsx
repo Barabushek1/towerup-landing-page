@@ -1,12 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Menu, Phone, ChevronDown, Facebook, Instagram, MessageSquare, MapPin, Mail, PhoneCall } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
-import TestModeIndicator from './TestModeIndicator';
-import LanguageSelector from './LanguageSelector';
-import { useLanguage } from '@/contexts/LanguageContext';
+import TestModeIndicator from './TestModeIndicator'; // Ensure path is correct
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -36,7 +33,6 @@ const NavBar: React.FC = () => {
   const isMobile = useIsMobile();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
-  const { t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,34 +53,34 @@ const NavBar: React.FC = () => {
   }, []);
 
   const companySubMenu = [
-    { title: t('nav.about'), href: '/about' },
-    { title: t('nav.partners'), href: '/partners' },
-    { title: t('nav.management'), href: '/management' },
+    { title: 'О нас', href: '/about' },
+    { title: 'Партнёры', href: '/partners' },
+    { title: 'Руководство', href: '/management' },
   ];
 
   const navLinks = [
     {
-      title: t('nav.company'),
+      title: 'О компании',
       href: '/about',
       hasSubmenu: true,
       key: 'company',
       submenu: companySubMenu
     },
     {
-      title: t('nav.projects'),
+      title: 'Проекты',
       href: '/projects',
       key: 'projects',
       hasSubmenu: true,
       submenu: [
-        { title: t('nav.projectPushkin'), href: '/projects/pushkin' },
-        { title: t('nav.projectTrcBochka'), href: '/projects/trcbochka' },
-        { title: t('nav.projectBochka'), href: '/projects/bochka' },
-        { title: t('nav.projectNewUzbekistan'), href: '/projects/newuzbekistan' },
+        { title: 'ЖК "Пушкин"', href: '/projects/pushkin' },
+        { title: 'ТРЦ "Бочка"', href: '/projects/trcbochka' }, // Updated link to TRC Bochka
+        { title: 'БЦ "Бочка"', href: '/projects/bochka' },
+        { title: 'Массив "Янги Узбекистан"', href: '/projects/newuzbekistan' },
       ]
     },
-    { title: t('nav.news'), href: '/news', key: 'news' },
-    { title: t('nav.vacancies'), href: '/vacancies', key: 'vacancies' },
-    { title: t('nav.contacts'), href: '/contact', key: 'contacts' },
+    { title: 'Новости', href: '/news', key: 'news' },
+    { title: 'Вакансии', href: '/vacancies', key: 'vacancies' },
+    { title: 'Контакты', href: '/contact', key: 'contacts' },
   ];
 
   const MobileMenu = () => (
@@ -127,11 +123,11 @@ const NavBar: React.FC = () => {
 
       <div className="mt-6 px-4">
         <div className="mb-5">
-          <h3 className="text-white text-left font-benzin text-base mb-2.5">{t('nav.contacts')}</h3>
+          <h3 className="text-white text-left font-benzin text-base mb-2.5">Контакты</h3>
           <div className="space-y-3">
             <a href="#address" className="flex items-start text-left space-x-2.5 text-gray-300 hover:text-white">
               <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
-              <span className="text-sm">{t('footer.address')}</span>
+              <span className="text-sm">г. Ташкент, ул. Большая Якиманка, 24</span>
             </a>
             <a href="mailto:info@example.com" className="flex items-center text-left space-x-2.5 text-gray-300 hover:text-white">
               <Mail className="h-4 w-4 flex-shrink-0" />
@@ -144,23 +140,18 @@ const NavBar: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="text-white text-left font-benzin text-base mb-2.5">{t('footer.services')}</h3>
-            <div className="flex space-x-3 mt-2">
-              <a href="#facebook" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary">
-                <Facebook className="h-4 w-4" />
-              </a>
-              <a href="#telegram" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary">
-                <MessageSquare className="h-4 w-4" />
-              </a>
-              <a href="#instagram" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary">
-                <Instagram className="h-4 w-4" />
-              </a>
-            </div>
-          </div>
-          <div className="pt-2">
-            <LanguageSelector />
+        <div>
+          <h3 className="text-white text-left font-benzin text-base mb-2.5">Соцсети</h3>
+          <div className="flex space-x-3 mt-2">
+            <a href="#facebook" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary">
+              <Facebook className="h-4 w-4" />
+            </a>
+            <a href="#telegram" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary">
+              <MessageSquare className="h-4 w-4" />
+            </a>
+            <a href="#instagram" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary">
+              <Instagram className="h-4 w-4" />
+            </a>
           </div>
         </div>
       </div>
@@ -246,20 +237,16 @@ const NavBar: React.FC = () => {
                 </NavigationMenuList>
               </NavigationMenu>
 
-              <div className="flex items-center gap-4">
-                <LanguageSelector />
-                
-                <a
-                  href="/contact"
-                  className={cn(
-                    "flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-primary text-white font-medium",
-                    "shadow-lg shadow-brand-primary/20 transform transition hover:-translate-y-0.5 font-benzin"
-                  )}
-                >
-                  <Phone className="h-4 w-4" />
-                  {t('nav.consultation')}
-                </a>
-              </div>
+              <a
+                href="/contact"
+                className={cn(
+                  "flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-primary text-white font-medium",
+                  "shadow-lg shadow-brand-primary/20 transform transition hover:-translate-y-0.5 font-benzin"
+                )}
+              >
+                <Phone className="h-4 w-4" />
+                Консультация
+              </a>
             </div>
           )}
 
