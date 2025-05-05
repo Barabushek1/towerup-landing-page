@@ -3,16 +3,18 @@ import { AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface TestModeIndicatorProps {
-  className?: string;
+  className?: string; // Prop to accept external classes
 }
 
 const TestModeIndicator: React.FC<TestModeIndicatorProps> = ({ className }) => {
   return (
     <div
       className={cn(
-        // Added w-full here to make the indicator bar take up the full width
-        "flex items-center justify-center gap-2 bg-[#8B5CF6] px-3 py-1.5 text-white text-xs font-medium w-full",
-        className
+        // Apply incoming classes first (these should include fixed, top, left, right, z-index)
+        className,
+        // Then apply internal styles that define the bar's look and content centering
+        "flex items-center justify-center gap-2 bg-[#8B5CF6] px-3 py-1.5 text-white text-xs font-medium"
+        // Removed w-full from here as left/right/fixed from className handle width
       )}
     >
       <AlertTriangle className="h-3.5 w-3.5" />

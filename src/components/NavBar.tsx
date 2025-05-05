@@ -24,6 +24,10 @@ import {
   SheetClose
 } from "@/components/ui/sheet";
 
+// Estimate the height of the TestModeIndicator based on its padding (py-1.5 = 6px top/bottom) + content height (~22-28px for text/icon)
+// Let's estimate ~35px total height for safety. You might need to adjust this value.
+const TEST_INDICATOR_HEIGHT = 35; // in pixels
+
 const NavBar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const isMobile = useIsMobile();
@@ -33,7 +37,8 @@ const NavBar: React.FC = () => {
   useEffect(() => {
     const handleScroll = () => {
       const offset = window.scrollY;
-      if (offset > 50) {
+      // Adjust the scroll threshold based on the indicator height + original header offset
+      if (offset > 50 + TEST_INDICATOR_HEIGHT) { // Added indicator height to scroll threshold
         setScrolled(true);
       } else {
         setScrolled(false);
@@ -155,26 +160,21 @@ const NavBar: React.FC = () => {
 
   return (
     <>
-      {/* Test Mode Indicator - always fixed at the top */}
-      {/* Removed justify-center to allow TestModeIndicator to take full width */}
-      <div className="fixed top-0 left-0 right-0 z-[60]">
-        <TestModeIndicator />
-      </div>
+      {/* Test Mode Indicator - Apply fixed positioning directly */}
+      {/* z-[60] ensures it's on top */}
+      <TestModeIndicator className="fixed top-0 left-0 right-0 z-[60]" />
 
-      {/* Adjusted 'top' value for the header to be below the indicator */}
+      {/* Header - Adjust top positioning to be below the indicator */}
       <header
         className={cn(
           'fixed left-0 right-0 z-50 transition-all duration-300',
-          // Use a fixed value for 'top' based on the indicator height + desired gap
-          // Assuming indicator height is roughly 30px + 7px (py) = ~37px, add a gap
-          // Let's adjust the top value to ensure it's below the indicator.
-          // A simple approach is to give the indicator div a fixed height and add that to the header's top.
-          // Or, calculate based on indicator height. For simplicity, let's adjust the header's py and mt.
-          // Let's rely on the indicator taking up space and adjust header's padding/margin.
+          // Calculate top based on the indicator height
+          `top-[${TEST_INDICATOR_HEIGHT}px]`, // Set top position dynamically
 
           scrolled
-            ? 'bg-brand-dark/95 backdrop-blur-md shadow-sm py-3 mt-[3.5rem]' // Adjust margin top
-            : 'bg-transparent py-5 mt-[3.5rem]' // Adjust margin top
+            ? 'bg-brand-dark/95 backdrop-blur-md shadow-sm py-3' // Original py-3 for scrolled state
+            : 'bg-transparent py-5' // Original py-5 for initial state
+            // Removed mt classes as 'top' is used for vertical positioning of a fixed element
         )}
       >
         <div className="container mx-auto px-6 flex items-center justify-between">
@@ -285,6 +285,16 @@ const NavBar: React.FC = () => {
           )}
         </div>
       </header>
+      {/* Add padding-top to the body or a wrapper div to prevent content from being hidden behind fixed header */}
+      {/* This might be better handled in a layout component or global CSS */}
+       <div style={{ paddingTop: scrolled ? `calc(${TEST_INDICATOR_HEIGHT}px + var(--header-scrolled-height))` : `calc(${TEST_INDICATOR_HEIGHT}px + var(--header-initial-height))` }}>
+         {/* The rest of your page content goes here */}
+         {/* You need to ensure the actual page content is rendered *after* this layout */}
+         {/* If NavBar is used directly within page components, you might need a different approach */}
+         {/* A common pattern is a main Layout component that includes NavBar and applies padding to its content area */}
+         {/* Example: <MainLayout><HomePageContent /></MainLayout> */}
+         {/* For now, this padding div is just a placeholder illustration */}
+       </div>
     </>
   );
 };
