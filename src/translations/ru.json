@@ -1,4 +1,3 @@
-
 {
   "testModeIndicator": "Сайт работает в тестовом режиме",
   
@@ -251,6 +250,16 @@
   "newUzbekistan.apartments.threeBedroom.desc": "Просторные планировки для больших семей",
   "newUzbekistan.apartments.premium.title": "Премиум Квартиры",
   "newUzbekistan.apartments.premium.desc": "Эксклюзивные планировки с премиальной отделкой и панорамными видами",
+  "newUzbekistan.apartments.floorLayout": "План Этажа",
+  "newUzbekistan.apartments.floorLayoutDesc": "Полный план этажа, показывающий расположение всех квартир на одном этаже",
+  "newUzbekistan.apartments.viewDetails": "Посмотреть Детали",
+  "newUzbekistan.apartments.bedrooms": "Спальни",
+  "newUzbekistan.apartments.bathrooms": "Санузлы",
+  "newUzbekistan.apartments.balconies": "Балконы",
+  "newUzbekistan.apartments.featuresTitle": "Характеристики Помещений",
+  "newUzbekistan.apartments.startingPrice": "Начальная Цена:",
+  "newUzbekistan.apartments.inquire": "Узнать Об Этой Квартире",
+  "newUzbekistan.apartments.footer": "Планировки могут отличаться в зависимости от наличия. Свяжитесь с нашим отделом продаж для уточнения текущих цен и наличия конкретных квартир.",
   
   "newUzbekistan.infrastructure.title": "ИНФРАСТРУКТУРА",
   "newUzbekistan.infrastructure.subtitle": "Всё для комфортной жизни",
@@ -309,5 +318,8 @@
   "newUzbekistan.contact.form.interest": "Интересующий Вопрос",
   "newUzbekistan.contact.form.message": "Ваше Сообщение",
   "newUzbekistan.contact.form.submit": "Отправить Запрос",
-  "newUzbekistan.contact.form.policy": "Отправляя эту форму, вы соглашаетесь с нашей Политикой конфиденциальности"
+  "newUzbekistan.contact.form.policy": "Отправляя эту форму, вы соглашаетесь с нашей Политикой конфиденциальности",
+  "common.close": "Закрыть",
+  "common.previous": "Предыдущий",
+  "common.next": "Следующий"
 }

@@ -1,4 +1,3 @@
-
 {
   "testModeIndicator": "Website is operating in test mode",
   
@@ -251,21 +250,16 @@
   "newUzbekistan.apartments.threeBedroom.desc": "Spacious layouts for larger families",
   "newUzbekistan.apartments.premium.title": "Premium Apartments",
   "newUzbekistan.apartments.premium.desc": "Exclusive layouts with premium finishes and panoramic views",
-  
-  "newUzbekistan.infrastructure.title": "INFRASTRUCTURE",
-  "newUzbekistan.infrastructure.subtitle": "Everything for a comfortable life",
-  "newUzbekistan.infrastructure.education.title": "Education",
-  "newUzbekistan.infrastructure.education.desc": "Modern schools and kindergartens within walking distance",
-  "newUzbekistan.infrastructure.healthcare.title": "Healthcare",
-  "newUzbekistan.infrastructure.healthcare.desc": "Medical clinics with qualified specialists",
-  "newUzbekistan.infrastructure.shopping.title": "Shopping",
-  "newUzbekistan.infrastructure.shopping.desc": "Retail areas with supermarkets and specialty stores",
-  "newUzbekistan.infrastructure.dining.title": "Dining",
-  "newUzbekistan.infrastructure.dining.desc": "Cafes and restaurants offering various cuisines",
-  "newUzbekistan.infrastructure.sports.title": "Sports",
-  "newUzbekistan.infrastructure.sports.desc": "Fitness centers, sports grounds, and walking paths",
-  "newUzbekistan.infrastructure.leisure.title": "Leisure",
-  "newUzbekistan.infrastructure.leisure.desc": "Parks, recreational areas, and entertainment facilities",
+  "newUzbekistan.apartments.floorLayout": "Floor Layout",
+  "newUzbekistan.apartments.floorLayoutDesc": "Complete floor layout showing the arrangement of all apartment units in a single floor",
+  "newUzbekistan.apartments.viewDetails": "View Details",
+  "newUzbekistan.apartments.bedrooms": "Bedrooms",
+  "newUzbekistan.apartments.bathrooms": "Bathrooms",
+  "newUzbekistan.apartments.balconies": "Balconies",
+  "newUzbekistan.apartments.featuresTitle": "Room Specifications",
+  "newUzbekistan.apartments.startingPrice": "Starting Price:",
+  "newUzbekistan.apartments.inquire": "Inquire About This Unit",
+  "newUzbekistan.apartments.footer": "Floor plans are subject to availability. Contact our sales team for current pricing and availability of specific units.",
   
   "newUzbekistan.gallery.title": "PROJECT GALLERY",
   "newUzbekistan.gallery.subtitle": "Visualizations and construction progress",
@@ -309,5 +303,9 @@
   "newUzbekistan.contact.form.interest": "Interested In",
   "newUzbekistan.contact.form.message": "Your Message",
   "newUzbekistan.contact.form.submit": "Send Request",
-  "newUzbekistan.contact.form.policy": "By submitting this form, you agree to our Privacy Policy"
+  "newUzbekistan.contact.form.policy": "By submitting this form, you agree to our Privacy Policy",
+  
+  "common.close": "Close",
+  "common.previous": "Previous",
+  "common.next": "Next"
 }

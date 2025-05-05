@@ -1,4 +1,3 @@
-
 {
   "testModeIndicator": "Sayt sinov rejimida ishlayapti",
   
@@ -251,21 +250,16 @@
   "newUzbekistan.apartments.threeBedroom.desc": "Katta oilalar uchun keng rejalashtirma",
   "newUzbekistan.apartments.premium.title": "Premium Xonadonlar",
   "newUzbekistan.apartments.premium.desc": "Premium otdelka va panoramali ko'rinish bilan eksklyuziv rejalashtirma",
-  
-  "newUzbekistan.infrastructure.title": "INFRATUZILMA",
-  "newUzbekistan.infrastructure.subtitle": "Qulay hayot uchun hamma narsa",
-  "newUzbekistan.infrastructure.education.title": "Ta'lim",
-  "newUzbekistan.infrastructure.education.desc": "Yaqin masofada joylashgan zamonaviy maktablar va bolalar bog'chalari",
-  "newUzbekistan.infrastructure.healthcare.title": "Sog'liqni Saqlash",
-  "newUzbekistan.infrastructure.healthcare.desc": "Malakali mutaxassislarga ega tibbiy klinikalar",
-  "newUzbekistan.infrastructure.shopping.title": "Xarid Qilish",
-  "newUzbekistan.infrastructure.shopping.desc": "Supermarketlar va ixtisoslashgan do'konlarni o'z ichiga olgan savdo hududlari",
-  "newUzbekistan.infrastructure.dining.title": "Ovqatlanish",
-  "newUzbekistan.infrastructure.dining.desc": "Turli oshxonalar taklif etadigan kafelar va restoranlar",
-  "newUzbekistan.infrastructure.sports.title": "Sport",
-  "newUzbekistan.infrastructure.sports.desc": "Fitnes markazlari, sport maydonchalari va sayr yo'laklari",
-  "newUzbekistan.infrastructure.leisure.title": "Dam Olish",
-  "newUzbekistan.infrastructure.leisure.desc": "Parklar, dam olish joylari va ko'ngilochar inshootlar",
+  "newUzbekistan.apartments.floorLayout": "Qavat Rejasi",
+  "newUzbekistan.apartments.floorLayoutDesc": "Bir qavatdagi barcha xonadonlarning joylashuvini ko'rsatuvchi to'liq qavat rejasi",
+  "newUzbekistan.apartments.viewDetails": "Tafsilotlarni Ko'rish",
+  "newUzbekistan.apartments.bedrooms": "Yotoqxonalar",
+  "newUzbekistan.apartments.bathrooms": "Hammomlar",
+  "newUzbekistan.apartments.balconies": "Balkonlar",
+  "newUzbekistan.apartments.featuresTitle": "Xona Tafsilotlari",
+  "newUzbekistan.apartments.startingPrice": "Boshlang'ich Narx:",
+  "newUzbekistan.apartments.inquire": "Bu Xonadon Haqida So'rash",
+  "newUzbekistan.apartments.footer": "Rejalar mavjudlikka qarab farq qilishi mumkin. Aniq narxlar va ma'lum xonadonlarning mavjudligi to'g'risida sotish bo'limimiz bilan bog'laning.",
   
   "newUzbekistan.gallery.title": "LOYIHA GALEREYASI",
   "newUzbekistan.gallery.subtitle": "Vizualizatsiyalar va qurilish jarayoni",
@@ -309,5 +303,9 @@
   "newUzbekistan.contact.form.interest": "Qiziqtirgan masala",
   "newUzbekistan.contact.form.message": "Xabaringiz",
   "newUzbekistan.contact.form.submit": "So'rovni yuborish",
-  "newUzbekistan.contact.form.policy": "Ushbu shaklni yuborish orqali siz Maxfiylik siyosatimizga rozilik bildirasiz"
+  "newUzbekistan.contact.form.policy": "Ushbu shaklni yuborish orqali siz Maxfiylik siyosatimizga rozilik bildirasiz",
+  
+  "common.close": "Yopish",
+  "common.previous": "Oldingi",
+  "common.next": "Keyingi"
 }
