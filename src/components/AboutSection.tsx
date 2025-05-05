@@ -147,10 +147,7 @@ const AboutSection: React.FC = () => {
             
             <div className="h-1 w-16 bg-primary mb-6"></div>
             
-            <p className="text-gray-300 leading-relaxed mb-8">Ведущая строительная компания, специализирующаяся
-на инновационных проектах и высотных зданиях. С момента своего основания, компания стремится к воплощению самых амбициозных и сложных
-строительных идей, предоставляя клиентам
-решения на высшем уровне.</p>
+            <p className="text-gray-300 leading-relaxed mb-8">{t('aboutSection.Index.text')}</p>
             
             <Link to="/about">
               <Button className="bg-primary hover:bg-primary/80 text-white px-6 py-2 group w-full sm:w-auto">
