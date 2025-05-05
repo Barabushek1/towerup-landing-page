@@ -1,14 +1,13 @@
-
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { Facebook, Linkedin, Instagram, ArrowUp, Send, PhoneCall } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
-
 const Footer: React.FC = () => {
-  const { t } = useLanguage();
+  const {
+    t
+  } = useLanguage();
   const [showBackToTop, setShowBackToTop] = useState(false);
-  
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -17,47 +16,33 @@ const Footer: React.FC = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
   };
-  
   return <footer className="text-white pt-16 pb-8 bg-gray-800">
             <div className="container mx-auto px-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
                     <div>
                         <a href="/" aria-label="TOWERUP Home">
-                            <img src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png"
-                                alt={t('footer.companyName') + " Logo"}
-                                className="h-10 w-auto mb-4"
-                                loading="lazy"
-                            />
+                            <img src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png" alt={t('footer.companyName') + " Logo"} className="h-10 w-auto mb-4" loading="lazy" />
                         </a>
                         <p className="text-white/70 mb-6 text-sm">
                             {t('footer.companyDesc')}
                         </p>
                         <div className="flex space-x-3">
-                            <a href="#" target="_blank" rel="noopener noreferrer" 
-                               aria-label={t('footer.companyName') + " Facebook"} 
-                               className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary transition-colors hover:bg-primary hover:text-white">
+                            <a href="#" target="_blank" rel="noopener noreferrer" aria-label={t('footer.companyName') + " Facebook"} className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary transition-colors hover:bg-primary hover:text-white">
                                 <Facebook className="h-5 w-5" />
                             </a>
-                            <a href="https://t.me/towerup_uz" target="_blank" rel="noopener noreferrer" 
-                               aria-label={t('footer.companyName') + " Telegram"} 
-                               className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary transition-colors hover:bg-primary hover:text-white">
+                            <a href="https://t.me/towerup_uz" target="_blank" rel="noopener noreferrer" aria-label={t('footer.companyName') + " Telegram"} className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary transition-colors hover:bg-primary hover:text-white">
                                 <Send className="h-5 w-5" />
                             </a>
-                            <a href="#" target="_blank" rel="noopener noreferrer" 
-                               aria-label={t('footer.companyName') + " LinkedIn"} 
-                               className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary transition-colors hover:bg-primary hover:text-white">
+                            <a href="#" target="_blank" rel="noopener noreferrer" aria-label={t('footer.companyName') + " LinkedIn"} className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary transition-colors hover:bg-primary hover:text-white">
                                 <Linkedin className="h-5 w-5" />
                             </a>
-                            <a href="#" target="_blank" rel="noopener noreferrer" 
-                               aria-label={t('footer.companyName') + " Instagram"} 
-                               className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary transition-colors hover:bg-primary hover:text-white">
+                            <a href="#" target="_blank" rel="noopener noreferrer" aria-label={t('footer.companyName') + " Instagram"} className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary transition-colors hover:bg-primary hover:text-white">
                                 <Instagram className="h-5 w-5" />
                             </a>
                         </div>
@@ -112,16 +97,7 @@ const Footer: React.FC = () => {
                 </div>
             </div>
 
-            {showBackToTop && (
-                <button
-                    onClick={scrollToTop}
-                    aria-label="Scroll to top"
-                    className="fixed bottom-6 right-6 p-2 rounded-full bg-primary/70 hover:bg-primary transition-colors text-white z-50"
-                >
-                    <ArrowUp className="h-6 w-6" />
-                </button>
-            )}
+            {showBackToTop}
         </footer>;
 };
-
 export default Footer;
