@@ -240,7 +240,7 @@ const NavBar: React.FC = () => {
                             link.key === 'collaboration' ? "after:content-[''] after:block after:w-1/2 after:h-0.5 after:bg-brand-primary/50 after:mt-0.5 after:mx-auto after:rounded" : ""
                           )}
                         >
-                          {link.key === 'collaboration' && <Handshake className="inline-block mr-1 h-4 w-4" />}
+                          {link.key === 'collaboration'}
                           {link.title}
                         </a>
                       </NavigationMenuItem>
