@@ -1,3 +1,4 @@
+
 {
   "testModeIndicator": "Website is operating in test mode",
   
@@ -265,7 +266,7 @@
   "newUzbekistan.apartments.featuresTitle": "Room Specifications",
   "newUzbekistan.apartments.startingPrice": "Starting Price:",
   "newUzbekistan.apartments.inquire": "Inquire About This Unit",
-   "newUzbekistan.apartments.footer": "Floor plans are subject to availability. Contact our sales team for current pricing and availability of specific units.",
+  "newUzbekistan.apartments.footer": "Floor plans are subject to availability. Contact our sales team for current pricing and availability of specific units.",
   
   "newUzbekistan.infrastructure.title": "INFRASTRUCTURE",
   "newUzbekistan.infrastructure.subtitle": "Everything for a comfortable life",
@@ -301,24 +302,26 @@
   "newUzbekistan.projectFeatures.amenities.title": "Modern Amenities",
   "newUzbekistan.projectFeatures.amenities.desc": "Access to a wide range of amenities including fitness centers, recreational areas, and more.",
   
-  "newUzbekistan.contact.title": "CONTACT US",
-  "newUzbekistan.contact.subtitle": "Get more information about the project",
-  "newUzbekistan.contact.office": "Sales Office",
-  "newUzbekistan.contact.address": "123 Example Street, Tashkent, Uzbekistan",
-  "newUzbekistan.contact.phone": "Phone",
-  "newUzbekistan.contact.email": "Email",
-  "newUzbekistan.contact.hours": "Working Hours",
-  "newUzbekistan.contact.schedule": "Monday-Saturday: 9:00-18:00, Sunday: Closed",
-  "newUzbekistan.contact.form.title": "Request Information",
-  "newUzbekistan.contact.form.name": "Your Name",
-  "newUzbekistan.contact.form.phone": "Phone Number",
-  "newUzbekistan.contact.form.email": "Email Address",
-  "newUzbekistan.contact.form.interest": "Interested In",
-  "newUzbekistan.contact.form.message": "Your Message",
-  "newUzbekistan.contact.form.submit": "Send Request",
-  "newUzbekistan.contact.form.policy": "By submitting this form, you agree to our Privacy Policy",
-  
   "common.close": "Close",
   "common.previous": "Previous",
-  "common.next": "Next"
+  "common.next": "Next",
+
+  "aboutSection.title": "ABOUT THE COMPANY",
+  "aboutSection.shortTitle": "Innovative",
+  "aboutSection.shortTitleSolution": "solutions",
+  "aboutSection.longTitle1": "Innovative",
+  "aboutSection.longTitle2": "solutions for",
+  "aboutSection.longTitle3": "modern",
+  "aboutSection.longTitle4": "construction",
+  "aboutSection.text": "A leading construction company specializing in innovative projects and high-rise buildings. Since its foundation, the company has been striving to implement the most ambitious and complex architectural ideas, offering clients solutions at the highest level.",
+  "aboutSection.learnMore": "LEARN MORE",
+  "aboutSection.readMore": "Read More",
+  "aboutSection.buildingImage": "Company building",
+  "aboutSection.ourAdvantages": "OUR ADVANTAGES",
+  "aboutSection.advantages.professionalism.title": "PROFESSIONALISM",
+  "aboutSection.advantages.professionalism.desc": "The foundation of our professionalism is preserving our own traditions and utilizing global innovations.",
+  "aboutSection.advantages.experience.title": "COMPANY EXPERIENCE",
+  "aboutSection.advantages.experience.desc": "We don't have to prove the quality of our products. Your recognition does it for us.",
+  "aboutSection.advantages.equipment.title": "EQUIPMENT",
+  "aboutSection.advantages.equipment.desc": "The technological superiority of our equipment is a distinguishing element of TOWERUP company."
 }

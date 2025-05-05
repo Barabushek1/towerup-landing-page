@@ -1,3 +1,4 @@
+
 {
   "testModeIndicator": "Sayt sinov rejimida ishlayapti",
   
@@ -299,5 +300,24 @@
   "newUzbekistan.projectFeatures.security.title": "24/7 xavfsizlik",
   "newUzbekistan.projectFeatures.security.desc": "CCTV nazorati va professional xavfsizlik xodimlari bilan 24/7 xavfsizlik.",
   "newUzbekistan.projectFeatures.amenities.title": "Zamonaviy qulayliklar",
-  "newUzbekistan.projectFeatures.amenities.desc": "Fitness markazlari, dam olish joylari va boshqalarni o'z ichiga olgan keng qulayliklarga kirish."
+  "newUzbekistan.projectFeatures.amenities.desc": "Fitness markazlari, dam olish joylari va boshqalarni o'z ichiga olgan keng qulayliklarga kirish.",
+
+  "aboutSection.title": "KOMPANIYA HAQIDA",
+  "aboutSection.shortTitle": "Innovatsion",
+  "aboutSection.shortTitleSolution": "yechimlar",
+  "aboutSection.longTitle1": "Innovatsion",
+  "aboutSection.longTitle2": "zamonaviy",
+  "aboutSection.longTitle3": "qurilish",
+  "aboutSection.longTitle4": "yechimlari",
+  "aboutSection.text": "Yetakchi qurilish kompaniyasi bo'lib, innovatsion loyihalar va baland binolar qurilishiga ixtisoslashgan. Kompaniya tashkil topganidan buyon eng ambitziyali va murakkab qurilish g'oyalarini amalga oshirishga intilib, mijozlarga eng yuqori darajadagi yechimlarni taqdim etadi.",
+  "aboutSection.learnMore": "KO'PROQ BILISH",
+  "aboutSection.readMore": "Batafsil",
+  "aboutSection.buildingImage": "Kompaniya binosi",
+  "aboutSection.ourAdvantages": "BIZNING USTUNLIKLARIMIZ",
+  "aboutSection.advantages.professionalism.title": "PROFESSIONALIZM",
+  "aboutSection.advantages.professionalism.desc": "Bizning professionalizmimizning asosi - o'z an'analarimizni saqlash va dunyo innovatsiyalaridan foydalanish.",
+  "aboutSection.advantages.experience.title": "KOMPANIYA TAJRIBASI",
+  "aboutSection.advantages.experience.desc": "Bizga mahsulotlarimiz sifatini isbotlash shart emas. Sizning e'tirofingiz buni biz uchun qiladi.",
+  "aboutSection.advantages.equipment.title": "USKUNALAR",
+  "aboutSection.advantages.equipment.desc": "Biz ishlatadigan uskunalarning texnologik ustunligi TOWERUP kompaniyasining ajralib turuvchi unsuridir."
 }

@@ -1,15 +1,19 @@
+
 import React, { useEffect, useRef } from 'react';
 import { Button } from './ui/button';
 import { Building, Users, Cpu, ShieldCheck, Clock, Award, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useLanguage } from '@/contexts/LanguageContext';
+
 interface AdvantageItemProps {
   icon: React.ReactNode;
   title: string;
   description: string;
   index: number;
 }
+
 const fadeInUp = {
   hidden: {
     opacity: 0,
@@ -24,6 +28,7 @@ const fadeInUp = {
     }
   }
 };
+
 const staggerContainer = {
   hidden: {
     opacity: 0
@@ -36,12 +41,15 @@ const staggerContainer = {
     }
   }
 };
+
 const AdvantageItem: React.FC<AdvantageItemProps> = ({
   icon,
   title,
   description,
   index
 }) => {
+  const { t } = useLanguage();
+  
   return <motion.div className="scroll-animate-section bg-[#222222] p-6 rounded-lg border border-white/5 shadow-lg h-full" variants={fadeInUp} whileHover={{
     y: -8,
     boxShadow: "0 15px 30px rgba(0, 0, 0, 0.3)",
@@ -60,16 +68,19 @@ const AdvantageItem: React.FC<AdvantageItemProps> = ({
         
         <div className="mt-4 pt-4 border-t border-white/10 flex justify-end">
           <div className="flex items-center text-primary text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <span>Подробнее</span>
+            <span>{t("aboutSection.readMore")}</span>
             <ArrowRight className="ml-1 w-4 h-4" />
           </div>
         </div>
       </div>
     </motion.div>;
 };
+
 const AboutSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+  const { t } = useLanguage();
+  
   useEffect(() => {
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -86,19 +97,25 @@ const AboutSection: React.FC = () => {
       elementsToObserve?.forEach(el => observer.unobserve(el));
     };
   }, []);
-  const advantages = [{
-    icon: <Building className="w-10 h-10" />,
-    title: "ПРОФЕССИОНАЛИЗМ",
-    description: "Основа нашего профессионализма - сохранение собственных традиций и использование мировых инноваций."
-  }, {
-    icon: <Users className="w-10 h-10" />,
-    title: "ОПЫТ КОМПАНИИ",
-    description: "Нам не приходится доказывать качество нашей продукции. Ваше признание делает это за нас."
-  }, {
-    icon: <Cpu className="w-10 h-10" />,
-    title: "ОБОРУДОВАНИЕ",
-    description: "Технологическое превосходство используемого нами оборудования является элементом отличия компании TOWERUP."
-  }];
+  
+  const advantages = [
+    {
+      icon: <Building className="w-10 h-10" />,
+      title: t("aboutSection.advantages.professionalism.title"),
+      description: t("aboutSection.advantages.professionalism.desc")
+    }, 
+    {
+      icon: <Users className="w-10 h-10" />,
+      title: t("aboutSection.advantages.experience.title"),
+      description: t("aboutSection.advantages.experience.desc")
+    }, 
+    {
+      icon: <Cpu className="w-10 h-10" />,
+      title: t("aboutSection.advantages.equipment.title"),
+      description: t("aboutSection.advantages.equipment.desc")
+    }
+  ];
+  
   return <section id="about" ref={sectionRef} className="bg-[#1a1a1a] text-white">
       {/* About Company Section - Improved mobile responsiveness */}
       <div className="container mx-auto px-4 sm:px-6 py-16 sm:py-20">
@@ -118,7 +135,7 @@ const AboutSection: React.FC = () => {
               stiffness: 400,
               damping: 10
             }}>
-                <img src="https://i.pinimg.com/736x/37/21/8d/37218da10099de1ae1ca3f62019ba961.jpg" alt="Company building" className="w-full h-[250px] sm:h-[300px] lg:h-[400px] object-cover transition-transform duration-700 hover:scale-105 shadow-xl" />
+                <img src="https://i.pinimg.com/736x/37/21/8d/37218da10099de1ae1ca3f62019ba961.jpg" alt={t("aboutSection.buildingImage")} className="w-full h-[250px] sm:h-[300px] lg:h-[400px] object-cover transition-transform duration-700 hover:scale-105 shadow-xl" />
               </motion.div>
             </div>
           </motion.div>
@@ -126,35 +143,32 @@ const AboutSection: React.FC = () => {
           {/* Right side with company description - Mobile optimized with shortened title for mobile */}
           <motion.div className="scroll-animate-section order-1 lg:order-2" variants={fadeInUp}>
             <div className="mb-4 sm:mb-5 flex items-center">
-              <span className="text-primary uppercase font-medium text-sm tracking-wider">О КОМПАНИИ</span>
+              <span className="text-primary uppercase font-medium text-sm tracking-wider">{t("aboutSection.title")}</span>
               <div className="h-[1px] w-16 sm:w-32 bg-primary/50 ml-4"></div>
             </div>
             
             {/* Use shorter title for mobile devices */}
             {isMobile ? <h2 className="text-3xl font-bold mb-6 leading-tight">
-                Инновационные 
+                {t("aboutSection.shortTitle")}
                 <br />
-                решения
+                {t("aboutSection.shortTitleSolution")}
               </h2> : <h2 className="text-4xl lg:text-5xl font-bold mb-6 leading-tight">
-                Инновационные
+                {t("aboutSection.longTitle1")}
                 <br /> 
-                решения для 
+                {t("aboutSection.longTitle2")} 
                 <br />
-                современного
+                {t("aboutSection.longTitle3")}
                 <br />
-                строительства
+                {t("aboutSection.longTitle4")}
               </h2>}
             
             <div className="h-1 w-16 bg-primary mb-6"></div>
             
-            <p className="text-gray-300 leading-relaxed mb-8">Ведущая строительная компания, специализирующаяся
-на инновационных проектах и высотных зданиях. С момента своего основания, компания стремится к воплощению самых амбициозных и сложных
-строительных идей, предоставляя клиентам
-решения на высшем уровне.</p>
+            <p className="text-gray-300 leading-relaxed mb-8">{t("aboutSection.text")}</p>
             
             <Link to="/about">
               <Button className="bg-primary hover:bg-primary/80 text-white px-6 py-2 group w-full sm:w-auto">
-                <span>УЗНАТЬ БОЛЬШЕ</span>
+                <span>{t("aboutSection.learnMore")}</span>
                 <ArrowRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
             </Link>
@@ -182,7 +196,7 @@ const AboutSection: React.FC = () => {
           }} transition={{
             duration: 0.6
           }}>
-              <h2 className="text-primary uppercase font-medium text-lg sm:text-xl tracking-wider text-center sm:text-left">НАШИ ПРЕИМУЩЕСТВА</h2>
+              <h2 className="text-primary uppercase font-medium text-lg sm:text-xl tracking-wider text-center sm:text-left">{t("aboutSection.ourAdvantages")}</h2>
               <div className="h-[1px] w-12 sm:w-20 bg-primary/50 ml-4 hidden sm:block"></div>
             </motion.div>
           </div>
@@ -208,7 +222,7 @@ const AboutSection: React.FC = () => {
         }}>
             <Link to="/about" className="w-full sm:w-auto">
               <Button className="bg-transparent hover:bg-primary/10 text-white border border-white/20 px-6 py-2 group w-full sm:w-auto">
-                <span>УЗНАТЬ БОЛЬШЕ</span>
+                <span>{t("aboutSection.learnMore")}</span>
                 <ArrowRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
             </Link>
@@ -217,4 +231,5 @@ const AboutSection: React.FC = () => {
       </div>
     </section>;
 };
+
 export default AboutSection;
