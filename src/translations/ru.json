@@ -395,7 +395,7 @@
   "collaboration.tenders.items.tender3.requirements": "Сертификация и гарантийное обслуживание не менее 2 лет.",
   "collaboration.tenders.items.tender3.location": "Ташкент, Юнусабадский район",
 
-   "collaboration.tenders.items.tender4.title": "Благоустройство территории жилого комплекса",
+  "collaboration.tenders.items.tender4.title": "Благоустройство территории жилого комплекса",
   "collaboration.tenders.items.tender4.description": "Разработка и реализация проекта благоустройства территории жилого комплекса, включая озеленение, обустройство детских и спортивных площадок.",
   "collaboration.tenders.items.tender4.requirements": "Опыт работы с проектами аналогичного масштаба от 3 лет.",
   "collaboration.tenders.items.tender4.location": "Ташкент, Чиланзарский район",
@@ -440,31 +440,31 @@
   "collaboration.partners.categories.materials": "Материалы",
   "collaboration.partners.categories.engineering": "Инженерные системы",
 
-   "collaboration.partners.items.sinceLabel": "С",
+  "collaboration.partners.items.sinceLabel": "С",
   "collaboration.partners.items.projectsLabel": "Проекты",
   "collaboration.partners.items.employeesLabel": "Сотрудники",
   "collaboration.partners.items.buttonDetails": "Подробнее о партнере",
 
 
-   "collaboration.partners.items.partner1.name": "Строительная компания \"Монолит\"",
+  "collaboration.partners.items.partner1.name": "Строительная компания \"Монолит\"",
   "collaboration.partners.items.partner1.description": "Многопрофильная строительная компания с полным циклом производства. Более 10 лет на рынке строительства жилой и коммерческой недвижимости.",
   "collaboration.partners.items.partner1.achievement1": "Лучшая строительная компания 2023",
   "collaboration.partners.items.partner1.achievement2": "Сертификат ISO 9001:2015", 
 
 
-   "collaboration.partners.items.partner2.name": "Архитектурное бюро \"Концепт\"",
+  "collaboration.partners.items.partner2.name": "Архитектурное бюро \"Концепт\"",
   "collaboration.partners.items.partner2.description": "Команда архитекторов и дизайнеров с международным опытом. Специализация на проектировании современных энергоэффективных зданий.",
   "collaboration.partners.items.partner2.achievement1": "Премия \"Инновационный проект года\" 2024",
   "collaboration.partners.items.partner2.achievement2": "Best Design Award 2022",
 
 
-   "collaboration.partners.items.partner3.name": "Поставщик \"СтройМатериалы\"",
+  "collaboration.partners.items.partner3.name": "Поставщик \"СтройМатериалы\"",
   "collaboration.partners.items.partner3.description": "Поставки качественных строительных материалов от ведущих производителей. Эксклюзивный представитель европейских брендов.",
   "collaboration.partners.items.partner3.achievement1": "Лидер по объемам поставок 2023",
   "collaboration.partners.items.partner3.achievement2": "Сертификат экологической безопасности",
 
 
-   "collaboration.partners.items.partner4.name": "Инженерные системы \"ТехноПроект\"",
+  "collaboration.partners.items.partner4.name": "Инженерные системы \"ТехноПроект\"",
   "collaboration.partners.items.partner4.description": "Проектирование и монтаж инженерных систем для объектов любой сложности. Комплексные решения для жилых комплексов и бизнес-центров.",
   "collaboration.partners.items.partner4.achievement1": "Сертификат \"Энергоэффективность+\" 2023",
   "collaboration.partners.items.partner4.achievement2": "Инновационная компания года",
@@ -481,17 +481,17 @@
   "collaboration.testimonials.title": "Отзывы наших партнеров",
   "collaboration.testimonials.description": "Узнайте, что говорят о сотрудничестве с TOWER UP наши текущие партнеры",
 
-   "collaboration.testimonials.item1.name": "Абдуллаев Камрон",
+  "collaboration.testimonials.item1.name": "Абдуллаев Камрон",
   "collaboration.testimonials.item1.position": "Директор ООО \"СтройИнвест\"",
   "collaboration.testimonials.item1.text": "Сотрудничество с TOWER UP позволило нам выйти на новый уровень в реализации строительных проектов. Профессиональный подход, четкое соблюдение сроков и высокое качество работы.",
   "collaboration.testimonials.item1.company": "СтройИнвест",
 
-   "collaboration.testimonials.item2.name": "Игнатова Елена",
+  "collaboration.testimonials.item2.name": "Игнатова Елена",
   "collaboration.testimonials.item2.position": "Главный архитектор \"АртПроект\"",
   "collaboration.testimonials.item2.text": "За три года партнерства с TOWER UP мы реализовали более 10 совместных проектов. Ценим надежность, прозрачность и инновационный подход компании.",
   "collaboration.testimonials.item2.company": "АртПроект",
 
-   "collaboration.testimonials.item3.name": "Рахимов Бахтияр",
+  "collaboration.testimonials.item3.name": "Рахимов Бахтияр",
   "collaboration.testimonials.item3.position": "Генеральный директор \"ТехноСтрой\"",
   "collaboration.testimonials.item3.text": "Благодаря партнерству с TOWER UP наша компания получила доступ к крупным и престижным проектам. Взаимовыгодное сотрудничество, которым мы гордимся.",
   "collaboration.testimonials.item3.company": "ТехноСтрой",
@@ -523,10 +523,10 @@
   "newUzbekistan.apartments.footer": "Планировки могут отличаться в зависимости от наличия. Свяжитесь с нашим отделом продаж для уточнения текущих цен и наличия конкретных квартир.",
   "newUzbekistan.contact.form.title": "Связаться с нами",
 
-    "common.close": "Закрыть",
+  "common.close": "Закрыть",
   "common.previous": "Предыдущий",
   "common.next": "Следующий",
-    "common.moreDetails": "Подробнее"
+  "common.moreDetails": "Подробнее"
   "aboutSection.title": "О КОМПАНИИ",
   "aboutSection.shortTitle": "Инновационные",
   "aboutSection.shortTitleSolution": "решения",
