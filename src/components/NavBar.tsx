@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Menu, Phone, ChevronDown, Facebook, Instagram, MessageSquare, MapPin, Mail, PhoneCall } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import TestModeIndicator from './TestModeIndicator';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -153,122 +154,129 @@ const NavBar: React.FC = () => {
   );
 
   return (
-    <header
-      className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        scrolled
-          ? 'bg-brand-dark/95 backdrop-blur-md shadow-sm py-3'
-          : 'bg-transparent py-5'
-      )}
-    >
-      <div className="container mx-auto px-6 flex items-center justify-between">
-        <a 
-          href="/" 
-          className="flex items-center"
-        >
-          <img 
-            src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png" 
-            alt="TOWERUP Logo" 
-            className="h-12 md:h-16 w-auto" 
-          />
-        </a>
-
-        {!isMobile && (
-          <div className="hidden md:flex items-center space-x-8">
-            <NavigationMenu>
-              <NavigationMenuList>
-                {navLinks.map((link) =>
-                  link.hasSubmenu ? (
-                    <NavigationMenuItem key={link.title}>
-                      <NavigationMenuTrigger className={cn(
-                        "font-benzin tracking-wide hover:text-brand-primary transition-colors duration-300",
-                        scrolled ? "text-white bg-transparent" : "text-white bg-transparent",
-                        "hover:bg-transparent focus:bg-transparent"
-                      )}>
-                        {link.title}
-                      </NavigationMenuTrigger>
-                      <NavigationMenuContent>
-                        <ul className="grid w-[200px] gap-3 p-4 bg-white/90 backdrop-blur-md">
-                          {link.submenu?.map((subItem) => (
-                            <li key={subItem.title}>
-                              <NavigationMenuLink asChild>
-                                <a
-                                  href={subItem.href}
-                                  className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-brand-dark font-benzin"
-                                >
-                                  <div className="text-sm font-medium leading-none">{subItem.title}</div>
-                                </a>
-                              </NavigationMenuLink>
-                            </li>
-                          ))}
-                        </ul>
-                      </NavigationMenuContent>
-                    </NavigationMenuItem>
-                  ) : (
-                    <NavigationMenuItem key={link.title}>
-                      <a
-                        href={link.href}
-                        className={cn(
-                          "nav-link tracking-wide hover:text-brand-primary transition-colors duration-300 font-benzin px-3 py-2",
-                          scrolled ? "text-white" : "text-white"
-                        )}
-                      >
-                        {link.title}
-                      </a>
-                    </NavigationMenuItem>
-                  )
-                )}
-              </NavigationMenuList>
-            </NavigationMenu>
-
-            <a
-              href="/contact"
-              className={cn(
-                "flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-primary text-white font-medium",
-                "shadow-lg shadow-brand-primary/20 transform transition hover:-translate-y-0.5 font-benzin"
-              )}
-            >
-              <Phone className="h-4 w-4" />
-              Консультация
-            </a>
-          </div>
-        )}
-
-        {isMobile && (
-          <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
-            <SheetTrigger asChild>
-              <button 
-                className="md:hidden focus:outline-none"
-                aria-label="Toggle menu"
-              >
-                <Menu className="h-6 w-6 text-white" />
-              </button>
-            </SheetTrigger>
-            <SheetContent 
-              side="right" 
-              className="p-0 w-[85vw] max-w-xs bg-[#080C16] text-white border-l border-white/10"
-            >
-              <div className="flex items-center justify-between p-4 border-b border-white/10">
-                <a 
-                  href="/" 
-                  className="flex items-center" 
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <img 
-                    src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png" 
-                    alt="TOWERUP Logo" 
-                    className="h-10 w-auto" 
-                  />
-                </a>
-              </div>
-              <div className="overflow-y-auto max-h-[calc(100vh-64px)]">
-                <MobileMenu />
-              </div>
-            </SheetContent>
-          </Sheet>
-        )}
+    <>
+      {/* Test Mode Indicator - always fixed at the top */}
+      <div className="fixed top-0 left-0 right-0 z-[60] flex justify-center">
+        <TestModeIndicator />
       </div>
-    </header>
+      
+      <header
+        className={cn(
+          'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+          scrolled
+            ? 'bg-brand-dark/95 backdrop-blur-md shadow-sm py-3 mt-7'
+            : 'bg-transparent py-5 mt-7'
+        )}
+      >
+        <div className="container mx-auto px-6 flex items-center justify-between">
+          <a 
+            href="/" 
+            className="flex items-center"
+          >
+            <img 
+              src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png" 
+              alt="TOWERUP Logo" 
+              className="h-12 md:h-16 w-auto" 
+            />
+          </a>
+
+          {!isMobile && (
+            <div className="hidden md:flex items-center space-x-8">
+              <NavigationMenu>
+                <NavigationMenuList>
+                  {navLinks.map((link) =>
+                    link.hasSubmenu ? (
+                      <NavigationMenuItem key={link.title}>
+                        <NavigationMenuTrigger className={cn(
+                          "font-benzin tracking-wide hover:text-brand-primary transition-colors duration-300",
+                          scrolled ? "text-white bg-transparent" : "text-white bg-transparent",
+                          "hover:bg-transparent focus:bg-transparent"
+                        )}>
+                          {link.title}
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                          <ul className="grid w-[200px] gap-3 p-4 bg-white/90 backdrop-blur-md">
+                            {link.submenu?.map((subItem) => (
+                              <li key={subItem.title}>
+                                <NavigationMenuLink asChild>
+                                  <a
+                                    href={subItem.href}
+                                    className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-brand-dark font-benzin"
+                                  >
+                                    <div className="text-sm font-medium leading-none">{subItem.title}</div>
+                                  </a>
+                                </NavigationMenuLink>
+                              </li>
+                            ))}
+                          </ul>
+                        </NavigationMenuContent>
+                      </NavigationMenuItem>
+                    ) : (
+                      <NavigationMenuItem key={link.title}>
+                        <a
+                          href={link.href}
+                          className={cn(
+                            "nav-link tracking-wide hover:text-brand-primary transition-colors duration-300 font-benzin px-3 py-2",
+                            scrolled ? "text-white" : "text-white"
+                          )}
+                        >
+                          {link.title}
+                        </a>
+                      </NavigationMenuItem>
+                    )
+                  )}
+                </NavigationMenuList>
+              </NavigationMenu>
+
+              <a
+                href="/contact"
+                className={cn(
+                  "flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-primary text-white font-medium",
+                  "shadow-lg shadow-brand-primary/20 transform transition hover:-translate-y-0.5 font-benzin"
+                )}
+              >
+                <Phone className="h-4 w-4" />
+                Консультация
+              </a>
+            </div>
+          )}
+
+          {isMobile && (
+            <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+              <SheetTrigger asChild>
+                <button 
+                  className="md:hidden focus:outline-none"
+                  aria-label="Toggle menu"
+                >
+                  <Menu className="h-6 w-6 text-white" />
+                </button>
+              </SheetTrigger>
+              <SheetContent 
+                side="right" 
+                className="p-0 w-[85vw] max-w-xs bg-[#080C16] text-white border-l border-white/10"
+              >
+                <div className="flex items-center justify-between p-4 border-b border-white/10">
+                  <a 
+                    href="/" 
+                    className="flex items-center" 
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <img 
+                      src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png" 
+                      alt="TOWERUP Logo" 
+                      className="h-10 w-auto" 
+                    />
+                  </a>
+                </div>
+                <div className="overflow-y-auto max-h-[calc(100vh-64px)]">
+                  <MobileMenu />
+                </div>
+              </SheetContent>
+            </Sheet>
+          )}
+        </div>
+      </header>
+    </>
   );
 };
 
