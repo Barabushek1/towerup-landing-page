@@ -19,7 +19,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   const [language, setLanguage] = useState<Language>('uz');
   const [translations, setTranslations] = useState<Record<string, string>>({});
   
-  // Detect user's browser language on initial load
+  // Detect user's browser language on initial load or use saved preference
   useEffect(() => {
     const detectBrowserLanguage = () => {
       const browserLang = navigator.language.split('-')[0];
@@ -84,6 +84,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   const changeLanguage = (newLanguage: Language) => {
     console.log(`Changing language to: ${newLanguage}`);
     setLanguage(newLanguage);
+    localStorage.setItem('preferredLanguage', newLanguage);
   };
   
   const value = {

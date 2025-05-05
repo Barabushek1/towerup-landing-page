@@ -5,8 +5,10 @@ import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import AnimatedBackground from './AnimatedBackground';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const HeroSection: React.FC = () => {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
@@ -64,7 +66,7 @@ const HeroSection: React.FC = () => {
       id="home" 
       ref={sectionRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden opacity-0 transition-opacity duration-1000"
-      aria-label="Главная секция"
+      aria-label={t('home.hero.ariaLabel')}
     >
       {/* Modern City Skyline Background Image */}
       <div className="absolute inset-0 overflow-hidden">
@@ -77,7 +79,7 @@ const HeroSection: React.FC = () => {
             <img 
               key={index}
               src={image}
-              alt={`Современный жилой комплекс ${index + 1}`} 
+              alt={`${t('home.hero.imageAlt')} ${index + 1}`} 
               className={cn(
                 "absolute w-full h-full object-cover object-center transition-opacity duration-1000",
                 currentImageIndex === index ? "opacity-100" : "opacity-0"
@@ -96,8 +98,8 @@ const HeroSection: React.FC = () => {
       <div className="container mx-auto px-6 py-10 relative z-20">
         <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
           <h1 className="font-benzin font-medium text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight mb-6 animate-slide-up opacity-0 text-white" style={{ animationDelay: '500ms', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
-            Надёжность и комфорт <br/>
-            <span className="text-brand-primary">в каждом проекте!</span>
+            {t('home.hero.title')} <br/>
+            <span className="text-brand-primary">{t('home.hero.subtitle')}</span>
           </h1>
           
           <div className="flex flex-col sm:flex-row gap-4 mt-4 animate-slide-up opacity-0 w-full sm:w-auto justify-center" style={{ animationDelay: '900ms' }}>
@@ -107,9 +109,9 @@ const HeroSection: React.FC = () => {
                 "button-hover-effect px-6 py-3 rounded-lg bg-brand-primary text-white font-medium font-benzin w-full sm:w-auto text-center",
                 "shadow-lg shadow-brand-primary/20 transform transition hover:-translate-y-0.5 flex items-center justify-center gap-2"
               )}
-              aria-label="Узнать больше о компании"
+              aria-label={t('home.hero.learnMoreAriaLabel')}
             >
-              Узнать подробнее
+              {t('home.hero.learnMore')}
               <ArrowRight className="h-4 w-4" />
             </a>
             <Link
@@ -118,9 +120,9 @@ const HeroSection: React.FC = () => {
                 "button-hover-effect px-6 py-3 rounded-lg bg-white/20 text-white font-medium font-benzin w-full sm:w-auto text-center",
                 "shadow backdrop-blur-sm border border-white/30 transform transition hover:-translate-y-0.5 flex items-center justify-center gap-2"
               )}
-              aria-label="Перейти к странице проектов"
+              aria-label={t('home.hero.projectsAriaLabel')}
             >
-              Проекты
+              {t('home.hero.projects')}
               <Briefcase className="h-4 w-4" />
             </Link>
           </div>
@@ -137,7 +139,7 @@ const HeroSection: React.FC = () => {
               currentImageIndex === index ? "bg-white w-4" : "bg-white/40"
             )}
             onClick={() => setCurrentImageIndex(index)}
-            aria-label={`Перейти к изображению ${index + 1}`}
+            aria-label={`${t('home.hero.imageNavAriaLabel')} ${index + 1}`}
           />
         ))}
       </div>

@@ -24,6 +24,7 @@ const LanguageSelector: React.FC = () => {
   const handleLanguageChange = (lang: 'ru' | 'uz' | 'en') => {
     console.log(`Setting language to: ${lang}`);
     setLanguage(lang);
+    // The saving to localStorage is now handled in the LanguageContext
   };
 
   return (

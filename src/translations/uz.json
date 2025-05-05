@@ -27,9 +27,15 @@
   "footer.rights": "Barcha huquqlar himoyalangan",
   "footer.policy": "Maxfiylik siyosati",
   
-  "home.hero.title": "TOSHKENTDAGI ELITE KO'CHMAS MULKLARNI QURADIGAN ENG YAXSHI QURUVCHI",
-  "home.hero.subtitle": "Biz eng yuqori standartlarga javob beradigan zamonaviy turar-joy majmualarini yaratamiz",
-  "home.hero.button": "Ko'proq bilish",
+  "home.hero.title": "Ishonchlilik va qulaylik",
+  "home.hero.subtitle": "har bir loyihada!",
+  "home.hero.learnMore": "Ko'proq bilish",
+  "home.hero.projects": "Loyihalar",
+  "home.hero.learnMoreAriaLabel": "Kompaniya haqida ko'proq bilib oling",
+  "home.hero.projectsAriaLabel": "Loyihalar sahifasiga o'tish",
+  "home.hero.ariaLabel": "Asosiy bo'lim",
+  "home.hero.imageAlt": "Zamonaviy turar-joy majmuasi",
+  "home.hero.imageNavAriaLabel": "Rasmga o'tish",
   
   "home.about.title": "KOMPANIYA HAQIDA",
   "home.about.subtitle": "TOWER UP — premium-klass turar-joy majmualari va tijorat ko'chmas mulklarini qurishga ixtisoslashgan zamonaviy qurilish kompaniyasi.",
@@ -293,26 +299,5 @@
   "newUzbekistan.projectFeatures.security.title": "24/7 xavfsizlik",
   "newUzbekistan.projectFeatures.security.desc": "CCTV nazorati va professional xavfsizlik xodimlari bilan 24/7 xavfsizlik.",
   "newUzbekistan.projectFeatures.amenities.title": "Zamonaviy qulayliklar",
-  "newUzbekistan.projectFeatures.amenities.desc": "Fitness markazlari, dam olish joylari va boshqalarni o'z ichiga olgan keng qulayliklarga kirish.",
-  
-  "newUzbekistan.contact.title": "BIZ BILAN BOG'LANISH",
-  "newUzbekistan.contact.subtitle": "Loyiha haqida ko'proq ma'lumot oling",
-  "newUzbekistan.contact.office": "Sotish Ofisi",
-  "newUzbekistan.contact.address": "123 Misol Ko'chasi, Toshkent, O'zbekiston",
-  "newUzbekistan.contact.phone": "Telefon",
-  "newUzbekistan.contact.email": "Email",
-  "newUzbekistan.contact.hours": "Ish vaqti",
-  "newUzbekistan.contact.schedule": "Dushanba-Shanba: 9:00-18:00, Yakshanba: Ishlamaydi",
-  "newUzbekistan.contact.form.title": "Ma'lumot so'rash",
-  "newUzbekistan.contact.form.name": "Ismingiz",
-  "newUzbekistan.contact.form.phone": "Telefon raqamingiz",
-  "newUzbekistan.contact.form.email": "Email manzilingiz",
-  "newUzbekistan.contact.form.interest": "Qiziqtirgan masala",
-  "newUzbekistan.contact.form.message": "Xabaringiz",
-  "newUzbekistan.contact.form.submit": "So'rovni yuborish",
-  "newUzbekistan.contact.form.policy": "Ushbu shaklni yuborish orqali siz Maxfiylik siyosatimizga rozilik bildirasiz",
-  
-  "common.close": "Yopish",
-  "common.previous": "Oldingi",
-  "common.next": "Keyingi"
+  "newUzbekistan.projectFeatures.amenities.desc": "Fitness markazlari, dam olish joylari va boshqalarni o'z ichiga olgan keng qulayliklarga kirish."
 }

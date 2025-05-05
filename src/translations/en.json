@@ -27,9 +27,15 @@
   "footer.rights": "All rights reserved",
   "footer.policy": "Privacy Policy",
   
-  "home.hero.title": "THE BEST DEVELOPER OF ELITE REAL ESTATE IN TASHKENT",
-  "home.hero.subtitle": "We create modern residential complexes that meet the highest standards",
-  "home.hero.button": "Learn More",
+  "home.hero.title": "Reliability and comfort",
+  "home.hero.subtitle": "in every project!",
+  "home.hero.learnMore": "Learn more",
+  "home.hero.projects": "Projects",
+  "home.hero.learnMoreAriaLabel": "Learn more about the company",
+  "home.hero.projectsAriaLabel": "Go to projects page",
+  "home.hero.ariaLabel": "Main section",
+  "home.hero.imageAlt": "Modern residential complex",
+  "home.hero.imageNavAriaLabel": "Go to image",
   
   "home.about.title": "ABOUT THE COMPANY",
   "home.about.subtitle": "TOWER UP is a modern construction company specializing in the construction of premium-class residential complexes and commercial real estate.",
