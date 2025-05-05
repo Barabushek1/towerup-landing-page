@@ -1,46 +1,28 @@
-
 import React from 'react';
 import { Facebook, Instagram, Twitter, MapPin, Mail, Phone } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-
 const Footer: React.FC = () => {
-  const { t } = useLanguage();
+  const {
+    t
+  } = useLanguage();
   const currentYear = new Date().getFullYear();
-  
-  return (
-    <footer className="bg-[#0F0F0F] text-gray-400">
+  return <footer className="text-gray-400 bg-gray-800">
       <div className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-6">
-            <img
-              src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png"
-              alt="TOWER UP"
-              className="h-14 w-auto"
-            />
+            <img src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png" alt="TOWER UP" className="h-14 w-auto" />
             <p className="text-sm max-w-xs font-benzin">
               {t('footer.companyDesc')}
             </p>
             <div className="flex space-x-4">
-              <a
-                href="#"
-                className="bg-[#161616] hover:bg-primary transition-colors rounded-full p-2"
-                aria-label="Facebook"
-              >
+              <a href="#" className="bg-[#161616] hover:bg-primary transition-colors rounded-full p-2" aria-label="Facebook">
                 <Facebook className="h-5 w-5 text-white" />
               </a>
-              <a
-                href="#"
-                className="bg-[#161616] hover:bg-primary transition-colors rounded-full p-2"
-                aria-label="Instagram"
-              >
+              <a href="#" className="bg-[#161616] hover:bg-primary transition-colors rounded-full p-2" aria-label="Instagram">
                 <Instagram className="h-5 w-5 text-white" />
               </a>
-              <a
-                href="#"
-                className="bg-[#161616] hover:bg-primary transition-colors rounded-full p-2"
-                aria-label="Twitter"
-              >
+              <a href="#" className="bg-[#161616] hover:bg-primary transition-colors rounded-full p-2" aria-label="Twitter">
                 <Twitter className="h-5 w-5 text-white" />
               </a>
             </div>
@@ -129,8 +111,6 @@ const Footer: React.FC = () => {
           </a>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
