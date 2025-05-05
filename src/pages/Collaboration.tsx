@@ -1,35 +1,34 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet-async';
 // Assuming PageHeader, NavBar, Footer are styled for dark theme
-import NavBar from '@/components/NavBar'; // Add NavBar
-import Footer from '@/components/Footer'; // Add Footer
+import NavBar from '@/components/NavBar';
+import Footer from '@/components/Footer';
 import PageHeader from '@/components/PageHeader';
 
-import { Badge } from '@/components/ui/badge'; // Assuming dark theme styling
-import { Button } from '@/components/ui/button'; // Assuming dark theme styling
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'; // Assuming dark theme styling
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'; // Assuming dark theme styling
-import { AspectRatio } from '@/components/ui/aspect-ratio'; // Assuming dark theme styling
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
 // Assuming Alert, AlertDescription are styled for dark theme
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 // Assuming Breadcrumb components are styled for dark theme
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 
-import { Separator } from '@/components/ui/separator'; // Assuming dark theme styling
-import { useToast } from '@/hooks/use-toast'; // Keep toast hook
+import { Separator } from '@/components/ui/separator';
+import { toast } from "@/hooks/use-toast";
 
 // Import necessary icons
-import { Calendar, Users, FileText, CheckCircle, MapPin, Clock, Building, Star, ArrowRight, Phone, Mail, BriefcaseBusiness, Handshake, ClipboardList, Lightbulb, DollarSign, Award, UserCheck } from 'lucide-react'; // Added more relevant icons
+import { Calendar, Users, FileText, CheckCircle, MapPin, Clock, Building, Star, ArrowRight, Phone, Mail, BriefcaseBusiness, Handshake, ClipboardList, Lightbulb, DollarSign, Award, UserCheck } from 'lucide-react';
 
 // Import useLanguage context
 import { useLanguage } from '@/contexts/LanguageContext';
-import { cn } from '@/lib/utils'; // Import cn for conditional classes
+import { cn } from '@/lib/utils';
 
 const Collaboration: React.FC = () => {
   // Access translation function
   const { t } = useLanguage();
-  const { toast } = useToast();
 
   // --- Hardcoded Data (for demonstration, should ideally come from DB) ---
   // Using translation keys for titles/descriptions where applicable
@@ -213,7 +212,6 @@ const Collaboration: React.FC = () => {
      // Optionally scroll to a contact form section if you integrate one here
      // document.getElementById('contact-form-section')?.scrollIntoView({ behavior: 'smooth' });
   };
-
 
   // --- Render ---
   return (
