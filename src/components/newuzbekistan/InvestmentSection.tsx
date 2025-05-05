@@ -1,9 +1,9 @@
-
 import React, { useRef } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { motion, useInView } from 'framer-motion';
 import { TrendingUp, Check, ArrowRight } from 'lucide-react';
 import { Button } from '../ui/button';
+import { cn } from '@/lib/utils';
 
 const InvestmentSection: React.FC = () => {
   const { t } = useLanguage();
