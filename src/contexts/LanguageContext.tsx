@@ -11,6 +11,7 @@ interface LanguageContextType {
   language: Language;
   setLanguage: (language: Language) => void;
   t: (key: string) => string;
+  isTranslationsLoaded: boolean;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -38,25 +39,42 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   });
   
   const [translations, setTranslations] = useState<TranslationsRecord>({});
+  const [isTranslationsLoaded, setIsTranslationsLoaded] = useState(false);
   
   // Load translations whenever language changes
   useEffect(() => {
     const loadTranslations = async () => {
       try {
         console.log(`Loading translations for language: ${language}`);
+        setIsTranslationsLoaded(false);
+        
         const translationModule = await import(`../translations/${language}.json`);
         console.log('Loaded translation module:', translationModule);
-        setTranslations(translationModule.default);
+        
+        // Validate that we have a proper translation object
+        if (translationModule && translationModule.default && typeof translationModule.default === 'object') {
+          console.log(`Successfully loaded ${Object.keys(translationModule.default).length} translations for ${language}`);
+          setTranslations(translationModule.default);
+          setIsTranslationsLoaded(true);
+        } else {
+          console.error(`Invalid translation module format for ${language}:`, translationModule);
+          throw new Error('Invalid translation format');
+        }
       } catch (error) {
         console.error(`Failed to load translations for ${language}:`, error);
         // Fall back to Uzbek if translations failed to load
         if (language !== 'uz') {
           try {
+            console.log('Attempting to load fallback translations (uz)...');
             const fallbackModule = await import(`../translations/uz.json`);
             setTranslations(fallbackModule.default);
+            setIsTranslationsLoaded(true);
           } catch (fallbackError) {
             console.error('Failed to load fallback translations:', fallbackError);
+            setIsTranslationsLoaded(true); // Set to true even on error to prevent infinite loading state
           }
+        } else {
+          setIsTranslationsLoaded(true); // Set to true even on error to prevent infinite loading state
         }
       }
     };
@@ -69,8 +87,18 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   
   // Updated translation function that supports nested keys
   const t = (key: string): string => {
+    // For debugging, log every 20th translation request to avoid console spam
+    if (Math.random() < 0.05) {
+      console.log(`t("${key}") called with language: ${language}, isTranslationsLoaded: ${isTranslationsLoaded}`);
+    }
+    
+    // If translations aren't loaded yet, just return the key
+    if (!isTranslationsLoaded || !translations) {
+      return key;
+    }
+    
     // First, try to get exact match
-    if (translations && key in translations) {
+    if (key in translations) {
       const value = translations[key];
       if (typeof value === 'string') {
         return value;
@@ -118,7 +146,8 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   const value = {
     language,
     setLanguage: changeLanguage,
-    t
+    t,
+    isTranslationsLoaded
   };
   
   return (
