@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -56,10 +57,12 @@ const EXAMPLE_APARTMENT_UNITS: ApartmentUnit[] = [
 
 interface ApartmentCalculatorProps {
   className?: string;
+  defaultPricePerSqm?: number; // Add this prop to fix the error
 }
 
 const ApartmentCalculator: React.FC<ApartmentCalculatorProps> = ({
   className,
+  defaultPricePerSqm = 12000000, // Default value if not provided
 }) => {
   const [selectedFloor, setSelectedFloor] = useState<string | null>(null);
   const [selectedUnit, setSelectedUnit] = useState<ApartmentUnit | null>(null);
