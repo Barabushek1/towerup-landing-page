@@ -24,6 +24,7 @@ import Construction from "./pages/Construction";
 import Design from "./pages/Design";
 import Solutions from "./pages/Solutions";
 import TrcBochka from "./pages/TrcBochka"; 
+import NewUzbekistan from "./pages/NewUzbekistan";
 import ChatBot from "./components/ChatBot";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -61,6 +62,7 @@ const App = () => {
               <Route path="/projects" element={<Projects />} />
               <Route path="/projects/:slug" element={<ProjectDetail />} />
               <Route path="/projects/trcbochka" element={<TrcBochka />} />
+              <Route path="/projects/new-uzbekistan" element={<NewUzbekistan />} />
               <Route path="/news" element={<News />} />
               <Route path="/news/:id" element={<NewsDetail />} />
               <Route path="/vacancies" element={<Vacancies />} />

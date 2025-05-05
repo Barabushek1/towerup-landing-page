@@ -110,14 +110,14 @@ const Projects: React.FC = () => {
             featured: true // This project will span 2 columns on md+ screens
         },
         {
-            title: 'ТРЦ "Бочка"',
-            type: 'Торгово-развлекательный центр',
-            description: 'Современный торгово-развлекательный центр с уникальной архитектурой и обширными торговыми площадями.',
-            location: 'Ташкентская область',
-            imageUrl: '/lovable-uploads/90e6db77-c1a6-40d8-936b-0e623cf5cb93.png',
+            title: 'ЖК "Yangi Uzbekistan"',
+            type: 'Жилой комплекс',
+            description: 'Современный комплекс с инновационной архитектурой, зелеными зонами и развитой инфраструктурой.',
+            location: 'Ташкент',
+            imageUrl: '/lovable-uploads/36f32494-e938-41ca-815a-e71e74b2e791.png',
             status: 'Строится',
             completion: 'Q3 2025',
-            slug: 'trcbochka',
+            slug: 'new-uzbekistan',
             featured: true
         },
         {

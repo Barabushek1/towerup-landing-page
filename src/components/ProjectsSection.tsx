@@ -174,7 +174,7 @@ const ProjectsSection: React.FC = () => {
     imageUrl: "https://i.imgur.com/gvSrzzp.jpeg",
     slug: "pushkin"
   }, {
-    title: 'Удобный паркинг',
+    title: 'Udобный паркинг',
     subtitle: 'TOWERUP Проекты',
     description: "Безопасное и комфортное место для вашего автомобиля.",
     imageUrl: "https://i.imgur.com/JHUJPdb.png"
@@ -184,6 +184,7 @@ const ProjectsSection: React.FC = () => {
     description: "Готовые решения для вашего комфорта.",
     imageUrl: "https://i.imgur.com/nTzlAUG.png"
   }];
+  
   const projects = [{
     title: 'Жилой комплекс "Пушкин"',
     description: "Современный эко-комплекс из 5 домов с благоустроенной территорией, детскими площадками и парковой зоной.",
@@ -192,12 +193,12 @@ const ProjectsSection: React.FC = () => {
     imageUrl: "/assets/Pushkin/18.jpg",
     slug: "pushkin"
   }, {
-    title: 'Бизнес-центр "Бочка"',
-    description: "Современный бизнес-центр класса А с конференц-залами, подземным паркингом и зелёной зоной отдыха.",
+    title: 'Жилой комплекс "Yangi Uzbekistan"',
+    description: "Современный комплекс с инновационной архитектурой, зелеными зонами и развитой инфраструктурой.",
     location: "Ташкент",
     status: "Строится",
-    imageUrl: "https://images.unsplash.com/photo-1742330425089-1f91d18eaa4e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    slug: "bochka"
+    imageUrl: "/lovable-uploads/36f32494-e938-41ca-815a-e71e74b2e791.png",
+    slug: "new-uzbekistan"
   }, {
     title: 'Жилой комплекс "Кумарык"',
     description: "Курортный комплекс из отеля 5* и апартаментов с панорамным видом на море и собственным пляжем.",
@@ -206,6 +207,7 @@ const ProjectsSection: React.FC = () => {
     imageUrl: "https://images.unsplash.com/photo-1618172193763-c511deb635ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2064&q=80",
     slug: "kumaryk"
   }];
+  
   return <section id="projects" ref={sectionRef} className="py-0 bg-black overflow-hidden">
             <div className="relative scroll-animate-section">
                 <Carousel setApi={setCarouselApi} opts={{
