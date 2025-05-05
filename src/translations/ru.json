@@ -320,7 +320,7 @@
       "title": "Аудит логи",
       "actionTypeLabel": "Тип действия",
       "adminEmailLabel": "Электронная почта администратора",
-      "createdAtLabel": "Создано в",
+      "createdAtLabel": "Создано в"
     },
     "detailedAuditLogs": {
       "title": "Детальные Аудит логи"
@@ -467,6 +467,123 @@
         "contactNameRequired": "Имя контактного лица обязательно",
         "emailInvalid": "Пожалуйста, введите действительный адрес электронной почты",
         "phoneRequired": "Номер телефона обязателен"
+      }
+    }
+  },
+  "admin": {
+    "login": {
+      "title": "Вход в панель администратора",
+      "email": "Электронная почта",
+      "password": "Пароль",
+      "loginButton": "Войти",
+      "error": "Неверный адрес электронной почты или пароль"
+    },
+    "dashboard": {
+      "title": "Панель управления",
+      "welcome": "Добро пожаловать, администратор!"
+    },
+    "news": {
+      "title": "Новости",
+      "create": "Создать новость",
+      "edit": "Редактировать новость",
+      "delete": "Удалить новость",
+      "titleLabel": "Заголовок",
+      "contentLabel": "Содержание",
+      "dateLabel": "Дата",
+      "imageLabel": "Изображение",
+      "excerptLabel": "Выдержка",
+      "featuredLabel": "Рекомендованный",
+      "saveButton": "Сохранить",
+      "deleteConfirmation": "Вы уверены, что хотите удалить эту новость?",
+      "success": "Новость успешно сохранена!",
+      "error": "Ошибка сохранения новости!"
+    },
+    "vacancies": {
+      "title": "Вакансии",
+      "create": "Создать вакансию",
+      "edit": "Редактировать вакансию",
+      "delete": "Удалить вакансию",
+      "titleLabel": "Заголовок",
+      "descriptionLabel": "Описание",
+      "requirementsLabel": "Требования",
+      "benefitsLabel": "Преимущества",
+      "salaryLabel": "Зарплата",
+      "locationLabel": "Местоположение",
+      "dateLabel": "Дата",
+      "saveButton": "Сохранить",
+      "deleteConfirmation": "Вы уверены, что хотите удалить эту вакансию?",
+      "success": "Вакансия успешно сохранена!",
+      "error": "Ошибка сохранения вакансии!"
+    },
+    "messages": {
+      "title": "Сообщения",
+      "delete": "Удалить сообщение",
+      "nameLabel": "Имя",
+      "emailLabel": "Электронная почта",
+      "messageLabel": "Сообщение",
+      "dateLabel": "Дата",
+      "readLabel": "Прочитано",
+      "deleteConfirmation": "Вы уверены, что хотите удалить это сообщение?",
+      "success": "Сообщение успешно удалено!",
+      "error": "Ошибка удаления сообщения!"
+    },
+    "partners": {
+      "title": "Партнеры",
+      "create": "Создать партнера",
+      "edit": "Редактировать партнера",
+      "delete": "Удалить партнера",
+      "nameLabel": "Имя",
+      "logoLabel": "Логотип",
+      "urlLabel": "URL",
+      "saveButton": "Сохранить",
+      "deleteConfirmation": "Вы уверены, что хотите удалить этого партнера?",
+      "success": "Партнер успешно сохранен!",
+      "error": "Ошибка сохранения партнера!"
+    },
+    "floorPrices": {
+      "title": "Цены на квартиры",
+      "apartmentTypeLabel": "Тип квартиры",
+      "pricePerSqmLabel": "Цена за кв.м",
+      "saveButton": "Сохранить",
+      "success": "Цена успешно сохранена!",
+      "error": "Ошибка сохранения цены!"
+    },
+    "auditLogs": {
+      "title": "Аудит логи",
+      "actionTypeLabel": "Тип действия",
+      "adminEmailLabel": "Электронная почта администратора",
+      "createdAtLabel": "Создано в"
+    },
+    "detailedAuditLogs": {
+      "title": "Детальные Аудит логи"
+    },
+    "tenders": {
+      "title": "Тендеры",
+      "create": "Создать тендер",
+      "edit": "Редактировать тендер",
+      "delete": "Удалить тендер",
+      "titleLabel": "Заголовок",
+      "descriptionLabel": "Описание",
+      "requirementsLabel": "Требования",
+      "categoryLabel": "Категория",
+      "statusLabel": "Статус",
+      "deadlineLabel": "Срок",
+      "documentsLabel": "Документы",
+      "saveButton": "Сохранить",
+      "deleteConfirmation": "Вы уверены, что хотите удалить этот тендер?",
+      "success": "Тендер успешно сохранен!",
+      "error": "Ошибка сохранения тендера!",
+      "category": {
+        "supply": "Поставка",
+        "design": "Дизайн",
+        "construction": "Строительство",
+        "services": "Услуги",
+        "other": "Другое"
+      },
+      "status": {
+        "active": "Активный",
+        "pending": "В ожидании",
+        "closed": "Закрытый"
       }
     }
   }

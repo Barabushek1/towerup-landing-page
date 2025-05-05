@@ -115,7 +115,7 @@ const Collaboration: React.FC = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {tenders.map((tender) => (
+              {tenders.map((tender: Tender) => (
                 <TenderCard
                   key={tender.id}
                   tender={tender}

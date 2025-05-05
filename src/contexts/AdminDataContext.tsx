@@ -588,11 +588,27 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const addTender = async (tender: Omit<Tender, 'id' | 'created_at' | 'updated_at'>) => {
     try {
       console.log('Adding tender:', tender);
+      
+      // Make sure required fields are present
+      if (!tender.title || !tender.description) {
+        toast({
+          title: "Ошибка валидации",
+          description: "Пожалуйста, заполните все обязательные поля",
+          variant: "destructive"
+        });
+        return Promise.reject(new Error("Не все обязательные поля заполнены"));
+      }
+      
       const { data, error } = await supabase
         .from('tenders')
         .insert({
-          ...tender,
-          deadline: tender.deadline ? new Date(tender.deadline).toISOString() : null
+          title: tender.title,
+          description: tender.description,
+          requirements: tender.requirements || null,
+          category: tender.category || null,
+          status: tender.status || 'active',
+          deadline: tender.deadline ? new Date(tender.deadline).toISOString() : null,
+          documents: tender.documents || []
         })
         .select();
 
@@ -619,6 +635,9 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       console.log('Updating tender:', id, tender);
       
       const updates: any = { ...tender };
+      
+      // Fix for the type error by ensuring that if we're updating the deadline,
+      // we convert it to ISO string format
       if (tender.deadline) {
         updates.deadline = new Date(tender.deadline).toISOString();
       }

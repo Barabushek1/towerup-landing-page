@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useAdmin } from '@/contexts/AdminContext';
 import { Button } from '@/components/ui/button';
@@ -281,8 +280,13 @@ const AdminTenders = () => {
       const { data, error } = await supabase
         .from('tenders')
         .insert({
-          ...values,
+          title: values.title,
+          description: values.description,
+          requirements: values.requirements || null,
+          category: values.category || null,
+          status: values.status,
           deadline: values.deadline ? new Date(values.deadline).toISOString() : null,
+          documents: values.documents || []
         })
         .select();
       
@@ -311,8 +315,13 @@ const AdminTenders = () => {
       const { data, error } = await supabase
         .from('tenders')
         .update({
-          ...values,
+          title: values.title,
+          description: values.description,
+          requirements: values.requirements || null,
+          category: values.category || null,
+          status: values.status,
           deadline: values.deadline ? new Date(values.deadline).toISOString() : null,
+          documents: values.documents || []
         })
         .eq('id', id)
         .select();

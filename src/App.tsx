@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
@@ -40,7 +41,7 @@ import AdminPartners from '@/pages/admin/AdminPartners';
 import AdminAuditLogs from '@/pages/admin/AdminAuditLogs';
 import AdminDetailedAuditLogs from '@/pages/admin/AdminDetailedAuditLogs';
 import AdminLayout from '@/components/admin/AdminLayout';
-import AdminDataProvider from '@/contexts/AdminDataContext';
+import { AdminDataProvider } from '@/contexts/AdminDataContext'; // Changed from default import to named import
 import ScrollToTop from '@/components/ScrollToTop';
 import AdminTenders from '@/pages/admin/AdminTenders';
 
