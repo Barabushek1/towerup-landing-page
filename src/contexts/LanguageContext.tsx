@@ -29,6 +29,11 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
         return 'ru';
       }
       
+      // If browser language is English, set language to English
+      if (browserLang === 'en') {
+        return 'en';
+      }
+      
       // Default to Uzbek for all other languages
       return 'uz';
     };
@@ -43,14 +48,20 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   useEffect(() => {
     const loadTranslations = async () => {
       try {
+        console.log(`Loading translations for language: ${language}`);
         const translationModule = await import(`../translations/${language}.json`);
+        console.log('Loaded translation module:', translationModule);
         setTranslations(translationModule.default);
       } catch (error) {
         console.error(`Failed to load translations for ${language}:`, error);
         // Fall back to Uzbek if translations failed to load
         if (language !== 'uz') {
-          const fallbackModule = await import(`../translations/uz.json`);
-          setTranslations(fallbackModule.default);
+          try {
+            const fallbackModule = await import(`../translations/uz.json`);
+            setTranslations(fallbackModule.default);
+          } catch (fallbackError) {
+            console.error('Failed to load fallback translations:', fallbackError);
+          }
         }
       }
     };
@@ -63,10 +74,15 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   
   // Translation function
   const t = (key: string): string => {
-    return translations[key] || key; // Return the key if translation is not found
+    if (!translations || !translations[key]) {
+      console.warn(`Translation missing for key: ${key} in language: ${language}`);
+      return key; // Return the key if translation is not found
+    }
+    return translations[key];
   };
   
   const changeLanguage = (newLanguage: Language) => {
+    console.log(`Changing language to: ${newLanguage}`);
     setLanguage(newLanguage);
   };
   

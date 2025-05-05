@@ -11,7 +11,7 @@ import {
 import { Languages } from 'lucide-react';
 
 const LanguageSelector: React.FC = () => {
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage } = useLanguage();
   
   const languages = [
     { code: 'ru', name: 'Русский', flag: '/lang/ru.svg' },
@@ -19,7 +19,12 @@ const LanguageSelector: React.FC = () => {
     { code: 'en', name: 'English', flag: '/lang/eng.svg' },
   ];
 
-  const currentLanguageData = languages.find(lang => lang.code === language);
+  const currentLanguageData = languages.find(lang => lang.code === language) || languages[0];
+
+  const handleLanguageChange = (lang: 'ru' | 'uz' | 'en') => {
+    console.log(`Setting language to: ${lang}`);
+    setLanguage(lang);
+  };
 
   return (
     <DropdownMenu>
@@ -30,8 +35,8 @@ const LanguageSelector: React.FC = () => {
           className="flex items-center gap-2 px-2 py-1 text-white hover:bg-white/10"
         >
           <img 
-            src={currentLanguageData?.flag} 
-            alt={currentLanguageData?.name} 
+            src={currentLanguageData.flag} 
+            alt={currentLanguageData.name} 
             className="h-4 w-auto"
           />
           <Languages className="h-4 w-4" />
@@ -44,7 +49,7 @@ const LanguageSelector: React.FC = () => {
             className={`flex items-center gap-2 cursor-pointer hover:bg-slate-700 ${
               language === lang.code ? 'bg-slate-700/50' : ''
             }`}
-            onClick={() => setLanguage(lang.code as 'ru' | 'uz' | 'en')}
+            onClick={() => handleLanguageChange(lang.code as 'ru' | 'uz' | 'en')}
           >
             <img src={lang.flag} alt={lang.name} className="h-4 w-auto" />
             <span>{lang.name}</span>
