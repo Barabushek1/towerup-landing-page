@@ -3,6 +3,10 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 
 type Language = 'ru' | 'uz' | 'en';
 
+// Updated type to support nested translation structures
+type TranslationValue = string | { [key: string]: TranslationValue };
+type TranslationsRecord = Record<string, TranslationValue>;
+
 interface LanguageContextType {
   language: Language;
   setLanguage: (language: Language) => void;
@@ -16,7 +20,7 @@ interface LanguageProviderProps {
 }
 
 // Simple in-memory cache for translations
-const translationCache: Record<string, Record<string, string>> = {};
+const translationCache: Record<string, TranslationsRecord> = {};
 
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
   // Initialize with localStorage value if available, otherwise detect browser language
@@ -33,7 +37,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     return 'uz'; // Default to Uzbek
   });
   
-  const [translations, setTranslations] = useState<Record<string, string>>({});
+  const [translations, setTranslations] = useState<TranslationsRecord>({});
   
   // Load translations whenever language changes
   useEffect(() => {
@@ -63,19 +67,46 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     localStorage.setItem('preferredLanguage', language);
   }, [language]);
   
-  // Translation function with fallback to key
+  // Updated translation function that supports nested keys
   const t = (key: string): string => {
-    if (!translations || !translations[key]) {
-      console.warn(`Translation missing for key: ${key} in language: ${language}`);
+    // First, try to get exact match
+    if (translations && key in translations) {
+      const value = translations[key];
+      if (typeof value === 'string') {
+        return value;
+      }
+    }
+    
+    // If not found or not a string, try to handle nested keys (e.g., "projectAdvantages.title")
+    if (key.includes('.')) {
+      const parts = key.split('.');
+      let current: any = translations;
       
-      // Check if we already have a cached translation
-      if (translationCache[language] && translationCache[language][key]) {
-        return translationCache[language][key];
+      for (const part of parts) {
+        if (current && typeof current === 'object' && part in current) {
+          current = current[part];
+        } else {
+          console.warn(`Translation part missing for key: ${key} at ${part} in language: ${language}`);
+          return key;
+        }
       }
       
-      return key; // Return the key if translation is not found
+      if (typeof current === 'string') {
+        return current;
+      }
     }
-    return translations[key];
+    
+    console.warn(`Translation missing or not a string for key: ${key} in language: ${language}`);
+    
+    // Check if we already have a cached translation
+    if (translationCache[language] && key in translationCache[language]) {
+      const cached = translationCache[language][key];
+      if (typeof cached === 'string') {
+        return cached;
+      }
+    }
+    
+    return key; // Return the key if translation is not found or not a string
   };
   
   const changeLanguage = (newLanguage: Language) => {
