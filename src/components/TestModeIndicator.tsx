@@ -1,4 +1,3 @@
-
 import React from "react";
 import { AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -9,9 +8,10 @@ interface TestModeIndicatorProps {
 
 const TestModeIndicator: React.FC<TestModeIndicatorProps> = ({ className }) => {
   return (
-    <div 
+    <div
       className={cn(
-        "flex items-center justify-center gap-2 bg-[#8B5CF6] px-3 py-1.5 text-white text-xs font-medium",
+        // Added w-full here to make the indicator bar take up the full width
+        "flex items-center justify-center gap-2 bg-[#8B5CF6] px-3 py-1.5 text-white text-xs font-medium w-full",
         className
       )}
     >

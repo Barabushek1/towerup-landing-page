@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Menu, Phone, ChevronDown, Facebook, Instagram, MessageSquare, MapPin, Mail, PhoneCall } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
-import TestModeIndicator from './TestModeIndicator';
+import TestModeIndicator from './TestModeIndicator'; // Ensure path is correct
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -41,7 +41,7 @@ const NavBar: React.FC = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
-    
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -54,16 +54,16 @@ const NavBar: React.FC = () => {
   ];
 
   const navLinks = [
-    { 
-      title: 'О компании', 
+    {
+      title: 'О компании',
       href: '/about',
       hasSubmenu: true,
       key: 'company',
-      submenu: companySubMenu 
+      submenu: companySubMenu
     },
-    { 
-      title: 'Проекты', 
-      href: '/projects', 
+    {
+      title: 'Проекты',
+      href: '/projects',
       key: 'projects',
       hasSubmenu: true,
       submenu: [
@@ -115,7 +115,7 @@ const NavBar: React.FC = () => {
           )
         ))}
       </nav>
-      
+
       <div className="mt-6 px-4">
         <div className="mb-5">
           <h3 className="text-white text-left font-benzin text-base mb-2.5">Контакты</h3>
@@ -134,7 +134,7 @@ const NavBar: React.FC = () => {
             </a>
           </div>
         </div>
-        
+
         <div>
           <h3 className="text-white text-left font-benzin text-base mb-2.5">Соцсети</h3>
           <div className="flex space-x-3 mt-2">
@@ -156,27 +156,36 @@ const NavBar: React.FC = () => {
   return (
     <>
       {/* Test Mode Indicator - always fixed at the top */}
-      <div className="fixed top-0 left-0 right-0 z-[60] flex justify-center">
+      {/* Removed justify-center to allow TestModeIndicator to take full width */}
+      <div className="fixed top-0 left-0 right-0 z-[60]">
         <TestModeIndicator />
       </div>
-      
+
+      {/* Adjusted 'top' value for the header to be below the indicator */}
       <header
         className={cn(
-          'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+          'fixed left-0 right-0 z-50 transition-all duration-300',
+          // Use a fixed value for 'top' based on the indicator height + desired gap
+          // Assuming indicator height is roughly 30px + 7px (py) = ~37px, add a gap
+          // Let's adjust the top value to ensure it's below the indicator.
+          // A simple approach is to give the indicator div a fixed height and add that to the header's top.
+          // Or, calculate based on indicator height. For simplicity, let's adjust the header's py and mt.
+          // Let's rely on the indicator taking up space and adjust header's padding/margin.
+
           scrolled
-            ? 'bg-brand-dark/95 backdrop-blur-md shadow-sm py-3 mt-7'
-            : 'bg-transparent py-5 mt-7'
+            ? 'bg-brand-dark/95 backdrop-blur-md shadow-sm py-3 mt-[3.5rem]' // Adjust margin top
+            : 'bg-transparent py-5 mt-[3.5rem]' // Adjust margin top
         )}
       >
         <div className="container mx-auto px-6 flex items-center justify-between">
-          <a 
-            href="/" 
+          <a
+            href="/"
             className="flex items-center"
           >
-            <img 
-              src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png" 
-              alt="TOWERUP Logo" 
-              className="h-12 md:h-16 w-auto" 
+            <img
+              src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png"
+              alt="TOWERUP Logo"
+              className="h-12 md:h-16 w-auto"
             />
           </a>
 
@@ -244,27 +253,27 @@ const NavBar: React.FC = () => {
           {isMobile && (
             <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
               <SheetTrigger asChild>
-                <button 
+                <button
                   className="md:hidden focus:outline-none"
                   aria-label="Toggle menu"
                 >
                   <Menu className="h-6 w-6 text-white" />
                 </button>
               </SheetTrigger>
-              <SheetContent 
-                side="right" 
+              <SheetContent
+                side="right"
                 className="p-0 w-[85vw] max-w-xs bg-[#080C16] text-white border-l border-white/10"
               >
                 <div className="flex items-center justify-between p-4 border-b border-white/10">
-                  <a 
-                    href="/" 
-                    className="flex items-center" 
+                  <a
+                    href="/"
+                    className="flex items-center"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    <img 
-                      src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png" 
-                      alt="TOWERUP Logo" 
-                      className="h-10 w-auto" 
+                    <img
+                      src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png"
+                      alt="TOWERUP Logo"
+                      className="h-10 w-auto"
                     />
                   </a>
                 </div>
