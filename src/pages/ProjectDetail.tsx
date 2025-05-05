@@ -12,7 +12,6 @@ import ScrollToTopButton from '@/components/ScrollToTopButton';
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import ApartmentCalculator from '@/components/ApartmentCalculator';
-import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ProjectImage {
   url: string;
@@ -148,7 +147,6 @@ const projectsData: Record<string, IProject> = {
   // ... other projects defined similarly ...
 };
 const ProjectDetail: React.FC = () => {
-  const { t, language } = useLanguage();
   const {
     slug
   } = useParams<{
@@ -277,17 +275,17 @@ const ProjectDetail: React.FC = () => {
                         <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-x-8 xl:gap-x-12">
                             <div className="lg:col-span-12 mb-8 md:mb-10">
                                 <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-2 leading-tight">{project.title}</h1>
-                                <p className="text-xl md:text-2xl lg:text-3xl text-primary font-medium mb-3">{slug === 'pushkin' && language !== 'ru' ? t(`projects.pushkin.subtitle`) : project.subtitle}</p>
-                                {project.tagline && <p className="text-lg md:text-xl text-slate-300 italic max-w-3xl">{slug === 'pushkin' && language !== 'ru' ? t(`projects.pushkin.tagline`) : project.tagline}</p>}
+                                <p className="text-xl md:text-2xl lg:text-3xl text-primary font-medium mb-3">{project.subtitle}</p>
+                                {project.tagline && <p className="text-lg md:text-xl text-slate-300 italic max-w-3xl">{project.tagline}</p>}
                             </div>
 
                             <div className="lg:col-span-7 xl:col-span-6 mb-10 lg:mb-12">
                                 <div className="prose prose-invert prose-lg max-w-none text-slate-200 mb-8">
-                                    <p>{slug === 'pushkin' && language !== 'ru' ? t(`projects.pushkin.description`) : project.description}</p>
+                                    <p>{project.description}</p>
                                 </div>
                                 {project.architectQuote && <blockquote className="border-l-4 border-primary/50 pl-4 italic text-slate-300">
-                                        <p className="mb-1">"{slug === 'pushkin' && language !== 'ru' ? t(`projects.pushkin.architectQuote.text`) : project.architectQuote.text}"</p>
-                                        <footer className="text-sm text-slate-400 not-italic">- {slug === 'pushkin' && language !== 'ru' ? t(`projects.pushkin.architectQuote.author`) : project.architectQuote.author}</footer>
+                                        <p className="mb-1">"{project.architectQuote.text}"</p>
+                                        <footer className="text-sm text-slate-400 not-italic">- {project.architectQuote.author}</footer>
                                     </blockquote>}
                             </div>
 
@@ -311,7 +309,7 @@ const ProjectDetail: React.FC = () => {
                                 </motion.div>}
 
                             {project.advantages && project.advantages.length > 0 && <div className="lg:col-span-12 my-16">
-                                    <h2 className="text-3xl font-bold mb-8 text-white text-center">{slug === 'pushkin' && language !== 'ru' ? t('projectAdvantages.title') : "Преимущества проекта"}</h2>
+                                    <h2 className="text-3xl font-bold mb-8 text-white text-center">Преимущества проекта</h2>
                                     <Carousel className="w-full max-w-6xl mx-auto" opts={{
                 align: "start",
                 loop: true
@@ -332,12 +330,8 @@ const ProjectDetail: React.FC = () => {
                                                                 </div>
                                                             </div>
                                                             <CardContent className="pt-5 pb-6">
-                                                                <h3 className="text-xl font-bold text-white mb-2">
-                                                                    {slug === 'pushkin' && language !== 'ru' ? t(`projectAdvantages.${advantage.icon.name.toLowerCase()}.title`) || advantage.title : advantage.title}
-                                                                </h3>
-                                                                <p className="text-slate-300 text-sm">
-                                                                    {slug === 'pushkin' && language !== 'ru' ? t(`projectAdvantages.${advantage.icon.name.toLowerCase()}.description`) || advantage.description : advantage.description}
-                                                                </p>
+                                                                <h3 className="text-xl font-bold text-white mb-2">{advantage.title}</h3>
+                                                                <p className="text-slate-300 text-sm">{advantage.description}</p>
                                                             </CardContent>
                                                         </Card>
                                                     </div>
@@ -351,9 +345,7 @@ const ProjectDetail: React.FC = () => {
                                 </div>}
 
                             {project.keyBenefits && project.keyBenefits.length > 0 && <div className="lg:col-span-12 my-10 md:my-12 lg:mt-0">
-                                    <h3 className="text-2xl font-bold text-white mb-6 text-center lg:text-left">
-                                        {slug === 'pushkin' && language !== 'ru' ? t('projects.pushkin.keyBenefits.title') || "Ключевые преимущества" : "Ключевые преимущества"}
-                                    </h3>
+                                    <h3 className="text-2xl font-bold text-white mb-6 text-center lg:text-left">Ключевые преимущества</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                                         {project.keyBenefits.map((benefit, index) => <motion.div key={`benefit-${index}`} className="flex flex-col items-center text-center md:flex-row md:text-left gap-4 p-4 rounded-lg bg-slate-800/30 border border-slate-700/40 transition-all hover:border-primary/30 hover:bg-slate-800/50" initial={{
                   opacity: 0,
@@ -372,106 +364,56 @@ const ProjectDetail: React.FC = () => {
                                                     <benefit.icon className="w-6 h-6 text-primary" />
                                                 </div>
                                                 <div>
-                                                    <h4 className="font-semibold text-white mb-1">
-                                                        {slug === 'pushkin' && language !== 'ru' && index === 0 ? 
-                                                            t('projects.pushkin.keyBenefits.spaciousLayouts.title') : 
-                                                        slug === 'pushkin' && language !== 'ru' && index === 1 ? 
-                                                            t('projects.pushkin.keyBenefits.prestigiousArea.title') : 
-                                                        slug === 'pushkin' && language !== 'ru' && index === 2 ? 
-                                                            t('projects.pushkin.keyBenefits.landscapedTerritory.title') : 
-                                                            benefit.title}
-                                                    </h4>
-                                                    <p className="text-sm text-slate-300">
-                                                        {slug === 'pushkin' && language !== 'ru' && index === 0 ? 
-                                                            t('projects.pushkin.keyBenefits.spaciousLayouts.description') : 
-                                                        slug === 'pushkin' && language !== 'ru' && index === 1 ? 
-                                                            t('projects.pushkin.keyBenefits.prestigiousArea.description') : 
-                                                        slug === 'pushkin' && language !== 'ru' && index === 2 ? 
-                                                            t('projects.pushkin.keyBenefits.landscapedTerritory.description') : 
-                                                            benefit.description}
-                                                    </p>
+                                                    <h4 className="font-semibold text-white mb-1">{benefit.title}</h4>
+                                                    <p className="text-sm text-slate-300">{benefit.description}</p>
                                                 </div>
                                             </motion.div>)}
                                     </div>
                                 </div>}
 
                             <div className="lg:col-span-12 mt-12 md:mt-16 border-t border-slate-700/50 pt-8">
-                                <h3 className="text-xl font-semibold text-white mb-5">
-                                    {slug === 'pushkin' && language !== 'ru' ? t('projects.pushkin.features.title') || "Основные характеристики" : "Основные характеристики"}
-                                </h3>
+                                <h3 className="text-xl font-semibold text-white mb-5">Основные характеристики</h3>
                                 <div className="flex flex-wrap gap-x-8 sm:gap-x-12 gap-y-4">
                                     <div>
-                                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">
-                                            {language === 'en' ? "Location" : language === 'uz' ? "Joylashuv" : "Расположение"}
-                                        </div>
-                                        <div className="text-base font-medium text-white flex items-center gap-2">
-                                            <MapPin className="w-4 h-4 text-primary" />
-                                            {slug === 'pushkin' && language !== 'ru' ? t('projects.pushkin.location') : project.location}
-                                        </div>
+                                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Расположение</div>
+                                        <div className="text-base font-medium text-white flex items-center gap-2"><MapPin className="w-4 h-4 text-primary" />{project.location}</div>
                                     </div>
                                     <div>
-                                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">
-                                            {language === 'en' ? "Year" : language === 'uz' ? "Yil" : "Год"}
-                                        </div>
-                                        <div className="text-base font-medium text-white flex items-center gap-2">
-                                            <Calendar className="w-4 h-4 text-primary" />
-                                            {slug === 'pushkin' && language !== 'ru' ? t('projects.pushkin.yearBuilt') : project.yearBuilt}
-                                        </div>
+                                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Год</div>
+                                        <div className="text-base font-medium text-white flex items-center gap-2"><Calendar className="w-4 h-4 text-primary" />{project.yearBuilt}</div>
                                     </div>
                                     <div>
-                                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">
-                                            {language === 'en' ? "Area" : language === 'uz' ? "Maydon" : "Площадь"}
-                                        </div>
-                                        <div className="text-base font-medium text-white flex items-center gap-2">
-                                            <Home className="w-4 h-4 text-primary" />
-                                            {slug === 'pushkin' && language !== 'ru' ? t('projects.pushkin.totalArea') : project.totalArea}
-                                        </div>
+                                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Площадь</div>
+                                        <div className="text-base font-medium text-white flex items-center gap-2"><Home className="w-4 h-4 text-primary" />{project.totalArea}</div>
                                     </div>
                                     <div>
-                                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">
-                                            {language === 'en' ? "Status" : language === 'uz' ? "Holat" : "Статус"}
-                                        </div>
+                                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Статус</div>
                                         <div className="text-base font-medium text-white">
                                              <span className="bg-primary/20 px-2.5 py-0.5 rounded text-primary text-sm">
-                                                {slug === 'pushkin' && language !== 'ru' ? t('projects.pushkin.status') : project.status}
+                                                {project.status}
                                              </span>
                                         </div>
                                     </div>
                                     <div>
-                                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">
-                                            {language === 'en' ? "Floors" : language === 'uz' ? "Qavatlar" : "Этажность"}
-                                        </div>
-                                        <div className="text-base font-medium text-white flex items-center gap-2">
-                                            <Building className="w-4 h-4 text-primary" />
-                                            {slug === 'pushkin' && language !== 'ru' ? t('projects.pushkin.floors') : project.floors}
-                                        </div>
+                                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Этажность</div>
+                                        <div className="text-base font-medium text-white flex items-center gap-2"><Building className="w-4 h-4 text-primary" />{project.floors}</div>
                                     </div>
                                     <div>
-                                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">
-                                            {language === 'en' ? "Units" : language === 'uz' ? "Xonalar" : "Помещений"}
-                                        </div>
-                                        <div className="text-base font-medium text-white flex items-center gap-2">
-                                            <Users className="w-4 h-4 text-primary" />
-                                            {slug === 'pushkin' && language !== 'ru' ? t('projects.pushkin.apartmentsCount') : project.apartmentsCount}
-                                        </div>
+                                        <div className="text-sm text-slate-400 mb-0.5 uppercase tracking-wider">Помещений</div>
+                                        <div className="text-base font-medium text-white flex items-center gap-2"><Users className="w-4 h-4 text-primary" />{project.apartmentsCount}</div>
                                     </div>
                                 </div>
 
                                 <div className="mt-6 pt-4 border-t border-slate-800/50 flex flex-wrap items-center gap-x-6 gap-y-2">
-                                     <span className="text-sm text-slate-400 mr-2">
-                                        {language === 'en' ? "Quick navigation:" : language === 'uz' ? "Tezkor navigatsiya:" : "Быстрый переход:"}
-                                     </span>
+                                     <span className="text-sm text-slate-400 mr-2">Быстрый переход:</span>
                                      <a href="#gallery" className="text-sm text-slate-300 hover:text-primary transition-colors flex items-center gap-1.5">
-                                        <ImageIcon size={14} /> 
-                                        {language === 'en' ? "Gallery" : language === 'uz' ? "Galereya" : "Галерея"}
+                                        <ImageIcon size={14} /> Галерея
                                      </a>
                                      {project.hasFloorPlans && <a href="#floor-plans" className="text-sm text-slate-300 hover:text-primary transition-colors flex items-center gap-1.5">
-                                            <LayoutGrid size={14} /> 
-                                            {language === 'en' ? "Floor Plans" : language === 'uz' ? "Qavat rejalari" : "Планировки"}
+                                            <LayoutGrid size={14} /> Планировки
                                          </a>}
                                      <a href="#location" className="text-sm text-slate-300 hover:text-primary transition-colors flex items-center gap-1.5">
-                                        <Map size={14} /> 
-                                        {language === 'en' ? "Location" : language === 'uz' ? "Joylashuv" : "Расположение"}
+                                        <Map size={14} /> Расположение
                                      </a>
                                  </div>
                             </div>
@@ -481,13 +423,9 @@ const ProjectDetail: React.FC = () => {
                 once: true,
                 amount: 0.2
               }}>
-                                    <h3 className="text-2xl font-bold text-white mb-5">
-                                        {language === 'en' ? "All Project Features" : language === 'uz' ? "Barcha loyiha xususiyatlari" : "Все особенности проекта"}
-                                    </h3>
+                                    <h3 className="text-2xl font-bold text-white mb-5">Все особенности проекта</h3>
                                     <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-3">
-                                        {(slug === 'pushkin' && language !== 'ru' ? 
-                                            t('projects.pushkin.features', { returnObjects: true }) : 
-                                            project.features).map((feature: string, index: number) => <motion.li key={`${project.id}-feature-${index}`} className="flex items-center gap-3" variants={itemVariants}>
+                                        {project.features.map((feature: string, index: number) => <motion.li key={`${project.id}-feature-${index}`} className="flex items-center gap-3" variants={itemVariants}>
                                                 <CheckCircle2 className="h-5 w-5 text-primary flex-shrink-0" />
                                                 <span className="text-slate-200">{feature}</span>
                                             </motion.li>)}
@@ -496,11 +434,11 @@ const ProjectDetail: React.FC = () => {
 
                                 <div className="flex flex-wrap gap-4">
                                     <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground transition-colors duration-200 gap-2 shadow-lg hover:shadow-primary/40">
-                                        {language === 'en' ? "Check Prices" : language === 'uz' ? "Narxlarni bilish" : "Узнать цены"}
+                                        Узнать цены
                                         <ArrowRight className="h-5 w-5" />
                                     </Button>
                                     <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 hover:border-white/50 transition-colors duration-200">
-                                        {language === 'en' ? "Schedule a Viewing" : language === 'uz' ? "Ko'rishga yozilish" : "Записаться на просмотр"}
+                                        Записаться на просмотр
                                     </Button>
                                 </div>
                             </div>
@@ -515,15 +453,11 @@ const ProjectDetail: React.FC = () => {
             once: true,
             amount: 0.2
           }}>
-                      <h2 className="text-3xl md:text-4xl font-bold mb-3 text-primary uppercase tracking-wider">
-                        {language === 'en' ? "Gallery" : language === 'uz' ? "Galereya" : "Галерея"}
-                      </h2>
+                      <h2 className="text-3xl md:text-4xl font-bold mb-3 text-primary uppercase tracking-wider">Галерея</h2>
                       <h3 className="text-xl font-medium mb-4 text-white">{project.title}</h3>
                       <div className="w-20 h-1 bg-primary/50 mb-6 rounded-full"></div>
                       <p className="text-slate-300 text-lg max-w-3xl">
-                        {slug === 'pushkin' && language !== 'ru' ? 
-                          t('projects.pushkin.gallery.subtitle') : 
-                          "Ознакомьтесь с фотографиями проекта, чтобы увидеть все детали и особенности жилого комплекса."}
+                        Ознакомьтесь с фотографиями проекта, чтобы увидеть все детали и особенности {project.subtitle.toLowerCase()}.
                       </p>
                     </motion.div>
                     <motion.div variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{
@@ -544,13 +478,12 @@ const ProjectDetail: React.FC = () => {
                     <div className="flex flex-col items-center mb-12 text-center">
                       <h2 className="text-3xl md:text-4xl font-bold mb-3 text-white uppercase tracking-wider flex items-center gap-2">
                         <Calculator className="text-brand-primary w-8 h-8" />
-                        {language === 'en' ? "Cost Calculator" : language === 'uz' ? "Narx kalkulyatori" : "Расчет стоимости"}
+                        Расчет стоимости
                       </h2>
                       <div className="w-20 h-1 bg-brand-primary mb-6 rounded-full"></div>
                       <p className="text-slate-300 text-lg max-w-3xl mb-8">
-                        {slug === 'pushkin' && language !== 'ru' ? 
-                          t('projects.pushkin.calculator.description', { title: project.title }) : 
-                          `Рассчитайте примерную стоимость квартиры в жилом комплексе ${project.title}, основываясь на текущей цене за квадратный метр.`}
+                        Рассчитайте примерную стоимость квартиры в жилом комплексе {project.title}, 
+                        основываясь на текущей цене за квадратный метр.
                       </p>
                     </div>
                     
@@ -573,18 +506,14 @@ const ProjectDetail: React.FC = () => {
             once: true,
             amount: 0.2
           }}>
-                      <h2 className="text-3xl md:text-4xl font-bold mb-3 text-white uppercase tracking-wider">
-                        {language === 'en' ? "Location" : language === 'uz' ? "Joylashuv" : "Расположение"}
-                      </h2>
+                      <h2 className="text-3xl md:text-4xl font-bold mb-3 text-white uppercase tracking-wider">Расположение</h2>
                       <div className="w-20 h-1 bg-primary mb-6 rounded-full"></div>
                       <p className="text-slate-300 text-lg max-w-3xl mb-8">
-                        {slug === 'pushkin' && language !== 'ru' ? 
-                          t('projects.pushkin.location.description', { title: project.title }) : 
-                          `${project.title} расположен в удобном месте с развитой инфраструктурой и хорошей транспортной доступностью.`}
+                        {project.title} расположен в удобном месте с развитой инфраструктурой и хорошей транспортной доступностью.
                       </p>
                       <div className="inline-flex items-center justify-center text-lg bg-slate-800/40 px-6 py-3 rounded-lg border border-slate-700/50">
                         <MapPin className="w-5 h-5 text-primary mr-3 flex-shrink-0" />
-                        <span className="text-slate-200">{slug === 'pushkin' && language !== 'ru' ? t('projects.pushkin.location') : project.location}</span>
+                        <span className="text-slate-200">{project.location}</span>
                       </div>
                     </motion.div>
                     <motion.div className="w-full rounded-xl overflow-hidden shadow-2xl border border-slate-700/50" variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{
@@ -592,7 +521,7 @@ const ProjectDetail: React.FC = () => {
             amount: 0.2
           }}>
                       <div className="aspect-video w-full bg-slate-700">
-                        <iframe src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3000!2d${69.25872}!3d${41.240959}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDE0JzI3LjQiTiA2OcKwMTUnMzEuNCJF!5e0!3m2!1sen!2sus!4v${Date.now()}&q=${encodeURIComponent(slug === 'pushkin' && language !== 'ru' ? t('projects.pushkin.location') : project.location)}`} width="100%" height="100%" style={{
+                        <iframe src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3000!2d${69.25872}!3d${41.240959}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDE0JzI3LjQiTiA2OcKwMTUnMzEuNCJF!5e0!3m2!1sen!2sus!4v${Date.now()}&q=${encodeURIComponent(project.location)}`} width="100%" height="100%" style={{
                 border: 0
               }} allowFullScreen={true} loading="lazy" referrerPolicy="no-referrer-when-downgrade" title={`Карта расположения - ${project.title}`} className="w-full h-full block"></iframe>
                       </div>
