@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { Menu, Phone, ChevronDown, Facebook, Instagram, MessageSquare, MapPin, Mail, PhoneCall } from 'lucide-react';
+import { Menu, Phone, ChevronDown, Facebook, Instagram, MessageSquare, MapPin, Mail, PhoneCall, Handshake } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import TestModeIndicator from './TestModeIndicator';
 import LanguageSelector from './LanguageSelector';
@@ -83,6 +83,7 @@ const NavBar: React.FC = () => {
     },
     { title: t('nav.news'), href: '/news', key: 'news' },
     { title: t('nav.vacancies'), href: '/vacancies', key: 'vacancies' },
+    { title: t('nav.collaboration'), href: '/collaboration', key: 'collaboration' },
     { title: t('nav.contacts'), href: '/contact', key: 'contacts' },
   ];
 
@@ -234,9 +235,12 @@ const NavBar: React.FC = () => {
                           href={link.href}
                           className={cn(
                             "nav-link tracking-wide hover:text-brand-primary transition-colors duration-300 font-benzin px-3 py-2",
-                            scrolled ? "text-white" : "text-white"
+                            scrolled ? "text-white" : "text-white",
+                            // Add subtle highlight for the new collaboration button
+                            link.key === 'collaboration' ? "after:content-[''] after:block after:w-1/2 after:h-0.5 after:bg-brand-primary/50 after:mt-0.5 after:mx-auto after:rounded" : ""
                           )}
                         >
+                          {link.key === 'collaboration' && <Handshake className="inline-block mr-1 h-4 w-4" />}
                           {link.title}
                         </a>
                       </NavigationMenuItem>
