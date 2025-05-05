@@ -166,7 +166,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   // Queue a translation request and return a promise
   const queueTranslation = (key: string, targetLanguage: Language): Promise<string> => {
     return new Promise(resolve => {
-      setTranslationQueue(queue => [...queue, { key, targetLanguage, resolve }]);
+      setTranslationQueue(queue => [...queue, { key, targetLang: targetLanguage, resolve }]);
     });
   };
   
