@@ -19,33 +19,21 @@ interface LanguageProviderProps {
 const translationCache: Record<string, Record<string, string>> = {};
 
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
-  const [language, setLanguage] = useState<Language>('uz');
-  const [translations, setTranslations] = useState<Record<string, string>>({});
-  
-  // Detect user's browser language on initial load or use saved preference
-  useEffect(() => {
-    const detectBrowserLanguage = () => {
-      const browserLang = navigator.language.split('-')[0];
-      
-      // If browser language is Russian, set language to Russian
-      if (browserLang === 'ru') {
-        return 'ru';
-      }
-      
-      // If browser language is English, set language to English
-      if (browserLang === 'en') {
-        return 'en';
-      }
-      
-      // Default to Uzbek for all other languages
-      return 'uz';
-    };
-    
+  // Initialize with localStorage value if available, otherwise detect browser language
+  const [language, setLanguage] = useState<Language>(() => {
     const storedLanguage = localStorage.getItem('preferredLanguage') as Language;
-    const initialLanguage = storedLanguage || detectBrowserLanguage();
+    if (storedLanguage && ['ru', 'uz', 'en'].includes(storedLanguage)) {
+      return storedLanguage;
+    }
     
-    setLanguage(initialLanguage);
-  }, []);
+    // Detect browser language if no stored preference
+    const browserLang = navigator.language.split('-')[0];
+    if (browserLang === 'ru') return 'ru';
+    if (browserLang === 'en') return 'en';
+    return 'uz'; // Default to Uzbek
+  });
+  
+  const [translations, setTranslations] = useState<Record<string, string>>({});
   
   // Load translations whenever language changes
   useEffect(() => {
