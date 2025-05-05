@@ -15,9 +15,13 @@ interface LanguageProviderProps {
   children: ReactNode;
 }
 
+// Simple in-memory cache for translations
+const translationCache: Record<string, Record<string, string>> = {};
+
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
   const [language, setLanguage] = useState<Language>('uz');
   const [translations, setTranslations] = useState<Record<string, string>>({});
+  const [isTranslating, setIsTranslating] = useState<boolean>(false);
   
   // Detect user's browser language on initial load or use saved preference
   useEffect(() => {
@@ -71,11 +75,55 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     // Save selected language to localStorage
     localStorage.setItem('preferredLanguage', language);
   }, [language]);
+
+  // Auto-translate missing keys
+  const autoTranslate = async (key: string, targetLanguage: Language): Promise<string> => {
+    // Check if we have it in cache
+    if (translationCache[targetLanguage] && translationCache[targetLanguage][key]) {
+      return translationCache[targetLanguage][key];
+    }
+
+    // This is a simplified implementation - in a real app you would call a translation API
+    // For now we'll create a basic placeholder that indicates auto-translation
+    const placeholderText = `Auto[${key}]`;
+
+    // Store in cache
+    if (!translationCache[targetLanguage]) {
+      translationCache[targetLanguage] = {};
+    }
+    translationCache[targetLanguage][key] = placeholderText;
+
+    return placeholderText;
+  };
   
-  // Translation function
+  // Translation function with auto-translation fallback
   const t = (key: string): string => {
     if (!translations || !translations[key]) {
       console.warn(`Translation missing for key: ${key} in language: ${language}`);
+      // Return the key while we're auto-translating to prevent UI flicker
+      
+      // Only attempt auto-translation if we're not already in the process
+      if (!isTranslating) {
+        setIsTranslating(true);
+        
+        // Attempt auto-translation and update cache
+        autoTranslate(key, language).then((translation) => {
+          // Update the cache - in a real implementation we might update the translation files
+          if (!translationCache[language]) {
+            translationCache[language] = {};
+          }
+          translationCache[language][key] = translation;
+          
+          // Allow future translation attempts
+          setIsTranslating(false);
+        });
+      }
+      
+      // Check if we already have a cached translation
+      if (translationCache[language] && translationCache[language][key]) {
+        return translationCache[language][key];
+      }
+      
       return key; // Return the key if translation is not found
     }
     return translations[key];
