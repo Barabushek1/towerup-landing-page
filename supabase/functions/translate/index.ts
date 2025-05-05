@@ -26,10 +26,20 @@ serve(async (req) => {
     // Parse the request body
     const { text, targetLang, sourceLang } = await req.json() as TranslationRequest;
     
+    console.log(`Received translation request: Text="${text}", Target=${targetLang}`);
+    
     if (!text || !targetLang) {
       return new Response(
         JSON.stringify({ error: "Missing required parameters" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    if (!DEEPL_API_KEY) {
+      console.error("DEEPL_API_KEY is not set");
+      return new Response(
+        JSON.stringify({ error: "DeepL API key not configured" }),
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
@@ -43,6 +53,8 @@ serve(async (req) => {
       formData.append("source_lang", mapLanguageCode(sourceLang));
     }
 
+    console.log(`Calling DeepL API for translation to ${mapLanguageCode(targetLang)}`);
+    
     // Make request to DeepL API
     const response = await fetch(DEEPL_API_URL, {
       method: "POST",
@@ -62,6 +74,7 @@ serve(async (req) => {
     }
 
     const data = await response.json();
+    console.log("Translation successful:", data);
     
     return new Response(
       JSON.stringify({ 

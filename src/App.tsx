@@ -1,97 +1,94 @@
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Routes, Route } from "react-router-dom";
-import { HelmetProvider } from "react-helmet-async";
-import ScrollToTop from "./components/ScrollToTop";
-import { usePartnerSeeder } from "./hooks/use-partner-seeder";
-import { LanguageProvider } from "./contexts/LanguageContext";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import About from "./pages/About";
-import Partners from "./pages/Partners";
-import Management from "./pages/Management";
-import Projects from "./pages/Projects";
-import ProjectDetail from "./pages/ProjectDetail";
-import News from "./pages/News";
-import NewsDetail from "./pages/NewsDetail";
-import Vacancies from "./pages/Vacancies";
-import VacancyDetail from "./pages/VacancyDetail";
-import Contact from "./pages/Contact";
-import Construction from "./pages/Construction";
-import Design from "./pages/Design";
-import Solutions from "./pages/Solutions";
-import TrcBochka from "./pages/TrcBochka"; 
-import NewUzbekistan from "./pages/NewUzbekistan";
-import ChatBot from "./components/ChatBot";
-import AdminLogin from "./pages/admin/AdminLogin";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminNews from "./pages/admin/AdminNews";
-import AdminVacancies from "./pages/admin/AdminVacancies";
-import AdminMessages from "./pages/admin/AdminMessages";
-import AdminPartners from "./pages/admin/AdminPartners";
-import AdminAuditLogs from "./pages/admin/AdminAuditLogs";
-import AdminDetailedAuditLogs from "./pages/admin/AdminDetailedAuditLogs";
-import AdminLayout from "./components/admin/AdminLayout";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import AdminFloorPrices from './pages/admin/AdminFloorPrices';
+import React, { lazy, Suspense } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
+import { Toaster } from 'sonner';
+import { LanguageProvider } from './contexts/LanguageContext';
 
-const queryClient = new QueryClient();
-const helmetContext = {};
+// Lazy-loaded pages for better initial load performance
+const Index = lazy(() => import('./pages/Index'));
+const About = lazy(() => import('./pages/About'));
+const History = lazy(() => import('./pages/History'));
+const Management = lazy(() => import('./pages/Management'));
+const Projects = lazy(() => import('./pages/Projects'));
+const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
+const TrcBochka = lazy(() => import('./pages/TrcBochka'));
+const News = lazy(() => import('./pages/News'));
+const NewsDetail = lazy(() => import('./pages/NewsDetail'));
+const Vacancies = lazy(() => import('./pages/Vacancies'));
+const VacancyDetail = lazy(() => import('./pages/VacancyDetail'));
+const Partners = lazy(() => import('./pages/Partners'));
+const Contact = lazy(() => import('./pages/Contact'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+const Construction = lazy(() => import('./pages/Construction'));
+const Design = lazy(() => import('./pages/Design'));
+const Solutions = lazy(() => import('./pages/Solutions'));
+const NewUzbekistan = lazy(() => import('./pages/NewUzbekistan'));
 
-const App = () => {
-  usePartnerSeeder();
-  
+// Admin pages
+const AdminLogin = lazy(() => import('./pages/admin/AdminLogin'));
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
+const AdminNews = lazy(() => import('./pages/admin/AdminNews'));
+const AdminPartners = lazy(() => import('./pages/admin/AdminPartners'));
+const AdminVacancies = lazy(() => import('./pages/admin/AdminVacancies'));
+const AdminMessages = lazy(() => import('./pages/admin/AdminMessages'));
+const AdminFloorPrices = lazy(() => import('./pages/admin/AdminFloorPrices'));
+const AdminAuditLogs = lazy(() => import('./pages/admin/AdminAuditLogs'));
+const AdminDetailedAuditLogs = lazy(() => import('./pages/admin/AdminDetailedAuditLogs'));
+
+// Loading fallback
+const Loading = () => (
+  <div className="flex items-center justify-center min-h-screen bg-[#121212]">
+    <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+  </div>
+);
+
+function App() {
   return (
-    <LanguageProvider>
-      <HelmetProvider context={helmetContext}>
-        <QueryClientProvider client={queryClient}>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <ScrollToTop />
-            <Routes>
-              <Route path="/" element={<Index />} />
-              
-              <Route path="/about" element={<About />} />
-              <Route path="/partners" element={<Partners />} />
-              <Route path="/management" element={<Management />} />
-              
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/projects/:slug" element={<ProjectDetail />} />
-              <Route path="/projects/trcbochka" element={<TrcBochka />} />
-              <Route path="/projects/new-uzbekistan" element={<NewUzbekistan />} />
-              <Route path="/news" element={<News />} />
-              <Route path="/news/:id" element={<NewsDetail />} />
-              <Route path="/vacancies" element={<Vacancies />} />
-              <Route path="/vacancies/:id" element={<VacancyDetail />} />
-              <Route path="/contact" element={<Contact />} />
-              
-              <Route path="/construction" element={<Construction />} />
-              <Route path="/design" element={<Design />} />
-              <Route path="/solutions" element={<Solutions />} />
-              
-              <Route path="/admin" element={<AdminLogin />} />
-              <Route path="/admin/dashboard" element={<AdminLayout><AdminDashboard /></AdminLayout>} />
-              <Route path="/admin/news" element={<AdminLayout><AdminNews /></AdminLayout>} />
-              <Route path="/admin/vacancies" element={<AdminLayout><AdminVacancies /></AdminLayout>} />
-              <Route path="/admin/messages" element={<AdminLayout><AdminMessages /></AdminLayout>} />
-              <Route path="/admin/partners" element={<AdminLayout><AdminPartners /></AdminLayout>} />
-              <Route path="/admin/audit-logs" element={<AdminLayout><AdminAuditLogs /></AdminLayout>} />
-              <Route path="/admin/detailed-audit-logs" element={<AdminLayout><AdminDetailedAuditLogs /></AdminLayout>} />
-              <Route path="/admin/floor-prices" element={<AdminLayout><AdminFloorPrices /></AdminLayout>} />
-              
-              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-            <ChatBot />
-          </TooltipProvider>
-        </QueryClientProvider>
-      </HelmetProvider>
-    </LanguageProvider>
+    <HelmetProvider>
+      <LanguageProvider>
+        <Suspense fallback={<Loading />}>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<Index />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/history" element={<History />} />
+            <Route path="/management" element={<Management />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/projects/:id" element={<ProjectDetail />} />
+            <Route path="/trc-bochka" element={<TrcBochka />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/news/:id" element={<NewsDetail />} />
+            <Route path="/vacancies" element={<Vacancies />} />
+            <Route path="/vacancies/:id" element={<VacancyDetail />} />
+            <Route path="/partners" element={<Partners />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/construction" element={<Construction />} />
+            <Route path="/design" element={<Design />} />
+            <Route path="/solutions" element={<Solutions />} />
+            <Route path="/new-uzbekistan" element={<NewUzbekistan />} />
+            
+            {/* Admin Routes */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/news" element={<AdminNews />} />
+            <Route path="/admin/partners" element={<AdminPartners />} />
+            <Route path="/admin/vacancies" element={<AdminVacancies />} />
+            <Route path="/admin/messages" element={<AdminMessages />} />
+            <Route path="/admin/floor-prices" element={<AdminFloorPrices />} />
+            <Route path="/admin/audit-logs" element={<AdminAuditLogs />} />
+            <Route path="/admin/audit-logs/:id" element={<AdminDetailedAuditLogs />} />
+            
+            {/* 404 */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+        <Toaster position="top-right" richColors />
+      </LanguageProvider>
+    </HelmetProvider>
   );
-};
+}
 
 export default App;

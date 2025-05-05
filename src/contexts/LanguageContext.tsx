@@ -1,6 +1,7 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 type Language = 'ru' | 'uz' | 'en';
 
@@ -95,7 +96,15 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       const item = translationQueue[0];
       
       try {
+        console.log(`Processing translation of "${item.key}" to ${item.targetLang}`);
         const translatedText = await autoTranslate(item.key, item.targetLang);
+        
+        // Store in translations state for immediate use
+        setTranslations(prev => ({
+          ...prev,
+          [item.key]: translatedText
+        }));
+        
         item.resolve(translatedText);
       } catch (error) {
         console.error('Translation error:', error);
@@ -113,6 +122,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   const autoTranslate = async (key: string, targetLanguage: Language): Promise<string> => {
     // Check if we have it in cache
     if (translationCache[targetLanguage] && translationCache[targetLanguage][key]) {
+      console.log(`Using cached translation for "${key}" to ${targetLanguage}`);
       return translationCache[targetLanguage][key];
     }
 
@@ -129,11 +139,13 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
 
       if (error) {
         console.error('Translation function error:', error);
+        toast.error(`Translation failed: ${error.message}`);
         throw new Error(`Translation failed: ${error.message}`);
       }
 
       if (!data || !data.translatedText) {
         console.error('Invalid translation response:', data);
+        toast.error('Translation service returned invalid data');
         throw new Error('Translation service returned invalid data');
       }
 
@@ -149,6 +161,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       return translatedText;
     } catch (error) {
       console.error('Translation error:', error);
+      toast.error('Translation failed, please try again later');
       
       // Provide a fallback in case of error
       const fallbackText = `[${key}]`;
@@ -172,36 +185,41 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   
   // Translation function with DeepL auto-translation fallback
   const t = (key: string): string => {
-    if (!translations || !translations[key]) {
-      console.warn(`Translation missing for key: ${key} in language: ${language}`);
-      
-      // Return the key while we're auto-translating to prevent UI flicker
-      
-      // Only attempt auto-translation if we're not already in the process
-      if (!isTranslating) {
-        setIsTranslating(true);
-        
-        // Queue translation request
-        queueTranslation(key, language).then(translation => {
-          // Update the cache
-          if (!translationCache[language]) {
-            translationCache[language] = {};
-          }
-          translationCache[language][key] = translation;
-          
-          // Allow future translation attempts
-          setIsTranslating(false);
-        });
-      }
-      
-      // Check if we already have a cached translation
-      if (translationCache[language] && translationCache[language][key]) {
-        return translationCache[language][key];
-      }
-      
-      return key; // Return the key if translation is not found
+    // Return empty string for empty keys
+    if (!key) return '';
+    
+    // If translation exists in our loaded translations, return it
+    if (translations && translations[key]) {
+      return translations[key];
     }
-    return translations[key];
+    
+    console.warn(`Translation missing for key: ${key} in language: ${language}`);
+    
+    // Check if we already have a cached translation
+    if (translationCache[language] && translationCache[language][key]) {
+      console.log(`Using cached translation for "${key}"`);
+      return translationCache[language][key];
+    }
+    
+    // Only attempt auto-translation if we're not already in the process
+    if (!isTranslating) {
+      setIsTranslating(true);
+      
+      // Queue translation request
+      queueTranslation(key, language).then(translation => {
+        // Update the cache
+        if (!translationCache[language]) {
+          translationCache[language] = {};
+        }
+        translationCache[language][key] = translation;
+        
+        // Allow future translation attempts
+        setIsTranslating(false);
+      });
+    }
+    
+    // Return the key as fallback while waiting for translation
+    return key;
   };
   
   const changeLanguage = (newLanguage: Language) => {
