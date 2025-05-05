@@ -1,4 +1,3 @@
-
 import React, { useEffect, lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet-async';
 import NavBar from '@/components/NavBar';
@@ -10,6 +9,7 @@ import { usePartnerSeeder } from '@/hooks/use-partner-seeder';
 import { useVacancySeeder } from '@/hooks/use-vacancy-seeder';
 import ScrollToTopButton from '@/components/ScrollToTopButton';
 import ProjectAdvantagesBanner from '@/components/ProjectAdvantagesBanner';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // Lazy load non-critical components for better initial load performance
 const ProjectsSection = lazy(() => import('@/components/ProjectsSection'));
@@ -128,6 +128,8 @@ const Index: React.FC = () => {
     };
   }, []);
 
+  const { t } = useLanguage();
+  
   return (
     <div className="min-h-screen antialiased bg-[#161616] text-foreground overflow-x-hidden">
       <Helmet>
@@ -177,18 +179,18 @@ const Index: React.FC = () => {
         </Suspense>
         
         {/* Map Section with accessibility improvements */}
-        <section id="map" className="py-16 bg-[#1a1a1a]" aria-label="Карта местоположения">
+        <section id="map" className="py-16 bg-[#1a1a1a]" aria-label={t('home.map.title')}>
           <div className="container mx-auto px-6">
             <div className="flex flex-col items-center mb-12 scroll-animate-section">
-              <h2 className="text-4xl font-bold mb-4 text-center text-white">Наше местоположение</h2>
+              <h2 className="text-4xl font-bold mb-4 text-center text-white">{t('home.map.title')}</h2>
               <div className="w-16 h-1 bg-brand-primary mb-6"></div>
               <p className="text-slate-300 text-lg max-w-2xl text-center mb-8">
-                Мы находимся в центре Ташкента и всегда рады видеть вас в нашем офисе
+                {t('home.map.subtitle')}
               </p>
               
               <div className="flex items-center mb-8">
                 <MapPin className="w-6 h-6 text-brand-primary mr-2" aria-hidden="true" />
-                <span className="text-lg font-medium text-slate-200">г. Ташкент, Узбекистан</span>
+                <span className="text-lg font-medium text-slate-200">{t('home.map.address')}</span>
               </div>
             </div>
             

@@ -1,3 +1,4 @@
+
 import React, { useRef } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { motion, useInView } from 'framer-motion';
@@ -64,15 +65,15 @@ const LocationSection: React.FC = () => {
               <ul className="space-y-2 pl-14 text-slate-300"> {/* Adjusted text color, added padding for list items */}
                 <li className="flex items-center">
                   <div className="w-2 h-2 bg-primary rounded-full mr-2 flex-shrink-0"></div> {/* Primary bullet */}
-                  <span>10 min to main highway</span> {/* Keep example text */}
+                  <span>{t('newUzbekistan.location.transport.item1')}</span>
                 </li>
                 <li className="flex items-center">
                   <div className="w-2 h-2 bg-primary rounded-full mr-2 flex-shrink-0"></div> {/* Primary bullet */}
-                  <span>15 min to city center</span> {/* Keep example text */}
+                  <span>{t('newUzbekistan.location.transport.item2')}</span>
                 </li>
                 <li className="flex items-center">
                   <div className="w-2 h-2 bg-primary rounded-full mr-2 flex-shrink-0"></div> {/* Primary bullet */}
-                  <span>5 bus routes nearby</span> {/* Keep example text */}
+                  <span>{t('newUzbekistan.location.transport.item3')}</span>
                 </li>
               </ul>
             </div>
@@ -95,15 +96,15 @@ const LocationSection: React.FC = () => {
               <ul className="space-y-2 pl-14 text-slate-300"> {/* Adjusted text color, added padding for list items */}
                 <li className="flex items-center">
                   <div className="w-2 h-2 bg-primary rounded-full mr-2 flex-shrink-0"></div> {/* Primary bullet */}
-                  <span>Adjacent to forest area</span> {/* Keep example text */}
+                  <span>{t('newUzbekistan.location.nature.item1')}</span>
                 </li>
                 <li className="flex items-center">
                   <div className="w-2 h-2 bg-primary rounded-full mr-2 flex-shrink-0"></div> {/* Primary bullet */}
-                  <span>3 large parks within walking distance</span> {/* Keep example text */}
+                  <span>{t('newUzbekistan.location.nature.item2')}</span>
                 </li>
                 <li className="flex items-center">
                   <div className="w-2 h-2 bg-primary rounded-full mr-2 flex-shrink-0"></div> {/* Primary bullet */}
-                  <span>Clean air zone</span> {/* Keep example text */}
+                  <span>{t('newUzbekistan.location.nature.item3')}</span>
                 </li>
               </ul>
             </div>
@@ -120,13 +121,13 @@ const LocationSection: React.FC = () => {
             <div className="w-full h-full relative bg-slate-700/50"> {/* Dark background placeholder */}
               <img
                 src="/lovable-uploads/d2bd2619-426f-4ab0-95ad-ed8b140aa758.png" // Keep image path
-                alt="Location Map" // Added alt text
+                alt={t('newUzbekistan.location.mapAlt')} // Added alt text
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-black/40 flex items-center justify-center"> {/* Darker overlay */}
                 <div className="p-8 bg-white/10 backdrop-blur-sm rounded-lg max-w-xs text-center border border-white/20"> {/* Darker translucent card */}
                   <h3 className="text-xl font-bold mb-2 text-white">{t('newUzbekistan.title')}</h3> {/* Keep title */}
-                  <p className="text-slate-300">Prime location with excellent connectivity</p> {/* Adjusted text color */}
+                  <p className="text-slate-300">{t('newUzbekistan.location.cardDesc')}</p> {/* Adjusted text color */}
                 </div>
               </div>
 
