@@ -1,329 +1,507 @@
 {
   "testModeIndicator": "Sayt sinov rejimida ishlayapti",
   
-  "nav.company": "Kompaniya haqida",
-  "nav.about": "Biz haqimizda",
-  "nav.partners": "Hamkorlar",
-  "nav.management": "Rahbariyat",
-  "nav.projects": "Loyihalar",
-  "nav.projectPushkin": "\"Pushkin\" turar-joy majmuasi",
-  "nav.projectTrcBochka": "\"Bochka\" savdo-ko'ngilochar markazi",
-  "nav.projectBochka": "\"Bochka\" biznes markazi",
-  "nav.projectNewUzbekistan": "\"Yangi O'zbekiston\" massivi",
-  "nav.news": "Yangiliklar",
-  "nav.vacancies": "Vakansiyalar",
-  "nav.contacts": "Kontaktlar",
-  "nav.construction": "Qurilish",
-  "nav.design": "Loyihalash",
-  "nav.solutions": "Yechimlar",
-  "nav.consultation": "Konsultatsiya",
+  "nav": {
+    "company": "Kompaniya haqida",
+    "about": "Biz haqimizda",
+    "partners": "Hamkorlar",
+    "management": "Rahbariyat",
+    "projects": "Loyihalar",
+    "projectPushkin": "\"Pushkin\" turar-joy majmuasi",
+    "projectTrcBochka": "\"Bochka\" savdo-ko'ngilochar markazi",
+    "projectBochka": "\"Bochka\" biznes markazi",
+    "projectNewUzbekistan": "\"Yangi O'zbekiston\" massivi",
+    "news": "Yangiliklar",
+    "vacancies": "Vakansiyalar",
+    "contacts": "Kontaktlar",
+    "construction": "Qurilish",
+    "design": "Loyihalash",
+    "solutions": "Yechimlar",
+    "consultation": "Konsultatsiya"
+  },
   
-  "footer.companyName": "TOWER UP",
-  "footer.companyDesc": "Biz yuqori sifat va qulaylik standartlariga javob beradigan zamonaviy premium-klass loyihalarni yaratamiz.",
-  "footer.navigation": "Navigatsiya",
-  "footer.services": "Xizmatlar",
-  "footer.contacts": "Kontaktlar",
-  "footer.address": "Toshkent sh., O'zbekiston",
-  "footer.rights": "Barcha huquqlar himoyalangan",
-  "footer.policy": "Maxfiylik siyosati",
+  "footer": {
+    "companyName": "TOWER UP",
+    "companyDesc": "Biz yuqori sifat va qulaylik standartlariga javob beradigan zamonaviy premium-klass loyihalarni yaratamiz.",
+    "navigation": "Navigatsiya",
+    "services": "Xizmatlar",
+    "contacts": "Kontaktlar",
+    "address": "Toshkent sh., O'zbekiston",
+    "rights": "Barcha huquqlar himoyalangan",
+    "policy": "Maxfiylik siyosati"
+  },
   
-  "home.hero.title": "Ishonchlilik va qulaylik",
-  "home.hero.subtitle": "har bir loyihada!",
-  "home.hero.learnMore": "Ko'proq bilish",
-  "home.hero.projects": "Loyihalar",
-  "home.hero.learnMoreAriaLabel": "Kompaniya haqida ko'proq bilib oling",
-  "home.hero.projectsAriaLabel": "Loyihalar sahifasiga o'tish",
-  "home.hero.ariaLabel": "Asosiy bo'lim",
-  "home.hero.imageAlt": "Zamonaviy turar-joy majmuasi",
-  "home.hero.imageNavAriaLabel": "Rasmga o'tish",
+  "home": {
+    "hero": {
+      "title": "Ishonchlilik va qulaylik",
+      "subtitle": "har bir loyihada!",
+      "learnMore": "Ko'proq bilish",
+      "projects": "Loyihalar",
+      "learnMoreAriaLabel": "Kompaniya haqida ko'proq bilib oling",
+      "projectsAriaLabel": "Loyihalar sahifasiga o'tish",
+      "ariaLabel": "Asosiy bo'lim",
+      "imageAlt": "Zamonaviy turar-joy majmuasi",
+      "imageNavAriaLabel": "Rasmga o'tish"
+    },
+    "about": {
+      "title": "KOMPANIYA HAQIDA",
+      "subtitle": "TOWER UP — premium-klass turar-joy majmualari va tijorat ko'chmas mulklarini qurishga ixtisoslashgan zamonaviy qurilish kompaniyasi.",
+      "text1": "Kompaniyamiz qurilish sohasida ko'p yillik tajribaga va yirik loyihalarni amalga oshirish tajribasiga ega.",
+      "text2": "Biz qulaylik va sifatning eng yuqori talablariga javob beradigan ko'chmas mulk yaratamiz.",
+      "button": "Batafsil"
+    },
+    "features": {
+      "title": "USTUNLIKLARIMIZ",
+      "quality": {
+        "title": "Yuqori sifat",
+        "desc": "Biz faqat sertifikatlangan materiallar va zamonaviy qurilish texnologiyalaridan foydalanamiz"
+      },
+      "design": {
+        "title": "Noyob dizayn",
+        "desc": "Har bir loyihamiz zamonaviy arxitektura va o'ylangan dizayn bilan ajralib turadi"
+      },
+      "location": {
+        "title": "A'lo joylashuv",
+        "desc": "Ob'ektlarimiz shaharning istiqbolli va qulay tumanlarida joylashgan"
+      },
+      "infrastructure": {
+        "title": "Rivojlangan infratuzilma",
+        "desc": "Qulay hayot uchun zarur bo'lgan barcha narsalar yaqin masofada joylashgan"
+      }
+    },
+    "projects": {
+      "title": "BIZNING LOYIHALAR",
+      "subtitle": "Biz premium-klass turar-joy majmualari va tijorat ko'chmas mulklarini quramiz",
+      "all": "Barcha loyihalar"
+    },
+    "advantages": {
+      "title": "LOYIHALARIMIZNING USTUNLIKLARI",
+      "quality": "Yuqori qurilish sifati",
+      "materials": "Ekologik materiallar",
+      "technology": "Zamonaviy texnologiyalar",
+      "infrastructure": "O'z infratuzilmasi",
+      "security": "24/7 xavfsizlik",
+      "planning": "O'ylangan rejalashtirish"
+    },
+    "news": {
+      "title": "YANGILIKLAR VA VAKANSIYALAR",
+      "subtitle": "Kompaniyamiz haqida dolzarb ma'lumotlar va ochiq vakansiyalar",
+      "all": "Barcha yangiliklar"
+    },
+    "vacancies": {
+      "all": "Barcha vakansiyalar"
+    },
+    "partners": {
+      "title": "BIZNING HAMKORLAR",
+      "subtitle": "Biz yetakchi kompaniyalar va yetkazib beruvchilar bilan hamkorlik qilamiz"
+    },
+    "contact": {
+      "title": "BIZ BILAN BOG'LANISH",
+      "subtitle": "Savollaringiz bormi? Quyidagi shaklni to'ldiring va biz tez orada siz bilan bog'lanamiz",
+      "name": "Ismingiz",
+      "email": "Elektron pochta",
+      "message": "Xabar",
+      "button": "Yuborish"
+    },
+    "map": {
+      "title": "Bizning manzilimiz",
+      "subtitle": "Biz Toshkent shahrining markazida joylashganmiz va doimo sizni kutib olamiz",
+      "address": "Toshkent sh., O'zbekiston"
+    }
+  },
   
-  "home.about.title": "KOMPANIYA HAQIDA",
-  "home.about.subtitle": "TOWER UP — premium-klass turar-joy majmualari va tijorat ko'chmas mulklarini qurishga ixtisoslashgan zamonaviy qurilish kompaniyasi.",
-  "home.about.text1": "Kompaniyamiz qurilish sohasida ko'p yillik tajribaga va yirik loyihalarni amalga oshirish tajribasiga ega.",
-  "home.about.text2": "Biz qulaylik va sifatning eng yuqori talablariga javob beradigan ko'chmas mulk yaratamiz.",
-  "home.about.button": "Batafsil",
+  "about": {
+    "title": "KOMPANIYA HAQIDA",
+    "values": {
+      "title": "BIZNING QADRIYATLARIMIZ",
+      "quality": {
+        "title": "Sifat",
+        "desc": "Biz ishimizning har bir jihatida mukammallikka intilamiz"
+      },
+      "innovation": {
+        "title": "Innovatsiyalar",
+        "desc": "Biz qurilishda ilg'or texnologiyalarni joriy etamiz"
+      },
+      "responsibility": {
+        "title": "Mas'uliyat",
+        "desc": "Biz mijozlar va hamkorlar oldidagi barcha majburiyatlarni bajaramiz"
+      },
+      "transparency": {
+        "title": "Shaffoflik",
+        "desc": "Biz faoliyatimizning barcha jihatlarida ochiq va halolmiz"
+      }
+    },
+    "team": {
+      "title": "BIZNING JAMOA",
+      "desc": "Jamoamiz o'z ishiga sodiq bo'lgan tajribali mutaxassislardan iborat"
+    },
+    "stats": {
+      "projects": "Amalga oshirilgan loyihalar",
+      "area": "m² qurilgan",
+      "clients": "Mamnun mijozlar",
+      "awards": "Yutuqlar va e'tiroflar"
+    },
+    "history": {
+      "title": "BIZNING TARIX",
+      "desc": "TOWER UP kompaniyasining rivojlanish tarixi"
+    },
+    "projects": {
+      "title": "JORIY LOYIHALAR",
+      "desc": "Bizning joriy loyihalarimiz bilan tanishing"
+    }
+  },
   
-  "home.features.title": "USTUNLIKLARIMIZ",
-  "home.features.quality.title": "Yuqori sifat",
-  "home.features.quality.desc": "Biz faqat sertifikatlangan materiallar va zamonaviy qurilish texnologiyalaridan foydalanamiz",
-  "home.features.design.title": "Noyob dizayn",
-  "home.features.design.desc": "Har bir loyihamiz zamonaviy arxitektura va o'ylangan dizayn bilan ajralib turadi",
-  "home.features.location.title": "A'lo joylashuv",
-  "home.features.location.desc": "Ob'ektlarimiz shaharning istiqbolli va qulay tumanlarida joylashgan",
-  "home.features.infrastructure.title": "Rivojlangan infratuzilma",
-  "home.features.infrastructure.desc": "Qulay hayot uchun zarur bo'lgan barcha narsalar yaqin masofada joylashgan",
+  "construction": {
+    "title": "OBYEKTLARNI QURISH",
+    "subtitle": "QURILISH",
+    "services": {
+      "title": "Qurilish xizmatlari",
+      "desc1": "Kompaniyamiz turli maqsadlarga mo'ljallangan obyektlarni qurish bo'yicha to'liq xizmatlar spektrini taqdim etadi: turar-joy majmualari, tijorat binolari, sanoat obyektlari va infratuzilma.",
+      "desc2": "Biz zamonaviy qurilish texnologiyalari va sifatli materiallardan foydalanamiz, bu bizga uzoq umr ko'radigan va funktsional obyektlarni yaratishga imkon beradi."
+    }
+  },
   
-  "home.projects.title": "BIZNING LOYIHALAR",
-  "home.projects.subtitle": "Biz premium-klass turar-joy majmualari va tijorat ko'chmas mulklarini quramiz",
-  "home.projects.all": "Barcha loyihalar",
+  "design": {
+    "title": "LOYIHALASH",
+    "services": {
+      "title": "Loyihalash xizmatlari",
+      "desc1": "Biz binolar va inshootlarni loyihalash bo'yicha professional xizmatlarni taklif qilamiz. Tajribali arxitektor va muhandislarimiz jamoasi mijozning barcha talablarini va me'yoriy standartlarni hisobga olgan holda turli murakkablikdagi loyihalarni ishlab chiqadi.",
+      "desc2": "Biz qurilish boshlanishidan oldin natijani vizualizatsiya qilish uchun batafsil 3D-modellar va loyiha hujjatlarini yaratish uchun zamonaviy dasturiy ta'minotdan foydalanamiz."
+    }
+  },
   
-  "home.advantages.title": "LOYIHALARIMIZNING USTUNLIKLARI",
-  "home.advantages.quality": "Yuqori qurilish sifati",
-  "home.advantages.materials": "Ekologik materiallar",
-  "home.advantages.technology": "Zamonaviy texnologiyalar",
-  "home.advantages.infrastructure": "O'z infratuzilmasi",
-  "home.advantages.security": "24/7 xavfsizlik",
-  "home.advantages.planning": "O'ylangan rejalashtirish",
+  "contact": {
+    "title": "KONTAKTLAR",
+    "subtitle": "Biz bilan bog'laning",
+    "form": {
+      "title": "Qayta aloqa shakli",
+      "name": "Ismingiz",
+      "contact": "Afzal ko'rilgan aloqa usuli",
+      "phone": "Telefon",
+      "email": "Email",
+      "message": "Xabar",
+      "submit": "Yuborish"
+    },
+    "info": {
+      "title": "Bizning kontaktlar",
+      "address": "Manzil",
+      "addressValue": "Toshkent shahri, Sergeli tumani, MSG Yangi Qumariq. Mo'ljal: GM Motor zavodi.",
+      "phone": "Telefon",
+      "email": "Email",
+      "schedule": "Ish vaqti",
+      "noWeekends": "Dam olish kunlarisiz"
+    },
+    "map": {
+      "title": "Bizning manzilimiz"
+    }
+  },
   
-  "home.news.title": "YANGILIKLAR VA VAKANSIYALAR",
-  "home.news.subtitle": "Kompaniyamiz haqida dolzarb ma'lumotlar va ochiq vakansiyalar",
-  "home.news.all": "Barcha yangiliklar",
-  "home.vacancies.all": "Barcha vakansiyalar",
+  "management": {
+    "title": "RAHBARIYAT",
+    "team": {
+      "title": "Jamoamiz haqida",
+      "desc1": "TOWER UP jamoasi - qurilish, moliya va boshqaruv sohalarida ko'p yillik ish tajribasiga ega yuqori malakali mutaxassislardir. Biz umumiy maqsad bilan birlashganmiz - shahar landshaftini bezaydigan va odamlar hayotini qulayroq qiladigan noyob obyektlar yaratish.",
+      "desc2": "Rahbariyatimiz doimo sohadagi innovatsiyalarni kuzatib boradi, zamonaviy texnologiyalar va loyihalarni boshqarish yondashuvlarini joriy qiladi. Shu tufayli TOWER UP loyihalari har doim yuqori sifatli ijro, muddatlar va byudjetga rioya qilish bilan ajralib turadi."
+    },
+    "principles": {
+      "quality": "O'zgarmas yuqori sifat",
+      "precision": "Tafsilotlar va muddatlarda aniqlik",
+      "teamwork": "Jamoaviy ish va sinergiya",
+      "responsibility": "Shaxsiy javobgarlik"
+    },
+    "tabs": {
+      "executives": "Rahbariyat",
+      "departments": "Bo'limlar",
+      "careers": "Karyera"
+    },
+    "contact": "Aloqa ma'lumotlari",
+    "careers": {
+      "title": "Jamoamizga qo'shiling",
+      "desc": "TOWER UP professional va karyera o'sishi uchun noyob imkoniyatlarni taklif etadi. Biz tashabbusni, ijodkorlikni va doimiy rivojlanishga intilishni qadrlaymiz.",
+      "benefits": "Bizda ishlashning afzalliklari",
+      "benefits.salary": "Raqobatdosh oylik maosh",
+      "benefits.social": "Kengaytirilgan ijtimoiy paket",
+      "benefits.training": "O'qitish va rivojlanish dasturlari",
+      "benefits.projects": "Qiziqarli loyihalar ustida ishlash",
+      "apply": "Qanday ariza topshirish mumkin",
+      "apply.desc1": "Sizning rezyumengizni hr@towerup.ru elektron pochta manziliga, mavzu qatorida sizni qiziqtirgan lavozimni ko'rsatgan holda yuboring.",
+      "apply.desc2": "Shuningdek, siz saytimizning \"Vakansiyalar\" bo'limida mavjud vakansiyalar bilan tanishishingiz mumkin.",
+      "office": "Markaziy ofis"
+    }
+  },
   
-  "home.partners.title": "BIZNING HAMKORLAR",
-  "home.partners.subtitle": "Biz yetakchi kompaniyalar va yetkazib beruvchilar bilan hamkorlik qilamiz",
+  "news": {
+    "title": "YANGILIKLAR",
+    "notFound": "Yangiliklar topilmadi",
+    "notFoundDesc": "Hozirda yangiliklar mavjud emas. Iltimos, keyinroq qayta tekshiring.",
+    "readMore": "Batafsil",
+    "featured": "Muhim",
+    "backToAll": "Barcha yangiliklar",
+    "back": "Orqaga",
+    "gallery": "Fotogalereya"
+  },
   
-  "home.contact.title": "BIZ BILAN BOG'LANISH",
-  "home.contact.subtitle": "Savollaringiz bormi? Quyidagi shaklni to'ldiring va biz tez orada siz bilan bog'lanamiz",
-  "home.contact.name": "Ismingiz",
-  "home.contact.email": "Elektron pochta",
-  "home.contact.message": "Xabar",
-  "home.contact.button": "Yuborish",
+  "vacancies": {
+    "title": "VAKANSIYALAR",
+    "notFound": "Vakansiyalar topilmadi",
+    "notFoundDesc": "Hozirda vakansiyalar mavjud emas. Iltimos, keyinroq qayta tekshiring.",
+    "apply": "Ariza qoldirish",
+    "back": "Barcha vakansiyalar",
+    "details": {
+      "responsibilities": "Majburiyatlar",
+      "requirements": "Talablar",
+      "conditions": "Shartlar",
+      "apply": "Vakansiyaga ariza qoldirish"
+    }
+  },
   
-  "home.map.title": "Bizning manzilimiz",
-  "home.map.subtitle": "Biz Toshkent shahrining markazida joylashganmiz va doimo sizni kutib olamiz",
-  "home.map.address": "Toshkent sh., O'zbekiston",
+  "trcBochka": {
+    "title": "\"BOCHKA\" SAVDO-KO'NGILOCHAR MARKAZI",
+    "subtitle": "Toshkent viloyatidagi zamonaviy ko'p funksiyali savdo-ko'ngilochar markazi",
+    "description": "\"Bochka\" savdo-ko'ngilochar markazi - TOWER UP kompaniyasining Toshkent viloyatida joylashgan yangi loyihasi. Loyiha noyob arxitekturaga ega zamonaviy kompleks bo'lib, o'z ichiga savdo maydonlarini, restoranlarni, kinoteatrni va ko'ngilochar zonalarni oladi.",
+    "overview": {
+      "title": "LOYIHA TA'RIFI",
+      "desc": "\"Bochka\" SKM zamonaviy arxitektura va funksionallikni birlashtiradi, tashrif buyuruvchilarga qulay muhitda xarid qilish va ko'ngil ochish uchun keng imkoniyatlar taqdim etadi."
+    },
+    "architecture": {
+      "title": "ARXITEKTURA",
+      "desc": "\"Bochka\" SKM arxitekturasi fasad va interyer dizayni noyobligi bilan ajralib turadi. Loyiha binoning uzoq umr ko'rishi va estetik jozibadorligini ta'minlaydigan sifatli materiallardan foydalangan holda zamonaviy uslubda bajarilgan."
+    },
+    "features": {
+      "title": "LOYIHANING XUSUSIYATLARI",
+      "retail": {
+        "title": "Savdo galereyasi",
+        "desc": "100 dan ortiq turli brendlar do'konlari"
+      },
+      "food": {
+        "title": "Fud-kort va restoranlar",
+        "desc": "Dunyo oshxonalari va dam olish zonalari"
+      },
+      "entertainment": {
+        "title": "Ko'ngilochar zona",
+        "desc": "Kinoteatr, bolalar va kattalar uchun o'yin zonasi"
+      },
+      "parking": {
+        "title": "Avtoturargoh",
+        "desc": "Tashrif buyuruvchilar uchun keng avtoturargoh"
+      }
+    },
+    "gallery": {
+      "title": "LOYIHA FOTOGALEREYASI",
+      "subtitle": "Vizualizatsiyalar va qurilishning joriy holati"
+    },
+    "status": {
+      "title": "LOYIHA HOLATI",
+      "subtitle": "Qurilishning joriy holati",
+      "inProgress": "Qurilish jarayonida",
+      "completion": "Kutilayotgan tugash sanasi"
+    },
+    "contact": {
+      "title": "BIZ BILAN BOG'LANISH",
+      "subtitle": "Savdo maydonlarini ijaraga olish imkoniyatlari haqida ko'proq ma'lumot oling",
+      "button": "So'rov yuborish"
+    }
+  },
   
-  "about.title": "KOMPANIYA HAQIDA",
-  "about.values.title": "BIZNING QADRIYATLARIMIZ",
-  "about.values.quality.title": "Sifat",
-  "about.values.quality.desc": "Biz ishimizning har bir jihatida mukammallikka intilamiz",
-  "about.values.innovation.title": "Innovatsiyalar",
-  "about.values.innovation.desc": "Biz qurilishda ilg'or texnologiyalarni joriy etamiz",
-  "about.values.responsibility.title": "Mas'uliyat",
-  "about.values.responsibility.desc": "Biz mijozlar va hamkorlar oldidagi barcha majburiyatlarni bajaramiz",
-  "about.values.transparency.title": "Shaffoflik",
-  "about.values.transparency.desc": "Biz faoliyatimizning barcha jihatlarida ochiq va halolmiz",
+  "newUzbekistan": {
+    "title": "\"YANGI O'ZBEKISTON\" MASSIVI",
+    "subtitle": "Zamonaviy infratuzilmaga ega yirik turar-joy majmuasi",
+    "hero": {
+      "title": "YANGI O'ZBEKISTON",
+      "subtitle": "Qulay hayot uchun zamonaviy hudud",
+      "description": "\"Yangi O'zbekiston\" massivi - TOWER UP kompaniyasining kundalik hayotni tabiat bilan uyg'unlikda o'tkazish uchun yaratilgan innovatsion loyihasi"
+    },
+    "overview": {
+      "title": "LOYIHA TAVSIFI",
+      "subtitle": "O'zbekiston uchun yangi qulaylik standarti",
+      "desc1": "\"Yangi O'zbekiston\" massivi - zamonaviy arxitektura, rivojlangan infratuzilma va ekologik tamoyillarni o'zida mujassam etgan yirik turar-joy majmuasi.",
+      "desc2": "Loyiha turli xonadonlar rejalashtiruviga ega turar-joy binolari, tijorat maydonchalari, ta'lim muassasalari, sport inshootlari va dam olish hududlarini o'z ichiga oladi.",
+      "desc3": "Loyiha konseptsiyasi milliy o'ziga xoslikni saqlab qolgan holda xalqaro standartlarga javob beradigan qulay yashash muhitini yaratishga qaratilgan."
+    },
+    "masterplan": {
+      "title": "BOSH REJA",
+      "subtitle": "Puxta o'ylangan shahar hududi",
+      "desc": "Massivning bosh rejasi yetakchi arxitektor va shahar rejalashtiruvchilari ishtirokida, shahar qurilishining zamonaviy tendensiyalarini hisobga olgan holda ishlab chiqilgan."
+    },
+    "features": {
+      "title": "LOYIHA XUSUSIYATLARI",
+      "subtitle": "Massivning asosiy afzalliklari",
+      "architecture": {
+        "title": "Zamonaviy Arxitektura",
+        "desc": "Milliy elementlar bilan zamonaviy uslubda loyihalashtirilgan binolar"
+      },
+      "greenery": {
+        "title": "Yashil Maydonlar",
+        "desc": "Hududning 30% dan ortig'i bog'lar va parklar uchun ajratilgan"
+      },
+      "infrastructure": {
+        "title": "Infratuzilma",
+        "desc": "Maktablar, bog'chalar, klinikalar va tijorat hududlari"
+      },
+      "parking": {
+        "title": "Avtoturargoh Yechimlari",
+        "desc": "Butun massiv bo'ylab yer osti va yer usti avtoturargohlar"
+      },
+      "security": {
+        "title": "Xavfsizlik",
+        "desc": "24/7 nazorat va turar-joy hududlariga cheklangan kirish"
+      },
+      "recreation": {
+        "title": "Dam Olish Joylari",
+        "desc": "O'yin maydonchalar, sport maydonchalari va sayr yo'laklari"
+      }
+    },
+    "apartments": {
+      "title": "XONADONLAR",
+      "subtitle": "Turli ehtiyojlarga mos keladigan rejalashtirma xilma-xilligi",
+      "desc": "Turar-joy binolarida ixcham studiyalardan tortib keng ko'p xonali xonadonlargacha, barcha samarali planirovka va yuqori sifatli otdelka bilan taqdim etiladi.",
+      "studio": {
+        "title": "Studiya Xonadonlari",
+        "desc": "Yolg'iz va yosh juftliklar uchun ixcham va funksional joylar"
+      },
+      "oneBedroom": {
+        "title": "Bir Yotoqli Xonadonlar",
+        "desc": "Alohida yotoq va yashash joylari bilan muvozanatli rejalashtirma"
+      },
+      "twoBedroom": {
+        "title": "Ikki Yotoqli Xonadonlar",
+        "desc": "Kichik oilalar uchun qulay joylar"
+      },
+      "threeBedroom": {
+        "title": "Uch Yotoqli Xonadonlar",
+        "desc": "Katta oilalar uchun keng rejalashtirma"
+      },
+      "premium": {
+        "title": "Premium Xonadonlar",
+        "desc": "Premium otdelka va panoramali ko'rinish bilan eksklyuziv rejalashtirma"
+      },
+      "floorLayout": "Qavat Rejasi",
+      "floorLayoutDesc": "Bir qavatdagi barcha xonadonlarning joylashuvini ko'rsatuvchi to'liq qavat rejasi",
+      "viewDetails": "Tafsilotlarni Ko'rish",
+      "bedrooms": "Yotoqxonalar",
+      "bathrooms": "Hammomlar",
+      "balconies": "Balkonlar",
+      "featuresTitle": "Xona Tafsilotlari",
+      "startingPrice": "Boshlang'ich Narx:",
+      "inquire": "Bu Xonadon Haqida So'rash",
+      "footer": "Rejalar mavjudlikka qarab farq qilishi mumkin. Aniq narxlar va ma'lum xonadonlarning mavjudligi to'g'risida sotish bo'limimiz bilan bog'laning."
+    }
+  },
   
-  "about.team.title": "BIZNING JAMOA",
-  "about.team.desc": "Jamoamiz o'z ishiga sodiq bo'lgan tajribali mutaxassislardan iborat",
+  "common": {
+    "close": "Yopish",
+    "previous": "Oldingi",
+    "next": "Keyingi"
+  },
+
+  "aboutSection": {
+    "title": "KOMPANIYA HAQIDA",
+    "shortTitle": "Innovatsion",
+    "shortTitleSolution": "yechimlar",
+    "longTitle1": "Innovatsion",
+    "longTitle2": "zamonaviy",
+    "longTitle3": "qurilish",
+    "longTitle4": "yechimlari",
+    "text": "Yetakchi qurilish kompaniyasi bo'lib, innovatsion loyihalar va baland binolar qurilishiga ixtisoslashgan. Kompaniya tashkil topganidan buyon eng ambitziyali va murakkab qurilish g'oyalarini amalga oshirishga intilib, mijozlarga eng yuqori darajadagi yechimlarni taqdim etadi.",
+    "learnMore": "KO'PROQ BILISH",
+    "readMore": "Batafsil",
+    "buildingImage": "Kompaniya binosi",
+    "ourAdvantages": "BIZNING USTUNLIKLARIMIZ",
+    "advantages": {
+      "professionalism": {
+        "title": "PROFESSIONALIZM",
+        "desc": "Bizning professionalizmimizning asosi - o'z an'analarimizni saqlash va dunyo innovatsiyalaridan foydalanish."
+      },
+      "experience": {
+        "title": "KOMPANIYA TAJRIBASI",
+        "desc": "Bizga mahsulotlarimiz sifatini isbotlash shart emas. Sizning e'tirofingiz buni biz uchun qiladi."
+      },
+      "equipment": {
+        "title": "USKUNALAR",
+        "desc": "Biz ishlatadigan uskunalarning texnologik ustunligi TOWERUP kompaniyasining ajralib turuvchi unsuridir."
+      }
+    }
+  },
   
-  "about.stats.projects": "Amalga oshirilgan loyihalar",
-  "about.stats.area": "m² qurilgan",
-  "about.stats.clients": "Mamnun mijozlar",
-  "about.stats.awards": "Yutuqlar va e'tiroflar",
-  
-  "about.history.title": "BIZNING TARIX",
-  "about.history.desc": "TOWER UP kompaniyasining rivojlanish tarixi",
-  
-  "about.projects.title": "JORIY LOYIHALAR",
-  "about.projects.desc": "Bizning joriy loyihalarimiz bilan tanishing",
-  
-  "construction.title": "OBYEKTLARNI QURISH",
-  "construction.subtitle": "QURILISH",
-  "construction.services.title": "Qurilish xizmatlari",
-  "construction.services.desc1": "Kompaniyamiz turli maqsadlarga mo'ljallangan obyektlarni qurish bo'yicha to'liq xizmatlar spektrini taqdim etadi: turar-joy majmualari, tijorat binolari, sanoat obyektlari va infratuzilma.",
-  "construction.services.desc2": "Biz zamonaviy qurilish texnologiyalari va sifatli materiallardan foydalanamiz, bu bizga uzoq umr ko'radigan va funktsional obyektlarni yaratishga imkon beradi.",
-  
-  "design.title": "LOYIHALASH",
-  "design.services.title": "Loyihalash xizmatlari",
-  "design.services.desc1": "Biz binolar va inshootlarni loyihalash bo'yicha professional xizmatlarni taklif qilamiz. Tajribali arxitektor va muhandislarimiz jamoasi mijozning barcha talablarini va me'yoriy standartlarni hisobga olgan holda turli murakkablikdagi loyihalarni ishlab chiqadi.",
-  "design.services.desc2": "Biz qurilish boshlanishidan oldin natijani vizualizatsiya qilish uchun batafsil 3D-modellar va loyiha hujjatlarini yaratish uchun zamonaviy dasturiy ta'minotdan foydalanamiz.",
-  
-  "contact.title": "KONTAKTLAR",
-  "contact.subtitle": "Biz bilan bog'laning",
-  "contact.form.title": "Qayta aloqa shakli",
-  "contact.form.name": "Ismingiz",
-  "contact.form.contact": "Afzal ko'rilgan aloqa usuli",
-  "contact.form.phone": "Telefon",
-  "contact.form.email": "Email",
-  "contact.form.message": "Xabar",
-  "contact.form.submit": "Yuborish",
-  
-  "contact.info.title": "Bizning kontaktlar",
-  "contact.info.address": "Manzil",
-  "contact.info.addressValue": "Toshkent shahri, Sergeli tumani, MSG Yangi Qumariq. Mo'ljal: GM Motor zavodi.",
-  "contact.info.phone": "Telefon",
-  "contact.info.email": "Email",
-  "contact.info.schedule": "Ish vaqti",
-  "contact.info.noWeekends": "Dam olish kunlarisiz",
-  
-  "contact.map.title": "Bizning manzilimiz",
-  
-  "management.title": "RAHBARIYAT",
-  "management.team.title": "Jamoamiz haqida",
-  "management.team.desc1": "TOWER UP jamoasi - qurilish, moliya va boshqaruv sohalarida ko'p yillik ish tajribasiga ega yuqori malakali mutaxassislardir. Biz umumiy maqsad bilan birlashganmiz - shahar landshaftini bezaydigan va odamlar hayotini qulayroq qiladigan noyob obyektlar yaratish.",
-  "management.team.desc2": "Rahbariyatimiz doimo sohadagi innovatsiyalarni kuzatib boradi, zamonaviy texnologiyalar va loyihalarni boshqarish yondashuvlarini joriy qiladi. Shu tufayli TOWER UP loyihalari har doim yuqori sifatli ijro, muddatlar va byudjetga rioya qilish bilan ajralib turadi.",
-  "management.principles": "Bizning tamoyillarimiz:",
-  "management.principles.quality": "O'zgarmas yuqori sifat",
-  "management.principles.precision": "Tafsilotlar va muddatlarda aniqlik",
-  "management.principles.teamwork": "Jamoaviy ish va sinergiya",
-  "management.principles.responsibility": "Shaxsiy javobgarlik",
-  
-  "management.tabs.executives": "Rahbariyat",
-  "management.tabs.departments": "Bo'limlar",
-  "management.tabs.careers": "Karyera",
-  
-  "management.contact": "Aloqa ma'lumotlari",
-  
-  "management.careers.title": "Jamoamizga qo'shiling",
-  "management.careers.desc": "TOWER UP professional va karyera o'sishi uchun noyob imkoniyatlarni taklif etadi. Biz tashabbusni, ijodkorlikni va doimiy rivojlanishga intilishni qadrlaymiz.",
-  "management.careers.benefits": "Bizda ishlashning afzalliklari",
-  "management.careers.benefits.salary": "Raqobatdosh oylik maosh",
-  "management.careers.benefits.social": "Kengaytirilgan ijtimoiy paket",
-  "management.careers.benefits.training": "O'qitish va rivojlanish dasturlari",
-  "management.careers.benefits.projects": "Qiziqarli loyihalar ustida ishlash",
-  "management.careers.apply": "Qanday ariza topshirish mumkin",
-  "management.careers.apply.desc1": "Sizning rezyumengizni hr@towerup.ru elektron pochta manziliga, mavzu qatorida sizni qiziqtirgan lavozimni ko'rsatgan holda yuboring.",
-  "management.careers.apply.desc2": "Shuningdek, siz saytimizning \"Vakansiyalar\" bo'limida mavjud vakansiyalar bilan tanishishingiz mumkin.",
-  "management.careers.office": "Markaziy ofis",
-  
-  "news.title": "YANGILIKLAR",
-  "news.notFound": "Yangiliklar topilmadi",
-  "news.notFoundDesc": "Hozirda yangiliklar mavjud emas. Iltimos, keyinroq qayta tekshiring.",
-  "news.readMore": "Batafsil",
-  "news.featured": "Muhim",
-  "news.backToAll": "Barcha yangiliklar",
-  "news.back": "Orqaga",
-  "news.gallery": "Fotogalereya",
-  
-  "vacancies.title": "VAKANSIYALAR",
-  "vacancies.notFound": "Vakansiyalar topilmadi",
-  "vacancies.notFoundDesc": "Hozirda vakansiyalar mavjud emas. Iltimos, keyinroq qayta tekshiring.",
-  "vacancies.apply": "Ariza qoldirish",
-  "vacancies.back": "Barcha vakansiyalar",
-  "vacancies.details.responsibilities": "Majburiyatlar",
-  "vacancies.details.requirements": "Talablar",
-  "vacancies.details.conditions": "Shartlar",
-  "vacancies.details.apply": "Vakansiyaga ariza qoldirish",
-  
-  "trcBochka.title": "\"BOCHKA\" SAVDO-KO'NGILOCHAR MARKAZI",
-  "trcBochka.subtitle": "Toshkent viloyatidagi zamonaviy ko'p funksiyali savdo-ko'ngilochar markazi",
-  "trcBochka.description": "\"Bochka\" savdo-ko'ngilochar markazi - TOWER UP kompaniyasining Toshkent viloyatida joylashgan yangi loyihasi. Loyiha noyob arxitekturaga ega zamonaviy kompleks bo'lib, o'z ichiga savdo maydonlarini, restoranlarni, kinoteatrni va ko'ngilochar zonalarni oladi.",
-  "trcBochka.overview.title": "LOYIHA TA'RIFI",
-  "trcBochka.overview.desc": "\"Bochka\" SKM zamonaviy arxitektura va funksionallikni birlashtiradi, tashrif buyuruvchilarga qulay muhitda xarid qilish va ko'ngil ochish uchun keng imkoniyatlar taqdim etadi.",
-  "trcBochka.architecture.title": "ARXITEKTURA",
-  "trcBochka.architecture.desc": "\"Bochka\" SKM arxitekturasi fasad va interyer dizayni noyobligi bilan ajralib turadi. Loyiha binoning uzoq umr ko'rishi va estetik jozibadorligini ta'minlaydigan sifatli materiallardan foydalangan holda zamonaviy uslubda bajarilgan.",
-  "trcBochka.features.title": "LOYIHANING XUSUSIYATLARI",
-  "trcBochka.features.retail.title": "Savdo galereyasi",
-  "trcBochka.features.retail.desc": "100 dan ortiq turli brendlar do'konlari",
-  "trcBochka.features.food.title": "Fud-kort va restoranlar",
-  "trcBochka.features.food.desc": "Dunyo oshxonalari va dam olish zonalari",
-  "trcBochka.features.entertainment.title": "Ko'ngilochar zona",
-  "trcBochka.features.entertainment.desc": "Kinoteatr, bolalar va kattalar uchun o'yin zonasi",
-  "trcBochka.features.parking.title": "Avtoturargoh",
-  "trcBochka.features.parking.desc": "Tashrif buyuruvchilar uchun keng avtoturargoh",
-  "trcBochka.gallery.title": "LOYIHA FOTOGALEREYASI",
-  "trcBochka.gallery.subtitle": "Vizualizatsiyalar va qurilishning joriy holati",
-  "trcBochka.status.title": "LOYIHA HOLATI",
-  "trcBochka.status.subtitle": "Qurilishning joriy holati",
-  "trcBochka.status.inProgress": "Qurilish jarayonida",
-  "trcBochka.status.completion": "Kutilayotgan tugash sanasi",
-  "trcBochka.contact.title": "BIZ BILAN BOG'LANISH",
-  "trcBochka.contact.subtitle": "Savdo maydonlarini ijaraga olish imkoniyatlari haqida ko'proq ma'lumot oling",
-  "trcBochka.contact.button": "So'rov yuborish",
-  
-  "newUzbekistan.title": "\"YANGI O'ZBEKISTON\" MASSIVI",
-  "newUzbekistan.subtitle": "Zamonaviy infratuzilmaga ega yirik turar-joy majmuasi",
-  "newUzbekistan.hero.title": "YANGI O'ZBEKISTON",
-  "newUzbekistan.hero.subtitle": "Qulay hayot uchun zamonaviy hudud",
-  "newUzbekistan.hero.description": "\"Yangi O'zbekiston\" massivi - TOWER UP kompaniyasining kundalik hayotni tabiat bilan uyg'unlikda o'tkazish uchun yaratilgan innovatsion loyihasi",
-  "newUzbekistan.overview.title": "LOYIHA TAVSIFI",
-  "newUzbekistan.overview.subtitle": "O'zbekiston uchun yangi qulaylik standarti",
-  "newUzbekistan.overview.desc1": "\"Yangi O'zbekiston\" massivi - zamonaviy arxitektura, rivojlangan infratuzilma va ekologik tamoyillarni o'zida mujassam etgan yirik turar-joy majmuasi.",
-  "newUzbekistan.overview.desc2": "Loyiha turli xonadonlar rejalashtiruviga ega turar-joy binolari, tijorat maydonchalari, ta'lim muassasalari, sport inshootlari va dam olish hududlarini o'z ichiga oladi.",
-  "newUzbekistan.overview.desc3": "Loyiha konseptsiyasi milliy o'ziga xoslikni saqlab qolgan holda xalqaro standartlarga javob beradigan qulay yashash muhitini yaratishga qaratilgan.",
-  
-  "newUzbekistan.masterplan.title": "BOSH REJA",
-  "newUzbekistan.masterplan.subtitle": "Puxta o'ylangan shahar hududi",
-  "newUzbekistan.masterplan.desc": "Massivning bosh rejasi yetakchi arxitektor va shahar rejalashtiruvchilari ishtirokida, shahar qurilishining zamonaviy tendensiyalarini hisobga olgan holda ishlab chiqilgan.",
-  
-  "newUzbekistan.features.title": "LOYIHA XUSUSIYATLARI",
-  "newUzbekistan.features.subtitle": "Massivning asosiy afzalliklari",
-  "newUzbekistan.features.architecture.title": "Zamonaviy Arxitektura",
-  "newUzbekistan.features.architecture.desc": "Milliy elementlar bilan zamonaviy uslubda loyihalashtirilgan binolar",
-  "newUzbekistan.features.greenery.title": "Yashil Maydonlar",
-  "newUzbekistan.features.greenery.desc": "Hududning 30% dan ortig'i bog'lar va parklar uchun ajratilgan",
-  "newUzbekistan.features.infrastructure.title": "Infratuzilma",
-  "newUzbekistan.features.infrastructure.desc": "Maktablar, bog'chalar, klinikalar va tijorat hududlari",
-  "newUzbekistan.features.parking.title": "Avtoturargoh Yechimlari",
-  "newUzbekistan.features.parking.desc": "Butun massiv bo'ylab yer osti va yer usti avtoturargohlar",
-  "newUzbekistan.features.security.title": "Xavfsizlik",
-  "newUzbekistan.features.security.desc": "24/7 nazorat va turar-joy hududlariga cheklangan kirish",
-  "newUzbekistan.features.recreation.title": "Dam Olish Joylari",
-  "newUzbekistan.features.recreation.desc": "O'yin maydonchalar, sport maydonchalari va sayr yo'laklari",
-  
-  "newUzbekistan.apartments.title": "XONADONLAR",
-  "newUzbekistan.apartments.subtitle": "Turli ehtiyojlarga mos keladigan rejalashtirma xilma-xilligi",
-  "newUzbekistan.apartments.desc": "Turar-joy binolarida ixcham studiyalardan tortib keng ko'p xonali xonadonlargacha, barcha samarali planirovka va yuqori sifatli otdelka bilan taqdim etiladi.",
-  "newUzbekistan.apartments.studio.title": "Studiya Xonadonlari",
-  "newUzbekistan.apartments.studio.desc": "Yolg'iz va yosh juftliklar uchun ixcham va funksional joylar",
-  "newUzbekistan.apartments.oneBedroom.title": "Bir Yotoqli Xonadonlar",
-  "newUzbekistan.apartments.oneBedroom.desc": "Alohida yotoq va yashash joylari bilan muvozanatli rejalashtirma",
-  "newUzbekistan.apartments.twoBedroom.title": "Ikki Yotoqli Xonadonlar",
-  "newUzbekistan.apartments.twoBedroom.desc": "Kichik oilalar uchun qulay joylar",
-  "newUzbekistan.apartments.threeBedroom.title": "Uch Yotoqli Xonadonlar",
-  "newUzbekistan.apartments.threeBedroom.desc": "Katta oilalar uchun keng rejalashtirma",
-  "newUzbekistan.apartments.premium.title": "Premium Xonadonlar",
-  "newUzbekistan.apartments.premium.desc": "Premium otdelka va panoramali ko'rinish bilan eksklyuziv rejalashtirma",
-  "newUzbekistan.apartments.floorLayout": "Qavat Rejasi",
-  "newUzbekistan.apartments.floorLayoutDesc": "Bir qavatdagi barcha xonadonlarning joylashuvini ko'rsatuvchi to'liq qavat rejasi",
-  "newUzbekistan.apartments.viewDetails": "Tafsilotlarni Ko'rish",
-  "newUzbekistan.apartments.bedrooms": "Yotoqxonalar",
-  "newUzbekistan.apartments.bathrooms": "Hammomlar",
-  "newUzbekistan.apartments.balconies": "Balkonlar",
-  "newUzbekistan.apartments.featuresTitle": "Xona Tafsilotlari",
-  "newUzbekistan.apartments.startingPrice": "Boshlang'ich Narx:",
-  "newUzbekistan.apartments.inquire": "Bu Xonadon Haqida So'rash",
-  "newUzbekistan.apartments.footer": "Rejalar mavjudlikka qarab farq qilishi mumkin. Aniq narxlar va ma'lum xonadonlarning mavjudligi to'g'risida sotish bo'limimiz bilan bog'laning.",
-  
-  "aboutSection.title": "KOMPANIYA HAQIDA",
-  "aboutSection.shortTitle": "Innovatsion",
-  "aboutSection.shortTitleSolution": "yechimlar",
-  "aboutSection.longTitle1": "Innovatsion",
-  "aboutSection.longTitle2": "zamonaviy",
-  "aboutSection.longTitle3": "qurilish",
-  "aboutSection.longTitle4": "yechimlari",
-  "aboutSection.text": "Yetakchi qurilish kompaniyasi bo'lib, innovatsion loyihalar va baland binolar qurilishiga ixtisoslashgan. Kompaniya tashkil topganidan buyon eng ambitziyali va murakkab qurilish g'oyalarini amalga oshirishga intilib, mijozlarga eng yuqori darajadagi yechimlarni taqdim etadi.",
-  "aboutSection.learnMore": "KO'PROQ BILISH",
-  "aboutSection.readMore": "Batafsil",
-  "aboutSection.buildingImage": "Kompaniya binosi",
-  "aboutSection.ourAdvantages": "BIZNING USTUNLIKLARIMIZ",
-  "aboutSection.advantages.professionalism.title": "PROFESSIONALIZM",
-  "aboutSection.advantages.professionalism.desc": "Bizning professionalizmimizning asosi - o'z an'analarimizni saqlash va dunyo innovatsiyalaridan foydalanish.",
-  "aboutSection.advantages.experience.title": "KOMPANIYA TAJRIBASI",
-  "aboutSection.advantages.experience.desc": "Bizga mahsulotlarimiz sifatini isbotlash shart emas. Sizning e'tirofingiz buni biz uchun qiladi.",
-  "aboutSection.advantages.equipment.title": "USKUNALAR",
-  "aboutSection.advantages.equipment.desc": "Biz ishlatadigan uskunalarning texnologik ustunligi TOWERUP kompaniyasining ajralib turuvchi unsuridir.",
-  
-  "featuresSection.ariaLabel": "Bizning xizmatlarimiz",
-  "featuresSection.subtitle": "Kelajakni birga quramiz",
-  "featuresSection.title": "Tower Up bilan orzularingizni amalga oshiring",
-  "featuresSection.description": "Loyihalashdan tortib loyihani topshirishgacha — biz sifat kafolati va o'z vaqtida qurilish ishlari to'liq siklini ta'minlaymiz",
-  "featuresSection.contactUs": "Biz bilan bog'laning",
-  "featuresSection.ourProjects": "Bizning loyihalarimiz",
-  "featuresSection.contactAriaLabel": "Bizning jamoaga bog'laning",
-  "featuresSection.projectsAriaLabel": "Barcha kompaniya loyihalarini ko'rish",
-  "projectsSection.viewMore": "Batafsil",
-  "projectsSection.viewProject": "Loyihani ko'rish",
-  "projectsSection.learnMore": "Ko'proq bilish",
-  "projectsSection.allProjects": "Barcha loyihalar",
-  "projectsSection.previousSlide": "Oldingi slayd",
-  "projectsSection.nextSlide": "Keyingi slayd",
-  "projectsSection.goToSlide": "Slaydga o'tish",
-  "projectsSection.ourProjects": "Bizning Loyihalarimiz",
-  "projectsSection.sectionTitle": "Bizning Loyihalarimiz",
-  "projectsSection.sectionHeading": "Kelajak uchun yaratilgan innovatsion loyihalar",
-  "projectsSection.sectionDescription": "Zamonaviy texnologiyalar va murosasiz sifat standartlaridan foydalangan holda yaratadigan asosiy loyihalarimiz bilan tanishing.",
-  "projectsSection.featured.nearby.title": "Kerakli hamma narsa — yaqin",
-  "projectsSection.featured.nearby.subtitle": "«Kumaryq» turar-joy majmuasi",
-  "projectsSection.featured.nearby.description": "Nufuzli tumandagi zamonaviy turar-joy majmuasi.",
-  "projectsSection.featured.parking.title": "Qulay avtoturargoh",
-  "projectsSection.featured.parking.subtitle": "TOWERUP Loyihalari",
-  "projectsSection.featured.parking.description": "Avtomobilingiz uchun xavfsiz va qulay joy.",
-  "projectsSection.featured.turnkey.title": "Tayyor taʼmir",
-  "projectsSection.featured.turnkey.subtitle": "TOWERUP Xizmatlari",
-  "projectsSection.featured.turnkey.description": "Qulayligingiz uchun tayyor yechimlar.",
-  "projectsSection.projects.pushkin.title": "«Pushkin» turar-joy majmuasi",
-  "projectsSection.projects.pushkin.description": "Obodonlashtirilgan hudud, bolalar maydonchasi va bog' zonasi bilan jihozlangan 5 ta binoli zamonaviy eko-majmua.",
-  "projectsSection.projects.pushkin.location": "Toshkent",
-  "projectsSection.projects.pushkin.status": "Qurilmoqda",
-  "projectsSection.projects.newUzbekistan.title": "«Yangi O'zbekiston» turar-joy majmuasi",
-  "projectsSection.projects.newUzbekistan.description": "Innovatsion arxitektura, yashil zonalar va rivojlangan infratuzilmaga ega zamonaviy majmua.",
-  "projectsSection.projects.newUzbekistan.location": "Toshkent",
-  "projectsSection.projects.newUzbekistan.status": "Qurilmoqda",
-  "projectsSection.projects.kumaryk.title": "«Kumaryq» turar-joy majmuasi",
-  "projectsSection.projects.kumaryk.description": "5* mehmonxona va panoramali dengiz manzarali hamda shaxsiy plajli apartamentlardan iborat kurort majmuasi.",
-  "projectsSection.projects.kumaryk.location": "Toshkent",
-  "projectsSection.projects.kumaryk.status": "Loyihalanmoqda"
+  "featuresSection": {
+    "ariaLabel": "Bizning xizmatlarimiz",
+    "subtitle": "Kelajakni birga quramiz",
+    "title": "Tower Up bilan orzularingizni amalga oshiring",
+    "description": "Loyihalashdan tortib loyihani topshirishgacha — biz sifat kafolati va o'z vaqtida qurilish ishlari to'liq siklini ta'minlaymiz",
+    "contactUs": "Biz bilan bog'laning",
+    "ourProjects": "Bizning loyihalarimiz",
+    "contactAriaLabel": "Bizning jamoaga bog'laning",
+    "projectsAriaLabel": "Barcha kompaniya loyihalarini ko'rish"
+  },
+  "projectsSection": {
+    "viewMore": "Batafsil",
+    "viewProject": "Loyihani ko'rish",
+    "learnMore": "Ko'proq bilish",
+    "allProjects": "Barcha loyihalar",
+    "previousSlide": "Oldingi slayd",
+    "nextSlide": "Keyingi slayd",
+    "goToSlide": "Slaydga o'tish",
+    "ourProjects": "Bizning Loyihalarimiz",
+    "sectionTitle": "Bizning Loyihalarimiz",
+    "sectionHeading": "Kelajak uchun yaratilgan innovatsion loyihalar",
+    "sectionDescription": "Zamonaviy texnologiyalar va murosasiz sifat standartlaridan foydalangan holda yaratadigan asosiy loyihalarimiz bilan tanishing.",
+    "featured": {
+      "nearby": {
+        "title": "Kerakli hamma narsa — yaqin",
+        "subtitle": "«Kumaryq» turar-joy majmuasi",
+        "description": "Nufuzli tumandagi zamonaviy turar-joy majmuasi."
+      },
+      "parking": {
+        "title": "Qulay avtoturargoh",
+        "subtitle": "TOWERUP Loyihalari",
+        "description": "Avtomobilingiz uchun xavfsiz va qulay joy."
+      },
+      "turnkey": {
+        "title": "Tayyor taʼmir",
+        "subtitle": "TOWERUP Xizmatlari",
+        "description": "Qulayligingiz uchun tayyor yechimlar."
+      }
+    },
+    "projects": {
+      "pushkin": {
+        "title": "«Pushkin» turar-joy majmuasi",
+        "description": "Obodonlashtirilgan hudud, bolalar maydonchasi va bog' zonasi bilan jihozlangan 5 ta binoli zamonaviy eko-majmua.",
+        "location": "Toshkent",
+        "status": "Qurilmoqda"
+      },
+      "newUzbekistan": {
+        "title": "«Yangi O'zbekiston» turar-joy majmuasi",
+        "description": "Innovatsion arxitektura, yashil zonalar va rivojlangan infratuzilmaga ega zamonaviy majmua.",
+        "location": "Toshkent",
+        "status": "Qurilmoqda"
+      },
+      "kumaryk": {
+        "title": "«Kumaryq» turar-joy majmuasi",
+        "description": "5* mehmonxona va panoramali dengiz manzarali hamda shaxsiy plajli apartamentlardan iborat kurort majmuasi.",
+        "location": "Toshkent",
+        "status": "Loyihalanmoqda"
+      }
+    }
+  },
+  "projectAdvantages": {
+    "title": "«Pushkin» TJM afzalliklari",
+    "description": "«Pushkin» turar-joy majmuasi — bu qulay joylashuv, sifatli qurilish va kelajakdagi aholining g'amxo'rligini o'zida mujassam etgan zamonaviy qulay uy-joy standartidir.",
+    "learnMore": "Batafsil",
+    "nearby": {
+      "title": "Kerakli hamma narsa - yaqin",
+      "description": "Maktab, bolalar bog'chasi, yashil zona, o'yin maydonlari va poliklinika yurish masofasida."
+    },
+    "parking": {
+      "title": "Qulay avtoturargoh",
+      "description": "Majmua aholisi va ularning mehmonlari uchun ko'p qavatli yer usti avtoturargoh."
+    },
+    "installment": {
+      "title": "2 yilgacha 0% bo'lib to'lash",
+      "description": "Bizning majmuamizda ko'chmas mulk sotib olish uchun eng qulay shartlar."
+    },
+    "metro": {
+      "title": "Metrodan 4 daqiqa",
+      "description": "10-stantsiya metrosi yaqinida joylashgan, shahar markaziga tez kirish imkonini beradi."
+    }
+  }
 }

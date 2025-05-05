@@ -1,340 +1,505 @@
 {
   "testModeIndicator": "Website is operating in test mode",
   
-  "nav.company": "About Company",
-  "nav.about": "About Us",
-  "nav.partners": "Partners",
-  "nav.management": "Management",
-  "nav.projects": "Projects",
-  "nav.projectPushkin": "RC \"Pushkin\"",
-  "nav.projectTrcBochka": "SEC \"Bochka\"",
-  "nav.projectBochka": "BC \"Bochka\"",
-  "nav.projectNewUzbekistan": "District \"New Uzbekistan\"",
-  "nav.news": "News",
-  "nav.vacancies": "Vacancies",
-  "nav.contacts": "Contacts",
-  "nav.construction": "Construction",
-  "nav.design": "Design",
-  "nav.solutions": "Solutions",
-  "nav.consultation": "Consultation",
+  "nav": {
+    "company": "About Company",
+    "about": "About Us",
+    "partners": "Partners",
+    "management": "Management",
+    "projects": "Projects",
+    "projectPushkin": "RC \"Pushkin\"",
+    "projectTrcBochka": "SEC \"Bochka\"",
+    "projectBochka": "BC \"Bochka\"",
+    "projectNewUzbekistan": "District \"New Uzbekistan\"",
+    "news": "News",
+    "vacancies": "Vacancies",
+    "contacts": "Contacts",
+    "construction": "Construction",
+    "design": "Design",
+    "solutions": "Solutions",
+    "consultation": "Consultation"
+  },
   
-  "footer.companyName": "TOWER UP",
-  "footer.companyDesc": "We create modern premium-class projects that meet high standards of quality and comfort.",
-  "footer.navigation": "Navigation",
-  "footer.services": "Services",
-  "footer.contacts": "Contacts",
-  "footer.address": "Tashkent, Uzbekistan",
-  "footer.rights": "All rights reserved",
-  "footer.policy": "Privacy Policy",
+  "footer": {
+    "companyName": "TOWER UP",
+    "companyDesc": "We create modern premium-class projects that meet high standards of quality and comfort.",
+    "navigation": "Navigation",
+    "services": "Services",
+    "contacts": "Contacts",
+    "address": "Tashkent, Uzbekistan",
+    "rights": "All rights reserved",
+    "policy": "Privacy Policy"
+  },
   
-  "home.hero.title": "Reliability and comfort",
-  "home.hero.subtitle": "in every project!",
-  "home.hero.learnMore": "Learn more",
-  "home.hero.projects": "Projects",
-  "home.hero.learnMoreAriaLabel": "Learn more about the company",
-  "home.hero.projectsAriaLabel": "Go to projects page",
-  "home.hero.ariaLabel": "Main section",
-  "home.hero.imageAlt": "Modern residential complex",
-  "home.hero.imageNavAriaLabel": "Go to image",
+  "home": {
+    "hero": {
+      "title": "Reliability and comfort",
+      "subtitle": "in every project!",
+      "learnMore": "Learn more",
+      "projects": "Projects",
+      "learnMoreAriaLabel": "Learn more about the company",
+      "projectsAriaLabel": "Go to projects page",
+      "ariaLabel": "Main section",
+      "imageAlt": "Modern residential complex",
+      "imageNavAriaLabel": "Go to image"
+    },
+    "about": {
+      "title": "ABOUT THE COMPANY",
+      "subtitle": "TOWER UP is a modern construction company specializing in the construction of premium-class residential complexes and commercial real estate.",
+      "text1": "Our company has many years of experience in construction and implementation of large-scale projects.",
+      "text2": "We create real estate that meets the highest requirements for comfort and quality.",
+      "button": "More Details"
+    },
+    "features": {
+      "title": "OUR ADVANTAGES",
+      "quality": {
+        "title": "High Quality",
+        "desc": "We use only certified materials and modern construction technologies"
+      },
+      "design": {
+        "title": "Unique Design",
+        "desc": "Each of our projects features modern architecture and thoughtful design"
+      },
+      "location": {
+        "title": "Excellent Location",
+        "desc": "Our properties are located in promising and convenient areas of the city"
+      },
+      "infrastructure": {
+        "title": "Developed Infrastructure",
+        "desc": "Everything necessary for a comfortable life is within walking distance"
+      }
+    },
+    "projects": {
+      "title": "OUR PROJECTS",
+      "subtitle": "We build premium-class residential complexes and commercial real estate",
+      "all": "All Projects"
+    },
+    "advantages": {
+      "title": "ADVANTAGES OF OUR PROJECTS",
+      "quality": "High quality construction",
+      "materials": "Eco-friendly materials",
+      "technology": "Modern technologies",
+      "infrastructure": "Own infrastructure",
+      "security": "24/7 security",
+      "planning": "Well-thought-out layouts"
+    },
+    "news": {
+      "title": "NEWS AND VACANCIES",
+      "subtitle": "Current information about our company and open vacancies",
+      "all": "All News"
+    },
+    "vacancies": {
+      "all": "All Vacancies"
+    },
+    "partners": {
+      "title": "OUR PARTNERS",
+      "subtitle": "We cooperate with leading companies and suppliers"
+    },
+    "contact": {
+      "title": "CONTACT US",
+      "subtitle": "Do you have any questions? Fill out the form below, and we will contact you shortly",
+      "name": "Your Name",
+      "email": "Email Address",
+      "message": "Message",
+      "button": "Send"
+    },
+    "map": {
+      "title": "Our Location",
+      "subtitle": "We are located in the center of Tashkent and are always happy to see you in our office",
+      "address": "Tashkent, Uzbekistan"
+    }
+  },
   
-  "home.about.title": "ABOUT THE COMPANY",
-  "home.about.subtitle": "TOWER UP is a modern construction company specializing in the construction of premium-class residential complexes and commercial real estate.",
-  "home.about.text1": "Our company has many years of experience in construction and implementation of large-scale projects.",
-  "home.about.text2": "We create real estate that meets the highest requirements for comfort and quality.",
-  "home.about.button": "More Details",
+  "about": {
+    "title": "ABOUT THE COMPANY",
+    "values": {
+      "title": "OUR VALUES",
+      "quality": {
+        "title": "Quality",
+        "desc": "We strive for excellence in every aspect of our work"
+      },
+      "innovation": {
+        "title": "Innovation",
+        "desc": "We implement advanced technologies in construction"
+      },
+      "responsibility": {
+        "title": "Responsibility",
+        "desc": "We fulfill all obligations to customers and partners"
+      },
+      "transparency": {
+        "title": "Transparency",
+        "desc": "We are open and honest in all aspects of our activities"
+      }
+    },
+    "team": {
+      "title": "OUR TEAM",
+      "desc": "Our team consists of experienced professionals dedicated to their work"
+    },
+    "stats": {
+      "projects": "Completed Projects",
+      "area": "m² built",
+      "clients": "Satisfied Clients",
+      "awards": "Awards and Recognitions"
+    },
+    "history": {
+      "title": "OUR HISTORY",
+      "desc": "History of TOWER UP company development"
+    },
+    "projects": {
+      "title": "CURRENT PROJECTS",
+      "desc": "Get acquainted with our current projects"
+    }
+  },
   
-  "home.features.title": "OUR ADVANTAGES",
-  "home.features.quality.title": "High Quality",
-  "home.features.quality.desc": "We use only certified materials and modern construction technologies",
-  "home.features.design.title": "Unique Design",
-  "home.features.design.desc": "Each of our projects features modern architecture and thoughtful design",
-  "home.features.location.title": "Excellent Location",
-  "home.features.location.desc": "Our properties are located in promising and convenient areas of the city",
-  "home.features.infrastructure.title": "Developed Infrastructure",
-  "home.features.infrastructure.desc": "Everything necessary for a comfortable life is within walking distance",
+  "construction": {
+    "title": "CONSTRUCTION OF FACILITIES",
+    "subtitle": "CONSTRUCTION",
+    "services": {
+      "title": "Construction Services",
+      "desc1": "Our company provides a full range of services for the construction of facilities for various purposes: residential complexes, commercial buildings, industrial facilities, and infrastructure.",
+      "desc2": "We use modern construction technologies and quality materials, which allows us to create durable and functional facilities."
+    }
+  },
   
-  "home.projects.title": "OUR PROJECTS",
-  "home.projects.subtitle": "We build premium-class residential complexes and commercial real estate",
-  "home.projects.all": "All Projects",
+  "design": {
+    "title": "DESIGN",
+    "services": {
+      "title": "Design Services",
+      "desc1": "We offer professional services for designing buildings and structures. Our team of experienced architects and engineers develops projects of varying complexity, taking into account all customer requirements and regulatory standards.",
+      "desc2": "We use modern software to create detailed 3D models and project documentation, which allows visualizing the result before construction begins."
+    }
+  },
   
-  "home.advantages.title": "ADVANTAGES OF OUR PROJECTS",
-  "home.advantages.quality": "High quality construction",
-  "home.advantages.materials": "Eco-friendly materials",
-  "home.advantages.technology": "Modern technologies",
-  "home.advantages.infrastructure": "Own infrastructure",
-  "home.advantages.security": "24/7 security",
-  "home.advantages.planning": "Well-thought-out layouts",
+  "contact": {
+    "title": "CONTACTS",
+    "subtitle": "Get in touch with us",
+    "form": {
+      "title": "Feedback Form",
+      "name": "Your Name",
+      "contact": "Preferred Contact Method",
+      "phone": "Phone",
+      "email": "Email",
+      "message": "Message",
+      "submit": "Send"
+    },
+    "info": {
+      "title": "Our Contacts",
+      "address": "Address",
+      "addressValue": "Tashkent city, Sergeli district, MSG Yangi Qumariq. Landmark: GM Motor factory.",
+      "phone": "Phone",
+      "email": "Email",
+      "schedule": "Working Hours",
+      "noWeekends": "No days off"
+    },
+    "map": {
+      "title": "Our Location"
+    }
+  },
   
-  "home.news.title": "NEWS AND VACANCIES",
-  "home.news.subtitle": "Current information about our company and open vacancies",
-  "home.news.all": "All News",
-  "home.vacancies.all": "All Vacancies",
+  "management": {
+    "title": "MANAGEMENT",
+    "team": {
+      "title": "About Our Team",
+      "desc1": "The TOWER UP team consists of highly qualified professionals with many years of experience in construction, finance, and management. We are united by a common goal – to create unique facilities that beautify the urban landscape and make people's lives more comfortable.",
+      "desc2": "Our management constantly monitors innovations in the industry, implements modern technologies and approaches to project management. Thanks to this, TOWER UP projects always feature high-quality execution, adherence to deadlines and budget."
+    },
+    "principles": "Our Principles:",
+    "principles.quality": "Consistently high quality",
+    "principles.precision": "Precision in details and deadlines",
+    "principles.teamwork": "Teamwork and synergy",
+    "principles.responsibility": "Personal responsibility",
+    "tabs": {
+      "executives": "Executives",
+      "departments": "Departments",
+      "careers": "Careers"
+    },
+    "contact": "Contact Information",
+    "careers": {
+      "title": "Join Our Team",
+      "desc": "TOWER UP offers unique opportunities for professional and career growth. We value initiative, creativity, and the desire for constant development.",
+      "benefits": "Benefits of working with us",
+      "benefits.salary": "Competitive salary",
+      "benefits.social": "Extended social package",
+      "benefits.training": "Training and development programs",
+      "benefits.projects": "Work on interesting projects",
+      "apply": "How to Apply",
+      "apply.desc1": "Send your resume to hr@towerup.ru, indicating the position you are interested in in the subject line.",
+      "apply.desc2": "You can also familiarize yourself with current vacancies in the \"Vacancies\" section on our website.",
+      "office": "Central Office"
+    }
+  },
   
-  "home.partners.title": "OUR PARTNERS",
-  "home.partners.subtitle": "We cooperate with leading companies and suppliers",
+  "news": {
+    "title": "NEWS",
+    "notFound": "News not found",
+    "notFoundDesc": "There are currently no news. Please check back later.",
+    "readMore": "Read More",
+    "featured": "Featured",
+    "backToAll": "All News",
+    "back": "Back",
+    "gallery": "Photo Gallery"
+  },
   
-  "home.contact.title": "CONTACT US",
-  "home.contact.subtitle": "Do you have any questions? Fill out the form below, and we will contact you shortly",
-  "home.contact.name": "Your Name",
-  "home.contact.email": "Email Address",
-  "home.contact.message": "Message",
-  "home.contact.button": "Send",
+  "vacancies": {
+    "title": "VACANCIES",
+    "notFound": "Vacancies not found",
+    "notFoundDesc": "There are currently no vacancies. Please check back later.",
+    "apply": "Apply",
+    "back": "All Vacancies",
+    "details": {
+      "responsibilities": "Responsibilities",
+      "requirements": "Requirements",
+      "conditions": "Conditions",
+      "apply": "Apply for the position"
+    }
+  },
   
-  "home.map.title": "Our Location",
-  "home.map.subtitle": "We are located in the center of Tashkent and are always happy to see you in our office",
-  "home.map.address": "Tashkent, Uzbekistan",
+  "trcBochka": {
+    "title": "SEC \"BOCHKA\"",
+    "subtitle": "Modern multifunctional shopping and entertainment center in Tashkent region",
+    "description": "Shopping and Entertainment Center \"Bochka\" is a new project of TOWER UP company, located in Tashkent region. The project is a modern complex with unique architecture, including retail spaces, restaurants, cinema, and entertainment areas.",
+    "overview": {
+      "title": "PROJECT OVERVIEW",
+      "desc": "SEC \"Bochka\" combines modern architecture and functionality, offering visitors a wide range of shopping and entertainment opportunities in a comfortable atmosphere."
+    },
+    "architecture": {
+      "title": "ARCHITECTURE",
+      "desc": "The architecture of SEC \"Bochka\" features an original facade and interior design. The project is executed in a modern style using quality materials that ensure durability and aesthetic appeal of the building."
+    },
+    "features": {
+      "title": "PROJECT FEATURES",
+      "retail": {
+        "title": "Retail Gallery",
+        "desc": "More than 100 stores of various brands"
+      },
+      "food": {
+        "title": "Food Court and Restaurants",
+        "desc": "Various world cuisines and leisure areas"
+      },
+      "entertainment": {
+        "title": "Entertainment Zone",
+        "desc": "Cinema, game zone for children and adults"
+      },
+      "parking": {
+        "title": "Parking",
+        "desc": "Spacious parking for visitors"
+      }
+    },
+    "gallery": {
+      "title": "PROJECT PHOTO GALLERY",
+      "subtitle": "Visualizations and current construction status"
+    },
+    "status": {
+      "title": "PROJECT STATUS",
+      "subtitle": "Current state of construction",
+      "inProgress": "In progress",
+      "completion": "Expected completion date"
+    },
+    "contact": {
+      "title": "CONTACT US",
+      "subtitle": "Learn more about retail space rental opportunities",
+      "button": "Send Request"
+    }
+  },
   
-  "about.title": "ABOUT THE COMPANY",
-  "about.values.title": "OUR VALUES",
-  "about.values.quality.title": "Quality",
-  "about.values.quality.desc": "We strive for excellence in every aspect of our work",
-  "about.values.innovation.title": "Innovation",
-  "about.values.innovation.desc": "We implement advanced technologies in construction",
-  "about.values.responsibility.title": "Responsibility",
-  "about.values.responsibility.desc": "We fulfill all obligations to customers and partners",
-  "about.values.transparency.title": "Transparency",
-  "about.values.transparency.desc": "We are open and honest in all aspects of our activities",
+  "newUzbekistan": {
+    "title": "DISTRICT \"NEW UZBEKISTAN\"",
+    "subtitle": "Large-scale residential complex with modern infrastructure",
+    "hero": {
+      "title": "NEW UZBEKISTAN",
+      "subtitle": "A modern district for a comfortable life",
+      "description": "District \"New Uzbekistan\" is an ambitious project by TOWER UP, representing a new standard of urban living in harmony with nature"
+    },
+    "overview": {
+      "title": "PROJECT OVERVIEW",
+      "subtitle": "A new standard of comfort for Uzbekistan",
+      "desc1": "District \"New Uzbekistan\" is a large-scale residential complex that combines modern architecture, developed infrastructure, and environmental principles.",
+      "desc2": "The project includes residential buildings with various apartment layouts, commercial spaces, educational institutions, sports facilities, and recreational areas.",
+      "desc3": "The concept focuses on creating a comfortable living environment that meets international standards while preserving the national identity."
+    },
+    "masterplan": {
+      "title": "MASTER PLAN",
+      "subtitle": "Thoughtfully designed urban space",
+      "desc": "The master plan of the district was developed with the participation of leading architects and urban planners, taking into account modern trends in urban development."
+    },
+    "features": {
+      "title": "PROJECT FEATURES",
+      "subtitle": "Key advantages of the district",
+      "architecture": {
+        "title": "Modern Architecture",
+        "desc": "Buildings designed in a contemporary style with national elements"
+      },
+      "greenery": {
+        "title": "Green Spaces",
+        "desc": "Over 30% of the territory allocated for parks and gardens"
+      },
+      "infrastructure": {
+        "title": "Infrastructure",
+        "desc": "Schools, kindergartens, clinics, and commercial areas"
+      },
+      "parking": {
+        "title": "Parking Solutions",
+        "desc": "Underground and ground-level parking throughout the district"
+      },
+      "security": {
+        "title": "Security",
+        "desc": "24/7 surveillance and restricted access to residential areas"
+      },
+      "recreation": {
+        "title": "Recreation Areas",
+        "desc": "Playgrounds, sports fields, and walking paths"
+      }
+    },
+    "apartments": {
+      "title": "APARTMENTS",
+      "subtitle": "Variety of layouts to suit different needs",
+      "desc": "The residential buildings offer apartments ranging from compact studios to spacious multi-room units, all featuring efficient layouts and high-quality finishes.",
+      "studio": {
+        "title": "Studio Apartments",
+        "desc": "Compact and functional spaces for singles and young couples"
+      },
+      "oneBedroom": {
+        "title": "One-Bedroom Apartments",
+        "desc": "Balanced layouts with separate bedroom and living areas"
+      },
+      "twoBedroom": {
+        "title": "Two-Bedroom Apartments",
+        "desc": "Comfortable spaces for small families"
+      },
+      "threeBedroom": {
+        "title": "Three-Bedroom Apartments",
+        "desc": "Spacious layouts for larger families"
+      },
+      "premium": {
+        "title": "Premium Apartments",
+        "desc": "Exclusive layouts with premium finishes and panoramic views"
+      },
+      "floorLayout": "Floor Layout",
+      "floorLayoutDesc": "Complete floor layout showing the arrangement of all apartment units in a single floor",
+      "viewDetails": "View Details",
+      "bedrooms": "Bedrooms",
+      "bathrooms": "Bathrooms",
+      "balconies": "Balconies",
+      "featuresTitle": "Room Specifications",
+      "startingPrice": "Starting Price:",
+      "inquire": "Inquire About This Unit",
+      "footer": "Floor plans are subject to availability. Contact our sales team for current pricing and availability of specific units."
+    }
+  },
   
-  "about.team.title": "OUR TEAM",
-  "about.team.desc": "Our team consists of experienced professionals dedicated to their work",
-  
-  "about.stats.projects": "Completed Projects",
-  "about.stats.area": "m² built",
-  "about.stats.clients": "Satisfied Clients",
-  "about.stats.awards": "Awards and Recognitions",
-  
-  "about.history.title": "OUR HISTORY",
-  "about.history.desc": "History of TOWER UP company development",
-  
-  "about.projects.title": "CURRENT PROJECTS",
-  "about.projects.desc": "Get acquainted with our current projects",
-  
-  "construction.title": "CONSTRUCTION OF FACILITIES",
-  "construction.subtitle": "CONSTRUCTION",
-  "construction.services.title": "Construction Services",
-  "construction.services.desc1": "Our company provides a full range of services for the construction of facilities for various purposes: residential complexes, commercial buildings, industrial facilities, and infrastructure.",
-  "construction.services.desc2": "We use modern construction technologies and quality materials, which allows us to create durable and functional facilities.",
-  
-  "design.title": "DESIGN",
-  "design.services.title": "Design Services",
-  "design.services.desc1": "We offer professional services for designing buildings and structures. Our team of experienced architects and engineers develops projects of varying complexity, taking into account all customer requirements and regulatory standards.",
-  "design.services.desc2": "We use modern software to create detailed 3D models and project documentation, which allows visualizing the result before construction begins.",
-  
-  "contact.title": "CONTACTS",
-  "contact.subtitle": "Get in touch with us",
-  "contact.form.title": "Feedback Form",
-  "contact.form.name": "Your Name",
-  "contact.form.contact": "Preferred Contact Method",
-  "contact.form.phone": "Phone",
-  "contact.form.email": "Email",
-  "contact.form.message": "Message",
-  "contact.form.submit": "Send",
-  
-  "contact.info.title": "Our Contacts",
-  "contact.info.address": "Address",
-  "contact.info.addressValue": "Tashkent city, Sergeli district, MSG Yangi Qumariq. Landmark: GM Motor factory.",
-  "contact.info.phone": "Phone",
-  "contact.info.email": "Email",
-  "contact.info.schedule": "Working Hours",
-  "contact.info.noWeekends": "No days off",
-  
-  "contact.map.title": "Our Location",
-  
-  "management.title": "MANAGEMENT",
-  "management.team.title": "About Our Team",
-  "management.team.desc1": "The TOWER UP team consists of highly qualified professionals with many years of experience in construction, finance, and management. We are united by a common goal – to create unique facilities that beautify the urban landscape and make people's lives more comfortable.",
-  "management.team.desc2": "Our management constantly monitors innovations in the industry, implements modern technologies and approaches to project management. Thanks to this, TOWER UP projects always feature high-quality execution, adherence to deadlines and budget.",
-  "management.principles": "Our Principles:",
-  "management.principles.quality": "Consistently high quality",
-  "management.principles.precision": "Precision in details and deadlines",
-  "management.principles.teamwork": "Teamwork and synergy",
-  "management.principles.responsibility": "Personal responsibility",
-  
-  "management.tabs.executives": "Executives",
-  "management.tabs.departments": "Departments",
-  "management.tabs.careers": "Careers",
-  
-  "management.contact": "Contact Information",
-  
-  "management.careers.title": "Join Our Team",
-  "management.careers.desc": "TOWER UP offers unique opportunities for professional and career growth. We value initiative, creativity, and the desire for constant development.",
-  "management.careers.benefits": "Benefits of working with us",
-  "management.careers.benefits.salary": "Competitive salary",
-  "management.careers.benefits.social": "Extended social package",
-  "management.careers.benefits.training": "Training and development programs",
-  "management.careers.benefits.projects": "Work on interesting projects",
-  "management.careers.apply": "How to Apply",
-  "management.careers.apply.desc1": "Send your resume to hr@towerup.ru, indicating the position you are interested in in the subject line.",
-  "management.careers.apply.desc2": "You can also familiarize yourself with current vacancies in the \"Vacancies\" section on our website.",
-  "management.careers.office": "Central Office",
-  
-  "news.title": "NEWS",
-  "news.notFound": "News not found",
-  "news.notFoundDesc": "There are currently no news. Please check back later.",
-  "news.readMore": "Read More",
-  "news.featured": "Featured",
-  "news.backToAll": "All News",
-  "news.back": "Back",
-  "news.gallery": "Photo Gallery",
-  
-  "vacancies.title": "VACANCIES",
-  "vacancies.notFound": "Vacancies not found",
-  "vacancies.notFoundDesc": "There are currently no vacancies. Please check back later.",
-  "vacancies.apply": "Apply",
-  "vacancies.back": "All Vacancies",
-  "vacancies.details.responsibilities": "Responsibilities",
-  "vacancies.details.requirements": "Requirements",
-  "vacancies.details.conditions": "Conditions",
-  "vacancies.details.apply": "Apply for the position",
-  
-  "trcBochka.title": "SEC \"BOCHKA\"",
-  "trcBochka.subtitle": "Modern multifunctional shopping and entertainment center in Tashkent region",
-  "trcBochka.description": "Shopping and Entertainment Center \"Bochka\" is a new project of TOWER UP company, located in Tashkent region. The project is a modern complex with unique architecture, including retail spaces, restaurants, cinema, and entertainment areas.",
-  "trcBochka.overview.title": "PROJECT OVERVIEW",
-  "trcBochka.overview.desc": "SEC \"Bochka\" combines modern architecture and functionality, offering visitors a wide range of shopping and entertainment opportunities in a comfortable atmosphere.",
-  "trcBochka.architecture.title": "ARCHITECTURE",
-  "trcBochka.architecture.desc": "The architecture of SEC \"Bochka\" features an original facade and interior design. The project is executed in a modern style using quality materials that ensure durability and aesthetic appeal of the building.",
-  "trcBochka.features.title": "PROJECT FEATURES",
-  "trcBochka.features.retail.title": "Retail Gallery",
-  "trcBochka.features.retail.desc": "More than 100 stores of various brands",
-  "trcBochka.features.food.title": "Food Court and Restaurants",
-  "trcBochka.features.food.desc": "Various world cuisines and leisure areas",
-  "trcBochka.features.entertainment.title": "Entertainment Zone",
-  "trcBochka.features.entertainment.desc": "Cinema, game zone for children and adults",
-  "trcBochka.features.parking.title": "Parking",
-  "trcBochka.features.parking.desc": "Spacious parking for visitors",
-  "trcBochka.gallery.title": "PROJECT PHOTO GALLERY",
-  "trcBochka.gallery.subtitle": "Visualizations and current construction status",
-  "trcBochka.status.title": "PROJECT STATUS",
-  "trcBochka.status.subtitle": "Current state of construction",
-  "trcBochka.status.inProgress": "In progress",
-  "trcBochka.status.completion": "Expected completion date",
-  "trcBochka.contact.title": "CONTACT US",
-  "trcBochka.contact.subtitle": "Learn more about retail space rental opportunities",
-  "trcBochka.contact.button": "Send Request",
-  
-  "newUzbekistan.title": "DISTRICT \"NEW UZBEKISTAN\"",
-  "newUzbekistan.subtitle": "Large-scale residential complex with modern infrastructure",
-  "newUzbekistan.hero.title": "NEW UZBEKISTAN",
-  "newUzbekistan.hero.subtitle": "A modern district for a comfortable life",
-  "newUzbekistan.hero.description": "District \"New Uzbekistan\" is an ambitious project by TOWER UP, representing a new standard of urban living in harmony with nature",
-  "newUzbekistan.overview.title": "PROJECT OVERVIEW",
-  "newUzbekistan.overview.subtitle": "A new standard of comfort for Uzbekistan",
-  "newUzbekistan.overview.desc1": "District \"New Uzbekistan\" is a large-scale residential complex that combines modern architecture, developed infrastructure, and environmental principles.",
-  "newUzbekistan.overview.desc2": "The project includes residential buildings with various apartment layouts, commercial spaces, educational institutions, sports facilities, and recreational areas.",
-  "newUzbekistan.overview.desc3": "The concept focuses on creating a comfortable living environment that meets international standards while preserving the national identity.",
-  
-  "newUzbekistan.masterplan.title": "MASTER PLAN",
-  "newUzbekistan.masterplan.subtitle": "Thoughtfully designed urban space",
-  "newUzbekistan.masterplan.desc": "The master plan of the district was developed with the participation of leading architects and urban planners, taking into account modern trends in urban development.",
-  
-  "newUzbekistan.features.title": "PROJECT FEATURES",
-  "newUzbekistan.features.subtitle": "Key advantages of the district",
-  "newUzbekistan.features.architecture.title": "Modern Architecture",
-  "newUzbekistan.features.architecture.desc": "Buildings designed in a contemporary style with national elements",
-  "newUzbekistan.features.greenery.title": "Green Spaces",
-  "newUzbekistan.features.greenery.desc": "Over 30% of the territory allocated for parks and gardens",
-  "newUzbekistan.features.infrastructure.title": "Infrastructure",
-  "newUzbekistan.features.infrastructure.desc": "Schools, kindergartens, clinics, and commercial areas",
-  "newUzbekistan.features.parking.title": "Parking Solutions",
-  "newUzbekistan.features.parking.desc": "Underground and ground-level parking throughout the district",
-  "newUzbekistan.features.security.title": "Security",
-  "newUzbekistan.features.security.desc": "24/7 surveillance and restricted access to residential areas",
-  "newUzbekistan.features.recreation.title": "Recreation Areas",
-  "newUzbekistan.features.recreation.desc": "Playgrounds, sports fields, and walking paths",
-  
-  "newUzbekistan.apartments.title": "APARTMENTS",
-  "newUzbekistan.apartments.subtitle": "Variety of layouts to suit different needs",
-  "newUzbekistan.apartments.desc": "The residential buildings offer apartments ranging from compact studios to spacious multi-room units, all featuring efficient layouts and high-quality finishes.",
-  "newUzbekistan.apartments.studio.title": "Studio Apartments",
-  "newUzbekistan.apartments.studio.desc": "Compact and functional spaces for singles and young couples",
-  "newUzbekistan.apartments.oneBedroom.title": "One-Bedroom Apartments",
-  "newUzbekistan.apartments.oneBedroom.desc": "Balanced layouts with separate bedroom and living areas",
-  "newUzbekistan.apartments.twoBedroom.title": "Two-Bedroom Apartments",
-  "newUzbekistan.apartments.twoBedroom.desc": "Comfortable spaces for small families",
-  "newUzbekistan.apartments.threeBedroom.title": "Three-Bedroom Apartments",
-  "newUzbekistan.apartments.threeBedroom.desc": "Spacious layouts for larger families",
-  "newUzbekistan.apartments.premium.title": "Premium Apartments",
-  "newUzbekistan.apartments.premium.desc": "Exclusive layouts with premium finishes and panoramic views",
-  "newUzbekistan.apartments.floorLayout": "Floor Layout",
-  "newUzbekistan.apartments.floorLayoutDesc": "Complete floor layout showing the arrangement of all apartment units in a single floor",
-  "newUzbekistan.apartments.viewDetails": "View Details",
-  "newUzbekistan.apartments.bedrooms": "Bedrooms",
-  "newUzbekistan.apartments.bathrooms": "Bathrooms",
-  "newUzbekistan.apartments.balconies": "Balconies",
-  "newUzbekistan.apartments.featuresTitle": "Room Specifications",
-  "newUzbekistan.apartments.startingPrice": "Starting Price:",
-  "newUzbekistan.apartments.inquire": "Inquire About This Unit",
-  "newUzbekistan.apartments.footer": "Floor plans are subject to availability. Contact our sales team for current pricing and availability of specific units.",
-  
-  "common.close": "Close",
-  "common.previous": "Previous",
-  "common.next": "Next",
+ "common": {
+    "close": "Close",
+    "previous": "Previous",
+    "next": "Next"
+  },
 
-  "aboutSection.title": "ABOUT THE COMPANY",
-  "aboutSection.shortTitle": "Innovative",
-  "aboutSection.shortTitleSolution": "solutions",
-  "aboutSection.longTitle1": "Innovative",
-  "aboutSection.longTitle2": "solutions for",
-  "aboutSection.longTitle3": "modern",
-  "aboutSection.longTitle4": "construction",
-  "aboutSection.text": "A leading construction company specializing in innovative projects and high-rise buildings. Since its foundation, the company has been striving to implement the most ambitious and complex architectural ideas, offering clients solutions at the highest level.",
-  "aboutSection.learnMore": "LEARN MORE",
-  "aboutSection.readMore": "Read More",
-  "aboutSection.buildingImage": "Company building",
-  "aboutSection.ourAdvantages": "OUR ADVANTAGES",
-  "aboutSection.advantages.professionalism.title": "PROFESSIONALISM",
-  "aboutSection.advantages.professionalism.desc": "The foundation of our professionalism is preserving our own traditions and utilizing global innovations.",
-  "aboutSection.advantages.experience.title": "COMPANY EXPERIENCE",
-  "aboutSection.advantages.experience.desc": "We don't have to prove the quality of our products. Your recognition does it for us.",
-  "aboutSection.advantages.equipment.title": "EQUIPMENT",
-  "aboutSection.advantages.equipment.desc": "The technological superiority of our equipment is a distinguishing element of TOWERUP company.",
-  
-  "featuresSection.ariaLabel": "Our services",
-  "featuresSection.subtitle": "Building the future together",
-  "featuresSection.title": "Realize your dreams with Tower Up",
-  "featuresSection.description": "From design to project delivery — we provide a full cycle of construction work with quality guarantee and on time",
-  "featuresSection.contactUs": "Contact us",
-  "featuresSection.ourProjects": "Our projects",
-  "featuresSection.contactAriaLabel": "Contact our team",
-  "featuresSection.projectsAriaLabel": "View all company projects",
-  
-  "projectsSection.viewMore": "View Details",
-  "projectsSection.viewProject": "View project",
-  "projectsSection.learnMore": "Learn More",
-  "projectsSection.allProjects": "All Projects",
-  "projectsSection.previousSlide": "Previous slide",
-  "projectsSection.nextSlide": "Next slide",
-  "projectsSection.goToSlide": "Go to slide",
-  "projectsSection.ourProjects": "Our Projects",
-  "projectsSection.sectionTitle": "Our Projects",
-  "projectsSection.sectionHeading": "Innovative projects designed for the future",
-  "projectsSection.sectionDescription": "Explore our signature projects that we create using modern technologies and uncompromising quality standards.",
-
-  "projectsSection.featured.nearby.title": "Everything you need — nearby",
-  "projectsSection.featured.nearby.subtitle": "RC «Kumaryk»",
-  "projectsSection.featured.nearby.description": "Modern residential complex in a prestigious area.",
-  
-  "projectsSection.featured.parking.title": "Convenient parking",
-  "projectsSection.featured.parking.subtitle": "TOWERUP Projects",
-  "projectsSection.featured.parking.description": "Safe and comfortable place for your car.",
-  
-  "projectsSection.featured.turnkey.title": "Turnkey renovation",
-  "projectsSection.featured.turnkey.subtitle": "TOWERUP Services",
-  "projectsSection.featured.turnkey.description": "Ready-made solutions for your comfort.",
-  
-  "projectsSection.projects.pushkin.title": "Residential Complex \"Pushkin\"",
-  "projectsSection.projects.pushkin.description": "Modern eco-complex of 5 buildings with landscaped grounds, children's playgrounds and a park area.",
-  "projectsSection.projects.pushkin.location": "Tashkent",
-  "projectsSection.projects.pushkin.status": "Under Construction",
-  
-  "projectsSection.projects.newUzbekistan.title": "Residential Complex \"Yangi Uzbekistan\"",
-  "projectsSection.projects.newUzbekistan.description": "Modern complex with innovative architecture, green areas and developed infrastructure.",
-  "projectsSection.projects.newUzbekistan.location": "Tashkent",
-  "projectsSection.projects.newUzbekistan.status": "Under Construction",
-  
-  "projectsSection.projects.kumaryk.title": "Residential Complex \"Kumaryk\"",
-  "projectsSection.projects.kumaryk.description": "Resort complex consisting of a 5* hotel and apartments with panoramic sea views and a private beach.",
-  "projectsSection.projects.kumaryk.location": "Tashkent",
-  "projectsSection.projects.kumaryk.status": "In Design"
+  "aboutSection": {
+    "title": "ABOUT THE COMPANY",
+    "shortTitle": "Innovative",
+    "shortTitleSolution": "solutions",
+    "longTitle1": "Innovative",
+    "longTitle2": "solutions for",
+    "longTitle3": "modern",
+    "longTitle4": "construction",
+    "text": "A leading construction company specializing in innovative projects and high-rise buildings. Since its foundation, the company has been striving to implement the most ambitious and complex architectural ideas, offering clients solutions at the highest level.",
+    "learnMore": "LEARN MORE",
+    "readMore": "Read More",
+    "buildingImage": "Company building",
+    "ourAdvantages": "OUR ADVANTAGES",
+    "advantages": {
+      "professionalism": {
+        "title": "PROFESSIONALISM",
+        "desc": "The foundation of our professionalism is preserving our own traditions and utilizing global innovations."
+      },
+      "experience": {
+        "title": "COMPANY EXPERIENCE",
+        "desc": "We don't have to prove the quality of our products. Your recognition does it for us."
+      },
+      "equipment": {
+        "title": "EQUIPMENT",
+        "desc": "The technological superiority of our equipment is a distinguishing element of TOWERUP company."
+      }
+    }
+  },
+  "featuresSection": {
+    "ariaLabel": "Our services",
+    "subtitle": "Building the future together",
+    "title": "Realize your dreams with Tower Up",
+    "description": "From design to project delivery — we provide a full cycle of construction work with quality guarantee and on time",
+    "contactUs": "Contact us",
+    "ourProjects": "Our projects",
+    "contactAriaLabel": "Contact our team",
+    "projectsAriaLabel": "View all company projects"
+  },
+   "projectsSection": {
+    "viewMore": "View Details",
+    "viewProject": "View project",
+    "learnMore": "Learn More",
+    "allProjects": "All Projects",
+    "previousSlide": "Previous slide",
+    "nextSlide": "Next slide",
+    "goToSlide": "Go to slide",
+    "ourProjects": "Our Projects",
+    "sectionTitle": "Our Projects",
+    "sectionHeading": "Innovative projects designed for the future",
+    "sectionDescription": "Explore our signature projects that we create using modern technologies and uncompromising quality standards.",
+    "featured": {
+      "nearby": {
+        "title": "Everything you need — nearby",
+        "subtitle": "RC «Kumaryk»",
+        "description": "Modern residential complex in a prestigious area."
+      },
+      "parking": {
+        "title": "Convenient parking",
+        "subtitle": "TOWERUP Projects",
+        "description": "Safe and comfortable place for your car."
+      },
+      "turnkey": {
+        "title": "Turnkey renovation",
+        "subtitle": "TOWERUP Services",
+        "description": "Ready-made solutions for your comfort."
+      }
+    },
+    "projects": {
+      "pushkin": {
+        "title": "Residential Complex \"Pushkin\"",
+        "description": "Modern eco-complex of 5 buildings with landscaped grounds, children's playgrounds and a park area.",
+        "location": "Tashkent",
+        "status": "Under Construction"
+      },
+      "newUzbekistan": {
+        "title": "Residential Complex \"Yangi Uzbekistan\"",
+        "description": "Modern complex with innovative architecture, green areas and developed infrastructure.",
+        "location": "Tashkent",
+        "status": "Under Construction"
+      },
+      "kumaryk": {
+        "title": "Residential Complex \"Kumaryk\"",
+        "description": "Resort complex consisting of a 5* hotel and apartments with panoramic sea views and a private beach.",
+        "location": "Tashkent",
+        "status": "In Design"
+      }
+    }
+  },
+  "projectAdvantages": {
+    "title": "Advantages of RC \"Pushkin\"",
+    "description": "Residential complex \"Pushkin\" is a standard of modern comfortable housing, combining convenient location, quality construction and care for future residents.",
+    "learnMore": "Learn more",
+    "nearby": {
+      "title": "Everything you need - nearby",
+      "description": "School, kindergarten, green area, playgrounds and clinic within walking distance."
+    },
+    "parking": {
+      "title": "Convenient parking",
+      "description": "Multi-level above-ground parking for residents of the complex and their guests."
+    },
+    "installment": {
+      "title": "0% installment up to 2 years",
+      "description": "The most favorable conditions for purchasing real estate in our complex."
+    },
+    "metro": {
+      "title": "4 minutes from metro",
+      "description": "The 10th Station metro is just a short walk away, providing quick access to the city center."
+    }
+  }
 }

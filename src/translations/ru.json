@@ -1,366 +1,507 @@
-
 {
-  "testModeIndicator": "Сайт работает в тестовом режиме",
+  "testModeIndicator": "Веб-сайт работает в тестовом режиме",
   
-  "nav.company": "О компании",
-  "nav.about": "О нас",
-  "nav.partners": "Партнёры",
-  "nav.management": "Руководство",
-  "nav.projects": "Проекты",
-  "nav.projectPushkin": "ЖК \"Пушкин\"",
-  "nav.projectTrcBochka": "ТРЦ \"Бочка\"",
-  "nav.projectBochka": "БЦ \"Бочка\"",
-  "nav.projectNewUzbekistan": "Массив \"Янги Узбекистан\"",
-  "nav.news": "Новости",
-  "nav.vacancies": "Вакансии",
-  "nav.contacts": "Контакты",
-  "nav.construction": "Строительство",
-  "nav.design": "Проектирование",
-  "nav.solutions": "Решения",
-  "nav.consultation": "Консультация",
+  "nav": {
+    "company": "О компании",
+    "about": "О нас",
+    "partners": "Партнеры",
+    "management": "Руководство",
+    "projects": "Проекты",
+    "projectPushkin": "ЖК «Пушкин»",
+    "projectTrcBochka": "ТРЦ «Бочка»",
+    "projectBochka": "БЦ «Бочка»",
+    "projectNewUzbekistan": "Массив «Новый Узбекистан»",
+    "news": "Новости",
+    "vacancies": "Вакансии",
+    "contacts": "Контакты",
+    "construction": "Строительство",
+    "design": "Проектирование",
+    "solutions": "Решения",
+    "consultation": "Консультация"
+  },
   
-  "footer.companyName": "TOWER UP",
-  "footer.companyDesc": "Мы создаем современные проекты премиум-класса, отвечающие высоким стандартам качества и комфорта.",
-  "footer.navigation": "Навигация",
-  "footer.services": "Услуги",
-  "footer.contacts": "Контакты",
-  "footer.address": "г. Ташкент, Узбекистан",
-  "footer.rights": "Все права защищены",
-  "footer.policy": "Политика конфиденциальности",
+  "footer": {
+    "companyName": "TOWER UP",
+    "companyDesc": "Мы создаем современные проекты премиум-класса, отвечающие высоким стандартам качества и комфорта.",
+    "navigation": "Навигация",
+    "services": "Услуги",
+    "contacts": "Контакты",
+    "address": "Ташкент, Узбекистан",
+    "rights": "Все права защищены",
+    "policy": "Политика конфиденциальности"
+  },
   
-  "home.hero.title": "Надёжность и комфорт",
-  "home.hero.subtitle": "в каждом проекте!",
-  "home.hero.learnMore": "Узнать подробнее",
-  "home.hero.projects": "Проекты",
-  "home.hero.learnMoreAriaLabel": "Узнать больше о компании",
-  "home.hero.projectsAriaLabel": "Перейти к странице проектов",
-  "home.hero.ariaLabel": "Главная секция",
-  "home.hero.imageAlt": "Современный жилой комплекс",
-  "home.hero.imageNavAriaLabel": "Перейти к изображению",
+  "home": {
+    "hero": {
+      "title": "Надежность и комфорт",
+      "subtitle": "в каждом проекте!",
+      "learnMore": "Узнать больше",
+      "projects": "Проекты",
+      "learnMoreAriaLabel": "Узнать больше о компании",
+      "projectsAriaLabel": "Перейти на страницу проектов",
+      "ariaLabel": "Главный раздел",
+      "imageAlt": "Современный жилой комплекс",
+      "imageNavAriaLabel": "Перейти к изображению"
+    },
+    "about": {
+      "title": "О КОМПАНИИ",
+      "subtitle": "TOWER UP — современная строительная компания, специализирующаяся на строительстве жилых комплексов премиум-класса и коммерческой недвижимости.",
+      "text1": "Наша компания имеет многолетний опыт в строительстве и реализации масштабных проектов.",
+      "text2": "Мы создаем недвижимость, отвечающую самым высоким требованиям к комфорту и качеству.",
+      "button": "Подробнее"
+    },
+    "features": {
+      "title": "НАШИ ПРЕИМУЩЕСТВА",
+      "quality": {
+        "title": "Высокое качество",
+        "desc": "Мы используем только сертифицированные материалы и современные строительные технологии"
+      },
+      "design": {
+        "title": "Уникальный дизайн",
+        "desc": "Каждый из наших проектов отличается современной архитектурой и продуманным дизайном"
+      },
+      "location": {
+        "title": "Отличное расположение",
+        "desc": "Наши объекты расположены в перспективных и удобных районах города"
+      },
+      "infrastructure": {
+        "title": "Развитая инфраструктура",
+        "desc": "Все необходимое для комфортной жизни находится в шаговой доступности"
+      }
+    },
+    "projects": {
+      "title": "НАШИ ПРОЕКТЫ",
+      "subtitle": "Мы строим жилые комплексы премиум-класса и коммерческую недвижимость",
+      "all": "Все проекты"
+    },
+    "advantages": {
+      "title": "ПРЕИМУЩЕСТВА НАШИХ ПРОЕКТОВ",
+      "quality": "Высокое качество строительства",
+      "materials": "Экологичные материалы",
+      "technology": "Современные технологии",
+      "infrastructure": "Собственная инфраструктура",
+      "security": "Круглосуточная охрана",
+      "planning": "Продуманные планировки"
+    },
+    "news": {
+      "title": "НОВОСТИ И ВАКАНСИИ",
+      "subtitle": "Актуальная информация о нашей компании и открытые вакансии",
+      "all": "Все новости"
+    },
+    "vacancies": {
+      "all": "Все вакансии"
+    },
+    "partners": {
+      "title": "НАШИ ПАРТНЕРЫ",
+      "subtitle": "Мы сотрудничаем с ведущими компаниями и поставщиками"
+    },
+    "contact": {
+      "title": "СВЯЖИТЕСЬ С НАМИ",
+      "subtitle": "У вас есть вопросы? Заполните форму ниже, и мы свяжемся с вами в ближайшее время",
+      "name": "Ваше имя",
+      "email": "Электронная почта",
+      "message": "Сообщение",
+      "button": "Отправить"
+    },
+    "map": {
+      "title": "Наше местоположение",
+      "subtitle": "Мы находимся в центре Ташкента и всегда рады видеть вас в нашем офисе",
+      "address": "Ташкент, Узбекистан"
+    }
+  },
   
-  "home.hero.button": "Узнать больше",
+  "about": {
+    "title": "О КОМПАНИИ",
+    "values": {
+      "title": "НАШИ ЦЕННОСТИ",
+      "quality": {
+        "title": "Качество",
+        "desc": "Мы стремимся к совершенству в каждом аспекте нашей работы"
+      },
+      "innovation": {
+        "title": "Инновации",
+        "desc": "Мы внедряем передовые технологии в строительство"
+      },
+      "responsibility": {
+        "title": "Ответственность",
+        "desc": "Мы выполняем все обязательства перед клиентами и партнерами"
+      },
+      "transparency": {
+        "title": "Прозрачность",
+        "desc": "Мы открыты и честны во всех аспектах нашей деятельности"
+      }
+    },
+    "team": {
+      "title": "НАША КОМАНДА",
+      "desc": "Наша команда состоит из опытных профессионалов, преданных своему делу"
+    },
+    "stats": {
+      "projects": "Завершенные проекты",
+      "area": "м² построено",
+      "clients": "Довольные клиенты",
+      "awards": "Награды и признания"
+    },
+    "history": {
+      "title": "НАША ИСТОРИЯ",
+      "desc": "История развития компании TOWER UP"
+    },
+    "projects": {
+      "title": "ТЕКУЩИЕ ПРОЕКТЫ",
+      "desc": "Ознакомьтесь с нашими текущими проектами"
+    }
+  },
   
-  "home.about.title": "О КОМПАНИИ",
-  "home.about.subtitle": "TOWER UP — современная строительная компания, специализирующаяся на возведении жилых комплексов и коммерческой недвижимости премиум-класса.",
-  "home.about.text1": "Наша компания имеет многолетний опыт в сфере строительства и реализации масштабных проектов.",
-  "home.about.text2": "Мы создаем недвижимость, отвечающую самым высоким требованиям комфорта и качества.",
-  "home.about.button": "Подробнее",
+  "construction": {
+    "title": "СТРОИТЕЛЬСТВО ОБЪЕКТОВ",
+    "subtitle": "СТРОИТЕЛЬСТВО",
+    "services": {
+      "title": "Строительные услуги",
+      "desc1": "Наша компания предоставляет полный спектр услуг по строительству объектов различного назначения: жилые комплексы, коммерческие здания, промышленные объекты и инфраструктура.",
+      "desc2": "Мы используем современные строительные технологии и качественные материалы, что позволяет нам создавать долговечные и функциональные объекты."
+    }
+  },
   
-  "home.features.title": "НАШИ ПРЕИМУЩЕСТВА",
-  "home.features.quality.title": "Высокое качество",
-  "home.features.quality.desc": "Мы используем только сертифицированные материалы и современные технологии строительства",
-  "home.features.design.title": "Уникальный дизайн",
-  "home.features.design.desc": "Каждый наш проект отличается современной архитектурой и продуманным дизайном",
-  "home.features.location.title": "Отличное расположение",
-  "home.features.location.desc": "Наши объекты расположены в перспективных и удобных районах города",
-  "home.features.infrastructure.title": "Развитая инфраструктура",
-  "home.features.infrastructure.desc": "Все необходимое для комфортной жизни находится в шаговой доступности",
+  "design": {
+    "title": "ПРОЕКТИРОВАНИЕ",
+    "services": {
+      "title": "Проектные услуги",
+      "desc1": "Мы предлагаем профессиональные услуги по проектированию зданий и сооружений. Наша команда опытных архитекторов и инженеров разрабатывает проекты различной сложности, учитывая все требования заказчика и нормативные стандарты.",
+      "desc2": "Мы используем современное программное обеспечение для создания детальных 3D-моделей и проектной документации, что позволяет визуализировать результат до начала строительства."
+    }
+  },
   
-  "home.projects.title": "НАШИ ПРОЕКТЫ",
-  "home.projects.subtitle": "Мы строим жилые комплексы и коммерческую недвижимость премиум-класса",
-  "home.projects.all": "Все проекты",
+  "contact": {
+    "title": "КОНТАКТЫ",
+    "subtitle": "Свяжитесь с нами",
+    "form": {
+      "title": "Форма обратной связи",
+      "name": "Ваше имя",
+      "contact": "Предпочтительный способ связи",
+      "phone": "Телефон",
+      "email": "Email",
+      "message": "Сообщение",
+      "submit": "Отправить"
+    },
+    "info": {
+      "title": "Наши контакты",
+      "address": "Адрес",
+      "addressValue": "город Ташкент, Сергелийский район, МСГ Янги Кумарык. Ориентир: завод GM Motor.",
+      "phone": "Телефон",
+      "email": "Email",
+      "schedule": "Время работы",
+      "noWeekends": "Без выходных"
+    },
+    "map": {
+      "title": "Наше местоположение"
+    }
+  },
   
-  "home.advantages.title": "ПРЕИМУЩЕСТВА НАШИХ ПРОЕКТОВ",
-  "home.advantages.quality": "Высокое качество строительства",
-  "home.advantages.materials": "Экологичные материалы",
-  "home.advantages.technology": "Современные технологии",
-  "home.advantages.infrastructure": "Собственная инфраструктура",
-  "home.advantages.security": "Круглосуточная безопасность",
-  "home.advantages.planning": "Продуманные планировки",
+  "management": {
+    "title": "РУКОВОДСТВО",
+    "team": {
+      "title": "О нашей команде",
+      "desc1": "Команда TOWER UP - это высококвалифицированные профессионалы с многолетним опытом работы в строительстве, финансах и управлении. Нас объединяет общая цель – создавать уникальные объекты, которые украшают городской ландшафт и делают жизнь людей комфортнее.",
+      "desc2": "Наше руководство постоянно следит за инновациями в отрасли, внедряет современные технологии и подходы к управлению проектами. Благодаря этому проекты TOWER UP всегда отличаются высоким качеством исполнения, соблюдением сроков и бюджета.",
+      "principles": "Наши принципы:"
+    },
+    "principles": {
+      "quality": "Неизменно высокое качество",
+      "precision": "Точность в деталях и сроках",
+      "teamwork": "Командная работа и синергия",
+      "responsibility": "Личная ответственность"
+    },
+    "tabs": {
+      "executives": "Руководство",
+      "departments": "Отделы",
+      "careers": "Карьера"
+    },
+    "contact": "Контактная информация",
+    "careers": {
+      "title": "Присоединяйтесь к нашей команде",
+      "desc": "TOWER UP предлагает уникальные возможности для профессионального и карьерного роста. Мы ценим инициативу, креативность и стремление к постоянному развитию.",
+      "benefits": "Преимущества работы у нас",
+      "benefits.salary": "Конкурентная заработная плата",
+      "benefits.social": "Расширенный социальный пакет",
+      "benefits.training": "Программы обучения и развития",
+      "benefits.projects": "Работа над интересными проектами",
+      "apply": "Как подать заявку",
+      "apply.desc1": "Отправьте свое резюме на hr@towerup.ru, указав в теме письма интересующую вас должность.",
+      "apply.desc2": "Вы также можете ознакомиться с текущими вакансиями в разделе «Вакансии» на нашем сайте.",
+      "office": "Центральный офис"
+    }
+  },
   
-  "home.news.title": "НОВОСТИ И ВАКАНСИИ",
-  "home.news.subtitle": "Актуальная информация о нашей компании и открытые вакансии",
-  "home.news.all": "Все новости",
-  "home.vacancies.all": "Все вакансии",
+  "news": {
+    "title": "НОВОСТИ",
+    "notFound": "Новости не найдены",
+    "notFoundDesc": "В настоящее время новостей нет. Пожалуйста, зайдите позже.",
+    "readMore": "Подробнее",
+    "featured": "Рекомендуемые",
+    "backToAll": "Все новости",
+    "back": "Назад",
+    "gallery": "Фотогалерея"
+  },
   
-  "home.partners.title": "НАШИ ПАРТНЕРЫ",
-  "home.partners.subtitle": "Мы сотрудничаем с ведущими компаниями и поставщиками",
+  "vacancies": {
+    "title": "ВАКАНСИИ",
+    "notFound": "Вакансии не найдены",
+    "notFoundDesc": "В настоящее время вакансий нет. Пожалуйста, зайдите позже.",
+    "apply": "Подать заявку",
+    "back": "Все вакансии",
+    "details": {
+      "responsibilities": "Обязанности",
+      "requirements": "Требования",
+      "conditions": "Условия",
+      "apply": "Подать заявку на должность"
+    }
+  },
   
-  "home.contact.title": "СВЯЗАТЬСЯ С НАМИ",
-  "home.contact.subtitle": "У вас остались вопросы? Заполните форму ниже, и мы свяжемся с вами в ближайшее время",
-  "home.contact.name": "Ваше имя",
-  "home.contact.email": "Электронная почта",
-  "home.contact.message": "Сообщение",
-  "home.contact.button": "Отправить",
+  "trcBochka": {
+    "title": "ТРЦ «БОЧКА»",
+    "subtitle": "Современный многофункциональный торгово-развлекательный центр в Ташкентской области",
+    "description": "Торгово-развлекательный центр «Бочка» - новый проект компании TOWER UP, расположенный в Ташкентской области. Проект представляет собой современный комплекс с уникальной архитектурой, включающий в себя торговые площади, рестораны, кинотеатр и развлекательные зоны.",
+    "overview": {
+      "title": "ОБЗОР ПРОЕКТА",
+      "desc": "ТРЦ «Бочка» сочетает в себе современную архитектуру и функциональность, предлагая посетителям широкий спектр возможностей для шоппинга и развлечений в комфортной атмосфере."
+    },
+    "architecture": {
+      "title": "АРХИТЕКТУРА",
+      "desc": "Архитектура ТРЦ «Бочка» отличается оригинальным фасадом и дизайном интерьера. Проект выполнен в современном стиле с использованием качественных материалов, обеспечивающих долговечность и эстетическую привлекательность здания."
+    },
+    "features": {
+      "title": "ОСОБЕННОСТИ ПРОЕКТА",
+      "retail": {
+        "title": "Торговая галерея",
+        "desc": "Более 100 магазинов различных брендов"
+      },
+      "food": {
+        "title": "Фуд-корт и рестораны",
+        "desc": "Разнообразные кухни мира и зоны отдыха"
+      },
+      "entertainment": {
+        "title": "Развлекательная зона",
+        "desc": "Кинотеатр, игровая зона для детей и взрослых"
+      },
+      "parking": {
+        "title": "Парковка",
+        "desc": "Просторная парковка для посетителей"
+      }
+    },
+    "gallery": {
+      "title": "ФОТОГАЛЕРЕЯ ПРОЕКТА",
+      "subtitle": "Визуализации и текущий статус строительства"
+    },
+    "status": {
+      "title": "СТАТУС ПРОЕКТА",
+      "subtitle": "Текущее состояние строительства",
+      "inProgress": "В процессе строительства",
+      "completion": "Ожидаемая дата завершения"
+    },
+    "contact": {
+      "title": "СВЯЖИТЕСЬ С НАМИ",
+      "subtitle": "Узнайте больше о возможностях аренды торговых площадей",
+      "button": "Отправить запрос"
+    }
+  },
   
-  "home.map.title": "Наше местоположение",
-  "home.map.subtitle": "Мы находимся в центре Ташкента и всегда рады видеть вас в нашем офисе",
-  "home.map.address": "г. Ташкент, Узбекистан",
+  "newUzbekistan": {
+    "title": "МАССИВ «НОВЫЙ УЗБЕКИСТАН»",
+    "subtitle": "Крупномасштабный жилой комплекс с современной инфраструктурой",
+    "hero": {
+      "title": "НОВЫЙ УЗБЕКИСТАН",
+      "subtitle": "Современный район для комфортной жизни",
+      "description": "Массив «Новый Узбекистан» - амбициозный проект от TOWER UP, представляющий собой новый стандарт городской жизни в гармонии с природой"
+    },
+    "overview": {
+      "title": "ОБЗОР ПРОЕКТА",
+      "subtitle": "Новый стандарт комфорта для Узбекистана",
+      "desc1": "Массив «Новый Узбекистан» - это крупномасштабный жилой комплекс, сочетающий в себе современную архитектуру, развитую инфраструктуру и экологические принципы.",
+      "desc2": "Проект включает в себя жилые дома с различными планировками квартир, коммерческие площади, образовательные учреждения, спортивные сооружения и зоны отдыха.",
+      "desc3": "Концепция ориентирована на создание комфортной среды проживания, отвечающей международным стандартам, при сохранении национальной идентичности."
+    },
+    "masterplan": {
+      "title": "ГЕНЕРАЛЬНЫЙ ПЛАН",
+      "subtitle": "Продуманное городское пространство",
+      "desc": "Генеральный план массива разработан с участием ведущих архитекторов и градостроителей, с учетом современных тенденций в развитии городов."
+    },
+    "features": {
+      "title": "ОСОБЕННОСТИ ПРОЕКТА",
+      "subtitle": "Ключевые преимущества района",
+      "architecture": {
+        "title": "Современная архитектура",
+        "desc": "Здания, спроектированные в современном стиле с национальными элементами"
+      },
+      "greenery": {
+        "title": "Зеленые насаждения",
+        "desc": "Более 30% территории отведено под парки и сады"
+      },
+      "infrastructure": {
+        "title": "Инфраструктура",
+        "desc": "Школы, детские сады, клиники и коммерческие зоны"
+      },
+      "parking": {
+        "title": "Парковочные решения",
+        "desc": "Подземные и наземные парковки по всему району"
+      },
+      "security": {
+        "title": "Безопасность",
+        "desc": "Круглосуточное наблюдение и ограниченный доступ в жилые зоны"
+      },
+      "recreation": {
+        "title": "Зоны отдыха",
+        "desc": "Детские площадки, спортивные поля и пешеходные дорожки"
+      }
+    },
+    "apartments": {
+      "title": "КВАРТИРЫ",
+      "subtitle": "Разнообразие планировок для разных потребностей",
+      "desc": "В жилых домах предлагаются квартиры от компактных студий до просторных многокомнатных, все с эффективной планировкой и высококачественной отделкой.",
+      "studio": {
+        "title": "Квартиры-студии",
+        "desc": "Компактные и функциональные пространства для одиноких и молодых пар"
+      },
+      "oneBedroom": {
+        "title": "Однокомнатные квартиры",
+        "desc": "Сбалансированные планировки с отдельной спальней и гостиной"
+      },
+      "twoBedroom": {
+        "title": "Двухкомнатные квартиры",
+        "desc": "Комфортные пространства для небольших семей"
+      },
+      "threeBedroom": {
+        "title": "Трехкомнатные квартиры",
+        "desc": "Просторные планировки для больших семей"
+      },
+      "premium": {
+        "title": "Премиум квартиры",
+        "desc": "Эксклюзивные планировки с премиальной отделкой и панорамными видами"
+      },
+      "floorLayout": "План этажа",
+      "floorLayoutDesc": "Полный план этажа, показывающий расположение всех квартир на одном этаже",
+      "viewDetails": "Посмотреть детали",
+      "bedrooms": "Спальни",
+      "bathrooms": "Ванные комнаты",
+      "balconies": "Балконы",
+      "featuresTitle": "Характеристики комнат",
+      "startingPrice": "Начальная цена:",
+      "inquire": "Узнать об этой квартире",
+      "footer": "Планы этажей могут отличаться в зависимости от наличия. Свяжитесь с нашим отделом продаж для получения информации о текущих ценах и наличии конкретных квартир."
+    }
+  },
   
-  "about.title": "О КОМПАНИИ",
-  "about.values.title": "НАШИ ЦЕННОСТИ",
-  "about.values.quality.title": "Качество",
-  "about.values.quality.desc": "Мы стремимся к совершенству в каждом аспекте нашей работы",
-  "about.values.innovation.title": "Инновации",
-  "about.values.innovation.desc": "Мы внедряем передовые технологии в строительстве",
-  "about.values.responsibility.title": "Ответственность",
-  "about.values.responsibility.desc": "Мы выполняем все обязательства перед клиентами и партнерами",
-  "about.values.transparency.title": "Прозрачность",
-  "about.values.transparency.desc": "Мы открыты и честны во всех аспектах нашей деятельности",
-  
-  "about.team.title": "НАША КОМАНДА",
-  "about.team.desc": "Наша команда состоит из опытных профессионалов, преданных своему делу",
-  
-  "about.stats.projects": "Реализованных проектов",
-  "about.stats.area": "м² построено",
-  "about.stats.clients": "Довольных клиентов",
-  "about.stats.awards": "Наград и признаний",
-  
-  "about.history.title": "НАША ИСТОРИЯ",
-  "about.history.desc": "История развития компании TOWER UP",
-  
-  "about.projects.title": "ТЕКУЩИЕ ПРОЕКТЫ",
-  "about.projects.desc": "Ознакомьтесь с нашими текущими проектами",
-  
-  "construction.title": "СТРОИТЕЛЬСТВО ОБЪЕКТОВ",
-  "construction.subtitle": "СТРОИТЕЛЬСТВО",
-  "construction.services.title": "Строительные услуги",
-  "construction.services.desc1": "Наша компания предоставляет полный спектр услуг по строительству объектов различного назначения: жилых комплексов, коммерческих зданий, промышленных объектов и инфраструктуры.",
-  "construction.services.desc2": "Мы используем современные технологии строительства и качественные материалы, что позволяет нам создавать долговечные и функциональные объекты.",
-  
-  "design.title": "ПРОЕКТИРОВАНИЕ",
-  "design.services.title": "Проектные услуги",
-  "design.services.desc1": "Мы предлагаем профессиональные услуги по проектированию зданий и сооружений. Наша команда опытных архитекторов и инженеров разрабатывает проекты различной сложности, учитывая все требования заказчика и нормативные стандарты.",
-  "design.services.desc2": "Мы используем современное программное обеспечение для создания детальных 3D-моделей и проектной документации, что позволяет визуализировать результат еще до начала строительства.",
-  
-  "contact.title": "КОНТАКТЫ",
-  "contact.subtitle": "Свяжитесь с нами",
-  "contact.form.title": "Форма обратной связи",
-  "contact.form.name": "Ваше имя",
-  "contact.form.contact": "Предпочитаемый способ связи",
-  "contact.form.phone": "Телефон",
-  "contact.form.email": "Email",
-  "contact.form.message": "Сообщение",
-  "contact.form.submit": "Отправить",
-  
-  "contact.info.title": "Наши контакты",
-  "contact.info.address": "Адрес",
-  "contact.info.addressValue": "Город Ташкент, Сергелийский район, МСГ Янги Қумариқ. Ориентир: Моторный завод GM.",
-  "contact.info.phone": "Телефон",
-  "contact.info.email": "Email",
-  "contact.info.schedule": "Режим работы",
-  "contact.info.noWeekends": "Без выходных",
-  
-  "contact.map.title": "Наше местоположение",
-  
-  "management.title": "РУКОВОДСТВО",
-  "management.team.title": "О нашей команде",
-  "management.team.desc1": "Команда TOWER UP – это высококвалифицированные профессионалы с многолетним опытом работы в строительной, финансовой и управленческой сферах. Мы объединены общей целью – создавать уникальные объекты, которые украшают городской ландшафт и делают жизнь людей комфортнее.",
-  "management.team.desc2": "Наше руководство постоянно следит за инновациями в отрасли, внедряет современные технологии и подходы к управлению проектами. Благодаря этому, проекты TOWER UP всегда отличаются высоким качеством исполнения, соблюдением сроков и бюджета.",
-  "management.principles": "Наши принципы:",
-  "management.principles.quality": "Неизменно высокое качество",
-  "management.principles.precision": "Точность в деталях и сроках",
-  "management.principles.teamwork": "Командная работа и синергия",
-  "management.principles.responsibility": "Личная ответственность",
-  
-  "management.tabs.executives": "Руководство",
-  "management.tabs.departments": "Отделы",
-  "management.tabs.careers": "Карьера",
-  
-  "management.contact": "Контактная информация",
-  
-  "news.title": "НОВОСТИ",
-  "news.notFound": "Новости не найдены",
-  "news.notFoundDesc": "В данный момент новости отсутствуют. Пожалуйста, проверьте позже.",
-  "news.readMore": "Читать далее",
-  "news.featured": "Важное",
-  "news.backToAll": "Все новости",
-  "news.back": "Назад",
-  "news.gallery": "Фотогалерея",
-  
-  "vacancies.title": "ВАКАНСИИ",
-  "vacancies.notFound": "Вакансии не найдены",
-  "vacancies.notFoundDesc": "В данный момент вакансии отсутствуют. Пожалуйста, проверьте позже.",
-  "vacancies.apply": "Откликнуться",
-  "vacancies.back": "Все вакансии",
-  "vacancies.details.responsibilities": "Обязанности",
-  "vacancies.details.requirements": "Требования",
-  "vacancies.details.conditions": "Условия",
-  "vacancies.details.apply": "Откликнуться на вакансию",
-  
-  "trcBochka.title": "ТРЦ \"БОЧКА\"",
-  "trcBochka.subtitle": "Современный многофункциональный торгово-развлекательный центр в Ташкентской области",
-  "trcBochka.description": "Торгово-развлекательный центр \"Бочка\" — новый проект компании TOWER UP, расположенный в Ташкентской области. Проект представляет собой современный комплекс с уникальной архитектурой, включающий в себя торговые площади, рестораны, кинотеатр и развлекательные зоны.",
-  "trcBochka.overview.title": "ОБЗОР ПРОЕКТА",
-  "trcBochka.overview.desc": "ТРЦ \"Бочка\" сочетает в себе современную архитектуру и функциональность, предлагая посетителям широкий спектр возможностей для шопинга и развлечений в комфортной атмосфере.",
-  "trcBochka.architecture.title": "АРХИТЕКТУРА",
-  "trcBochka.architecture.desc": "Архитектура ТРЦ \"Бочка\" отличается оригинальным дизайном фасада и интерьеров. Проект выполнен в современном стиле с использованием качественных материалов, обеспечивающих долговечность и эстетическую привлекательность здания.",
-  "trcBochka.features.title": "ОСОБЕННОСТИ ПРОЕКТА",
-  "trcBochka.features.retail.title": "Торговая галерея",
-  "trcBochka.features.retail.desc": "Более 100 магазинов различных брендов",
-  "trcBochka.features.food.title": "Фуд-корт и рестораны",
-  "trcBochka.features.food.desc": "Разнообразные кухни мира и зоны отдыха",
-  "trcBochka.features.entertainment.title": "Развлекательная зона",
-  "trcBochka.features.entertainment.desc": "Кинотеатр, игровая зона для детей и взрослых",
-  "trcBochka.features.parking.title": "Парковка",
-  "trcBochka.features.parking.desc": "Просторная парковка для посетителей",
-  "trcBochka.gallery.title": "ФОТОГАЛЕРЕЯ ПРОЕКТА",
-  "trcBochka.gallery.subtitle": "Визуализации и текущий статус строительства",
-  "trcBochka.status.title": "СТАТУС ПРОЕКТА",
-  "trcBochka.status.subtitle": "Текущее состояние строительства",
-  "trcBochka.status.inProgress": "В процессе строительства",
-  "trcBochka.status.completion": "Ожидаемая дата завершения",
-  "trcBochka.contact.title": "СВЯЗАТЬСЯ С НАМИ",
-  "trcBochka.contact.subtitle": "Узнайте больше о возможностях аренды торговых площадей",
-  "trcBochka.contact.button": "Отправить запрос",
-  
-  "newUzbekistan.title": "МАССИВ \"ЯНГИ УЗБЕКИСТАН\"",
-  "newUzbekistan.subtitle": "Масштабный жилой комплекс с современной инфраструктурой",
-  "newUzbekistan.hero.title": "ЯНГИ УЗБЕКИСТАН",
-  "newUzbekistan.hero.subtitle": "Современный район для комфортной жизни",
-  "newUzbekistan.hero.description": "Массив \"Янги Узбекистан\" - амбициозный проект компании TOWER UP, представляющий новый стандарт городской жизни в гармонии с природой",
-  "newUzbekistan.overview.title": "ОБЗОР ПРОЕКТА",
-  "newUzbekistan.overview.subtitle": "Новый стандарт комфорта для Узбекистана",
-  "newUzbekistan.overview.desc1": "Массив \"Янги Узбекистан\" - это масштабный жилой комплекс, сочетающий современную архитектуру, развитую инфраструктуру и экологические принципы.",
-  "newUzbekistan.overview.desc2": "Проект включает в себя жилые здания с различными планировками квартир, коммерческие помещения, образовательные учреждения, спортивные объекты и зоны отдыха.",
-  "newUzbekistan.overview.desc3": "Концепция проекта направлена на создание комфортной среды проживания, отвечающей международным стандартам при сохранении национальной идентичности.",
-  
-  "newUzbekistan.masterplan.title": "ГЕНЕРАЛЬНЫЙ ПЛАН",
-  "newUzbekistan.masterplan.subtitle": "Продуманное городское пространство",
-  "newUzbekistan.masterplan.desc": "Генеральный план массива разработан с участием ведущих архитекторов и градостроителей, с учетом современных тенденций городского развития.",
-  
-  "newUzbekistan.features.title": "ОСОБЕННОСТИ ПРОЕКТА",
-  "newUzbekistan.features.subtitle": "Ключевые преимущества массива",
-  "newUzbekistan.features.architecture.title": "Современная Архитектура",
-  "newUzbekistan.features.architecture.desc": "Здания, спроектированные в современном стиле с национальными элементами",
-  "newUzbekistan.features.greenery.title": "Зеленые Пространства",
-  "newUzbekistan.features.greenery.desc": "Более 30% территории отведено под парки и скверы",
-  "newUzbekistan.features.infrastructure.title": "Инфраструктура",
-  "newUzbekistan.features.infrastructure.desc": "Школы, детские сады, поликлиники и коммерческие зоны",
-  "newUzbekistan.features.parking.title": "Парковочные Решения",
-  "newUzbekistan.features.parking.desc": "Подземные и наземные парковки по всему массиву",
-  "newUzbekistan.features.security.title": "Безопасность",
-  "newUzbekistan.features.security.desc": "Круглосуточное видеонаблюдение и ограниченный доступ в жилые зоны",
-  "newUzbekistan.features.recreation.title": "Зоны Отдыха",
-  "newUzbekistan.features.recreation.desc": "Детские площадки, спортивные поля и прогулочные дорожки",
-  
-  "newUzbekistan.apartments.title": "КВАРТИРЫ",
-  "newUzbekistan.apartments.subtitle": "Разнообразие планировок для различных потребностей",
-  "newUzbekistan.apartments.desc": "В жилых зданиях предлагаются квартиры от компактных студий до просторных многокомнатных, все с эффективными планировками и качественной отделкой.",
-  "newUzbekistan.apartments.studio.title": "Студии",
-  "newUzbekistan.apartments.studio.desc": "Компактные и функциональные пространства для одиночек и молодых пар",
-  "newUzbekistan.apartments.oneBedroom.title": "Однокомнатные Квартиры",
-  "newUzbekistan.apartments.oneBedroom.desc": "Сбалансированные планировки с отдельной спальней и жилой зоной",
-  "newUzbekistan.apartments.twoBedroom.title": "Двухкомнатные Квартиры",
-  "newUzbekistan.apartments.twoBedroom.desc": "Комфортные пространства для небольших семей",
-  "newUzbekistan.apartments.threeBedroom.title": "Трехкомнатные Квартиры",
-  "newUzbekistan.apartments.threeBedroom.desc": "Просторные планировки для больших семей",
-  "newUzbekistan.apartments.premium.title": "Премиум Квартиры",
-  "newUzbekistan.apartments.premium.desc": "Эксклюзивные планировки с премиальной отделкой и панорамными видами",
-  "newUzbekistan.apartments.floorLayout": "План Этажа",
-  "newUzbekistan.apartments.floorLayoutDesc": "Полный план этажа, показывающий расположение всех квартир на одном этаже",
-  "newUzbekistan.apartments.viewDetails": "Посмотреть Детали",
-  "newUzbekistan.apartments.bedrooms": "Спальни",
-  "newUzbekistan.apartments.bathrooms": "Санузлы",
-  "newUzbekistan.apartments.balconies": "Балконы",
-  "newUzbekistan.apartments.featuresTitle": "Характеристики Помещений",
-  "newUzbekistan.apartments.startingPrice": "Начальная Цена:",
-  "newUzbekistan.apartments.inquire": "Узнать Об Этой Квартире",
-  "newUzbekistan.apartments.footer": "Планировки могут отличаться в зависимости от наличия. Свяжитесь с нашим отделом продаж для уточнения текущих цен и наличия конкретных квартир.",
-  
-  "newUzbekistan.infrastructure.title": "ИНФРАСТРУКТУРА",
-  "newUzbekistan.infrastructure.subtitle": "Всё для комфортной жизни",
-  "newUzbekistan.infrastructure.education.title": "Образование",
-  "newUzbekistan.infrastructure.education.desc": "Современные школы и детские сады в шаговой доступности",
-  "newUzbekistan.infrastructure.healthcare.title": "Здравоохранение",
-  "newUzbekistan.infrastructure.healthcare.desc": "Медицинские клиники с квалифицированными специалистами",
-  "newUzbekistan.infrastructure.shopping.title": "Шопинг",
-  "newUzbekistan.infrastructure.shopping.desc": "Торговые зоны с супермаркетами и специализированными магазинами",
-  "newUzbekistan.infrastructure.dining.title": "Питание",
-  "newUzbekistan.infrastructure.dining.desc": "Кафе и рестораны, предлагающие различные кухни",
-  "newUzbekistan.infrastructure.sports.title": "Спорт",
-  "newUzbekistan.infrastructure.sports.desc": "Фитнес-центры, спортивные площадки и прогулочные дорожки",
-  "newUzbekistan.infrastructure.leisure.title": "Досуг",
-  "newUzbekistan.infrastructure.leisure.desc": "Парки, зоны отдыха и развлекательные объекты",
-  
-  "newUzbekistan.projectFeatures.title": "ОСОБЕННОСТИ ПРОЕКТА",
-  "newUzbekistan.projectFeatures.subtitle": "Исключительные особенности жилого комплекса Новый Узбекистан",
-  "newUzbekistan.projectFeatures.whyChoose": "Почему стоит выбрать Новый Узбекистан",
-  "newUzbekistan.projectFeatures.feature1.title": "Премиальное расположение",
-  "newUzbekistan.projectFeatures.feature1.desc": "Стратегически расположен в быстро развивающемся районе с отличной инфраструктурой и транспортной доступностью.",
-  "newUzbekistan.projectFeatures.feature2.title": "Современная архитектура",
-  "newUzbekistan.projectFeatures.feature2.desc": "Современный дизайн, соответствующий международным стандартам, с акцентом на эстетику и функциональность.",
-  "newUzbekistan.projectFeatures.feature3.title": "Качественное строительство",
-  "newUzbekistan.projectFeatures.feature3.desc": "Построено с использованием премиальных материалов и передовых строительных технологий, обеспечивающих долговечность и безопасность.",
-  "newUzbekistan.projectFeatures.feature4.title": "Системы Умный дом",
-  "newUzbekistan.projectFeatures.feature4.desc": "Интегрированные умные технологии для контроля климата, безопасности и энергоэффективности.",
-  "newUzbekistan.projectFeatures.contactUs": "Свяжитесь с нами для получения дополнительной информации",
-  "newUzbekistan.projectFeatures.comfort.title": "Комфорт и удобство",
-  "newUzbekistan.projectFeatures.comfort.desc": "Продуманные жилые пространства, которые максимизируют комфорт с премиальной отделкой и оборудованием.",
-  "newUzbekistan.projectFeatures.security.title": "Безопасность 24/7",
-  "newUzbekistan.projectFeatures.security.desc": "Круглосуточная охрана с видеонаблюдением и профессиональным охранным персоналом.",
-  "newUzbekistan.projectFeatures.amenities.title": "Современные удобства",
-  "newUzbekistan.projectFeatures.amenities.desc": "Доступ к широкому спектру удобств, включая фитнес-центры, зоны отдыха и многое другое.",
-  
-  "common.close": "Закрыть",
-  "common.previous": "Предыдущий",
-  "common.next": "Следующий",
+  "common": {
+    "close": "Закрыть",
+    "previous": "Предыдущий",
+    "next": "Следующий"
+  },
 
-  "aboutSection.title": "О КОМПАНИИ",
-  "aboutSection.shortTitle": "Инновационные",
-  "aboutSection.shortTitleSolution": "решения",
-  "aboutSection.longTitle1": "Инновационные",
-  "aboutSection.longTitle2": "решения для",
-  "aboutSection.longTitle3": "современного",
-  "aboutSection.longTitle4": "строительства",
-  "aboutSection.text": "Ведущая строительная компания, специализирующаяся на реализации инновационных проектов и строительстве высотных зданий. С момента основания компания стремится воплощать самые амбициозные и сложные архитектурные идеи, предлагая клиентам решения на самом высоком уровне.",
-  "aboutSection.learnMore": "УЗНАТЬ БОЛЬШЕ",
-  "aboutSection.readMore": "Подробнее",
-  "aboutSection.buildingImage": "Здание компании",
-  "aboutSection.ourAdvantages": "НАШИ ПРЕИМУЩЕСТВА",
-  "aboutSection.advantages.professionalism.title": "ПРОФЕССИОНАЛИЗМ",
-  "aboutSection.advantages.professionalism.desc": "Основа нашего профессионализма - сохранение собственных традиций и использование мировых инноваций.",
-  "aboutSection.advantages.experience.title": "ОПЫТ КОМПАНИИ",
-  "aboutSection.advantages.experience.desc": "Нам не приходится доказывать качество нашей продукции. Ваше признание делает это за нас.",
-  "aboutSection.advantages.equipment.title": "ОБОРУДОВАНИЕ",
-  "aboutSection.advantages.equipment.desc": "Технологическое превосходство используемого нами оборудования является элементом отличия компании TOWERUP.",
-  
-  "featuresSection.ariaLabel": "Наши услуги",
-  "featuresSection.subtitle": "Строим будущее вместе",
-  "featuresSection.title": "Реализуйте свои мечты с Tower Up",
-  "featuresSection.description": "От проектирования до сдачи объекта — мы обеспечиваем полный цикл строительных работ с гарантией качества и в срок",
-  "featuresSection.contactUs": "Связаться с нами",
-  "featuresSection.ourProjects": "Наши проекты",
-  "featuresSection.contactAriaLabel": "Связаться с нашей командой",
-  "featuresSection.projectsAriaLabel": "Просмотр всех проектов компании",
-  
-  "projectsSection.viewMore": "Подробнее",
-  "projectsSection.viewProject": "Просмотр проекта",
-  "projectsSection.learnMore": "УЗНАТЬ БОЛЬШЕ",
-  "projectsSection.allProjects": "ВСЕ ПРОЕКТЫ",
-  "projectsSection.previousSlide": "Предыдущий слайд",
-  "projectsSection.nextSlide": "Следующий слайд",
-  "projectsSection.goToSlide": "Перейти к слайду",
-  "projectsSection.ourProjects": "НАШИ ПРОЕКТЫ",
-  "projectsSection.sectionTitle": "Наши проекты",
-  "projectsSection.sectionHeading": "Инновационные проекты, созданные для будущего",
-  "projectsSection.sectionDescription": "Познакомьтесь с нашими знаковыми проектами, которые мы создаем с использованием современных технологий и бескомпромиссных стандартов качества.",
-  
-  "projectsSection.featured.nearby.title": "Всё, что нужно — рядом",
-  "projectsSection.featured.nearby.subtitle": "ЖК «Кумарык»",
-  "projectsSection.featured.nearby.description": "Современный жилой комплекс в престижном районе.",
-  
-  "projectsSection.featured.parking.title": "Удобная парковка",
-  "projectsSection.featured.parking.subtitle": "Проекты TOWERUP",
-  "projectsSection.featured.parking.description": "Безопасное и комфортное место для вашего автомобиля.",
-  
-  "projectsSection.featured.turnkey.title": "Ремонт под ключ",
-  "projectsSection.featured.turnkey.subtitle": "Услуги TOWERUP",
-  "projectsSection.featured.turnkey.description": "Готовые решения для вашего комфорта.",
-  
-  "projectsSection.projects.pushkin.title": "Жилой комплекс «Пушкин»",
-  "projectsSection.projects.pushkin.description": "Современный эко-комплекс из 5 зданий с благоустроенной территорией, детскими площадками и парковой зоной.",
-  "projectsSection.projects.pushkin.location": "Ташкент",
-  "projectsSection.projects.pushkin.status": "Строящийся",
-  
-  "projectsSection.projects.newUzbekistan.title": "Жилой комплекс «Янги Узбекистан»",
-  "projectsSection.projects.newUzbekistan.description": "Современный комплекс с инновационной архитектурой, зелеными зонами и развитой инфраструктурой.",
-  "projectsSection.projects.newUzbekistan.location": "Ташкент",
-  "projectsSection.projects.newUzbekistan.status": "Строящийся",
-  
-  "projectsSection.projects.kumaryk.title": "Жилой комплекс «Кумарык»",
-  "projectsSection.projects.kumaryk.description": "Курортный комплекс, состоящий из 5* отеля и апартаментов с панорамными видами на море и частным пляжем.",
-  "projectsSection.projects.kumaryk.location": "Ташкент",
-  "projectsSection.projects.kumaryk.status": "Проектируется"
+  "aboutSection": {
+    "title": "О КОМПАНИИ",
+    "shortTitle": "Инновационные",
+    "shortTitleSolution": "решения",
+    "longTitle1": "Инновационные",
+    "longTitle2": "решения для",
+    "longTitle3": "современного",
+    "longTitle4": "строительства",
+    "text": "Ведущая строительная компания, специализирующаяся на инновационных проектах и высотных зданиях. С момента основания компания стремится к реализации самых амбициозных и сложных архитектурных идей, предлагая клиентам решения на самом высоком уровне.",
+    "learnMore": "УЗНАТЬ БОЛЬШЕ",
+    "readMore": "Подробнее",
+    "buildingImage": "Здание компании",
+    "ourAdvantages": "НАШИ ПРЕИМУЩЕСТВА",
+    "advantages": {
+      "professionalism": {
+        "title": "ПРОФЕССИОНАЛИЗМ",
+        "desc": "Основа нашего профессионализма - сохранение собственных традиций и использование мировых инноваций."
+      },
+      "experience": {
+        "title": "ОПЫТ КОМПАНИИ",
+        "desc": "Нам не нужно доказывать качество нашей продукции. Ваше признание делает это за нас."
+      },
+      "equipment": {
+        "title": "ОБОРУДОВАНИЕ",
+        "desc": "Технологическое превосходство нашего оборудования - отличительный элемент компании TOWERUP."
+      }
+    }
+  },
+  "featuresSection": {
+    "ariaLabel": "Наши услуги",
+    "subtitle": "Строим будущее вместе",
+    "title": "Реализуйте свои мечты с Tower Up",
+    "description": "От проектирования до сдачи проекта — мы обеспечиваем полный цикл строительных работ с гарантией качества и в срок",
+    "contactUs": "Свяжитесь с нами",
+    "ourProjects": "Наши проекты",
+    "contactAriaLabel": "Свяжитесь с нашей командой",
+    "projectsAriaLabel": "Посмотреть все проекты компании"
+  },
+  "projectsSection": {
+    "viewMore": "Подробнее",
+    "viewProject": "Смотреть проект",
+    "learnMore": "Узнать больше",
+    "allProjects": "Все проекты",
+    "previousSlide": "Предыдущий слайд",
+    "nextSlide": "Следующий слайд",
+    "goToSlide": "Перейти к слайду",
+    "ourProjects": "Наши проекты",
+    "sectionTitle": "Наши Проекты",
+    "sectionHeading": "Инновационные проекты, разработанные для будущего",
+    "sectionDescription": "Ознакомьтесь с нашими фирменными проектами, которые мы создаем с использованием современных технологий и бескомпромиссных стандартов качества.",
+    "featured": {
+      "nearby": {
+        "title": "Все необходимое — рядом",
+        "subtitle": "ЖК «Кумарык»",
+        "description": "Современный жилой комплекс в престижном районе."
+      },
+      "parking": {
+        "title": "Удобная парковка",
+        "subtitle": "Проекты TOWERUP",
+        "description": "Безопасное и комфортное место для вашего автомобиля."
+      },
+      "turnkey": {
+        "title": "Ремонт под ключ",
+        "subtitle": "Услуги TOWERUP",
+        "description": "Готовые решения для вашего комфорта."
+      }
+    },
+    "projects": {
+      "pushkin": {
+        "title": "Жилой Комплекс \"Пушкин\"",
+        "description": "Современный эко-комплекс из 5 зданий с благоустроенной территорией, детскими площадками и парковой зоной.",
+        "location": "Ташкент",
+        "status": "Строится"
+      },
+      "newUzbekistan": {
+        "title": "Жилой Комплекс \"Янги Узбекистан\"",
+        "description": "Современный комплекс с инновационной архитектурой, зелеными зонами и развитой инфраструктурой.",
+        "location": "Ташкент",
+        "status": "Строится"
+      },
+      "kumaryk": {
+        "title": "Жилой Комплекс \"Кумарык\"",
+        "description": "Курортный комплекс, состоящий из 5* отеля и апартаментов с панорамным видом на море и частным пляжем.",
+        "location": "Ташкент",
+        "status": "В разработке"
+      }
+    }
+  },
+  "projectAdvantages": {
+    "title": "Преимущества ЖК «Пушкин»",
+    "description": "Жилой комплекс «Пушкин» — это стандарт современного комфортного жилья, сочетающий в себе удачное расположение, качественное строительство и заботу о будущих жителях.",
+    "learnMore": "Узнать подробнее",
+    "nearby": {
+      "title": "Всё нужное - рядом",
+      "description": "Школа, детский сад, зеленая зона, детские площадки и поликлиника в шаговой доступности."
+    },
+    "parking": {
+      "title": "Удобный паркинг",
+      "description": "Многоуровневый надземный паркинг для жителей комплекса и их гостей."
+    },
+    "installment": {
+      "title": "Рассрочка 0% до 2-х лет",
+      "description": "Самые выгодные условия приобретения недвижимости в нашем комплексе."
+    },
+    "metro": {
+      "title": "4 минуты от метро",
+      "description": "Станция метро 10-я находится в нескольких минутах ходьбы, обеспечивая быстрый доступ к центру города."
+    }
+  }
 }
-
