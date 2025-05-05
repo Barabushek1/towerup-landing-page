@@ -9,6 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { getCachedData } from '@/utils/cache-utils';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface NewsItem {
   id: string;
@@ -28,6 +29,7 @@ const NewsItemComponent: React.FC<{
 }) => {
   const [imageError, setImageError] = useState(false);
   const isMobile = useIsMobile();
+  const { t } = useLanguage();
 
   // Format date for display
   const formatDate = (dateString: string) => {
@@ -65,7 +67,7 @@ const NewsItemComponent: React.FC<{
           />
         ) : (
           <div className="flex items-center justify-center w-full h-full bg-slate-700">
-            <p className="text-white">Нет изображения</p>
+            <p className="text-white">{t('news.noImage')}</p>
           </div>
         )}
       </div>
@@ -73,7 +75,7 @@ const NewsItemComponent: React.FC<{
       {item.featured && (
         <div className="absolute top-3 right-3 bg-primary text-white px-3 py-1 rounded-full font-medium text-xs flex items-center shadow-lg">
           <Star className="h-3 w-3 mr-1 fill-white" />
-          Важное
+          {t('news.featured')}
         </div>
       )}
       
@@ -94,7 +96,7 @@ const NewsItemComponent: React.FC<{
       
       <CardFooter className="px-6 pb-6 pt-0">
         <Link to={`/news/${item.id}`} className="inline-flex items-center text-primary font-medium hover:underline font-benzin group-hover:translate-x-1 transition-transform">
-          <span>Подробнее</span>
+          <span>{t('news.readMore')}</span>
           <ChevronRight className="ml-1 h-4 w-4" />
         </Link>
       </CardFooter>
@@ -102,7 +104,9 @@ const NewsItemComponent: React.FC<{
   );
 };
 
-const NewsLoadingSkeleton = () => (
+const NewsLoadingSkeleton = () => {
+  const { t } = useLanguage();
+  return (
   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
     {[1, 2, 3].map(i => (
       <Card key={i} className="overflow-hidden border border-primary/10 shadow-sm bg-slate-800">
@@ -123,13 +127,14 @@ const NewsLoadingSkeleton = () => (
       </Card>
     ))}
   </div>
-);
+)};
 
 const NewsVacanciesSection: React.FC = () => {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const isMobile = useIsMobile();
+  const { t } = useLanguage();
 
   // Fetch news from Supabase with caching for better performance
   useEffect(() => {
@@ -216,13 +221,13 @@ const NewsVacanciesSection: React.FC = () => {
       <div className="container mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-12">
           <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary font-medium mb-6 font-benzin text-3xl">
-            Новости
+            {t('home.news.title')}
           </span>
           <h2 className="text-4xl font-bold mb-6 text-white font-benzin">
-            Будьте в курсе наших последних событий
+            {t('home.news.subtitle')}
           </h2>
           <p className="text-lg text-slate-300 mx-auto font-benzin">
-            Следите за новостями компании и оставайтесь в курсе последних проектов и достижений
+            {t('home.news.description')}
           </p>
         </div>
         
@@ -236,7 +241,7 @@ const NewsVacanciesSection: React.FC = () => {
                 onClick={() => window.location.reload()} 
                 className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
               >
-                Попробовать снова
+                {t('common.tryAgain')}
               </button>
             </div>
           ) : news.length > 0 ? (
@@ -247,7 +252,7 @@ const NewsVacanciesSection: React.FC = () => {
             </div>
           ) : (
             <div className="text-center py-12 bg-slate-800 rounded-lg border border-slate-700">
-              <p className="text-slate-400 mb-4">Пока нет новостей</p>
+              <p className="text-slate-400 mb-4">{t('news.notFound')}</p>
             </div>
           )}
           
@@ -256,7 +261,7 @@ const NewsVacanciesSection: React.FC = () => {
               to="/news" 
               className="inline-flex items-center px-6 py-3 rounded-lg bg-primary text-white font-medium shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors font-benzin"
             >
-              Все новости
+              {t('home.news.all')}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </div>

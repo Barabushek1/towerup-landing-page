@@ -358,5 +358,9 @@
       "description": "10th station metro is within walking distance."
     },
     "learnMore": "Learn more"
-  }
+  },
+  
+  "news.noImage": "No image",
+  "common.tryAgain": "Try again",
+  "home.news.description": "Follow company news and stay updated on the latest projects and achievements"
 }

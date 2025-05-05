@@ -169,6 +169,8 @@
   "management.careers.office": "Markaziy ofis",
   
   "news.title": "YANGILIKLAR",
+  "news.noImage": "Rasm yo'q",
+  "common.tryAgain": "Qaytadan urinib ko'ring",
   "news.notFound": "Yangiliklar topilmadi",
   "news.notFoundDesc": "Hozirda yangiliklar mavjud emas. Iltimos, keyinroq qayta tekshiring.",
   "news.readMore": "Batafsil",
