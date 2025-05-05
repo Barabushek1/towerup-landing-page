@@ -1,4 +1,3 @@
-
 import React, { useRef } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { motion, useInView } from 'framer-motion';
@@ -19,90 +18,91 @@ const OverviewSection: React.FC = () => {
     }
   };
 
-  const itemVariants = {
+  const itemVariants = { // Keep item animation
     hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
       transition: { duration: 0.6 }
     }
   };
 
   return (
-    <section 
-      id="overview" 
-      className="py-20 bg-[#1A1F2C] text-white"
+    <section
+      id="overview"
+      className="py-16 md:py-24 bg-[#1a1a1a] text-white" // Dark background
       ref={sectionRef}
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-6"> {/* Use px-6 */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           className="max-w-4xl mx-auto text-center"
         >
-          <motion.h2 
+          <motion.h2
             variants={itemVariants}
             className="text-3xl md:text-4xl font-bold mb-3 text-white"
           >
             {t('newUzbekistan.overview.title')}
           </motion.h2>
-          
-          <motion.p 
-            variants={itemVariants} 
-            className="text-xl text-[#9b87f5] mb-10"
+
+          <motion.p
+            variants={itemVariants}
+            className="text-xl text-primary mb-10" // Primary accent color
           >
             {t('newUzbekistan.overview.subtitle')}
           </motion.p>
-          
-          <motion.div 
+
+          <motion.div
             variants={containerVariants}
             className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left"
           >
-            <motion.div 
+            <motion.div
               variants={itemVariants}
-              className="rounded-xl overflow-hidden shadow-[0_0_15px_rgba(155,135,245,0.3)]"
+              className="rounded-xl overflow-hidden shadow-xl border border-slate-700/50" // Dark styles, primary shadow effect
+               style={{ boxShadow: isInView ? "0 0 15px rgba(64, 220, 129, 0.3)" : "none" }} // Apply primary shadow on view
             >
-              <img 
-                src="/lovable-uploads/b7b815c6-44d8-4e9a-93e9-75538f6d0233.png" 
-                alt="Yangi Uzbekistan Aerial View" 
+              <img
+                src="/lovable-uploads/b7b815c6-44d8-4e9a-93e9-75538f6d0233.png" // Keep image path
+                alt="Yangi Uzbekistan Aerial View" // Added alt text
                 className="w-full h-64 object-cover"
               />
             </motion.div>
-            
+
             <motion.div variants={containerVariants} className="flex flex-col justify-center">
-              <motion.p 
+              <motion.p
                 variants={itemVariants}
-                className="text-gray-300 mb-4"
+                className="text-slate-300 mb-4" // Adjusted text color
               >
                 {t('newUzbekistan.overview.desc1')}
               </motion.p>
-              
-              <motion.p 
+
+              <motion.p
                 variants={itemVariants}
-                className="text-gray-300 mb-4"
+                className="text-slate-300 mb-4" // Adjusted text color
               >
                 {t('newUzbekistan.overview.desc2')}
               </motion.p>
-              
-              <motion.p 
+
+              <motion.p
                 variants={itemVariants}
-                className="text-gray-300"
+                className="text-slate-300" // Adjusted text color
               >
                 {t('newUzbekistan.overview.desc3')}
               </motion.p>
             </motion.div>
           </motion.div>
-          
-          <motion.div 
+
+          <motion.div
             variants={itemVariants}
             className="mt-12 flex justify-center"
           >
-            <a 
-              href="#masterplan" 
-              className="inline-flex items-center text-[#9b87f5] hover:text-[#7E69AB] transition-colors group"
+            <a
+              href="#masterplan" // Link to masterplan section
+              className="inline-flex items-center text-primary hover:text-primary/80 transition-colors group" // Primary accent color
             >
-              <span className="mr-2 text-lg font-medium">{t('home.about.button')}</span>
+              <span className="mr-2 text-lg font-medium">{t('home.about.button')}</span> {/* Use translation key */}
               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </a>
           </motion.div>

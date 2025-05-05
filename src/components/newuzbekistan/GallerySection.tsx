@@ -1,9 +1,10 @@
-
 import React, { useState, useRef } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { motion, useInView } from 'framer-motion';
 import { ChevronLeft, ChevronRight, X, Image, Maximize2 } from 'lucide-react';
 import { Dialog, DialogContent } from '../ui/dialog';
+// cn is likely needed if you use conditional classes, assuming it's available
+// import { cn } from '@/lib/utils';
 
 const GallerySection: React.FC = () => {
   const { t } = useLanguage();
@@ -11,9 +12,10 @@ const GallerySection: React.FC = () => {
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
+   // Keep your specific image list here for this component
   const images = [
     '/lovable-uploads/36f32494-e938-41ca-815a-e71e74b2e791.png',
-    '/lovable-uploads/b0a81c01-4a79-4eaa-86da-7501517139b7.png',
+    '/lovable-uploads/b0a81c01-4a79-4eaa-86da-7501515139b7.png', // Example: ensure paths are correct
     '/lovable-uploads/b7b815c6-44d8-4e9a-93e9-75538f6d0233.png',
     '/lovable-uploads/1a71108b-2bfd-43b5-be89-cf6eb56cf58c.png',
     '/lovable-uploads/01ec8090-c3b7-4770-b254-07c6f1ac1521.png',
@@ -26,36 +28,51 @@ const GallerySection: React.FC = () => {
     '/lovable-uploads/c2c35248-d734-4728-8780-204a498e2b4e.png'
   ];
 
+
   const openFullscreen = (imageSrc: string) => {
     setSelectedImage(imageSrc);
   };
 
+  // Helper for navigating between images in fullscreen
+  const navigateFullscreen = (direction: 'prev' | 'next') => {
+      if (!selectedImage) return;
+      const currentIndex = images.indexOf(selectedImage);
+      let newIndex;
+      if (direction === 'prev') {
+          newIndex = (currentIndex - 1 + images.length) % images.length;
+      } else { // 'next'
+          newIndex = (currentIndex + 1) % images.length;
+      }
+      setSelectedImage(images[newIndex]);
+  };
+
+
   return (
-    <section 
-      id="gallery" 
-      className="py-20 bg-white"
+    <section
+      id="gallery"
+      className="py-16 md:py-24 bg-[#161616]" // Dark background
       ref={sectionRef}
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-6"> {/* Use px-6 */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto text-center mb-16"
+          className="max-w-4xl mx-auto text-center mb-12 md:mb-16" // Adjusted spacing
         >
-          <div className="inline-flex items-center justify-center p-3 bg-blue-100 rounded-full mb-6">
-            <Image className="h-6 w-6 text-blue-600" />
+          <div className="inline-flex items-center justify-center p-3 bg-primary/10 rounded-full mb-6"> {/* Primary accent background */}
+            <Image className="h-6 w-6 text-primary" /> {/* Primary accent color */}
           </div>
-          
-          <h2 className="text-3xl md:text-4xl font-bold mb-3 text-gray-900">
+
+          <h2 className="text-3xl md:text-4xl font-bold mb-3 text-white">
             {t('newUzbekistan.gallery.title')}
           </h2>
-          
-          <p className="text-xl text-blue-600">
+
+          <p className="text-xl text-primary"> {/* Primary accent color */}
             {t('newUzbekistan.gallery.subtitle')}
           </p>
         </motion.div>
-        
+
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {images.map((image, index) => (
             <motion.div
@@ -64,15 +81,15 @@ const GallerySection: React.FC = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: index * 0.05 }}
               viewport={{ once: true, amount: 0.1 }}
-              className="relative group overflow-hidden rounded-lg aspect-square cursor-pointer"
+              className="relative group overflow-hidden rounded-lg aspect-square cursor-pointer border border-slate-700/50 hover:border-primary/30 transition-colors" // Added border, hover effect
               onClick={() => openFullscreen(image)}
             >
-              <img 
-                src={image} 
-                alt={`Yangi Uzbekistan Gallery ${index + 1}`} 
+              <img
+                src={image}
+                alt={`Yangi Uzbekistan Gallery ${index + 1}`}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"> {/* Darker overlay */}
                 <Maximize2 className="h-10 w-10 text-white" />
               </div>
             </motion.div>
@@ -80,47 +97,41 @@ const GallerySection: React.FC = () => {
         </div>
       </div>
 
-      {/* Fullscreen Dialog */}
+      {/* Fullscreen Dialog - Restyle DialogContent for dark/transparent look */}
       <Dialog open={!!selectedImage} onOpenChange={(open) => !open && setSelectedImage(null)}>
+        {/* bg-black/90 border-none from original seems okay */}
         <DialogContent className="max-w-6xl w-[90vw] h-[90vh] p-0 bg-black/90 border-none">
           <div className="relative w-full h-full flex items-center justify-center">
+            {/* Close button style */}
             <button
-              className="absolute top-4 right-4 p-2 text-white bg-black/50 rounded-full z-50"
+              className="absolute top-4 right-4 p-2 text-white bg-black/50 rounded-full z-50 hover:bg-black/70 transition"
               onClick={() => setSelectedImage(null)}
+              aria-label="Закрыть галерею" // Added aria label
             >
               <X className="h-6 w-6" />
             </button>
-            
+
+            {/* Navigation buttons style */}
             <button
-              className="absolute left-4 p-2 text-white bg-black/50 rounded-full z-50"
-              onClick={() => {
-                if (selectedImage) {
-                  const currentIndex = images.indexOf(selectedImage);
-                  const prevIndex = (currentIndex - 1 + images.length) % images.length;
-                  setSelectedImage(images[prevIndex]);
-                }
-              }}
+              className="absolute left-4 p-2 text-white bg-black/50 rounded-full z-50 hover:bg-black/70 transition"
+              onClick={() => navigateFullscreen('prev')} // Use helper function
+              aria-label="Предыдущее изображение" // Added aria label
             >
               <ChevronLeft className="h-8 w-8" />
             </button>
-            
+
             <button
-              className="absolute right-4 p-2 text-white bg-black/50 rounded-full z-50"
-              onClick={() => {
-                if (selectedImage) {
-                  const currentIndex = images.indexOf(selectedImage);
-                  const nextIndex = (currentIndex + 1) % images.length;
-                  setSelectedImage(images[nextIndex]);
-                }
-              }}
+              className="absolute right-4 p-2 text-white bg-black/50 rounded-full z-50 hover:bg-black/70 transition"
+              onClick={() => navigateFullscreen('next')} // Use helper function
+               aria-label="Следующее изображение" // Added aria label
             >
               <ChevronRight className="h-8 w-8" />
             </button>
-            
+
             {selectedImage && (
-              <img 
-                src={selectedImage} 
-                alt="Fullscreen view" 
+              <img
+                src={selectedImage}
+                alt="Fullscreen view" // Add more descriptive alt if possible
                 className="max-w-full max-h-full object-contain"
               />
             )}
