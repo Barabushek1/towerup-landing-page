@@ -1,4 +1,3 @@
-
 {
   "testModeIndicator": "Сайт работает в тестовом режиме",
   
@@ -291,7 +290,7 @@
   "newUzbekistan.projectFeatures.security.desc": "Круглосуточная охрана с видеонаблюдением и профессиональным охранным персоналом.",
   "newUzbekistan.projectFeatures.amenities.title": "Современные удобства",
   "newUzbekistan.projectFeatures.amenities.desc": "Доступ к широкому спектру удобств, включая фитнес-центры, зоны отдыха и многое другое.",
-    
+  
   "common.close": "Закрыть",
   "common.previous": "Предыдущий",
   "common.next": "Следующий",
@@ -313,5 +312,14 @@
   "aboutSection.advantages.experience.title": "ОПЫТ КОМПАНИИ",
   "aboutSection.advantages.experience.desc": "Нам не приходится доказывать качество нашей продукции. Ваше признание делает это за нас.",
   "aboutSection.advantages.equipment.title": "ОБОРУДОВАНИЕ",
-  "aboutSection.advantages.equipment.desc": "Технологическое превосходство используемого нами оборудования является элементом отличия компании TOWERUP."
+  "aboutSection.advantages.equipment.desc": "Технологическое превосходство используемого нами оборудования является элементом отличия компании TOWERUP.",
+  
+  "featuresSection.ariaLabel": "Наши услуги",
+  "featuresSection.subtitle": "Строим будущее вместе",
+  "featuresSection.title": "Реализуйте свои мечты с Tower Up",
+  "featuresSection.description": "От проектирования до сдачи объекта — мы обеспечиваем полный цикл строительных работ с гарантией качества и в срок",
+  "featuresSection.contactUs": "Связаться с нами",
+  "featuresSection.ourProjects": "Наши проекты",
+  "featuresSection.contactAriaLabel": "Связаться с нашей командой",
+  "featuresSection.projectsAriaLabel": "Просмотр всех проектов компании"
 }

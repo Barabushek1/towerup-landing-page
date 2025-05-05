@@ -1,6 +1,16 @@
 
-import React, { useEffect, useRef } from 'react';
-import { ArrowRight } from 'lucide-react';
+import React, { useRef } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
+import { motion, useInView } from 'framer-motion';
+import {
+  ArrowRight,
+  Building,
+  Users,
+  Cpu,
+  ShieldCheck,
+  Clock,
+  Award
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Link } from 'react-router-dom';
@@ -9,7 +19,9 @@ const ParallaxCTASection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const parallaxRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
-  useEffect(() => {
+  const { t } = useLanguage();
+  
+  React.useEffect(() => {
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -46,7 +58,7 @@ const ParallaxCTASection: React.FC = () => {
     id="services" 
     ref={sectionRef} 
     className="py-24 md:py-40 bg-[#161616] overflow-hidden relative"
-    aria-label="Наши услуги"
+    aria-label={t("featuresSection.ariaLabel")}
   >
       {/* Parallax background with optimized image loading */}
       <div 
@@ -66,29 +78,31 @@ const ParallaxCTASection: React.FC = () => {
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-3xl mx-auto text-center scroll-animate-section">
           <span className="inline-block px-3 py-1 rounded-full bg-brand-primary/20 text-brand-primary font-medium mb-6 text-base">
-            Строим будущее вместе
+            {t("featuresSection.subtitle")}
           </span>
-          <h2 className="md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-brand-secondary text-4xl">Реализуйте свои мечты с Tower Up</h2>
+          <h2 className="md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-brand-secondary text-4xl">
+            {t("featuresSection.title")}
+          </h2>
           
           {/* Show paragraph only on desktop/tablet */}
           {!isMobile && <p className="text-lg md:text-xl text-white/80 mb-10 max-w-2xl mx-auto">
-              От проектирования до сдачи объекта — мы обеспечиваем полный цикл строительных работ с гарантией качества и в срок
+              {t("featuresSection.description")}
             </p>}
           
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a href="#contact" 
               className={cn("button-hover-effect px-8 py-4 rounded-lg bg-brand-primary text-white font-medium text-base", "shadow-lg shadow-brand-primary/30 flex items-center justify-center")}
-              aria-label="Связаться с нашей командой"
+              aria-label={t("featuresSection.contactAriaLabel")}
             >
-              <span>Связаться с нами</span>
+              <span>{t("featuresSection.contactUs")}</span>
               <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
             </a>
             <Link 
               to="/projects" 
               className={cn("button-hover-effect px-8 py-4 rounded-lg bg-white/10 text-white font-medium text-base", "shadow-lg border border-white/20 flex items-center justify-center backdrop-blur-sm")}
-              aria-label="Просмотр всех проектов компании"
+              aria-label={t("featuresSection.projectsAriaLabel")}
             >
-              <span>Наши проекты</span>
+              <span>{t("featuresSection.ourProjects")}</span>
             </Link>
           </div>
         </div>
@@ -98,4 +112,5 @@ const ParallaxCTASection: React.FC = () => {
       <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#161616] to-transparent z-10" aria-hidden="true"></div>
     </section>;
 };
+
 export default ParallaxCTASection;

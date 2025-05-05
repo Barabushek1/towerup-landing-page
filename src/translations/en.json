@@ -1,4 +1,3 @@
-
 {
   "testModeIndicator": "Website is operating in test mode",
   
@@ -323,5 +322,14 @@
   "aboutSection.advantages.experience.title": "COMPANY EXPERIENCE",
   "aboutSection.advantages.experience.desc": "We don't have to prove the quality of our products. Your recognition does it for us.",
   "aboutSection.advantages.equipment.title": "EQUIPMENT",
-  "aboutSection.advantages.equipment.desc": "The technological superiority of our equipment is a distinguishing element of TOWERUP company."
+  "aboutSection.advantages.equipment.desc": "The technological superiority of our equipment is a distinguishing element of TOWERUP company.",
+  
+  "featuresSection.ariaLabel": "Our services",
+  "featuresSection.subtitle": "Building the future together",
+  "featuresSection.title": "Realize your dreams with Tower Up",
+  "featuresSection.description": "From design to project delivery — we provide a full cycle of construction work with quality guarantee and on time",
+  "featuresSection.contactUs": "Contact us",
+  "featuresSection.ourProjects": "Our projects",
+  "featuresSection.contactAriaLabel": "Contact our team",
+  "featuresSection.projectsAriaLabel": "View all company projects"
 }
