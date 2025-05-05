@@ -1,590 +1,450 @@
+
 {
-  "nav": {
-    "home": "Главная",
-    "projects": "Проекты",
-    "about": "О нас",
-    "news": "Новости",
-    "vacancies": "Вакансии",
-    "contacts": "Контакты",
-    "uzbekistan": "Новый Узбекистан",
-    "design": "Дизайн",
-    "construction": "Строительство",
-    "management": "Управление",
-    "solutions": "Решения",
-    "collaboration": "Сотрудничество"
-  },
-  "index": {
-    "hero": {
-      "title": "Строительная компания",
-      "subtitle": "Мы строим будущее Узбекистана",
-      "button": "Наши проекты"
+  "testModeIndicator": "Сайт работает в тестовом режиме",
+  
+  "nav.company": "О компании",
+  "nav.about": "О нас",
+  "nav.partners": "Партнёры",
+  "nav.management": "Руководство",
+  "nav.projects": "Проекты",
+  "nav.projectPushkin": "ЖК \"Пушкин\"",
+  "nav.projectTrcBochka": "ТРЦ \"Бочка\"",
+  "nav.projectBochka": "БЦ \"Бочка\"",
+  "nav.projectNewUzbekistan": "Массив \"Янги Узбекистан\"",
+  "nav.news": "Новости",
+  "nav.vacancies": "Вакансии",
+  "nav.collaboration": "Сотрудничество",
+  "nav.contacts": "Контакты",
+  "nav.construction": "Строительство",
+  "nav.design": "Проектирование",
+  "nav.solutions": "Решения",
+  "nav.consultation": "Консультация",
+  "footer.companyName": "TOWER UP",
+  "footer.companyDesc": "Мы создаем современные проекты премиум-класса, отвечающие высоким стандартам качества и комфорта.",
+  "footer.navigation": "Навигация",
+  "footer.services": "Соцсети",
+  "footer.contacts": "Контакты",
+  "footer.address": "г. Ташкент, Узбекистан",
+  "footer.rights": "Все права защищены",
+  "footer.policy": "Политика конфиденциальности",
+  
+  "home.hero.title": "Надёжность и комфорт",
+  "home.hero.subtitle": "в каждом проекте!",
+  "home.hero.learnMore": "Узнать подробнее",
+  "home.hero.projects": "Проекты",
+  "home.hero.learnMoreAriaLabel": "Узнать больше о компании",
+  "home.hero.projectsAriaLabel": "Перейти к странице проектов",
+  "home.hero.ariaLabel": "Главная секция",
+  "home.hero.imageAlt": "Современный жилой комплекс",
+  "home.hero.imageNavAriaLabel": "Перейти к изображению",
+  
+  "home.hero.button": "Узнать больше",
+  
+  "home.about.title": "О КОМПАНИИ",
+  "home.about.subtitle": "TOWER UP — современная строительная компания, специализирующаяся на возведении жилых комплексов и коммерческой недвижимости премиум-класса.",
+  "home.about.text1": "Наша компания имеет многолетний опыт в сфере строительства и реализации масштабных проектов.",
+  "home.about.text2": "Мы создаем недвижимость, отвечающую самым высоким требованиям комфорта и качества.",
+  "home.about.button": "Подробнее",
+  
+  "home.features.title": "НАШИ ПРЕИМУЩЕСТВА",
+  "home.features.quality.title": "Высокое качество",
+  "home.features.quality.desc": "Мы используем только сертифицированные материалы и современные технологии строительства",
+  "home.features.design.title": "Уникальный дизайн",
+  "home.features.design.desc": "Каждый наш проект отличается современной архитектурой и продуманным дизайном",
+  "home.features.location.title": "Отличное расположение",
+  "home.features.location.desc": "Наши объекты расположены в перспективных и удобных районах города",
+  "home.features.infrastructure.title": "Развитая инфраструктура",
+  "home.features.infrastructure.desc": "Все необходимое для комфортной жизни находится в шаговой доступности",
+  
+  "home.projects.title": "НАШИ ПРОЕКТЫ",
+  "home.projects.subtitle": "Мы строим жилые комплексы и коммерческую недвижимость премиум-класса",
+  "home.projects.all": "Все проекты",
+  
+  "home.advantages.title": "ПРЕИМУЩЕСТВА НАШИХ ПРОЕКТОВ",
+  "home.advantages.quality": "Высокое качество строительства",
+  "home.advantages.materials": "Экологичные материалы",
+  "home.advantages.technology": "Современные технологии",
+  "home.advantages.infrastructure": "Собственная инфраструктура",
+  "home.advantages.security": "Круглосуточная безопасность",
+  "home.advantages.planning": "Продуманные планировки",
+  
+  "home.news.title": "НОВОСТИ",
+  "home.news.subtitle": "Актуальная информация о нашей компании",
+  "home.news.description" : "Следите за новостями компании и будьте в курсе последних проектов и достижений",
+  "home.news.all": "Все новости",
+  "home.vacancies.all": "Все вакансии",
+  
+  "home.partners.title": "НАШИ ПАРТНЕРЫ",
+  "home.partners.subtitle": "Мы сотрудничаем с ведущими компаниями и поставщиками",
+  "partners.heading": "Наши надежные партнеры",
+  "contact.readyToHelp": "Мы всегда готовы ответить на ваши вопросы и помочь решить ваши задачи",
+  "contact.socialMedia": "Социальные сети",
+  "contact.info.mondaySunday": "Понедельник - Воскресенье",
+  "contact.form.phoneNumber": "Ваш номер",
+  
+  "home.contact.title": "СВЯЗАТЬСЯ С НАМИ",
+  "home.contact.subtitle": "У вас остались вопросы? Заполните форму ниже, и мы свяжемся с вами в ближайшее время",
+  "home.contact.name": "Ваше имя",
+  "home.contact.email": "Электронная почта",
+  "home.contact.message": "Сообщение",
+  "home.contact.button": "Отправить",
+  
+  "home.map.title": "Наше местоположение",
+  "home.map.subtitle": "Мы находимся в центре Ташкента и всегда рады видеть вас в нашем офисе",
+  "home.map.address": "г. Ташкент, Узбекистан",
+  
+  "about.title": "О КОМПАНИИ",
+  "about.values.title": "НАШИ ЦЕННОСТИ",
+  "about.values.quality.title": "Качество",
+  "about.values.quality.desc": "Мы стремимся к совершенству в каждом аспекте нашей работы",
+  "about.values.innovation.title": "Инновации",
+  "about.values.innovation.desc": "Мы внедряем передовые технологии в строительстве",
+  "about.values.responsibility.title": "Ответственность",
+  "about.values.responsibility.desc": "Мы выполняем все обязательства перед клиентами и партнерами",
+  "about.values.transparency.title": "Прозрачность",
+  "about.values.transparency.desc": "Мы открыты и честны во всех аспектах нашей деятельности",
+  
+  "about.team.title": "НАША КОМАНДА",
+  "about.team.desc": "Наша команда состоит из опытных профессионалов, преданных своему делу",
+  
+  "about.stats.projects": "Реализованных проектов",
+  "about.stats.area": "м² построено",
+  "about.stats.clients": "Довольных клиентов",
+  "about.stats.awards": "Наград и признаний",
+  
+  "about.history.title": "НАША ИСТОРИЯ",
+  "about.history.desc": "История развития компании TOWER UP",
+  
+  "about.projects.title": "ТЕКУЩИЕ ПРОЕКТЫ",
+  "about.projects.desc": "Ознакомьтесь с нашими текущими проектами",
+  
+  "construction.title": "СТРОИТЕЛЬСТВО ОБЪЕКТОВ",
+  "construction.subtitle": "СТРОИТЕЛЬСТВО",
+  "construction.services.title": "Строительные услуги",
+  "construction.services.desc1": "Наша компания предоставляет полный спектр услуг по строительству объектов различного назначения: жилых комплексов, коммерческих зданий, промышленных объектов и инфраструктуры.",
+  "construction.services.desc2": "Мы используем современные технологии строительства и качественные материалы, что позволяет нам создавать долговечные и функциональные объекты.",
+  
+  "design.title": "ПРОЕКТИРОВАНИЕ",
+  "design.services.title": "Проектные услуги",
+  "design.services.desc1": "Мы предлагаем профессиональные услуги по проектированию зданий и сооружений. Наша команда опытных архитекторов и инженеров разрабатывает проекты различной сложности, учитывая все требования заказчика и нормативные стандарты.",
+  "design.services.desc2": "Мы используем современное программное обеспечение для создания детальных 3D-моделей и проектной документации, что позволяет визуализировать результат еще до начала строительства.",
+  
+  "contact.title": "КОНТАКТЫ",
+  "contact.subtitle": "Свяжитесь с нами",
+  "contact.form.title": "Форма обратной связи",
+  "contact.form.name": "Ваше имя",
+  "contact.form.contact": "Предпочитаемый способ связи",
+  "contact.form.phone": "Телефон",
+  "contact.form.email": "Email",
+  "contact.form.message": "Сообщение",
+  "contact.form.submit": "Отправить",
+  
+  "contact.info.title": "Наши контакты",
+  "contact.info.address": "Адрес",
+  "contact.info.addressValue": "Город Ташкент, Сергелийский район, МСГ Янги Қумариқ. Ориентир: Моторный завод GM.",
+  "contact.info.phone": "Телефон",
+  "contact.info.email": "Email",
+  "contact.info.schedule": "Режим работы",
+  "contact.info.noWeekends": "Без выходных",
+  
+  "contact.map.title": "Наше местоположение",
+  
+  "management.title": "РУКОВОДСТВО",
+  "management.team.title": "О нашей команде",
+  "management.team.desc1": "Команда TOWER UP – это высококвалифицированные профессионалы с многолетним опытом работы в строительной, финансовой и управленческой сферах. Мы объединены общей целью – создавать уникальные объекты, которые украшают городской ландшафт и делают жизнь людей комфортнее.",
+  "management.team.desc2": "Наше руководство постоянно следит за инновациями в отрасли, внедряет современные технологии и подходы к управлению проектами. Благодаря этому, проекты TOWER UP всегда отличаются высоким качеством исполнения, соблюдением сроков и бюджета.",
+  "management.principles": "Наши принципы:",
+  "management.principles.quality": "Неизменно высокое качество",
+  "management.principles.precision": "Точность в деталях и сроках",
+  "management.principles.teamwork": "Командная работа и синергия",
+  "management.principles.responsibility": "Личная ответственность",
+  
+  "management.tabs.executives": "Руководство",
+  "management.tabs.departments": "Отделы",
+  "management.tabs.careers": "Карьера",
+  
+  "management.contact": "Контактная информация",
+  
+  "management.careers.title": "Присоединяйтесь к нашей команде",
+  "management.careers.desc": "TOWER UP предлагает уникальные возможности для профессионального и карьерного роста. Мы ценим инициативу, креативность и стремление к постоянному развитию.",
+  "management.careers.benefits": "Преимущества работы у нас",
+  "management.careers.benefits.salary": "Конкурентоспособная заработная плата",
+  "management.careers.benefits.social": "Расширенный социальный пакет",
+  "management.careers.benefits.training": "Программы обучения и развития",
+  "management.careers.benefits.projects": "Работа над интересными проектами",
+  "management.careers.apply": "Как подать заявку",
+  "management.careers.apply.desc1": "Отправьте свое резюме на hr@towerup.ru, указав в теме письма интересующую вас должность.",
+  "management.careers.apply.desc2": "Вы также можете ознакомиться с текущими вакансиями в разделе «Вакансии» на нашем сайте.",
+  "management.careers.office": "Центральный офис",
+  
+  "news.title": "НОВОСТИ",
+  "news.notFound": "Новости не найдены",
+  "news.notFoundDesc": "В данный момент новости отсутствуют. Пожалуйста, проверьте позже.",
+  "news.readMore": "Читать далее",
+  "news.featured": "Важное",
+  "news.backToAll": "Все новости",
+  "news.back": "Назад",
+  "news.gallery": "Фотогалерея",
+  
+  "vacancies.title": "ВАКАНСИИ",
+  "vacancies.notFound": "Вакансии не найдены",
+  "vacancies.notFoundDesc": "В данный момент вакансии отсутствуют. Пожалуйста, проверьте позже.",
+  "vacancies.apply": "Откликнуться",
+  "vacancies.back": "Все вакансии",
+  "vacancies.details.responsibilities": "Обязанности",
+  "vacancies.details.requirements": "Требования",
+  "vacancies.details.conditions": "Условия",
+  "vacancies.details.apply": "Откликнуться на вакансию",
+  
+  "trcBochka.title": "ТРЦ \"БОЧКА\"",
+  "trcBochka.subtitle": "Современный многофункциональный торгово-развлекательный центр в Ташкентской области",
+  "trcBochka.description": "Торгово-развлекательный центр \"Бочка\" — новый проект компании TOWER UP, расположенный в Ташкентской области. Проект представляет собой современный комплекс с уникальной архитектурой, включающий в себя торговые площади, рестораны, кинотеатр и развлекательные зоны.",
+  "trcBochka.overview.title": "ОБЗОР ПРОЕКТА",
+  "trcBochka.overview.desc1": "ТРЦ \"Бочка\" — это инновационный проект с уникальной архитектурой, вдохновленный традиционными узбекскими бочками и современными архитектурными решениями. Проект предлагает разнообразные торговые площади, рестораны и развлечения.",
+  "trcBochka.overview.desc2": "Расположенный в стратегически важном месте Ташкентской области, центр обеспечит жителей и гостей региона качественным шоппингом и развлечениями мирового уровня в современном комфортабельном пространстве.",
+  "trcBochka.contact.button": "Отправить запрос",
+  "trcBochka.downloadPresentation": "Скачать презентацию",
+  "trcBochka.sideView": "Вид сбоку",
+  "trcBochka.entrance": "Главный вход",
+  "trcBochka.keyFeatures": "КЛЮЧЕВЫЕ ОСОБЕННОСТИ",
+  
+  "trcBochka.features.floors.title": "Этажность",
+  "trcBochka.features.floors.desc": "5 этажей с различным функциональным наполнением",
+  
+  "trcBochka.features.location.title": "Расположение",
+  "trcBochka.features.location.desc": "В центральной части Ташкентской области с удобной транспортной доступностью",
+  
+  "trcBochka.features.opening.title": "Дата открытия",
+  "trcBochka.features.opening.desc": "Запланировано на 4 квартал 2025 года",
+  
+  "trcBochka.features.visitors.title": "Посетители",
+  "trcBochka.features.visitors.desc": "Расчетная проходимость до 15,000 человек в день",
+  
+  "trcBochka.architecture.title": "АРХИТЕКТУРА",
+  "trcBochka.architecture.subtitle": "Уникальный архитектурный проект, сочетающий традиции и современность",
+  
+  "trcBochka.architecture.facade.title": "Фасад",
+  "trcBochka.architecture.facade.desc": "Оригинальный фасад с элементами, напоминающими традиционную бочку, выполнен с использованием современных материалов и технологий",
+  
+  "trcBochka.architecture.barrel.title": "Форма бочки",
+  "trcBochka.architecture.barrel.desc": "Основная форма здания напоминает традиционную бочку, что создает запоминающийся архитектурный образ и узнаваемый силуэт центра",
+  
+  "trcBochka.architecture.terraces.title": "Террасы",
+  "trcBochka.architecture.terraces.desc": "Каскадные террасы предлагают посетителям прекрасные виды и зоны отдыха на свежем воздухе",
+  
+  "trcBochka.architecture.modern.title": "Современные решения",
+  "trcBochka.architecture.modern.desc": "Проект включает в себя энергоэффективные технологии, обеспечение естественного освещения и вентиляции",
+  
+  "trcBochka.zones.title": "ФУНКЦИОНАЛЬНЫЕ ЗОНЫ",
+  "trcBochka.zones.subtitle": "Разнообразие торговых и развлекательных пространств",
+  
+  "trcBochka.zones.retail.title": "Торговые площади",
+  "trcBochka.zones.retail.desc": "Более 150 магазинов различной направленности, от массового сегмента до премиальных брендов",
+  
+  "trcBochka.zones.food.title": "Рестораны и кафе",
+  "trcBochka.zones.food.desc": "Разнообразные гастрономические заведения, предлагающие местную и международную кухни",
+  
+  "trcBochka.zones.entertainment.title": "Развлекательная зона",
+  "trcBochka.zones.entertainment.desc": "Мультиплекс, игровые автоматы, детская площадка и другие развлечения для всех возрастов",
+  
+  "trcBochka.zones.parking.title": "Парковка",
+  "trcBochka.zones.parking.desc": "Многоуровневая парковка с удобной навигацией и системой поиска свободных мест",
+  
+  "trcBochka.zones.public.title": "Общественные пространства",
+  "trcBochka.zones.public.desc": "Комфортные зоны отдыха, фонтаны, зеленые уголки и места для проведения мероприятий",
+  
+  "trcBochka.zones.offices.title": "Офисные помещения",
+  "trcBochka.zones.offices.desc": "Современные офисные пространства с необходимой инфраструктурой и коммуникациями",
+  
+  "trcBochka.gallery.title": "ГАЛЕРЕЯ ПРОЕКТА",
+  "trcBochka.gallery.subtitle": "Визуальная концепция торгово-развлекательного центра \"Бочка\"",
+  "trcBochka.gallery.mainEntrance": "Главный вход",
+  "trcBochka.gallery.generalView": "Общий вид",
+  "trcBochka.gallery.sideView": "Боковой фасад",
+  "trcBochka.gallery.withTerraces": "Вид с террасами",
+  
+  "trcBochka.cta.title": "ЗАИНТЕРЕСОВАНЫ В СОТРУДНИЧЕСТВЕ?",
+  "trcBochka.cta.description": "Мы предлагаем уникальные возможности для арендаторов и партнеров в новом торгово-развлекательном центре. Свяжитесь с нами для получения более подробной информации.",
+  "trcBochka.cta.requestButton": "Оставить заявку",
+  "trcBochka.cta.downloadButton": "Скачать презентацию",
+  
+  "newUzbekistan.title": "МАССИВ \"ЯНГИ УЗБЕКИСТАН\"",
+  "newUzbekistan.subtitle": "Масштабный жилой комплекс с современной инфраструктурой",
+  "newUzbekistan.hero.title": "ЯНГИ УЗБЕКИСТАН",
+  "newUzbekistan.hero.subtitle": "Современный район для комфортной жизни",
+  "newUzbekistan.hero.description": "Массив \"Янги Узбекистан\" - амбициозный проект компании TOWER UP, представляющий новый стандарт городской жизни в гармонии с природой",
+  "newUzbekistan.overview.title": "ОБЗОР ПРОЕКТА",
+  "newUzbekistan.overview.subtitle": "Новый стандарт комфорта для Узбекистана",
+  "newUzbekistan.overview.desc1": "Массив \"Янги Узбекистан\" - это масштабный жилой комплекс, сочетающий современную архитектуру, развитую инфраструктуру и экологические принципы.",
+  "newUzbekistan.overview.desc2": "Проект включает в себя жилые здания с различными планировками квартир, коммерческие помещения, образовательные учреждения, спортивные объекты и зоны отдыха.",
+  "newUzbekistan.overview.desc3": "Концепция проекта направлена на создание комфортной среды проживания, отвечающей международным стандартам при сохранении национальной идентичности.",
+  
+  "newUzbekistan.masterplan.title": "ГЕНЕРАЛЬНЫЙ ПЛАН",
+  "newUzbekistan.masterplan.subtitle": "Продуманное городское пространство",
+  "newUzbekistan.masterplan.desc": "Генеральный план массива разработан с участием ведущих архитекторов и градостроителей, с учетом современных тенденций городского развития.",
+  
+  "newUzbekistan.features.title": "ОСОБЕННОСТИ ПРОЕКТА",
+  "newUzbekistan.features.subtitle": "Ключевые преимущества массива",
+  "newUzbekistan.features.architecture.title": "Современная Архитектура",
+  "newUzbekistan.features.architecture.desc": "Здания, спроектированные в современном стиле с национальными элементами",
+  "newUzbekistan.features.greenery.title": "Зеленые Пространства",
+  "newUzbekistan.features.greenery.desc": "Более 30% территории отведено под парки и скверы",
+  "newUzbekistan.features.infrastructure.title": "Инфраструктура",
+  "newUzbekistan.features.infrastructure.desc": "Школы, детские сады, поликлиники и коммерческие зоны",
+  "newUzbekistan.features.parking.title": "Парковочные Решения",
+  "newUzbekistan.features.parking.desc": "Подземные и наземные парковки по всему массиву",
+  "newUzbekistan.features.security.title": "Безопасность",
+  "newUzbekistan.features.security.desc": "Круглосуточное видеонаблюдение и ограниченный доступ в жилые зоны",
+  "newUzbekistan.features.recreation.title": "Зоны Отдыха",
+  "newUzbekistan.features.recreation.desc": "Детские площадки, спортивные поля и прогулочные дорожки",
+  
+  "newUzbekistan.apartments.title": "КВАРТИРЫ",
+  "newUzbekistan.apartments.subtitle": "Разнообразие планировок для различных потребностей",
+  "newUzbekistan.apartments.desc": "В жилых зданиях предлагаются квартиры от компактных студий до просторных многокомнатных, все с эффективными планировками и качественной отделкой.",
+  "newUzbekistan.apartments.studio.title": "Студии",
+  "newUzbekistan.apartments.studio.desc": "Компактные и функциональные пространства для одиночек и молодых пар",
+  "newUzbekistan.apartments.oneBedroom.title": "Однокомнатные Квартиры",
+  "newUzbekistan.apartments.oneBedroom.desc": "Сбалансированные планировки с отдельной спальней и жилой зоной",
+  "newUzbekistan.apartments.twoBedroom.title": "Двухкомнатные Квартиры",
+  "newUzbekistan.apartments.twoBedroom.desc": "Комфортные пространства для небольших семей",
+  "newUzbekistan.apartments.threeBedroom.title": "Трехкомнатные Квартиры",
+  "newUzbekistan.apartments.threeBedroom.desc": "Просторные планировки для больших семей",
+  "newUzbekistan.apartments.premium.title": "Премиум Квартиры",
+  "newUzbekistan.apartments.premium.desc": "Эксклюзивные планировки с премиальной отделкой и панорамными видами",
+  "newUzbekistan.apartments.floorLayout": "План Этажа",
+  "newUzbekistan.apartments.floorLayoutDesc": "Полный план этажа, показывающий расположение всех квартир на одном этаже",
+  "newUzbekistan.apartments.viewDetails": "Посмотреть Детали",
+  "newUzbekistan.apartments.bedrooms": "Спальни",
+  "newUzbekistan.apartments.bathrooms": "Санузлы",
+  "newUzbekistan.apartments.balconies": "Балконы",
+  "newUzbekistan.apartments.featuresTitle": "Характеристики Помещений",
+  "newUzbekistan.apartments.startingPrice": "Начальная Цена:",
+  "newUzbekistan.apartments.inquire": "Узнать Об Этой Квартире",
+  "newUzbekistan.apartments.footer": "Планировки могут отличаться в зависимости от наличия. Свяжитесь с нашим отделом продаж для уточнения текущих цен и наличия конкретных квартир.",
+  
+  "newUzbekistan.infrastructure.title": "ИНФРАСТРУКТУРА",
+  "newUzbekistan.infrastructure.subtitle": "Всё для комфортной жизни",
+  "newUzbekistan.infrastructure.education.title": "Образование",
+  "newUzbekistan.infrastructure.education.desc": "Современные школы и детские сады в шаговой доступности",
+  "newUzbekistan.infrastructure.healthcare.title": "Здравоохранение",
+  "newUzbekistan.infrastructure.healthcare.desc": "Медицинские клиники с квалифицированными специалистами",
+  "newUzbekistan.infrastructure.shopping.title": "Шопинг",
+  "newUzbekistan.infrastructure.shopping.desc": "Торговые зоны с супермаркетами и специализированными магазинами",
+  "newUzbekistan.infrastructure.dining.title": "Питание",
+  "newUzbekistan.infrastructure.dining.desc": "Кафе и рестораны, предлагающие различные кухни",
+  "newUzbekistan.infrastructure.sports.title": "Спорт",
+  "newUzbekistan.infrastructure.sports.desc": "Фитнес-центры, спортивные площадки и прогулочные дорожки",
+  "newUzbekistan.infrastructure.leisure.title": "Досуг",
+  "newUzbekistan.infrastructure.leisure.desc": "Парки, зоны отдыха и развлекательные объекты",
+  
+  "newUzbekistan.projectFeatures.title": "ОСОБЕННОСТИ ПРОЕКТА",
+  "newUzbekistan.projectFeatures.subtitle": "Исключительные особенности жилого комплекса Новый Узбекистан",
+  "newUzbekistan.projectFeatures.whyChoose": "Почему стоит выбрать Новый Узбекистан",
+  "newUzbekistan.projectFeatures.feature1.title": "Премиальное расположение",
+  "newUzbekistan.projectFeatures.feature1.desc": "Стратегически расположен в быстро развивающемся районе с отличной инфраструктурой и транспортной доступностью.",
+  "newUzbekistan.projectFeatures.feature2.title": "Современная архитектура",
+  "newUzbekistan.projectFeatures.feature2.desc": "Современный дизайн, соответствующий международным стандартам, с акцентом на эстетику и функциональность.",
+  "newUzbekistan.projectFeatures.feature3.title": "Качественное строительство",
+  "newUzbekistan.projectFeatures.feature3.desc": "Построено с использованием премиальных материалов и передовых строительных технологий, обеспечивающих долговечность и безопасность.",
+  "newUzbekistan.projectFeatures.feature4.title": "Системы Умный дом",
+  "newUzbekistan.projectFeatures.feature4.desc": "Интегрированные умные технологии для контроля климата, безопасности и энергоэффективности.",
+  "newUzbekistan.projectFeatures.contactUs": "Свяжитесь с нами для получения дополнительной информации",
+  "newUzbekistan.projectFeatures.comfort.title": "Комфорт и удобство",
+  "newUzbekistan.projectFeatures.comfort.desc": "Продуманные жилые пространства, которые максимизируют комфорт с премиальной отделкой и оборудованием.",
+  "newUzbekistan.projectFeatures.security.title": "Безопасность 24/7",
+  "newUzbekistan.projectFeatures.security.desc": "Круглосуточная охрана с видеонаблюдением и профессиональным охранным персоналом.",
+  "newUzbekistan.projectFeatures.amenities.title": "Современные удобства",
+  "newUzbekistan.projectFeatures.amenities.desc": "Доступ к широкому спектру удобств, включая фитнес-центры, зоны отдыха и многое другое.",
+  
+  "common.close": "Закрыть",
+  "common.previous": "Предыдущий",
+  "common.next": "Следующий",
+  "aboutSection.title": "О КОМПАНИИ",
+  "aboutSection.shortTitle": "Инновационные",
+  "aboutSection.shortTitleSolution": "решения",
+  "aboutSection.longTitle1": "Инновационные",
+  "aboutSection.longTitle2": "решения для",
+  "aboutSection.longTitle3": "современного",
+  "aboutSection.longTitle4": "строительства",
+  "aboutSection.text": "Ведущая строительная компания, специализирующаяся на реализации инновационных проектов и строительстве высотных зданий. С момента основания компания стремится воплощать самые амбициозные и сложные архитектурные идеи, предлагая клиентам решения на самом высоком уровне.",
+  "aboutSection.learnMore": "УЗНАТЬ БОЛЬШЕ",
+  "aboutSection.readMore": "Подробнее",
+  "aboutSection.buildingImage": "Здание компании",
+  "aboutSection.ourAdvantages": "НАШИ ПРЕИМУЩЕСТВА",
+  "aboutSection.advantages.professionalism.title": "ПРОФЕССИОНАЛИЗМ",
+  "aboutSection.advantages.professionalism.desc": "Основа нашего профессионализма - сохранение собственных традиций и использование мировых инноваций.",
+  "aboutSection.advantages.experience.title": "ОПЫТ КОМПАНИИ",
+  "aboutSection.advantages.experience.desc": "Нам не приходится доказывать качество нашей продукции. Ваше признание делает это за нас.",
+  "aboutSection.advantages.equipment.title": "ОБОРУДОВАНИЕ",
+  "aboutSection.advantages.equipment.desc": "Технологическое превосходство используемого нами оборудования является элементом отличия компании TOWERUP.",
+  
+  "featuresSection.ariaLabel": "Наши услуги",
+  "featuresSection.subtitle": "Строим будущее вместе",
+  "featuresSection.title": "Реализуйте свои мечты с Tower Up",
+  "featuresSection.description": "От проектирования до сдачи объекта — мы обеспечиваем полный цикл строительных работ с гарантией качества и в срок",
+  "featuresSection.contactUs": "Связаться с нами",
+  "featuresSection.ourProjects": "Наши проекты",
+  "featuresSection.contactAriaLabel": "Связаться с нашей командой",
+  "featuresSection.projectsAriaLabel": "Просмотр всех проектов компании",
+  
+  "projectsSection.viewMore": "Подробнее",
+  "projectsSection.viewProject": "Просмотр проекта",
+  "projectsSection.learnMore": "УЗНАТЬ БОЛЬШЕ",
+  "projectsSection.allProjects": "ВСЕ ПРОЕКТЫ",
+  "projectsSection.previousSlide": "Предыдущий слайд",
+  "projectsSection.nextSlide": "Следующий слайд",
+  "projectsSection.goToSlide": "Перейти к слайду",
+  "projectsSection.ourProjects": "НАШИ ПРОЕКТЫ",
+  "projectsSection.sectionTitle": "Наши проекты",
+  "projectsSection.sectionHeading": "Инновационные проекты, созданные для будущего",
+  "projectsSection.sectionDescription": "Познакомьтесь с нашими знаковыми проектами, которые мы создаем с использованием современных технологий и бескомпромиссных стандартов качества.",
+  
+  "projectsSection.featured.nearby.title": "Всё, что нужно — рядом",
+  "projectsSection.featured.nearby.subtitle": "ЖК «Кумарык»",
+  "projectsSection.featured.nearby.description": "Современный жилой комплекс в престижном районе.",
+  
+  "projectsSection.featured.parking.title": "Удобная парковка",
+  "projectsSection.featured.parking.subtitle": "Проекты TOWERUP",
+  "projectsSection.featured.parking.description": "Безопасное и комфортное место для вашего автомобиля.",
+  
+  "projectsSection.featured.turnkey.title": "Ремонт под ключ",
+  "projectsSection.featured.turnkey.subtitle": "Услуги TOWERUP",
+  "projectsSection.featured.turnkey.description": "Готовые решения для вашего комфорта.",
+  
+  "projectsSection.projects.pushkin.title": "Жилой комплекс «Пушкин»",
+  "projectsSection.projects.pushkin.description": "Современный эко-комплекс из 5 зданий с благоустроенной территорией, детскими площадками и парковой зоной.",
+  "projectsSection.projects.pushkin.location": "Ташкент",
+  "projectsSection.projects.pushkin.status": "Строящийся",
+  
+  "projectsSection.projects.newUzbekistan.title": "Жилой комплекс «Янги Узбекистан»",
+  "projectsSection.projects.newUzbekistan.description": "Современный комплекс с инновационной архитектурой, зелеными зонами и развитой инфраструктурой.",
+  "projectsSection.projects.newUzbekistan.location": "Ташкент",
+  "projectsSection.projects.newUzbekistan.status": "Строящийся",
+  
+  "projectsSection.projects.kumaryk.title": "Жилой комплекс «Кумарык»",
+  "projectsSection.projects.kumaryk.description": "Курортный комплекс, состоящий из 5* отеля и апартаментов с панорамными видами на море и частным пляжем.",
+  "projectsSection.projects.kumaryk.location": "Ташкент",
+  "projectsSection.projects.kumaryk.status": "Проектируется",
+  
+  "projectAdvantages": {
+    "title": "Преимущества ЖК «Пушкин»",
+    "description": "Жилой комплекс «Пушкин» — это стандарт современного комфортного жилья, сочетающий в себе удачное расположение, качественное строительство и заботу о будущих жителях.",
+    "nearby": {
+      "title": "Всё нужное - рядом",
+      "description": "Школа, детский сад, зеленая зона и другие объекты инфраструктуры."
     },
-    "about": {
-      "title": "О нас",
-      "description": "Tower Up - ведущая строительная компания в Узбекистане. Мы предлагаем широкий спектр строительных услуг, от проектирования до строительства и управления проектами.",
-      "button": "Подробнее"
+    "parking": {
+      "title": "Удобный паркинг",
+      "description": "Многоуровневый надземный паркинг для жителей комплекса."
     },
-    "projects": {
-      "title": "Наши проекты",
-      "description": "Мы гордимся нашими проектами, которые меняют облик Узбекистана. Ознакомьтесь с некоторыми из наших последних проектов.",
-      "button": "Все проекты"
+    "installment": {
+      "title": "Рассрочка 0%",
+      "description": "Выгодные условия приобретения до 2-х лет."
     },
-    "news": {
-      "title": "Новости",
-      "description": "Будьте в курсе последних новостей и событий в Tower Up.",
-      "button": "Все новости"
+    "metro": {
+      "title": "4 минуты от метро",
+      "description": "Станция метро 10-я в шаговой доступности."
     },
-    "contact": {
-      "title": "Связаться с нами",
-      "description": "Свяжитесь с нами, чтобы обсудить ваши строительные потребности.",
-      "button": "Отправить сообщение"
-    }
-  },
-  "about": {
-    "pageTitle": "О нас",
-    "pageDescription": "Узнайте больше о Tower Up, ведущей строительной компании в Узбекистане.",
-    "title": "О нас",
-    "subtitle": "Мы строим будущее Узбекистана",
-    "mission": {
-      "title": "Наша миссия",
-      "description": "Наша миссия - предоставлять высококачественные строительные услуги, которые превосходят ожидания наших клиентов. Мы стремимся к инновациям, устойчивости и безопасности во всех наших проектах."
-    },
-    "vision": {
-      "title": "Наше видение",
-      "description": "Наше видение - быть ведущей строительной компанией в Узбекистане, известной своим качеством, инновациями и устойчивостью."
-    },
-    "values": {
-      "title": "Наши ценности",
-      "quality": "Качество",
-      "innovation": "Инновации",
-      "sustainability": "Устойчивость",
-      "safety": "Безопасность",
-      "integrity": "Целостность"
-    },
-    "team": {
-      "title": "Наша команда",
-      "description": "Мы гордимся нашей командой опытных и преданных профессионалов, которые стремятся к совершенству во всем, что мы делаем."
-    }
-  },
-  "history": {
-    "pageTitle": "История",
-    "pageDescription": "Узнайте больше об истории Tower Up, ведущей строительной компании в Узбекистане.",
-    "title": "История",
-    "subtitle": "Мы строим будущее Узбекистана",
-    "timeline": {
-      "2010": {
-        "title": "Основание компании",
-        "description": "Компания Tower Up была основана в 2010 году с целью предоставления высококачественных строительных услуг в Узбекистане."
-      },
-      "2012": {
-        "title": "Первый крупный проект",
-        "description": "В 2012 году Tower Up завершила свой первый крупный проект - строительство жилого комплекса в Ташкенте."
-      },
-      "2015": {
-        "title": "Расширение деятельности",
-        "description": "В 2015 году Tower Up расширила свою деятельность на другие регионы Узбекистана."
-      },
-      "2018": {
-        "title": "Внедрение инноваций",
-        "description": "В 2018 году Tower Up внедрила инновационные строительные технологии, которые позволили повысить качество и эффективность строительства."
-      },
-      "2020": {
-        "title": "Устойчивое развитие",
-        "description": "В 2020 году Tower Up начала реализовывать проекты в области устойчивого развития, которые направлены на снижение негативного воздействия на окружающую среду."
-      },
-      "2023": {
-        "title": "Лидерство в отрасли",
-        "description": "В 2023 году Tower Up стала лидером строительной отрасли в Узбекистане, благодаря своему качеству, инновациям и устойчивости."
-      }
-    }
-  },
-  "projects": {
-    "pageTitle": "Проекты",
-    "pageDescription": "Ознакомьтесь с нашими проектами, которые меняют облик Узбекистана.",
-    "title": "Наши проекты",
-    "subtitle": "Мы строим будущее Узбекистана",
-    "filter": {
-      "all": "Все",
-      "residential": "Жилые",
-      "commercial": "Коммерческие",
-      "industrial": "Промышленные",
-      "infrastructure": "Инфраструктурные"
-    },
-    "noProjects": "Нет проектов для отображения."
-  },
-  "projectDetail": {
-    "pageTitle": "Детали проекта",
-    "pageDescription": "Узнайте больше о нашем проекте.",
-    "title": "Детали проекта",
-    "subtitle": "Мы строим будущее Узбекистана",
-    "description": "Описание",
-    "location": "Местоположение",
-    "status": "Статус",
-    "date": "Дата",
-    "gallery": "Галерея",
-    "noImages": "Нет изображений для отображения."
-  },
-  "vacancies": {
-    "pageTitle": "Вакансии",
-    "pageDescription": "Ознакомьтесь с нашими вакансиями и присоединитесь к нашей команде.",
-    "title": "Вакансии",
-    "subtitle": "Мы строим будущее Узбекистана",
-    "noVacancies": "Нет вакансий для отображения."
-  },
-  "vacancyDetail": {
-    "pageTitle": "Детали вакансии",
-    "pageDescription": "Узнайте больше о нашей вакансии.",
-    "title": "Детали вакансии",
-    "subtitle": "Мы строим будущее Узбекистана",
-    "description": "Описание",
-    "requirements": "Требования",
-    "benefits": "Преимущества",
-    "salary": "Зарплата",
-    "location": "Местоположение",
-    "date": "Дата",
-    "apply": "Подать заявку"
-  },
-  "news": {
-    "pageTitle": "Новости",
-    "pageDescription": "Будьте в курсе последних новостей и событий в Tower Up.",
-    "title": "Новости",
-    "subtitle": "Мы строим будущее Узбекистана",
-    "noNews": "Нет новостей для отображения."
-  },
-  "newsDetail": {
-    "pageTitle": "Детали новости",
-    "pageDescription": "Узнайте больше о нашей новости.",
-    "title": "Детали новости",
-    "subtitle": "Мы строим будущее Узбекистана",
-    "date": "Дата"
-  },
-  "partners": {
-    "pageTitle": "Партнеры",
-    "pageDescription": "Ознакомьтесь с нашими партнерами, которые помогают нам строить будущее Узбекистана.",
-    "title": "Партнеры",
-    "subtitle": "Мы строим будущее Узбекистана",
-    "noPartners": "Нет партнеров для отображения."
-  },
-  "contact": {
-    "pageTitle": "Контакты",
-    "pageDescription": "Свяжитесь с нами, чтобы обсудить ваши строительные потребности.",
-    "title": "Контакты",
-    "subtitle": "Мы строим будущее Узбекистана",
-    "form": {
-      "name": "Имя",
-      "email": "Электронная почта",
-      "message": "Сообщение",
-      "send": "Отправить",
-      "sending": "Отправка...",
-      "success": "Сообщение отправлено!",
-      "error": "Ошибка отправки сообщения!"
-    },
-    "address": "Адрес",
-    "phone": "Телефон",
-    "email": "Электронная почта"
-  },
-  "privacyPolicy": {
-    "pageTitle": "Политика конфиденциальности",
-    "pageDescription": "Ознакомьтесь с нашей политикой конфиденциальности.",
-    "title": "Политика конфиденциальности",
-    "subtitle": "Мы заботимся о вашей конфиденциальности",
-    "effectiveDate": "Дата вступления в силу",
-    "collectionOfInformation": "Сбор информации",
-    "useOfInformation": "Использование информации",
-    "sharingOfInformation": "Передача информации",
-    "securityOfInformation": "Безопасность информации",
-    "changesToPrivacyPolicy": "Изменения в политике конфиденциальности",
-    "contactUs": "Связаться с нами"
-  },
-  "newUzbekistan": {
-    "pageTitle": "Новый Узбекистан",
-    "pageDescription": "Узнайте больше о проекте Новый Узбекистан.",
-    "title": "Новый Узбекистан",
-    "subtitle": "Мы строим будущее Узбекистана",
-    "description": "Описание проекта Новый Узбекистан."
-  },
-  "trcBochka": {
-    "pageTitle": "ТРЦ Бочка",
-    "pageDescription": "Узнайте больше о ТРЦ Бочка.",
-    "title": "ТРЦ Бочка",
-    "subtitle": "Мы строим будущее Узбекистана",
-    "description": "Описание ТРЦ Бочка."
-  },
-  "design": {
-    "pageTitle": "Дизайн",
-    "pageDescription": "Узнайте больше о наших услугах дизайна.",
-    "title": "Дизайн",
-    "subtitle": "Мы строим будущее Узбекистана",
-    "description": "Описание наших услуг дизайна."
-  },
-  "construction": {
-    "pageTitle": "Строительство",
-    "pageDescription": "Узнайте больше о наших услугах строительства.",
-    "title": "Строительство",
-    "subtitle": "Мы строим будущее Узбекистана",
-    "description": "Описание наших услуг строительства."
-  },
-  "management": {
-    "pageTitle": "Управление",
-    "pageDescription": "Узнайте больше о наших услугах управления проектами.",
-    "title": "Управление",
-    "subtitle": "Мы строим будущее Узбекистана",
-    "description": "Описание наших услуг управления проектами."
-  },
-  "solutions": {
-    "pageTitle": "Решения",
-    "pageDescription": "Узнайте больше о наших строительных решениях.",
-    "title": "Решения",
-    "subtitle": "Мы строим будущее Узбекистана",
-    "description": "Описание наших строительных решений."
-  },
-  "admin": {
-    "login": {
-      "title": "Вход в панель администратора",
-      "email": "Электронная почта",
-      "password": "Пароль",
-      "loginButton": "Войти",
-      "error": "Неверный адрес электронной почты или пароль"
-    },
-    "dashboard": {
-      "title": "Панель управления",
-      "welcome": "Добро пожаловать, администратор!"
-    },
-    "news": {
-      "title": "Новости",
-      "create": "Создать новость",
-      "edit": "Редактировать новость",
-      "delete": "Удалить новость",
-      "titleLabel": "Заголовок",
-      "contentLabel": "Содержание",
-      "dateLabel": "Дата",
-      "imageLabel": "Изображение",
-      "excerptLabel": "Выдержка",
-      "featuredLabel": "Рекомендованный",
-      "saveButton": "Сохранить",
-      "deleteConfirmation": "Вы уверены, что хотите удалить эту новость?",
-      "success": "Новость успешно сохранена!",
-      "error": "Ошибка сохранения новости!"
-    },
-    "vacancies": {
-      "title": "Вакансии",
-      "create": "Создать вакансию",
-      "edit": "Редактировать вакансию",
-      "delete": "Удалить вакансию",
-      "titleLabel": "Заголовок",
-      "descriptionLabel": "Описание",
-      "requirementsLabel": "Требования",
-      "benefitsLabel": "Преимущества",
-      "salaryLabel": "Зарплата",
-      "locationLabel": "Местоположение",
-      "dateLabel": "Дата",
-      "saveButton": "Сохранить",
-      "deleteConfirmation": "Вы уверены, что хотите удалить эту вакансию?",
-      "success": "Вакансия успешно сохранена!",
-      "error": "Ошибка сохранения вакансии!"
-    },
-    "messages": {
-      "title": "Сообщения",
-      "delete": "Удалить сообщение",
-      "nameLabel": "Имя",
-      "emailLabel": "Электронная почта",
-      "messageLabel": "Сообщение",
-      "dateLabel": "Дата",
-      "readLabel": "Прочитано",
-      "deleteConfirmation": "Вы уверены, что хотите удалить это сообщение?",
-      "success": "Сообщение успешно удалено!",
-      "error": "Ошибка удаления сообщения!"
-    },
-    "partners": {
-      "title": "Партнеры",
-      "create": "Создать партнера",
-      "edit": "Редактировать партнера",
-      "delete": "Удалить партнера",
-      "nameLabel": "Имя",
-      "logoLabel": "Логотип",
-      "urlLabel": "URL",
-      "saveButton": "Сохранить",
-      "deleteConfirmation": "Вы уверены, что хотите удалить этого партнера?",
-      "success": "Партнер успешно сохранен!",
-      "error": "Ошибка сохранения партнера!"
-    },
-    "floorPrices": {
-      "title": "Цены на квартиры",
-      "apartmentTypeLabel": "Тип квартиры",
-      "pricePerSqmLabel": "Цена за кв.м",
-      "saveButton": "Сохранить",
-      "success": "Цена успешно сохранена!",
-      "error": "Ошибка сохранения цены!"
-    },
-    "auditLogs": {
-      "title": "Аудит логи",
-      "actionTypeLabel": "Тип действия",
-      "adminEmailLabel": "Электронная почта администратора",
-      "createdAtLabel": "Создано в"
-    },
-    "detailedAuditLogs": {
-      "title": "Детальные Аудит логи"
-    },
-    "tenders": {
-      "title": "Тендеры",
-      "create": "Создать тендер",
-      "edit": "Редактировать тендер",
-      "delete": "Удалить тендер",
-      "titleLabel": "Заголовок",
-      "descriptionLabel": "Описание",
-      "requirementsLabel": "Требования",
-      "categoryLabel": "Категория",
-      "statusLabel": "Статус",
-      "deadlineLabel": "Срок",
-      "documentsLabel": "Документы",
-      "saveButton": "Сохранить",
-      "deleteConfirmation": "Вы уверены, что хотите удалить этот тендер?",
-      "success": "Тендер успешно сохранен!",
-      "error": "Ошибка сохранения тендера!",
-      "category": {
-        "supply": "Поставка",
-        "design": "Дизайн",
-        "construction": "Строительство",
-        "services": "Услуги",
-        "other": "Другое"
-      },
-      "status": {
-        "active": "Активный",
-        "pending": "В ожидании",
-        "closed": "Закрытый"
-      }
-    }
-  },
-  "collaboration": {
-    "pageTitle": "Сотрудничество",
-    "pageDescription": "Изучите возможности сотрудничества и активные тендеры с Tower Up",
-    "title": "Сотрудничество",
-    "subtitle": "Возможности для бизнес-партнеров и подрядчиков",
-    "intro": {
-      "title": "Станьте партнером Tower Up",
-      "description": "Мы всегда ищем надежных партнеров и подрядчиков для совместной работы над нашими проектами. Присоединяйтесь к нам в создании исключительных строительных проектов по всему Узбекистану."
-    },
-    "benefits": {
-      "quality": {
-        "title": "Качество",
-        "description": "Мы сотрудничаем только с теми, кто разделяет наше стремление к исключительному качеству и точности."
-      },
-      "innovation": {
-        "title": "Инновации",
-        "description": "Мы ценим партнеров, которые привносят инновационные решения и технологии в наши проекты."
-      },
-      "reliability": {
-        "title": "Надежность",
-        "description": "Долгосрочное партнерство, основанное на взаимном доверии и надежной работе, — наш приоритет."
-      }
-    },
-    "activeTenders": "Активные тендеры",
-    "noTenders": "В настоящее время активных тендеров нет. Пожалуйста, проверьте позже.",
-    "errorLoading": "Ошибка загрузки тендеров. Пожалуйста, попробуйте позже.",
-    "viewDetails": "Подробнее",
-    "applyNow": "Подать заявку",
-    "tenderClosed": "Тендер закрыт",
-    "description": "Описание",
-    "requirements": "Требования",
-    "deadline": "Срок подачи",
-    "documents": "Документы",
-    "document": "Документ",
-    "category": {
-      "supply": "Поставка",
-      "design": "Дизайн",
-      "construction": "Строительство",
-      "services": "Услуги",
-      "other": "Другое"
-    },
-    "status": {
-      "active": "Активный",
-      "pending": "Ожидающий",
-      "closed": "Закрытый"
-    },
-    "process": {
-      "title": "Процесс сотрудничества",
-      "step1": {
-        "title": "Найти тендер",
-        "description": "Просмотрите наши активные тендеры и найдите возможности, соответствующие вашей экспертизе."
-      },
-      "step2": {
-        "title": "Подать заявку",
-        "description": "Подайте заявку на тендер с информацией о вашей компании и предложением."
-      },
-      "step3": {
-        "title": "Рассмотрение",
-        "description": "Наша команда рассмотрит вашу заявку и может связаться с вами для получения дополнительной информации."
-      },
-      "step4": {
-        "title": "Партнерство",
-        "description": "Успешные заявители будут выбраны для партнерства и сотрудничества в проекте."
-      }
-    },
-    "requirements": {
-      "title": "Требования к партнерству",
-      "subtitle": "Чего мы ожидаем от партнеров",
-      "description": "Tower Up поддерживает высокие стандарты для своих партнеров и подрядчиков. Ниже приведены минимальные требования для сотрудничества.",
-      "category": "Категория",
-      "details": "Требования",
-      "legal": {
-        "title": "Юридические",
-        "details": "Правильно зарегистрированный бизнес со всеми необходимыми лицензиями и разрешениями для конкретной отрасли."
-      },
-      "financial": {
-        "title": "Финансовые",
-        "details": "Устойчивое финансовое положение, способность предоставить финансовые гарантии по мере необходимости."
-      },
-      "technical": {
-        "title": "Технические",
-        "details": "Современное оборудование, качественные материалы и компетентные технические специалисты."
-      },
-      "experience": {
-        "title": "Опыт",
-        "details": "Доказанный опыт реализации аналогичных проектов, с рекомендациями, доступными по запросу."
-      }
-    },
-    "form": {
-      "title": "Подать заявку на этот тендер",
-      "companyName": "Название компании",
-      "companyNamePlaceholder": "Введите название вашей компании",
-      "contactName": "Контактное лицо",
-      "contactNamePlaceholder": "Введите имя контактного лица",
-      "email": "Электронная почта",
-      "emailPlaceholder": "Введите адрес электронной почты",
-      "phone": "Номер телефона",
-      "phonePlaceholder": "Введите номер телефона",
-      "message": "Дополнительная информация",
-      "messagePlaceholder": "Предоставьте любую дополнительную информацию о вашей компании и о том, как вы можете соответствовать требованиям тендера",
-      "back": "Вернуться к деталям",
-      "submit": "Отправить заявку",
-      "submitting": "Отправка...",
-      "successTitle": "Заявка отправлена",
-      "successMessage": "Ваша заявка на тендер успешно отправлена. Мы рассмотрим её и свяжемся с вами при необходимости.",
-      "errorTitle": "Ошибка отправки",
-      "errorMessage": "Произошла ошибка при отправке вашей заявки. Пожалуйста, попробуйте позже.",
-      "errors": {
-        "companyNameRequired": "Название компании обязательно",
-        "contactNameRequired": "Имя контактного лица обязательно",
-        "emailInvalid": "Пожалуйста, введите действительный адрес электронной почты",
-        "phoneRequired": "Номер телефона обязателен"
-      }
-    }
-  },
-  "admin": {
-    "login": {
-      "title": "Вход в панель администратора",
-      "email": "Электронная почта",
-      "password": "Пароль",
-      "loginButton": "Войти",
-      "error": "Неверный адрес электронной почты или пароль"
-    },
-    "dashboard": {
-      "title": "Панель управления",
-      "welcome": "Добро пожаловать, администратор!"
-    },
-    "news": {
-      "title": "Новости",
-      "create": "Создать новость",
-      "edit": "Редактировать новость",
-      "delete": "Удалить новость",
-      "titleLabel": "Заголовок",
-      "contentLabel": "Содержание",
-      "dateLabel": "Дата",
-      "imageLabel": "Изображение",
-      "excerptLabel": "Выдержка",
-      "featuredLabel": "Рекомендованный",
-      "saveButton": "Сохранить",
-      "deleteConfirmation": "Вы уверены, что хотите удалить эту новость?",
-      "success": "Новость успешно сохранена!",
-      "error": "Ошибка сохранения новости!"
-    },
-    "vacancies": {
-      "title": "Вакансии",
-      "create": "Создать вакансию",
-      "edit": "Редактировать вакансию",
-      "delete": "Удалить вакансию",
-      "titleLabel": "Заголовок",
-      "descriptionLabel": "Описание",
-      "requirementsLabel": "Требования",
-      "benefitsLabel": "Преимущества",
-      "salaryLabel": "Зарплата",
-      "locationLabel": "Местоположение",
-      "dateLabel": "Дата",
-      "saveButton": "Сохранить",
-      "deleteConfirmation": "Вы уверены, что хотите удалить эту вакансию?",
-      "success": "Вакансия успешно сохранена!",
-      "error": "Ошибка сохранения вакансии!"
-    },
-    "messages": {
-      "title": "Сообщения",
-      "delete": "Удалить сообщение",
-      "nameLabel": "Имя",
-      "emailLabel": "Электронная почта",
-      "messageLabel": "Сообщение",
-      "dateLabel": "Дата",
-      "readLabel": "Прочитано",
-      "deleteConfirmation": "Вы уверены, что хотите удалить это сообщение?",
-      "success": "Сообщение успешно удалено!",
-      "error": "Ошибка удаления сообщения!"
-    },
-    "partners": {
-      "title": "Партнеры",
-      "create": "Создать партнера",
-      "edit": "Редактировать партнера",
-      "delete": "Удалить партнера",
-      "nameLabel": "Имя",
-      "logoLabel": "Логотип",
-      "urlLabel": "URL",
-      "saveButton": "Сохранить",
-      "deleteConfirmation": "Вы уверены, что хотите удалить этого партнера?",
-      "success": "Партнер успешно сохранен!",
-      "error": "Ошибка сохранения партнера!"
-    },
-    "floorPrices": {
-      "title": "Цены на квартиры",
-      "apartmentTypeLabel": "Тип квартиры",
-      "pricePerSqmLabel": "Цена за кв.м",
-      "saveButton": "Сохранить",
-      "success": "Цена успешно сохранена!",
-      "error": "Ошибка сохранения цены!"
-    },
-    "auditLogs": {
-      "title": "Аудит логи",
-      "actionTypeLabel": "Тип действия",
-      "adminEmailLabel": "Электронная почта администратора",
-      "createdAtLabel": "Создано в"
-    },
-    "detailedAuditLogs": {
-      "title": "Детальные Аудит логи"
-    },
-    "tenders": {
-      "title": "Тендеры",
-      "create": "Создать тендер",
-      "edit": "Редактировать тендер",
-      "delete": "Удалить тендер",
-      "titleLabel": "Заголовок",
-      "descriptionLabel": "Описание",
-      "requirementsLabel": "Требования",
-      "categoryLabel": "Категория",
-      "statusLabel": "Статус",
-      "deadlineLabel": "Срок",
-      "documentsLabel": "Документы",
-      "saveButton": "Сохранить",
-      "deleteConfirmation": "Вы уверены, что хотите удалить этот тендер?",
-      "success": "Тендер успешно сохранен!",
-      "error": "Ошибка сохранения тендера!",
-      "category": {
-        "supply": "Поставка",
-        "design": "Дизайн",
-        "construction": "Строительство",
-        "services": "Услуги",
-        "other": "Другое"
-      },
-      "status": {
-        "active": "Активный",
-        "pending": "В ожидании",
-        "closed": "Закрытый"
-      }
-    }
+    "learnMore": "Узнать подробнее"
   }
 }

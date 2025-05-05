@@ -1,22 +1,22 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { cn } from '@/lib/utils';
-import {
-  LayoutDashboard,
-  MessagesSquare,
-  Newspaper,
-  Briefcase,
-  Users,
-  ClipboardList,
-  Home,
-  X,
-  AlertTriangle,
-  PencilRuler,
-  Settings,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { useAdmin } from '@/contexts/AdminContext';
+import { cn } from '@/lib/utils';
+import { 
+  LayoutDashboard, 
+  FileText, 
+  Briefcase, 
+  MessageSquare, 
+  LogOut, 
+  User,
+  Users,
+  Shield,
+  FileSearch,
+  Menu,
+  Settings // Using allowed icon: settings
+} from 'lucide-react';
+import { useAdminData } from '@/contexts/AdminDataContext';
 
 interface AdminSidebarProps {
   mobileOpen: boolean;
@@ -24,96 +24,153 @@ interface AdminSidebarProps {
 }
 
 const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, onClose }) => {
-  const { admin } = useAdmin();
+  const { admin, logout } = useAdmin();
   const location = useLocation();
+  const { messages } = useAdminData();
+  
+  const unreadMessages = messages.filter(msg => !msg.read).length;
 
-  const menuItems = [
-    { icon: Home, label: 'Вернуться на сайт', link: '/' },
-    { icon: LayoutDashboard, label: 'Панель управления', link: '/admin/dashboard' },
-    { icon: Newspaper, label: 'Новости', link: '/admin/news' },
-    { icon: Briefcase, label: 'Вакансии', link: '/admin/vacancies' },
-    { icon: MessagesSquare, label: 'Сообщения', link: '/admin/messages' },
-    { icon: Users, label: 'Партнеры', link: '/admin/partners' },
-    { icon: ClipboardList, label: 'Тендеры', link: '/admin/tenders' },
-    { icon: AlertTriangle, label: 'Аудит логи', link: '/admin/audit-logs' },
-    { icon: PencilRuler, label: 'Цены на квартиры', link: '/admin/floor-prices' },
+  const navItems = [
+    {
+      name: 'Дашборд',
+      href: '/admin/dashboard',
+      icon: <LayoutDashboard className="h-5 w-5" />,
+      badge: null,
+    },
+    {
+      name: 'Новости',
+      href: '/admin/news',
+      icon: <FileText className="h-5 w-5" />,
+      badge: null,
+    },
+    {
+      name: 'Вакансии',
+      href: '/admin/vacancies',
+      icon: <Briefcase className="h-5 w-5" />,
+      badge: null,
+    },
+    {
+      name: 'Партнеры',
+      href: '/admin/partners',
+      icon: <Users className="h-5 w-5" />,
+      badge: null,
+    },
+    {
+      name: 'Сообщения',
+      href: '/admin/messages',
+      icon: <MessageSquare className="h-5 w-5" />,
+      badge: unreadMessages > 0 ? unreadMessages : null,
+    },
+    {
+      name: 'Цены планировок',
+      href: '/admin/floor-prices',
+      icon: <Settings className="h-5 w-5" />,
+      badge: null,
+    },
+    {
+      name: 'Журнал действий',
+      href: '/admin/audit-logs',
+      icon: <Shield className="h-5 w-5" />,
+      badge: null,
+    },
+    {
+      name: 'Системный журнал',
+      href: '/admin/detailed-audit-logs',
+      icon: <FileSearch className="h-5 w-5" />,
+      badge: null,
+    }
   ];
 
+  const handleLogout = () => {
+    logout();
+  };
+
+  // Add overlay for mobile menu when open
   return (
     <>
-      {/* Overlay for mobile */}
-      {mobileOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-40 md:hidden"
-          onClick={onClose}
-        />
-      )}
-      
-      {/* Sidebar */}
-      <aside 
+      {/* Overlay */}
+      <div
+        onClick={onClose}
         className={cn(
-          "fixed top-0 left-0 h-screen w-64 bg-slate-800 text-slate-100 z-50 transition-transform duration-300 ease-in-out",
-          mobileOpen ? "transform-none" : "-translate-x-full md:translate-x-0"
+          "fixed inset-0 bg-black bg-opacity-40 z-40 transition-opacity md:hidden",
+          mobileOpen ? "block" : "hidden"
         )}
+        aria-hidden="true"
+      />
+      <div
+        className={cn(
+          "fixed md:static left-0 top-0 z-50 md:z-auto h-full w-64 bg-slate-800 text-white border-r border-slate-700 flex flex-col transition-transform duration-300",
+          mobileOpen ? "translate-x-0" : "-translate-x-full",
+          "md:translate-x-0"
+        )}
+        tabIndex={-1}
       >
-        <div className="flex flex-col h-full">
-          <div className="flex items-center justify-between p-4 border-b border-slate-700">
-            <div className="flex items-center space-x-2">
-              <span className="font-semibold text-lg">Админ-панель</span>
-            </div>
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="md:hidden" 
-              onClick={onClose}
-            >
-              <X className="h-5 w-5" />
-            </Button>
+        {/* Mobile - close button */}
+        <div className="flex md:hidden justify-end p-2">
+          <button
+            onClick={onClose}
+            className="p-2 rounded-full hover:bg-slate-700 focus:outline-none"
+            aria-label="Закрыть меню"
+          >
+            <Menu className="h-6 w-6" />
+          </button>
+        </div>
+
+        {/* Sidebar header */}
+        <div className="p-4 border-b border-slate-700 hidden md:block">
+          <div className="text-lg font-bold text-primary">TOWER UP Админ</div>
+        </div>
+
+        {/* User info */}
+        <div className="p-4 border-b border-slate-700 hidden md:flex items-center gap-3">
+          <div className="bg-slate-700 p-2 rounded-full">
+            <User className="h-5 w-5 text-slate-300" />
           </div>
-          
-          <div className="flex-1 overflow-y-auto py-4">
-            <div className="px-3 py-2">
-              <h3 className="text-xs uppercase tracking-wider opacity-50 mb-2 px-2">
-                Навигация
-              </h3>
-              <nav className="space-y-1">
-                {menuItems.map((item) => (
-                  <Link
-                    key={item.link}
-                    to={item.link}
-                    className={cn(
-                      "flex items-center px-2 py-2 text-sm rounded-md transition-colors",
-                      location.pathname === item.link
-                        ? "bg-slate-700 text-white"
-                        : "text-slate-300 hover:bg-slate-700 hover:text-white"
-                    )}
-                    onClick={item.link === '/' ? undefined : onClose}
-                  >
-                    <item.icon className="h-5 w-5 mr-3 flex-shrink-0" />
-                    {item.label}
-                  </Link>
-                ))}
-              </nav>
-            </div>
-          </div>
-          
-          <div className="p-4 border-t border-slate-700">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center">
-                  <span className="font-bold text-primary-foreground">
-                    {admin?.email[0]?.toUpperCase() || 'A'}
-                  </span>
-                </div>
-              </div>
-              <div className="ml-3">
-                <div className="text-sm font-medium">{admin?.email}</div>
-                <div className="text-xs opacity-50">Администратор</div>
-              </div>
-            </div>
+          <div>
+            <div className="text-sm font-medium">{admin?.name}</div>
+            <div className="text-xs text-slate-400">{admin?.email}</div>
           </div>
         </div>
-      </aside>
+
+        {/* Navigation */}
+        <nav className="flex-1 p-2 overflow-y-auto">
+          <ul className="space-y-1">
+            {navItems.map((item) => (
+              <li key={item.href}>
+                <Link
+                  to={item.href}
+                  onClick={onClose}
+                  className={cn(
+                    "flex items-center gap-3 px-3 py-2 rounded-md transition-colors",
+                    location.pathname === item.href
+                      ? "bg-primary text-primary-foreground"
+                      : "text-slate-300 hover:text-white hover:bg-slate-700"
+                  )}
+                >
+                  {item.icon}
+                  <span>{item.name}</span>
+                  {item.badge && (
+                    <span className="ml-auto bg-red-500 text-white text-xs font-medium px-2 py-0.5 rounded-full">
+                      {item.badge}
+                    </span>
+                  )}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        {/* Logout button, always visible at the bottom */}
+        <div className="p-4 border-t border-slate-700 mb-14 md:mb-0">
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-3 text-slate-300 hover:text-white w-full px-3 py-2 rounded-md hover:bg-slate-700 transition-colors"
+          >
+            <LogOut className="h-5 w-5" />
+            <span>Выйти</span>
+          </button>
+        </div>
+      </div>
     </>
   );
 };

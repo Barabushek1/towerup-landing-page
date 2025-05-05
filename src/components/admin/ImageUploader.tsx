@@ -1,135 +1,230 @@
 
-import React, { useState, useCallback } from 'react';
-import { supabase } from '@/integrations/supabase/client';
-import { Upload, X, Image } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { toast } from '@/components/ui/use-toast';
+import { supabase } from '@/integrations/supabase/client';
+import { Loader2, Upload, X, Plus } from 'lucide-react';
+import { v4 as uuidv4 } from 'uuid';
 import { cn } from '@/lib/utils';
 
-export interface ImageUploaderProps {
-  onUpload: (urls: string[]) => void; // Add onUpload prop
-  label?: string;
-  accept?: string;
-  maxFiles?: number;
+interface ImageUploaderProps {
+  onImageUploaded: (url: string) => void;
+  defaultImage?: string;
   className?: string;
+  multiple?: boolean;
+  images?: string[];
+  onImagesUpdated?: (urls: string[]) => void;
 }
 
 const ImageUploader: React.FC<ImageUploaderProps> = ({ 
-  onUpload, 
-  label = 'Загрузить изображение', 
-  accept = 'image/*', 
-  maxFiles = 1,
-  className 
+  onImageUploaded,
+  defaultImage,
+  className,
+  multiple = false,
+  images = [],
+  onImagesUpdated
 }) => {
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
+  const [imageUrl, setImageUrl] = useState<string>(defaultImage || '');
+  const [imageUrls, setImageUrls] = useState<string[]>(images || []);
+  const [uploading, setUploading] = useState<boolean>(false);
+  const [previewMode, setPreviewMode] = useState<boolean>(!!defaultImage || images.length > 0);
+  const [error, setError] = useState<string | null>(null);
 
-  const uploadFile = useCallback(async (file: File) => {
+  useEffect(() => {
+    if (defaultImage && defaultImage !== imageUrl) {
+      setImageUrl(defaultImage);
+      setPreviewMode(true);
+    }
+    
+    if (multiple && images && JSON.stringify(images) !== JSON.stringify(imageUrls)) {
+      setImageUrls(images);
+      setPreviewMode(images.length > 0);
+    }
+  }, [defaultImage, images]);
+
+  async function uploadImage(event: React.ChangeEvent<HTMLInputElement>) {
     try {
+      setError(null);
+
+      if (!event.target.files || event.target.files.length === 0) {
+        return;
+      }
+
+      const file = event.target.files[0];
       const fileExt = file.name.split('.').pop();
-      const filePath = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
-      
-      const { data, error } = await supabase.storage
-        .from('images')
-        .upload(filePath, file, {
-          cacheControl: '3600',
-          upsert: false
-        });
-        
-      if (error) throw error;
-      
-      // Get public URL for the uploaded file
-      const { data: urlData } = supabase.storage
-        .from('images')
-        .getPublicUrl(data.path);
-        
-      return urlData.publicUrl;
-    } catch (error: any) {
-      console.error('Error uploading file:', error);
-      toast({
-        title: 'Ошибка загрузки',
-        description: error.message || 'Не удалось загрузить файл',
-        variant: 'destructive',
-      });
-      return null;
-    }
-  }, []);
+      const fileName = `${uuidv4()}.${fileExt}`;
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    
-    if (!files || files.length === 0) return;
-    
-    setIsUploading(true);
-    setUploadProgress(0);
-    
-    try {
-      const filesToUpload = Array.from(files).slice(0, maxFiles);
-      const totalFiles = filesToUpload.length;
-      const uploadedUrls: string[] = [];
-      
-      for (let i = 0; i < totalFiles; i++) {
-        const url = await uploadFile(filesToUpload[i]);
-        
-        if (url) uploadedUrls.push(url);
-        
-        // Update progress
-        setUploadProgress(Math.round(((i + 1) / totalFiles) * 100));
+      setUploading(true);
+
+      // Check for a reasonable image size (5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setError('Файл слишком большой. Максимальный размер 5MB.');
+        setUploading(false);
+        return;
       }
-      
-      if (uploadedUrls.length > 0) {
-        onUpload(uploadedUrls);
+
+      // Use FileReader for direct data URL
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const dataUrl = e.target?.result as string;
+        console.log('Image uploaded successfully');
         
-        toast({
-          title: 'Файлы загружены',
-          description: `Успешно загружено ${uploadedUrls.length} файлов`,
-        });
-      }
+        if (multiple) {
+          const newUrls = [...imageUrls, dataUrl];
+          setImageUrls(newUrls);
+          if (onImagesUpdated) onImagesUpdated(newUrls);
+        } else {
+          setImageUrl(dataUrl);
+          onImageUploaded(dataUrl);
+        }
+        
+        setPreviewMode(true);
+        setUploading(false);
+      };
+      
+      reader.onerror = () => {
+        console.error('Error reading file');
+        setError('Ошибка при чтении файла');
+        setUploading(false);
+      };
+      
+      reader.readAsDataURL(file);
     } catch (error) {
-      console.error('Error in file upload process:', error);
-    } finally {
-      setIsUploading(false);
-      setUploadProgress(0);
-      // Reset the input
-      e.target.value = '';
+      console.error('Error uploading image:', error);
+      setError('Ошибка при загрузке изображения');
+      setUploading(false);
     }
-  };
+  }
 
-  return (
-    <div className={cn("flex flex-col", className)}>
-      <label htmlFor="file-upload" className="cursor-pointer">
-        <div className={cn(
-          "flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-md p-6 transition-colors",
-          "hover:border-primary/50 hover:bg-primary/5",
-          isUploading && "opacity-50 pointer-events-none"
-        )}>
-          {isUploading ? (
-            <div className="flex flex-col items-center gap-2">
-              <div className="h-10 w-10 rounded-full border-2 border-primary border-t-transparent animate-spin" />
-              <div className="text-sm font-medium">{uploadProgress}%</div>
+  function handleRemoveImage() {
+    setImageUrl('');
+    setPreviewMode(false);
+    onImageUploaded(''); // Clear the image from the parent component
+  }
+
+  function handleRemoveMultipleImage(index: number) {
+    const newUrls = imageUrls.filter((_, i) => i !== index);
+    setImageUrls(newUrls);
+    if (onImagesUpdated) onImagesUpdated(newUrls);
+  }
+
+  // For single image upload
+  if (!multiple) {
+    return (
+      <div className={cn("w-full", className)}>
+        {previewMode && imageUrl ? (
+          <div className="relative">
+            <div className="aspect-video w-full h-48 rounded-md overflow-hidden bg-slate-700">
+              <img 
+                src={imageUrl}
+                alt="Preview" 
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = 'https://placehold.co/640x360?text=Ошибка+загрузки';
+                }}
+              />
             </div>
-          ) : (
-            <>
-              <Upload className="w-8 h-8 text-gray-400 mb-2" />
-              <div className="text-sm font-medium">{label}</div>
-              <div className="text-xs text-gray-500 mt-1">
-                {maxFiles > 1 
-                  ? `Выберите до ${maxFiles} файлов` 
-                  : 'Выберите файл для загрузки'}
+            <Button
+              variant="destructive"
+              size="icon"
+              onClick={handleRemoveImage}
+              className="absolute -top-2 -right-2 h-8 w-8 rounded-full"
+              type="button"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+            
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setPreviewMode(false)}
+              className="mt-2"
+              type="button"
+            >
+              Изменить изображение
+            </Button>
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center p-4 border-2 border-dashed border-slate-600 rounded-md bg-slate-800/50">
+            <label className="w-full cursor-pointer">
+              <div className="flex flex-col items-center justify-center py-6">
+                {uploading ? (
+                  <Loader2 className="h-8 w-8 text-primary animate-spin" />
+                ) : (
+                  <>
+                    <Upload className="h-8 w-8 text-slate-500 mb-2" />
+                    <p className="text-sm text-slate-400">Нажмите для загрузки изображения</p>
+                    <p className="text-xs text-slate-500 mt-1">JPG, PNG, GIF до 5MB</p>
+                  </>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={uploadImage}
+                  disabled={uploading}
+                  className="hidden"
+                />
               </div>
-            </>
-          )}
+            </label>
+            {error && (
+              <p className="text-sm text-red-500 mt-2">{error}</p>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // For multiple image upload
+  return (
+    <div className={cn("w-full", className)}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+        {imageUrls.map((url, index) => (
+          <div key={index} className="relative aspect-video rounded-md overflow-hidden bg-slate-700">
+            <img 
+              src={url}
+              alt={`Preview ${index + 1}`} 
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = 'https://placehold.co/640x360?text=Ошибка+загрузки';
+              }}
+            />
+            <Button
+              variant="destructive"
+              size="icon"
+              onClick={() => handleRemoveMultipleImage(index)}
+              className="absolute top-2 right-2 h-8 w-8 rounded-full opacity-90 hover:opacity-100"
+              type="button"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        ))}
+        
+        {/* Add new image button */}
+        <div className="flex flex-col items-center justify-center border-2 border-dashed border-slate-600 rounded-md bg-slate-800/50 aspect-video">
+          <label className="w-full h-full cursor-pointer flex flex-col items-center justify-center">
+            {uploading ? (
+              <Loader2 className="h-8 w-8 text-primary animate-spin" />
+            ) : (
+              <>
+                <Plus className="h-8 w-8 text-slate-500 mb-2" />
+                <p className="text-sm text-slate-400 text-center px-2">Добавить изображение</p>
+              </>
+            )}
+            <input
+              type="file"
+              accept="image/*"
+              onChange={uploadImage}
+              disabled={uploading}
+              className="hidden"
+            />
+          </label>
         </div>
-        <input
-          id="file-upload"
-          type="file"
-          className="hidden"
-          accept={accept}
-          multiple={maxFiles > 1}
-          onChange={handleFileChange}
-          disabled={isUploading}
-        />
-      </label>
+      </div>
+      
+      {error && (
+        <p className="text-sm text-red-500 mt-2">{error}</p>
+      )}
     </div>
   );
 };
