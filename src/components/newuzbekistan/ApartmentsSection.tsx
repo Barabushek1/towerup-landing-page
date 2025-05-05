@@ -1,3 +1,4 @@
+
 import React, { useRef, useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { motion, useInView } from 'framer-motion';
@@ -314,7 +315,7 @@ const ApartmentsSection: React.FC = () => {
               {currentPlan && ( // Only render content if a plan is selected
                  <TabsContent
                      key={currentPlan.id} // Key the content to the *current* plan for potential animation
-                     value={currentTab} // Value must match the active tab state
+                     value={activeTab} // Fix: Changed from currentTab to activeTab
                      forceMount={true} // Ensure content stays in DOM for animations
                      className="focus-visible:outline-none focus-visible:ring-0 mt-0" // Remove default margin
                  >
