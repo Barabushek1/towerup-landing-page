@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef } from 'react';
 import { motion, useInView, useAnimation } from 'framer-motion';
 import NavBar from '@/components/NavBar';
@@ -7,6 +8,7 @@ import ScrollToTopButton from '@/components/ScrollToTopButton';
 import { Button } from '@/components/ui/button';
 import { MapPin, Calendar, Building, Users, ShoppingBag, Utensils, Film, Car } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // Animation variants
 const fadeInUp = {
@@ -23,6 +25,8 @@ const staggerContainer = {
 };
 
 const TrcBochka: React.FC = () => {
+  const { t } = useLanguage();
+  
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -54,8 +58,8 @@ const TrcBochka: React.FC = () => {
   return (
     <div className="min-h-screen antialiased bg-background text-foreground overflow-x-hidden">
       <Helmet>
-        <title>ТРЦ "Бочка" | TOWERUP</title>
-        <meta name="description" content="Современный торгово-развлекательный центр ТРЦ 'Бочка' в Ташкентской области - проект компании TOWERUP" />
+        <title>{t('trcBochka.title')} | TOWERUP</title>
+        <meta name="description" content={t('trcBochka.description')} />
       </Helmet>
       
       <NavBar />
@@ -63,8 +67,8 @@ const TrcBochka: React.FC = () => {
       <main>
         {/* Hero Section */}
         <PageHeader 
-          title="ТРЦ «БОЧКА»" 
-          breadcrumb="ПРОЕКТЫ / ТРЦ «БОЧКА»" 
+          title={t('trcBochka.title')}
+          breadcrumb={`${t('nav.projects')} / ${t('trcBochka.title')}`}
           backgroundImage="/lovable-uploads/60a5c9f9-6a6c-4358-84a4-aea6b38dc165.png"
         />
 
@@ -76,19 +80,19 @@ const TrcBochka: React.FC = () => {
           <div className="container mx-auto px-6 relative z-10">
             <AnimatedSection className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
               <motion.div variants={fadeInUp} className="order-2 lg:order-1">
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Инновационный торгово-развлекательный центр</h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">{t('trcBochka.overview.title')}</h2>
                 <p className="text-lg leading-relaxed text-gray-300 mb-6">
-                  ТРЦ «Бочка» — уникальный архитектурный проект в Ташкентской области, сочетающий в себе инновационные технологии и эстетику современного дизайна. Центральный элемент фасада, выполненн��й в форме бочки, символизирует изобилие и является визитной карточкой комплекса.
+                  {t('trcBochka.overview.desc1')}
                 </p>
                 <p className="text-lg leading-relaxed text-gray-300 mb-8">
-                  Этот многофункциональный центр предлагает не только торговые площади, но и разнообразные развлекательные зоны, рестораны, кафе и комфортные общественные пространства, создавая новое место притяжения для жителей и гостей региона.
+                  {t('trcBochka.overview.desc2')}
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300">
-                    Связаться с нами
+                    {t('trcBochka.contact.button')}
                   </Button>
                   <Button variant="outline" size="lg" className="border-white/20 hover:bg-white/10">
-                    Скачать презентацию
+                    {t('trcBochka.downloadPresentation')}
                   </Button>
                 </div>
               </motion.div>
@@ -98,14 +102,14 @@ const TrcBochka: React.FC = () => {
                   <div className="aspect-square w-full overflow-hidden rounded-2xl border-2 border-white/10 shadow-2xl">
                     <img 
                       src="/lovable-uploads/2744afca-b80a-4a76-8b7c-4666a3d44a60.png" 
-                      alt="ТРЦ Бочка - вид сбоку" 
+                      alt={`${t('trcBochka.title')} - ${t('trcBochka.sideView')}`}
                       className="w-full h-full object-cover"
                     />
                   </div>
                   <div className="absolute -bottom-6 -right-6 w-2/3 h-2/3 rounded-xl overflow-hidden border-2 border-white/10 shadow-lg">
                     <img 
                       src="/lovable-uploads/38cd93b4-a24c-4390-bd04-0ed51282d778.png" 
-                      alt="ТРЦ Бочка - вход" 
+                      alt={`${t('trcBochka.title')} - ${t('trcBochka.entrance')}`}
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -116,14 +120,14 @@ const TrcBochka: React.FC = () => {
             {/* Key Features */}
             <AnimatedSection className="mt-24">
               <motion.h3 variants={fadeInUp} className="text-2xl md:text-3xl font-bold text-white mb-12 text-center">
-                Основные характеристики
+                {t('trcBochka.keyFeatures')}
               </motion.h3>
               <motion.div variants={staggerContainer} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {[
-                  { icon: Building, title: "5 этажей", description: "Просторный многоуровневый комплекс" },
-                  { icon: MapPin, title: "Ташкентская область", description: "Удобное расположение и транспортная доступность" },
-                  { icon: Calendar, title: "Открытие в 2025", description: "Проект находится в стадии строительства" },
-                  { icon: Users, title: "10,000+ посетителей", description: "Ежедневная проходимость после открытия" }
+                  { icon: Building, title: t('trcBochka.features.floors.title'), description: t('trcBochka.features.floors.desc') },
+                  { icon: MapPin, title: t('trcBochka.features.location.title'), description: t('trcBochka.features.location.desc') },
+                  { icon: Calendar, title: t('trcBochka.features.opening.title'), description: t('trcBochka.features.opening.desc') },
+                  { icon: Users, title: t('trcBochka.features.visitors.title'), description: t('trcBochka.features.visitors.desc') }
                 ].map((feature, index) => (
                   <motion.div
                     key={index}
@@ -147,39 +151,32 @@ const TrcBochka: React.FC = () => {
           <div className="container mx-auto px-6">
             <AnimatedSection>
               <motion.div variants={fadeInUp} className="text-center mb-16">
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Архитектурный шедевр</h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">{t('trcBochka.architecture.title')}</h2>
                 <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                  Уникальный дизайн, вдохновлённый формой бочки, делает ТРЦ «Бочка» 
-                  узнаваемым архитектурным объектом и новой достопримечательностью региона
+                  {t('trcBochka.architecture.subtitle')}
                 </p>
               </motion.div>
 
               <motion.div variants={fadeInUp} className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                 <div className="space-y-6">
                   <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
-                    <h3 className="text-2xl font-semibold text-white mb-4">Фасад</h3>
+                    <h3 className="text-2xl font-semibold text-white mb-4">{t('trcBochka.architecture.facade.title')}</h3>
                     <p className="text-gray-300">
-                      Фасад здания выполнен с применением современных материалов — стекла, металла и композитных панелей. 
-                      Характерная особенность — чередование горизонтальных белых полос с панорамными окнами, что создаёт 
-                      эффект парения и визуально облегчает массивное строение.
+                      {t('trcBochka.architecture.facade.desc')}
                     </p>
                   </div>
                   
                   <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
-                    <h3 className="text-2xl font-semibold text-white mb-4">Бочкообразный элемент</h3>
+                    <h3 className="text-2xl font-semibold text-white mb-4">{t('trcBochka.architecture.barrel.title')}</h3>
                     <p className="text-gray-300">
-                      Центральный архитектурный элемент, выполненный в форме бочки из деревянных ламелей, добавляет зданию 
-                      органичности и отсылает к названию комплекса. Этот элемент не только визуально эффектен, но и функционален — 
-                      он служит источником естественного освещения внутренних пространств.
+                      {t('trcBochka.architecture.barrel.desc')}
                     </p>
                   </div>
                   
                   <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
-                    <h3 className="text-2xl font-semibold text-white mb-4">Террасы</h3>
+                    <h3 className="text-2xl font-semibold text-white mb-4">{t('trcBochka.architecture.terraces.title')}</h3>
                     <p className="text-gray-300">
-                      По боковой стороне здания расположены открытые террасы, которые могут использоваться для кафе, 
-                      ресторанов и зон отдыха. Они обеспечивают дополнительное пространство для посетителей и живописные 
-                      виды на окружающую территорию.
+                      {t('trcBochka.architecture.terraces.desc')}
                     </p>
                   </div>
                 </div>
@@ -187,16 +184,15 @@ const TrcBochka: React.FC = () => {
                 <div className="relative h-[600px] rounded-2xl overflow-hidden shadow-2xl border border-white/10">
                   <img 
                     src="/lovable-uploads/90e6db77-c1a6-40d8-936b-0e623cf5cb93.png" 
-                    alt="ТРЦ Бочка - архитектура" 
+                    alt={`${t('trcBochka.title')} - ${t('trcBochka.architecture.title')}`}
                     className="absolute inset-0 w-full h-full object-cover transition-all duration-20000 animate-slowly-pan-image"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                   <div className="absolute bottom-0 left-0 right-0 p-8">
                     <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
-                      <h4 className="text-xl font-semibold text-white mb-2">Современный дизайн</h4>
+                      <h4 className="text-xl font-semibold text-white mb-2">{t('trcBochka.architecture.modern.title')}</h4>
                       <p className="text-gray-200">
-                        Сочетание функциональности и эстетики создаёт уникальное архитектурное решение, 
-                        которое будет актуально долгие годы
+                        {t('trcBochka.architecture.modern.desc')}
                       </p>
                     </div>
                   </div>
@@ -213,9 +209,9 @@ const TrcBochka: React.FC = () => {
           <div className="container mx-auto px-6 relative z-10">
             <AnimatedSection>
               <motion.div variants={fadeInUp} className="text-center mb-16">
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Зоны и функции</h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">{t('trcBochka.zones.title')}</h2>
                 <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                  ТРЦ «Бочка» предлагает разнообразные развлечения и услуги для всей семьи
+                  {t('trcBochka.zones.subtitle')}
                 </p>
               </motion.div>
 
@@ -223,38 +219,38 @@ const TrcBochka: React.FC = () => {
                 {[
                   {
                     icon: ShoppingBag,
-                    title: "Торговая зона",
-                    description: "Более 100 магазинов известных брендов, бутики модной одежды, аксессуаров, электроники и товаров для дома.",
+                    title: t('trcBochka.zones.retail.title'),
+                    description: t('trcBochka.zones.retail.desc'),
                     color: "from-green-500/20 to-emerald-600/20"
                   },
                   {
                     icon: Utensils,
-                    title: "Фудкорт",
-                    description: "Рестораны и кафе разнообразных кухонь мира, уютные кофейни и фастфуд для быстрого перекуса.",
+                    title: t('trcBochka.zones.food.title'),
+                    description: t('trcBochka.zones.food.desc'),
                     color: "from-amber-500/20 to-orange-600/20"
                   },
                   {
                     icon: Film,
-                    title: "Развлечения",
-                    description: "Современный кинотеатр, детский развлекательный центр, игровые зоны и аттракционы для посетителей всех возрастов.",
+                    title: t('trcBochka.zones.entertainment.title'),
+                    description: t('trcBochka.zones.entertainment.desc'),
                     color: "from-blue-500/20 to-indigo-600/20"
                   },
                   {
                     icon: Car,
-                    title: "Парковка",
-                    description: "Просторная подземная и наземная парковка с удобным въездом и электрозарядными станциями.",
+                    title: t('trcBochka.zones.parking.title'),
+                    description: t('trcBochka.zones.parking.desc'),
                     color: "from-gray-500/20 to-slate-600/20"
                   },
                   {
                     icon: Users,
-                    title: "Общественные пространства",
-                    description: "Комфортные зоны отдыха, открытые террасы с красивыми видами и зеленые уголки для приятного времяпрепровождения.",
+                    title: t('trcBochka.zones.public.title'),
+                    description: t('trcBochka.zones.public.desc'),
                     color: "from-purple-500/20 to-violet-600/20"
                   },
                   {
                     icon: Building,
-                    title: "Офисные помещения",
-                    description: "Современные офисные пространства на верхних этажах с панорамными видами и всей необходимой инфраструктурой.",
+                    title: t('trcBochka.zones.offices.title'),
+                    description: t('trcBochka.zones.offices.desc'),
                     color: "from-red-500/20 to-rose-600/20"
                   }
                 ].map((feature, index) => (
@@ -282,9 +278,9 @@ const TrcBochka: React.FC = () => {
           <div className="container mx-auto px-6">
             <AnimatedSection>
               <motion.div variants={fadeInUp} className="text-center mb-16">
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Галерея проекта</h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">{t('trcBochka.gallery.title')}</h2>
                 <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                  Визуализации будущего торгово-развлекательного центра «Бочка»
+                  {t('trcBochka.gallery.subtitle')}
                 </p>
               </motion.div>
 
@@ -293,11 +289,11 @@ const TrcBochka: React.FC = () => {
                   <div className="aspect-[4/3] md:aspect-auto md:h-full relative group">
                     <img 
                       src="/lovable-uploads/38cd93b4-a24c-4390-bd04-0ed51282d778.png" 
-                      alt="ТРЦ Бочка - главный вход" 
+                      alt={`${t('trcBochka.title')} - ${t('trcBochka.gallery.mainEntrance')}`}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <span className="text-white font-semibold text-lg">Главный вход</span>
+                      <span className="text-white font-semibold text-lg">{t('trcBochka.gallery.mainEntrance')}</span>
                     </div>
                   </div>
                 </motion.div>
@@ -306,11 +302,11 @@ const TrcBochka: React.FC = () => {
                   <div className="aspect-[3/2] relative group">
                     <img 
                       src="/lovable-uploads/90e6db77-c1a6-40d8-936b-0e623cf5cb93.png" 
-                      alt="ТРЦ Бочка - общий вид" 
+                      alt={`${t('trcBochka.title')} - ${t('trcBochka.gallery.generalView')}`}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <span className="text-white font-semibold text-lg">Общий вид</span>
+                      <span className="text-white font-semibold text-lg">{t('trcBochka.gallery.generalView')}</span>
                     </div>
                   </div>
                 </motion.div>
@@ -319,11 +315,11 @@ const TrcBochka: React.FC = () => {
                   <div className="aspect-[3/2] relative group">
                     <img 
                       src="/lovable-uploads/2744afca-b80a-4a76-8b7c-4666a3d44a60.png" 
-                      alt="ТРЦ Бочка - боковой вид" 
+                      alt={`${t('trcBochka.title')} - ${t('trcBochka.gallery.sideView')}`}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <span className="text-white font-semibold text-lg">Боковой вид</span>
+                      <span className="text-white font-semibold text-lg">{t('trcBochka.gallery.sideView')}</span>
                     </div>
                   </div>
                 </motion.div>
@@ -332,11 +328,11 @@ const TrcBochka: React.FC = () => {
                   <div className="aspect-[3/2] relative group">
                     <img 
                       src="/lovable-uploads/60a5c9f9-6a6c-4358-84a4-aea6b38dc165.png" 
-                      alt="ТРЦ Бочка - вид с террасами" 
+                      alt={`${t('trcBochka.title')} - ${t('trcBochka.gallery.withTerraces')}`}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <span className="text-white font-semibold text-lg">Вид с террасами</span>
+                      <span className="text-white font-semibold text-lg">{t('trcBochka.gallery.withTerraces')}</span>
                     </div>
                   </div>
                 </motion.div>
@@ -355,17 +351,16 @@ const TrcBochka: React.FC = () => {
                 variants={fadeInUp}
                 className="max-w-4xl mx-auto text-center"
               >
-                <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Станьте арендатором в ТРЦ «Бочка»</h2>
+                <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">{t('trcBochka.cta.title')}</h2>
                 <p className="text-xl text-gray-300 mb-8">
-                  Откройте свой бизнес в современном торговом центре с высокой проходимостью.
-                  Мы предлагаем выгодные условия аренды и гибкие форматы сотрудничества.
+                  {t('trcBochka.cta.description')}
                 </p>
                 <div className="flex flex-wrap justify-center gap-4">
                   <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 text-lg px-8">
-                    Запросить условия
+                    {t('trcBochka.cta.requestButton')}
                   </Button>
                   <Button variant="outline" size="lg" className="border-white/20 hover:bg-white/10 text-lg px-8">
-                    Скачать презентацию
+                    {t('trcBochka.cta.downloadButton')}
                   </Button>
                 </div>
               </motion.div>

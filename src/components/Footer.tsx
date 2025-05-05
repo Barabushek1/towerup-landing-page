@@ -1,13 +1,16 @@
+
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { Facebook, Linkedin, Instagram, ArrowUp, Send, PhoneCall } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
+
 const Footer: React.FC = () => {
   const {
     t
   } = useLanguage();
   const [showBackToTop, setShowBackToTop] = useState(false);
+  
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -16,12 +19,14 @@ const Footer: React.FC = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+  
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
   };
+  
   return <footer className="text-white pt-16 pb-8 bg-gray-800">
             <div className="container mx-auto px-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
@@ -97,7 +102,15 @@ const Footer: React.FC = () => {
                 </div>
             </div>
 
-            {showBackToTop}
+            {showBackToTop && (
+              <button
+                onClick={scrollToTop}
+                aria-label="Scroll to top"
+                className="fixed bottom-6 right-6 bg-primary text-white p-3 rounded-full shadow-lg hover:bg-primary/80 transition-all z-50"
+              >
+                <ArrowUp size={20} />
+              </button>
+            )}
         </footer>;
 };
 export default Footer;
