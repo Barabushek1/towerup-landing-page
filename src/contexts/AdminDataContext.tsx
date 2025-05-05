@@ -1,8 +1,10 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/components/ui/use-toast';
 import { safelyFormatDate, validateImageUrl } from '@/utils/supabase-helpers';
+import { Tender } from '@/types/tenders';
 
 export type NewsItem = {
   id: string;
@@ -49,6 +51,7 @@ type AdminDataContextType = {
   vacancies: VacancyItem[];
   messages: MessageItem[];
   partners: PartnerItem[];
+  tenders: Tender[];
   addNews: (newsItem: Omit<NewsItem, 'id'>) => Promise<void>;
   updateNews: (id: string, newsItem: Omit<NewsItem, 'id'>) => Promise<void>;
   deleteNews: (id: string) => Promise<void>;
@@ -62,6 +65,9 @@ type AdminDataContextType = {
   addPartner: (partnerItem: Omit<PartnerItem, 'id'>) => Promise<void>;
   updatePartner: (id: string, partnerItem: Omit<PartnerItem, 'id'>) => Promise<void>;
   deletePartner: (id: string) => Promise<void>;
+  addTender: (tender: Omit<Tender, 'id' | 'created_at' | 'updated_at'>) => Promise<void>;
+  updateTender: (id: string, tender: Partial<Omit<Tender, 'id' | 'created_at' | 'updated_at'>>) => Promise<void>;
+  deleteTender: (id: string) => Promise<void>;
 };
 
 const AdminDataContext = createContext<AdminDataContextType | undefined>(undefined);
@@ -79,6 +85,7 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [vacancies, setVacancies] = useState<VacancyItem[]>([]);
   const [messages, setMessages] = useState<MessageItem[]>([]);
   const [partners, setPartners] = useState<PartnerItem[]>([]);
+  const [tenders, setTenders] = useState<Tender[]>([]);
 
   const ensureStorageBucketExists = async (bucketName: string) => {
     console.log(`Checking if bucket ${bucketName} exists...`);
@@ -196,6 +203,23 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
             logo: item.logo_url || '',
             url: item.website_url
           })));
+        }
+
+        // Fetch tenders data
+        console.log('Fetching tenders data...');
+        const { data: tendersData, error: tendersError } = await supabase
+          .from('tenders')
+          .select('*')
+          .order('created_at', { ascending: false });
+        
+        if (tendersError) {
+          console.error('Error fetching tenders:', tendersError);
+          throw tendersError;
+        }
+        
+        if (tendersData) {
+          console.log(`Fetched ${tendersData.length} tenders`);
+          setTenders(tendersData);
         }
 
       } catch (error) {
@@ -561,12 +585,102 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }
   };
 
+  const addTender = async (tender: Omit<Tender, 'id' | 'created_at' | 'updated_at'>) => {
+    try {
+      console.log('Adding tender:', tender);
+      const { data, error } = await supabase
+        .from('tenders')
+        .insert({
+          ...tender,
+          deadline: tender.deadline ? new Date(tender.deadline).toISOString() : null
+        })
+        .select();
+
+      if (error) throw error;
+      
+      if (data && data.length > 0) {
+        setTenders(prev => [data[0], ...prev]);
+      }
+      
+      return Promise.resolve();
+    } catch (error: any) {
+      console.error('Error adding tender:', error);
+      toast({
+        title: "Ошибка сохранения",
+        description: `Не удалось сохранить тендер: ${error.message || "Неизвестная ошибка"}`,
+        variant: "destructive"
+      });
+      return Promise.reject(error);
+    }
+  };
+
+  const updateTender = async (id: string, tender: Partial<Omit<Tender, 'id' | 'created_at' | 'updated_at'>>) => {
+    try {
+      console.log('Updating tender:', id, tender);
+      
+      const updates: any = { ...tender };
+      if (tender.deadline) {
+        updates.deadline = new Date(tender.deadline).toISOString();
+      }
+      
+      const { error } = await supabase
+        .from('tenders')
+        .update(updates)
+        .eq('id', id);
+
+      if (error) throw error;
+      
+      setTenders(prev => 
+        prev.map(item => 
+          item.id === id 
+            ? { ...item, ...tender } 
+            : item
+        )
+      );
+      
+      return Promise.resolve();
+    } catch (error: any) {
+      console.error('Error updating tender:', error);
+      toast({
+        title: "Ошибка обновления",
+        description: `Не удалось обновить тендер: ${error.message || "Неизвестная ошибка"}`,
+        variant: "destructive"
+      });
+      return Promise.reject(error);
+    }
+  };
+
+  const deleteTender = async (id: string) => {
+    try {
+      console.log('Deleting tender:', id);
+      const { error } = await supabase
+        .from('tenders')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+      
+      setTenders(prev => prev.filter(item => item.id !== id));
+      
+      return Promise.resolve();
+    } catch (error: any) {
+      console.error('Error deleting tender:', error);
+      toast({
+        title: "Ошибка удаления",
+        description: `Не удалось удалить тендер: ${error.message || "Неизвестная ошибка"}`,
+        variant: "destructive"
+      });
+      return Promise.reject(error);
+    }
+  };
+
   return (
     <AdminDataContext.Provider value={{ 
       news, 
       vacancies, 
       messages, 
       partners,
+      tenders,
       addNews, 
       updateNews, 
       deleteNews, 
@@ -579,7 +693,10 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       markMessageAsRead,
       addPartner,
       updatePartner,
-      deletePartner
+      deletePartner,
+      addTender,
+      updateTender,
+      deleteTender
     }}>
       {children}
     </AdminDataContext.Provider>

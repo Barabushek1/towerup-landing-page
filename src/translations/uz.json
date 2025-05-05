@@ -1,4 +1,3 @@
-
 {
   "testModeIndicator": "Sayt sinov rejimida ishlamoqda",
   
@@ -425,5 +424,120 @@
       "description": "10-chi metro stantsiyasi yaqin masofada."
     },
     "learnMore": "Batafsil bilish"
+  },
+  "collaboration": {
+    "pageTitle": "Hamkorlik",
+    "pageDescription": "Tower Up bilan hamkorlik imkoniyatlarini va faol tendеrlarni o'rganing",
+    "title": "Hamkorlik",
+    "subtitle": "Biznes hamkorlar va pudratchilar uchun imkoniyatlar",
+    "intro": {
+      "title": "Tower Up bilan hamkor bo'ling",
+      "description": "Biz doimo loyihalarimizda hamkorlik qilish uchun ishonchli hamkorlar va pudratchilarni izlaymiz. Butun O'zbekiston bo'ylab ajoyib qurilish loyihalarini yaratishda bizga qo'shiling."
+    },
+    "benefits": {
+      "quality": {
+        "title": "Sifat",
+        "description": "Biz faqat yuqori sifat va aniqlikka bo'lgan sadoqatimizni baham ko'radiganlar bilan hamkorlik qilamiz."
+      },
+      "innovation": {
+        "title": "Innovatsiya",
+        "description": "Biz loyihalarimizga innovatsion yechimlar va texnologiyalarni olib keladigan hamkorlarni qadrlaymiz."
+      },
+      "reliability": {
+        "title": "Ishonchlilik",
+        "description": "O'zaro ishonch va ishonchli ishlashga asoslangan uzoq muddatli hamkorlik bizning ustuvor vazifamizdir."
+      }
+    },
+    "activeTenders": "Faol tenderlar",
+    "noTenders": "Hozirda faol tenderlar yo'q. Iltimos, keyinroq tekshiring.",
+    "errorLoading": "Tenderlarni yuklashda xatolik yuz berdi. Iltimos, keyinroq qayta urinib ko'ring.",
+    "viewDetails": "Tafsilotlarni ko'rish",
+    "applyNow": "Hozir ariza topshiring",
+    "tenderClosed": "Tender yopilgan",
+    "description": "Tavsif",
+    "requirements": "Talablar",
+    "deadline": "Muddat",
+    "documents": "Hujjatlar",
+    "document": "Hujjat",
+    "category": {
+      "supply": "Ta'minot",
+      "design": "Dizayn",
+      "construction": "Qurilish",
+      "services": "Xizmatlar",
+      "other": "Boshqa"
+    },
+    "status": {
+      "active": "Faol",
+      "pending": "Kutilmoqda",
+      "closed": "Yopilgan"
+    },
+    "process": {
+      "title": "Hamkorlik jarayoni",
+      "step1": {
+        "title": "Tenderlarni toping",
+        "description": "Bizning faol tenderlarimizni ko'rib chiqing va o'z tajribangizga mos keluvchi imkoniyatlarni toping."
+      },
+      "step2": {
+        "title": "Ariza yuboring",
+        "description": "Kompaniyangiz ma'lumotlari va taklifingiz bilan tenderga ariza yuboring."
+      },
+      "step3": {
+        "title": "Ko'rib chiqish",
+        "description": "Bizning jamoamiz arizangizni ko'rib chiqadi va qo'shimcha ma'lumotlar uchun siz bilan bog'lanishi mumkin."
+      },
+      "step4": {
+        "title": "Hamkorlik",
+        "description": "Muvaffaqiyatli arizachilar hamkorlik va loyihada hamkorlik qilish uchun tanlanadi."
+      }
+    },
+    "requirements": {
+      "title": "Hamkorlik talablari",
+      "subtitle": "Hamkorlarimizdan nimani kutamiz",
+      "description": "Tower Up o'z hamkorlari va pudratchilari uchun yuqori standartlarni saqlab qoladi. Quyida hamkorlik uchun minimal talablar keltirilgan.",
+      "category": "Kategoriya",
+      "details": "Talablar",
+      "legal": {
+        "title": "Huquqiy",
+        "details": "Muayyan soha uchun barcha kerakli litsenziya va ruxsatlar bilan to'g'ri ro'yxatdan o'tgan biznes."
+      },
+      "financial": {
+        "title": "Moliyaviy",
+        "details": "Moliyaviy barqarorlik, zarur bo'lganda moliyaviy kafolatlar berish qobiliyati."
+      },
+      "technical": {
+        "title": "Texnik",
+        "details": "Zamonaviy uskunalar, sifatli materiallar va malakali texnik mutaxassislar."
+      },
+      "experience": {
+        "title": "Tajriba",
+        "details": "Shunga o'xshash loyihalarda isbot qilingan tajriba, kerak bo'lganda taqdim etish mumkin bo'lgan referenslar."
+      }
+    },
+    "form": {
+      "title": "Bu tender uchun ariza topshiring",
+      "companyName": "Kompaniya nomi",
+      "companyNamePlaceholder": "Kompaniyangiz nomini kiriting",
+      "contactName": "Aloqa kishi",
+      "contactNamePlaceholder": "Aloqa kishisining ismini kiriting",
+      "email": "Elektron pochta",
+      "emailPlaceholder": "Elektron pochta manzilingizni kiriting",
+      "phone": "Telefon raqami",
+      "phonePlaceholder": "Telefon raqamingizni kiriting",
+      "message": "Qo'shimcha ma'lumot",
+      "messagePlaceholder": "Kompaniyangiz haqida va tender talablariga qanday javob berishingiz mumkinligi haqida qo'shimcha ma'lumot taqdim eting",
+      "back": "Tafsilotlarga qaytish",
+      "submit": "Arizani yuborish",
+      "submitting": "Yuborilmoqda...",
+      "successTitle": "Ariza yuborildi",
+      "successMessage": "Sizning tender arizangiz muvaffaqiyatli yuborildi. Biz uni ko'rib chiqamiz va kerak bo'lsa siz bilan bog'lanamiz.",
+      "errorTitle": "Yuborishda xatolik",
+      "errorMessage": "Arizangizni yuborishda xatolik yuz berdi. Iltimos, keyinroq qayta urinib ko'ring.",
+      "errors": {
+        "companyNameRequired": "Kompaniya nomi kiritilishi shart",
+        "contactNameRequired": "Aloqa kishisi ismi kiritilishi shart",
+        "emailInvalid": "Iltimos, to'g'ri elektron pochta manzilini kiriting",
+        "phoneRequired": "Telefon raqami kiritilishi shart"
+      }
+    }
   }
 }
