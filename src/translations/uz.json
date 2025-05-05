@@ -509,7 +509,8 @@
   "newUzbekistan.apartments.footer": "Rejalar mavjudlikka qarab farq qilishi mumkin. Aniq narxlar va ma'lum xonadonlarning mavjudligi to'g'risida sotish bo'limimiz bilan bog'laning.",
   "newUzbekistan.contact.form.title": "Biz bilan bog'lanish",
 
-
+  "dateFormat": "uz-UZ",
+  
   "common.close": "Yopish",
   "common.previous": "Oldingi",
   "common.next": "Keyingi",
