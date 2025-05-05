@@ -1,15 +1,19 @@
+
 import React, { useEffect, useRef } from 'react';
 import { Button } from './ui/button';
 import { Building, Users, Cpu, ShieldCheck, Clock, Award, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useLanguage } from '@/contexts/LanguageContext';
+
 interface AdvantageItemProps {
   icon: React.ReactNode;
   title: string;
   description: string;
   index: number;
 }
+
 const fadeInUp = {
   hidden: {
     opacity: 0,
@@ -24,6 +28,7 @@ const fadeInUp = {
     }
   }
 };
+
 const staggerContainer = {
   hidden: {
     opacity: 0
@@ -36,6 +41,7 @@ const staggerContainer = {
     }
   }
 };
+
 const AdvantageItem: React.FC<AdvantageItemProps> = ({
   icon,
   title,
@@ -67,9 +73,12 @@ const AdvantageItem: React.FC<AdvantageItemProps> = ({
       </div>
     </motion.div>;
 };
+
 const AboutSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+  const { t } = useLanguage(); // Import t function from useLanguage hook
+  
   useEffect(() => {
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -86,6 +95,7 @@ const AboutSection: React.FC = () => {
       elementsToObserve?.forEach(el => observer.unobserve(el));
     };
   }, []);
+  
   const advantages = [{
     icon: <Building className="w-10 h-10" />,
     title: "ПРОФЕССИОНАЛИЗМ",
@@ -99,6 +109,7 @@ const AboutSection: React.FC = () => {
     title: "ОБОРУДОВАНИЕ",
     description: "Технологическое превосходство используемого нами оборудования является элементом отличия компании TOWERUP."
   }];
+  
   return <section id="about" ref={sectionRef} className="bg-[#1a1a1a] text-white">
       {/* About Company Section - Improved mobile responsiveness */}
       <div className="container mx-auto px-4 sm:px-6 py-16 sm:py-20">
@@ -214,4 +225,5 @@ const AboutSection: React.FC = () => {
       </div>
     </section>;
 };
+
 export default AboutSection;
