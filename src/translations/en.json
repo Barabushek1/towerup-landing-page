@@ -1,4 +1,3 @@
-
 {
   "testModeIndicator": "Site is in test mode",
   
@@ -600,5 +599,65 @@
       "description": "Metro station 10th within walking distance."
     },
     "learnMore": "Learn more"
+  },
+  
+  "projects": {
+    "pushkin": {
+      "title": "RC «Pushkin»",
+      "subtitle": "Residential Complex",
+      "tagline": "Harmony of nature and modern comfort in the heart of the city.",
+      "shortDescription": "Modern residential complex in an environmentally clean area with a beautiful view of the city.",
+      "description": "Residential complex «Pushkin» is a modern complex of two 16-floor buildings in a prestigious area of the city. The complex is designed with modern comfort and safety requirements in mind. It features spacious apartments with various layouts, underground parking, secured territory, and developed infrastructure. The upper floors offer a magnificent view of the city and the mountainous area in the distance.",
+      "location": "Tashkent, Sergeli district",
+      "yearBuilt": "2022",
+      "totalArea": "24,000 m²",
+      "floors": "16",
+      "apartmentsCount": "160",
+      "status": "Under Construction",
+      "features": [
+        "Underground Parking",
+        "Secured Territory",
+        "Children's Playground",
+        "Sports Ground",
+        "Video Surveillance",
+        "Concierge Service",
+        "High-Quality Materials",
+        "Modern Technologies"
+      ],
+      "keyBenefits": {
+        "spaciousLayouts": {
+          "title": "Spacious Layouts",
+          "description": "Functional apartments with well-thought-out zoning."
+        },
+        "prestigiousArea": {
+          "title": "Prestigious Area",
+          "description": "Developed infrastructure and convenient transport accessibility."
+        },
+        "landscapedTerritory": {
+          "title": "Landscaped Territory",
+          "description": "Children's and sports grounds, recreation areas."
+        }
+      },
+      "architectQuote": {
+        "text": "We strive to create not just housing, but a living space where every detail contributes to comfort and aesthetic pleasure.",
+        "author": "A. Ivanov, Chief Architect"
+      },
+      "gallery": {
+        "title": "Gallery",
+        "subtitle": "Explore the photos of the project to see all the details and features of the residential complex."
+      },
+      "calculator": {
+        "title": "Cost Calculator",
+        "description": "Calculate the approximate cost of an apartment in the residential complex {title}, based on the current price per square meter."
+      },
+      "floorPlans": {
+        "title": "Floor Plans",
+        "viewAll": "View All Floor Plans"
+      },
+      "location": {
+        "title": "Location",
+        "description": "{title} is located in a convenient place with developed infrastructure and good transport accessibility."
+      }
+    }
   }
 }
