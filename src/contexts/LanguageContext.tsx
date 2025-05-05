@@ -37,6 +37,11 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   // Detect user's browser language on initial load or use saved preference
   useEffect(() => {
     const detectBrowserLanguage = () => {
+      const savedLanguage = localStorage.getItem('preferredLanguage');
+      if (savedLanguage && ['ru', 'uz', 'en'].includes(savedLanguage)) {
+        return savedLanguage as Language;
+      }
+      
       const browserLang = navigator.language.split('-')[0];
       
       // If browser language is Russian, set language to Russian
@@ -53,9 +58,8 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       return 'uz';
     };
     
-    const storedLanguage = localStorage.getItem('preferredLanguage') as Language;
-    const initialLanguage = storedLanguage || detectBrowserLanguage();
-    
+    const initialLanguage = detectBrowserLanguage();
+    console.log(`Initial language detection: ${initialLanguage}`);
     setLanguage(initialLanguage);
   }, []);
   
@@ -164,7 +168,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       toast.error('Translation failed, please try again later');
       
       // Provide a fallback in case of error
-      const fallbackText = `[${key}]`;
+      const fallbackText = key;
       
       // Store fallback in cache to prevent repeated failed requests
       if (!translationCache[targetLanguage]) {
@@ -177,9 +181,9 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   };
   
   // Queue a translation request and return a promise
-  const queueTranslation = (key: string, targetLanguage: Language): Promise<string> => {
+  const queueTranslation = (key: string, targetLang: Language): Promise<string> => {
     return new Promise(resolve => {
-      setTranslationQueue(queue => [...queue, { key, targetLang: targetLanguage, resolve }]);
+      setTranslationQueue(queue => [...queue, { key, targetLang, resolve }]);
     });
   };
   
