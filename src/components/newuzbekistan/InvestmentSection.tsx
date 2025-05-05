@@ -16,20 +16,20 @@ const InvestmentSection: React.FC = () => {
 
   const projectFeatures = [
     {
-      title: t('newUzbekistan.projectFeatures.feature1.title') || "Premium Location",
-      description: t('newUzbekistan.projectFeatures.feature1.desc') || "Strategically located in a rapidly developing district with excellent infrastructure and connectivity."
+      title: t('newUzbekistan.projectFeatures.feature1.title'),
+      description: t('newUzbekistan.projectFeatures.feature1.desc')
     },
     {
-      title: t('newUzbekistan.projectFeatures.feature2.title') || "Modern Architecture",
-      description: t('newUzbekistan.projectFeatures.feature2.desc') || "Contemporary design meeting international standards with emphasis on aesthetics and functionality."
+      title: t('newUzbekistan.projectFeatures.feature2.title'),
+      description: t('newUzbekistan.projectFeatures.feature2.desc')
     },
     {
-      title: t('newUzbekistan.projectFeatures.feature3.title') || "Quality Construction",
-      description: t('newUzbekistan.projectFeatures.feature3.desc') || "Built with premium materials and advanced construction technologies ensuring durability and safety."
+      title: t('newUzbekistan.projectFeatures.feature3.title'),
+      description: t('newUzbekistan.projectFeatures.feature3.desc')
     },
     {
-      title: t('newUzbekistan.projectFeatures.feature4.title') || "Smart Home Systems",
-      description: t('newUzbekistan.projectFeatures.feature4.desc') || "Integrated smart technologies for climate control, security, and energy efficiency."
+      title: t('newUzbekistan.projectFeatures.feature4.title'),
+      description: t('newUzbekistan.projectFeatures.feature4.desc')
     },
   ];
 
@@ -47,11 +47,11 @@ const InvestmentSection: React.FC = () => {
           </div>
 
           <h2 className="text-3xl md:text-4xl font-bold mb-3 text-white">
-            {t('newUzbekistan.projectFeatures.title') || "Project Highlights"}
+            {t('newUzbekistan.projectFeatures.title')}
           </h2>
 
           <p className="text-xl text-primary">
-            {t('newUzbekistan.projectFeatures.subtitle') || "Exceptional features of New Uzbekistan residential complex"}
+            {t('newUzbekistan.projectFeatures.subtitle')}
           </p>
         </motion.div>
 
@@ -84,7 +84,7 @@ const InvestmentSection: React.FC = () => {
             className="space-y-6"
           >
             <h3 className="text-2xl font-bold mb-6 text-white">
-              {t('newUzbekistan.projectFeatures.whyChoose') || "Why Choose New Uzbekistan"}
+              {t('newUzbekistan.projectFeatures.whyChoose')}
             </h3>
 
             <div className="space-y-6">
@@ -119,7 +119,7 @@ const InvestmentSection: React.FC = () => {
                   document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
                 }}
               >
-                {t('newUzbekistan.projectFeatures.contactUs') || "Contact for More Information"}
+                {t('newUzbekistan.projectFeatures.contactUs')}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </motion.div>
@@ -135,19 +135,19 @@ const InvestmentSection: React.FC = () => {
         >
           {[
             {
-              title: t('newUzbekistan.projectFeatures.comfort.title') || "Comfort & Convenience",
-              description: t('newUzbekistan.projectFeatures.comfort.desc') || "Thoughtfully designed living spaces that maximize comfort with premium fixtures and finishes.",
+              title: t('newUzbekistan.projectFeatures.comfort.title'),
+              description: t('newUzbekistan.projectFeatures.comfort.desc'),
               icon: "🏠"
             },
             {
-              title: t('newUzbekistan.projectFeatures.security.title') || "24/7 Security",
-              description: t('newUzbekistan.projectFeatures.security.desc') || "Round-the-clock security with CCTV surveillance and professional security personnel.",
+              title: t('newUzbekistan.projectFeatures.security.title'),
+              description: t('newUzbekistan.projectFeatures.security.desc'),
               icon: "🔐",
               highlighted: true
             },
             {
-              title: t('newUzbekistan.projectFeatures.amenities.title') || "Modern Amenities",
-              description: t('newUzbekistan.projectFeatures.amenities.desc') || "Access to a wide range of amenities including fitness centers, recreational areas, and more.",
+              title: t('newUzbekistan.projectFeatures.amenities.title'),
+              description: t('newUzbekistan.projectFeatures.amenities.desc'),
               icon: "✨"
             }
           ].map((feature, index) => (
