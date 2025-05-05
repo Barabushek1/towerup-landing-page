@@ -1,3 +1,4 @@
+
 {
   "testModeIndicator": "Sayt test rejimida",
   "nav.company": "Kompaniya haqida",
@@ -305,4 +306,5 @@
   "collaboration.seo.title": "Hamkorlik",
   "collaboration.seo.description": "TOWER UP tenderlari va hamkorlik dasturlari - hamkorlik imkoniyatlari",
   "collaboration.intro.title": "Bizning hamkorimiz bo'ling",
-  "collaboration.intro.description": "TOWER UP kompaniyasi arxitektura byurolari, qurilish kompaniyalari, yetkazib beruvchilar va qurilish bozorining boshqa ishtirokchilarini hamkor,
+  "collaboration.intro.description": "TOWER UP kompaniyasi arxitektura byurolari, qurilish kompaniyalari, yetkazib beruvchilar va qurilish bozorining boshqa ishtirokchilarini hamkorlikka taklif qiladi"
+}
