@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from '@/components/ui/toaster';
 
@@ -41,119 +41,117 @@ import AdminPartners from '@/pages/admin/AdminPartners';
 import AdminAuditLogs from '@/pages/admin/AdminAuditLogs';
 import AdminDetailedAuditLogs from '@/pages/admin/AdminDetailedAuditLogs';
 import AdminLayout from '@/components/admin/AdminLayout';
-import { AdminDataProvider } from '@/contexts/AdminDataContext'; // Changed from default import to named import
+import { AdminDataProvider } from '@/contexts/AdminDataContext';
 import ScrollToTop from '@/components/ScrollToTop';
 import AdminTenders from '@/pages/admin/AdminTenders';
 
 function App() {
   return (
     <HelmetProvider>
-      <BrowserRouter>
-        <ScrollToTop />
-        <AdminDataProvider>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/history" element={<History />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/projects/:projectId" element={<ProjectDetail />} />
-            <Route path="/vacancies" element={<Vacancies />} />
-            <Route path="/vacancies/:vacancyId" element={<VacancyDetail />} />
-            <Route path="/news" element={<News />} />
-            <Route path="/news/:newsId" element={<NewsDetail />} />
-            <Route path="/partners" element={<Partners />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/collaboration" element={<Collaboration />} />
-            
-            {/* New Uzbekistan Project Routes */}
-            <Route path="/new-uzbekistan" element={<NewUzbekistan />} />
-            <Route path="/trc-bochka" element={<TrcBochka />} />
-            
-            {/* Services Routes */}
-            <Route path="/design" element={<Design />} />
-            <Route path="/construction" element={<Construction />} />
-            <Route path="/management" element={<Management />} />
-            <Route path="/solutions" element={<Solutions />} />
-            
-            {/* Admin Routes */}
-            <Route path="/admin" element={<AdminLogin />} />
-            <Route 
-              path="/admin/dashboard" 
-              element={
-                <AdminLayout>
-                  <AdminDashboard />
-                </AdminLayout>
-              }
-            />
-            <Route 
-              path="/admin/floor-prices" 
-              element={
-                <AdminLayout>
-                  <AdminFloorPrices />
-                </AdminLayout>
-              }
-            />
-            <Route 
-              path="/admin/news" 
-              element={
-                <AdminLayout>
-                  <AdminNews />
-                </AdminLayout>
-              }
-            />
-            <Route 
-              path="/admin/vacancies" 
-              element={
-                <AdminLayout>
-                  <AdminVacancies />
-                </AdminLayout>
-              }
-            />
-            <Route 
-              path="/admin/messages" 
-              element={
-                <AdminLayout>
-                  <AdminMessages />
-                </AdminLayout>
-              }
-            />
-            <Route 
-              path="/admin/partners" 
-              element={
-                <AdminLayout>
-                  <AdminPartners />
-                </AdminLayout>
-              }
-            />
-            <Route 
-              path="/admin/tenders" 
-              element={
-                <AdminLayout>
-                  <AdminTenders />
-                </AdminLayout>
-              }
-            />
-            <Route 
-              path="/admin/audit-logs" 
-              element={
-                <AdminLayout>
-                  <AdminAuditLogs />
-                </AdminLayout>
-              }
-            />
-            <Route 
-              path="/admin/detailed-audit-logs" 
-              element={
-                <AdminLayout>
-                  <AdminDetailedAuditLogs />
-                </AdminLayout>
-              }
-            />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </AdminDataProvider>
-      </BrowserRouter>
+      <ScrollToTop />
+      <AdminDataProvider>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/projects/:projectId" element={<ProjectDetail />} />
+          <Route path="/vacancies" element={<Vacancies />} />
+          <Route path="/vacancies/:vacancyId" element={<VacancyDetail />} />
+          <Route path="/news" element={<News />} />
+          <Route path="/news/:newsId" element={<NewsDetail />} />
+          <Route path="/partners" element={<Partners />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/collaboration" element={<Collaboration />} />
+          
+          {/* New Uzbekistan Project Routes */}
+          <Route path="/new-uzbekistan" element={<NewUzbekistan />} />
+          <Route path="/trc-bochka" element={<TrcBochka />} />
+          
+          {/* Services Routes */}
+          <Route path="/design" element={<Design />} />
+          <Route path="/construction" element={<Construction />} />
+          <Route path="/management" element={<Management />} />
+          <Route path="/solutions" element={<Solutions />} />
+          
+          {/* Admin Routes */}
+          <Route path="/admin" element={<AdminLogin />} />
+          <Route 
+            path="/admin/dashboard" 
+            element={
+              <AdminLayout>
+                <AdminDashboard />
+              </AdminLayout>
+            }
+          />
+          <Route 
+            path="/admin/floor-prices" 
+            element={
+              <AdminLayout>
+                <AdminFloorPrices />
+              </AdminLayout>
+            }
+          />
+          <Route 
+            path="/admin/news" 
+            element={
+              <AdminLayout>
+                <AdminNews />
+              </AdminLayout>
+            }
+          />
+          <Route 
+            path="/admin/vacancies" 
+            element={
+              <AdminLayout>
+                <AdminVacancies />
+              </AdminLayout>
+            }
+          />
+          <Route 
+            path="/admin/messages" 
+            element={
+              <AdminLayout>
+                <AdminMessages />
+              </AdminLayout>
+            }
+          />
+          <Route 
+            path="/admin/partners" 
+            element={
+              <AdminLayout>
+                <AdminPartners />
+              </AdminLayout>
+            }
+          />
+          <Route 
+            path="/admin/tenders" 
+            element={
+              <AdminLayout>
+                <AdminTenders />
+              </AdminLayout>
+            }
+          />
+          <Route 
+            path="/admin/audit-logs" 
+            element={
+              <AdminLayout>
+                <AdminAuditLogs />
+              </AdminLayout>
+            }
+          />
+          <Route 
+            path="/admin/detailed-audit-logs" 
+            element={
+              <AdminLayout>
+                <AdminDetailedAuditLogs />
+              </AdminLayout>
+            }
+          />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </AdminDataProvider>
       <Toaster />
     </HelmetProvider>
   );
