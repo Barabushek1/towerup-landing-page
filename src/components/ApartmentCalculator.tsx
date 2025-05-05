@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-// Input and Slider are no longer directly used for calculation input, but maybe for display or future features
-// import { Input } from "@/components/ui/input";
-// import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
-import { Calculator, Loader2 } from "lucide-react";
+import { Calculator, Loader2 } from "lucide-react"; // Loader2 might still be useful if simulating load, but removed in this version
 import { motion } from "framer-motion";
 import { formatNumberWithSpaces } from "@/utils/format-utils"; // Assuming this utility exists
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client"; // Assuming supabase client is set up
 
-// Import Shadcn Select components
+// Import Shadcn Select components (Assuming you have these installed)
 import {
   Select,
   SelectContent,
@@ -21,7 +16,7 @@ import {
 
 // Define types for apartment unit data
 interface ApartmentUnit {
-  id: string;
+  id: string; // Unique ID for each unit
   floor: number;
   area: number;
   room_count: number;
@@ -33,6 +28,32 @@ interface ApartmentUnit {
   // Add phase, block if needed from Excel
 }
 
+// --- HARDCODED EXAMPLE DATA ---
+// This replaces the database fetch. Data is based on your Excel snippet.
+const EXAMPLE_APARTMENT_UNITS: ApartmentUnit[] = [
+  // 16 ЭТАЖ
+  { id: 'unit-16-31.14', floor: 16, area: 31.14, room_count: 1, price_per_sqm: 13000000, total_price: 404820000, initial_payment_30p: 121446000, monthly_payment_8mo_30p: 15180700, cadastre_payment_40p: 161928000 },
+  { id: 'unit-16-40.47', floor: 16, area: 40.47, room_count: 1, price_per_sqm: 12220000, total_price: 494543000, initial_payment_30p: 148363000, monthly_payment_8mo_30p: 19729100, cadastre_payment_40p: 197818000 }, // Price/sqm estimated from total/area
+  { id: 'unit-16-50.50', floor: 16, area: 50.50, room_count: 2, price_per_sqm: 13000000, total_price: 656500000, initial_payment_30p: 196950000, monthly_payment_8mo_30p: 24618700, cadastre_payment_40p: 262600000 }, // Price/sqm estimated
+  { id: 'unit-16-67.30', floor: 16, area: 67.30, room_count: 3, price_per_sqm: 13000000, total_price: 874900000, initial_payment_30p: 262470000, monthly_payment_8mo_30p: 32808700, cadastre_payment_40p: 349960000 }, // Price/sqm estimated
+  { id: 'unit-16-75.35', floor: 16, area: 75.35, room_count: 3, price_per_sqm: 13000000, total_price: 979550000, initial_payment_30p: 293865000, monthly_payment_8mo_30p: 36733100, cadastre_payment_40p: 391820000 }, // Price/sqm estimated
+
+  // 15 ЭТАЖ
+  { id: 'unit-15-31.14', floor: 15, area: 31.14, room_count: 1, price_per_sqm: 13390000, total_price: 416965000, initial_payment_30p: 125090000, monthly_payment_8mo_30p: 15636100, cadastre_payment_40p: 166786000 },
+  { id: 'unit-15-40.47', floor: 15, area: 40.47, room_count: 1, price_per_sqm: 13390000, total_price: 541893000, initial_payment_30p: 162568000, monthly_payment_8mo_30p: 20320900, cadastre_payment_40p: 216758000 }, // Price/sqm estimated
+  { id: 'unit-15-50.50', floor: 15, area: 50.50, room_count: 2, price_per_sqm: 13390000, total_price: 676195000, initial_payment_30p: 202859000, monthly_payment_8mo_30p: 25357300, cadastre_payment_40p: 270478000 }, // Price/sqm estimated
+  // ... Add more units from other floors as needed ...
+
+  // 1 ЭТАЖ (using price_per_sqm directly from Excel)
+  { id: 'unit-1-31.14', floor: 1, area: 31.14, room_count: 1, price_per_sqm: 20800000, total_price: 647712000, initial_payment_30p: 194314000, monthly_payment_8mo_30p: 24289200, cadastre_payment_40p: 259085000 },
+  { id: 'unit-1-40.47', floor: 1, area: 40.47, room_count: 1, price_per_sqm: 20800000, total_price: 841776000, initial_payment_30p: 252533000, monthly_payment_8mo_30p: 31566600, cadastre_payment_40p: 336711000 },
+  { id: 'unit-1-50.50', floor: 1, area: 50.50, room_count: 2, price_per_sqm: 20800000, total_price: 1050400000, initial_payment_30p: 315120000, monthly_payment_8mo_30p: 39390000, cadastre_payment_40p: 420160000 },
+  // ... add other units for floor 1 ...
+
+];
+// --- END OF EXAMPLE DATA ---
+
+
 interface ApartmentCalculatorProps {
   className?: string;
 }
@@ -42,30 +63,19 @@ const ApartmentCalculator: React.FC<ApartmentCalculatorProps> = ({
 }) => {
   const [selectedFloor, setSelectedFloor] = useState<string | null>(null);
   const [selectedUnit, setSelectedUnit] = useState<ApartmentUnit | null>(null);
+  // We don't need loading/error states from database fetch anymore
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState<Error | null>(null);
 
-  // Fetch all apartment unit data from Supabase
-  const { data: apartmentUnits, isLoading, error } = useQuery<ApartmentUnit[]>({
-    queryKey: ['apartmentUnits'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('apartment_units')
-        .select('*')
-        .order('floor', { ascending: false }) // Order by floor, maybe also area
-        .order('area', { ascending: true });
+  // Use the example data directly
+  const apartmentUnits = EXAMPLE_APARTMENT_UNITS;
 
-      if (error) {
-        console.error("Error fetching apartment units:", error);
-        throw new Error(`Error fetching apartment units: ${error.message}`);
-      }
+  // Derive unique floors and units per floor from the example data
+  // Sort floors descending as in Excel
+  const floors = Array.from(new Set(apartmentUnits.map(unit => unit.floor))).sort((a, b) => b - a);
 
-      return data;
-    },
-  });
-
-  // Derive unique floors and units per floor once data is loaded
-  const floors = apartmentUnits ? Array.from(new Set(apartmentUnits.map(unit => unit.floor))).sort((a, b) => b - a) : []; // Sort floors descending
-  const unitsOnSelectedFloor = selectedFloor && apartmentUnits
-    ? apartmentUnits.filter(unit => unit.floor === parseInt(selectedFloor))
+  const unitsOnSelectedFloor = selectedFloor
+    ? apartmentUnits.filter(unit => unit.floor === parseInt(selectedFloor)).sort((a,b) => a.area - b.area) // Sort units by area
     : [];
 
   // Reset selected unit when floor changes
@@ -83,41 +93,14 @@ const ApartmentCalculator: React.FC<ApartmentCalculatorProps> = ({
     setSelectedUnit(unit || null);
   };
 
-  if (isLoading) {
-    return (
-      <Card className={`border-slate-700/30 bg-[#1a1a1a] shadow-lg ${className}`}>
-        <CardHeader className="bg-[#131313] border-b border-slate-700/30">
-          <CardTitle className="flex items-center gap-2 text-white">
-            <Calculator className="text-brand-primary" />
-            Калькулятор стоимости
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="p-6 flex items-center justify-center py-8">
-          <Loader2 className="h-6 w-6 animate-spin text-brand-primary" />
-          <span className="ml-2 text-slate-300">Загрузка данных...</span>
-        </CardContent>
-      </Card>
-    );
-  }
+  // Remove loading state render
+  // if (isLoading) { ... }
 
-  if (error) {
-     return (
-      <Card className={`border-slate-700/30 bg-red-900/20 shadow-lg ${className}`}>
-        <CardHeader className="bg-red-900/30 border-b border-red-700/30">
-          <CardTitle className="flex items-center gap-2 text-red-400">
-             <Calculator className="text-red-600" />
-            Ошибка загрузки
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="p-6 text-red-300">
-          <p>Не удалось загрузить данные для калькулятора.</p>
-          <p className="text-sm mt-2">{error.message}</p>
-        </CardContent>
-      </Card>
-    );
-  }
+  // Remove error state render
+  // if (error) { ... }
 
 
+  // The main render function now uses the local data
   return (
     <Card className={`border-slate-700/30 bg-[#1a1a1a] shadow-lg ${className}`}>
       <CardHeader className="bg-[#131313] border-b border-slate-700/30">
@@ -125,7 +108,8 @@ const ApartmentCalculator: React.FC<ApartmentCalculatorProps> = ({
           <Calculator className="text-brand-primary" />
           Калькулятор стоимости
         </CardTitle>
-        <p className="text-sm text-slate-400">Цены и условия для квартир в блоках 9-16</p>
+        {/* Clarify the data source is static/example */}
+        <p className="text-sm text-slate-400">Цены и условия для квартир в блоках 9-16 (Пример данных)</p>
       </CardHeader>
       <CardContent className="p-6 space-y-6">
 
@@ -151,10 +135,12 @@ const ApartmentCalculator: React.FC<ApartmentCalculatorProps> = ({
            <label className="text-sm font-medium text-white">Выберите квартиру (Площадь / Комнаты)</label>
            <Select onValueChange={handleUnitChange} value={selectedUnit?.id || ""}>
             <SelectTrigger className="w-full bg-[#222] border-slate-700/50 text-white" disabled={!selectedFloor || unitsOnSelectedFloor.length === 0}>
+               {/* Update placeholder based on selection state */}
                <SelectValue placeholder={selectedFloor ? (unitsOnSelectedFloor.length > 0 ? "Выберите квартиру" : "Нет доступных квартир на этом этаже") : "Сначала выберите этаж"} />
             </SelectTrigger>
             <SelectContent className="bg-slate-800 text-white border-slate-700">
               {unitsOnSelectedFloor.map(unit => (
+                // Use unit ID as value, display area and room count
                 <SelectItem key={unit.id} value={unit.id}>
                   {unit.area} м² ({unit.room_count}-комн.) - {formatNumberWithSpaces(unit.price_per_sqm)} сум/м²
                 </SelectItem>
@@ -177,24 +163,42 @@ const ApartmentCalculator: React.FC<ApartmentCalculatorProps> = ({
                 <p className="text-sm"><span className="font-semibold">Этаж:</span> {selectedUnit.floor}</p>
                 <p className="text-sm"><span className="font-semibold">Площадь:</span> {selectedUnit.area} м²</p>
                 <p className="text-sm"><span className="font-semibold">Комнат:</span> {selectedUnit.room_count}</p>
+                {/* Display price per sqm for the selected unit */}
                 <p className="text-sm"><span className="font-semibold">Цена за м²:</span> {formatNumberWithSpaces(selectedUnit.price_per_sqm)} сум</p>
             </div>
 
             <div className="border-t border-slate-700/50 pt-4 space-y-3">
+                 {/* Display total price for the selected unit */}
                  <p className="text-md font-bold text-white">Общая стоимость: {formatNumberWithSpaces(selectedUnit.total_price)} сум</p>
 
                  <div className="space-y-2 text-white/90">
+                    {/* Display payment plan breakdown */}
                     <p className="text-sm"><span className="font-semibold">Первоначальный взнос (30%):</span> {formatNumberWithSpaces(selectedUnit.initial_payment_30p)} сум</p>
                     <p className="text-sm"><span className="font-semibold">Ежемесячно (8 мес, 30%):</span> {formatNumberWithSpaces(selectedUnit.monthly_payment_8mo_30p)} сум</p>
                      <p className="text-sm"><span className="font-semibold">Оплата после кадастра (40%):</span> {formatNumberWithSpaces(selectedUnit.cadastre_payment_40p)} сум</p>
                  </div>
             </div>
+             {/* Note about calculations based on example data */}
+             <p className="text-xs text-slate-500 mt-4">* Расчеты основаны на данных для конкретной квартиры, предоставленных в примере.</p>
 
 
           </motion.div>
         )}
+         {/* Message if no unit is selected after floor is chosen */}
+        {selectedFloor && !selectedUnit && unitsOnSelectedFloor.length > 0 && (
+             <div className="text-center text-slate-400 italic">
+                 Выберите квартиру из списка выше для просмотра деталей.
+             </div>
+        )}
+        {/* Message if a floor with no units is selected */}
+        {selectedFloor && unitsOnSelectedFloor.length === 0 && (
+             <div className="text-center text-slate-400 italic">
+                 На этом этаже нет доступных квартир в примере данных.
+             </div>
+        )}
 
-        <Button className="w-full bg-brand-primary hover:bg-brand-primary/90">
+
+        <Button className="w-full bg-brand-primary hover:bg-brand-primary/90" disabled={!selectedUnit}>
           Оставить заявку
         </Button>
       </CardContent>
