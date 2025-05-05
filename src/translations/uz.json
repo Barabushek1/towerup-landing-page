@@ -425,7 +425,7 @@
   "collaboration.partners.categories.engineering": "Muhandislik tizimlari",
 
 
-   "collaboration.partners.items.sinceLabel": "...", // e.g. "... 2015 yildan beri"
+   "collaboration.partners.items.sinceLabel": "...",
   "collaboration.partners.items.projectsLabel": "Loyihalar",
   "collaboration.partners.items.employeesLabel": "Xodimlar",
   "collaboration.partners.items.buttonDetails": "Hamkor haqida batafsil",
