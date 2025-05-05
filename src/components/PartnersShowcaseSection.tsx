@@ -7,6 +7,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { HandshakeIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { getCachedData } from '@/utils/cache-utils';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Partner {
     id: string;
@@ -16,6 +17,7 @@ interface Partner {
 }
 
 const PartnersShowcaseSection: React.FC = () => {
+    const { t } = useLanguage();
     const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start' });
 
     // --- Optimized autoplay effect ---
@@ -93,13 +95,13 @@ const PartnersShowcaseSection: React.FC = () => {
                 {/* Section Header */}
                 <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
                     <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary font-medium mb-4 font-benzin text-sm md:text-base uppercase tracking-wider"> {/* Adjusted padding/size */}
-                        Партнеры
+                        {t('home.partners.title')}
                     </span>
                     <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-white font-benzin"> {/* Adjusted sizes */}
-                        Наши надежные партнеры
+                        {t('partners.heading')}
                     </h2>
                     {/* Optional Subtitle */}
-                    {/* <p className="text-slate-400 text-base md:text-lg">Компании, которым мы доверяем и с которыми строим будущее.</p> */}
+                    {/* <p className="text-slate-400 text-base md:text-lg">{t('partners.subheading')}</p> */}
                 </div>
 
                 {/* Loading Skeleton */}
@@ -113,8 +115,8 @@ const PartnersShowcaseSection: React.FC = () => {
                     // Error State
                      <div className="text-center py-10 px-6 bg-slate-800/50 rounded-lg border border-red-700/50 max-w-md mx-auto">
                         <HandshakeIcon className="h-12 w-12 text-red-500 mx-auto mb-4" />
-                        <p className="text-red-400 mb-2 text-lg font-semibold">Ошибка загрузки</p>
-                        <p className="text-slate-400 text-sm">Не удалось получить список партнеров. Пожалуйста, попробуйте обновить страницу позже.</p>
+                        <p className="text-red-400 mb-2 text-lg font-semibold">{t('partners.error.title')}</p>
+                        <p className="text-slate-400 text-sm">{t('partners.error.desc')}</p>
                     </div>
                 ) : partners.length > 0 ? (
                     // Carousel Implementation
@@ -131,7 +133,7 @@ const PartnersShowcaseSection: React.FC = () => {
                                             href={partner.website_url}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            aria-label={`Visit ${partner.name} website`}
+                                            aria-label={`${t('partners.visitWebsite')} ${partner.name}`}
                                             className={cn(
                                                 "group flex items-center justify-center p-4 sm:p-6",
                                                 "bg-slate-800/40 hover:bg-slate-800/80 rounded-xl border border-slate-700/50",
@@ -143,7 +145,7 @@ const PartnersShowcaseSection: React.FC = () => {
                                             {partner.logo_url ? (
                                                 <img
                                                     src={partner.logo_url}
-                                                    alt={`${partner.name} logo`}
+                                                    alt={`${partner.name} ${t('partners.logo')}`}
                                                     className="max-w-[80%] max-h-[70%] object-contain transition-transform duration-300 group-hover:scale-105" // Adjusted size constraints
                                                     loading="lazy" // Lazy load logos
                                                     onError={e => { // Basic Fallback
@@ -172,14 +174,14 @@ const PartnersShowcaseSection: React.FC = () => {
                         <div className="hidden md:block"> {/* Keep hidden on mobile */}
                             <button
                                 onClick={scrollPrev}
-                                aria-label="Previous partner logo"
+                                aria-label={t('partners.prevPartner')}
                                 className="absolute left-0 top-1/2 -translate-y-1/2 transform -translate-x-2 bg-primary hover:bg-primary/80 text-white p-2 rounded-full shadow-lg transition-opacity opacity-70 hover:opacity-100 z-10 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-slate-900"
                             >
                                 <ChevronLeft className="w-5 h-5" />
                             </button>
                             <button
                                 onClick={scrollNext}
-                                aria-label="Next partner logo"
+                                aria-label={t('partners.nextPartner')}
                                 className="absolute right-0 top-1/2 -translate-y-1/2 transform translate-x-2 bg-primary hover:bg-primary/80 text-white p-2 rounded-full shadow-lg transition-opacity opacity-70 hover:opacity-100 z-10 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-slate-900"
                             >
                                 <ChevronRight className="w-5 h-5" />
@@ -190,8 +192,8 @@ const PartnersShowcaseSection: React.FC = () => {
                     // Empty State
                      <div className="text-center py-10 px-6 bg-slate-800/50 rounded-lg border border-slate-700 max-w-md mx-auto">
                         <HandshakeIcon className="h-12 w-12 text-slate-500 mx-auto mb-4" />
-                        <p className="text-slate-400 text-base">Партнеры пока не добавлены.</p>
-                        <p className="text-slate-500 text-sm mt-1">Скоро здесь появится информация о наших надежных партнерах.</p>
+                        <p className="text-slate-400 text-base">{t('partners.empty.title')}</p>
+                        <p className="text-slate-500 text-sm mt-1">{t('partners.empty.desc')}</p>
                     </div>
                 )}
 

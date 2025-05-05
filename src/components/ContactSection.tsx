@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,7 +9,10 @@ import { supabase } from '@/integrations/supabase/client';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { motion } from 'framer-motion';
+import { useLanguage } from '@/contexts/LanguageContext';
+
 const ContactSection: React.FC = () => {
+  const { t } = useLanguage();
   const {
     toast
   } = useToast();
@@ -43,32 +47,32 @@ const ContactSection: React.FC = () => {
     // Validate based on selected contact method
     if (!formData.name) {
       toast({
-        title: "Ошибка валидации",
-        description: "Пожалуйста, укажите ваше имя",
+        title: t('contact.validation.nameRequired'),
+        description: t('contact.validation.nameMessage'),
         variant: "destructive"
       });
       return;
     }
     if (formData.contactMethod === 'email' && !formData.email) {
       toast({
-        title: "Ошибка валидации",
-        description: "Пожалуйста, укажите ваш email",
+        title: t('contact.validation.emailRequired'),
+        description: t('contact.validation.emailMessage'),
         variant: "destructive"
       });
       return;
     }
     if (formData.contactMethod === 'phone' && !formData.phone) {
       toast({
-        title: "Ошибка валидации",
-        description: "Пожалуйста, укажите ваш номер телефона",
+        title: t('contact.validation.phoneRequired'),
+        description: t('contact.validation.phoneMessage'),
         variant: "destructive"
       });
       return;
     }
     if (!formData.message) {
       toast({
-        title: "Ошибка валидации",
-        description: "Пожалуйста, напишите сообщение",
+        title: t('contact.validation.messageRequired'),
+        description: t('contact.validation.messageMessage'),
         variant: "destructive"
       });
       return;
@@ -87,7 +91,7 @@ const ContactSection: React.FC = () => {
         read: false,
         // phone is missing from the database schema, so we'll include it in the message
         ...(formData.phone ? {
-          message: `${formData.message}\n\nТелефон для связи: ${formData.phone}`
+          message: `${formData.message}\n\n${t('contact.phoneContact')}: ${formData.phone}`
         } : {})
       }]);
       if (error) {
@@ -111,14 +115,14 @@ const ContactSection: React.FC = () => {
         });
       }, 3000);
       toast({
-        title: "Успешно отправлено",
-        description: "Мы получили ваше сообщение и свяжемся с вами в ближайшее время"
+        title: t('contact.success.title'),
+        description: t('contact.success.message')
       });
     } catch (error: any) {
       console.error('Error in contact section form submission:', error);
       toast({
-        title: "Ошибка отправки",
-        description: `Произошла ошибка при отправке сообщения: ${error.message || 'Неизвестная ошибка'}. Пожалуйста, попробуйте еще раз.`,
+        title: t('contact.error.title'),
+        description: `${t('contact.error.message')}: ${error.message || t('contact.error.unknown')}. ${t('contact.error.tryAgain')}`,
         variant: "destructive"
       });
     } finally {
@@ -186,10 +190,10 @@ const ContactSection: React.FC = () => {
       }} transition={{
         duration: 0.6
       }}>
-          <h2 className="text-4xl font-bold mb-4 text-center text-white">Связаться с нами</h2>
+          <h2 className="text-4xl font-bold mb-4 text-center text-white">{t('home.contact.title')}</h2>
           <div className="w-16 h-1 bg-primary mb-6"></div>
           <p className="text-slate-300 text-lg max-w-2xl text-center">
-            Мы всегда готовы ответить на ваши вопросы и помочь решить ваши задачи
+            {t('contact.readyToHelp')}
           </p>
         </motion.div>
         
@@ -198,7 +202,7 @@ const ContactSection: React.FC = () => {
             <motion.div className="bg-[#1a1a1a] p-8 rounded-lg shadow-xl border border-slate-700/30" initial="hidden" whileInView="visible" viewport={{
             once: true
           }} variants={formVariants}>
-              <h3 className="text-2xl font-bold mb-6 text-white">Отправить сообщение</h3>
+              <h3 className="text-2xl font-bold mb-6 text-white">{t('contact.form.title')}</h3>
               
               {isSuccess ? <motion.div className="flex flex-col items-center justify-center py-10" initial={{
               opacity: 0,
@@ -212,34 +216,34 @@ const ContactSection: React.FC = () => {
                   <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mb-4">
                     <Check className="h-8 w-8 text-green-500" />
                   </div>
-                  <h4 className="text-xl font-bold text-white mb-2">Сообщение отправлено!</h4>
-                  <p className="text-slate-400 text-center">Мы свяжемся с вами в ближайшее время</p>
+                  <h4 className="text-xl font-bold text-white mb-2">{t('contact.success.sent')}</h4>
+                  <p className="text-slate-400 text-center">{t('contact.success.willContact')}</p>
                 </motion.div> : <form onSubmit={handleSubmit}>
                   <div className="space-y-4">
                     <motion.div variants={itemVariants}>
-                      <Input name="name" value={formData.name} onChange={handleInputChange} placeholder="Ваше имя" className="bg-slate-800 border-slate-700 focus:border-primary" />
+                      <Input name="name" value={formData.name} onChange={handleInputChange} placeholder={t('home.contact.name')} className="bg-slate-800 border-slate-700 focus:border-primary" />
                     </motion.div>
                     
                     <motion.div className="space-y-3" variants={itemVariants}>
-                      <Label className="text-white">Предпочитаемый способ связи</Label>
+                      <Label className="text-white">{t('contact.form.contact')}</Label>
                       <RadioGroup value={formData.contactMethod} onValueChange={handleContactMethodChange} className="flex flex-col space-y-1">
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="phone" id="phone" />
-                          <Label htmlFor="phone" className="text-slate-300">Телефон</Label>
+                          <Label htmlFor="phone" className="text-slate-300">{t('contact.form.phone')}</Label>
                         </div>
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="email" id="email" />
-                          <Label htmlFor="email" className="text-slate-300">Email</Label>
+                          <Label htmlFor="email" className="text-slate-300">{t('contact.form.email')}</Label>
                         </div>
                       </RadioGroup>
                     </motion.div>
                     
                     <motion.div variants={itemVariants}>
-                      {formData.contactMethod === 'phone' ? <Input name="phone" value={formData.phone} onChange={handleInputChange} type="tel" placeholder="Ваш номер телефона" className="bg-slate-800 border-slate-700 focus:border-primary" /> : <Input name="email" value={formData.email} onChange={handleInputChange} type="email" placeholder="Ваш email" className="bg-slate-800 border-slate-700 focus:border-primary" />}
+                      {formData.contactMethod === 'phone' ? <Input name="phone" value={formData.phone} onChange={handleInputChange} type="tel" placeholder={t('contact.form.phoneNumber')} className="bg-slate-800 border-slate-700 focus:border-primary" /> : <Input name="email" value={formData.email} onChange={handleInputChange} type="email" placeholder={t('home.contact.email')} className="bg-slate-800 border-slate-700 focus:border-primary" />}
                     </motion.div>
                     
                     <motion.div variants={itemVariants}>
-                      <Textarea name="message" value={formData.message} onChange={handleInputChange} placeholder="Ваше сообщение" rows={5} className="bg-slate-800 border-slate-700 focus:border-primary" />
+                      <Textarea name="message" value={formData.message} onChange={handleInputChange} placeholder={t('home.contact.message')} rows={5} className="bg-slate-800 border-slate-700 focus:border-primary" />
                     </motion.div>
                     
                     <motion.div variants={itemVariants}>
@@ -248,10 +252,10 @@ const ContactSection: React.FC = () => {
                         
                         {isSubmitting ? <>
                             <div className="animate-spin mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
-                            Отправка...
+                            {t('contact.sending')}
                           </> : <>
                             <Send className="mr-2 h-4 w-4" />
-                            Отправить сообщение
+                            {t('home.contact.button')}
                           </>}
                       </Button>
                     </motion.div>
@@ -264,7 +268,7 @@ const ContactSection: React.FC = () => {
             <motion.div initial="hidden" whileInView="visible" viewport={{
             once: true
           }} variants={contactInfoVariants}>
-              <h3 className="text-2xl font-bold mb-6 text-white">Контактная информация</h3>
+              <h3 className="text-2xl font-bold mb-6 text-white">{t('contact.info.title')}</h3>
               
               <div className="space-y-8">
                 <motion.div className="flex items-start space-x-4" variants={itemVariants}>
@@ -272,9 +276,8 @@ const ContactSection: React.FC = () => {
                     <MapPin className="h-6 w-6 text-primary" />
                   </div>
                   <div>
-                    <h4 className="text-lg font-medium text-white mb-1">Адрес</h4>
-                    <p className="text-slate-300">Город Ташкент, Сергелийский район, МСГ Янги Қумариқ.
-Ориентир: Моторный завод GM.</p>
+                    <h4 className="text-lg font-medium text-white mb-1">{t('contact.info.address')}</h4>
+                    <p className="text-slate-300">{t('contact.info.addressValue')}</p>
                   </div>
                 </motion.div>
                 
@@ -283,7 +286,7 @@ const ContactSection: React.FC = () => {
                     <Phone className="h-6 w-6 text-primary" />
                   </div>
                   <div>
-                    <h4 className="text-lg font-medium text-white mb-1">Телефон</h4>
+                    <h4 className="text-lg font-medium text-white mb-1">{t('contact.info.phone')}</h4>
                     <p className="text-slate-300">+998 55 510 00 03</p>
                     <p className="text-slate-300">+998 55 511 00 03</p>
                   </div>
@@ -294,13 +297,13 @@ const ContactSection: React.FC = () => {
                     <Mail className="h-6 w-6 text-primary" />
                   </div>
                   <div>
-                    <h4 className="text-lg font-medium text-white mb-1">Email</h4>
+                    <h4 className="text-lg font-medium text-white mb-1">{t('contact.info.email')}</h4>
                     <p className="text-slate-300">info@towerup.uz</p>
                   </div>
                 </motion.div>
                 
                 <motion.div className="mt-8" variants={itemVariants}>
-                  <h4 className="text-lg font-medium text-white mb-4">Социальные сети</h4>
+                  <h4 className="text-lg font-medium text-white mb-4">{t('contact.socialMedia')}</h4>
                   <div className="flex space-x-4">
                     <a href="#" className="bg-slate-800 p-3 rounded-full hover:bg-primary/20 transition-colors transform hover:scale-110 transition-transform duration-300">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 text-white"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
@@ -333,16 +336,15 @@ const ContactSection: React.FC = () => {
                 scale: 1.02,
                 boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.15)"
               }}>
-                  <h4 className="text-lg font-medium text-white mb-2">Часы работы</h4>
+                  <h4 className="text-lg font-medium text-white mb-2">{t('contact.info.schedule')}</h4>
                   <div className="space-y-2">
                     <div className="flex justify-between">
-                      <span className="text-slate-300">Понедельник - Воскресенье:</span>
+                      <span className="text-slate-300">{t('contact.info.mondaySunday')}</span>
                       <span className="text-white">9:00 - 18:00</span>
                     </div>
                     
                     <div className="flex justify-between">
-                      
-                      <span className="text-white px-[198px] my-[18px]">Без выходных</span>
+                      <span className="text-white px-[198px] my-[18px]">{t('contact.info.noWeekends')}</span>
                     </div>
                   </div>
                 </motion.div>

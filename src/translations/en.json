@@ -1,3 +1,4 @@
+
 {
   "testModeIndicator": "Website is operating in test mode",
   
@@ -128,10 +129,32 @@
   "contact.form.contact": "Preferred Contact Method",
   "contact.form.phone": "Phone",
   "contact.form.email": "Email",
+  "contact.form.phoneNumber": "Your Phone Number",
   "contact.form.message": "Message",
   "contact.form.submit": "Send",
+  "contact.readyToHelp": "We are always ready to answer your questions and help solve your tasks",
+  "contact.sending": "Sending...",
+  "contact.socialMedia": "Social Media",
+  "contact.info.mondaySunday": "Monday - Sunday:",
+  "contact.phoneContact": "Phone for contact",
+  "contact.success.title": "Successfully sent",
+  "contact.success.message": "We have received your message and will contact you soon",
+  "contact.success.sent": "Message sent!",
+  "contact.success.willContact": "We will contact you shortly",
+  "contact.error.title": "Sending error",
+  "contact.error.message": "An error occurred while sending the message",
+  "contact.error.unknown": "Unknown error",
+  "contact.error.tryAgain": "Please try again",
+  "contact.validation.nameRequired": "Validation error",
+  "contact.validation.nameMessage": "Please enter your name",
+  "contact.validation.emailRequired": "Validation error",
+  "contact.validation.emailMessage": "Please enter your email",
+  "contact.validation.phoneRequired": "Validation error",
+  "contact.validation.phoneMessage": "Please enter your phone number",
+  "contact.validation.messageRequired": "Validation error",
+  "contact.validation.messageMessage": "Please write a message",
   
-  "contact.info.title": "Our Contacts",
+  "contact.info.title": "Contact Information",
   "contact.info.address": "Address",
   "contact.info.addressValue": "Tashkent city, Sergeli district, MSG Yangi Qumariq. Landmark: GM Motor factory.",
   "contact.info.phone": "Phone",
@@ -363,5 +386,16 @@
   
   "news.noImage": "No image",
   "common.tryAgain": "Try again",
-  "home.news.description": "Follow company news and stay updated on the latest projects and achievements"
+  "home.news.description": "Follow company news and stay updated on the latest projects and achievements",
+  
+  "partners.heading": "Our Reliable Partners",
+  "partners.subheading": "Companies we trust and build the future with",
+  "partners.visitWebsite": "Visit website of",
+  "partners.logo": "logo",
+  "partners.prevPartner": "Previous partner logo",
+  "partners.nextPartner": "Next partner logo",
+  "partners.error.title": "Loading Error",
+  "partners.error.desc": "Failed to get the list of partners. Please try refreshing the page later.",
+  "partners.empty.title": "Partners have not been added yet.",
+  "partners.empty.desc": "Information about our reliable partners will appear here soon."
 }
