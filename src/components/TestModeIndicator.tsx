@@ -1,12 +1,16 @@
+
 import React from "react";
 import { AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface TestModeIndicatorProps {
   className?: string; // Prop to accept external classes
 }
 
 const TestModeIndicator: React.FC<TestModeIndicatorProps> = ({ className }) => {
+  const { t } = useLanguage();
+
   return (
     <div
       className={cn(
@@ -18,7 +22,7 @@ const TestModeIndicator: React.FC<TestModeIndicatorProps> = ({ className }) => {
       )}
     >
       <AlertTriangle className="h-3.5 w-3.5" />
-      <span className="font-benzin tracking-wide">Сайт работает в тестовом режиме</span>
+      <span className="font-benzin tracking-wide">{t("testModeIndicator")}</span>
     </div>
   );
 };
