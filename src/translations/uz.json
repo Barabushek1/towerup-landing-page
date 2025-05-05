@@ -336,9 +336,184 @@
   "newUzbekistan.projectFeatures.amenities.title": "Zamonaviy qulayliklar",
   "newUzbekistan.projectFeatures.amenities.desc": "Fitnes markazlari, dam olish zonalari va boshqa ko'plab qulayliklarni o'z ichiga olgan keng imkoniyatlarga kirish.",
   
+  "nav.home": "Bosh sahifa",
+
+  "collaboration.title": "Hamkorlik",
+  "collaboration.seo.title": "Hamkorlik",
+  "collaboration.seo.description": "TOWER UP tenderlari va hamkorlik dasturlari - hamkorlik imkoniyatlari",
+
+  "collaboration.intro.title": "Bizning hamkorimiz bo'ling",
+  "collaboration.intro.description": "TOWER UP kompaniyasi arxitektura byurolari, qurilish kompaniyalari, yetkazib beruvchilar va qurilish bozorining boshqa ishtirokchilarini hamkorlikka taklif qiladi. Biz o'zaro manfaatli hamkorlik uchun bir nechta variantni taklif qilamiz.",
+
+  "collaboration.tabs.tenders": "Joriy tenderlar",
+  "collaboration.tabs.partners": "Hamkorlik dasturi",
+
+  "collaboration.tenders.intro.title": "TOWER UP kompaniyasining joriy tenderlari",
+  "collaboration.tenders.intro.description": "Kompaniya muntazam ravishda turli turdagi ishlar va xizmatlar uchun tenderlar o'tkazadi. Tenderlarda ishtirok etish yirik buyurtmalarni olish va uzoq muddatli hamkorlikni yo'lga qo'yish imkoniyatini beradi.",
+  "collaboration.tenders.intro.alert": "Yangilanishlar uchun ushbu sahifani muntazam tekshirib turing - har hafta yangi tenderlar e'lon qilinadi",
+
+  "collaboration.tenders.categories.architecture": "Arxitektura",
+  "collaboration.tenders.categories.construction": "Qurilish",
+  "collaboration.tenders.categories.technology": "Texnologiyalar",
+  "collaboration.tenders.categories.landscaping": "Landshaft dizayni",
+
+  "collaboration.tenders.statuses.active": "Aktiv",
+  "collaboration.tenders.statuses.completed": "Yakunlangan",
+
+  "collaboration.tenders.items.tender1.title": "Turar-joy majmuasining arxitektura loyihasi",
+  "collaboration.tenders.items.tender1.description": "Toshkentda 4 binodan iborat turar-joy majmuasini loyihalash uchun arxitektura kompaniyasini qidirish.",
+  "collaboration.tenders.items.tender1.requirements": "Kamida 5 yillik shunga o'xshash obyektlarni loyihalash tajribasi.",
+  "collaboration.tenders.items.tender1.location": "Toshkent, Mirzo Ulug'bek tumani",
+
+   "collaboration.tenders.items.tender2.title": "Ofis markazini qurish",
+  "collaboration.tenders.items.tender2.description": "A klassli biznes markazi qurilishi uchun bosh pudratchiga tender.",
+  "collaboration.tenders.items.tender2.requirements": "Kerakli litsenziyalar va texnik jihozlarning mavjudligi.",
+  "collaboration.tenders.items.tender2.location": "Toshkent, Yakkasaroy tumani",
+
+   "collaboration.tenders.items.tender3.title": "TJ uchun aqlli uy tizimlari",
+  "collaboration.tenders.items.tender3.description": "Premium-klass turar-joy majmuasi uchun aqlli uy tizimlarini yetkazib berish va o'rnatish.",
+  "collaboration.tenders.items.tender3.requirements": "Sertifikatlash va kamida 2 yillik kafolat xizmati.",
+  "collaboration.tenders.items.tender3.location": "Toshkent, Yunusobod tumani",
+
+   "collaboration.tenders.items.tender4.title": "Turar-joy majmuasi hududini obodonlashtirish",
+  "collaboration.tenders.items.tender4.description": "Turar-joy majmuasi hududini obodonlashtirish, shu jumladan ko'kalamzorlashtirish, bolalar va sport maydonchalarini jihozlash loyihasini ishlab chiqish va amalga oshirish.",
+  "collaboration.tenders.items.tender4.requirements": "Kamida 3 yildan ortiq shunga o'xshash miqyosdagi loyihalar bilan ishlash tajribasi.",
+  "collaboration.tenders.items.tender4.location": "Toshkent, Chilonzor tumani",
+
+  "collaboration.tenders.items.deadlineLabel": "Arizani qabul qilish muddati",
+  "collaboration.tenders.items.budgetLabel": "Budjet",
+  "collaboration.tenders.items.requirementsLabel": "Talablar",
+
+
+  "collaboration.tenders.items.buttonCompleted": "Tender yakunlangan",
+  "collaboration.tenders.items.buttonDetails": "Tafsilotlar",
+  "collaboration.tenders.buttonAll": "Barcha tenderlar",
+  "collaboration.tenders.buttonApply": "Ishtirok etish uchun ariza qoldirish",
+
+
+  "collaboration.tenders.toast.detailsSentTitle": "So'rov yuborildi",
+  "collaboration.tenders.toast.detailsSentDesc": "Tender tafsilotlari emailingizga yuboriladi",
+
+
+  "collaboration.partnership.intro.title": "TOWER UP hamkorlik dasturi",
+  "collaboration.partnership.intro.description": "Jamoamizning bir qismiga aylaning va eksklyuziv loyihalarga kirish imkoniyatiga ega bo'ling. Biz ishonchli hamkorlarni qadrlaymiz va foydali hamkorlik shartlarini taklif qilamiz.",
+  "collaboration.partnership.intro.alert": "Bizning hamkorimiz bo'ling va eksklyuziv loyihalar va takliflarga kirish imkoniyatini qo'lga kiriting",
+
+
+  "collaboration.partnershipTypes.generalContractor.title": "Bosh pudratchi",
+  "collaboration.partnershipTypes.generalContractor.description": "TOWER UP obyektlarini qurish uchun bosh pudratchi sifatida ishtirok etish imkoniyati",
+  "collaboration.partnershipTypes.generalContractor.benefit1": "Yirik uzoq muddatli shartnomalar",
+  "collaboration.partnershipTypes.generalContractor.benefit2": "Ish hajmining barqarorligi",
+  "collaboration.partnershipTypes.generalContractor.benefit3": "Imtiyozli hamkorlik shartlari",
+
+  "collaboration.partnershipTypes.subcontractor.title": "Subpudratchi",
+  "collaboration.partnershipTypes.subcontractor.description": "Kompaniya loyihalari doirasida ixtisoslashgan ishlarni bajarish",
+  "collaboration.partnershipTypes.subcontractor.benefit1": "Muntazam buyurtmalar",
+  "collaboration.partnershipTypes.subcontractor.benefit2": "Moslashuvchan ish jadvali",
+  "collaboration.partnershipTypes.subcontractor.benefit3": "O'z vaqtida to'lov",
+
+  "collaboration.partnershipTypes.supplier.title": "Yetkazib beruvchi",
+  "collaboration.partnershipTypes.supplier.description": "Kompaniya loyihalari uchun qurilish materiallari va jihozlarini yetkazib berish",
+  "collaboration.partnershipTypes.supplier.benefit1": "Yirik buyurtma hajmi",
+  "collaboration.partnershipTypes.supplier.benefit2": "Uzoq muddatli shartnomalar",
+  "collaboration.partnershipTypes.supplier.benefit3": "Shaffof hamkorlik shartlari",
+
+
+  "collaboration.partners.categories.construction": "Qurilish",
+  "collaboration.partners.categories.design": "Loyihalash",
+  "collaboration.partners.categories.materials": "Materiallar",
+  "collaboration.partners.categories.engineering": "Muhandislik tizimlari",
+
+
+   "collaboration.partners.items.sinceLabel": "...", // e.g. "... 2015 yildan beri"
+  "collaboration.partners.items.projectsLabel": "Loyihalar",
+  "collaboration.partners.items.employeesLabel": "Xodimlar",
+  "collaboration.partners.items.buttonDetails": "Hamkor haqida batafsil",
+
+
+   "collaboration.partners.items.partner1.name": "\"Monolit\" Qurilish Kompaniyasi",
+  "collaboration.partners.items.partner1.description": "To'liq ishlab chiqarish sikliga ega ko'p tarmoqli qurilish kompaniyasi. Turar-joy va tijorat ko'chmas mulki qurilish bozorida 10 yildan ortiq.",
+  "collaboration.partners.items.partner1.achievement1": "2023-yilning eng yaxshi qurilish kompaniyasi",
+  "collaboration.partners.items.partner1.achievement2": "ISO 9001:2015 sertifikati",
+
+
+   "collaboration.partners.items.partner2.name": "\"Konsept\" Arxitektura Byurosi",
+  "collaboration.partners.items.partner2.description": "Xalqaro tajribaga ega arxitektorlar va dizaynerlar jamoasi. Zamonaviy energiya tejaydigan binolarni loyihalashga ixtisoslashgan.",
+  "collaboration.partners.items.partner2.achievement1": "2024-yilning \"Innovatsion loyiha\" mukofoti",
+  "collaboration.partners.items.partner2.achievement2": "2022-yilning eng yaxshi dizayn mukofoti",
+
+   "collaboration.partners.items.partner3.name": "\"StroyMateriallar\" Yetkazib Beruvchisi",
+  "collaboration.partners.items.partner3.description": "Yetakchi ishlab chiqaruvchilardan sifatli qurilish materiallarini yetkazib berish. Yevropa brendlarining eksklyuziv vakili.",
+  "collaboration.partners.items.partner3.achievement1": "2023-yil yetkazib berish hajmi bo'yicha yetakchi",
+  "collaboration.partners.items.partner3.achievement2": "Ekologik xavfsizlik sertifikati",
+
+
+   "collaboration.partners.items.partner4.name": "\"TexnoProekt\" Injenerlik Tizimlari",
+  "collaboration.partners.items.partner4.description": "Har qanday murakkablikdagi obyektlar uchun injenerlik tizimlarini loyihalash va o'rnatish. Turar-joy majmualari va biznes markazlari uchun kompleks yechimlar.",
+  "collaboration.partners.items.partner4.achievement1": "2023-yil \"Energiya samaradorligi+\" sertifikati",
+  "collaboration.partners.items.partner4.achievement2": "Yilning innovatsion kompaniyasi",
+
+
+  "collaboration.partnership.ctaBlock.title": "Bizning hamkorimiz bo'ling",
+  "collaboration.partnership.ctaBlock.description": "Biz turli profildagi kompaniyalar uchun moslashuvchan hamkorlik shartlarini taklif qilamiz. Shaklni to'ldiring va menejerimiz siz bilan batafsil ma'lumotlarni muhokama qilish uchun bog'lanadi.",
+  "collaboration.partnership.ctaBlock.button": "Hamkorlik uchun ariza qoldirish",
+
+
+  "collaboration.partnership.toast.requestAcceptedTitle": "Ariza qabul qilindi",
+  "collaboration.partnership.toast.requestAcceptedDesc": "Menejerimiz siz bilan tez orada bog'lanadi",
+
+
+  "collaboration.testimonials.title": "Hamkorlarimizning sharhlari",
+  "collaboration.testimonials.description": "Bizning joriy hamkorlarimiz TOWER UP bilan hamkorlik haqida nima deyishlarini bilib oling",
+
+
+   "collaboration.testimonials.item1.name": "Abdullayev Kamron",
+  "collaboration.testimonials.item1.position": "\"StroyInvest\" MCHJ direktori",
+  "collaboration.testimonials.item1.text": "TOWER UP bilan hamkorlik bizga qurilish loyihalarini amalga oshirishda yangi darajaga chiqish imkonini berdi. Professional yondashuv, belgilangan muddatlarga qat'iy rioya qilish va ishning yuqori sifati.",
+  "collaboration.testimonials.item1.company": "\"StroyInvest\"",
+
+
+   "collaboration.testimonials.item2.name": "Ignatova Yelena",
+  "collaboration.testimonials.item2.position": "\"ArtProekt\" bosh arxitektori",
+  "collaboration.testimonials.item2.text": "TOWER UP bilan uch yillik hamkorlik davrida biz 10 dan ortiq qo'shma loyihalarni amalga oshirdik. Kompaniyaning ishonchliligi, shaffofligi va innovatsion yondashuvini qadrlaymiz.",
+  "collaboration.testimonials.item2.company": "\"ArtProekt\"",
+
+
+   "collaboration.testimonials.item3.name": "Raximov Baxtiyor",
+  "collaboration.testimonials.item3.position": "\"TexnoStroy\" bosh direktori",
+  "collaboration.testimonials.item3.text": "TOWER UP bilan hamkorlik tufayli kompaniyamiz yirik va nufuzli loyihalarga kirish imkoniyatiga ega bo'ldi. Biz faxrlanadigan o'zaro manfaatli hamkorlik.",
+  "collaboration.testimonials.item3.company": "\"TexnoStroy\"",
+
+
+  "collaboration.benefitsBlock.title": "TOWER UP bilan hamkorlikning afzalliklari",
+  "collaboration.benefitsBlock.item1": "Uzoq muddatli hamkorlik aloqalari va barqaror buyurtmalar",
+  "collaboration.benefitsBlock.item2": "Yirik va nufuzli loyihalar ustida ishlash",
+  "collaboration.benefitsBlock.item3": "Shaffof shartlar va o'z vaqtida to'lovlar",
+  "collaboration.benefitsBlock.item4": "Innovatsion g'oyalarni birgalikda rivojlantirish va amalga oshirish imkoniyati",
+  "collaboration.benefitsBlock.item5": "Professional aloqalar tarmog'ini kengaytirish",
+
+  "collaboration.contactBlock.title": "Hamkorlik uchun kontaktlar",
+  "collaboration.contactBlock.description": "Hamkorlik va tenderlarda ishtirok etish bo'yicha barcha savollar bilan mutaxassislarimizga murojaat qilishingiz mumkin:",
+  "collaboration.contactBlock.tendersEmailLabel": "Xaridlar va tenderlar bo'limi",
+  "collaboration.contactBlock.partnershipEmailLabel": "Hamkorlik dasturi",
+  "collaboration.contactBlock.phoneLabel": "Telefon",
+  "collaboration.contactBlock.button": "Biz bilan bog'lanish",
+
+
+   "newUzbekistan.apartments.bedrooms": "Yotoqxonalar",
+  "newUzbekistan.apartments.bathrooms": "Hammomlar",
+  "newUzbekistan.apartments.balconies": "Balkonlar",
+  "newUzbekistan.apartments.featuresTitle": "Xona Tafsilotlari",
+  "newUzbekistan.apartments.startingPrice": "Boshlang'ich Narx:",
+  "newUzbekistan.apartments.inquire": "Bu Xonadon Haqida So'rash",
+  "newUzbekistan.apartments.footer": "Rejalar mavjudlikka qarab farq qilishi mumkin. Aniq narxlar va ma'lum xonadonlarning mavjudligi to'g'risida sotish bo'limimiz bilan bog'laning.",
+  "newUzbekistan.contact.form.title": "Biz bilan bog'lanish",
+
+
   "common.close": "Yopish",
   "common.previous": "Oldingi",
   "common.next": "Keyingi",
+  "common.moreDetails": "Batafsil"
   "aboutSection.title": "KOMPANIYA HAQIDA",
   "aboutSection.shortTitle": "Innovatsion",
   "aboutSection.shortTitleSolution": "yechimlar",

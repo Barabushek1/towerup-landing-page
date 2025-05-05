@@ -356,9 +356,178 @@
   "newUzbekistan.projectFeatures.amenities.title": "Современные удобства",
   "newUzbekistan.projectFeatures.amenities.desc": "Доступ к широкому спектру удобств, включая фитнес-центры, зоны отдыха и многое другое.",
   
-  "common.close": "Закрыть",
+  "nav.home": "Главная", // Added common home link
+
+  "collaboration.title": "Сотрудничество",
+  "collaboration.seo.title": "Сотрудничество",
+  "collaboration.seo.description": "Тендеры и партнерские программы TOWER UP - возможности для сотрудничества",
+
+  "collaboration.intro.title": "Станьте нашим партнером",
+  "collaboration.intro.description": "Компания TOWER UP приглашает к сотрудничеству архитектурные бюро, строительные компании, поставщиков и других участников строительного рынка. Мы предлагаем несколько вариантов для взаимовыгодного партнерства.",
+
+  "collaboration.tabs.tenders": "Текущие тендеры",
+  "collaboration.tabs.partners": "Партнерская программа",
+
+  "collaboration.tenders.intro.title": "Актуальные тендеры TOWER UP",
+  "collaboration.tenders.intro.description": "Компания регулярно проводит тендеры на различные виды работ и услуг. Участие в тендерах дает возможность получить крупные заказы и установить долгосрочное сотрудничество.",
+  "collaboration.tenders.intro.alert": "Регулярно проверяйте эту страницу для обновлений - новые тендеры публикуются каждую неделю",
+
+  "collaboration.tenders.categories.architecture": "Архитектура",
+  "collaboration.tenders.categories.construction": "Строительство",
+  "collaboration.tenders.categories.technology": "Технологии",
+  "collaboration.tenders.categories.landscaping": "Ландшафтный дизайн",
+
+  "collaboration.tenders.statuses.active": "Активный",
+  "collaboration.tenders.statuses.completed": "Завершен",
+
+  "collaboration.tenders.items.tender1.title": "Архитектурное проектирование жилого комплекса",
+  "collaboration.tenders.items.tender1.description": "Поиск архитектурной компании для проектирования жилого комплекса из 4 зданий в Ташкенте.",
+  "collaboration.tenders.items.tender1.requirements": "Опыт проектирования аналогичных объектов не менее 5 лет.",
+  "collaboration.tenders.items.tender1.location": "Ташкент, Мирзо-Улугбекский район",
+
+   "collaboration.tenders.items.tender2.title": "Строительство офисного центра",
+  "collaboration.tenders.items.tender2.description": "Тендер на генерального подрядчика для строительства бизнес-центра класса А.",
+  "collaboration.tenders.items.tender2.requirements": "Наличие необходимых лицензий и технического оснащения.",
+  "collaboration.tenders.items.tender2.location": "Ташкент, Яккасарайский район",
+
+   "collaboration.tenders.items.tender3.title": "Системы умного дома для ЖК",
+  "collaboration.tenders.items.tender3.description": "Поставка и монтаж систем умного дома для жилого комплекса премиум-класса.",
+  "collaboration.tenders.items.tender3.requirements": "Сертификация и гарантийное обслуживание не менее 2 лет.",
+  "collaboration.tenders.items.tender3.location": "Ташкент, Юнусабадский район",
+
+   "collaboration.tenders.items.tender4.title": "Благоустройство территории жилого комплекса",
+  "collaboration.tenders.items.tender4.description": "Разработка и реализация проекта благоустройства территории жилого комплекса, включая озеленение, обустройство детских и спортивных площадок.",
+  "collaboration.tenders.items.tender4.requirements": "Опыт работы с проектами аналогичного масштаба от 3 лет.",
+  "collaboration.tenders.items.tender4.location": "Ташкент, Чиланзарский район",
+
+  "collaboration.tenders.items.deadlineLabel": "Срок подачи",
+  "collaboration.tenders.items.budgetLabel": "Бюджет",
+   "collaboration.tenders.items.requirementsLabel": "Требования",
+
+  "collaboration.tenders.items.buttonCompleted": "Тендер завершен",
+  "collaboration.tenders.items.buttonDetails": "Подробнее о тендере",
+  "collaboration.tenders.buttonAll": "Все тендеры",
+  "collaboration.tenders.buttonApply": "Подать заявку на участие",
+
+  "collaboration.tenders.toast.detailsSentTitle": "Запрос отправлен",
+  "collaboration.tenders.toast.detailsSentDesc": "Детали тендера будут отправлены на вашу почту",
+
+
+  "collaboration.partnership.intro.title": "Партнерская программа TOWER UP",
+  "collaboration.partnership.intro.description": "Станьте частью нашей команды и получите доступ к эксклюзивным проектам. Мы ценим надежных партнеров и предлагаем выгодные условия сотрудничества.",
+  "collaboration.partnership.intro.alert": "Станьте нашим партнером и получите доступ к эксклюзивным проектам и предложениям",
+
+  "collaboration.partnershipTypes.generalContractor.title": "Генеральный подрядчик",
+  "collaboration.partnershipTypes.generalContractor.description": "Возможность выступить в качестве генерального подрядчика для строительства объектов TOWER UP",
+  "collaboration.partnershipTypes.generalContractor.benefit1": "Крупные долгосрочные контракты",
+  "collaboration.partnershipTypes.generalContractor.benefit2": "Стабильный объем работ",
+  "collaboration.partnershipTypes.generalContractor.benefit3": "Привилегированные условия сотрудничества",
+
+  "collaboration.partnershipTypes.subcontractor.title": "Субподрядчик",
+  "collaboration.partnershipTypes.subcontractor.description": "Выполнение специализированных работ в рамках проектов компании",
+  "collaboration.partnershipTypes.subcontractor.benefit1": "Регулярные заказы",
+  "collaboration.partnershipTypes.subcontractor.benefit2": "Гибкий график работ",
+  "collaboration.partnershipTypes.subcontractor.benefit3": "Своевременная оплата",
+
+  "collaboration.partnershipTypes.supplier.title": "Поставщик",
+  "collaboration.partnershipTypes.supplier.description": "Поставка строительных материалов и оборудования для проектов компании",
+  "collaboration.partnershipTypes.supplier.benefit1": "Крупный объем заказов",
+  "collaboration.partnershipTypes.supplier.benefit2": "Долгосрочные контракты",
+  "collaboration.partnershipTypes.supplier.benefit3": "Прозрачные условия сотрудничества",
+
+  "collaboration.partners.categories.construction": "Строительство",
+  "collaboration.partners.categories.design": "Проектирование",
+  "collaboration.partners.categories.materials": "Материалы",
+  "collaboration.partners.categories.engineering": "Инженерные системы",
+
+   "collaboration.partners.items.sinceLabel": "С", // e.g. "С 2015"
+  "collaboration.partners.items.projectsLabel": "Проекты",
+  "collaboration.partners.items.employeesLabel": "Сотрудники",
+  "collaboration.partners.items.buttonDetails": "Подробнее о партнере",
+
+
+   "collaboration.partners.items.partner1.name": "Строительная компания \"Монолит\"",
+  "collaboration.partners.items.partner1.description": "Многопрофильная строительная компания с полным циклом производства. Более 10 лет на рынке строительства жилой и коммерческой недвижимости.",
+  "collaboration.partners.items.partner1.achievement1": "Лучшая строительная компания 2023", // Example achievement
+  "collaboration.partners.items.partner1.achievement2": "Сертификат ISO 9001:2015", // Example achievement
+
+
+   "collaboration.partners.items.partner2.name": "Архитектурное бюро \"Концепт\"",
+  "collaboration.partners.items.partner2.description": "Команда архитекторов и дизайнеров с международным опытом. Специализация на проектировании современных энергоэффективных зданий.",
+  "collaboration.partners.items.partner2.achievement1": "Премия \"Инновационный проект года\" 2024",
+  "collaboration.partners.items.partner2.achievement2": "Best Design Award 2022",
+
+
+   "collaboration.partners.items.partner3.name": "Поставщик \"СтройМатериалы\"",
+  "collaboration.partners.items.partner3.description": "Поставки качественных строительных материалов от ведущих производителей. Эксклюзивный представитель европейских брендов.",
+  "collaboration.partners.items.partner3.achievement1": "Лидер по объемам поставок 2023",
+  "collaboration.partners.items.partner3.achievement2": "Сертификат экологической безопасности",
+
+
+   "collaboration.partners.items.partner4.name": "Инженерные системы \"ТехноПроект\"",
+  "collaboration.partners.items.partner4.description": "Проектирование и монтаж инженерных систем для объектов любой сложности. Комплексные решения для жилых комплексов и бизнес-центров.",
+  "collaboration.partners.items.partner4.achievement1": "Сертификат \"Энергоэффективность+\" 2023",
+  "collaboration.partners.items.partner4.achievement2": "Инновационная компания года",
+
+
+  "collaboration.partnership.ctaBlock.title": "Станьте нашим партнером",
+  "collaboration.partnership.ctaBlock.description": "Предлагаем гибкие условия сотрудничества для компаний различного профиля. Заполните форму, и наш менеджер свяжется с вами для обсуждения деталей.",
+  "collaboration.partnership.ctaBlock.button": "Оставить заявку на партнерство",
+
+  "collaboration.partnership.toast.requestAcceptedTitle": "Заявка принята",
+  "collaboration.partnership.toast.requestAcceptedDesc": "Наш менеджер свяжется с вами в ближайшее время",
+
+
+  "collaboration.testimonials.title": "Отзывы наших партнеров",
+  "collaboration.testimonials.description": "Узнайте, что говорят о сотрудничестве с TOWER UP наши текущие партнеры",
+
+   "collaboration.testimonials.item1.name": "Абдуллаев Камрон",
+  "collaboration.testimonials.item1.position": "Директор ООО \"СтройИнвест\"",
+  "collaboration.testimonials.item1.text": "Сотрудничество с TOWER UP позволило нам выйти на новый уровень в реализации строительных проектов. Профессиональный подход, четкое соблюдение сроков и высокое качество работы.",
+  "collaboration.testimonials.item1.company": "СтройИнвест",
+
+   "collaboration.testimonials.item2.name": "Игнатова Елена",
+  "collaboration.testimonials.item2.position": "Главный архитектор \"АртПроект\"",
+  "collaboration.testimonials.item2.text": "За три года партнерства с TOWER UP мы реализовали более 10 совместных проектов. Ценим надежность, прозрачность и инновационный подход компании.",
+  "collaboration.testimonials.item2.company": "АртПроект",
+
+   "collaboration.testimonials.item3.name": "Рахимов Бахтияр",
+  "collaboration.testimonials.item3.position": "Генеральный директор \"ТехноСтрой\"",
+  "collaboration.testimonials.item3.text": "Благодаря партнерству с TOWER UP наша компания получила доступ к крупным и престижным проектам. Взаимовыгодное сотрудничество, которым мы гордимся.",
+  "collaboration.testimonials.item3.company": "ТехноСтрой",
+
+
+  "collaboration.benefitsBlock.title": "Преимущества сотрудничества с TOWER UP",
+  "collaboration.benefitsBlock.item1": "Долгосрочные партнерские отношения и стабильные заказы",
+  "collaboration.benefitsBlock.item2": "Работа над крупными и престижными проектами",
+  "collaboration.benefitsBlock.item3": "Прозрачные условия и своевременные выплаты",
+  "collaboration.benefitsBlock.item4": "Возможность совместного развития и реализации инновационных идей",
+  "collaboration.benefitsBlock.item5": "Расширение сети профессиональных контактов",
+
+  "collaboration.contactBlock.title": "Контакты для сотрудничества",
+  "collaboration.contactBlock.description": "По всем вопросам сотрудничества и участия в тендерах вы можете обратиться к нашим специалистам:",
+  "collaboration.contactBlock.tendersEmailLabel": "Отдел закупок и тендеров",
+  "collaboration.contactBlock.partnershipEmailLabel": "Партнерская программа",
+  "collaboration.contactBlock.phoneLabel": "Телефон",
+  "collaboration.contactBlock.button": "Связаться с нами",
+
+  // Add other pages/sections translation keys here from your project
+  // Example:
+  "dateFormat": "ru-RU", // Key to store locale for date formatting
+
+  "newUzbekistan.apartments.bedrooms": "Спальни",
+  "newUzbekistan.apartments.bathrooms": "Санузлы",
+  "newUzbekistan.apartments.balconies": "Балконы",
+  "newUzbekistan.apartments.featuresTitle": "Характеристики Помещений",
+  "newUzbekistan.apartments.startingPrice": "Начальная Цена:",
+  "newUzbekistan.apartments.inquire": "Узнать Об Этой Квартире",
+  "newUzbekistan.apartments.footer": "Планировки могут отличаться в зависимости от наличия. Свяжитесь с нашим отделом продаж для уточнения текущих цен и наличия конкретных квартир.",
+  "newUzbekistan.contact.form.title": "Связаться с нами",
+
+    "common.close": "Закрыть",
   "common.previous": "Предыдущий",
   "common.next": "Следующий",
+    "common.moreDetails": "Подробнее"
   "aboutSection.title": "О КОМПАНИИ",
   "aboutSection.shortTitle": "Инновационные",
   "aboutSection.shortTitleSolution": "решения",

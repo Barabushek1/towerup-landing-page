@@ -335,10 +335,186 @@
   "newUzbekistan.projectFeatures.security.desc": "Round-the-clock security with video surveillance and professional security personnel.",
   "newUzbekistan.projectFeatures.amenities.title": "Modern Amenities",
   "newUzbekistan.projectFeatures.amenities.desc": "Access to a wide range of amenities including fitness centers, recreation areas, and much more.",
-  
+
+
+    "nav.home": "Home",
+
+  "collaboration.title": "Collaboration",
+  "collaboration.seo.title": "Collaboration",
+  "collaboration.seo.description": "TOWER UP tenders and partnership programs - opportunities for collaboration",
+
+  "collaboration.intro.title": "Become our partner",
+  "collaboration.intro.description": "TOWER UP company invites architectural bureaus, construction companies, suppliers, and other participants of the construction market for cooperation. We offer several options for mutually beneficial partnership.",
+
+  "collaboration.tabs.tenders": "Current tenders",
+  "collaboration.tabs.partners": "Partnership program",
+
+  "collaboration.tenders.intro.title": "Current Tenders from TOWER UP",
+  "collaboration.tenders.intro.description": "The company regularly holds tenders for various types of work and services. Participation in tenders provides an opportunity to receive large orders and establish long-term cooperation.",
+  "collaboration.tenders.intro.alert": "Regularly check this page for updates - new tenders are published weekly",
+
+  "collaboration.tenders.categories.architecture": "Architecture",
+  "collaboration.tenders.categories.construction": "Construction",
+  "collaboration.tenders.categories.technology": "Technology",
+  "collaboration.tenders.categories.landscaping": "Landscaping",
+
+  "collaboration.tenders.statuses.active": "Active",
+  "collaboration.tenders.statuses.completed": "Completed",
+
+  "collaboration.tenders.items.tender1.title": "Architectural design of a residential complex",
+  "collaboration.tenders.items.tender1.description": "Seeking an architectural company to design a residential complex consisting of 4 buildings in Tashkent.",
+  "collaboration.tenders.items.tender1.requirements": "Experience in designing similar facilities for at least 5 years.",
+  "collaboration.tenders.items.tender1.location": "Tashkent, Mirzo Ulugbek district",
+
+   "collaboration.tenders.items.tender2.title": "Construction of an office center",
+  "collaboration.tenders.items.tender2.description": "Tender for a general contractor for the construction of a Class A business center.",
+  "collaboration.tenders.items.tender2.requirements": "Possession of necessary licenses and technical equipment.",
+  "collaboration.tenders.items.tender2.location": "Tashkent, Yakkasaray district",
+
+   "collaboration.tenders.items.tender3.title": "Smart home systems for RC",
+  "collaboration.tenders.items.tender3.description": "Supply and installation of smart home systems for a premium residential complex.",
+  "collaboration.tenders.items.tender3.requirements": "Certification and warranty service for at least 2 years.",
+  "collaboration.tenders.items.tender3.location": "Tashkent, Yunusabad district",
+
+   "collaboration.tenders.items.tender4.title": "Landscaping of a residential complex territory",
+  "collaboration.tenders.items.tender4.description": "Development and implementation of a landscaping project for a residential complex territory, including greenery, arrangement of children's and sports grounds.",
+  "collaboration.tenders.items.tender4.requirements": "Experience with projects of similar scale for at least 3 years.",
+  "collaboration.tenders.items.tender4.location": "Tashkent, Chilanzar district",
+
+
+  "collaboration.tenders.items.deadlineLabel": "Application deadline",
+  "collaboration.tenders.items.budgetLabel": "Budget",
+  "collaboration.tenders.items.requirementsLabel": "Requirements",
+
+
+  "collaboration.tenders.items.buttonCompleted": "Tender completed",
+  "collaboration.tenders.items.buttonDetails": "Details about the tender",
+  "collaboration.tenders.buttonAll": "All tenders",
+  "collaboration.tenders.buttonApply": "Apply for participation",
+
+  "collaboration.tenders.toast.detailsSentTitle": "Request sent",
+  "collaboration.tenders.toast.detailsSentDesc": "Tender details will be sent to your email",
+
+
+  "collaboration.partnership.intro.title": "TOWER UP Partnership Program",
+  "collaboration.partnership.intro.description": "Become part of our team and gain access to exclusive projects. We value reliable partners and offer favorable cooperation terms.",
+  "collaboration.partnership.intro.alert": "Become our partner and get access to exclusive projects and offers",
+
+  "collaboration.partnershipTypes.generalContractor.title": "General Contractor",
+  "collaboration.partnershipTypes.generalContractor.description": "Opportunity to act as a general contractor for the construction of TOWER UP facilities",
+  "collaboration.partnershipTypes.generalContractor.benefit1": "Large long-term contracts",
+  "collaboration.partnershipTypes.generalContractor.benefit2": "Stable volume of work",
+  "collaboration.partnershipTypes.generalContractor.benefit3": "Privileged cooperation terms",
+
+  "collaboration.partnershipTypes.subcontractor.title": "Subcontractor",
+  "collaboration.partnershipTypes.subcontractor.description": "Execution of specialized work within the company's projects",
+  "collaboration.partnershipTypes.subcontractor.benefit1": "Regular orders",
+  "collaboration.partnershipTypes.subcontractor.benefit2": "Flexible work schedule",
+  "collaboration.partnershipTypes.subcontractor.benefit3": "Timely payment",
+
+  "collaboration.partnershipTypes.supplier.title": "Supplier",
+  "collaboration.partnershipTypes.supplier.description": "Supply of construction materials and equipment for the company's projects",
+  "collaboration.partnershipTypes.supplier.benefit1": "Large order volume",
+  "collaboration.partnershipTypes.supplier.benefit2": "Long-term contracts",
+  "collaboration.partnershipTypes.supplier.benefit3": "Transparent cooperation terms",
+
+
+  "collaboration.partners.categories.construction": "Construction",
+  "collaboration.partners.categories.design": "Design",
+  "collaboration.partners.categories.materials": "Materials",
+  "collaboration.partners.categories.engineering": "Engineering Systems",
+
+
+   "collaboration.partners.items.sinceLabel": "Since", // e.g. "Since 2015"
+  "collaboration.partners.items.projectsLabel": "Projects",
+  "collaboration.partners.items.employeesLabel": "Employees",
+  "collaboration.partners.items.buttonDetails": "Details about partner",
+
+
+   "collaboration.partners.items.partner1.name": "\"Monolit\" Construction Company",
+  "collaboration.partners.items.partner1.description": "Multidisciplinary construction company with a full production cycle. Over 10 years on the market for construction of residential and commercial real estate.",
+  "collaboration.partners.items.partner1.achievement1": "Best Construction Company 2023",
+  "collaboration.partners.items.partner1.achievement2": "ISO 9001:2015 Certificate",
+
+
+   "collaboration.partners.items.partner2.name": "\"Koncept\" Architectural Bureau",
+  "collaboration.partners.items.partner2.description": "Team of architects and designers with international experience. Specializing in designing modern energy-efficient buildings.",
+  "collaboration.partners.items.partner2.achievement1": "\"Innovative Project of the Year\" Award 2024",
+  "collaboration.partners.items.partner2.achievement2": "Best Design Award 2022",
+
+
+   "collaboration.partners.items.partner3.name": "\"StroyMaterials\" Supplier",
+  "collaboration.partners.items.partner3.description": "Supply of quality construction materials from leading manufacturers. Exclusive representative of European brands.",
+  "collaboration.partners.items.partner3.achievement1": "Leader in supply volumes 2023",
+  "collaboration.partners.items.partner3.achievement2": "Ecological safety certificate",
+
+
+   "collaboration.partners.items.partner4.name": "\"TekhnoProekt\" Engineering Systems",
+  "collaboration.partners.items.partner4.description": "Design and installation of engineering systems for facilities of any complexity. Comprehensive solutions for residential complexes and business centers.",
+  "collaboration.partners.items.partner4.achievement1": "\"Energy Efficiency+\" Certificate 2023",
+  "collaboration.partners.items.partner4.achievement2": "Innovative Company of the Year",
+
+
+  "collaboration.partnership.ctaBlock.title": "Become our partner",
+  "collaboration.partnership.ctaBlock.description": "We offer flexible cooperation terms for companies of various profiles. Fill out the form, and our manager will contact you to discuss the details.",
+  "collaboration.partnership.ctaBlock.button": "Leave a partnership request",
+
+  "collaboration.partnership.toast.requestAcceptedTitle": "Application accepted",
+  "collaboration.partnership.toast.requestAcceptedDesc": "Our manager will contact you shortly",
+
+
+  "collaboration.testimonials.title": "Testimonials from our partners",
+  "collaboration.testimonials.description": "Learn what our current partners say about cooperation with TOWER UP",
+
+   "collaboration.testimonials.item1.name": "Abdullaev Kamron",
+  "collaboration.testimonials.item1.position": "Director of LLC \"StroyInvest\"",
+  "collaboration.testimonials.item1.text": "Cooperation with TOWER UP allowed us to reach a new level in the implementation of construction projects. Professional approach, strict adherence to deadlines, and high quality of work.",
+  "collaboration.testimonials.item1.company": "\"StroyInvest\"",
+
+   "collaboration.testimonials.item2.name": "Ignatova Elena",
+  "collaboration.testimonials.item2.position": "Chief Architect of \"ArtProject\"",
+  "collaboration.testimonials.item2.text": "Over three years of partnership with TOWER UP, we have implemented more than 10 joint projects. We value the reliability, transparency, and innovative approach of the company.",
+  "collaboration.testimonials.item2.company": "\"ArtProject\"",
+
+   "collaboration.testimonials.item3.name": "Rakhimov Bakhtiyar",
+  "collaboration.testimonials.item3.position": "General Director of \"TekhnoStroy\"",
+  "collaboration.testimonials.item3.text": "Thanks to the partnership with TOWER UP, our company gained access to large and prestigious projects. Mutually beneficial cooperation that we are proud of.",
+  "collaboration.testimonials.item3.company": "\"TekhnoStroy\"",
+
+
+  "collaboration.benefitsBlock.title": "Advantages of cooperation with TOWER UP",
+  "collaboration.benefitsBlock.item1": "Long-term partnership relations and stable orders",
+  "collaboration.benefitsBlock.item2": "Work on large and prestigious projects",
+  "collaboration.benefitsBlock.item3": "Transparent terms and timely payments",
+  "collaboration.benefitsBlock.item4": "Opportunity for joint development and implementation of innovative ideas",
+  "collaboration.benefitsBlock.item5": "Expansion of the network of professional contacts",
+
+  "collaboration.contactBlock.title": "Contacts for cooperation",
+  "collaboration.contactBlock.description": "For all questions regarding cooperation and participation in tenders, you can contact our specialists:",
+  "collaboration.contactBlock.tendersEmailLabel": "Procurement and Tenders Department",
+  "collaboration.contactBlock.partnershipEmailLabel": "Partnership Program",
+  "collaboration.contactBlock.phoneLabel": "Phone",
+  "collaboration.contactBlock.button": "Contact Us",
+
+  // Add other pages/sections translation keys here from your project
+  // Example:
+  "dateFormat": "en-US", // Key to store locale for date formatting
+
+  "newUzbekistan.apartments.bedrooms": "Bedrooms",
+  "newUzbekistan.apartments.bathrooms": "Bathrooms",
+  "newUzbekistan.apartments.balconies": "Balconies",
+  "newUzbekistan.apartments.featuresTitle": "Room Specifications",
+  "newUzbekistan.apartments.startingPrice": "Starting Price:",
+  "newUzbekistan.apartments.inquire": "Inquire About This Unit",
+  "newUzbekistan.apartments.footer": "Floor plans are subject to availability. Contact our sales team for current pricing and availability of specific units.",
+  "newUzbekistan.contact.form.title": "Contact Us",
+
+
+    
   "common.close": "Close",
   "common.previous": "Previous",
   "common.next": "Next",
+  "common.moreDetails": "More Details",
   "aboutSection.title": "ABOUT THE COMPANY",
   "aboutSection.shortTitle": "Innovative",
   "aboutSection.shortTitleSolution": "solutions",
