@@ -237,7 +237,7 @@ const NavBar: React.FC = () => {
                             "nav-link tracking-wide hover:text-brand-primary transition-colors duration-300 font-benzin px-3 py-2",
                             scrolled ? "text-white" : "text-white",
                             // Add subtle highlight for the new collaboration button
-                            link.key === 'collaboration' ? "after:content-[''] after:block after:w-1/2 after:h-0.5 after:bg-brand-primary/50 after:mt-0.5 after:mx-auto after:rounded" : ""
+                            link.key === 'collaboration' 
                           )}
                         >
                           {link.key === 'collaboration'}
