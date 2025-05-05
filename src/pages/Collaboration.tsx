@@ -18,6 +18,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbS
 
 import { Separator } from '@/components/ui/separator';
 import { toast } from "@/hooks/use-toast";
+import { format } from 'date-fns';
 
 // Import necessary icons
 import { Calendar, Users, FileText, CheckCircle, MapPin, Clock, Building, Star, ArrowRight, Phone, Mail, BriefcaseBusiness, Handshake, ClipboardList, Lightbulb, DollarSign, Award, UserCheck } from 'lucide-react';
@@ -348,7 +349,7 @@ const Collaboration: React.FC = () => {
                         <div className="flex items-center">
                           <Calendar className="mr-2 h-4 w-4 text-primary" /> {/* Primary icon color */}
                           {/* Use translation for "Срок подачи:" */}
-                          <span>{t('collaboration.tenders.items.deadlineLabel')}: {new Date(tender.deadline).toLocaleDateString(t('dateFormat'))}</span> {/* Added date formatting translation */}
+                          <span>{t('collaboration.tenders.items.deadlineLabel')}: {format(new Date(tender.deadline), 'dd.MM.yyyy')}</span>
                         </div>
                         <div className="flex items-center">
                           <MapPin className="mr-2 h-4 w-4 text-rose-400" /> {/* Distinct color for location */}
