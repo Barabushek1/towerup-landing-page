@@ -28,6 +28,3 @@ enabled = true
 [functions]
 [functions.verify-admin-credentials]
 verify_jwt = true
-[functions.translate]
-verify_jwt = false
-

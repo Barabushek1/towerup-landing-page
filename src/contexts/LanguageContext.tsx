@@ -1,7 +1,5 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
 
 type Language = 'ru' | 'uz' | 'en';
 
@@ -20,28 +18,14 @@ interface LanguageProviderProps {
 // Simple in-memory cache for translations
 const translationCache: Record<string, Record<string, string>> = {};
 
-// Queue to prevent too many translation requests at once
-interface TranslationQueueItem {
-  key: string;
-  targetLang: Language;
-  resolve: (text: string) => void;
-}
-
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
   const [language, setLanguage] = useState<Language>('uz');
   const [translations, setTranslations] = useState<Record<string, string>>({});
   const [isTranslating, setIsTranslating] = useState<boolean>(false);
-  const [translationQueue, setTranslationQueue] = useState<TranslationQueueItem[]>([]);
-  const [isBusy, setIsBusy] = useState<boolean>(false);
   
   // Detect user's browser language on initial load or use saved preference
   useEffect(() => {
     const detectBrowserLanguage = () => {
-      const savedLanguage = localStorage.getItem('preferredLanguage');
-      if (savedLanguage && ['ru', 'uz', 'en'].includes(savedLanguage)) {
-        return savedLanguage as Language;
-      }
-      
       const browserLang = navigator.language.split('-')[0];
       
       // If browser language is Russian, set language to Russian
@@ -58,8 +42,9 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       return 'uz';
     };
     
-    const initialLanguage = detectBrowserLanguage();
-    console.log(`Initial language detection: ${initialLanguage}`);
+    const storedLanguage = localStorage.getItem('preferredLanguage') as Language;
+    const initialLanguage = storedLanguage || detectBrowserLanguage();
+    
     setLanguage(initialLanguage);
   }, []);
   
@@ -91,139 +76,57 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     localStorage.setItem('preferredLanguage', language);
   }, [language]);
 
-  // Process translation queue
-  useEffect(() => {
-    const processQueue = async () => {
-      if (translationQueue.length === 0 || isBusy) return;
-      
-      setIsBusy(true);
-      const item = translationQueue[0];
-      
-      try {
-        console.log(`Processing translation of "${item.key}" to ${item.targetLang}`);
-        const translatedText = await autoTranslate(item.key, item.targetLang);
-        
-        // Store in translations state for immediate use
-        setTranslations(prev => ({
-          ...prev,
-          [item.key]: translatedText
-        }));
-        
-        item.resolve(translatedText);
-      } catch (error) {
-        console.error('Translation error:', error);
-        item.resolve(item.key); // Fallback to key
-      }
-      
-      setTranslationQueue(queue => queue.slice(1));
-      setIsBusy(false);
-    };
-    
-    processQueue();
-  }, [translationQueue, isBusy]);
-
-  // Auto-translate missing keys using DeepL
+  // Auto-translate missing keys
   const autoTranslate = async (key: string, targetLanguage: Language): Promise<string> => {
     // Check if we have it in cache
     if (translationCache[targetLanguage] && translationCache[targetLanguage][key]) {
-      console.log(`Using cached translation for "${key}" to ${targetLanguage}`);
       return translationCache[targetLanguage][key];
     }
 
-    try {
-      console.log(`Translating key "${key}" to ${targetLanguage} using DeepL`);
-      
-      // Call our Supabase Edge Function for translation
-      const { data, error } = await supabase.functions.invoke("translate", {
-        body: { 
-          text: key,
-          targetLang: targetLanguage
-        }
-      });
+    // This is a simplified implementation - in a real app you would call a translation API
+    // For now we'll create a basic placeholder that indicates auto-translation
+    const placeholderText = `Auto[${key}]`;
 
-      if (error) {
-        console.error('Translation function error:', error);
-        toast.error(`Translation failed: ${error.message}`);
-        throw new Error(`Translation failed: ${error.message}`);
-      }
-
-      if (!data || !data.translatedText) {
-        console.error('Invalid translation response:', data);
-        toast.error('Translation service returned invalid data');
-        throw new Error('Translation service returned invalid data');
-      }
-
-      const translatedText = data.translatedText;
-      console.log(`Translated "${key}" to "${translatedText}"`);
-
-      // Store in cache
-      if (!translationCache[targetLanguage]) {
-        translationCache[targetLanguage] = {};
-      }
-      translationCache[targetLanguage][key] = translatedText;
-
-      return translatedText;
-    } catch (error) {
-      console.error('Translation error:', error);
-      toast.error('Translation failed, please try again later');
-      
-      // Provide a fallback in case of error
-      const fallbackText = key;
-      
-      // Store fallback in cache to prevent repeated failed requests
-      if (!translationCache[targetLanguage]) {
-        translationCache[targetLanguage] = {};
-      }
-      translationCache[targetLanguage][key] = fallbackText;
-      
-      return fallbackText;
+    // Store in cache
+    if (!translationCache[targetLanguage]) {
+      translationCache[targetLanguage] = {};
     }
+    translationCache[targetLanguage][key] = placeholderText;
+
+    return placeholderText;
   };
   
-  // Queue a translation request and return a promise
-  const queueTranslation = (key: string, targetLang: Language): Promise<string> => {
-    return new Promise(resolve => {
-      setTranslationQueue(queue => [...queue, { key, targetLang, resolve }]);
-    });
-  };
-  
-  // Translation function with DeepL auto-translation fallback
+  // Translation function with auto-translation fallback
   const t = (key: string): string => {
-    // Return empty string for empty keys
-    if (!key) return '';
-    
-    // If translation exists in our loaded translations, return it
-    if (translations && translations[key]) {
-      return translations[key];
-    }
-    
-    console.warn(`Translation missing for key: ${key} in language: ${language}`);
-    
-    // Check if we already have a cached translation
-    if (translationCache[language] && translationCache[language][key]) {
-      console.log(`Using cached translation for "${key}"`);
-      return translationCache[language][key];
-    }
-    
-    // Only attempt auto-translation if we're not already in the process
-    if (!isTranslating) {
-      setIsTranslating(true);
+    if (!translations || !translations[key]) {
+      console.warn(`Translation missing for key: ${key} in language: ${language}`);
+      // Return the key while we're auto-translating to prevent UI flicker
       
-      // Queue translation request
-      queueTranslation(key, language).then(translation => {
-        // Update the cache
-        if (!translationCache[language]) {
-          translationCache[language] = {};
-        }
-        translationCache[language][key] = translation;
+      // Only attempt auto-translation if we're not already in the process
+      if (!isTranslating) {
+        setIsTranslating(true);
         
-        // Allow future translation attempts
-        setIsTranslating(false);
-      });
+        // Attempt auto-translation and update cache
+        autoTranslate(key, language).then((translation) => {
+          // Update the cache - in a real implementation we might update the translation files
+          if (!translationCache[language]) {
+            translationCache[language] = {};
+          }
+          translationCache[language][key] = translation;
+          
+          // Allow future translation attempts
+          setIsTranslating(false);
+        });
+      }
+      
+      // Check if we already have a cached translation
+      if (translationCache[language] && translationCache[language][key]) {
+        return translationCache[language][key];
+      }
+      
+      return key; // Return the key if translation is not found
     }
-    
-    // Return the key as fallback while waiting for translation
-    return key;
+    return translations[key];
   };
   
   const changeLanguage = (newLanguage: Language) => {
