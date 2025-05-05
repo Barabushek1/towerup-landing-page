@@ -29,7 +29,6 @@ interface FloorPlan {
   description: string;
   features: string[];
   image: string;
-  price: string;
 }
 
 const ApartmentsSection: React.FC = () => {
@@ -61,7 +60,6 @@ const ApartmentsSection: React.FC = () => {
         "Balcony: 1.75 m²"
       ],
       image: "/lovable-uploads/d46141cd-7934-475c-9744-aa34492b9748.png",
-      price: "from $45,000"
     },
     {
       id: "type2",
@@ -79,7 +77,6 @@ const ApartmentsSection: React.FC = () => {
         "Balcony: 1.75 m²"
       ],
       image: "/lovable-uploads/e30db59a-62ae-47c9-bee3-47f9c2a72b1b.png",
-      price: "from $45,000"
     },
     {
       id: "type3",
@@ -97,7 +94,6 @@ const ApartmentsSection: React.FC = () => {
         "Storage: 2.25 m²"
       ],
       image: "/lovable-uploads/2623cf3d-8e9e-492a-a374-0c70580ed70d.png",
-      price: "from $52,000"
     },
     {
       id: "type4",
@@ -115,7 +111,6 @@ const ApartmentsSection: React.FC = () => {
         "Storage: 2.25 m²"
       ],
       image: "/lovable-uploads/07e5cbbb-96b3-4e0c-bc6c-43759ac026eb.png",
-      price: "from $52,000"
     },
     {
       id: "type5",
@@ -133,7 +128,6 @@ const ApartmentsSection: React.FC = () => {
         "Bathroom: 5.1 m²"
       ],
       image: "/lovable-uploads/25b51154-0f47-4d3e-b27d-0b5594a609b0.png",
-      price: "from $65,000"
     },
     {
       id: "type6",
@@ -152,7 +146,6 @@ const ApartmentsSection: React.FC = () => {
         "Second bathroom: 3.5 m²"
       ],
       image: "/lovable-uploads/fd3f8b69-467d-4443-87ca-f47787321726.png",
-      price: "from $72,000"
     },
     {
       id: "building",
@@ -170,7 +163,6 @@ const ApartmentsSection: React.FC = () => {
         "Natural light maximization"
       ],
       image: "/lovable-uploads/fd0b85fc-caff-4e79-8acf-8c3e7ce81787.png",
-      price: "Price varies by unit"
     },
   ];
 
@@ -256,13 +248,8 @@ const ApartmentsSection: React.FC = () => {
                     <img
                       src={plan.image}
                       alt={plan.title}
-                      className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
-                    {plan.id !== 'building' && (
-                      <div className="absolute top-3 right-3 bg-primary px-3 py-1 rounded-full text-sm font-medium text-white shadow-md">
-                        {plan.price}
-                      </div>
-                    )}
                     <div
                       className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center cursor-pointer"
                       onClick={() => handleOpenModal(plan)}
@@ -376,7 +363,7 @@ const ApartmentsSection: React.FC = () => {
                 <div className="flex justify-between items-center">
                   <div>
                     <h4 className="text-xl font-bold">{selectedPlan.title}</h4>
-                    <p className="text-sm text-slate-300">{selectedPlan.area} | {selectedPlan.price}</p>
+                    <p className="text-sm text-slate-300">{selectedPlan.area}</p>
                   </div>
                   <div className="hidden md:flex space-x-2">
                     {selectedPlan.id !== 'building' && (
