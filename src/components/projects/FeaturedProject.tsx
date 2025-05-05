@@ -46,12 +46,12 @@ const FeaturedProject: React.FC<FeaturedProjectProps> = ({
           <div className="flex flex-col sm:flex-row gap-4">
             <Button asChild className="bg-primary hover:bg-primary/90 text-white py-2 px-6">
               <a href={slug ? `/projects/${slug}` : '/projects'}>
-                {t("projectsSection.learnMore").toUpperCase()}
+                {t("projectsSection.learnMore")}
               </a>
             </Button>
             <Button asChild variant="outline" className="border-white/20 text-white py-2 px-6 bg-slate-900 hover:bg-slate-800">
               <a href="/projects">
-                {t("projectsSection.allProjects").toUpperCase()}
+                {t("projectsSection.allProjects")}
               </a>
             </Button>
           </div>

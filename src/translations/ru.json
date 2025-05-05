@@ -1,3 +1,4 @@
+
 {
   "testModeIndicator": "Сайт работает в тестовом режиме",
   
@@ -321,5 +322,45 @@
   "featuresSection.contactUs": "Связаться с нами",
   "featuresSection.ourProjects": "Наши проекты",
   "featuresSection.contactAriaLabel": "Связаться с нашей командой",
-  "featuresSection.projectsAriaLabel": "Просмотр всех проектов компании"
+  "featuresSection.projectsAriaLabel": "Просмотр всех проектов компании",
+  
+  "projectsSection.viewMore": "Подробнее",
+  "projectsSection.viewProject": "Просмотр проекта",
+  "projectsSection.learnMore": "УЗНАТЬ БОЛЬШЕ",
+  "projectsSection.allProjects": "ВСЕ ПРОЕКТЫ",
+  "projectsSection.previousSlide": "Предыдущий слайд",
+  "projectsSection.nextSlide": "Следующий слайд",
+  "projectsSection.goToSlide": "Перейти к слайду",
+  "projectsSection.ourProjects": "НАШИ ПРОЕКТЫ",
+  "projectsSection.sectionTitle": "Наши проекты",
+  "projectsSection.sectionHeading": "Инновационные проекты, созданные для будущего",
+  "projectsSection.sectionDescription": "Познакомьтесь с нашими знаковыми проектами, которые мы создаем с использованием современных технологий и бескомпромиссных стандартов качества.",
+  
+  "projectsSection.featured.nearby.title": "Всё, что нужно — рядом",
+  "projectsSection.featured.nearby.subtitle": "ЖК «Кумарык»",
+  "projectsSection.featured.nearby.description": "Современный жилой комплекс в престижном районе.",
+  
+  "projectsSection.featured.parking.title": "Удобная парковка",
+  "projectsSection.featured.parking.subtitle": "Проекты TOWERUP",
+  "projectsSection.featured.parking.description": "Безопасное и комфортное место для вашего автомобиля.",
+  
+  "projectsSection.featured.turnkey.title": "Ремонт под ключ",
+  "projectsSection.featured.turnkey.subtitle": "Услуги TOWERUP",
+  "projectsSection.featured.turnkey.description": "Готовые решения для вашего комфорта.",
+  
+  "projectsSection.projects.pushkin.title": "Жилой комплекс «Пушкин»",
+  "projectsSection.projects.pushkin.description": "Современный эко-комплекс из 5 зданий с благоустроенной территорией, детскими площадками и парковой зоной.",
+  "projectsSection.projects.pushkin.location": "Ташкент",
+  "projectsSection.projects.pushkin.status": "Строящийся",
+  
+  "projectsSection.projects.newUzbekistan.title": "Жилой комплекс «Янги Узбекистан»",
+  "projectsSection.projects.newUzbekistan.description": "Современный комплекс с инновационной архитектурой, зелеными зонами и развитой инфраструктурой.",
+  "projectsSection.projects.newUzbekistan.location": "Ташкент",
+  "projectsSection.projects.newUzbekistan.status": "Строящийся",
+  
+  "projectsSection.projects.kumaryk.title": "Жилой комплекс «Кумарык»",
+  "projectsSection.projects.kumaryk.description": "Курортный комплекс, состоящий из 5* отеля и апартаментов с панорамными видами на море и частным пляжем.",
+  "projectsSection.projects.kumaryk.location": "Ташкент",
+  "projectsSection.projects.kumaryk.status": "Проектируется"
 }
+
