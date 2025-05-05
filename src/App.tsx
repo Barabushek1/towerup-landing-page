@@ -35,6 +35,7 @@ import AdminDetailedAuditLogs from "./pages/admin/AdminDetailedAuditLogs";
 import AdminLayout from "./components/admin/AdminLayout";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import AdminFloorPrices from './pages/admin/AdminFloorPrices';
+import Collaboration from "./pages/Collaboration";
 
 const helmetContext = {};
 
@@ -63,6 +64,7 @@ const App = () => {
           <Route path="/vacancies" element={<Vacancies />} />
           <Route path="/vacancies/:id" element={<VacancyDetail />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/collaboration" element={<Collaboration />} />
           
           <Route path="/construction" element={<Construction />} />
           <Route path="/design" element={<Design />} />

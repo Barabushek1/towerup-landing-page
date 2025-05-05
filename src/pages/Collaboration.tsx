@@ -95,6 +95,7 @@ const Collaboration: React.FC = () => {
         backgroundImages={['/lovable-uploads/d2bd2619-426f-4ab0-95ad-ed8b140aa758.png']}
         autoplay={true}
         interval={5000}
+        breadcrumb="Сотрудничество"
       />
 
       <div className="container mx-auto px-4 py-12">
