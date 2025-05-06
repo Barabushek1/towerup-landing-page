@@ -195,127 +195,138 @@ const NavBar: React.FC = () => {
             // Removed mt classes as 'top' is used for vertical positioning of a fixed element
         )}
       >
-        <div className="container mx-auto px-6 flex items-center justify-between">
-          <a
-            href="/"
-            className="flex items-center"
-          >
-            <img
-              src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png"
-              alt="TOWERUP Logo"
-              className="h-12 md:h-16 w-auto"
-            />
-          </a>
+        <div className="container mx-auto px-6">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <a
+              href="/"
+              className="flex-shrink-0"
+            >
+              <img
+                src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png"
+                alt="TOWERUP Logo"
+                className="h-12 md:h-16 w-auto"
+              />
+            </a>
 
-          {!isMobile && (
-            <div className="hidden md:flex items-center space-x-8">
-              <div className="flex items-center space-x-6">
-                {navLinks.map((link) =>
-                  link.hasSubmenu ? (
-                    <div 
-                      key={link.key}
-                      className="relative"
-                      onMouseEnter={() => handleMouseEnter(link.key)}
-                      onMouseLeave={() => handleMouseLeave(link.key)}
-                    >
-                      <button
-                        className={cn(
-                          "flex items-center gap-1.5 p-2 font-benzin tracking-wide hover:text-brand-primary transition-colors duration-300 bg-transparent border-0",
-                          scrolled ? "text-white" : "text-white",
-                        )}
-                      >
-                        <span>{link.title}</span>
-                        <ChevronDown className={cn(
-                          "h-4 w-4 transition-transform duration-300",
-                          openDropdowns[link.key] ? "rotate-180" : ""
-                        )} />
-                      </button>
-                      <div 
-                        className={cn(
-                          "absolute left-0 top-full min-w-[250px] bg-white/90 backdrop-blur-md rounded-md shadow-lg z-50 transform transition-all duration-200 ease-in-out origin-top",
-                          openDropdowns[link.key] 
-                            ? "scale-100 opacity-100 translate-y-0" 
-                            : "scale-95 opacity-0 translate-y-[-10px] pointer-events-none"
-                        )}
-                      >
-                        <div className="py-2 px-1">
-                          {link.submenu?.map((subItem) => (
-                            <a 
-                              href={subItem.href} 
-                              key={subItem.title}
-                              className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors text-brand-dark font-benzin text-sm hover:bg-gray-100 hover:text-brand-primary"
+            {!isMobile && (
+              <div className="flex-1 flex justify-end">
+                {/* Menu and Contact Button Container - Push to the right */}
+                <div className="flex items-center">
+                  {/* Navigation Links */}
+                  <nav className="flex items-center">
+                    <ul className="flex items-center space-x-6">
+                      {navLinks.map((link) =>
+                        link.hasSubmenu ? (
+                          <li 
+                            key={link.key}
+                            className="relative"
+                            onMouseEnter={() => handleMouseEnter(link.key)}
+                            onMouseLeave={() => handleMouseLeave(link.key)}
+                          >
+                            <button
+                              className={cn(
+                                "flex items-center gap-1.5 p-2 font-benzin tracking-wide hover:text-brand-primary transition-colors duration-300 bg-transparent border-0",
+                                scrolled ? "text-white" : "text-white",
+                              )}
                             >
-                              {subItem.title}
+                              <span>{link.title}</span>
+                              <ChevronDown className={cn(
+                                "h-4 w-4 transition-transform duration-300",
+                                openDropdowns[link.key] ? "rotate-180" : ""
+                              )} />
+                            </button>
+                            <div 
+                              className={cn(
+                                "absolute left-0 top-full min-w-[250px] bg-white/90 backdrop-blur-md rounded-md shadow-lg z-50 transform transition-all duration-200 ease-in-out origin-top",
+                                openDropdowns[link.key] 
+                                  ? "scale-100 opacity-100 translate-y-0" 
+                                  : "scale-95 opacity-0 translate-y-[-10px] pointer-events-none"
+                              )}
+                            >
+                              <div className="py-2 px-1">
+                                {link.submenu?.map((subItem) => (
+                                  <a 
+                                    href={subItem.href} 
+                                    key={subItem.title}
+                                    className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors text-brand-dark font-benzin text-sm hover:bg-gray-100 hover:text-brand-primary"
+                                  >
+                                    {subItem.title}
+                                  </a>
+                                ))}
+                              </div>
+                            </div>
+                          </li>
+                        ) : (
+                          <li key={link.key}>
+                            <a
+                              href={link.href}
+                              className={cn(
+                                "tracking-wide hover:text-brand-primary transition-colors duration-300 font-benzin px-3 py-2",
+                                scrolled ? "text-white" : "text-white",
+                              )}
+                            >
+                              {link.title}
                             </a>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </nav>
+
+                  {/* Language Selector and Contact Button */}
+                  <div className="flex items-center gap-4 ml-8">
+                    <LanguageSelector />
+                    
                     <a
-                      key={link.key}
-                      href={link.href}
+                      href="/contact"
                       className={cn(
-                        "tracking-wide hover:text-brand-primary transition-colors duration-300 font-benzin px-3 py-2",
-                        scrolled ? "text-white" : "text-white",
+                        "flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-primary text-white font-medium",
+                        "shadow-lg shadow-brand-primary/20 transform transition hover:-translate-y-0.5 font-benzin"
                       )}
                     >
-                      {link.title}
+                      <Phone className="h-4 w-4" />
+                      {t('nav.consultation')}
                     </a>
-                  )
-                )}
+                  </div>
+                </div>
               </div>
+            )}
 
-              <div className="flex items-center gap-4">
-                <LanguageSelector />
-                
-                <a
-                  href="/contact"
-                  className={cn(
-                    "flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-primary text-white font-medium",
-                    "shadow-lg shadow-brand-primary/20 transform transition hover:-translate-y-0.5 font-benzin"
-                  )}
-                >
-                  <Phone className="h-4 w-4" />
-                  {t('nav.consultation')}
-                </a>
-              </div>
-            </div>
-          )}
-
-          {isMobile && (
-            <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
-              <SheetTrigger asChild>
-                <button
-                  className="md:hidden focus:outline-none"
-                  aria-label="Toggle menu"
-                >
-                  <Menu className="h-6 w-6 text-white" />
-                </button>
-              </SheetTrigger>
-              <SheetContent
-                side="right"
-                className="p-0 w-[85vw] max-w-xs bg-[#080C16] text-white border-l border-white/10"
-              >
-                <div className="flex items-center justify-between p-4 border-b border-white/10">
-                  <a
-                    href="/"
-                    className="flex items-center"
-                    onClick={() => setIsMenuOpen(false)}
+            {isMobile && (
+              <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+                <SheetTrigger asChild>
+                  <button
+                    className="md:hidden focus:outline-none"
+                    aria-label="Toggle menu"
                   >
-                    <img
-                      src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png"
-                      alt="TOWERUP Logo"
-                      className="h-10 w-auto"
-                    />
-                  </a>
-                </div>
-                <div className="overflow-y-auto max-h-[calc(100vh-64px)]">
-                  <MobileMenu />
-                </div>
-              </SheetContent>
-            </Sheet>
-          )}
+                    <Menu className="h-6 w-6 text-white" />
+                  </button>
+                </SheetTrigger>
+                <SheetContent
+                  side="right"
+                  className="p-0 w-[85vw] max-w-xs bg-[#080C16] text-white border-l border-white/10"
+                >
+                  <div className="flex items-center justify-between p-4 border-b border-white/10">
+                    <a
+                      href="/"
+                      className="flex items-center"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <img
+                        src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png"
+                        alt="TOWERUP Logo"
+                        className="h-10 w-auto"
+                      />
+                    </a>
+                  </div>
+                  <div className="overflow-y-auto max-h-[calc(100vh-64px)]">
+                    <MobileMenu />
+                  </div>
+                </SheetContent>
+              </Sheet>
+            )}
+          </div>
         </div>
       </header>
       {/* Add padding-top to the body or a wrapper div to prevent content from being hidden behind fixed header */}
