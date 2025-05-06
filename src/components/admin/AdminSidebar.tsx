@@ -6,9 +6,11 @@ import { Button } from '../ui/button';
 
 interface AdminSidebarProps {
   onClose?: () => void;
+  collapsed?: boolean;
+  mobileOpen?: boolean;
 }
 
-const AdminSidebar: React.FC<AdminSidebarProps> = ({ onClose }) => {
+const AdminSidebar: React.FC<AdminSidebarProps> = ({ onClose, collapsed, mobileOpen }) => {
   const location = useLocation();
   const isActive = (path: string) => location.pathname === path;
 
@@ -76,7 +78,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ onClose }) => {
   ];
 
   return (
-    <div className="w-64 h-screen fixed left-0 top-0 bg-slate-900 text-white flex flex-col shadow-lg z-30">
+    <div className={`w-64 h-screen fixed left-0 top-0 bg-slate-900 text-white flex flex-col shadow-lg z-30 ${mobileOpen === false ? '-translate-x-full lg:translate-x-0' : ''} transition-transform duration-200`}>
       <div className="flex items-center justify-between px-6 py-4 border-b border-gray-700">
         <h2 className="text-xl font-bold">Админ панель</h2>
         {onClose && (

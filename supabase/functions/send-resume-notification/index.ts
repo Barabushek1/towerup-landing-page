@@ -17,16 +17,26 @@ serve(async (req) => {
   }
 
   try {
+    console.log("Processing resume notification request");
     const { application } = await req.json();
     
     if (!application) {
+      console.error("Missing required application data");
       return new Response(
         JSON.stringify({ error: "Missing required application data" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    const { full_name, email, vacancy_title, vacancy_id, attachments = [] } = application;
+    const { full_name, email, phone, vacancy_title, vacancy_id, cover_letter, attachments = [] } = application;
+    
+    console.log("Application data received:", {
+      full_name,
+      email,
+      vacancy_title,
+      vacancy_id,
+      attachmentsCount: attachments.length
+    });
 
     // Create HTML content for email
     let attachmentsHtml = "";
@@ -44,6 +54,19 @@ serve(async (req) => {
         </ul>
       `;
     }
+    
+    // Add cover letter to email if provided
+    let coverLetterHtml = "";
+    if (cover_letter) {
+      coverLetterHtml = `
+        <p style="margin-top: 16px;">
+          <strong>Сопроводительное письмо:</strong>
+        </p>
+        <div style="background-color: #f8f9fa; padding: 12px; border-radius: 4px; margin-top: 8px;">
+          ${cover_letter.replace(/\n/g, '<br>')}
+        </div>
+      `;
+    }
 
     const htmlContent = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -53,14 +76,18 @@ serve(async (req) => {
         <ul>
           <li><strong>Name:</strong> ${full_name}</li>
           <li><strong>Email:</strong> ${email}</li>
+          <li><strong>Phone:</strong> ${phone || "Not provided"}</li>
           <li><strong>Position ID:</strong> ${vacancy_id}</li>
         </ul>
+        ${coverLetterHtml}
         ${attachmentsHtml}
         <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
-          <p>You can view and manage all applications in your <a href="https://your-domain.com/admin/vacancy-applications" style="color: #3182ce;">admin panel</a>.</p>
+          <p>You can view and manage all applications in your <a href="https://tower-up.com/admin/vacancy-applications" style="color: #3182ce;">admin panel</a>.</p>
         </div>
       </div>
     `;
+
+    console.log("Sending email to:", ADMIN_EMAIL);
 
     // Send email notification
     const emailResponse = await resend.emails.send({

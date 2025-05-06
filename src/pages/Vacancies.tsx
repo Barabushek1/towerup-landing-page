@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import { ArrowRight, Briefcase, Loader2 } from 'lucide-react';
@@ -24,6 +24,9 @@ interface Vacancy {
 }
 
 const Vacancies: React.FC = () => {
+  // For the contact form toggle
+  const [showContactForm, setShowContactForm] = useState(false);
+  
   // Seed initial vacancy data if needed
   useVacancySeeder();
   
@@ -31,6 +34,7 @@ const Vacancies: React.FC = () => {
     queryKey: ['vacancies'],
     queryFn: async () => {
       return getCachedData('vacancies_list', async () => {
+        // Ensure we only fetch active vacancies
         const { data, error } = await supabase
           .from('vacancies')
           .select('*')
@@ -38,15 +42,28 @@ const Vacancies: React.FC = () => {
           .order('title');
         
         if (error) {
+          console.error('Error fetching vacancies:', error);
           throw error;
         }
         
+        console.log('Fetched active vacancies:', data);
         return data as Vacancy[];
-      }, 120); // Cache for 2 hours
+      }, 60); // Cache for 1 hour instead of 2
     },
-    staleTime: 1000 * 60 * 60, // Consider data fresh for 1 hour
-    gcTime: 1000 * 60 * 60 * 2, // Keep in React Query cache for 2 hours
+    staleTime: 1000 * 60 * 30, // Consider data fresh for 30 min
+    gcTime: 1000 * 60 * 60, // Keep in React Query cache for 1 hour
   });
+
+  const scrollToContact = () => {
+    // Toggle the contact form display
+    setShowContactForm(true);
+    
+    // Scroll to contact section
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <div className="min-h-screen antialiased bg-[#161616] text-gray-200 overflow-x-hidden">
@@ -105,7 +122,6 @@ const Vacancies: React.FC = () => {
                       </div>
                       
                       <div className="mt-4 pt-4 border-t border-muted flex items-center justify-between">
-                        {/* Changed Link to anchor tag */}
                         <a
                           href={`/vacancies/${item.id}`}
                           className="inline-flex items-center px-4 py-2 rounded-md bg-primary/10 text-primary hover:bg-primary/20 transition-colors font-benzin"
@@ -114,12 +130,12 @@ const Vacancies: React.FC = () => {
                           <ArrowRight className="ml-2 h-4 w-4" />
                         </a>
                         
-                        <a 
-                          href="#contact" 
+                        <button
+                          onClick={scrollToContact}
                           className="text-slate-300 hover:text-primary transition-colors font-benzin text-sm"
                         >
                           Откликнуться
-                        </a>
+                        </button>
                       </div>
                     </div>
                   ))}
@@ -141,14 +157,34 @@ const Vacancies: React.FC = () => {
                       Отправьте нам свое резюме, и мы свяжемся с вами, когда появится подходящая позиция.
                     </p>
                     <div className="flex justify-center md:justify-start">
-                      <a 
-                        href="#contact" 
+                      <button 
+                        onClick={scrollToContact}
                         className="inline-flex items-center px-5 py-2.5 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors font-benzin"
                       >
                         <span>Отправить резюме</span>
                         <ArrowRight className="ml-2 h-4 w-4" />
-                      </a>
+                      </button>
                     </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Contact form section */}
+              <div id="contact" className={`mt-16 ${showContactForm ? 'block' : 'hidden'}`}>
+                <div className="bg-slate-800/40 border border-primary/10 rounded-lg p-8">
+                  <h3 className="text-2xl font-medium text-slate-200 mb-4 font-benzin">Отправить резюме</h3>
+                  <p className="mb-6 text-muted-foreground">Заполните форму ниже, и наш HR-специалист свяжется с вами.</p>
+                  
+                  {/* I'm adding a placeholder for the form here - in a real app you'd build a proper form component */}
+                  <div className="bg-slate-700/40 p-6 rounded-md text-center">
+                    <p className="mb-4">Для отправки резюме перейдите на страницу конкретной вакансии</p>
+                    <a 
+                      href="/vacancies" 
+                      className="inline-flex items-center px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 transition-colors font-benzin"
+                    >
+                      Посмотреть вакансии
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </a>
                   </div>
                 </div>
               </div>
