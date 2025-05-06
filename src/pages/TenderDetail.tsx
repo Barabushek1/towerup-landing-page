@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -10,15 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { toast } from '@/components/ui/use-toast';
@@ -26,7 +17,6 @@ import { z } from 'zod';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import PageHeader from '@/components/PageHeader';
-
 interface Tender {
   id: string;
   title: string;
@@ -38,101 +28,109 @@ interface Tender {
   status: string;
   created_at: string;
 }
-
 const applicationSchema = z.object({
   company_name: z.string().min(1, "Название компании обязательно"),
   contact_name: z.string().min(1, "Имя контактного лица обязательно"),
   email: z.string().email("Некорректный формат email"),
   phone: z.string().min(1, "Номер телефона обязателен"),
-  message: z.string().optional(),
+  message: z.string().optional()
 });
-
 const TenderDetail = () => {
-  const { id } = useParams<{ id: string }>();
+  const {
+    id
+  } = useParams<{
+    id: string;
+  }>();
   const [applicationDialogOpen, setApplicationDialogOpen] = useState(false);
   const [formData, setFormData] = useState({
     company_name: '',
     contact_name: '',
     email: '',
     phone: '',
-    message: '',
+    message: ''
   });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
-  
+
   // Fetch tender details
-  const { data: tender, isLoading, error } = useQuery({
+  const {
+    data: tender,
+    isLoading,
+    error
+  } = useQuery({
     queryKey: ['tender', id],
     queryFn: async () => {
       if (!id) throw new Error('No tender ID provided');
-      
-      const { data, error } = await supabase
-        .from('tenders')
-        .select('*')
-        .eq('id', id)
-        .single();
-      
+      const {
+        data,
+        error
+      } = await supabase.from('tenders').select('*').eq('id', id).single();
       if (error) throw error;
       if (!data) throw new Error('Tender not found');
-      
       return data as Tender;
     },
-    enabled: !!id,
+    enabled: !!id
   });
-  
+
   // Submit application mutation
   const submitApplication = useMutation({
     mutationFn: async (applicationData: typeof formData) => {
-      const { data, error } = await supabase
-        .from('tender_applications')
-        .insert({
-          tender_id: id,
-          ...applicationData,
-        })
-        .select('id');
-        
+      const {
+        data,
+        error
+      } = await supabase.from('tender_applications').insert({
+        tender_id: id,
+        ...applicationData
+      }).select('id');
       if (error) throw error;
       return data;
     },
     onSuccess: () => {
       toast({
         title: "Заявка отправлена",
-        description: "Ваша заявка на участие в тендере успешно отправлена",
+        description: "Ваша заявка на участие в тендере успешно отправлена"
       });
       setApplicationDialogOpen(false);
       resetForm();
     },
-    onError: (error) => {
+    onError: error => {
       toast({
         title: "Ошибка отправки заявки",
         description: error instanceof Error ? error.message : "Произошла неизвестная ошибка",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   });
-  
+
   // Handle form input change
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    
+    const {
+      name,
+      value
+    } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+
     // Clear error for this field when user types
     if (formErrors[name]) {
       setFormErrors(prev => {
-        const newErrors = { ...prev };
+        const newErrors = {
+          ...prev
+        };
         delete newErrors[name];
         return newErrors;
       });
     }
   };
-  
+
   // Handle form submission
   const handleSubmitApplication = (e: React.FormEvent) => {
     e.preventDefault();
-    
     try {
       // Validate form data
       applicationSchema.parse(formData);
-      
+
       // Submit application
       submitApplication.mutate(formData);
     } catch (error) {
@@ -149,12 +147,12 @@ const TenderDetail = () => {
         toast({
           title: "Ошибка валидации",
           description: "Пожалуйста, проверьте правильность заполнения формы",
-          variant: "destructive",
+          variant: "destructive"
         });
       }
     }
   };
-  
+
   // Reset form
   const resetForm = () => {
     setFormData({
@@ -162,11 +160,11 @@ const TenderDetail = () => {
       contact_name: '',
       email: '',
       phone: '',
-      message: '',
+      message: ''
     });
     setFormErrors({});
   };
-  
+
   // Format date
   const formatDate = (dateString?: string) => {
     if (!dateString) return 'Не указан';
@@ -177,7 +175,7 @@ const TenderDetail = () => {
       return 'Неверная дата';
     }
   };
-  
+
   // Get status badge
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -191,10 +189,8 @@ const TenderDetail = () => {
         return <Badge>{status}</Badge>;
     }
   };
-
   if (isLoading) {
-    return (
-      <>
+    return <>
         <NavBar />
         <PageHeader title="Загрузка..." subtitle="Пожалуйста, подождите" />
         <div className="container mx-auto py-12">
@@ -203,13 +199,10 @@ const TenderDetail = () => {
           </div>
         </div>
         <Footer />
-      </>
-    );
+      </>;
   }
-
   if (error || !tender) {
-    return (
-      <>
+    return <>
         <NavBar />
         <PageHeader title="Тендер не найден" subtitle="Произошла ошибка при загрузке данных" />
         <div className="container mx-auto py-12">
@@ -226,12 +219,9 @@ const TenderDetail = () => {
           </div>
         </div>
         <Footer />
-      </>
-    );
+      </>;
   }
-
-  return (
-    <>
+  return <>
       <Helmet>
         <title>{tender.title} | Тендеры</title>
       </Helmet>
@@ -249,7 +239,7 @@ const TenderDetail = () => {
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6">
+            <div className="rounded-lg shadow-md p-6 bg-gray-800">
               <div className="flex items-center justify-between mb-4">
                 <h1 className="text-2xl font-bold">{tender.title}</h1>
                 {getStatusBadge(tender.status)}
@@ -274,35 +264,23 @@ const TenderDetail = () => {
                   {tender.description}
                 </div>
                 
-                {tender.requirements && (
-                  <>
+                {tender.requirements && <>
                     <h3 className="text-xl font-medium mt-8 mb-4">Требования</h3>
                     <div className="whitespace-pre-line">
                       {tender.requirements}
                     </div>
-                  </>
-                )}
+                  </>}
               </div>
               
-              {tender.documents && tender.documents.length > 0 && (
-                <>
+              {tender.documents && tender.documents.length > 0 && <>
                   <h3 className="text-xl font-medium mt-8 mb-4">Документы</h3>
                   <div className="space-y-2">
-                    {tender.documents.map((doc, index) => (
-                      <a 
-                        key={index}
-                        href={doc}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center p-3 bg-slate-100 dark:bg-slate-700 rounded-md hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
-                      >
+                    {tender.documents.map((doc, index) => <a key={index} href={doc} target="_blank" rel="noopener noreferrer" className="flex items-center p-3 bg-slate-100 dark:bg-slate-700 rounded-md hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
                         <FileText className="h-5 w-5 mr-2 text-primary" />
                         <span className="flex-1 truncate">{doc.split('/').pop()}</span>
-                      </a>
-                    ))}
+                      </a>)}
                   </div>
-                </>
-              )}
+                </>}
             </div>
           </div>
           
@@ -310,8 +288,7 @@ const TenderDetail = () => {
             <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6">
               <h3 className="text-xl font-bold mb-4">Подать заявку</h3>
               
-              {tender.status === 'active' ? (
-                <>
+              {tender.status === 'active' ? <>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
                     Заполните форму заявки, чтобы принять участие в тендере. 
                     Наши специалисты свяжутся с вами в ближайшее время.
@@ -334,104 +311,54 @@ const TenderDetail = () => {
                       <form onSubmit={handleSubmitApplication} className="space-y-4 mt-4">
                         <div className="space-y-2">
                           <Label htmlFor="company_name">Название компании*</Label>
-                          <Input
-                            id="company_name"
-                            name="company_name"
-                            value={formData.company_name}
-                            onChange={handleInputChange}
-                            className={formErrors.company_name ? "border-red-500" : ""}
-                          />
-                          {formErrors.company_name && (
-                            <p className="text-sm text-red-500">{formErrors.company_name}</p>
-                          )}
+                          <Input id="company_name" name="company_name" value={formData.company_name} onChange={handleInputChange} className={formErrors.company_name ? "border-red-500" : ""} />
+                          {formErrors.company_name && <p className="text-sm text-red-500">{formErrors.company_name}</p>}
                         </div>
                         
                         <div className="space-y-2">
                           <Label htmlFor="contact_name">Контактное лицо*</Label>
-                          <Input
-                            id="contact_name"
-                            name="contact_name"
-                            value={formData.contact_name}
-                            onChange={handleInputChange}
-                            className={formErrors.contact_name ? "border-red-500" : ""}
-                          />
-                          {formErrors.contact_name && (
-                            <p className="text-sm text-red-500">{formErrors.contact_name}</p>
-                          )}
+                          <Input id="contact_name" name="contact_name" value={formData.contact_name} onChange={handleInputChange} className={formErrors.contact_name ? "border-red-500" : ""} />
+                          {formErrors.contact_name && <p className="text-sm text-red-500">{formErrors.contact_name}</p>}
                         </div>
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div className="space-y-2">
                             <Label htmlFor="email">Email*</Label>
-                            <Input
-                              id="email"
-                              name="email"
-                              type="email"
-                              value={formData.email}
-                              onChange={handleInputChange}
-                              className={formErrors.email ? "border-red-500" : ""}
-                            />
-                            {formErrors.email && (
-                              <p className="text-sm text-red-500">{formErrors.email}</p>
-                            )}
+                            <Input id="email" name="email" type="email" value={formData.email} onChange={handleInputChange} className={formErrors.email ? "border-red-500" : ""} />
+                            {formErrors.email && <p className="text-sm text-red-500">{formErrors.email}</p>}
                           </div>
                           
                           <div className="space-y-2">
                             <Label htmlFor="phone">Телефон*</Label>
-                            <Input
-                              id="phone"
-                              name="phone"
-                              value={formData.phone}
-                              onChange={handleInputChange}
-                              className={formErrors.phone ? "border-red-500" : ""}
-                            />
-                            {formErrors.phone && (
-                              <p className="text-sm text-red-500">{formErrors.phone}</p>
-                            )}
+                            <Input id="phone" name="phone" value={formData.phone} onChange={handleInputChange} className={formErrors.phone ? "border-red-500" : ""} />
+                            {formErrors.phone && <p className="text-sm text-red-500">{formErrors.phone}</p>}
                           </div>
                         </div>
                         
                         <div className="space-y-2">
                           <Label htmlFor="message">Сообщение</Label>
-                          <Textarea
-                            id="message"
-                            name="message"
-                            rows={4}
-                            value={formData.message}
-                            onChange={handleInputChange}
-                            placeholder="Опишите ваше предложение или вопросы по тендеру"
-                          />
+                          <Textarea id="message" name="message" rows={4} value={formData.message} onChange={handleInputChange} placeholder="Опишите ваше предложение или вопросы по тендеру" />
                         </div>
                         
                         <DialogFooter>
-                          <Button 
-                            type="submit" 
-                            disabled={submitApplication.isPending}
-                          >
+                          <Button type="submit" disabled={submitApplication.isPending}>
                             {submitApplication.isPending ? 'Отправка...' : 'Отправить заявку'}
                           </Button>
                         </DialogFooter>
                       </form>
                     </DialogContent>
                   </Dialog>
-                </>
-              ) : (
-                <div className="bg-slate-100 dark:bg-slate-700 p-4 rounded-md text-center">
+                </> : <div className="bg-slate-100 dark:bg-slate-700 p-4 rounded-md text-center">
                   <p className="text-gray-500 dark:text-gray-400">
-                    {tender.status === 'completed' 
-                      ? 'Тендер завершен. Прием заявок закрыт.'
-                      : 'Тендер закрыт. Прием заявок не осуществляется.'}
+                    {tender.status === 'completed' ? 'Тендер завершен. Прием заявок закрыт.' : 'Тендер закрыт. Прием заявок не осуществляется.'}
                   </p>
-                </div>
-              )}
+                </div>}
             </div>
           </div>
         </div>
       </div>
       
       <Footer />
-    </>
-  );
+    </>;
 };
-
 export default TenderDetail;
