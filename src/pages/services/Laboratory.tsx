@@ -1,18 +1,10 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ServicePageLayout, AnimatedSection, fadeIn } from '@/components/ServicePageLayout';
 import { Microscope, FileCheck, ShieldCheck, LineChart, FileText, Clock } from 'lucide-react';
-
 const Laboratory: React.FC = () => {
-  return (
-    <ServicePageLayout
-      title="Лаборатория"
-      description="Профессиональные лабораторные исследования и испытания строительных материалов от TOWERUP"
-      breadcrumb="Услуги / Лаборатория"
-      headerImage="/lovable-uploads/499747fd-cec7-42ad-a52d-b4a550043793.png"
-    >
+  return <ServicePageLayout title="Лаборатория" description="Профессиональные лабораторные исследования и испытания строительных материалов от TOWERUP" breadcrumb="Услуги / Лаборатория" headerImage="/lovable-uploads/499747fd-cec7-42ad-a52d-b4a550043793.png">
       {/* Hero Section */}
       <section className="pt-20 pb-16 md:pt-24 md:pb-20 bg-gradient-to-b from-[#161616] to-[#1a1a1a] relative overflow-hidden">
         <div className="absolute -left-64 -top-64 w-[500px] h-[500px] rounded-full bg-primary/5 filter blur-[100px] animate-pulse opacity-50 z-0"></div>
@@ -40,18 +32,10 @@ const Laboratory: React.FC = () => {
 
             <motion.div variants={fadeIn} className="relative">
               <div className="aspect-square overflow-hidden rounded-2xl border-2 border-white/10 shadow-2xl">
-                <img 
-                  src="/lovable-uploads/d77d0484-1156-444d-9ae0-5e9ae4333f85.png" 
-                  alt="Лаборатория TOWERUP"
-                  className="w-full h-full object-cover"
-                />
+                <img alt="Лаборатория TOWERUP" className="w-full h-full object-cover" src="/lovable-uploads/1eb4fd8a-5479-465b-8b83-e37838b62b04.jpg" />
               </div>
               <div className="absolute -top-6 -right-6 w-2/3 h-2/3 rounded-xl overflow-hidden border-2 border-white/10 shadow-lg">
-                <img 
-                  src="/lovable-uploads/d0a4480f-81e3-4447-9368-f1e03d1151e4.png" 
-                  alt="Лабораторные исследования TOWERUP"
-                  className="w-full h-full object-cover"
-                />
+                <img src="/lovable-uploads/d0a4480f-81e3-4447-9368-f1e03d1151e4.png" alt="Лабораторные исследования TOWERUP" className="w-full h-full object-cover" />
               </div>
             </motion.div>
           </AnimatedSection>
@@ -70,51 +54,39 @@ const Laboratory: React.FC = () => {
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[
-                {
-                  icon: <Microscope className="h-6 w-6 text-primary" />,
-                  title: "Испытания бетона",
-                  description: "Определение прочности, морозостойкости, водонепроницаемости и других характеристик бетона и бетонных конструкций."
-                },
-                {
-                  icon: <Microscope className="h-6 w-6 text-primary" />,
-                  title: "Испытания металлоконструкций",
-                  description: "Проверка прочностных характеристик металлоконструкций, сварных соединений, оценка коррозионной стойкости."
-                },
-                {
-                  icon: <Microscope className="h-6 w-6 text-primary" />,
-                  title: "Исследования грунтов",
-                  description: "Определение физико-механических свойств грунтов, анализ их состава, плотности и влажности."
-                },
-                {
-                  icon: <Microscope className="h-6 w-6 text-primary" />,
-                  title: "Испытания отделочных материалов",
-                  description: "Проверка качества и соответствия стандартам различных отделочных материалов: краски, штукатурки, напольных покрытий."
-                },
-                {
-                  icon: <FileCheck className="h-6 w-6 text-primary" />,
-                  title: "Экспертиза документации",
-                  description: "Анализ проектной и технической документации, оценка соответствия нормативным требованиям."
-                },
-                {
-                  icon: <ShieldCheck className="h-6 w-6 text-primary" />,
-                  title: "Сертификация материалов",
-                  description: "Проведение испытаний для сертификации строительных материалов и изделий в соответствии с действующими стандартами."
-                }
-              ].map((service, index) => (
-                <motion.div
-                  key={index}
-                  variants={fadeIn}
-                  className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all duration-300 hover:shadow-lg"
-                  whileHover={{ y: -5 }}
-                >
+              {[{
+              icon: <Microscope className="h-6 w-6 text-primary" />,
+              title: "Испытания бетона",
+              description: "Определение прочности, морозостойкости, водонепроницаемости и других характеристик бетона и бетонных конструкций."
+            }, {
+              icon: <Microscope className="h-6 w-6 text-primary" />,
+              title: "Испытания металлоконструкций",
+              description: "Проверка прочностных характеристик металлоконструкций, сварных соединений, оценка коррозионной стойкости."
+            }, {
+              icon: <Microscope className="h-6 w-6 text-primary" />,
+              title: "Исследования грунтов",
+              description: "Определение физико-механических свойств грунтов, анализ их состава, плотности и влажности."
+            }, {
+              icon: <Microscope className="h-6 w-6 text-primary" />,
+              title: "Испытания отделочных материалов",
+              description: "Проверка качества и соответствия стандартам различных отделочных материалов: краски, штукатурки, напольных покрытий."
+            }, {
+              icon: <FileCheck className="h-6 w-6 text-primary" />,
+              title: "Экспертиза документации",
+              description: "Анализ проектной и технической документации, оценка соответствия нормативным требованиям."
+            }, {
+              icon: <ShieldCheck className="h-6 w-6 text-primary" />,
+              title: "Сертификация материалов",
+              description: "Проведение испытаний для сертификации строительных материалов и изделий в соответствии с действующими стандартами."
+            }].map((service, index) => <motion.div key={index} variants={fadeIn} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all duration-300 hover:shadow-lg" whileHover={{
+              y: -5
+            }}>
                   <div className="w-14 h-14 rounded-full bg-primary/20 flex items-center justify-center mb-5">
                     {service.icon}
                   </div>
                   <h3 className="text-xl font-bold text-white mb-3">{service.title}</h3>
                   <p className="text-gray-300">{service.description}</p>
-                </motion.div>
-              ))}
+                </motion.div>)}
             </div>
           </AnimatedSection>
         </div>
@@ -136,11 +108,7 @@ const Laboratory: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               <motion.div variants={fadeIn} className="relative">
                 <div className="aspect-[4/3] overflow-hidden rounded-xl border border-white/10">
-                  <img 
-                    src="/lovable-uploads/2623cf3d-8e9e-492a-a374-0c70580ed70d.png" 
-                    alt="Лабораторное оборудование TOWERUP"
-                    className="w-full h-full object-cover"
-                  />
+                  <img src="/lovable-uploads/2623cf3d-8e9e-492a-a374-0c70580ed70d.png" alt="Лабораторное оборудование TOWERUP" className="w-full h-full object-cover" />
                 </div>
                 <div className="absolute bottom-4 left-4 right-4 p-4 bg-black/70 backdrop-blur-sm rounded-lg">
                   <h3 className="text-lg font-semibold text-white mb-1">Современная лаборатория</h3>
@@ -196,52 +164,42 @@ const Laboratory: React.FC = () => {
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[
-                {
-                  icon: <FileText className="h-8 w-8 text-primary" />,
-                  title: "Аккредитация",
-                  description: "Наша лаборатория имеет все необходимые сертификаты и аккредитации, что подтверждает качество и достоверность проводимых испытаний."
-                },
-                {
-                  icon: <Microscope className="h-8 w-8 text-primary" />,
-                  title: "Современное оборудование",
-                  description: "Мы используем только современное и высокоточное оборудование ведущих мировых производителей."
-                },
-                {
-                  icon: <Clock className="h-8 w-8 text-primary" />,
-                  title: "Оперативность",
-                  description: "Проводим испытания в кратчайшие сроки без потери качества, что особенно важно для строительных проектов."
-                },
-                {
-                  icon: <ShieldCheck className="h-8 w-8 text-primary" />,
-                  title: "Полный комплекс испытаний",
-                  description: "Предоставляем широкий спектр лабораторных испытаний в одном месте, что экономит ваше время и ресурсы."
-                },
-                {
-                  icon: <LineChart className="h-8 w-8 text-primary" />,
-                  title: "Точность результатов",
-                  description: "Гарантируем высокую точность и достоверность результатов испытаний благодаря квалификации персонала и калибровке оборудования."
-                },
-                {
-                  icon: <FileCheck className="h-8 w-8 text-primary" />,
-                  title: "Официальные документы",
-                  description: "По результатам испытаний выдаем официальные документы, имеющие юридическую силу и принимаемые всеми контролирующими органами."
-                }
-              ].map((benefit, index) => (
-                <motion.div
-                  key={index}
-                  variants={fadeIn}
-                  className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-8 hover:bg-white/10 transition-all duration-300"
-                  whileHover={{ scale: 1.03 }}
-                  transition={{ type: 'spring', stiffness: 300 }}
-                >
+              {[{
+              icon: <FileText className="h-8 w-8 text-primary" />,
+              title: "Аккредитация",
+              description: "Наша лаборатория имеет все необходимые сертификаты и аккредитации, что подтверждает качество и достоверность проводимых испытаний."
+            }, {
+              icon: <Microscope className="h-8 w-8 text-primary" />,
+              title: "Современное оборудование",
+              description: "Мы используем только современное и высокоточное оборудование ведущих мировых производителей."
+            }, {
+              icon: <Clock className="h-8 w-8 text-primary" />,
+              title: "Оперативность",
+              description: "Проводим испытания в кратчайшие сроки без потери качества, что особенно важно для строительных проектов."
+            }, {
+              icon: <ShieldCheck className="h-8 w-8 text-primary" />,
+              title: "Полный комплекс испытаний",
+              description: "Предоставляем широкий спектр лабораторных испытаний в одном месте, что экономит ваше время и ресурсы."
+            }, {
+              icon: <LineChart className="h-8 w-8 text-primary" />,
+              title: "Точность результатов",
+              description: "Гарантируем высокую точность и достоверность результатов испытаний благодаря квалификации персонала и калибровке оборудования."
+            }, {
+              icon: <FileCheck className="h-8 w-8 text-primary" />,
+              title: "Официальные документы",
+              description: "По результатам испытаний выдаем официальные документы, имеющие юридическую силу и принимаемые всеми контролирующими органами."
+            }].map((benefit, index) => <motion.div key={index} variants={fadeIn} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-8 hover:bg-white/10 transition-all duration-300" whileHover={{
+              scale: 1.03
+            }} transition={{
+              type: 'spring',
+              stiffness: 300
+            }}>
                   <div className="w-16 h-16 mb-6 rounded-full bg-primary/10 flex items-center justify-center">
                     {benefit.icon}
                   </div>
                   <h3 className="text-xl font-bold text-white mb-3">{benefit.title}</h3>
                   <p className="text-gray-300">{benefit.description}</p>
-                </motion.div>
-              ))}
+                </motion.div>)}
             </div>
           </AnimatedSection>
         </div>
@@ -253,10 +211,7 @@ const Laboratory: React.FC = () => {
         
         <div className="container mx-auto px-6 relative z-10">
           <AnimatedSection>
-            <motion.div 
-              variants={fadeIn}
-              className="max-w-4xl mx-auto text-center"
-            >
+            <motion.div variants={fadeIn} className="max-w-4xl mx-auto text-center">
               <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Готовы заказать исследование?</h2>
               <p className="text-xl text-gray-300 mb-8">
                 Свяжитесь с нами сегодня для консультации и расчета стоимости лабораторных испытаний.
@@ -273,8 +228,6 @@ const Laboratory: React.FC = () => {
           </AnimatedSection>
         </div>
       </section>
-    </ServicePageLayout>
-  );
+    </ServicePageLayout>;
 };
-
 export default Laboratory;
