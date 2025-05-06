@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -80,6 +79,18 @@ const NavBar: React.FC = () => {
     }
   ];
   
+  // New collaboration submenu
+  const collaborationSubMenu = [
+    {
+      title: t('nav.collaboration.tenders'),
+      href: '/collaboration/tenders'
+    },
+    {
+      title: t('nav.collaboration.offers'),
+      href: '/collaboration/offers'
+    }
+  ];
+  
   const navLinks = [{
     title: t('nav.company'),
     href: '/about',
@@ -108,9 +119,11 @@ const NavBar: React.FC = () => {
   }, {
     title: t('nav.collaboration'),
     href: '/collaboration',
-    key: 'collaboration'
+    key: 'collaboration',
+    hasSubmenu: true,
+    submenu: collaborationSubMenu
   }, {
-    // New Services menu
+    // Services menu
     title: t('nav.services'),
     href: '/services',
     hasSubmenu: true,
