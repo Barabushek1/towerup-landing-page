@@ -161,7 +161,86 @@
   "contact.info.noWeekends": "No weekends",
   
   "contact.map.title": "Our Location",
-  
+
+    "tenders.title": "Tenders",
+  "tenders.seo.title": "Tenders",
+  "tenders.seo.description": "Current tenders and competitions for the procurement of equipment and construction materials from TOWERUP company.",
+
+  "tenders.intro.title": "Current tenders and procurements",
+  "tenders.intro.description": "Here are the current tenders for the procurement of equipment, construction materials, and services for TOWERUP company projects.",
+  "tenders.intro.alert": "Regularly check this page for updates - new tenders are published weekly",
+
+  "tenders.filters.searchPlaceholder": "Search tenders...",
+  "tenders.filters.categoryPlaceholder": "All categories",
+
+  "tenders.categories.allCategories": "All categories",
+  "tenders.categories.constructionMaterials": "Construction Materials",
+  "tenders.categories.electricalEquipment": "Electrical Equipment",
+  "tenders.categories.constructionWork": "Construction Work",
+  "tenders.categories.plumbing": "Plumbing",
+  "tenders.categories.climateEquipment": "Climate Equipment",
+  "tenders.categories.design": "Design",
+
+  "tenders.tabs.all": "All tenders",
+  "tenders.tabs.active": "Active",
+  "tenders.tabs.closed": "Completed",
+
+  "tenders.statuses.active": "Active",
+  "tenders.statuses.closed": "Completed",
+
+   "tenders.items.tender1.title": "Architectural design of a residential complex",
+  "tenders.items.tender1.description": "Seeking an architectural company to design a residential complex consisting of 4 buildings in Tashkent.",
+  "tenders.items.tender1.requirements": "Experience in designing similar facilities for at least 5 years.",
+  "tenders.items.tender1.location": "Tashkent, Mirzo Ulugbek district",
+
+   "tenders.items.tender2.title": "Construction of an office center",
+  "tenders.items.tender2.description": "Tender for a general contractor for the construction of a Class A business center.",
+  "tenders.items.tender2.requirements": "Possession of necessary licenses and technical equipment.",
+  "tenders.items.tender2.location": "Tashkent, Yakkasaray district",
+
+   "tenders.items.tender3.title": "Smart home systems for RC",
+  "tenders.items.tender3.description": "Supply and installation of smart home systems for a premium residential complex.",
+  "tenders.items.tender3.requirements": "Certification and warranty service for at least 2 years.",
+  "tenders.items.tender3.location": "Tashkent, Yunusabad district",
+
+   "tenders.items.tender4.title": "Landscaping of a residential complex territory",
+  "tenders.items.tender4.description": "Development and implementation of a landscaping project for a residential complex territory, including greenery, arrangement of children's and sports grounds.",
+  "tenders.items.tender4.requirements": "Experience with projects of similar scale for at least 3 years.",
+  "tenders.items.tender4.location": "Tashkent, Chilanzar district",
+
+
+  "tenders.items.deadlineLabel": "Application deadline",
+  "tenders.items.budgetLabel": "Budget",
+  "tenders.items.requirementsLabel": "Requirements",
+
+
+  "tenders.items.buttonCompleted": "Tender completed",
+  "tenders.items.buttonDetails": "Details",
+  "tenders.buttonAll": "All tenders",
+  "tenders.buttonApply": "Apply for participation",
+
+
+  "tenders.toast.detailsSentTitle": "Request sent",
+  "tenders.toast.detailsSentDesc": "Tender details will be sent to your email",
+    "tenders.items.tender1.title": "Procurement of construction materials for a residential complex",
+  "tenders.items.tender1.description": "Construction materials are required for the erection of a residential complex in the center of Tashkent. The list includes: cement, rebar, bricks, sand, gravel.",
+
+  "tenders.items.tender2.title": "Supply of electrical equipment",
+  "tenders.items.tender2.description": "Procurement of high-voltage equipment for a new business center. Transformers, distribution boards, cable products are required.",
+
+  "tenders.items.tender3.title": "Tender for finishing works",
+  "tenders.items.tender3.description": "Seeking a contractor to perform interior finishing works in an office space of 1200 sq.m. in a new business center.",
+
+  "tenders.items.tender4.title": "Procurement of plumbing equipment",
+  "tenders.items.tender4.description": "Supply of plumbing equipment is required for fitting out 50 apartments in a new residential complex.",
+
+  "tenders.items.tender5.title": "Supply of air conditioners and ventilation systems",
+  "tenders.items.tender5.description": "Procurement and installation of air conditioning and ventilation systems for a shopping center with an area of 5000 sq.m.",
+
+  "tenders.items.tender6.title": "Tender for landscape design",
+  "tenders.items.tender6.description": "Seeking a company to develop a landscape design project for the territory of a residential complex with an area of 1.5 hectares.",
+
+    
   "management.title": "MANAGEMENT",
   "management.team.title": "About Our Team",
   "management.team.desc1": "The TOWER UP team consists of highly qualified professionals with many years of experience in construction, finance, and management. We are united by a common goal - to create unique objects that decorate the urban landscape and make people's lives more comfortable.",

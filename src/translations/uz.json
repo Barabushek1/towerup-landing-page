@@ -350,6 +350,84 @@
   
   "nav.home": "Bosh sahifa",
 
+    "tenders.title": "Tenderlar",
+  "tenders.seo.title": "Tenderlar",
+  "tenders.seo.description": "TOWER UP kompaniyasining uskunalar va qurilish materiallarini sotib olish bo'yicha dolzarb tenderlari va tanlovlari.",
+
+  "tenders.intro.title": "Joriy tenderlar va xaridlar",
+  "tenders.intro.description": "Bu yerda TOWER UP kompaniyasi loyihalari uchun uskunalar, qurilish materiallari va xizmatlarni sotib olish bo'yicha dolzarb tenderlar e'lon qilinadi.",
+  "tenders.intro.alert": "Yangilanishlar uchun ushbu sahifani muntazam tekshirib turing - har hafta yangi tenderlar e'lon qilinadi",
+
+  "tenders.filters.searchPlaceholder": "Tenderlar bo'yicha qidirish...",
+  "tenders.filters.categoryPlaceholder": "Barcha kategoriyalar",
+
+  "tenders.categories.allCategories": "Barcha kategoriyalar",
+  "tenders.categories.constructionMaterials": "Qurilish materiallari",
+  "tenders.categories.electricalEquipment": "Elektro jihozlar",
+  "tenders.categories.constructionWork": "Qurilish ishlari",
+  "tenders.categories.plumbing": "Santexnika",
+  "tenders.categories.climateEquipment": "Iqlim jihozlari",
+  "tenders.categories.design": "Loyihalash",
+
+  "tenders.tabs.all": "Barcha tenderlar",
+  "tenders.tabs.active": "Aktiv",
+  "tenders.tabs.closed": "Yakunlangan",
+
+  "tenders.statuses.active": "Aktiv",
+  "tenders.statuses.closed": "Yakunlangan",
+
+   "tenders.items.tender1.title": "Turar-joy majmuasining arxitektura loyihasi",
+  "tenders.items.tender1.description": "Toshkentda 4 binodan iborat turar-joy majmuasini loyihalash uchun arxitektura kompaniyasini qidirish.",
+  "tenders.items.tender1.requirements": "Kamida 5 yillik shunga o'xshash obyektlarni loyihalash tajribasi.",
+  "tenders.items.tender1.location": "Toshkent, Mirzo Ulug'bek tumani",
+
+   "tenders.items.tender2.title": "Ofis markazini qurish",
+  "tenders.items.tender2.description": "A klassli biznes markazi qurilishi uchun bosh pudratchiga tender.",
+  "tenders.items.tender2.requirements": "Kerakli litsenziyalar va texnik jihozlarning mavjudligi.",
+  "tenders.items.tender2.location": "Toshkent, Yakkasaroy tumani",
+
+   "tenders.items.tender3.title": "TJ uchun aqlli uy tizimlari",
+  "tenders.items.tender3.description": "Premium-klass turar-joy majmuasi uchun aqlli uy tizimlarini yetkazib berish va o'rnatish.",
+  "tenders.items.tender3.requirements": "Sertifikatlash va kamida 2 yillik kafolat xizmati.",
+  "tenders.items.tender3.location": "Toshkent, Yunusobod tumani",
+
+   "tenders.items.tender4.title": "Turar-joy majmuasi hududini obodonlashtirish",
+  "tenders.items.tender4.description": "Turar-joy majmuasi hududini obodonlashtirish, shu jumladan ko'kalamzorlashtirish, bolalar va sport maydonchalarini jihozlash loyihasini ishlab chiqish va amalga oshirish.",
+  "tenders.items.tender4.requirements": "Kamida 3 yildan ortiq shunga o'xshash miqyosdagi loyihalar bilan ishlash tajribasi.",
+  "tenders.items.tender4.location": "Toshkent, Chilonzor tumani",
+
+    "tenders.items.tender1.title": "Turar-joy majmuasi uchun qurilish materiallarini sotib olish",
+  "tenders.items.tender1.description": "Toshkent markazida turar-joy majmuasini qurish uchun qurilish materiallari talab qilinadi. Ro'yxatga quyidagilar kiradi: sement, armatura, g'isht, qum, shag'al.",
+
+  "tenders.items.tender2.title": "Elektro texnik uskunalarini yetkazib berish",
+  "tenders.items.tender2.description": "Yangi biznes markazi uchun yuqori voltli uskunalar xaridi. Transformerlar, taqsimlash shkaflari, kabel mahsulotlari talab qilinadi.",
+
+  "tenders.items.tender3.title": "Pardozlash ishlarini o'tkazish uchun tender",
+  "tenders.items.tender3.description": "Yangi biznes markazida 1200 kv.m. ofis binosida ichki pardozlash ishlarini bajarish uchun pudratchi qidirilmoqda.",
+
+  "tenders.items.tender4.title": "Santexnika uskunalarini sotib olish",
+  "tenders.items.tender4.description": "Yangi turar-joy majmuasidagi 50 ta xonadonni jihozlash uchun santexnika uskunalarini yetkazib berish talab qilinadi.",
+
+  "tenders.items.tender5.title": "Konditsionerlar va shamollatish tizimlarini yetkazib berish",
+  "tenders.items.tender5.description": "5000 kv.m. maydonga ega savdo markazi uchun konditsioner va shamollatish tizimlarini sotib olish va o'rnatish.",
+
+  "tenders.items.tender6.title": "Landshaft dizaynini loyihalash uchun tender",
+  "tenders.items.tender6.description": "1,5 ga maydonga ega turar-joy majmuasi hududini landshaft dizayni loyihasini ishlab chiqish uchun kompaniya qidirilmoqda.",
+  "tenders.items.deadlineLabel": "Arizani qabul qilish muddati",
+  "tenders.items.budgetLabel": "Budjet",
+  "tenders.items.requirementsLabel": "Talablar",
+
+
+  "tenders.items.buttonCompleted": "Tender yakunlangan",
+  "tenders.items.buttonDetails": "Batafsil",
+  "tenders.buttonAll": "Barcha tenderlar",
+  "tenders.buttonApply": "Ishtirok etish uchun ariza qoldirish",
+
+
+  "tenders.toast.detailsSentTitle": "So'rov yuborildi",
+  "tenders.toast.detailsSentDesc": "Tender tafsilotlari emailingizga yuboriladi",
+
+    
   "collaboration.title": "Hamkorlik",
   "collaboration.seo.title": "Hamkorlik",
   "collaboration.seo.description": "TOWER UP tenderlari va hamkorlik dasturlari - hamkorlik imkoniyatlari",
