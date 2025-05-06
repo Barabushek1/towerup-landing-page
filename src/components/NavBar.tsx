@@ -8,13 +8,11 @@ import TestModeIndicator from './TestModeIndicator';
 import LanguageSelector from './LanguageSelector';
 import { useLanguage } from '@/contexts/LanguageContext';
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Collapsible,
   CollapsibleContent,
@@ -200,54 +198,44 @@ const NavBar: React.FC = () => {
 
           {!isMobile && (
             <div className="hidden md:flex items-center space-x-8">
-              <NavigationMenu>
-                <NavigationMenuList>
-                  {navLinks.map((link) =>
-                    link.hasSubmenu ? (
-                      <NavigationMenuItem key={link.key}>
-                        <NavigationMenuTrigger className={cn(
-                          "font-benzin tracking-wide hover:text-brand-primary transition-colors duration-300",
-                          scrolled ? "text-white bg-transparent" : "text-white bg-transparent",
-                          "hover:bg-transparent focus:bg-transparent"
-                        )}>
-                          {link.title}
-                        </NavigationMenuTrigger>
-                        <NavigationMenuContent className="absolute left-0 top-0">
-                          <ul className="grid w-[200px] gap-3 p-4 bg-white/90 backdrop-blur-md">
-                            {link.submenu?.map((subItem) => (
-                              <li key={subItem.title}>
-                                <NavigationMenuLink asChild>
-                                  <a
-                                    href={subItem.href}
-                                    className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-brand-dark font-benzin"
-                                  >
-                                    <div className="text-sm font-medium leading-none">{subItem.title}</div>
-                                  </a>
-                                </NavigationMenuLink>
-                              </li>
-                            ))}
-                          </ul>
-                        </NavigationMenuContent>
-                      </NavigationMenuItem>
-                    ) : (
-                      <NavigationMenuItem key={link.key}>
-                        <a
-                          href={link.href}
-                          className={cn(
-                            "nav-link tracking-wide hover:text-brand-primary transition-colors duration-300 font-benzin px-3 py-2",
-                            scrolled ? "text-white" : "text-white",
-                            // Add subtle highlight for the new collaboration button
-                            link.key === 'collaboration' 
-                          )}
-                        >
-                          {link.key === 'collaboration'}
-                          {link.title}
-                        </a>
-                      </NavigationMenuItem>
-                    )
-                  )}
-                </NavigationMenuList>
-              </NavigationMenu>
+              <div className="flex items-center space-x-6">
+                {navLinks.map((link) =>
+                  link.hasSubmenu ? (
+                    <DropdownMenu key={link.key}>
+                      <DropdownMenuTrigger className={cn(
+                        "flex items-center gap-1.5 p-0 font-benzin tracking-wide hover:text-brand-primary transition-colors duration-300 bg-transparent border-0",
+                        scrolled ? "text-white" : "text-white",
+                      )}>
+                        <span>{link.title}</span>
+                        <ChevronDown className="h-4 w-4" />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="bg-white/90 backdrop-blur-md rounded-md border-0 shadow-lg min-w-[200px] z-50">
+                        {link.submenu?.map((subItem) => (
+                          <DropdownMenuItem key={subItem.title} asChild className="focus:bg-gray-100 focus:text-brand-dark">
+                            <a 
+                              href={subItem.href} 
+                              className="cursor-pointer block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors text-brand-dark font-benzin text-sm"
+                            >
+                              {subItem.title}
+                            </a>
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  ) : (
+                    <a
+                      key={link.key}
+                      href={link.href}
+                      className={cn(
+                        "tracking-wide hover:text-brand-primary transition-colors duration-300 font-benzin px-3 py-2",
+                        scrolled ? "text-white" : "text-white",
+                      )}
+                    >
+                      {link.title}
+                    </a>
+                  )
+                )}
+              </div>
 
               <div className="flex items-center gap-4">
                 <LanguageSelector />
