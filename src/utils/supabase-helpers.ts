@@ -1,4 +1,3 @@
-
 import type { NewsItem, PartnerItem, MessageItem, VacancyItem } from '@/contexts/AdminDataContext';
 import { Database } from '@/integrations/supabase/types';
 
@@ -71,7 +70,8 @@ export function mapSupabaseNewsToNewsItem(news: SupabaseNewsRow): NewsItem {
     content: news.content,
     image_url: news.image_url || '',
     additional_images: news.additional_images || [],
-    featured: news.featured || false
+    featured: news.featured || false,
+    youtube_video_url: news.youtube_video_url || ''
   };
 }
 
@@ -83,7 +83,8 @@ export function mapNewsItemToSupabaseInsert(news: Omit<NewsItem, 'id'>): Supabas
     image_url: news.image_url,
     additional_images: news.additional_images || [],
     featured: news.featured,
-    published_at: news.date
+    published_at: news.date,
+    youtube_video_url: news.youtube_video_url || null
   };
 }
 
@@ -97,6 +98,7 @@ export function mapNewsItemToSupabaseUpdate(news: Partial<Omit<NewsItem, 'id'>>)
   if (news.additional_images !== undefined) update.additional_images = news.additional_images;
   if (news.featured !== undefined) update.featured = news.featured;
   if (news.date !== undefined) update.published_at = news.date;
+  if (news.youtube_video_url !== undefined) update.youtube_video_url = news.youtube_video_url;
   
   return update;
 }

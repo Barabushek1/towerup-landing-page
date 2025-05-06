@@ -7,7 +7,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { Pencil, Trash2, Plus, X, Calendar, Image, Home, Loader2 } from 'lucide-react';
+import { Pencil, Trash2, Plus, X, Calendar, Image, Home, Loader2, Youtube } from 'lucide-react';
 import ImageUploader from '@/components/admin/ImageUploader';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -22,6 +22,7 @@ interface NewsItem {
   image_url: string;
   additional_images?: string[];
   featured?: boolean;
+  youtube_video_url?: string;
 }
 
 type NewsInput = Omit<NewsItem, 'id' | 'created_at' | 'updated_at'>;
@@ -39,7 +40,8 @@ const AdminNews: React.FC = () => {
     content: '',
     image_url: '',
     additional_images: [],
-    featured: false
+    featured: false,
+    youtube_video_url: ''
   });
   const [newImageUrl, setNewImageUrl] = useState<string>('');
   const [useUrlInput, setUseUrlInput] = useState<boolean>(false);
@@ -83,7 +85,8 @@ const AdminNews: React.FC = () => {
             content: newsItem.content,
             image_url: newsItem.image_url || null,
             additional_images: filteredAdditionalImages.length > 0 ? filteredAdditionalImages : null,
-            featured: newsItem.featured || false
+            featured: newsItem.featured || false,
+            youtube_video_url: newsItem.youtube_video_url || null
           })
           .select()
           .single();
@@ -137,7 +140,8 @@ const AdminNews: React.FC = () => {
             content: newsItem.content,
             image_url: newsItem.image_url || null,
             additional_images: filteredAdditionalImages.length > 0 ? filteredAdditionalImages : null,
-            featured: newsItem.featured || false
+            featured: newsItem.featured || false,
+            youtube_video_url: newsItem.youtube_video_url || null
           })
           .eq('id', id)
           .select()
@@ -215,7 +219,8 @@ const AdminNews: React.FC = () => {
       content: '',
       image_url: '',
       additional_images: [],
-      featured: false
+      featured: false,
+      youtube_video_url: ''
     });
     setNewImageUrl('');
     setCurrentNewsId(null);
@@ -236,7 +241,8 @@ const AdminNews: React.FC = () => {
       content: newsItem.content,
       image_url: newsItem.image_url || '',
       additional_images: newsItem.additional_images || [],
-      featured: newsItem.featured || false
+      featured: newsItem.featured || false,
+      youtube_video_url: newsItem.youtube_video_url || ''
     });
     setIsDialogOpen(true);
   };
@@ -630,6 +636,34 @@ const AdminNews: React.FC = () => {
                 )}
               </div>
             </div>
+
+            {/* YouTube Video URL input */}
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="youtube_video_url" className="text-right flex items-center">
+                <Youtube className="mr-2 h-4 w-4 text-red-500" />
+                YouTube URL
+              </Label>
+              <Input
+                id="youtube_video_url"
+                name="youtube_video_url"
+                value={formData.youtube_video_url || ''}
+                onChange={handleInputChange}
+                placeholder="https://www.youtube.com/watch?v=VIDEO_ID"
+                className="col-span-3 bg-slate-700 border-slate-600"
+              />
+            </div>
+
+            {/* Preview YouTube video if URL is provided */}
+            {formData.youtube_video_url && (
+              <div className="grid grid-cols-4 items-start gap-4">
+                <div className="text-right">
+                  <span className="text-sm text-slate-400">Предпросмотр</span>
+                </div>
+                <div className="col-span-3">
+                  <YouTubePlayer videoUrl={formData.youtube_video_url} />
+                </div>
+              </div>
+            )}
           </div>
           <DialogFooter>
             <Button 

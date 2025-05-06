@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { ArrowRight, Clock, ChevronRight, Star } from 'lucide-react';
+import { ArrowRight, Clock, ChevronRight, Star, Youtube } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/components/ui/use-toast';
@@ -10,6 +10,7 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { useIsMobile } from '@/hooks/use-mobile';
 import { getCachedData } from '@/utils/cache-utils';
 import { useLanguage } from '@/contexts/LanguageContext';
+import YouTubePlayer from './YouTubePlayer';
 
 interface NewsItem {
   id: string;
@@ -18,6 +19,7 @@ interface NewsItem {
   summary: string;
   image_url: string | null;
   featured: boolean;
+  youtube_video_url?: string | null;
 }
 
 const NewsItemComponent: React.FC<{
@@ -57,7 +59,9 @@ const NewsItemComponent: React.FC<{
       }}
     >
       <div className="aspect-video w-full overflow-hidden">
-        {!imageError ? (
+        {item.youtube_video_url ? (
+          <YouTubePlayer videoUrl={item.youtube_video_url} />
+        ) : !imageError ? (
           <img 
             src={item.image_url || 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800'} 
             alt={item.title} 
@@ -76,6 +80,13 @@ const NewsItemComponent: React.FC<{
         <div className="absolute top-3 right-3 bg-primary text-white px-3 py-1 rounded-full font-medium text-xs flex items-center shadow-lg">
           <Star className="h-3 w-3 mr-1 fill-white" />
           {t('news.featured')}
+        </div>
+      )}
+
+      {item.youtube_video_url && (
+        <div className="absolute top-3 left-3 bg-red-600 text-white px-3 py-1 rounded-full font-medium text-xs flex items-center shadow-lg">
+          <Youtube className="h-3 w-3 mr-1" />
+          {t('news.video')}
         </div>
       )}
       

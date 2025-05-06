@@ -1,15 +1,15 @@
-
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import PageHeader from '@/components/PageHeader';
-import { Calendar, ArrowLeft, Maximize2, X } from 'lucide-react';
+import { Calendar, ArrowLeft, Maximize2, X, Youtube } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import { useIsMobile } from '@/hooks/use-mobile';
+import YouTubePlayer from '@/components/YouTubePlayer';
 
 interface NewsItem {
   id: string;
@@ -21,6 +21,7 @@ interface NewsItem {
   created_at: string;
   updated_at: string;
   additional_images?: string[];
+  youtube_video_url?: string | null;
   featured: boolean;
 }
 
@@ -166,7 +167,7 @@ const NewsDetail: React.FC = () => {
       <NavBar />
       
       <PageHeader 
-        title={newsItem.title}
+        title={newsItem?.title || ''}
         breadcrumb="НОВОСТИ"
       />
       
@@ -207,14 +208,29 @@ const NewsDetail: React.FC = () => {
               </Link>
               
               {/* Featured badge */}
-              {newsItem.featured && (
+              {newsItem?.featured && (
                 <div className="inline-block bg-primary text-white px-4 py-2 rounded-full text-sm font-bold mb-4">
                   Важное
                 </div>
               )}
               
+              {/* Video badge if available */}
+              {newsItem?.youtube_video_url && (
+                <div className="inline-block bg-red-600 text-white px-4 py-2 rounded-full text-sm font-bold mb-4 ml-2 flex items-center">
+                  <Youtube className="h-4 w-4 mr-2" />
+                  Видео
+                </div>
+              )}
+              
+              {/* YouTube video if available */}
+              {newsItem?.youtube_video_url && (
+                <div className="mb-8 rounded-lg overflow-hidden">
+                  <YouTubePlayer videoUrl={newsItem.youtube_video_url} className="w-full" />
+                </div>
+              )}
+              
               {/* Main image displayed as a regular image, not background */}
-              {newsItem.image_url && (
+              {newsItem?.image_url && !newsItem?.youtube_video_url && (
                 <div className="mb-8 rounded-lg overflow-hidden">
                   <img 
                     src={newsItem.image_url} 

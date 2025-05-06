@@ -13,6 +13,7 @@ export type NewsItem = {
   image_url: string;
   additional_images?: string[];
   featured?: boolean;
+  youtube_video_url?: string;
 };
 
 export type VacancyItem = {
@@ -149,7 +150,8 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
             content: item.content,
             image_url: item.image_url || '',
             additional_images: item.additional_images || [],
-            featured: item.featured || false
+            featured: item.featured || false,
+            youtube_video_url: item.youtube_video_url || ''
           })));
         }
 
@@ -246,7 +248,8 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
           image_url: newsItem.image_url || null,
           additional_images: filteredAdditionalImages.length > 0 ? filteredAdditionalImages : null,
           featured: newsItem.featured || false,
-          published_at: formattedDate
+          published_at: formattedDate,
+          youtube_video_url: newsItem.youtube_video_url || null
         })
         .select();
 
@@ -260,7 +263,8 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
           content: data[0].content,
           image_url: data[0].image_url || '',
           additional_images: data[0].additional_images || [],
-          featured: data[0].featured || false
+          featured: data[0].featured || false,
+          youtube_video_url: data[0].youtube_video_url || ''
         };
         setNews(prev => [newItem, ...prev]);
       }
@@ -302,7 +306,8 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
           image_url: newsItem.image_url || null,
           additional_images: filteredAdditionalImages.length > 0 ? filteredAdditionalImages : null,
           featured: newsItem.featured || false,
-          published_at: formattedDate
+          published_at: formattedDate,
+          youtube_video_url: newsItem.youtube_video_url || null
         })
         .eq('id', id);
 
@@ -319,7 +324,8 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
                 content: newsItem.content,
                 image_url: newsItem.image_url,
                 additional_images: filteredAdditionalImages,
-                featured: newsItem.featured || false
+                featured: newsItem.featured || false,
+                youtube_video_url: newsItem.youtube_video_url || ''
               } 
             : item
         )

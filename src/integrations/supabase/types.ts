@@ -198,6 +198,7 @@ export type Database = {
           summary: string
           title: string
           updated_at: string
+          youtube_video_url: string | null
         }
         Insert: {
           additional_images?: string[] | null
@@ -210,6 +211,7 @@ export type Database = {
           summary: string
           title: string
           updated_at?: string
+          youtube_video_url?: string | null
         }
         Update: {
           additional_images?: string[] | null
@@ -222,6 +224,7 @@ export type Database = {
           summary?: string
           title?: string
           updated_at?: string
+          youtube_video_url?: string | null
         }
         Relationships: []
       }
