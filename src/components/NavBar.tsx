@@ -33,6 +33,7 @@ const NavBar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const isMobile = useIsMobile();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [openDropdowns, setOpenDropdowns] = useState<Record<string, boolean>>({});
   const location = useLocation();
   const { t } = useLanguage();
 
@@ -84,6 +85,16 @@ const NavBar: React.FC = () => {
     { title: t('nav.collaboration'), href: '/collaboration', key: 'collaboration' },
     { title: t('nav.contacts'), href: '/contact', key: 'contacts' },
   ];
+
+  // Function to handle entering dropdown menu
+  const handleMouseEnter = (key: string) => {
+    setOpenDropdowns(prev => ({ ...prev, [key]: true }));
+  };
+
+  // Function to handle leaving dropdown menu
+  const handleMouseLeave = (key: string) => {
+    setOpenDropdowns(prev => ({ ...prev, [key]: false }));
+  };
 
   const MobileMenu = () => (
     <div className="bg-[#080C16] h-full w-full overflow-auto">
@@ -201,27 +212,45 @@ const NavBar: React.FC = () => {
               <div className="flex items-center space-x-6">
                 {navLinks.map((link) =>
                   link.hasSubmenu ? (
-                    <DropdownMenu key={link.key}>
-                      <DropdownMenuTrigger className={cn(
-                        "flex items-center gap-1.5 p-0 font-benzin tracking-wide hover:text-brand-primary transition-colors duration-300 bg-transparent border-0",
-                        scrolled ? "text-white" : "text-white",
-                      )}>
+                    <div 
+                      key={link.key}
+                      className="relative"
+                      onMouseEnter={() => handleMouseEnter(link.key)}
+                      onMouseLeave={() => handleMouseLeave(link.key)}
+                    >
+                      <button
+                        className={cn(
+                          "flex items-center gap-1.5 p-2 font-benzin tracking-wide hover:text-brand-primary transition-colors duration-300 bg-transparent border-0",
+                          scrolled ? "text-white" : "text-white",
+                        )}
+                      >
                         <span>{link.title}</span>
-                        <ChevronDown className="h-4 w-4" />
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent className="bg-white/90 backdrop-blur-md rounded-md border-0 shadow-lg min-w-[200px] z-50">
-                        {link.submenu?.map((subItem) => (
-                          <DropdownMenuItem key={subItem.title} asChild className="focus:bg-gray-100 focus:text-brand-dark">
+                        <ChevronDown className={cn(
+                          "h-4 w-4 transition-transform duration-300",
+                          openDropdowns[link.key] ? "rotate-180" : ""
+                        )} />
+                      </button>
+                      <div 
+                        className={cn(
+                          "absolute left-0 top-full min-w-[250px] bg-white/90 backdrop-blur-md rounded-md shadow-lg z-50 transform transition-all duration-200 ease-in-out origin-top",
+                          openDropdowns[link.key] 
+                            ? "scale-100 opacity-100 translate-y-0" 
+                            : "scale-95 opacity-0 translate-y-[-10px] pointer-events-none"
+                        )}
+                      >
+                        <div className="py-2 px-1">
+                          {link.submenu?.map((subItem) => (
                             <a 
                               href={subItem.href} 
-                              className="cursor-pointer block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors text-brand-dark font-benzin text-sm"
+                              key={subItem.title}
+                              className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors text-brand-dark font-benzin text-sm hover:bg-gray-100 hover:text-brand-primary"
                             >
                               {subItem.title}
                             </a>
-                          </DropdownMenuItem>
-                        ))}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
                   ) : (
                     <a
                       key={link.key}
