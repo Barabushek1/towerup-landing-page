@@ -96,13 +96,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
             </Button>
 
             {/* Desktop Sidebar Toggle Button */}
-            <Button variant="outline" // Using outline variant as in your code
-            size="icon" className="hidden md:flex" // Only show on medium screens and above
-            onClick={toggleSidebar} title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"} // Tooltip text
-            >
-              {sidebarCollapsed ? <PanelLeftOpen className="h-5 w-5" /> : <PanelLeftClose className="h-5 w-5" />}
-              <span className="sr-only">{sidebarCollapsed ? "Expand" : "Collapse"} sidebar</span> {/* Accessible label */}
-            </Button>
+            
 
             {/* Admin Panel Title and User Email */}
             <div>
