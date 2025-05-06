@@ -33,6 +33,7 @@ const Vacancies: React.FC = () => {
   const { data: vacancies = [], isLoading, error } = useQuery({
     queryKey: ['vacancies'],
     queryFn: async () => {
+      console.log('Fetching vacancies...');
       return getCachedData('vacancies_list', async () => {
         // Ensure we only fetch active vacancies
         const { data, error } = await supabase
@@ -48,10 +49,10 @@ const Vacancies: React.FC = () => {
         
         console.log('Fetched active vacancies:', data);
         return data as Vacancy[];
-      }, 60); // Cache for 1 hour instead of 2
+      }, 5); // Cache for 5 minutes instead of an hour
     },
-    staleTime: 1000 * 60 * 30, // Consider data fresh for 30 min
-    gcTime: 1000 * 60 * 60, // Keep in React Query cache for 1 hour
+    staleTime: 1000 * 60 * 5, // Consider data fresh for 5 minutes
+    gcTime: 1000 * 60 * 30, // Keep in React Query cache for 30 minutes
   });
 
   const scrollToContact = () => {

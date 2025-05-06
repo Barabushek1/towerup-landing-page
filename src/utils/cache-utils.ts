@@ -1,4 +1,3 @@
-
 /**
  * Simple cache utility for reducing database egress
  */
@@ -12,53 +11,46 @@ type CacheItem<T> = {
  * Get cached data or fetch it if not available or expired
  * 
  * @param key Cache key
- * @param fetchFn Function to fetch data if not cached
- * @param ttlMinutes Time-to-live in minutes
+ * @param fetchFunction Function to fetch data if not cached
+ * @param expirationMinutes Time-to-live in minutes
  * @returns The cached or freshly fetched data
  */
 export async function getCachedData<T>(
   key: string,
-  fetchFn: () => Promise<T>,
-  ttlMinutes: number = 60
+  fetchFunction: () => Promise<T>,
+  expirationMinutes: number = 120
 ): Promise<T> {
-  // Try to get data from localStorage cache
   try {
-    const cacheKey = `tower_cache_${key}`;
-    const cachedItem = localStorage.getItem(cacheKey);
-    
-    if (cachedItem) {
-      const parsedCache = JSON.parse(cachedItem) as CacheItem<T>;
-      const now = Date.now();
-      const expiryTime = parsedCache.timestamp + (ttlMinutes * 60 * 1000);
+    // Check if we have data in sessionStorage and if it's still valid
+    const cachedDataStr = sessionStorage.getItem(key);
+    if (cachedDataStr) {
+      const { data, timestamp } = JSON.parse(cachedDataStr);
+      const expirationTime = timestamp + expirationMinutes * 60 * 1000;
       
-      // Return cached data if not expired
-      if (now < expiryTime) {
+      // If the cached data is still valid, return it
+      if (expirationTime > Date.now()) {
         console.log(`[Cache] Using cached data for ${key}`);
-        return parsedCache.data;
+        return data as T;
       }
-      console.log(`[Cache] Expired cache for ${key}, fetching fresh data`);
+      console.log(`[Cache] Cache expired for ${key}, fetching new data`);
     }
-  } catch (error) {
-    console.error('[Cache] Error retrieving from cache:', error);
-  }
-  
-  // Fetch fresh data if cache miss or error
-  const freshData = await fetchFn();
-  
-  // Save to cache
-  try {
-    const cacheKey = `tower_cache_${key}`;
-    const cacheItem: CacheItem<T> = {
-      data: freshData,
+    
+    // If no cached data or expired, fetch new data
+    console.log(`[Cache] Fetching new data for ${key}`);
+    const newData = await fetchFunction();
+    
+    // Store the fetched data in sessionStorage
+    const cacheEntry = {
+      data: newData,
       timestamp: Date.now()
     };
-    localStorage.setItem(cacheKey, JSON.stringify(cacheItem));
-    console.log(`[Cache] Updated cache for ${key}`);
+    sessionStorage.setItem(key, JSON.stringify(cacheEntry));
+    
+    return newData;
   } catch (error) {
-    console.error('[Cache] Error saving to cache:', error);
+    console.error(`[Cache] Error getting data for ${key}:`, error);
+    throw error;
   }
-  
-  return freshData;
 }
 
 /**
