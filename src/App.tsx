@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -39,6 +40,7 @@ import Collaboration from "./pages/Collaboration";
 import Tenders from "./pages/collaboration/Tenders";
 import TenderDetail from "./pages/TenderDetail";
 import CommercialOffers from "./pages/collaboration/CommercialOffers";
+import AdminTenderSubmissions from "./pages/admin/AdminTenderSubmissions";
 import { 
   ManagementCompany,
   Design as ServiceDesign,

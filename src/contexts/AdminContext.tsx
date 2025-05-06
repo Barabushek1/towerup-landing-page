@@ -36,7 +36,8 @@ interface AdminProviderProps {
 export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
   const [admin, setAdmin] = useState<Admin>(null);
   const [isLoading, setIsLoading] = useState(true);
-
+  const { toast } = useToast();
+  
   useEffect(() => {
     const storedAdmin = localStorage.getItem('admin');
     
@@ -64,13 +65,18 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
   const login = async (email: string, password: string) => {
     try {
       // Log admin login attempt
-      await supabase
-        .from('admin_audit_logs')
-        .insert({
-          action_type: 'login_attempt',
-          admin_email: email,
-          details: { method: 'email_password' }
-        });
+      try {
+        await supabase
+          .from('admin_audit_logs')
+          .insert({
+            action_type: 'login_attempt',
+            admin_email: email,
+            details: { method: 'email_password' }
+          });
+      } catch (err) {
+        console.error('Error logging admin login attempt:', err);
+        // Continue with login process even if logging fails
+      }
       
       // Use supabase function to verify admin credentials
       const { data, error } = await supabase.functions.invoke('verify-admin-credentials', {
@@ -88,37 +94,36 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
       });
       
       // Log successful login
-      await supabase
-        .from('admin_audit_logs')
-        .insert({
-          action_type: 'login_success',
-          admin_email: email,
-          details: { method: 'email_password' }
-        })
-        .then(() => {
-          console.log('Login success logged');
-        })
-        .catch((err) => {
-          console.error('Error logging admin login success:', err);
-        });
+      try {
+        await supabase
+          .from('admin_audit_logs')
+          .insert({
+            action_type: 'login_success',
+            admin_email: email,
+            details: { method: 'email_password' }
+          });
+        console.log('Login success logged');
+      } catch (err) {
+        console.error('Error logging admin login success:', err);
+        // Continue even if logging fails
+      }
       
     } catch (error) {
       console.error('Login error:', error);
       
       // Log failed login
-      await supabase
-        .from('admin_audit_logs')
-        .insert({
-          action_type: 'login_failed',
-          admin_email: email,
-          details: { method: 'email_password', error: error instanceof Error ? error.message : 'Unknown error' }
-        })
-        .then(() => {
-          console.log('Login failure logged');
-        })
-        .catch((err) => {
-          console.error('Error logging admin login failure:', err);
-        });
+      try {
+        await supabase
+          .from('admin_audit_logs')
+          .insert({
+            action_type: 'login_failed',
+            admin_email: email,
+            details: { method: 'email_password', error: error instanceof Error ? error.message : 'Unknown error' }
+          });
+        console.log('Login failure logged');
+      } catch (err) {
+        console.error('Error logging admin login failure:', err);
+      }
       
       throw error;
     }
@@ -127,22 +132,26 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
   const logout = () => {
     if (admin) {
       // Log logout action
-      supabase
-        .from('admin_audit_logs')
-        .insert({
-          action_type: 'logout',
-          admin_email: admin.email,
-          details: { method: 'manual' }
-        })
-        .then(() => {
-          // Clear admin data
-          setAdmin(null);
-        })
-        .catch((error) => {
-          console.error('Error logging admin logout:', error);
-          // Still clear admin data even if logging fails
-          setAdmin(null);
-        });
+      try {
+        supabase
+          .from('admin_audit_logs')
+          .insert({
+            action_type: 'logout',
+            admin_email: admin.email,
+            details: { method: 'manual' }
+          })
+          .then(() => {
+            console.log('Logout logged successfully');
+          })
+          .catch((error) => {
+            console.error('Error logging admin logout:', error);
+          });
+      } catch (error) {
+        console.error('Error during logout process:', error);
+      }
+      
+      // Clear admin data regardless of logging success
+      setAdmin(null);
     }
   };
 
