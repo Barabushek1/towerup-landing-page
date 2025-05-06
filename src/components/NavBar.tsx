@@ -24,6 +24,14 @@ import {
   SheetTrigger,
   SheetClose
 } from "@/components/ui/sheet";
+import {
+  NavigationMenu,
+  NavigationMenuList,
+  NavigationMenuItem,
+  NavigationMenuTrigger,
+  NavigationMenuContent,
+  NavigationMenuLink,
+} from "@/components/ui/navigation-menu";
 
 // Estimate the height of the TestModeIndicator based on its padding (py-1.5 = 6px top/bottom) + content height (~22-28px for text/icon)
 // Let's estimate ~35px total height for safety. You might need to adjust this value.
@@ -197,7 +205,7 @@ const NavBar: React.FC = () => {
       >
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-between">
-            {/* Logo */}
+            {/* Logo - Positioned at the far left */}
             <a
               href="/"
               className="flex-shrink-0"
@@ -209,86 +217,86 @@ const NavBar: React.FC = () => {
               />
             </a>
 
+            {/* The space between logo and menu items is created by justify-between on the parent div */}
+            
             {!isMobile && (
-              <div className="flex-1 flex justify-end">
-                {/* Menu and Contact Button Container - Push to the right */}
-                <div className="flex items-center">
-                  {/* Navigation Links */}
-                  <nav className="flex items-center">
-                    <ul className="flex items-center space-x-6">
-                      {navLinks.map((link) =>
-                        link.hasSubmenu ? (
-                          <li 
-                            key={link.key}
-                            className="relative"
-                            onMouseEnter={() => handleMouseEnter(link.key)}
-                            onMouseLeave={() => handleMouseLeave(link.key)}
+              /* Navigation Links and Actions - All positioned at the far right */
+              <div className="flex items-center justify-end">
+                {/* Navigation Links */}
+                <nav className="flex items-center">
+                  <ul className="flex items-center space-x-6">
+                    {navLinks.map((link) =>
+                      link.hasSubmenu ? (
+                        <li 
+                          key={link.key}
+                          className="relative"
+                          onMouseEnter={() => handleMouseEnter(link.key)}
+                          onMouseLeave={() => handleMouseLeave(link.key)}
+                        >
+                          <button
+                            className={cn(
+                              "flex items-center gap-1.5 p-2 font-benzin tracking-wide hover:text-brand-primary transition-colors duration-300 bg-transparent border-0",
+                              scrolled ? "text-white" : "text-white",
+                            )}
                           >
-                            <button
-                              className={cn(
-                                "flex items-center gap-1.5 p-2 font-benzin tracking-wide hover:text-brand-primary transition-colors duration-300 bg-transparent border-0",
-                                scrolled ? "text-white" : "text-white",
-                              )}
-                            >
-                              <span>{link.title}</span>
-                              <ChevronDown className={cn(
-                                "h-4 w-4 transition-transform duration-300",
-                                openDropdowns[link.key] ? "rotate-180" : ""
-                              )} />
-                            </button>
-                            <div 
-                              className={cn(
-                                "absolute left-0 top-full min-w-[250px] bg-white/90 backdrop-blur-md rounded-md shadow-lg z-50 transform transition-all duration-200 ease-in-out origin-top",
-                                openDropdowns[link.key] 
-                                  ? "scale-100 opacity-100 translate-y-0" 
-                                  : "scale-95 opacity-0 translate-y-[-10px] pointer-events-none"
-                              )}
-                            >
-                              <div className="py-2 px-1">
-                                {link.submenu?.map((subItem) => (
-                                  <a 
-                                    href={subItem.href} 
-                                    key={subItem.title}
-                                    className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors text-brand-dark font-benzin text-sm hover:bg-gray-100 hover:text-brand-primary"
-                                  >
-                                    {subItem.title}
-                                  </a>
-                                ))}
-                              </div>
+                            <span>{link.title}</span>
+                            <ChevronDown className={cn(
+                              "h-4 w-4 transition-transform duration-300",
+                              openDropdowns[link.key] ? "rotate-180" : ""
+                            )} />
+                          </button>
+                          <div 
+                            className={cn(
+                              "absolute left-0 top-full min-w-[250px] bg-white/90 backdrop-blur-md rounded-md shadow-lg z-50 transform transition-all duration-200 ease-in-out origin-top",
+                              openDropdowns[link.key] 
+                                ? "scale-100 opacity-100 translate-y-0" 
+                                : "scale-95 opacity-0 translate-y-[-10px] pointer-events-none"
+                            )}
+                          >
+                            <div className="py-2 px-1">
+                              {link.submenu?.map((subItem) => (
+                                <a 
+                                  href={subItem.href} 
+                                  key={subItem.title}
+                                  className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors text-brand-dark font-benzin text-sm hover:bg-gray-100 hover:text-brand-primary"
+                                >
+                                  {subItem.title}
+                                </a>
+                              ))}
                             </div>
-                          </li>
-                        ) : (
-                          <li key={link.key}>
-                            <a
-                              href={link.href}
-                              className={cn(
-                                "tracking-wide hover:text-brand-primary transition-colors duration-300 font-benzin px-3 py-2",
-                                scrolled ? "text-white" : "text-white",
-                              )}
-                            >
-                              {link.title}
-                            </a>
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  </nav>
+                          </div>
+                        </li>
+                      ) : (
+                        <li key={link.key}>
+                          <a
+                            href={link.href}
+                            className={cn(
+                              "tracking-wide hover:text-brand-primary transition-colors duration-300 font-benzin px-3 py-2",
+                              scrolled ? "text-white" : "text-white",
+                            )}
+                          >
+                            {link.title}
+                          </a>
+                        </li>
+                      )
+                    )}
+                  </ul>
+                </nav>
 
-                  {/* Language Selector and Contact Button */}
-                  <div className="flex items-center gap-4 ml-8">
-                    <LanguageSelector />
-                    
-                    <a
-                      href="/contact"
-                      className={cn(
-                        "flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-primary text-white font-medium",
-                        "shadow-lg shadow-brand-primary/20 transform transition hover:-translate-y-0.5 font-benzin"
-                      )}
-                    >
-                      <Phone className="h-4 w-4" />
-                      {t('nav.consultation')}
-                    </a>
-                  </div>
+                {/* Language Selector and Contact Button */}
+                <div className="flex items-center gap-4 ml-8">
+                  <LanguageSelector />
+                  
+                  <a
+                    href="/contact"
+                    className={cn(
+                      "flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-primary text-white font-medium",
+                      "shadow-lg shadow-brand-primary/20 transform transition hover:-translate-y-0.5 font-benzin"
+                    )}
+                  >
+                    <Phone className="h-4 w-4" />
+                    {t('nav.consultation')}
+                  </a>
                 </div>
               </div>
             )}
