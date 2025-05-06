@@ -1,7 +1,16 @@
 
 {
   "testModeIndicator": "Sayt sinov rejimida ishlamoqda",
-  
+
+
+  "nav.services": "Xizmatlar",
+  "nav.services.management_company": "Boshqaruv kompaniyasi",
+  "nav.services.design": "Dizayn",
+  "nav.services.construction": "Qurilish",
+  "nav.services.renovation": "Ta'mirlash",
+  "nav.services.laboratory": "Laboratoriya",
+  "nav.services.process_automation": "Jarayonlarni avtomatlashtirish",
+    
   "nav.company": "Biz haqimizda",
   "nav.about": "Kompaniya haqida",
   "nav.partners": "Hamkorlar",

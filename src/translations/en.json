@@ -1,7 +1,17 @@
 
 {
   "testModeIndicator": "Site is in test mode",
+
   
+  "nav.services": "Services",
+  "nav.services.management_company": "Management Company",
+  "nav.services.design": "Design",
+  "nav.services.construction": "Construction",
+  "nav.services.renovation": "Renovation",
+  "nav.services.laboratory": "Laboratory",
+  "nav.services.process_automation": "Process Automation",
+
+
   "nav.company": "About Us",
   "nav.about": "About Company",
   "nav.partners": "Partners",

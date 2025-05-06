@@ -1,7 +1,15 @@
 
 {
   "testModeIndicator": "Сайт работает в тестовом режиме",
-  
+
+  "nav.services": "Услуги",
+  "nav.services.management_company": "Управляющая компания",
+  "nav.services.design": "Дизайн",
+  "nav.services.construction": "Строительство",
+  "nav.services.renovation": "Ремонт",
+  "nav.services.laboratory": "Лаборатория",
+  "nav.services.process_automation": "Автоматизация процессов",
+    
   "nav.company": "О нас",
   "nav.about": "О компании",
   "nav.partners": "Партнёры",
