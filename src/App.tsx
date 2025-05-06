@@ -36,6 +36,8 @@ import AdminLayout from "./components/admin/AdminLayout";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import AdminFloorPrices from './pages/admin/AdminFloorPrices';
 import Collaboration from "./pages/Collaboration";
+import Tenders from "./pages/collaboration/Tenders";
+import CommercialOffers from "./pages/collaboration/CommercialOffers";
 import { 
   ManagementCompany,
   Design as ServiceDesign,
@@ -73,6 +75,8 @@ const App = () => {
           <Route path="/vacancies/:id" element={<VacancyDetail />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/collaboration" element={<Collaboration />} />
+          <Route path="/collaboration/tenders" element={<Tenders />} />
+          <Route path="/collaboration/offers" element={<CommercialOffers />} />
           
           {/* Service Pages */}
           <Route path="/services/management-company" element={<ManagementCompany />} />
