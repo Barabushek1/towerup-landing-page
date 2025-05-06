@@ -285,11 +285,11 @@ const TenderDetail = () => {
           </div>
           
           <div>
-            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6">
+            <div className="rounded-lg shadow-md p-6 bg-gray-800">
               <h3 className="text-xl font-bold mb-4">Подать заявку</h3>
               
               {tender.status === 'active' ? <>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+                  <p className="text-sm mb-6 text-gray-100">
                     Заполните форму заявки, чтобы принять участие в тендере. 
                     Наши специалисты свяжутся с вами в ближайшее время.
                   </p>
