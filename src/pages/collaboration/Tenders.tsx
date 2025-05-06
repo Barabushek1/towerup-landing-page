@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -13,7 +12,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import PageHeader from '@/components/PageHeader';
-
 interface Tender {
   id: string;
   title: string;
@@ -23,31 +21,30 @@ interface Tender {
   status: string;
   created_at: string;
 }
-
 const Tenders = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  
+
   // Fetch active tenders
-  const { data: tenders, isLoading } = useQuery({
+  const {
+    data: tenders,
+    isLoading
+  } = useQuery({
     queryKey: ['tenders-public'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('tenders')
-        .select('*')
-        .order('created_at', { ascending: false });
-      
+      const {
+        data,
+        error
+      } = await supabase.from('tenders').select('*').order('created_at', {
+        ascending: false
+      });
       if (error) throw error;
       return data as Tender[];
-    },
+    }
   });
-  
+
   // Filter tenders based on search query
-  const filteredTenders = tenders?.filter(tender => 
-    tender.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    tender.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (tender.category && tender.category.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
-  
+  const filteredTenders = tenders?.filter(tender => tender.title.toLowerCase().includes(searchQuery.toLowerCase()) || tender.description.toLowerCase().includes(searchQuery.toLowerCase()) || tender.category && tender.category.toLowerCase().includes(searchQuery.toLowerCase()));
+
   // Format date
   const formatDate = (dateString?: string) => {
     if (!dateString) return 'Не указан';
@@ -58,7 +55,7 @@ const Tenders = () => {
       return 'Неверная дата';
     }
   };
-  
+
   // Get status badge
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -74,20 +71,17 @@ const Tenders = () => {
   };
 
   // Render tender card
-  const renderTenderCard = (tender: Tender) => (
-    <div key={tender.id} className="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6 transition-all hover:shadow-lg">
+  const renderTenderCard = (tender: Tender) => <div key={tender.id} className="rounded-lg shadow-md p-6 transition-all hover:shadow-lg bg-gray-800">
       <div className="flex items-center justify-between mb-2">
         <h3 className="text-xl font-bold">{tender.title}</h3>
         {getStatusBadge(tender.status)}
       </div>
       
-      {tender.category && (
-        <div className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+      {tender.category && <div className="text-sm text-gray-500 dark:text-gray-400 mb-4">
           Категория: {tender.category}
-        </div>
-      )}
+        </div>}
       
-      <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
+      <p className="mb-4 line-clamp-3 text-gray-50">
         {tender.description}
       </p>
       
@@ -97,44 +91,33 @@ const Tenders = () => {
       </div>
       
       <Link to={`/tenders/${tender.id}`}>
-        <Button variant="outline" className="w-full">
+        <Button variant="outline" className="w-full text-brand-primary">
           Подробнее
           <ChevronRight className="ml-2 h-4 w-4" />
         </Button>
       </Link>
-    </div>
-  );
+    </div>;
 
   // Render tenders grid
   const renderTendersGrid = (tenders?: Tender[]) => {
     if (isLoading) {
-      return (
-        <div className="flex justify-center py-12">
+      return <div className="flex justify-center py-12">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-        </div>
-      );
+        </div>;
     }
-    
     if (!tenders || tenders.length === 0) {
-      return (
-        <div className="text-center py-12">
+      return <div className="text-center py-12">
           <h3 className="text-xl font-medium mb-2">Тендеры не найдены</h3>
           <p className="text-gray-500 dark:text-gray-400">
             В данный момент нет доступных тендеров в этой категории
           </p>
-        </div>
-      );
+        </div>;
     }
-    
-    return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    return <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {tenders.map(renderTenderCard)}
-      </div>
-    );
+      </div>;
   };
-
-  return (
-    <>
+  return <>
       <Helmet>
         <title>Тендеры | Сотрудничество</title>
       </Helmet>
@@ -146,12 +129,7 @@ const Tenders = () => {
         <div className="max-w-lg mx-auto mb-8">
           <div className="relative">
             <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-            <Input
-              placeholder="Поиск тендеров..."
-              className="pl-10"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+            <Input placeholder="Поиск тендеров..." className="pl-10" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
           </div>
         </div>
         
@@ -184,8 +162,6 @@ const Tenders = () => {
       </div>
       
       <Footer />
-    </>
-  );
+    </>;
 };
-
 export default Tenders;
