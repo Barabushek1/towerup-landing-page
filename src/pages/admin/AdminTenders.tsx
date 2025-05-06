@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { PlusCircle, Search, Pencil, Trash2, FileText, Calendar, Check, X, Users } from 'lucide-react';
+import { PlusCircle, Search, Pencil, Trash2, FileText, Calendar, Users } from 'lucide-react';
 import { format, isValid } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -431,11 +431,11 @@ const AdminTenders = () => {
         <title>Управление тендерами | Административная панель</title>
       </Helmet>
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold">Управление тендерами</h1>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <h1 className="text-2xl font-bold truncate">Управление тендерами</h1>
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
-              <Button onClick={() => { resetForm(); setIsCreateDialogOpen(true); }}>
+              <Button onClick={() => { resetForm(); setIsCreateDialogOpen(true); }} className="whitespace-nowrap">
                 <PlusCircle className="mr-2 h-4 w-4" />
                 Создать тендер
               </Button>
@@ -561,26 +561,30 @@ const AdminTenders = () => {
           />
         </div>
 
-        <Tabs defaultValue="all" className="w-full">
-          <TabsList>
-            <TabsTrigger value="all">Все</TabsTrigger>
-            <TabsTrigger value="active">Активные</TabsTrigger>
-            <TabsTrigger value="completed">Завершенные</TabsTrigger>
-            <TabsTrigger value="closed">Закрытые</TabsTrigger>
-          </TabsList>
-          <TabsContent value="all" className="w-full">
-            {renderTendersTable(filteredTenders)}
-          </TabsContent>
-          <TabsContent value="active" className="w-full">
-            {renderTendersTable(filteredTenders?.filter(t => t.status === 'active'))}
-          </TabsContent>
-          <TabsContent value="completed" className="w-full">
-            {renderTendersTable(filteredTenders?.filter(t => t.status === 'completed'))}
-          </TabsContent>
-          <TabsContent value="closed" className="w-full">
-            {renderTendersTable(filteredTenders?.filter(t => t.status === 'closed'))}
-          </TabsContent>
-        </Tabs>
+        <div className="w-full overflow-x-auto">
+          <Tabs defaultValue="all" className="w-full">
+            <div className="border-b border-slate-700 mb-4">
+              <TabsList className="bg-transparent">
+                <TabsTrigger value="all" className="data-[state=active]:bg-slate-800">Все</TabsTrigger>
+                <TabsTrigger value="active" className="data-[state=active]:bg-slate-800">Активные</TabsTrigger>
+                <TabsTrigger value="completed" className="data-[state=active]:bg-slate-800">Завершенные</TabsTrigger>
+                <TabsTrigger value="closed" className="data-[state=active]:bg-slate-800">Закрытые</TabsTrigger>
+              </TabsList>
+            </div>
+            <TabsContent value="all" className="w-full">
+              {renderTendersTable(filteredTenders)}
+            </TabsContent>
+            <TabsContent value="active" className="w-full">
+              {renderTendersTable(filteredTenders?.filter(t => t.status === 'active'))}
+            </TabsContent>
+            <TabsContent value="completed" className="w-full">
+              {renderTendersTable(filteredTenders?.filter(t => t.status === 'completed'))}
+            </TabsContent>
+            <TabsContent value="closed" className="w-full">
+              {renderTendersTable(filteredTenders?.filter(t => t.status === 'closed'))}
+            </TabsContent>
+          </Tabs>
+        </div>
       </div>
 
       {/* Edit Dialog */}
