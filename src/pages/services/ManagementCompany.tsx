@@ -1,18 +1,10 @@
-
 import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ServicePageLayout, AnimatedSection, fadeIn } from '@/components/ServicePageLayout';
 import { Building, Users, ShieldCheck, PieChart, Clock, FileCheck, AreaChart } from 'lucide-react';
-
 const ManagementCompany: React.FC = () => {
-  return (
-    <ServicePageLayout
-      title="Управляющая компания"
-      description="Профессиональное управление вашей недвижимостью от компании TOWERUP"
-      breadcrumb="Услуги / Управляющая компания"
-      headerImage="/lovable-uploads/01ec8090-c3b7-4770-b254-07c6f1ac1521.png"
-    >
+  return <ServicePageLayout title="Управляющая компания" description="Профессиональное управление вашей недвижимостью от компании TOWERUP" breadcrumb="Услуги / Управляющая компания" headerImage="/lovable-uploads/01ec8090-c3b7-4770-b254-07c6f1ac1521.png">
       {/* Intro Section */}
       <section className="pt-20 pb-16 md:pt-24 md:pb-20 bg-gradient-to-b from-[#161616] to-[#1a1a1a] relative overflow-hidden">
         <div className="absolute -left-64 -top-64 w-[500px] h-[500px] rounded-full bg-primary/5 filter blur-[100px] animate-pulse opacity-50 z-0"></div>
@@ -40,18 +32,10 @@ const ManagementCompany: React.FC = () => {
 
             <motion.div variants={fadeIn} className="relative">
               <div className="aspect-[4/3] overflow-hidden rounded-2xl border-2 border-white/10 shadow-2xl">
-                <img 
-                  src="/lovable-uploads/a4a83568-45d7-4f2d-b87c-031fc305db6e.png" 
-                  alt="Управляющая компания TOWERUP"
-                  className="w-full h-full object-cover"
-                />
+                <img src="/lovable-uploads/a4a83568-45d7-4f2d-b87c-031fc305db6e.png" alt="Управляющая компания TOWERUP" className="w-full h-full object-cover" />
               </div>
               <div className="absolute -bottom-6 -left-6 w-2/3 h-2/3 rounded-xl overflow-hidden border-2 border-white/10 shadow-lg">
-                <img 
-                  src="/lovable-uploads/2fa6915f-aa2a-42b2-8dea-fa62dd2dcced.png" 
-                  alt="Управление объектами недвижимости"
-                  className="w-full h-full object-cover"
-                />
+                <img alt="Управление объектами недвижимости" className="w-full h-full object-cover" src="/lovable-uploads/69b99dd6-648d-4ab5-929c-f4826e74623b.jpg" />
               </div>
             </motion.div>
           </AnimatedSection>
@@ -70,51 +54,39 @@ const ManagementCompany: React.FC = () => {
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[
-                {
-                  icon: <Building className="h-6 w-6 text-primary" />,
-                  title: "Техническое обслуживание",
-                  description: "Регулярное обслуживание инженерных систем, предупреждение поломок, своевременный ремонт оборудования и коммуникаций."
-                },
-                {
-                  icon: <Users className="h-6 w-6 text-primary" />,
-                  title: "Клининговые услуги",
-                  description: "Профессиональная уборка помещений и территории, поддержание чистоты и порядка в соответствии с высокими стандартами."
-                },
-                {
-                  icon: <ShieldCheck className="h-6 w-6 text-primary" />,
-                  title: "Обеспечение безопасности",
-                  description: "Организация физической охраны, установка и обслуживание систем видеонаблюдения и контроля доступа."
-                },
-                {
-                  icon: <PieChart className="h-6 w-6 text-primary" />,
-                  title: "Финансовое управление",
-                  description: "Оптимизация затрат на эксплуатацию, бюджетирование, работа с поставщиками услуг, контроль расходов."
-                },
-                {
-                  icon: <Clock className="h-6 w-6 text-primary" />,
-                  title: "Круглосуточная диспетчерская",
-                  description: "Оперативное реагирование на аварийные ситуации, координация работы всех служб 24/7."
-                },
-                {
-                  icon: <FileCheck className="h-6 w-6 text-primary" />,
-                  title: "Юридическое сопровождение",
-                  description: "Подготовка и проверка договоров, взаимодействие с государственными органами, защита интересов собственника."
-                }
-              ].map((service, index) => (
-                <motion.div
-                  key={index}
-                  variants={fadeIn}
-                  className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all duration-300 hover:shadow-lg"
-                  whileHover={{ y: -5 }}
-                >
+              {[{
+              icon: <Building className="h-6 w-6 text-primary" />,
+              title: "Техническое обслуживание",
+              description: "Регулярное обслуживание инженерных систем, предупреждение поломок, своевременный ремонт оборудования и коммуникаций."
+            }, {
+              icon: <Users className="h-6 w-6 text-primary" />,
+              title: "Клининговые услуги",
+              description: "Профессиональная уборка помещений и территории, поддержание чистоты и порядка в соответствии с высокими стандартами."
+            }, {
+              icon: <ShieldCheck className="h-6 w-6 text-primary" />,
+              title: "Обеспечение безопасности",
+              description: "Организация физической охраны, установка и обслуживание систем видеонаблюдения и контроля доступа."
+            }, {
+              icon: <PieChart className="h-6 w-6 text-primary" />,
+              title: "Финансовое управление",
+              description: "Оптимизация затрат на эксплуатацию, бюджетирование, работа с поставщиками услуг, контроль расходов."
+            }, {
+              icon: <Clock className="h-6 w-6 text-primary" />,
+              title: "Круглосуточная диспетчерская",
+              description: "Оперативное реагирование на аварийные ситуации, координация работы всех служб 24/7."
+            }, {
+              icon: <FileCheck className="h-6 w-6 text-primary" />,
+              title: "Юридическое сопровождение",
+              description: "Подготовка и проверка договоров, взаимодействие с государственными органами, защита интересов собственника."
+            }].map((service, index) => <motion.div key={index} variants={fadeIn} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all duration-300 hover:shadow-lg" whileHover={{
+              y: -5
+            }}>
                   <div className="w-14 h-14 rounded-full bg-primary/20 flex items-center justify-center mb-5">
                     {service.icon}
                   </div>
                   <h3 className="text-xl font-bold text-white mb-3">{service.title}</h3>
                   <p className="text-gray-300">{service.description}</p>
-                </motion.div>
-              ))}
+                </motion.div>)}
             </div>
           </AnimatedSection>
         </div>
@@ -136,11 +108,7 @@ const ManagementCompany: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <motion.div variants={fadeIn} className="relative overflow-hidden rounded-xl">
                 <div className="aspect-[4/3] overflow-hidden border border-white/10">
-                  <img 
-                    src="/lovable-uploads/974b63c5-2ebc-40fc-b325-3a655d7afe14.png" 
-                    alt="Команда управляющей компании TOWERUP"
-                    className="w-full h-full object-cover"
-                  />
+                  <img src="/lovable-uploads/974b63c5-2ebc-40fc-b325-3a655d7afe14.png" alt="Команда управляющей компании TOWERUP" className="w-full h-full object-cover" />
                 </div>
               </motion.div>
 
@@ -200,10 +168,7 @@ const ManagementCompany: React.FC = () => {
         
         <div className="container mx-auto px-6 relative z-10">
           <AnimatedSection>
-            <motion.div 
-              variants={fadeIn}
-              className="max-w-4xl mx-auto text-center"
-            >
+            <motion.div variants={fadeIn} className="max-w-4xl mx-auto text-center">
               <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Доверьте управление вашей недвижимостью профессионалам</h2>
               <p className="text-xl text-gray-300 mb-8">
                 Свяжитесь с нами сегодня, чтобы узнать, как мы можем повысить эффективность управления вашим объектом недвижимости.
@@ -220,8 +185,6 @@ const ManagementCompany: React.FC = () => {
           </AnimatedSection>
         </div>
       </section>
-    </ServicePageLayout>
-  );
+    </ServicePageLayout>;
 };
-
 export default ManagementCompany;
