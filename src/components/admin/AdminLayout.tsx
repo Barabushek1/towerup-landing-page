@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAdmin } from '@/contexts/AdminContext';
 import AdminSidebar from './AdminSidebar';
-import { Loader2, Menu, LogOut, PanelLeftClose } from 'lucide-react';
+import { Loader2, Menu, LogOut, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 
@@ -76,13 +76,17 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
             </Button>
             
             <Button
-              variant="ghost"
+              variant="outline"
               size="icon"
-              className="hidden md:flex"
+              className="flex"
               onClick={toggleSidebar}
               title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
             >
-              <PanelLeftClose className={`h-5 w-5 transition-transform ${sidebarCollapsed ? 'rotate-180' : ''}`} />
+              {sidebarCollapsed ? (
+                <PanelLeftOpen className="h-5 w-5" />
+              ) : (
+                <PanelLeftClose className="h-5 w-5" />
+              )}
               <span className="sr-only">{sidebarCollapsed ? "Expand" : "Collapse"} sidebar</span>
             </Button>
 

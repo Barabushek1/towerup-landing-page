@@ -118,9 +118,10 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, onClose, collap
         ref={sidebarRef}
         className={cn(
           "fixed top-0 bottom-0 left-0 z-50 bg-slate-950 border-r border-slate-800 transition-all duration-300 ease-in-out flex flex-col",
-          collapsed ? "md:w-[4.5rem]" : "w-64",
+          collapsed ? "md:w-20" : "w-64",
           mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         )}
+        aria-expanded={!collapsed}
       >
         <div className="flex items-center justify-between p-4">
           <h2 className={cn(
@@ -144,7 +145,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, onClose, collap
         {admin && (
           <div className={cn(
             "p-4 transition-opacity duration-200",
-            collapsed && "md:opacity-0"
+            collapsed && "md:opacity-0 md:h-16"
           )}>
             <div className="flex items-center space-x-2">
               <div className="h-8 w-8 rounded-full bg-slate-700 flex items-center justify-center text-white font-semibold">
@@ -179,10 +180,12 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, onClose, collap
                   title={collapsed ? item.name : undefined}
                 >
                   <div className="flex items-center min-w-0">
-                    {item.icon}
+                    <div className="flex-shrink-0">
+                      {item.icon}
+                    </div>
                     <span className={cn(
-                      "ml-3 truncate transition-opacity duration-200",
-                      collapsed && "md:opacity-0 md:w-0"
+                      "ml-3 truncate transition-all duration-200",
+                      collapsed && "md:opacity-0 md:w-0 md:hidden"
                     )}>
                       {item.name}
                     </span>
@@ -198,15 +201,12 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, onClose, collap
           </ul>
         </nav>
         
-        <div className={cn(
-          "p-4",
-          collapsed && "md:px-2"
-        )}>
+        <div className={cn("p-4", collapsed && "md:p-2")}>
           <Button 
             onClick={handleLogout} 
             className={cn(
-              "w-full",
-              collapsed && "md:p-2 md:h-auto"
+              "w-full flex items-center justify-center",
+              collapsed && "md:p-2 md:h-10 md:w-auto"
             )} 
             variant="destructive"
           >
