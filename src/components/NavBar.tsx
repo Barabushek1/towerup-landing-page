@@ -111,7 +111,7 @@ const NavBar: React.FC = () => {
     key: 'collaboration'
   }, {
     // New Services menu
-    title: 'Услуги',
+    title: t('nav.services'),
     href: '/services',
     hasSubmenu: true,
     key: 'services',
