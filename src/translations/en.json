@@ -297,10 +297,10 @@
   "newUzbekistan.apartments.bedrooms": "Bedrooms",
   "newUzbekistan.apartments.bathrooms": "Bathrooms",
   "newUzbekistan.apartments.balconies": "Balconies",
-  "newUzbekistan.apartments.featuresTitle": "Room Specifications",
+  "newUzbekistan.apartments.featuresTitle": "Room Characteristics",
   "newUzbekistan.apartments.startingPrice": "Starting Price:",
-  "newUzbekistan.apartments.inquire": "Inquire About This Unit",
-  "newUzbekistan.apartments.footer": "Floor plans are subject to availability. Contact our sales team for current pricing and availability of specific units.",
+  "newUzbekistan.apartments.inquire": "Inquire About This Apartment",
+  "newUzbekistan.apartments.footer": "Layouts may vary depending on availability. Contact our sales department to clarify current prices and availability of specific apartments.",
   
   "newUzbekistan.infrastructure.title": "INFRASTRUCTURE",
   "newUzbekistan.infrastructure.subtitle": "Everything for a comfortable life",
@@ -337,7 +337,7 @@
   "newUzbekistan.projectFeatures.amenities.desc": "Access to a wide range of amenities including fitness centers, recreation areas, and much more.",
 
 
-  "nav.home": "Home",
+    "nav.home": "Home",
 
   "collaboration.title": "Collaboration",
   "collaboration.seo.title": "Collaboration",
@@ -394,44 +394,7 @@
 
   "collaboration.tenders.toast.detailsSentTitle": "Request sent",
   "collaboration.tenders.toast.detailsSentDesc": "Tender details will be sent to your email",
-  "collaboration.tenders.noTenders": "No tenders found for the selected category",
-  
-  "collaboration.proposals.intro.title": "Commercial Proposals",
-  "collaboration.proposals.intro.description": "We invite manufacturers and suppliers to submit their commercial proposals for cooperation with TOWER UP. We are interested in high-quality materials, equipment, and services for our construction projects.",
-  "collaboration.proposals.intro.alert": "All proposals are reviewed by our procurement department within 5 business days",
-  
-  "collaboration.proposals.form.title": "Submit your proposal",
-  "collaboration.proposals.form.nameLabel": "Full name",
-  "collaboration.proposals.form.namePlaceholder": "Enter your full name",
-  "collaboration.proposals.form.companyLabel": "Company name",
-  "collaboration.proposals.form.companyPlaceholder": "Enter your company name",
-  "collaboration.proposals.form.typeLabel": "Proposal type",
-  "collaboration.proposals.form.typePlaceholder": "Select proposal type",
-  "collaboration.proposals.form.types.materials": "Construction materials",
-  "collaboration.proposals.form.types.equipment": "Equipment and machinery",
-  "collaboration.proposals.form.types.services": "Services",
-  "collaboration.proposals.form.types.other": "Other",
-  "collaboration.proposals.form.emailLabel": "Email",
-  "collaboration.proposals.form.emailPlaceholder": "Enter your email",
-  "collaboration.proposals.form.phoneLabel": "Phone number",
-  "collaboration.proposals.form.phonePlaceholder": "Enter your phone number",
-  "collaboration.proposals.form.messageLabel": "Proposal description",
-  "collaboration.proposals.form.messagePlaceholder": "Describe your product or service",
-  "collaboration.proposals.form.filesLabel": "Attach files",
-  "collaboration.proposals.form.filesHelp": "up to 5 files",
-  "collaboration.proposals.form.dropFilesText": "Drag files here or click to upload",
-  "collaboration.proposals.form.allowedFormats": "PDF, Word, Excel, JPEG, PNG (max 10MB per file)",
-  "collaboration.proposals.form.selectedFiles": "Selected files",
-  "collaboration.proposals.form.submitButton": "Submit proposal",
-  "collaboration.proposals.form.submittingButton": "Submitting...",
-  
-  "collaboration.proposals.toast.submittedTitle": "Proposal submitted",
-  "collaboration.proposals.toast.submittedDesc": "Thank you! We will contact you soon.",
-  
-  "collaboration.proposals.contact.title": "Direct contact",
-  "collaboration.proposals.contact.description": "For urgent proposals or additional questions, you can contact our procurement department directly:",
-  "collaboration.proposals.contact.emailLabel": "Email",
-  "collaboration.proposals.contact.phoneLabel": "Phone",
+
 
   "collaboration.partnership.intro.title": "TOWER UP Partnership Program",
   "collaboration.partnership.intro.description": "Become part of our team and gain access to exclusive projects. We value reliable partners and offer favorable cooperation terms.",
@@ -470,5 +433,172 @@
 
    "collaboration.partners.items.partner1.name": "\"Monolit\" Construction Company",
   "collaboration.partners.items.partner1.description": "Multidisciplinary construction company with a full production cycle. Over 10 years on the market for construction of residential and commercial real estate.",
-  "collaboration.partners.items.partner1.achievement1": "Best Construction Company 2022"
+  "collaboration.partners.items.partner1.achievement1": "Best Construction Company 2023",
+  "collaboration.partners.items.partner1.achievement2": "ISO 9001:2015 Certificate",
+
+
+   "collaboration.partners.items.partner2.name": "\"Koncept\" Architectural Bureau",
+  "collaboration.partners.items.partner2.description": "Team of architects and designers with international experience. Specializing in designing modern energy-efficient buildings.",
+  "collaboration.partners.items.partner2.achievement1": "\"Innovative Project of the Year\" Award 2024",
+  "collaboration.partners.items.partner2.achievement2": "Best Design Award 2022",
+
+
+   "collaboration.partners.items.partner3.name": "\"StroyMaterials\" Supplier",
+  "collaboration.partners.items.partner3.description": "Supply of quality construction materials from leading manufacturers. Exclusive representative of European brands.",
+  "collaboration.partners.items.partner3.achievement1": "Leader in supply volumes 2023",
+  "collaboration.partners.items.partner3.achievement2": "Ecological safety certificate",
+
+
+   "collaboration.partners.items.partner4.name": "\"TekhnoProekt\" Engineering Systems",
+  "collaboration.partners.items.partner4.description": "Design and installation of engineering systems for facilities of any complexity. Comprehensive solutions for residential complexes and business centers.",
+  "collaboration.partners.items.partner4.achievement1": "\"Energy Efficiency+\" Certificate 2023",
+  "collaboration.partners.items.partner4.achievement2": "Innovative Company of the Year",
+
+
+  "collaboration.partnership.ctaBlock.title": "Become our partner",
+  "collaboration.partnership.ctaBlock.description": "We offer flexible cooperation terms for companies of various profiles. Fill out the form, and our manager will contact you to discuss the details.",
+  "collaboration.partnership.ctaBlock.button": "Leave a partnership request",
+
+  "collaboration.partnership.toast.requestAcceptedTitle": "Application accepted",
+  "collaboration.partnership.toast.requestAcceptedDesc": "Our manager will contact you shortly",
+
+
+  "collaboration.testimonials.title": "Testimonials from our partners",
+  "collaboration.testimonials.description": "Learn what our current partners say about cooperation with TOWER UP",
+
+   "collaboration.testimonials.item1.name": "Abdullaev Kamron",
+  "collaboration.testimonials.item1.position": "Director of LLC \"StroyInvest\"",
+  "collaboration.testimonials.item1.text": "Cooperation with TOWER UP allowed us to reach a new level in the implementation of construction projects. Professional approach, strict adherence to deadlines, and high quality of work.",
+  "collaboration.testimonials.item1.company": "\"StroyInvest\"",
+
+   "collaboration.testimonials.item2.name": "Ignatova Elena",
+  "collaboration.testimonials.item2.position": "Chief Architect of \"ArtProject\"",
+  "collaboration.testimonials.item2.text": "Over three years of partnership with TOWER UP, we have implemented more than 10 joint projects. We value the reliability, transparency, and innovative approach of the company.",
+  "collaboration.testimonials.item2.company": "\"ArtProject\"",
+
+   "collaboration.testimonials.item3.name": "Rakhimov Bakhtiyar",
+  "collaboration.testimonials.item3.position": "General Director of \"TekhnoStroy\"",
+  "collaboration.testimonials.item3.text": "Thanks to the partnership with TOWER UP, our company gained access to large and prestigious projects. Mutually beneficial cooperation that we are proud of.",
+  "collaboration.testimonials.item3.company": "\"TekhnoStroy\"",
+
+
+  "collaboration.benefitsBlock.title": "Advantages of cooperation with TOWER UP",
+  "collaboration.benefitsBlock.item1": "Long-term partnership relations and stable orders",
+  "collaboration.benefitsBlock.item2": "Work on large and prestigious projects",
+  "collaboration.benefitsBlock.item3": "Transparent terms and timely payments",
+  "collaboration.benefitsBlock.item4": "Opportunity for joint development and implementation of innovative ideas",
+  "collaboration.benefitsBlock.item5": "Expansion of the network of professional contacts",
+
+  "collaboration.contactBlock.title": "Contacts for cooperation",
+  "collaboration.contactBlock.description": "For all questions regarding cooperation and participation in tenders, you can contact our specialists:",
+  "collaboration.contactBlock.tendersEmailLabel": "Procurement and Tenders Department",
+  "collaboration.contactBlock.partnershipEmailLabel": "Partnership Program",
+  "collaboration.contactBlock.phoneLabel": "Phone",
+  "collaboration.contactBlock.button": "Contact Us",
+
+
+  "dateFormat": "en-US",
+
+  "newUzbekistan.apartments.bedrooms": "Bedrooms",
+  "newUzbekistan.apartments.bathrooms": "Bathrooms",
+  "newUzbekistan.apartments.balconies": "Balconies",
+  "newUzbekistan.apartments.featuresTitle": "Room Specifications",
+  "newUzbekistan.apartments.startingPrice": "Starting Price:",
+  "newUzbekistan.apartments.inquire": "Inquire About This Unit",
+  "newUzbekistan.apartments.footer": "Floor plans are subject to availability. Contact our sales team for current pricing and availability of specific units.",
+  "newUzbekistan.contact.form.title": "Contact Us",
+
+
+    
+  "common.close": "Close",
+  "common.previous": "Previous",
+  "common.next": "Next",
+  "common.moreDetails": "More Details",
+  "aboutSection.title": "ABOUT THE COMPANY",
+  "aboutSection.shortTitle": "Innovative",
+  "aboutSection.shortTitleSolution": "solutions",
+  "aboutSection.longTitle1": "Innovative",
+  "aboutSection.longTitle2": "solutions for",
+  "aboutSection.longTitle3": "modern",
+  "aboutSection.longTitle4": "construction",
+  "aboutSection.text": "A leading construction company specializing in the implementation of innovative projects and the construction of high-rise buildings. Since its foundation, the company has sought to embody the most ambitious and complex architectural ideas, offering clients solutions at the highest level.",
+  "aboutSection.learnMore": "LEARN MORE",
+  "aboutSection.readMore": "Read More",
+  "aboutSection.buildingImage": "Company building",
+  "aboutSection.ourAdvantages": "OUR ADVANTAGES",
+  "aboutSection.advantages.professionalism.title": "PROFESSIONALISM",
+  "aboutSection.advantages.professionalism.desc": "The basis of our professionalism is the preservation of our own traditions and the use of world innovations.",
+  "aboutSection.advantages.experience.title": "COMPANY EXPERIENCE",
+  "aboutSection.advantages.experience.desc": "We don't have to prove the quality of our products. Your recognition does it for us.",
+  "aboutSection.advantages.equipment.title": "EQUIPMENT",
+  "aboutSection.advantages.equipment.desc": "The technological superiority of the equipment we use is a distinguishing element of TOWERUP company.",
+  
+   "featuresSection.ariaLabel": "Our services",
+  "featuresSection.subtitle": "Building the future together",
+  "featuresSection.title": "Realize your dreams with Tower Up",
+  "featuresSection.description": "From design to delivery of the facility — we provide a full cycle of construction work with quality guarantee and on time",
+  "featuresSection.contactUs": "Contact us",
+  "featuresSection.ourProjects": "Our projects",
+  "featuresSection.contactAriaLabel": "Contact our team",
+  "featuresSection.projectsAriaLabel": "View all company projects",
+  
+  "projectsSection.viewMore": "More details",
+  "projectsSection.viewProject": "View project",
+  "projectsSection.learnMore": "LEARN MORE",
+  "projectsSection.allProjects": "ALL PROJECTS",
+   "projectsSection.previousSlide": "Previous slide",
+  "projectsSection.nextSlide": "Next slide",
+  "projectsSection.goToSlide": "Go to slide",
+  "projectsSection.ourProjects": "OUR PROJECTS",
+  "projectsSection.sectionTitle": "Our projects",
+  "projectsSection.sectionHeading": "Innovative projects created for the future",
+  "projectsSection.sectionDescription": "Explore our iconic projects, which we create using modern technologies and uncompromising quality standards.",
+  
+  "projectsSection.featured.nearby.title": "Everything needed is nearby",
+  "projectsSection.featured.nearby.subtitle": "RC «Kumaryk»",
+  "projectsSection.featured.nearby.description": "Modern residential complex in a prestigious area.",
+  
+  "projectsSection.featured.parking.title": "Convenient parking",
+  "projectsSection.featured.parking.subtitle": "TOWERUP projects",
+  "projectsSection.featured.parking.description": "Safe and comfortable place for your car.",
+  
+  "projectsSection.featured.turnkey.title": "Turnkey renovation",
+  "projectsSection.featured.turnkey.subtitle": "TOWERUP services",
+  "projectsSection.featured.turnkey.description": "Ready solutions for your comfort.",
+  
+  "projectsSection.projects.pushkin.title": "Residential complex «Pushkin»",
+  "projectsSection.projects.pushkin.description": "Modern eco-complex of 5 buildings with landscaped territory, children's playgrounds, and park zone.",
+  "projectsSection.projects.pushkin.location": "Tashkent",
+  "projectsSection.projects.pushkin.status": "Under Construction",
+  
+  "projectsSection.projects.newUzbekistan.title": "Residential complex «New Uzbekistan»",
+  "projectsSection.projects.newUzbekistan.description": "Modern complex with innovative architecture, green zones, and developed infrastructure.",
+  "projectsSection.projects.newUzbekistan.location": "Tashkent",
+  "projectsSection.projects.newUzbekistan.status": "Under Construction",
+  
+  "projectsSection.projects.kumaryk.title": "Residential complex «Kumaryk»",
+  "projectsSection.projects.kumaryk.description": "Resort complex consisting of 5* hotel and apartments with panoramic sea views and a private beach.",
+  "projectsSection.projects.kumaryk.location": "Tashkent",
+  "projectsSection.projects.kumaryk.status": "In Design",
+  "projectAdvantages": {
+    "title": "Advantages of RC «Pushkin»",
+    "description": "Residential complex «Pushkin» is a standard of modern comfortable housing, combining a good location, quality construction, and care for future residents.",
+    "nearby": {
+      "title": "Everything needed is nearby",
+      "description": "School, kindergarten, green area, and other infrastructure facilities."
+    },
+    "parking": {
+      "title": "Convenient parking",
+      "description": "Multi-level above-ground parking for complex residents."
+    },
+    "installment": {
+      "title": "0% Installment",
+      "description": "Favorable purchase terms up to 2 years."
+    },
+    "metro": {
+      "title": "4 minutes from metro",
+      "description": "Metro station 10th within walking distance."
+    },
+    "learnMore": "Learn more"
+  }
 }
