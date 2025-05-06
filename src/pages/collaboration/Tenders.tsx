@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react'; // Added useMemo
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
-// Assuming NavBar, PageHeader, Footer, ScrollToTopButton are dark-themed
+// Assuming NavBar, PageHeader, Footer, ScrollToTopButton are styled as intended
 import NavBar from '@/components/NavBar';
 import PageHeader from '@/components/PageHeader';
 import Footer from '@/components/Footer';
 import ScrollToTopButton from '@/components/ScrollToTopButton';
 
-// Assuming Shadcn UI components are dark-themed
+// Assuming Shadcn UI components are styled as intended
 import {
   Card,
   CardContent,
@@ -29,7 +29,7 @@ import {
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Separator } from '@/components/ui/separator';
 
-// Assuming Breadcrumb components are dark-themed
+// Assuming Breadcrumb components are styled as intended
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -39,80 +39,77 @@ import {
 } from '@/components/ui/breadcrumb';
 
 // Import icons
-import { FileText, Calendar, ArrowRight, Filter, Search, Clock, MapPin, DollarSign, FolderOpen, CheckCircle } from 'lucide-react'; // Added more icons
+import { FileText, Calendar, ArrowRight, Filter, Search, Clock, MapPin, DollarSign, FolderOpen, CheckCircle } from 'lucide-react';
 
-// Import useToast and useLanguage
-import { useToast } from '@/hooks/use-toast'; // Assuming hook exists
-import { useLanguage } from '@/contexts/useLanguage'; // Assuming context exists and path is correct
-import { cn } from '@/lib/utils'; // Assuming utility exists
+// Removed useToast and useLanguage imports
+// import { useToast } from '@/hooks/use-toast';
+// import { useLanguage } from '@/contexts/useLanguage';
+
+import { cn } from '@/lib/utils';
 
 
-// --- Mock Data for Tenders (Should ideally come from DB) ---
-// Using translation keys for categories and status, and NOW also for titles and descriptions
+// --- Mock Data for Tenders (Hardcoded Russian text) ---
+// All text is now directly in Russian strings
 const mockTenders = [
   {
     id: 1,
-    titleKey: 'tenders.items.tender1.title', // Use a key for title
-    descriptionKey: 'tenders.items.tender1.description', // Use a key for description
+    title: 'Закупка строительных материалов для жилого комплекса',
+    description: 'Требуются строительные материалы для возведения жилого комплекса в центре Ташкента. В список входят: цемент, арматура, кирпич, песок, щебень.',
     date: '2025-05-20', // Keep date string format
-    category: 'constructionMaterials', // Use a category key
-    status: 'active', // Use a status key
-    // location: 'Ташкент, Мирзо-Улугбекский район', // Add location if needed per tender
-    // budget: '$250,000 - $350,000', // Add budget if needed per tender
-    // requirements: '...', // Add requirements if needed per tender
+    category: 'Строительные материалы', // Hardcoded category in Russian
+    status: 'Активный' // Hardcoded status in Russian
   },
   {
     id: 2,
-    titleKey: 'tenders.items.tender2.title', // Use a key for title
-    descriptionKey: 'tenders.items.tender2.description', // Use a key for description
+    title: 'Поставка электротехнического оборудования',
+    description: 'Закупка высоковольтного оборудования для нового бизнес-центра. Требуются трансформаторы, распределительные щиты, кабельная продукция.',
     date: '2025-05-25',
-    category: 'electricalEquipment', // Use a category key
-    status: 'active', // Use a status key
+    category: 'Электрооборудование',
+    status: 'Активный'
   },
   {
     id: 3,
-    titleKey: 'tenders.items.tender3.title', // Use a key for title
-    descriptionKey: 'tenders.items.tender3.description', // Use a key for description
+    title: 'Тендер на проведение отделочных работ',
+    description: 'Ищем подрядчика для выполнения внутренних отделочных работ в офисном помещении площадью 1200 кв.м. в новом бизнес-центре.',
     date: '2025-06-01',
-    category: 'constructionWork', // Use a category key
-    status: 'closed', // Use a status key
+    category: 'Строительные работы',
+    status: 'Завершен' // Hardcoded status in Russian
   },
   {
     id: 4,
-    titleKey: 'tenders.items.tender4.title', // Use a key for title
-    descriptionKey: 'tenders.items.tender4.description', // Use a key for description
+    title: 'Закупка сантехнического оборудования',
+    description: 'Требуется поставка сантехнического оборудования для комплектации 50 квартир в новом жилом комплексе.',
     date: '2025-06-05',
-    category: 'plumbing', // Use a category key
-    status: 'active', // Use a status key
+    category: 'Сантехника',
+    status: 'Активный'
   },
   {
     id: 5,
-    titleKey: 'tenders.items.tender5.title', // Use a key for title
-    descriptionKey: 'tenders.items.tender5.description', // Use a key for description
+    title: 'Поставка кондиционеров и систем вентиляции',
+    description: 'Закупка и монтаж систем кондиционирования и вентиляции для торгового центра площадью 5000 кв.м.',
     date: '2025-05-15',
-    category: 'climateEquipment', // Use a category key
-    status: 'closed', // Use a status key
+    category: 'Климатическое оборудование',
+    status: 'Завершен'
   },
   {
     id: 6,
-    titleKey: 'tenders.items.tender6.title', // Use a key for title
-    descriptionKey: 'tenders.items.tender6.description', // Use a key for description
+    title: 'Тендер на проектирование ландшафтного дизайна',
+    description: 'Ищем компанию для разработки проекта ландшафтного дизайна территории жилого комплекса площадью 1,5 га.',
     date: '2025-05-10',
-    category: 'design', // Use a category key
-    status: 'closed', // Use a status key
+    category: 'Проектирование',
+    status: 'Завершен'
   }
 ];
 
-
-// Available categories (using keys now)
-const categoryKeys = [
-  'allCategories', // Key for "Все категории"
-  'constructionMaterials',
-  'electricalEquipment',
-  'constructionWork',
-  'plumbing',
-  'climateEquipment',
-  'design'
+// Available categories (hardcoded Russian text now)
+const categories = [
+  'Все категории',
+  'Строительные материалы',
+  'Электрооборудование',
+  'Строительные работы',
+  'Сантехника',
+  'Климатическое оборудование',
+  'Проектирование'
 ];
 
 // Animation variants
@@ -132,199 +129,204 @@ const staggerContainer = {
 const cardVariants = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
-  hover: { y: -5, boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)' } // Keep dark shadow effect
+  hover: { y: -5, boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)' }
 };
 
 const Tenders: React.FC = () => {
-  const { t } = useLanguage(); // Access translation function
+  // Removed useLanguage hook usage
+  // const { t } = useLanguage();
+
+  // Removed useToast hook usage if it's not used elsewhere
+  // const { toast } = useToast();
+
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('allCategories');
+  // Use hardcoded Russian text for selected category state
+  const [selectedCategory, setSelectedCategory] = useState('Все категории');
   const [filteredTenders, setFilteredTenders] = useState(mockTenders);
+  // Use hardcoded Russian text for tab values
   const [activeTab, setActiveTab] = useState('all'); // Tab keys: 'all', 'active', 'closed'
 
 
-  // Map category keys to translated text for Select options
-  const translatedCategories = useMemo(() => {
-    return categoryKeys.map(key => ({
-      value: key,
-      label: t(`tenders.categories.${key}`) // Use translation function
-    }));
-  }, [t]);
+  // Categories for Select options (use hardcoded array directly)
+  // Removed useMemo and translatedCategories variable
+
 
   // Filter tenders based on search query, category, and tab
   useEffect(() => {
     let filtered = [...mockTenders];
 
-    // Filter by search query (search against TRANSLATED title and description)
+    // Filter by search query (search against hardcoded title and description)
     if (searchQuery) {
       const lowerCaseQuery = searchQuery.toLowerCase();
       filtered = filtered.filter(tender =>
-        t(tender.titleKey).toLowerCase().includes(lowerCaseQuery) || // Translate title before searching
-        t(tender.descriptionKey).toLowerCase().includes(lowerCaseQuery) // Translate description before searching
+        tender.title.toLowerCase().includes(lowerCaseQuery) ||
+        tender.description.toLowerCase().includes(lowerCaseQuery)
       );
     }
 
-    // Filter by category (compare category key)
-    if (selectedCategory !== 'allCategories') {
+    // Filter by category (compare hardcoded category string)
+    if (selectedCategory !== 'Все категории') { // Compare with hardcoded string
       filtered = filtered.filter(tender => tender.category === selectedCategory);
     }
 
-    // Filter by tab (status key)
-    const activeStatus = 'active'; // Internal status key
-    const closedStatus = 'closed'; // Internal status key
+    // Filter by tab (compare hardcoded status string)
+    const activeStatus = 'Активный'; // Hardcoded status string
+    const completedStatus = 'Завершен'; // Hardcoded status string
 
-    if (activeTab === activeStatus) {
+    if (activeTab === 'active') { // Compare tab key
       filtered = filtered.filter(tender => tender.status === activeStatus);
-    } else if (activeTab === closedStatus) {
-      filtered = filtered.filter(tender => tender.status === closedStatus);
+    } else if (activeTab === 'closed') { // Compare tab key
+      filtered = filtered.filter(tender => tender.status === completedStatus);
+    } else if (activeTab === 'all') { // 'all' tab shows all statuses
+       // No additional filtering needed for 'all'
     }
+
 
     setFilteredTenders(filtered);
-  }, [searchQuery, selectedCategory, activeTab, t]); // Add t to dependency array
+  }, [searchQuery, selectedCategory, activeTab, mockTenders]); // Keep dependencies
 
-  // Function to get translated status text for badge
-  const getTranslatedStatus = (statusKey: string) => {
-    switch (statusKey) {
-      case 'active':
-        return t('tenders.statuses.active');
-      case 'closed':
-        return t('tenders.statuses.closed');
-      default:
-        return statusKey; // Fallback
-    }
-  };
 
-   // Function to get badge color based on status key
-   const getStatusColorClass = (statusKey: string) => {
-     switch (statusKey) {
-       case 'active':
+  // Function to get badge color based on hardcoded status string
+   const getStatusColorClass = (status: string) => {
+     switch (status) {
+       case 'Активный': // Compare with hardcoded string
          return 'bg-primary text-primary-foreground';
-       case 'closed':
+       case 'Завершен': // Compare with hardcoded string
          return 'bg-slate-500 text-white';
        default:
-         return 'bg-slate-600 text-white';
+         return 'bg-slate-600 text-white'; // Default
      }
    };
 
 
-  // Format date using the locale from translation context
+  // Format date using Russian locale (hardcoded)
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    const locale = t('dateFormat') || 'en-US';
+    // Use 'ru-RU' locale string directly
     try {
-       return new Intl.DateTimeFormat(locale, {
+       return new Intl.DateTimeFormat('ru-RU', {
          day: 'numeric',
          month: 'long',
          year: 'numeric'
        }).format(date);
     } catch (e) {
-        console.error(`Error formatting date for locale "${locale}":`, e);
-        return dateString;
+        console.error(`Error formatting date for locale "ru-RU":`, e);
+        return dateString; // Fallback on error
     }
   };
 
   // --- Render ---
   return (
+    // Use consistent dark theme background
     <div className="min-h-screen antialiased bg-[#161616] text-white overflow-x-hidden">
-      {/* Helmet for SEO */}
+      {/* Helmet for SEO - Hardcoded Russian text */}
       <Helmet>
-        <title>{t('tenders.seo.title')} | {t('footer.companyName')}</title>
-        <meta name="description" content={t('tenders.seo.description')} />
+        <title>Тендеры | TOWERUP</title>
+        <meta name="description" content="Актуальные тендеры и конкурсы на закупку оборудования и строительных материалов от компании TOWERUP." />
         {/* Add other relevant meta tags */}
       </Helmet>
 
-      <NavBar />
+      <NavBar /> {/* Include NavBar */}
 
       <main>
-        {/* Page Header */}
+        {/* Page Header - Hardcoded Russian text */}
         <PageHeader
-          title={t('tenders.title')}
-          breadcrumb={`${t('nav.home').toUpperCase()} / ${t('tenders.title').toUpperCase()}`}
+          title="Тендеры"
+          breadcrumb="ГЛАВНАЯ / ТЕНДЕРЫ" // Hardcoded breadcrumb
           backgroundImage="/lovable-uploads/973129d4-828a-4497-8930-8fda46645e5d.jpg"
         />
 
         <section className="py-16 md:py-24 bg-[#1a1a1a]">
           <div className="container mx-auto px-6">
-            {/* Breadcrumbs */}
+            {/* Breadcrumbs - Hardcoded Russian text, styled for dark theme */}
              <Breadcrumb className="mb-8 text-slate-400">
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/" className="hover:text-primary">{t('nav.home')}</BreadcrumbLink>
+                  {/* Hardcoded link and text */}
+                  <BreadcrumbLink href="/" className="hover:text-primary">Главная</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="text-slate-600" />
                 <BreadcrumbItem>
-                  <span className="text-white">{t('tenders.title')}</span>
+                  {/* Hardcoded text */}
+                  <span className="text-white">Тендеры</span>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
 
-            {/* Intro Section */}
+
+            {/* Intro Section - Hardcoded Russian text */}
             <motion.div
               initial="initial"
               animate="animate"
               variants={fadeIn}
               className="max-w-3xl mx-auto text-center mb-12 md:mb-16"
             >
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">{t('tenders.intro.title')}</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Текущие тендеры и закупки</h2>
               <p className="text-lg text-slate-300 leading-relaxed">
-                {t('tenders.intro.description')}
+                Здесь публикуются актуальные тендеры на закупку оборудования,
+                строительных материалов и услуг для проектов компании TOWERUP.
               </p>
             </motion.div>
 
-            {/* Filters and Tabs */}
+            {/* Filters and Tabs - Hardcoded Russian text */}
             <motion.div
               className="mb-8 grid gap-4 md:flex md:items-center md:justify-between"
               variants={fadeIn}
             >
-              {/* Search Input */}
+              {/* Search Input - Hardcoded placeholder text */}
               <div className="relative flex-grow md:flex-grow-0 md:w-[350px]">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
                 <Input
                   type="text"
-                  placeholder={t('tenders.filters.searchPlaceholder')}
+                  placeholder="Поиск по тендерам..."
                   className="pl-9 pr-4 py-2 w-full bg-slate-700/50 border-slate-600 text-white placeholder-slate-400 focus:border-primary"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
 
-              {/* Category Select */}
+              {/* Category Select - Hardcoded Russian text for options */}
               <div className="flex items-center gap-2 md:flex-shrink-0">
                 <Filter className="text-slate-400 h-4 w-4" />
                 <Select onValueChange={setSelectedCategory} defaultValue={selectedCategory}>
                   <SelectTrigger className="w-full md:w-[200px] bg-slate-700/50 border-slate-600 text-white placeholder-slate-400 focus:border-primary">
-                    <SelectValue placeholder={t('tenders.filters.categoryPlaceholder')} />
+                    {/* Hardcoded placeholder */}
+                    <SelectValue placeholder="Все категории" />
                   </SelectTrigger>
                   <SelectContent className="bg-slate-800 text-white border-slate-700">
-                    {translatedCategories.map((category) => (
-                      <SelectItem key={category.value} value={category.value}>
-                        {category.label}
+                    {/* Map over hardcoded categories array */}
+                    {categories.map((category) => (
+                      <SelectItem key={category} value={category}>
+                        {category}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
 
-               {/* Tabs List */}
+               {/* Tabs List - Hardcoded Russian text for labels and values */}
                 <Tabs defaultValue="all" className="w-full md:w-max md:ml-auto" onValueChange={setActiveTab}>
                    <TabsList className="grid w-full grid-cols-3 gap-1 p-1 bg-slate-800 rounded-lg border border-slate-700/50 h-auto">
-                     <TabsTrigger value="all" className="py-2 px-2 data-[state=active]:bg-primary data-[state=active]:shadow-md data-[state=active]:text-white text-white/70 hover:text-white transition-all font-medium rounded-md text-sm md:text-base">{t('tenders.tabs.all')}</TabsTrigger>
-                     <TabsTrigger value="active" className="py-2 px-2 data-[state=active]:bg-primary data-[state=active]:shadow-md data-[state=active]:text-white text-white/70 hover:text-white transition-all font-medium rounded-md text-sm md:text-base">{t('tenders.tabs.active')}</TabsTrigger>
-                     <TabsTrigger value="closed" className="py-2 px-2 data-[state=active]:bg-primary data-[state=active]:shadow-md data-[state=active]:text-white text-white/70 hover:text-white transition-all font-medium rounded-md text-sm md:text-base">{t('tenders.tabs.closed')}</TabsTrigger>
+                     {/* Hardcoded labels */}
+                     <TabsTrigger value="all" className="py-2 px-2 data-[state=active]:bg-primary data-[state=active]:shadow-md data-[state=active]:text-white text-white/70 hover:text-white transition-all font-medium rounded-md text-sm md:text-base">Все тендеры</TabsTrigger>
+                     <TabsTrigger value="active" className="py-2 px-2 data-[state=active]:bg-primary data-[state=active]:shadow-md data-[state=active]:text-white text-white/70 hover:text-white transition-all font-medium rounded-md text-sm md:text-base">Активные</TabsTrigger>
+                     <TabsTrigger value="closed" className="py-2 px-2 data-[state=active]:bg-primary data-[state=active]:shadow-md data-[state=active]:text-white text-white/70 hover:text-white transition-all font-medium rounded-md text-sm md:text-base">Завершенные</TabsTrigger>
                    </TabsList>
                  </Tabs>
             </motion.div>
 
+
             {/* Tenders List Grid */}
-             <motion.div variants={fadeIn}> {/* Added animation wrapper */}
-              <Tabs value={activeTab} className="mb-8"> {/* Use controlled tabs */}
-                <TabsContent value="all" className="mt-0"> {/* Remove default margin */}
-                  <motion.div
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                    variants={staggerContainer}
-                    initial="initial"
-                    animate="animate"
-                  >
+             <motion.div variants={fadeIn}>
+              {/* Tabs component still needed to control content display */}
+              {/* Removed TabsContent wrappers as filtering handles display */}
+              {/* The grid will automatically render filteredTenders */}
+               <motion.div
+                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                 variants={staggerContainer}
+                 initial="initial"
+                 animate="animate"
+               >
                     {/* Map through filtered tenders */}
                     {filteredTenders.length > 0 ? (
                       filteredTenders.map((tender) => (
@@ -334,63 +336,58 @@ const Tenders: React.FC = () => {
                           whileHover="hover"
                           transition={{ duration: 0.3 }}
                         >
-                          {/* Card - Restyled for dark theme */}
+                          {/* Card - Styled for dark theme */}
                           <Card className={cn(
                              "h-full flex flex-col overflow-hidden border-l-4 hover:shadow-lg transition-all duration-300",
                              "bg-slate-800/40 text-white border-slate-700/50 hover:border-primary/30",
-                             tender.status === 'closed' ? "opacity-75" : ""
+                             tender.status === 'Завершен' ? "opacity-75" : "" // Compare with hardcoded string
                           )}
-                            style={{ borderLeftColor: tender.status === 'active' ? '#4ade80' : '#8E9196' }}
+                            // Apply border-left color based on hardcoded status string
+                            style={{ borderLeftColor: tender.status === 'Активный' ? '#4ade80' : '#8E9196' }}
                           >
                             <CardHeader>
                               <div className="flex justify-between items-start gap-2">
                                 {/* Title - Restyled color */}
-                                <CardTitle className="text-xl font-bold text-white flex-grow">{t(tender.titleKey)}</CardTitle> {/* Use t() with titleKey */}
+                                <CardTitle className="text-xl font-bold text-white flex-grow">{tender.title}</CardTitle> {/* Use hardcoded title */}
                                 {/* Status Badge - Restyled color */}
                                 <Badge className={cn("text-white", getStatusColorClass(tender.status))}>
-                                  {getTranslatedStatus(tender.status)}
+                                  {tender.status} {/* Use hardcoded status */}
                                 </Badge>
                               </div>
                               {/* Date - Restyled icon/text color */}
                               <div className="flex items-center text-sm text-slate-400 mt-2">
                                 <Calendar className="h-4 w-4 mr-2 text-slate-400" />
-                                <span>{formatDate(tender.date)}</span>
+                                {/* Hardcoded label + formatted date */}
+                                <span>Срок подачи: {formatDate(tender.date)}</span>
                               </div>
                             </CardHeader>
                             <CardContent className="flex-grow text-slate-300 leading-relaxed">
                               {/* Category Badge - Restyled */}
                               <div className="mb-3">
                                 <Badge variant="secondary" className="mr-2 bg-slate-700/50 text-slate-300 border-slate-600">
-                                  {t(`tenders.categories.${tender.category}`)}
+                                  {tender.category} {/* Use hardcoded category */}
                                 </Badge>
                               </div>
                               {/* Description */}
-                              <p>{t(tender.descriptionKey)}</p> {/* Use t() with descriptionKey */}
-                              {/* Optionally add other tender details like location, budget, requirements here */}
-                              {/* {tender.location && (
-                                <div className="flex items-center text-sm text-slate-400 mt-2">
-                                   <MapPin className="mr-2 h-4 w-4 text-rose-400" />
-                                   <span>{t('collaboration.tenders.items.locationLabel')}: {t(tender.location)}</span>
-                                </div>
-                              )} */}
-                              {/* ... add budget, requirements if available in mock data and translated ... */}
+                              <p>{tender.description}</p> {/* Use hardcoded description */}
+                               {/* Removed location, budget, requirements display if they are not in mock data */}
                             </CardContent>
                             <CardFooter>
-                              {/* Button - Restyled for dark theme, added translation */}
+                              {/* Button - Restyled for dark theme, hardcoded text */}
                               <Button
                                 variant="outline"
-                                disabled={tender.status === 'closed'}
+                                disabled={tender.status === 'Завершен'} // Disable if hardcoded status is 'Завершен'
                                 className={cn(
                                    "w-full flex items-center justify-center gap-2",
                                    "border-slate-600 text-white/90 hover:bg-slate-700/50 hover:border-primary group-hover:border-primary/80 transition-colors",
-                                   tender.status === 'closed' && "opacity-50 cursor-not-allowed"
+                                   tender.status === 'Завершен' && "opacity-50 cursor-not-allowed"
                                 )}
-                                // Optional: Add an onClick handler if you want a modal or navigation
+                                // Removed onClick handler if not used
                                 // onClick={() => handleTenderClick(tender.id)}
                               >
                                 <FileText className="h-4 w-4" />
-                                <span>{t('tenders.items.buttonDetails')}</span>
-                                {/* Arrow icon - keep position consistent */}
+                                {/* Hardcoded button text */}
+                                <span>Подробнее</span>
                                 <ArrowRight className="h-4 w-4 ml-auto group-hover:translate-x-1 transition-transform" />
                               </Button>
                             </CardFooter>
@@ -398,33 +395,27 @@ const Tenders: React.FC = () => {
                         </motion.div>
                       ))
                     ) : (
-                      // No Tenders Found Message
+                      // No Tenders Found Message - Hardcoded Russian text
                       <motion.div
                         className="col-span-1 md:col-span-2 lg:col-span-3 py-16 text-center bg-slate-800/40 rounded-xl border border-slate-700/50"
                         variants={fadeIn}
                       >
-                        <p className="text-xl text-slate-400">{t('tenders.notFound.title')}</p>
-                        <p className="text-slate-500 mt-2">{t('tenders.notFound.description')}</p>
+                        <p className="text-xl text-slate-400">Тендеры не найдены</p>
+                        <p className="text-slate-500 mt-2">Попробуйте изменить параметры фильтрации</p>
                       </motion.div>
                     )}
                   </motion.div>
                 </TabsContent>
-                 {/* Add empty TabsContent for 'active' and 'closed' if needed for structure, but the filtering handles display */}
-                 {/* Note: This is less efficient as React renders all TabContent. Filtering before map is better. */}
-                 {/* The current approach with filtering `filteredTenders` based on `activeTab` before the map is correct. */}
-                 {/* Keeping these empty TabsContent is usually only needed if you manage display purely via CSS/Radix states */}
-                 {/* <TabsContent value="active" className="mt-0"></TabsContent>
-                 <TabsContent value="closed" className="mt-0"></TabsContent> */}
+                 {/* Removed TabsContent for 'active' and 'closed' as filtering handles display */}
               </Tabs>
-             </motion.div> {/* End motion.div around TabsContent */}
+             </motion.div> {/* End motion.div around the list grid */}
 
 
-            {/* Button below the list (All Tenders) */}
-            <div className="text-center mt-10 md:mt-12"> {/* Adjusted spacing */}
-                 <Button asChild variant="outline" className="bg-transparent shadow-none hover:bg-slate-700/50 text-white border-slate-600 hover:border-primary px-6 py-2 text-lg"> {/* Dark outline button, adjusted size */}
-                   {/* Link to the page showing ALL tenders if this page is filtered by default */}
-                   {/* If this page already shows all tenders, this button might link to a dedicated archive or be removed */}
-                   <a href="/tenders">{t('tenders.buttonAll')}</a> {/* Use translation and appropriate href */}
+            {/* Button below the list (All Tenders) - Hardcoded Russian text */}
+            <div className="text-center mt-10 md:mt-12">
+                 <Button asChild variant="outline" className="bg-transparent shadow-none hover:bg-slate-700/50 text-white border-slate-600 hover:border-primary px-6 py-2 text-lg">
+                   {/* Hardcoded text and href */}
+                   <a href="/tenders">Все тендеры</a>
                 </Button>
             </div>
 
