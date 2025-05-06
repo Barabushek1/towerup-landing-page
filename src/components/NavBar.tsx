@@ -203,7 +203,7 @@ const NavBar: React.FC = () => {
                           </button>
                           <div className={cn("absolute left-0 top-full min-w-[250px] bg-white/90 backdrop-blur-md rounded-md shadow-lg z-50 transform transition-all duration-200 ease-in-out origin-top", openDropdowns[link.key] ? "scale-100 opacity-100 translate-y-0" : "scale-95 opacity-0 translate-y-[-10px] pointer-events-none")}>
                             <div className="py-2 px-1">
-                              {link.submenu?.map(subItem => <a href={subItem.href} key={subItem.title} className="block select-none space-y-1 rounded-md p-3 leading-none underline outline-none transition-colors text-brand-dark font-benzin text-sm hover:bg-gray-100 hover:text-brand-primary">
+                              {link.submenu?.map(subItem => <a href={subItem.href} key={subItem.title} className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors text-brand-dark font-benzin text-sm hover:bg-gray-100 hover:text-brand-primary">
                                   {subItem.title}
                                 </a>)}
                             </div>
