@@ -38,22 +38,24 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
   
+  // Load admin from localStorage on initial mount
   useEffect(() => {
-    const storedAdmin = localStorage.getItem('admin');
-    
-    if (storedAdmin) {
-      try {
+    try {
+      const storedAdmin = localStorage.getItem('admin');
+      
+      if (storedAdmin) {
         const parsedAdmin = JSON.parse(storedAdmin);
         setAdmin(parsedAdmin);
-      } catch (error) {
-        console.error('Error parsing stored admin data:', error);
-        localStorage.removeItem('admin');
       }
+    } catch (error) {
+      console.error('Error parsing stored admin data:', error);
+      localStorage.removeItem('admin');
+    } finally {
+      setIsLoading(false);
     }
-    
-    setIsLoading(false);
   }, []);
 
+  // Update localStorage when admin state changes
   useEffect(() => {
     if (admin) {
       localStorage.setItem('admin', JSON.stringify(admin));
@@ -131,13 +133,13 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
 
   const logout = () => {
     if (admin) {
-      // Log logout action
+      // Log logout action - Fixed promise handling
       try {
-        supabase
+        void supabase
           .from('admin_audit_logs')
           .insert({
             action_type: 'logout',
-            admin_email: admin.email,
+            admin_email: admin.email || '',
             details: { method: 'manual' }
           })
           .then(() => {

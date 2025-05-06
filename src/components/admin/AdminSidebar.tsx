@@ -20,7 +20,6 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/integrations/supabase/client';
 
 interface AdminSidebarProps {
   mobileOpen: boolean;
@@ -28,10 +27,11 @@ interface AdminSidebarProps {
 }
 
 const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, onClose }) => {
-  const { admin, setAdmin } = useAdmin();
+  const { admin, logout } = useAdmin();
   const navigate = useNavigate();
   const location = useLocation();
   const sidebarRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -46,37 +46,14 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, onClose }) => {
     };
   }, [mobileOpen, onClose]);
 
-  const handleLogout = async () => {
-    try {
-      // Clear session state
-      if (setAdmin) {
-        setAdmin(null);
-      }
-      
-      // Log admin action
-      await supabase
-        .from('admin_audit_logs')
-        .insert({
-          action_type: 'logout',
-          admin_email: admin?.email || '',
-          details: { method: 'manual_logout' }
-        });
-      
-      // Navigate to login page
-      navigate('/admin');
-      
-      useToast().toast({
-        title: "Выход выполнен",
-        description: "Вы успешно вышли из системы"
-      });
-    } catch (error) {
-      console.error('Error during logout:', error);
-      useToast().toast({
-        title: "Ошибка выхода",
-        description: "Произошла ошибка при выходе из системы",
-        variant: "destructive"
-      });
-    }
+  const handleLogout = () => {
+    logout();
+    navigate('/admin');
+    
+    toast({
+      title: "Выход выполнен",
+      description: "Вы успешно вышли из системы"
+    });
   };
 
   // Navigation items
@@ -161,7 +138,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, onClose }) => {
           <div className="p-4">
             <div className="flex items-center space-x-2">
               <div className="h-8 w-8 rounded-full bg-slate-700 flex items-center justify-center text-white font-semibold">
-                {admin.email[0].toUpperCase()}
+                {admin.email && admin.email[0].toUpperCase()}
               </div>
               <div className="overflow-hidden">
                 <p className="text-sm font-medium truncate">{admin.name || 'Администратор'}</p>

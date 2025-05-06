@@ -1,9 +1,7 @@
-
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import AdminLayout from '@/components/admin/AdminLayout';
 import { Loader2, Search, Filter, Download, Mail, Phone, Check, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -170,133 +168,131 @@ const AdminTenderSubmissions: React.FC = () => {
   };
 
   return (
-    <AdminLayout>
-      <div className="space-y-4">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <h1 className="text-2xl font-bold">Заявки на тендеры</h1>
+    <div className="space-y-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <h1 className="text-2xl font-bold">Заявки на тендеры</h1>
+        
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          <div className="relative w-full sm:w-64">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
+            <Input 
+              type="search"
+              placeholder="Поиск заявок..." 
+              className="pl-9 bg-slate-800 border-slate-700"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
           
-          <div className="flex items-center gap-2 w-full sm:w-auto">
-            <div className="relative w-full sm:w-64">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
-              <Input 
-                type="search"
-                placeholder="Поиск заявок..." 
-                className="pl-9 bg-slate-800 border-slate-700"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon" className="bg-slate-800 border-slate-700">
-                  <Filter className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-slate-800 border-slate-700 text-white">
-                <DropdownMenuLabel>Фильтр по статусу</DropdownMenuLabel>
-                <DropdownMenuSeparator className="bg-slate-700" />
-                <DropdownMenuItem 
-                  className={!statusFilter ? "bg-slate-700" : ""}
-                  onClick={() => setStatusFilter(null)}
-                >
-                  Все заявки
-                </DropdownMenuItem>
-                <DropdownMenuItem 
-                  className={statusFilter === 'pending' ? "bg-slate-700" : ""}
-                  onClick={() => setStatusFilter('pending')}
-                >
-                  На рассмотрении
-                </DropdownMenuItem>
-                <DropdownMenuItem 
-                  className={statusFilter === 'approved' ? "bg-slate-700" : ""}
-                  onClick={() => setStatusFilter('approved')}
-                >
-                  Принятые
-                </DropdownMenuItem>
-                <DropdownMenuItem 
-                  className={statusFilter === 'rejected' ? "bg-slate-700" : ""}
-                  onClick={() => setStatusFilter('rejected')}
-                >
-                  Отклоненные
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon" className="bg-slate-800 border-slate-700">
+                <Filter className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="bg-slate-800 border-slate-700 text-white">
+              <DropdownMenuLabel>Фильтр по статусу</DropdownMenuLabel>
+              <DropdownMenuSeparator className="bg-slate-700" />
+              <DropdownMenuItem 
+                className={!statusFilter ? "bg-slate-700" : ""}
+                onClick={() => setStatusFilter(null)}
+              >
+                Все заявки
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                className={statusFilter === 'pending' ? "bg-slate-700" : ""}
+                onClick={() => setStatusFilter('pending')}
+              >
+                На рассмотрении
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                className={statusFilter === 'approved' ? "bg-slate-700" : ""}
+                onClick={() => setStatusFilter('approved')}
+              >
+                Принятые
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                className={statusFilter === 'rejected' ? "bg-slate-700" : ""}
+                onClick={() => setStatusFilter('rejected')}
+              >
+                Отклоненные
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </div>
+      
+      {isLoading ? (
+        <div className="flex justify-center py-20">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      ) : isError ? (
+        <div className="text-center py-10 text-red-500">
+          Произошла ошибка при загрузке данных
+        </div>
+      ) : filteredSubmissions && filteredSubmissions.length > 0 ? (
+        <div className="bg-slate-800 border border-slate-700 rounded-lg overflow-hidden">
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-slate-900">
+                  <TableHead>Компания</TableHead>
+                  <TableHead>Тендер</TableHead>
+                  <TableHead>Контактное лицо</TableHead>
+                  <TableHead className="hidden md:table-cell">Дата заявки</TableHead>
+                  <TableHead>Статус</TableHead>
+                  <TableHead className="text-right">Действия</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredSubmissions.map(submission => (
+                  <TableRow 
+                    key={submission.id}
+                    className="hover:bg-slate-700/50 cursor-pointer"
+                    onClick={() => setSelectedSubmission(submission)}
+                  >
+                    <TableCell className="font-medium truncate max-w-[200px]">
+                      {submission.company_name}
+                    </TableCell>
+                    <TableCell className="truncate max-w-[150px]">
+                      {submission.tender?.title || 'Неизвестный тендер'}
+                    </TableCell>
+                    <TableCell className="truncate max-w-[150px]">
+                      {submission.contact_name}
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell whitespace-nowrap">
+                      {formatDate(submission.created_at)}
+                    </TableCell>
+                    <TableCell>
+                      {getStatusBadge(submission.status)}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedSubmission(submission);
+                        }}
+                      >
+                        Детали
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
         </div>
-        
-        {isLoading ? (
-          <div className="flex justify-center py-20">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      ) : (
+        <div className="flex flex-col items-center justify-center py-12 bg-slate-800 border border-slate-700 rounded-lg">
+          <div className="text-center text-slate-400">
+            {searchQuery || statusFilter ? 
+              "Заявки с указанными критериями не найдены" :
+              "Нет заявок на тендеры"}
           </div>
-        ) : isError ? (
-          <div className="text-center py-10 text-red-500">
-            Произошла ошибка при загрузке данных
-          </div>
-        ) : filteredSubmissions && filteredSubmissions.length > 0 ? (
-          <div className="bg-slate-800 border border-slate-700 rounded-lg overflow-hidden">
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow className="bg-slate-900">
-                    <TableHead>Компания</TableHead>
-                    <TableHead>Тендер</TableHead>
-                    <TableHead>Контактное лицо</TableHead>
-                    <TableHead className="hidden md:table-cell">Дата заявки</TableHead>
-                    <TableHead>Статус</TableHead>
-                    <TableHead className="text-right">Действия</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredSubmissions.map(submission => (
-                    <TableRow 
-                      key={submission.id}
-                      className="hover:bg-slate-700/50 cursor-pointer"
-                      onClick={() => setSelectedSubmission(submission)}
-                    >
-                      <TableCell className="font-medium truncate max-w-[200px]">
-                        {submission.company_name}
-                      </TableCell>
-                      <TableCell className="truncate max-w-[150px]">
-                        {submission.tender?.title || 'Неизвестный тендер'}
-                      </TableCell>
-                      <TableCell className="truncate max-w-[150px]">
-                        {submission.contact_name}
-                      </TableCell>
-                      <TableCell className="hidden md:table-cell whitespace-nowrap">
-                        {formatDate(submission.created_at)}
-                      </TableCell>
-                      <TableCell>
-                        {getStatusBadge(submission.status)}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setSelectedSubmission(submission);
-                          }}
-                        >
-                          Детали
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </div>
-        ) : (
-          <div className="flex flex-col items-center justify-center py-12 bg-slate-800 border border-slate-700 rounded-lg">
-            <div className="text-center text-slate-400">
-              {searchQuery || statusFilter ? 
-                "Заявки с указанными критериями не найдены" :
-                "Нет заявок на тендеры"}
-            </div>
-          </div>
-        )}
-      </div>
+        </div>
+      )}
       
       {/* Submission details dialog */}
       {selectedSubmission && (
@@ -453,7 +449,7 @@ const AdminTenderSubmissions: React.FC = () => {
           </DialogContent>
         </Dialog>
       )}
-    </AdminLayout>
+    </div>
   );
 };
 
