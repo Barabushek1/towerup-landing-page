@@ -1,6 +1,7 @@
 
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 export type Admin = {
   id: string;
@@ -13,6 +14,7 @@ export type AdminContextType = {
   setAdmin: (admin: Admin) => void;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
+  logout: () => void;
 };
 
 const initialState: AdminContextType = {
@@ -20,6 +22,7 @@ const initialState: AdminContextType = {
   setAdmin: () => {},
   isLoading: true,
   login: async () => {},
+  logout: () => {},
 };
 
 const AdminContext = createContext<AdminContextType>(initialState);
@@ -109,8 +112,30 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
     }
   };
 
+  const logout = () => {
+    if (admin) {
+      // Log logout action
+      supabase
+        .from('admin_audit_logs')
+        .insert({
+          action_type: 'logout',
+          admin_email: admin.email,
+          details: { method: 'manual' }
+        })
+        .then(() => {
+          // Clear admin data
+          setAdmin(null);
+        })
+        .catch((error) => {
+          console.error('Error logging admin logout:', error);
+          // Still clear admin data even if logging fails
+          setAdmin(null);
+        });
+    }
+  };
+
   return (
-    <AdminContext.Provider value={{ admin, setAdmin, isLoading, login }}>
+    <AdminContext.Provider value={{ admin, setAdmin, isLoading, login, logout }}>
       {children}
     </AdminContext.Provider>
   );

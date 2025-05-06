@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAdmin } from '@/contexts/AdminContext';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, LogIn } from 'lucide-react';
@@ -55,6 +54,7 @@ const AdminLogin: React.FC = () => {
       });
       navigate('/admin/dashboard');
     } catch (error) {
+      console.error("Login error:", error);
       toast({
         title: "Login Error",
         description: "Invalid email or password",
@@ -125,19 +125,30 @@ const AdminLogin: React.FC = () => {
                 )}
               />
               
-              <Button type="submit" className="w-full" disabled={isLoginLoading}>
-                {isLoginLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Logging in...
-                  </>
-                ) : (
-                  <>
-                    <LogIn className="mr-2 h-4 w-4" />
-                    Login
-                  </>
-                )}
-              </Button>
+              <div className="pt-2">
+                <Button type="submit" className="w-full" disabled={isLoginLoading}>
+                  {isLoginLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Logging in...
+                    </>
+                  ) : (
+                    <>
+                      <LogIn className="mr-2 h-4 w-4" />
+                      Login
+                    </>
+                  )}
+                </Button>
+              </div>
+              
+              <div className="mt-4 text-center">
+                <p className="text-sm text-slate-400">
+                  Default admin: towerup@admin.ru
+                </p>
+                <p className="text-sm text-slate-400">
+                  Password: Towerup_admin1234
+                </p>
+              </div>
             </form>
           </Form>
         </div>
@@ -147,4 +158,3 @@ const AdminLogin: React.FC = () => {
 };
 
 export default AdminLogin;
-
