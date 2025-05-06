@@ -1,3 +1,4 @@
+
 {
   "testModeIndicator": "Site is in test mode",
   
@@ -336,7 +337,7 @@
   "newUzbekistan.projectFeatures.amenities.desc": "Access to a wide range of amenities including fitness centers, recreation areas, and much more.",
 
 
-    "nav.home": "Home",
+  "nav.home": "Home",
 
   "collaboration.title": "Collaboration",
   "collaboration.seo.title": "Collaboration",
@@ -469,5 +470,5 @@
 
    "collaboration.partners.items.partner1.name": "\"Monolit\" Construction Company",
   "collaboration.partners.items.partner1.description": "Multidisciplinary construction company with a full production cycle. Over 10 years on the market for construction of residential and commercial real estate.",
-  "collaboration.partners.items.partner1.achievement1": "Best Construction Company 20"
+  "collaboration.partners.items.partner1.achievement1": "Best Construction Company 2022"
 }

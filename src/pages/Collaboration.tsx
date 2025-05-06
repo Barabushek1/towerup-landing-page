@@ -1,7 +1,8 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useLocation } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import PageHeader from '@/components/PageHeader';
@@ -13,7 +14,17 @@ import CommercialProposalsSection from '@/components/collaboration/CommercialPro
 
 const Collaboration: React.FC = () => {
   const { t } = useLanguage();
-  const [activeTab, setActiveTab] = useState("tenders");
+  const location = useLocation();
+  const [activeTab, setActiveTab] = useState<string>("tenders");
+
+  useEffect(() => {
+    // Get the tab from URL parameters
+    const searchParams = new URLSearchParams(location.search);
+    const tab = searchParams.get('tab');
+    if (tab === 'tenders' || tab === 'proposals') {
+      setActiveTab(tab);
+    }
+  }, [location]);
 
   return (
     <div className="min-h-screen antialiased bg-background text-foreground flex flex-col">
@@ -57,7 +68,13 @@ const Collaboration: React.FC = () => {
               <Tabs 
                 defaultValue="tenders" 
                 value={activeTab} 
-                onValueChange={setActiveTab}
+                onValueChange={(value) => {
+                  setActiveTab(value);
+                  // Update URL without page reload
+                  const url = new URL(window.location.href);
+                  url.searchParams.set('tab', value);
+                  window.history.pushState({}, '', url);
+                }}
                 className="w-full"
               >
                 <TabsList className="grid grid-cols-2 w-full max-w-md mb-12">

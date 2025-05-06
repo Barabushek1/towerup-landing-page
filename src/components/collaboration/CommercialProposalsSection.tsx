@@ -1,355 +1,369 @@
 
-import React from 'react';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from '@/hooks/use-toast';
-import { Upload } from 'lucide-react';
-import { 
+import { AlertCircle, Upload, Mail, Phone, X, Check, Loader2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
-} from "@/components/ui/select";
+  SelectValue,
+} from '@/components/ui/select';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Label } from '@/components/ui/label';
+import { toast } from '@/components/ui/use-toast';
+
+interface FormData {
+  name: string;
+  company: string;
+  type: string;
+  email: string;
+  phone: string;
+  message: string;
+  files: File[];
+}
 
 const CommercialProposalsSection: React.FC = () => {
-  const { t, language } = useLanguage();
-  const { toast } = useToast();
-  const [formData, setFormData] = React.useState({
+  const { t } = useLanguage();
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     company: '',
-    proposalType: '',
+    type: '',
     email: '',
     phone: '',
     message: '',
-    files: [] as File[]
+    files: [],
   });
-  
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
-  
-  const handleSelectChange = (value: string) => {
-    setFormData({
-      ...formData,
-      proposalType: value
-    });
+
+  const handleSelectChange = (name: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const filesArray = Array.from(e.target.files);
-      setFormData({
-        ...formData,
-        files: [...formData.files, ...filesArray].slice(0, 5) // Limit to 5 files
-      });
+    if (e.target.files && e.target.files.length > 0) {
+      const newFiles = Array.from(e.target.files);
+      if (formData.files.length + newFiles.length <= 5) {
+        setFormData((prev) => ({
+          ...prev,
+          files: [...prev.files, ...newFiles],
+        }));
+      } else {
+        toast({
+          title: "Too many files",
+          description: "Maximum 5 files allowed",
+          variant: "destructive",
+        });
+      }
     }
   };
 
-  const removeFile = (indexToRemove: number) => {
-    setFormData({
-      ...formData,
-      files: formData.files.filter((_, index) => index !== indexToRemove)
-    });
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragOver(true);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragOver(false);
+    
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const newFiles = Array.from(e.dataTransfer.files);
+      if (formData.files.length + newFiles.length <= 5) {
+        setFormData((prev) => ({
+          ...prev,
+          files: [...prev.files, ...newFiles],
+        }));
+      } else {
+        toast({
+          title: "Too many files",
+          description: "Maximum 5 files allowed",
+          variant: "destructive",
+        });
+      }
+    }
+  };
+
+  const removeFile = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      files: prev.files.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate API call
+    // Simulate submission
     setTimeout(() => {
+      setIsSubmitting(false);
       toast({
         title: t('collaboration.proposals.toast.submittedTitle'),
         description: t('collaboration.proposals.toast.submittedDesc'),
-        duration: 5000,
       });
       
       // Reset form
       setFormData({
         name: '',
         company: '',
-        proposalType: '',
+        type: '',
         email: '',
         phone: '',
         message: '',
-        files: []
+        files: [],
       });
-      
-      setIsSubmitting(false);
     }, 1500);
   };
 
-  const allowedFileTypes = ".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png";
-  
   return (
-    <div className="space-y-8">
-      {/* Introduction */}
-      <div className="bg-slate-800/30 border border-slate-700/30 p-6 rounded-lg">
-        <h3 className="text-2xl font-bold text-white mb-4">{t('collaboration.proposals.intro.title')}</h3>
-        <p className="text-slate-300 mb-4">{t('collaboration.proposals.intro.description')}</p>
-        
-        <div className="bg-brand-primary/10 border border-brand-primary/30 rounded p-4 flex items-start gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-brand-primary flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <p className="text-brand-primary text-sm">{t('collaboration.proposals.intro.alert')}</p>
-        </div>
+    <div>
+      <div className="mb-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">{t('collaboration.proposals.intro.title')}</h2>
+          <p className="text-slate-300 text-lg leading-relaxed mb-6">{t('collaboration.proposals.intro.description')}</p>
+          
+          <Alert className="bg-blue-900/20 border-blue-800 text-blue-100">
+            <AlertCircle className="h-4 w-4 text-blue-400" />
+            <AlertDescription>
+              {t('collaboration.proposals.intro.alert')}
+            </AlertDescription>
+          </Alert>
+        </motion.div>
       </div>
       
-      {/* Form */}
-      <div className="bg-slate-800/20 border border-slate-700/30 rounded-lg p-6">
-        <h4 className="text-xl font-semibold text-white mb-6">{t('collaboration.proposals.form.title')}</h4>
-        
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Name */}
-            <div className="space-y-2">
-              <Label htmlFor="name" className="text-white">
-                {t('collaboration.proposals.form.nameLabel')}
-                <span className="text-red-500 ml-1">*</span>
-              </Label>
-              <Input
-                id="name"
-                name="name"
-                placeholder={t('collaboration.proposals.form.namePlaceholder')}
-                value={formData.name}
-                onChange={handleInputChange}
-                required
-                className="border-slate-700 bg-slate-800/50 text-white"
-              />
-            </div>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <motion.div 
+          className="lg:col-span-8"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          viewport={{ once: true }}
+        >
+          <div className="bg-slate-800/40 border border-slate-700 rounded-lg p-6">
+            <h3 className="text-xl font-semibold text-white mb-6">{t('collaboration.proposals.form.title')}</h3>
             
-            {/* Company */}
-            <div className="space-y-2">
-              <Label htmlFor="company" className="text-white">
-                {t('collaboration.proposals.form.companyLabel')}
-                <span className="text-red-500 ml-1">*</span>
-              </Label>
-              <Input
-                id="company"
-                name="company"
-                placeholder={t('collaboration.proposals.form.companyPlaceholder')}
-                value={formData.company}
-                onChange={handleInputChange}
-                required
-                className="border-slate-700 bg-slate-800/50 text-white"
-              />
-            </div>
-          </div>
-          
-          {/* Proposal Type */}
-          <div className="space-y-2">
-            <Label htmlFor="proposalType" className="text-white">
-              {t('collaboration.proposals.form.typeLabel')}
-              <span className="text-red-500 ml-1">*</span>
-            </Label>
-            <Select 
-              value={formData.proposalType} 
-              onValueChange={handleSelectChange}
-              required
-            >
-              <SelectTrigger className="border-slate-700 bg-slate-800/50 text-white">
-                <SelectValue placeholder={t('collaboration.proposals.form.typePlaceholder')} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="materials">
-                  {t('collaboration.proposals.form.types.materials')}
-                </SelectItem>
-                <SelectItem value="equipment">
-                  {t('collaboration.proposals.form.types.equipment')}
-                </SelectItem>
-                <SelectItem value="services">
-                  {t('collaboration.proposals.form.types.services')}
-                </SelectItem>
-                <SelectItem value="other">
-                  {t('collaboration.proposals.form.types.other')}
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Email */}
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-white">
-                {t('collaboration.proposals.form.emailLabel')}
-                <span className="text-red-500 ml-1">*</span>
-              </Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder={t('collaboration.proposals.form.emailPlaceholder')}
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-                className="border-slate-700 bg-slate-800/50 text-white"
-              />
-            </div>
-            
-            {/* Phone */}
-            <div className="space-y-2">
-              <Label htmlFor="phone" className="text-white">
-                {t('collaboration.proposals.form.phoneLabel')}
-                <span className="text-red-500 ml-1">*</span>
-              </Label>
-              <Input
-                id="phone"
-                name="phone"
-                placeholder={t('collaboration.proposals.form.phonePlaceholder')}
-                value={formData.phone}
-                onChange={handleInputChange}
-                required
-                className="border-slate-700 bg-slate-800/50 text-white"
-              />
-            </div>
-          </div>
-          
-          {/* Message */}
-          <div className="space-y-2">
-            <Label htmlFor="message" className="text-white">
-              {t('collaboration.proposals.form.messageLabel')}
-            </Label>
-            <Textarea
-              id="message"
-              name="message"
-              placeholder={t('collaboration.proposals.form.messagePlaceholder')}
-              value={formData.message}
-              onChange={handleInputChange}
-              className="min-h-32 border-slate-700 bg-slate-800/50 text-white"
-            />
-          </div>
-          
-          {/* File Upload */}
-          <div className="space-y-3">
-            <Label className="text-white">
-              {t('collaboration.proposals.form.filesLabel')}
-              <span className="text-sm text-slate-400 ml-2 font-normal">
-                ({t('collaboration.proposals.form.filesHelp')})
-              </span>
-            </Label>
-            
-            <div className="border-2 border-dashed border-slate-700 rounded-lg p-6 text-center">
-              <Input
-                id="files"
-                type="file"
-                multiple
-                accept={allowedFileTypes}
-                onChange={handleFileChange}
-                className="hidden"
-                disabled={formData.files.length >= 5}
-              />
-              <Label 
-                htmlFor="files" 
-                className="cursor-pointer flex flex-col items-center gap-2"
-              >
-                <Upload className="h-10 w-10 text-slate-400" />
-                <span className="text-slate-300">
-                  {t('collaboration.proposals.form.dropFilesText')}
-                </span>
-                <span className="text-sm text-slate-400">
-                  {t('collaboration.proposals.form.allowedFormats')}
-                </span>
-              </Label>
-            </div>
-            
-            {/* File list */}
-            {formData.files.length > 0 && (
-              <div className="mt-4 space-y-2">
-                <p className="text-sm text-slate-300">{t('collaboration.proposals.form.selectedFiles')} ({formData.files.length}/5):</p>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  {formData.files.map((file, index) => (
-                    <div 
-                      key={`${file.name}-${index}`}
-                      className="flex items-center justify-between bg-slate-800 p-2 rounded"
-                    >
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-slate-700 flex items-center justify-center rounded">
-                          <span className="text-xs text-slate-300">
-                            {file.name.split('.').pop()?.toUpperCase()}
-                          </span>
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="text-sm text-slate-300 truncate max-w-[200px]">
-                            {file.name}
-                          </span>
-                          <span className="text-xs text-slate-400">
-                            {(file.size / 1024 / 1024).toFixed(2)} MB
-                          </span>
-                        </div>
-                      </div>
-                      <button 
-                        type="button"
-                        onClick={() => removeFile(index)}
-                        className="text-red-400 hover:text-red-300 p-1"
-                      >
-                        ✕
-                      </button>
-                    </div>
-                  ))}
+                  <Label htmlFor="name">{t('collaboration.proposals.form.nameLabel')}</Label>
+                  <Input 
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder={t('collaboration.proposals.form.namePlaceholder')}
+                    required
+                    className="bg-slate-900/60 border-slate-700"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="company">{t('collaboration.proposals.form.companyLabel')}</Label>
+                  <Input 
+                    id="company"
+                    name="company"
+                    value={formData.company}
+                    onChange={handleChange}
+                    placeholder={t('collaboration.proposals.form.companyPlaceholder')}
+                    required
+                    className="bg-slate-900/60 border-slate-700"
+                  />
                 </div>
               </div>
-            )}
+              
+              <div className="space-y-2">
+                <Label htmlFor="type">{t('collaboration.proposals.form.typeLabel')}</Label>
+                <Select 
+                  value={formData.type} 
+                  onValueChange={(value) => handleSelectChange('type', value)}
+                  required
+                >
+                  <SelectTrigger className="bg-slate-900/60 border-slate-700">
+                    <SelectValue placeholder={t('collaboration.proposals.form.typePlaceholder')} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="materials">
+                      {t('collaboration.proposals.form.types.materials')}
+                    </SelectItem>
+                    <SelectItem value="equipment">
+                      {t('collaboration.proposals.form.types.equipment')}
+                    </SelectItem>
+                    <SelectItem value="services">
+                      {t('collaboration.proposals.form.types.services')}
+                    </SelectItem>
+                    <SelectItem value="other">
+                      {t('collaboration.proposals.form.types.other')}
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="email">{t('collaboration.proposals.form.emailLabel')}</Label>
+                  <Input 
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder={t('collaboration.proposals.form.emailPlaceholder')}
+                    required
+                    className="bg-slate-900/60 border-slate-700"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="phone">{t('collaboration.proposals.form.phoneLabel')}</Label>
+                  <Input 
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder={t('collaboration.proposals.form.phonePlaceholder')}
+                    required
+                    className="bg-slate-900/60 border-slate-700"
+                  />
+                </div>
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="message">{t('collaboration.proposals.form.messageLabel')}</Label>
+                <Textarea 
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder={t('collaboration.proposals.form.messagePlaceholder')}
+                  required
+                  className="min-h-[120px] bg-slate-900/60 border-slate-700"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <div className="flex items-center">
+                  <Label htmlFor="files">{t('collaboration.proposals.form.filesLabel')}</Label>
+                  <span className="ml-2 text-xs text-slate-400">
+                    ({t('collaboration.proposals.form.filesHelp')})
+                  </span>
+                </div>
+                
+                <div
+                  className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
+                    isDragOver ? 'border-primary bg-primary/5' : 'border-slate-700 hover:border-slate-500'
+                  }`}
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                  onClick={() => document.getElementById('file-upload')?.click()}
+                >
+                  <input
+                    id="file-upload"
+                    type="file"
+                    multiple
+                    onChange={handleFileChange}
+                    className="hidden"
+                    accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"
+                  />
+                  <div className="flex flex-col items-center">
+                    <Upload className="h-10 w-10 text-slate-400 mb-2" />
+                    <p className="text-sm mb-1 text-slate-300">{t('collaboration.proposals.form.dropFilesText')}</p>
+                    <p className="text-xs text-slate-400">{t('collaboration.proposals.form.allowedFormats')}</p>
+                  </div>
+                </div>
+                
+                {formData.files.length > 0 && (
+                  <div className="mt-4">
+                    <p className="text-sm text-slate-300 mb-2">{t('collaboration.proposals.form.selectedFiles')}</p>
+                    <div className="space-y-2">
+                      {formData.files.map((file, index) => (
+                        <div key={index} className="flex items-center justify-between bg-slate-900/60 p-2 rounded">
+                          <span className="text-sm text-slate-300 truncate max-w-[90%]">
+                            {file.name}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => removeFile(index)}
+                            className="text-slate-400 hover:text-red-500"
+                          >
+                            <X className="h-4 w-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              <Button 
+                type="submit" 
+                className="w-full mt-6" 
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    {t('collaboration.proposals.form.submittingButton')}
+                  </>
+                ) : (
+                  t('collaboration.proposals.form.submitButton')
+                )}
+              </Button>
+            </form>
           </div>
-          
-          <div className="pt-4">
-            <Button 
-              type="submit" 
-              size="lg"
-              disabled={isSubmitting}
-              className="bg-brand-primary hover:bg-brand-primary/90"
-            >
-              {isSubmitting ? (
-                <>
-                  <svg className="animate-spin -ml-1 mr-3 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  {t('collaboration.proposals.form.submittingButton')}
-                </>
-              ) : t('collaboration.proposals.form.submitButton')}
-            </Button>
-          </div>
-        </form>
-      </div>
-      
-      {/* Contact Info */}
-      <div className="bg-slate-800/20 border border-slate-700/30 rounded-lg p-6">
-        <h4 className="text-xl font-semibold text-white mb-4">
-          {t('collaboration.proposals.contact.title')}
-        </h4>
-        <p className="text-slate-300 mb-4">
-          {t('collaboration.proposals.contact.description')}
-        </p>
+        </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="flex flex-col space-y-1">
-            <span className="text-sm text-slate-400">
-              {t('collaboration.proposals.contact.emailLabel')}
-            </span>
-            <a href="mailto:proposals@towerup.uz" className="text-brand-primary hover:underline">
-              proposals@towerup.uz
-            </a>
+        <motion.div 
+          className="lg:col-span-4"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          viewport={{ once: true }}
+        >
+          <div className="bg-slate-800/40 border border-slate-700 rounded-lg p-6">
+            <h3 className="text-xl font-semibold text-white mb-6">{t('collaboration.proposals.contact.title')}</h3>
+            <p className="text-slate-300 mb-6">{t('collaboration.proposals.contact.description')}</p>
+            
+            <div className="space-y-4">
+              <div>
+                <p className="text-sm text-slate-400 mb-1">{t('collaboration.proposals.contact.emailLabel')}</p>
+                <a href="mailto:procurement@towerup.uz" className="text-primary hover:underline flex items-center">
+                  <Mail className="h-4 w-4 mr-2" />
+                  procurement@towerup.uz
+                </a>
+              </div>
+              
+              <div>
+                <p className="text-sm text-slate-400 mb-1">{t('collaboration.proposals.contact.phoneLabel')}</p>
+                <a href="tel:+998901234567" className="text-primary hover:underline flex items-center">
+                  <Phone className="h-4 w-4 mr-2" />
+                  +998 90 123 45 67
+                </a>
+              </div>
+            </div>
           </div>
-          
-          <div className="flex flex-col space-y-1">
-            <span className="text-sm text-slate-400">
-              {t('collaboration.proposals.contact.phoneLabel')}
-            </span>
-            <a href="tel:+998901234567" className="text-brand-primary hover:underline">
-              +998 90 123 45 67
-            </a>
-          </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

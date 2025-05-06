@@ -62,6 +62,11 @@ const NavBar: React.FC = () => {
     { title: t('nav.management'), href: '/management' },
   ];
 
+  const collaborationSubMenu = [
+    { title: t('collaboration.tabs.tenders'), href: '/collaboration?tab=tenders' },
+    { title: t('collaboration.tabs.partners'), href: '/collaboration?tab=proposals' },
+  ];
+
   const navLinks = [
     {
       title: t('nav.company'),
@@ -83,7 +88,13 @@ const NavBar: React.FC = () => {
     },
     { title: t('nav.news'), href: '/news', key: 'news' },
     { title: t('nav.vacancies'), href: '/vacancies', key: 'vacancies' },
-    { title: t('nav.collaboration'), href: '/collaboration', key: 'collaboration' },
+    {
+      title: t('nav.collaboration'),
+      href: '/collaboration',
+      key: 'collaboration',
+      hasSubmenu: true,
+      submenu: collaborationSubMenu
+    },
     { title: t('nav.contacts'), href: '/contact', key: 'contacts' },
   ];
 
