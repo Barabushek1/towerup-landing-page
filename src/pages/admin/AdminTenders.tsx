@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { PlusCircle, Search, Pencil, Trash2, FileText, Calendar, Users } from 'lucide-react';
+import { PlusCircle, Search, Pencil, Trash2, FileText, Calendar, Users, X } from 'lucide-react';
 import { format, isValid } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
