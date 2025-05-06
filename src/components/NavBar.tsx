@@ -204,7 +204,7 @@ const NavBar: React.FC = () => {
                 <NavigationMenuList>
                   {navLinks.map((link) =>
                     link.hasSubmenu ? (
-                      <NavigationMenuItem key={link.title}>
+                      <NavigationMenuItem key={link.key}>
                         <NavigationMenuTrigger className={cn(
                           "font-benzin tracking-wide hover:text-brand-primary transition-colors duration-300",
                           scrolled ? "text-white bg-transparent" : "text-white bg-transparent",
@@ -212,7 +212,7 @@ const NavBar: React.FC = () => {
                         )}>
                           {link.title}
                         </NavigationMenuTrigger>
-                        <NavigationMenuContent>
+                        <NavigationMenuContent className="absolute left-0 top-0">
                           <ul className="grid w-[200px] gap-3 p-4 bg-white/90 backdrop-blur-md">
                             {link.submenu?.map((subItem) => (
                               <li key={subItem.title}>
@@ -230,7 +230,7 @@ const NavBar: React.FC = () => {
                         </NavigationMenuContent>
                       </NavigationMenuItem>
                     ) : (
-                      <NavigationMenuItem key={link.title}>
+                      <NavigationMenuItem key={link.key}>
                         <a
                           href={link.href}
                           className={cn(
