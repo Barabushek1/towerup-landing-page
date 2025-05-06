@@ -15,12 +15,20 @@ interface AdminLayoutProps {
 const SIDEBAR_WIDTH_FULL = 'w-64'; // Tailwind class for full width
 const SIDEBAR_WIDTH_COLLAPSED = 'md:w-20'; // Tailwind class for collapsed width on md+
 
-const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
-  const { admin, isLoading, logout } = useAdmin();
+const AdminLayout: React.FC<AdminLayoutProps> = ({
+  children
+}) => {
+  const {
+    admin,
+    isLoading,
+    logout
+  } = useAdmin();
   const navigate = useNavigate();
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false); // State for mobile sidebar (Sheet)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false); // State for desktop sidebar collapse
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
 
   // Authentication check effect (Keep as is)
   useEffect(() => {
@@ -33,9 +41,10 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const handleLogout = () => {
     logout();
     toast({
-      title: "Logged out", // Assuming these are hardcoded strings or translated elsewhere
+      title: "Logged out",
+      // Assuming these are hardcoded strings or translated elsewhere
       description: "You have been successfully logged out",
-      variant: "default",
+      variant: "default"
     });
     navigate('/admin');
   };
@@ -47,11 +56,9 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
   // Loading state render (Keep as is)
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-slate-900">
+    return <div className="flex items-center justify-center h-screen bg-slate-900">
         <Loader2 className="w-8 h-8 text-primary animate-spin" />
-      </div>
-    );
+      </div>;
   }
 
   // Not authenticated render (Keep as is)
@@ -65,74 +72,49 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     <div className="flex h-screen bg-slate-900 text-slate-100 overflow-hidden">
 
       {/* Sidebar - Rendered by AdminSidebar component */}
-      <AdminSidebar
-        mobileOpen={mobileSidebarOpen}
-        onClose={() => setMobileSidebarOpen(false)}
-        collapsed={sidebarCollapsed} // Pass the collapsed state
-        // AdminSidebar component is responsible for its own fixed positioning and width classes
+      <AdminSidebar mobileOpen={mobileSidebarOpen} onClose={() => setMobileSidebarOpen(false)} collapsed={sidebarCollapsed} // Pass the collapsed state
+      // AdminSidebar component is responsible for its own fixed positioning and width classes
       />
 
       {/* Main Content Area - Adjust positioning and add transition */}
-      <div className={cn(
-        "flex-1 flex flex-col overflow-hidden transition-all duration-300 ease-in-out", // Add transition
-        // Apply margin-left based on the sidebar's collapsed state on medium screens and above
-        // The margin should match the sidebar's width
-        sidebarCollapsed ? "md:ml-20" : "md:ml-64",
-        // For mobile, there's no persistent sidebar, so no margin needed
-        "ml-0" // Ensure ml-0 on mobile
+      <div className={cn("flex-1 flex flex-col overflow-hidden transition-all duration-300 ease-in-out",
+      // Add transition
+      // Apply margin-left based on the sidebar's collapsed state on medium screens and above
+      // The margin should match the sidebar's width
+      sidebarCollapsed ? "md:ml-20" : "md:ml-64",
+      // For mobile, there's no persistent sidebar, so no margin needed
+      "ml-0" // Ensure ml-0 on mobile
       )}>
         {/* Top Navigation Bar (Keep as is) */}
         <div className="sticky top-0 z-10 p-4 bg-slate-800 border-b border-slate-700 flex justify-between items-center">
           {/* Left side - Menu button & title */}
           <div className="flex items-center gap-3">
             {/* Mobile Menu Button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden"
-              onClick={() => setMobileSidebarOpen(true)}
-            >
+            <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setMobileSidebarOpen(true)}>
               <Menu className="h-5 w-5" />
               <span className="sr-only">Open menu</span>
             </Button>
 
             {/* Desktop Sidebar Toggle Button */}
-            <Button
-              variant="outline" // Using outline variant as in your code
-              size="icon"
-              className="hidden md:flex" // Only show on medium screens and above
-              onClick={toggleSidebar}
-              title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"} // Tooltip text
+            <Button variant="outline" // Using outline variant as in your code
+            size="icon" className="hidden md:flex" // Only show on medium screens and above
+            onClick={toggleSidebar} title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"} // Tooltip text
             >
-              {sidebarCollapsed ? (
-                <PanelLeftOpen className="h-5 w-5" />
-              ) : (
-                <PanelLeftClose className="h-5 w-5" />
-              )}
+              {sidebarCollapsed ? <PanelLeftOpen className="h-5 w-5" /> : <PanelLeftClose className="h-5 w-5" />}
               <span className="sr-only">{sidebarCollapsed ? "Expand" : "Collapse"} sidebar</span> {/* Accessible label */}
             </Button>
 
             {/* Admin Panel Title and User Email */}
             <div>
               <span className="font-semibold text-lg">Admin Panel</span> {/* Keep hardcoded or translate */}
-              {admin && (
-                <span className="text-xs text-slate-400 block truncate max-w-[200px]">
+              {admin && <span className="text-xs text-slate-400 block truncate max-w-[200px]">
                   {admin.email} {/* Keep admin email display */}
-                </span>
-              )}
+                </span>}
             </div>
           </div>
 
           {/* Right side - Logout button (Keep as is) */}
-          <Button
-            variant="destructive"
-            size="sm"
-            className="flex items-center whitespace-nowrap"
-            onClick={handleLogout}
-          >
-            <LogOut className="h-4 w-4 mr-2" />
-            Logout {/* Keep hardcoded or translate */}
-          </Button>
+          
         </div>
 
         {/* Main Content Area (Keep as is) */}
@@ -143,5 +125,4 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     </div>
   );
 };
-
 export default AdminLayout;
