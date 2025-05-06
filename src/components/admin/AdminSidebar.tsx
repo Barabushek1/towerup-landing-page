@@ -14,12 +14,12 @@ import {
   ChevronRight,
   Building2,
   Receipt,
-  GanttChartSquare
+  Inbox
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { toast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 
 interface AdminSidebarProps {
@@ -65,13 +65,13 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, onClose }) => {
       // Navigate to login page
       navigate('/admin');
       
-      toast({
+      useToast().toast({
         title: "Выход выполнен",
         description: "Вы успешно вышли из системы"
       });
     } catch (error) {
       console.error('Error during logout:', error);
-      toast({
+      useToast().toast({
         title: "Ошибка выхода",
         description: "Произошла ошибка при выходе из системы",
         variant: "destructive"
@@ -110,6 +110,11 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, onClose }) => {
       name: "Тендеры",
       path: "/admin/tenders",
       icon: <Receipt className="h-5 w-5" />
+    },
+    {
+      name: "Заявки на тендеры",
+      path: "/admin/tender-submissions",
+      icon: <Inbox className="h-5 w-5" />
     },
     {
       name: "Цены на квартиры",
@@ -158,9 +163,9 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, onClose }) => {
               <div className="h-8 w-8 rounded-full bg-slate-700 flex items-center justify-center text-white font-semibold">
                 {admin.email[0].toUpperCase()}
               </div>
-              <div>
-                <p className="text-sm font-medium">{admin.name || 'Администратор'}</p>
-                <p className="text-xs text-slate-400 truncate max-w-[180px]">{admin.email}</p>
+              <div className="overflow-hidden">
+                <p className="text-sm font-medium truncate">{admin.name || 'Администратор'}</p>
+                <p className="text-xs text-slate-400 truncate">{admin.email}</p>
               </div>
             </div>
           </div>
@@ -182,12 +187,12 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, onClose }) => {
                   )}
                   onClick={() => mobileOpen && onClose()}
                 >
-                  <div className="flex items-center">
+                  <div className="flex items-center min-w-0">
                     {item.icon}
-                    <span className="ml-3">{item.name}</span>
+                    <span className="ml-3 truncate">{item.name}</span>
                   </div>
                   <ChevronRight className={cn(
-                    "h-4 w-4 transition-opacity",
+                    "h-4 w-4 flex-shrink-0 transition-opacity",
                     location.pathname === item.path ? "opacity-100" : "opacity-0"
                   )} />
                 </Link>

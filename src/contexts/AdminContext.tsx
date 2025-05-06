@@ -94,6 +94,12 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
           action_type: 'login_success',
           admin_email: email,
           details: { method: 'email_password' }
+        })
+        .then(() => {
+          console.log('Login success logged');
+        })
+        .catch((err) => {
+          console.error('Error logging admin login success:', err);
         });
       
     } catch (error) {
@@ -106,6 +112,12 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
           action_type: 'login_failed',
           admin_email: email,
           details: { method: 'email_password', error: error instanceof Error ? error.message : 'Unknown error' }
+        })
+        .then(() => {
+          console.log('Login failure logged');
+        })
+        .catch((err) => {
+          console.error('Error logging admin login failure:', err);
         });
       
       throw error;

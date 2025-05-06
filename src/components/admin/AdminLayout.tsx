@@ -47,31 +47,42 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
   return (
     <div className="flex h-screen bg-slate-900 text-slate-100 overflow-hidden">
+      {/* Sidebar */}
       <AdminSidebar 
         mobileOpen={mobileSidebarOpen} 
         onClose={() => setMobileSidebarOpen(false)} 
       />
       
+      {/* Main Content Area */}
       <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Top Navigation Bar */}
         <div className="sticky top-0 z-10 p-4 bg-slate-800 border-b border-slate-700 flex justify-between items-center">
+          {/* Left side - Menu button & title */}
           <div className="flex items-center">
-            <button
-              className="p-2 md:hidden rounded-full bg-slate-700 text-white hover:bg-slate-600 transition"
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden mr-2"
               onClick={() => setMobileSidebarOpen(true)}
-              aria-label="Open menu"
             >
               <Menu className="h-5 w-5" />
-            </button>
-            <div className="ml-4 md:ml-0">
+              <span className="sr-only">Open menu</span>
+            </Button>
+            <div>
               <span className="font-semibold text-lg">Admin Panel</span>
-              <span className="text-xs text-slate-400 block">{admin.email}</span>
+              {admin && (
+                <span className="text-xs text-slate-400 block truncate max-w-[200px]">
+                  {admin.email}
+                </span>
+              )}
             </div>
           </div>
           
+          {/* Right side - Logout button */}
           <Button
             variant="destructive"
             size="sm"
-            className="flex items-center"
+            className="flex items-center whitespace-nowrap"
             onClick={handleLogout}
           >
             <LogOut className="h-4 w-4 mr-2" />
@@ -79,6 +90,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           </Button>
         </div>
         
+        {/* Main Content */}
         <main className="flex-1 overflow-auto p-4 md:p-6">
           {children}
         </main>
