@@ -49,7 +49,9 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, onClose }) => {
   const handleLogout = async () => {
     try {
       // Clear session state
-      setAdmin(null);
+      if (setAdmin) {
+        setAdmin(null);
+      }
       
       // Log admin action
       await supabase

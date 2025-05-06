@@ -1,153 +1,63 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useToast } from '@/hooks/use-toast';
+
+import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
-type Admin = {
+export type Admin = {
   id: string;
   email: string;
-  name: string;
-};
+  name?: string;
+} | null;
 
-type AdminContextType = {
-  admin: Admin | null;
+export type AdminContextType = {
+  admin: Admin;
+  setAdmin: (admin: Admin) => void;
   isLoading: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  signup: (email: string, password: string, name: string) => Promise<void>;
-  logout: () => void;
 };
 
-const AdminContext = createContext<AdminContextType | undefined>(undefined);
-
-export const useAdmin = () => {
-  const context = useContext(AdminContext);
-  if (context === undefined) {
-    throw new Error('useAdmin must be used within an AdminProvider');
-  }
-  return context;
+const initialState: AdminContextType = {
+  admin: null,
+  setAdmin: () => {},
+  isLoading: true,
 };
 
-export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [admin, setAdmin] = useState<Admin | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const { toast } = useToast();
+const AdminContext = createContext<AdminContextType>(initialState);
+
+export const useAdmin = () => useContext(AdminContext);
+
+interface AdminProviderProps {
+  children: ReactNode;
+}
+
+export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
+  const [admin, setAdmin] = useState<Admin>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const loadAdminStatus = async () => {
+    const storedAdmin = localStorage.getItem('admin');
+    
+    if (storedAdmin) {
       try {
-        const storedAdmin = localStorage.getItem('admin');
-        if (storedAdmin) {
-          const parsedAdmin = JSON.parse(storedAdmin);
-          
-          // Verify if the admin still exists in the database
-          const { data, error } = await supabase
-            .from('admin_users')
-            .select('id')
-            .eq('id', parsedAdmin.id)
-            .single();
-          
-          if (error || !data) {
-            console.log('Stored admin no longer exists in database, logging out');
-            localStorage.removeItem('admin');
-            setAdmin(null);
-          } else {
-            setAdmin(parsedAdmin);
-          }
-        }
-        
-        setIsLoading(false);
+        const parsedAdmin = JSON.parse(storedAdmin);
+        setAdmin(parsedAdmin);
       } catch (error) {
-        console.error('Error in loadAdminStatus:', error);
+        console.error('Error parsing stored admin data:', error);
         localStorage.removeItem('admin');
-        setAdmin(null);
-        setIsLoading(false);
       }
-    };
-
-    loadAdminStatus();
+    }
+    
+    setIsLoading(false);
   }, []);
 
-  const signup = async (email: string, password: string, name: string) => {
-    try {
-      const { data, error } = await supabase.functions.invoke('verify-admin-credentials', {
-        body: { 
-          email, 
-          password,
-          action: 'signup',
-          name
-        },
-      });
-
-      if (error) {
-        console.error('Signup error:', error);
-        throw error;
-      }
-
-      if (!data || !Array.isArray(data) || data.length === 0) {
-        throw new Error('Signup failed');
-      }
-
-      const adminData = data[0];
-      
-      const adminInfo: Admin = {
-        id: adminData.id,
-        email: adminData.email,
-        name: adminData.name || name
-      };
-      
-      setAdmin(adminInfo);
-      localStorage.setItem('admin', JSON.stringify(adminInfo));
-      console.log('Signup successful:', adminInfo);
-    } catch (error) {
-      console.error('Signup error:', error);
-      throw error;
+  useEffect(() => {
+    if (admin) {
+      localStorage.setItem('admin', JSON.stringify(admin));
+    } else {
+      localStorage.removeItem('admin');
     }
-  };
-
-  const login = async (email: string, password: string) => {
-    try {
-      const { data, error } = await supabase.functions.invoke('verify-admin-credentials', {
-        body: { email, password },
-      });
-
-      if (error) {
-        console.error('Login error:', error);
-        throw error;
-      }
-
-      if (!data || !Array.isArray(data) || data.length === 0) {
-        throw new Error('Invalid credentials');
-      }
-
-      const adminData = data[0];
-      
-      const adminInfo: Admin = {
-        id: adminData.id,
-        email: adminData.email,
-        name: adminData.name || 'Administrator'
-      };
-      
-      setAdmin(adminInfo);
-      localStorage.setItem('admin', JSON.stringify(adminInfo));
-      console.log('Login successful:', adminInfo);
-    } catch (error) {
-      console.error('Login error:', error);
-      throw error;
-    }
-  };
-
-  const logout = () => {
-    setAdmin(null);
-    localStorage.removeItem('admin');
-  };
+  }, [admin]);
 
   return (
-    <AdminContext.Provider value={{ 
-      admin, 
-      isLoading, 
-      login, 
-      signup, 
-      logout
-    }}>
+    <AdminContext.Provider value={{ admin, setAdmin, isLoading }}>
       {children}
     </AdminContext.Provider>
   );

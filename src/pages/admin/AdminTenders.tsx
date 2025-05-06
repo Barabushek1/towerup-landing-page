@@ -314,6 +314,117 @@ const AdminTenders = () => {
     }
   };
 
+  // Define renderTendersTable function
+  const renderTendersTable = (tendersData?: TenderItem[]) => {
+    if (isLoading) {
+      return (
+        <div className="space-y-4">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="border border-slate-700 p-4 rounded-md flex items-center justify-between">
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-64" />
+                <Skeleton className="h-3 w-48" />
+              </div>
+              <div className="flex space-x-2">
+                <Skeleton className="h-9 w-9 rounded-md" />
+                <Skeleton className="h-9 w-9 rounded-md" />
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    if (!tendersData || tendersData.length === 0) {
+      return (
+        <div className="text-center p-8 border border-dashed border-slate-700 rounded-md">
+          <p className="text-slate-400">Нет тендеров для отображения</p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="space-y-4">
+        {tendersData.map(tender => (
+          <div key={tender.id} className="border border-slate-700 p-4 rounded-md">
+            <div className="flex justify-between items-start">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-lg font-semibold">{tender.title}</h3>
+                  {getStatusBadge(tender.status)}
+                </div>
+                {tender.category && (
+                  <div className="text-sm text-slate-400">
+                    Категория: {tender.category}
+                  </div>
+                )}
+                <p className="text-sm text-slate-300 line-clamp-2">{tender.description}</p>
+                <div className="flex items-center gap-4 text-sm text-slate-400">
+                  <span className="flex items-center gap-1">
+                    <Calendar className="h-3.5 w-3.5" />
+                    Срок: {formatDate(tender.deadline)}
+                  </span>
+                  <span>Создан: {formatDate(tender.created_at)}</span>
+                  
+                  {/* Applications count badge */}
+                  <Button 
+                    variant="ghost"
+                    size="sm"
+                    className="flex items-center gap-1 h-auto p-1"
+                    onClick={() => openApplicationsModal(tender.id)}
+                  >
+                    <Users className="h-3.5 w-3.5" />
+                    <span>
+                      {applicationsCount && applicationsCount[tender.id] 
+                        ? `${applicationsCount[tender.id]} заявок` 
+                        : 'Нет заявок'}
+                    </span>
+                  </Button>
+                </div>
+                {tender.documents && tender.documents.length > 0 && (
+                  <div className="flex items-center gap-2 text-sm">
+                    <FileText className="h-3.5 w-3.5" />
+                    <span>{tender.documents.length} документов</span>
+                  </div>
+                )}
+              </div>
+              <div className="flex space-x-2">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => openEditDialog(tender)}
+                >
+                  <Pencil className="h-4 w-4" />
+                </Button>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="destructive" size="icon">
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Вы уверены?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Это действие нельзя отменить. Тендер будет удален навсегда.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Отмена</AlertDialogCancel>
+                      <AlertDialogAction onClick={() => deleteTenderMutation.mutate(tender.id)}>
+                        Удалить
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <>
       <Helmet>
@@ -426,7 +537,7 @@ const AdminTenders = () => {
                           </Button>
                         </div>
                       ))}
-                      <ImageUploader onUpload={handleDocumentUpload} bucketName="tenders" />
+                      <ImageUploader onImageUploaded={handleDocumentUpload} />
                     </div>
                   </div>
                 </div>
@@ -571,7 +682,7 @@ const AdminTenders = () => {
                       </Button>
                     </div>
                   ))}
-                  <ImageUploader onUpload={handleDocumentUpload} bucketName="tenders" />
+                  <ImageUploader onImageUploaded={handleDocumentUpload} />
                 </div>
               </div>
             </div>
@@ -595,117 +706,6 @@ const AdminTenders = () => {
           queryClient.invalidateQueries({ queryKey: ['tender-applications-count'] });
         }}
       />
-
-      {/* Helper function to render tender table */}
-      {function renderTendersTable(tendersData?: TenderItem[]) {
-        if (isLoading) {
-          return (
-            <div className="space-y-4">
-              {[...Array(5)].map((_, i) => (
-                <div key={i} className="border border-slate-700 p-4 rounded-md flex items-center justify-between">
-                  <div className="space-y-2">
-                    <Skeleton className="h-4 w-64" />
-                    <Skeleton className="h-3 w-48" />
-                  </div>
-                  <div className="flex space-x-2">
-                    <Skeleton className="h-9 w-9 rounded-md" />
-                    <Skeleton className="h-9 w-9 rounded-md" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          );
-        }
-
-        if (!tendersData || tendersData.length === 0) {
-          return (
-            <div className="text-center p-8 border border-dashed border-slate-700 rounded-md">
-              <p className="text-slate-400">Нет тендеров для отображения</p>
-            </div>
-          );
-        }
-
-        return (
-          <div className="space-y-4">
-            {tendersData.map(tender => (
-              <div key={tender.id} className="border border-slate-700 p-4 rounded-md">
-                <div className="flex justify-between items-start">
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <h3 className="text-lg font-semibold">{tender.title}</h3>
-                      {getStatusBadge(tender.status)}
-                    </div>
-                    {tender.category && (
-                      <div className="text-sm text-slate-400">
-                        Категория: {tender.category}
-                      </div>
-                    )}
-                    <p className="text-sm text-slate-300 line-clamp-2">{tender.description}</p>
-                    <div className="flex items-center gap-4 text-sm text-slate-400">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="h-3.5 w-3.5" />
-                        Срок: {formatDate(tender.deadline)}
-                      </span>
-                      <span>Создан: {formatDate(tender.created_at)}</span>
-                      
-                      {/* Applications count badge */}
-                      <Button 
-                        variant="ghost"
-                        size="sm"
-                        className="flex items-center gap-1 h-auto p-1"
-                        onClick={() => openApplicationsModal(tender.id)}
-                      >
-                        <Users className="h-3.5 w-3.5" />
-                        <span>
-                          {applicationsCount && applicationsCount[tender.id] 
-                            ? `${applicationsCount[tender.id]} заявок` 
-                            : 'Нет заявок'}
-                        </span>
-                      </Button>
-                    </div>
-                    {tender.documents && tender.documents.length > 0 && (
-                      <div className="flex items-center gap-2 text-sm">
-                        <FileText className="h-3.5 w-3.5" />
-                        <span>{tender.documents.length} документов</span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex space-x-2">
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      onClick={() => openEditDialog(tender)}
-                    >
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button variant="destructive" size="icon">
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Вы уверены?</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            Это действие нельзя отменить. Тендер будет удален навсегда.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Отмена</AlertDialogCancel>
-                          <AlertDialogAction onClick={() => deleteTenderMutation.mutate(tender.id)}>
-                            Удалить
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        );
-      }}
     </>
   );
 };
