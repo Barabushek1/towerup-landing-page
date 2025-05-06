@@ -1,192 +1,419 @@
 
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
-import PageHeader from '@/components/PageHeader';
-import { ArrowLeft, Briefcase, Building, MapPin, Loader2 } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
+import { ArrowLeft, ArrowRight, Briefcase, Calendar, Clock, FilePlus, Loader2, MapPin, Upload, X } from 'lucide-react';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { getCachedData } from '@/utils/cache-utils';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { uploadMultipleFiles } from '@/utils/file-utils';
+import { useToast } from '@/hooks/use-toast';
 
 interface Vacancy {
   id: string;
   title: string;
   location: string;
   salary_range: string;
-  is_active: boolean;
   description: string;
   requirements?: string;
   benefits?: string;
-  image_url?: string;
+  is_active: boolean;
   created_at: string;
-  updated_at: string;
+  image_url?: string;
 }
 
-const VacancyDetail = () => {
+interface ApplicationFormData {
+  full_name: string;
+  email: string;
+  phone: string;
+  cover_letter: string;
+  files: File[];
+}
+
+const VacancyDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const location = useLocation();
+  const { toast } = useToast();
+  
+  const [formData, setFormData] = useState<ApplicationFormData>({
+    full_name: '',
+    email: '',
+    phone: '',
+    cover_letter: '',
+    files: [],
+  });
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showForm, setShowForm] = useState(false);
   
   const { data: vacancy, isLoading, error } = useQuery({
     queryKey: ['vacancy', id],
     queryFn: async () => {
-      if (!id) throw new Error("No vacancy ID provided");
-      
-      const { data, error } = await supabase
-        .from('vacancies')
-        .select('*')
-        .eq('id', id)
-        .single();
-      
-      if (error) {
-        throw error;
-      }
-      
-      return data as Vacancy;
+      return getCachedData(`vacancy_${id}`, async () => {
+        if (!id) throw new Error('Vacancy ID is required');
+        
+        const { data, error } = await supabase
+          .from('vacancies')
+          .select('*')
+          .eq('id', id)
+          .single();
+        
+        if (error) throw error;
+        if (!data) throw new Error('Vacancy not found');
+        
+        return data as Vacancy;
+      }, 60); // Cache for 1 hour
     },
-    enabled: !!id
+    enabled: !!id,
   });
   
-  const renderWithLineBreaks = (text: string | undefined) => {
-    if (!text) return null;
-    
-    return text.split('\n').map((line, index) => (
-      <p key={index} className="mb-2">{line}</p>
-    ));
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+  
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      // Convert FileList to array and add to existing files
+      const newFiles = Array.from(files);
+      setFormData((prev) => ({
+        ...prev,
+        files: [...prev.files, ...newFiles]
+      }));
+    }
+  };
+  
+  const removeFile = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      files: prev.files.filter((_, i) => i !== index)
+    }));
   };
 
-  return (
-    <div className="min-h-screen antialiased bg-[#161616] text-gray-200 overflow-x-hidden">
-      <NavBar />
-      <main>
-        <PageHeader 
-          title="ВАКАНСИИ" 
-          breadcrumb={vacancy ? `ВАКАНСИИ / ${vacancy.title.toUpperCase()}` : "ВАКАНСИИ"}
-        />
+  const handleSubmitApplication = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!vacancy) return;
+    
+    setIsSubmitting(true);
+    
+    try {
+      // Validate form
+      if (!formData.full_name || !formData.email || !formData.phone) {
+        throw new Error('Please fill all required fields');
+      }
+      
+      // 1. Upload files if any
+      let fileUrls: string[] = [];
+      if (formData.files.length > 0) {
+        fileUrls = await uploadMultipleFiles(formData.files, 'resumes');
+      }
+      
+      // 2. Save application to database
+      const { data: application, error: insertError } = await supabase
+        .from('vacancy_applications')
+        .insert({
+          vacancy_id: vacancy.id,
+          full_name: formData.full_name,
+          email: formData.email,
+          phone: formData.phone,
+          cover_letter: formData.cover_letter,
+          attachments: fileUrls,
+          status: 'new'
+        })
+        .select()
+        .single();
         
-        <section className="py-16 md:py-24 bg-[#1a1a1a] relative">
-          <div className="absolute top-0 left-0 w-full rotate-180 z-10">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="w-full h-auto">
-              <path fill="#161616" fillOpacity="1" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,218.7C672,203,768,149,864,128C960,107,1056,117,1152,128C1248,139,1344,149,1392,154.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-            </svg>
+      if (insertError) {
+        throw insertError;
+      }
+      
+      // 3. Send email notification
+      const emailNotification = await supabase.functions.invoke('send-resume-notification', {
+        body: {
+          application: {
+            ...application,
+            vacancy_title: vacancy.title,
+            attachments: fileUrls
+          }
+        }
+      });
+
+      // 4. Show success message
+      toast({
+        title: "Application Submitted",
+        description: "Your application has been successfully submitted. We will contact you soon.",
+      });
+      
+      // Reset form
+      setFormData({
+        full_name: '',
+        email: '',
+        phone: '',
+        cover_letter: '',
+        files: []
+      });
+      
+      setShowForm(false);
+    } catch (error) {
+      console.error('Error submitting application:', error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to submit application",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen antialiased bg-[#161616] text-gray-200">
+        <NavBar />
+        <div className="flex items-center justify-center h-[60vh]">
+          <Loader2 className="w-10 h-10 text-primary animate-spin" />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (error || !vacancy) {
+    return (
+      <div className="min-h-screen antialiased bg-[#161616] text-gray-200">
+        <NavBar />
+        <div className="container mx-auto px-6 py-20">
+          <div className="bg-red-900/20 border border-red-700 rounded-lg p-6">
+            <h2 className="text-2xl font-benzin text-red-500 mb-2">Ошибка</h2>
+            <p>Не удалось загрузить информацию о вакансии. Пожалуйста, попробуйте позже.</p>
+            <Button className="mt-4" onClick={() => window.history.back()}>
+              <ArrowLeft className="mr-2 h-4 w-4" /> Назад к вакансиям
+            </Button>
           </div>
-          
-          <div className="container mx-auto px-6 relative z-20">
-            <div className="max-w-4xl mx-auto">
-              {/* Changed Link to a regular anchor tag */}
-              <a href="/vacancies" className="inline-flex items-center text-primary hover:text-primary/80 mb-8 font-benzin">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Назад к вакансиям
-              </a>
-              
-              {isLoading ? (
-                <div className="text-center py-20">
-                  <Loader2 className="w-10 h-10 text-primary animate-spin mx-auto" />
-                  <p className="mt-4 text-slate-400">Загрузка вакансии...</p>
-                </div>
-              ) : error || !vacancy ? (
-                <div className="text-center py-20">
-                  <p className="text-red-400">Вакансия не найдена или произошла ошибка при загрузке.</p>
-                  {/* Changed Link to a regular anchor tag */}
-                  <a 
-                    href="/vacancies" 
-                    className="inline-flex items-center px-5 py-2.5 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors font-benzin mt-4"
-                  >
-                    <ArrowLeft className="mr-2 h-4 w-4" />
-                    Вернуться к списку вакансий
-                  </a>
-                </div>
-              ) : (
-                <>
-                  <div className="bg-slate-800/40 rounded-lg border border-primary/10 p-8 mb-8">
-                    <h1 className="text-3xl font-bold text-white mb-6 font-benzin">{vacancy.title}</h1>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                          <MapPin className="h-5 w-5 text-primary" />
-                        </div>
-                        <div>
-                          <p className="text-sm text-slate-400">Местоположение</p>
-                          <p className="font-medium text-white">{vacancy.location}</p>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                          <Building className="h-5 w-5 text-primary" />
-                        </div>
-                        <div>
-                          <p className="text-sm text-slate-400">Занятость</p>
-                          <p className="font-medium text-white">Полная занятость</p>
-                        </div>
-                      </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen antialiased bg-[#161616] text-gray-200">
+      <NavBar />
+      
+      <main>
+        <div className="container mx-auto px-6 py-12">
+          <div className="mb-8">
+            <Button
+              variant="outline"
+              className="mb-4"
+              onClick={() => window.history.back()}
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Назад к вакансиям
+            </Button>
+            
+            <div className="flex flex-col md:flex-row justify-between items-start gap-6">
+              <div>
+                <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 font-benzin">
+                  {vacancy.title}
+                </h1>
+                
+                <div className="flex flex-wrap gap-4 mt-4">
+                  {vacancy.location && (
+                    <div className="flex items-center text-gray-400">
+                      <MapPin className="h-4 w-4 mr-1" />
+                      <span>{vacancy.location}</span>
                     </div>
-                    
-                    <div className="bg-gradient-to-r from-primary/30 via-primary/20 to-transparent px-6 py-3 rounded-lg mb-8 flex items-center justify-between">
-                      <span className="text-xl font-bold text-white font-benzin">Зарплата</span>
-                      <span className="text-xl font-bold text-white font-benzin">{vacancy.salary_range}</span>
-                    </div>
-                    
-                    <div className="space-y-8">
-                      <div>
-                        <h2 className="text-xl font-bold mb-4 text-white font-benzin">Описание вакансии</h2>
-                        <div className="text-slate-300 space-y-2">
-                          {renderWithLineBreaks(vacancy.description)}
-                        </div>
-                      </div>
-                      
-                      {vacancy.requirements && (
-                        <div>
-                          <h2 className="text-xl font-bold mb-4 text-white font-benzin">Требования</h2>
-                          <div className="text-slate-300 space-y-1">
-                            {renderWithLineBreaks(vacancy.requirements)}
-                          </div>
-                        </div>
-                      )}
-                      
-                      {vacancy.benefits && (
-                        <div>
-                          <h2 className="text-xl font-bold mb-4 text-white font-benzin">Что мы предлагаем</h2>
-                          <div className="text-slate-300 space-y-1">
-                            {renderWithLineBreaks(vacancy.benefits)}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                  )}
                   
-                  <div className="mt-8 p-8 rounded-lg bg-slate-800/40 border border-primary/10">
-                    <div className="flex flex-col md:flex-row items-center gap-6">
-                      <div className="bg-primary/10 p-6 rounded-full">
-                        <Briefcase className="w-12 h-12 text-primary" />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-xl font-medium text-slate-200 mb-2 font-benzin text-center md:text-left">Заинтересованы в этой вакансии?</h3>
-                        <p className="text-muted-foreground mb-4 font-benzin text-center md:text-left">
-                          Отправьте нам свое резюме, и мы свяжемся с вами в ближайшее время.
-                        </p>
-                        <div className="flex justify-center md:justify-start">
-                          <a 
-                            href="#contact" 
-                            className="inline-flex items-center px-5 py-2.5 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors font-benzin"
-                          >
-                            <span>Откликнуться на вакансию</span>
-                          </a>
-                        </div>
-                      </div>
+                  {vacancy.salary_range && (
+                    <div className="flex items-center text-green-400">
+                      <span>{vacancy.salary_range}</span>
                     </div>
-                  </div>
-                </>
-              )}
+                  )}
+                </div>
+              </div>
+              
+              <div>
+                <Button 
+                  size="lg"
+                  onClick={() => setShowForm(prev => !prev)}
+                  className="bg-primary hover:bg-primary/90"
+                >
+                  {showForm ? (
+                    <>Скрыть форму</>
+                  ) : (
+                    <>
+                      Откликнуться
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </>
+                  )}
+                </Button>
+              </div>
             </div>
           </div>
           
-          <div className="absolute bottom-0 left-0 w-full z-10">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="w-full h-auto">
-              <path fill="#161616" fillOpacity="1" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,218.7C672,203,768,149,864,128C960,107,1056,117,1152,128C1248,139,1344,149,1392,154.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-            </svg>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2 space-y-8">
+              {/* Description */}
+              <div className="bg-[#1a1a1a] rounded-lg p-6 border border-gray-800">
+                <h2 className="text-xl font-benzin mb-4">Описание вакансии</h2>
+                <div className="prose prose-invert max-w-none">
+                  <p className="whitespace-pre-wrap">{vacancy.description}</p>
+                </div>
+              </div>
+              
+              {/* Requirements if any */}
+              {vacancy.requirements && (
+                <div className="bg-[#1a1a1a] rounded-lg p-6 border border-gray-800">
+                  <h2 className="text-xl font-benzin mb-4">Требования</h2>
+                  <div className="prose prose-invert max-w-none">
+                    <p className="whitespace-pre-wrap">{vacancy.requirements}</p>
+                  </div>
+                </div>
+              )}
+              
+              {/* Benefits if any */}
+              {vacancy.benefits && (
+                <div className="bg-[#1a1a1a] rounded-lg p-6 border border-gray-800">
+                  <h2 className="text-xl font-benzin mb-4">Преимущества</h2>
+                  <div className="prose prose-invert max-w-none">
+                    <p className="whitespace-pre-wrap">{vacancy.benefits}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+            
+            <div className="lg:col-span-1">
+              {/* Application form */}
+              {showForm && (
+                <div className="bg-[#1a1a1a] rounded-lg p-6 border border-gray-800 sticky top-24">
+                  <h2 className="text-xl font-benzin mb-4">Отправить резюме</h2>
+                  
+                  <form onSubmit={handleSubmitApplication} className="space-y-4">
+                    <div>
+                      <Label htmlFor="full_name">ФИО *</Label>
+                      <Input
+                        id="full_name"
+                        name="full_name"
+                        value={formData.full_name}
+                        onChange={handleInputChange}
+                        placeholder="Иванов Иван Иванович"
+                        required
+                        className="mt-1 bg-[#2a2a2a] border-gray-700"
+                      />
+                    </div>
+                    
+                    <div>
+                      <Label htmlFor="email">Email *</Label>
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        placeholder="example@mail.com"
+                        required
+                        className="mt-1 bg-[#2a2a2a] border-gray-700"
+                      />
+                    </div>
+                    
+                    <div>
+                      <Label htmlFor="phone">Телефон *</Label>
+                      <Input
+                        id="phone"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        placeholder="+998 XX XXX XX XX"
+                        required
+                        className="mt-1 bg-[#2a2a2a] border-gray-700"
+                      />
+                    </div>
+                    
+                    <div>
+                      <Label htmlFor="cover_letter">Сопроводительное письмо</Label>
+                      <Textarea
+                        id="cover_letter"
+                        name="cover_letter"
+                        value={formData.cover_letter}
+                        onChange={handleInputChange}
+                        placeholder="Расскажите немного о себе и своем опыте..."
+                        className="mt-1 bg-[#2a2a2a] border-gray-700 min-h-[100px]"
+                      />
+                    </div>
+                    
+                    <div>
+                      <Label htmlFor="files">Резюме и другие документы</Label>
+                      <div className="mt-1">
+                        <label className="flex items-center justify-center w-full p-4 border border-dashed border-gray-600 rounded-md cursor-pointer hover:bg-[#2a2a2a] transition-colors">
+                          <Input
+                            id="files"
+                            type="file"
+                            onChange={handleFileChange}
+                            multiple
+                            className="hidden"
+                            accept=".pdf,.doc,.docx,.txt"
+                          />
+                          <Upload className="mr-2 h-5 w-5" />
+                          <span>Добавить файлы</span>
+                        </label>
+                      </div>
+                      
+                      {/* File list */}
+                      {formData.files.length > 0 && (
+                        <div className="mt-3 space-y-2">
+                          {formData.files.map((file, index) => (
+                            <div
+                              key={index}
+                              className="flex items-center justify-between bg-[#2a2a2a] p-2 rounded"
+                            >
+                              <div className="flex items-center">
+                                <FilePlus className="h-4 w-4 mr-2" />
+                                <span className="text-sm truncate max-w-[180px]">{file.name}</span>
+                              </div>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => removeFile(index)}
+                              >
+                                <X className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    
+                    <Button
+                      type="submit"
+                      className="w-full"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Отправка...
+                        </>
+                      ) : (
+                        <>Отправить заявку</>
+                      )}
+                    </Button>
+                  </form>
+                </div>
+              )}
+            </div>
           </div>
-        </section>
+        </div>
       </main>
+      
       <Footer />
     </div>
   );

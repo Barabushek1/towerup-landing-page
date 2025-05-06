@@ -28,3 +28,6 @@ enabled = true
 [functions]
 [functions.verify-admin-credentials]
 verify_jwt = true
+
+[functions.send-resume-notification]
+verify_jwt = false
