@@ -1,7 +1,8 @@
+
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns';
-import { Check, Trash, Eye, EyeOff, Loader2, Mail, Phone, User, Building, FileText, Tags } from 'lucide-react';
+import { Check, Trash, Eye, EyeOff, Loader2, Mail, Phone, User, Building, FileText, Tags, Download } from 'lucide-react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -10,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+
 interface CommercialOffer {
   id: string;
   applicant_type: 'individual' | 'company';
@@ -23,10 +25,9 @@ interface CommercialOffer {
   created_at: string;
   updated_at: string;
 }
+
 const AdminCommercialOffers: React.FC = () => {
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [selectedOffer, setSelectedOffer] = useState<CommercialOffer | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
@@ -39,12 +40,11 @@ const AdminCommercialOffers: React.FC = () => {
   } = useQuery({
     queryKey: ['commercial-offers'],
     queryFn: async () => {
-      const {
-        data,
-        error
-      } = await supabase.from('commercial_offers').select('*').order('created_at', {
-        ascending: false
-      });
+      const { data, error } = await supabase
+        .from('commercial_offers')
+        .select('*')
+        .order('created_at', { ascending: false });
+        
       if (error) {
         throw error;
       }
@@ -61,20 +61,20 @@ const AdminCommercialOffers: React.FC = () => {
       id: string;
       status: string;
     }) => {
-      const {
-        error
-      } = await supabase.from('commercial_offers').update({
-        status,
-        updated_at: new Date().toISOString()
-      }).eq('id', id);
+      const { error } = await supabase
+        .from('commercial_offers')
+        .update({
+          status,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', id);
+        
       if (error) {
         throw error;
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['commercial-offers']
-      });
+      queryClient.invalidateQueries({ queryKey: ['commercial-offers'] });
       toast({
         title: "Статус обновлен",
         description: "Статус предложения был успешно обновлен"
@@ -92,17 +92,13 @@ const AdminCommercialOffers: React.FC = () => {
   // Delete offer mutation
   const deleteOffer = useMutation({
     mutationFn: async (id: string) => {
-      const {
-        error
-      } = await supabase.from('commercial_offers').delete().eq('id', id);
+      const { error } = await supabase.from('commercial_offers').delete().eq('id', id);
       if (error) {
         throw error;
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['commercial-offers']
-      });
+      queryClient.invalidateQueries({ queryKey: ['commercial-offers'] });
       toast({
         title: "Предложение удалено",
         description: "Коммерческое предложение было успешно удалено"
@@ -116,6 +112,34 @@ const AdminCommercialOffers: React.FC = () => {
       });
     }
   });
+
+  // Handle file download
+  const handleDownloadFile = async (fileUrl: string) => {
+    try {
+      // Extract the file path from the URL (this depends on how you're storing file URLs)
+      const fileName = fileUrl.split('/').pop() || 'download';
+      
+      // Create a temporary anchor element to trigger the download
+      const link = document.createElement('a');
+      link.href = fileUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      toast({
+        title: "Загрузка началась",
+        description: `Файл ${fileName} загружается`,
+      });
+    } catch (error) {
+      console.error('Download error:', error);
+      toast({
+        title: "Ошибка загрузки",
+        description: "Не удалось загрузить файл",
+        variant: "destructive"
+      });
+    }
+  };
 
   // Format date
   const formatDate = (dateString: string) => {
@@ -164,18 +188,26 @@ const AdminCommercialOffers: React.FC = () => {
       deleteOffer.mutate(offerId);
     }
   };
+
   if (isLoading) {
-    return <div className="flex justify-center items-center h-64">
+    return (
+      <div className="flex justify-center items-center h-64">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>;
+      </div>
+    );
   }
+
   if (error) {
-    return <div className="p-4 bg-red-50 text-red-700 rounded-md">
+    return (
+      <div className="p-4 bg-red-50 text-red-700 rounded-md">
         <p className="font-semibold">Ошибка загрузки данных:</p>
         <p>{(error as Error).message}</p>
-      </div>;
+      </div>
+    );
   }
-  return <div className="space-y-6">
+
+  return (
+    <div className="space-y-6">
       <div>
         <h2 className="text-3xl font-bold tracking-tight">Коммерческие предложения</h2>
         <p className="text-muted-foreground">
@@ -195,7 +227,9 @@ const AdminCommercialOffers: React.FC = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {offers && offers.length > 0 ? offers.map(offer => <TableRow key={offer.id}>
+            {offers && offers.length > 0 ? (
+              offers.map(offer => (
+                <TableRow key={offer.id}>
                   <TableCell className="font-mono">
                     {formatDate(offer.created_at)}
                   </TableCell>
@@ -204,7 +238,11 @@ const AdminCommercialOffers: React.FC = () => {
                     <div className="text-sm text-muted-foreground">{offer.email}</div>
                   </TableCell>
                   <TableCell>
-                    {offer.applicant_type === 'company' ? <Badge variant="outline" className="bg-blue-50">Компания</Badge> : <Badge variant="outline" className="bg-gray-900">Физ. лицо</Badge>}
+                    {offer.applicant_type === 'company' ? (
+                      <Badge variant="outline" className="bg-blue-50">Компания</Badge>
+                    ) : (
+                      <Badge variant="outline" className="bg-gray-900">Физ. лицо</Badge>
+                    )}
                   </TableCell>
                   <TableCell>{getStatusBadge(offer.status)}</TableCell>
                   <TableCell className="text-right">
@@ -217,17 +255,22 @@ const AdminCommercialOffers: React.FC = () => {
                       </Button>
                     </div>
                   </TableCell>
-                </TableRow>) : <TableRow>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
                 <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
                   Нет доступных коммерческих предложений
                 </TableCell>
-              </TableRow>}
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </div>
 
       {/* Details Dialog */}
-      {selectedOffer && <Dialog open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
+      {selectedOffer && (
+        <Dialog open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
           <DialogContent className="max-w-2xl">
             <DialogHeader>
               <DialogTitle>Детали коммерческого предложения</DialogTitle>
@@ -240,7 +283,10 @@ const AdminCommercialOffers: React.FC = () => {
               {/* Status Select */}
               <div className="flex items-center justify-between">
                 <span className="font-medium">Статус:</span>
-                <Select value={selectedOffer.status} onValueChange={value => handleStatusChange(selectedOffer.id, value)}>
+                <Select 
+                  value={selectedOffer.status} 
+                  onValueChange={value => handleStatusChange(selectedOffer.id, value)}
+                >
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Выберите статус" />
                   </SelectTrigger>
@@ -276,13 +322,15 @@ const AdminCommercialOffers: React.FC = () => {
                   </p>
                 </div>
                 
-                {selectedOffer.company_name && <div className="space-y-1">
+                {selectedOffer.company_name && (
+                  <div className="space-y-1">
                     <div className="flex items-center text-sm text-muted-foreground">
                       <Building className="h-4 w-4 mr-2" />
                       <span>Компания</span>
                     </div>
                     <p className="font-medium">{selectedOffer.company_name}</p>
-                  </div>}
+                  </div>
+                )}
                 
                 <div className="space-y-1">
                   <div className="flex items-center text-sm text-muted-foreground">
@@ -315,21 +363,42 @@ const AdminCommercialOffers: React.FC = () => {
               </div>
               
               {/* Attachments if any */}
-              {selectedOffer.attachments && selectedOffer.attachments.length > 0 && <>
+              {selectedOffer.attachments && selectedOffer.attachments.length > 0 && (
+                <>
                   <Separator />
                   <div className="space-y-2">
                     <h4 className="font-medium">Прикрепленные файлы:</h4>
                     <div className="grid grid-cols-1 gap-2">
-                      {selectedOffer.attachments.map((file, index) => <a key={index} href={file} target="_blank" rel="noopener noreferrer" className="flex items-center p-2 bg-muted rounded-md hover:bg-muted/80">
-                          <FileText className="h-4 w-4 mr-2" />
-                          <span className="text-sm truncate">{file.split('/').pop()}</span>
-                        </a>)}
+                      {selectedOffer.attachments.map((file, index) => (
+                        <div 
+                          key={index} 
+                          className="flex items-center justify-between p-2 bg-muted rounded-md hover:bg-muted/80"
+                        >
+                          <div className="flex items-center">
+                            <FileText className="h-4 w-4 mr-2" />
+                            <span className="text-sm truncate">{file.split('/').pop()}</span>
+                          </div>
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="ml-2"
+                            onClick={() => handleDownloadFile(file)}
+                          >
+                            <Download className="h-4 w-4 mr-2" />
+                            <span>Скачать</span>
+                          </Button>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                </>}
+                </>
+              )}
             </div>
           </DialogContent>
-        </Dialog>}
-    </div>;
+        </Dialog>
+      )}
+    </div>
+  );
 };
+
 export default AdminCommercialOffers;

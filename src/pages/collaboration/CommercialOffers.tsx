@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
-// Assuming NavBar, PageHeader, Footer, ScrollToTopButton are dark-themed
 import NavBar from '@/components/NavBar';
 import PageHeader from '@/components/PageHeader';
 import Footer from '@/components/Footer';
 import ScrollToTopButton from '@/components/ScrollToTopButton';
-
-// Assuming Shadcn UI components are dark-themed
-import { useToast } from '@/components/ui/use-toast'; // Assuming hook exists
+import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { uploadMultipleFiles } from '@/utils/file-utils';
 
 import {
   Upload,
@@ -20,8 +18,8 @@ import {
   Package,
   Mail,
   Phone,
-  X // Icon for removing files
-} from 'lucide-react'; // Added X icon
+  X
+} from 'lucide-react';
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -39,7 +37,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { cn } from '@/lib/utils'; // Assuming cn utility exists
+import { cn } from '@/lib/utils';
 
 // Define the form schema (Keep as is)
 const formSchema = z.object({
@@ -152,9 +150,13 @@ const CommercialOffers: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      // For simplicity, we're not actually uploading files in this example
-      // In a real implementation, you would upload the files to storage and get URLs
-      const fileUrls: string[] = uploadedFiles.map(file => file.name);
+      // Upload files to Supabase storage and get URLs
+      let fileUrls: string[] = [];
+      
+      if (uploadedFiles.length > 0) {
+        // Upload files and get their URLs
+        fileUrls = await uploadMultipleFiles(uploadedFiles);
+      }
       
       // Insert the form data into the commercial_offers table
       const { data, error } = await supabase
@@ -174,9 +176,9 @@ const CommercialOffers: React.FC = () => {
       // Show success UI
       setIsSuccess(true);
       toast({
-        title: "Заявка отправлена", // Keep Russian
-        description: "Мы получили вашу заявку и рассмотрим её в ближайшее время.", // Keep Russian
-        variant: "default", // Or "success" if you have it
+        title: "Заявка отправлена",
+        description: "Мы получили вашу заявку и рассмотрим её в ближайшее время.",
+        variant: "default",
       });
 
       // Reset form after successful submission (delayed for UX)
@@ -188,9 +190,9 @@ const CommercialOffers: React.FC = () => {
     } catch (error) {
       console.error("Error submitting form:", error);
       toast({
-        title: "Ошибка отправки", // Keep Russian
-        description: "Произошла ошибка при отправке вашей заявки. Пожалуйста, попробуйте позже.", // Keep Russian
-        variant: "destructive", // Use destructive variant for errors
+        title: "Ошибка отправки",
+        description: "Произошла ошибка при отправке вашей заявки. Пожалуйста, попробуйте позже.",
+        variant: "destructive",
       });
     } finally {
       setIsSubmitting(false);
@@ -213,7 +215,7 @@ const CommercialOffers: React.FC = () => {
         {/* Page Header - Keep hardcoded Russian */}
         <PageHeader
           title="Коммерческие предложения"
-          breadcrumb="КОММЕРЧЕСКИЕ ПРЕДЛОЖЕНИЯ" // Use consistent breadcrumb format
+          breadcrumb="КОММЕРЧЕС��ИЕ ПРЕДЛОЖЕНИЯ" // Use consistent breadcrumb format
           // Use an image appropriate for Commercial Offers, styled for dark theme header
           backgroundImage="/lovable-uploads/c1da7b25-e60d-44b9-8b74-2c37c543ac5f.jpg" // Use an appropriate image path
         />
