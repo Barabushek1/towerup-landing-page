@@ -12,12 +12,14 @@ export type AdminContextType = {
   admin: Admin;
   setAdmin: (admin: Admin) => void;
   isLoading: boolean;
+  login: (email: string, password: string) => Promise<void>;
 };
 
 const initialState: AdminContextType = {
   admin: null,
   setAdmin: () => {},
   isLoading: true,
+  login: async () => {},
 };
 
 const AdminContext = createContext<AdminContextType>(initialState);
@@ -56,8 +58,59 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
     }
   }, [admin]);
 
+  const login = async (email: string, password: string) => {
+    try {
+      // Log admin login attempt
+      await supabase
+        .from('admin_audit_logs')
+        .insert({
+          action_type: 'login_attempt',
+          admin_email: email,
+          details: { method: 'email_password' }
+        });
+      
+      // Use supabase function to verify admin credentials
+      const { data, error } = await supabase.functions.invoke('verify-admin-credentials', {
+        body: { email, password }
+      });
+      
+      if (error) throw error;
+      if (!data || !data.admin) throw new Error('Invalid credentials');
+      
+      // Set admin data
+      setAdmin({
+        id: data.admin.id,
+        email: data.admin.email,
+        name: data.admin.name
+      });
+      
+      // Log successful login
+      await supabase
+        .from('admin_audit_logs')
+        .insert({
+          action_type: 'login_success',
+          admin_email: email,
+          details: { method: 'email_password' }
+        });
+      
+    } catch (error) {
+      console.error('Login error:', error);
+      
+      // Log failed login
+      await supabase
+        .from('admin_audit_logs')
+        .insert({
+          action_type: 'login_failed',
+          admin_email: email,
+          details: { method: 'email_password', error: error instanceof Error ? error.message : 'Unknown error' }
+        });
+      
+      throw error;
+    }
+  };
+
   return (
-    <AdminContext.Provider value={{ admin, setAdmin, isLoading }}>
+    <AdminContext.Provider value={{ admin, setAdmin, isLoading, login }}>
       {children}
     </AdminContext.Provider>
   );

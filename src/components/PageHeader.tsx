@@ -9,7 +9,8 @@ import {
 
 export interface PageHeaderProps {
   title: string;
-  breadcrumb: string;
+  subtitle?: string;
+  breadcrumb?: string;
   backgroundImage?: string;
   backgroundImages?: string[];
   autoplay?: boolean;
@@ -18,6 +19,7 @@ export interface PageHeaderProps {
 
 const PageHeader: React.FC<PageHeaderProps> = ({ 
   title, 
+  subtitle,
   breadcrumb, 
   backgroundImage, 
   backgroundImages = [],
@@ -78,6 +80,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
       
       <div className="container mx-auto px-6 relative z-20 text-center">
         <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">{title}</h1>
+        {subtitle && <p className="text-xl text-white/80 mb-4">{subtitle}</p>}
         {breadcrumb && (
           <div className="text-white/80">
             <a href="/" className="hover:text-primary transition-colors">Главная</a>
