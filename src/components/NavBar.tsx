@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -50,6 +51,35 @@ const NavBar: React.FC = () => {
     title: t('nav.management'),
     href: '/management'
   }];
+  
+  // Services submenu items in the specified order
+  const servicesSubMenu = [
+    {
+      title: 'nav.services.management_company',
+      href: '/services/management-company'
+    },
+    {
+      title: 'nav.services.design',
+      href: '/services/design'
+    },
+    {
+      title: 'nav.services.construction',
+      href: '/services/construction'
+    },
+    {
+      title: 'nav.services.renovation',
+      href: '/services/renovation'
+    },
+    {
+      title: 'nav.services.laboratory',
+      href: '/services/laboratory'
+    },
+    {
+      title: 'nav.services.process_automation',
+      href: '/services/process-automation'
+    }
+  ];
+  
   const navLinks = [{
     title: t('nav.company'),
     href: '/about',
@@ -72,10 +102,6 @@ const NavBar: React.FC = () => {
       href: '/projects/new-uzbekistan'
     }]
   }, {
-    title: t('nav.news'),
-    href: '/news',
-    key: 'news'
-  }, {
     title: t('nav.vacancies'),
     href: '/vacancies',
     key: 'vacancies'
@@ -83,6 +109,13 @@ const NavBar: React.FC = () => {
     title: t('nav.collaboration'),
     href: '/collaboration',
     key: 'collaboration'
+  }, {
+    // New Services menu
+    title: 'Услуги',
+    href: '/services',
+    hasSubmenu: true,
+    key: 'services',
+    submenu: servicesSubMenu
   }, {
     title: t('nav.contacts'),
     href: '/contact',
