@@ -120,183 +120,135 @@ const ProcessAutomation: React.FC = () => {
         </div>
       </section>
 
-      {/* Smart Building Section */}
+      {/* Benefits Section */}
       <section className="py-20 md:py-24 bg-gradient-to-b from-[#1a1a1a] to-[#161616] relative overflow-hidden">
         <div className="absolute left-1/2 top-0 w-[800px] h-[800px] rounded-full bg-primary/5 filter blur-[120px] -translate-x-1/2 opacity-40 z-0"></div>
         
         <div className="container mx-auto px-6 relative z-10">
           <AnimatedSection>
             <motion.div variants={fadeIn} className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Умное здание</h2>
-              <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                Современные решения для управления объектами недвижимости
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <motion.div variants={fadeIn} className="order-2 lg:order-1">
-                <div className="space-y-8">
-                  {[
-                    {
-                      title: "Интегрированное управление",
-                      description: "Единый центр управления всеми инженерными системами здания с возможностью мониторинга и контроля в режиме реального времени."
-                    },
-                    {
-                      title: "Энергоэффективность",
-                      description: "Интеллектуальное управление освещением, отоплением и кондиционированием для оптимизации энергопотребления и снижения затрат."
-                    },
-                    {
-                      title: "Безопасность и контроль доступа",
-                      description: "Комплексная система безопасности с видеонаблюдением, контролем доступа и автоматическим реагированием на нештатные ситуации."
-                    },
-                    {
-                      title: "Комфорт пользователей",
-                      description: "Автоматическая настройка параметров микроклимата, освещения и других систем для обеспечения максимального комфорта."
-                    }
-                  ].map((item, index) => (
-                    <div key={index} className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300">
-                      <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
-                      <p className="text-gray-300">{item.description}</p>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-
-              <motion.div variants={fadeIn} className="order-1 lg:order-2">
-                <div className="aspect-[3/4] overflow-hidden rounded-xl border border-white/10 shadow-2xl">
-                  <img 
-                    src="/lovable-uploads/d46141cd-7934-475c-9744-aa34492b9748.png" 
-                    alt="Умное здание TOWERUP"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </motion.div>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* Process Section */}
-      <section className="py-20 md:py-24 bg-[#161616]">
-        <div className="container mx-auto px-6">
-          <AnimatedSection>
-            <motion.div variants={fadeIn} className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Как мы работаем</h2>
-              <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                Этапы внедрения систем автоматизации
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {[
-                {
-                  number: "01",
-                  title: "Аудит и анализ",
-                  description: "Изучаем ваши потребности, анализируем текущие процессы и системы, определяем задачи автоматизации."
-                },
-                {
-                  number: "02",
-                  title: "Проектирование",
-                  description: "Разрабатываем технические решения, выбираем оптимальное оборудование и программное обеспечение."
-                },
-                {
-                  number: "03",
-                  title: "Внедрение",
-                  description: "Устанавливаем оборудование, настраиваем программное обеспечение, интегрируем системы между собой."
-                },
-                {
-                  number: "04",
-                  title: "Поддержка",
-                  description: "Обучаем персонал, обеспечиваем техническую поддержку и сопровождение внедренных систем."
-                }
-              ].map((step, index, arr) => (
-                <motion.div
-                  key={index}
-                  variants={fadeIn}
-                  className="relative"
-                >
-                  <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 h-full">
-                    <div className="text-4xl font-bold text-primary/50 mb-4">{step.number}</div>
-                    <h3 className="text-xl font-bold text-white mb-3">{step.title}</h3>
-                    <p className="text-gray-300">{step.description}</p>
-                  </div>
-                  {index < arr.length - 1 && (
-                    <div className="hidden md:block absolute top-1/2 right-0 transform translate-x-1/2 -translate-y-1/2 z-10">
-                      <ArrowRight className="h-8 w-8 text-primary/30" />
-                    </div>
-                  )}
-                </motion.div>
-              ))}
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* Benefits Section */}
-      <section className="py-20 md:py-24 bg-gradient-to-b from-[#161616] to-[#0a0a0a] relative overflow-hidden">
-        <div className="absolute right-0 top-0 w-[600px] h-[600px] rounded-full bg-primary/5 filter blur-[120px] animate-pulse opacity-40 z-0"></div>
-        
-        <div className="container mx-auto px-6 relative z-10">
-          <AnimatedSection>
-            <motion.div variants={fadeIn} className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Преимущества автоматизации</h2>
               <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                Как наши решения помогают вашему бизнесу
+                Что получает ваш бизнес после внедрения наших решений
               </p>
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[
                 {
-                  title: "Снижение затрат",
-                  description: "Оптимизация потребления ресурсов и сокращение эксплуатационных расходов до 30%."
-                },
-                {
-                  title: "Повышение безопасности",
-                  description: "Комплексные системы безопасности для защиты имущества, данных и людей."
-                },
-                {
-                  title: "Улучшение комфорта",
-                  description: "Создание оптимальных условий для работы и пребывания людей в здании."
-                },
-                {
+                  icon: <Clock className="h-8 w-8 text-primary" />,
                   title: "Экономия времени",
-                  description: "Автоматизация рутинных задач и процессов, повышение производительности труда."
+                  description: "Автоматизация рутинных процессов позволяет сотрудникам сосредоточиться на более важных задачах, требующих человеческого участия."
                 },
                 {
-                  title: "Гибкость и масштабируемость",
-                  description: "Возможность расширения и модификации систем с минимальными затратами."
+                  icon: <Zap className="h-8 w-8 text-primary" />,
+                  title: "Снижение затрат",
+                  description: "Оптимизация потребления ресурсов и повышение эффективности бизнес-процессов ведет к значительной экономии средств."
                 },
                 {
+                  icon: <LineChart className="h-8 w-8 text-primary" />,
+                  title: "Повышение производительности",
+                  description: "Автоматизированные системы работают быстрее, точнее и без перерывов, что повышает общую производительность."
+                },
+                {
+                  icon: <Shield className="h-8 w-8 text-primary" />,
+                  title: "Улучшение безопасности",
+                  description: "Современные системы автоматизации включают расширенные функции безопасности и контроля доступа."
+                },
+                {
+                  icon: <CheckCircle className="h-8 w-8 text-primary" />,
+                  title: "Минимизация ошибок",
+                  description: "Автоматизированные системы значительно снижают риск человеческих ошибок в критически важных процессах."
+                },
+                {
+                  icon: <Cpu className="h-8 w-8 text-primary" />,
                   title: "Аналитика и отчетность",
-                  description: "Сбор и анализ данных для принятия обоснованных управленческих решений."
+                  description: "Получение актуальных данных и аналитических отчетов для принятия обоснованных бизнес-решений."
                 }
               ].map((benefit, index) => (
                 <motion.div
                   key={index}
                   variants={fadeIn}
-                  className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6"
+                  className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-8 hover:bg-white/10 transition-all duration-300"
+                  whileHover={{ scale: 1.03 }}
+                  transition={{ type: 'spring', stiffness: 300 }}
                 >
-                  <div className="flex items-start">
-                    <CheckCircle className="h-6 w-6 text-primary mr-3 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h3 className="text-xl font-bold text-white mb-2">{benefit.title}</h3>
-                      <p className="text-gray-300">{benefit.description}</p>
-                    </div>
+                  <div className="w-16 h-16 mb-6 rounded-full bg-primary/10 flex items-center justify-center">
+                    {benefit.icon}
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-3">{benefit.title}</h3>
+                  <p className="text-gray-300">{benefit.description}</p>
+                </motion.div>
+              ))}
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* Case Studies Section */}
+      <section className="py-20 md:py-24 bg-[#161616]">
+        <div className="container mx-auto px-6">
+          <AnimatedSection>
+            <motion.div variants={fadeIn} className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Наши проекты автоматизации</h2>
+              <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+                Успешные внедрения систем автоматизации для наших клиентов
+              </p>
+            </motion.div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+              {[
+                {
+                  title: "Автоматизация бизнес-центра «Меркурий»",
+                  description: "Полная автоматизация инженерных систем бизнес-центра класса А+: климат-контроль, освещение, безопасность. Результат: снижение эксплуатационных расходов на 30%.",
+                  image: "/lovable-uploads/90e6db77-c1a6-40d8-936b-0e623cf5cb93.png"
+                },
+                {
+                  title: "Система «Умный дом» для ЖК «Новый Узбекистан»",
+                  description: "Внедрение комплексного решения «Умный дом» для всех квартир жилого комплекса, включая управление освещением, отоплением, безопасностью через мобильное приложение.",
+                  image: "/lovable-uploads/d2bd2619-426f-4ab0-95ad-ed8b140aa758.png"
+                }
+              ].map((caseStudy, index) => (
+                <motion.div
+                  key={index}
+                  variants={fadeIn}
+                  className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden hover:bg-white/10 transition-all duration-300"
+                >
+                  <div className="aspect-video overflow-hidden">
+                    <img 
+                      src={caseStudy.image} 
+                      alt={caseStudy.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-white mb-4">{caseStudy.title}</h3>
+                    <p className="text-gray-300 mb-4">{caseStudy.description}</p>
+                    <Button variant="ghost" className="group text-primary hover:text-primary hover:bg-primary/10">
+                      <span>Подробнее</span>
+                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </Button>
                   </div>
                 </motion.div>
               ))}
             </div>
           </AnimatedSection>
+        </div>
+      </section>
 
-          <AnimatedSection className="mt-16">
+      {/* CTA Section */}
+      <section className="py-20 md:py-24 bg-gradient-to-b from-[#161616] to-[#0a0a0a] relative overflow-hidden">
+        <div className="absolute -right-64 top-0 w-[600px] h-[600px] rounded-full bg-primary/5 filter blur-[120px] animate-pulse opacity-40 z-0"></div>
+        
+        <div className="container mx-auto px-6 relative z-10">
+          <AnimatedSection>
             <motion.div 
               variants={fadeIn}
               className="max-w-4xl mx-auto text-center"
             >
-              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Готовы автоматизировать ваши процессы?</h2>
+              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Готовы автоматизировать ваш бизнес?</h2>
               <p className="text-xl text-gray-300 mb-8">
-                Свяжитесь с нами сегодня для консультации и разработки индивидуального решения.
+                Свяжитесь с нами сегодня для консультации и разработки индивидуального решения по автоматизации.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 text-lg px-8">

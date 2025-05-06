@@ -28,6 +28,31 @@ const staggerContainer = {
   }
 };
 
+// Define AnimatedSection as a standalone component so it can be exported
+export const AnimatedSection = ({ children, className = '' }: { children: React.ReactNode, className?: string }) => {
+  const controls = useAnimation();
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+  
+  useEffect(() => {
+    if (inView) {
+      controls.start('animate');
+    }
+  }, [controls, inView]);
+  
+  return (
+    <motion.div
+      ref={ref}
+      initial="initial"
+      animate={controls}
+      variants={staggerContainer}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
 const ServicePageLayout: React.FC<ServicePageProps> = ({ 
   title, 
   description, 
@@ -39,30 +64,6 @@ const ServicePageLayout: React.FC<ServicePageProps> = ({
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  const AnimatedSection = ({ children, className = '' }: { children: React.ReactNode, className?: string }) => {
-    const controls = useAnimation();
-    const ref = useRef(null);
-    const inView = useInView(ref, { once: true });
-    
-    useEffect(() => {
-      if (inView) {
-        controls.start('animate');
-      }
-    }, [controls, inView]);
-    
-    return (
-      <motion.div
-        ref={ref}
-        initial="initial"
-        animate={controls}
-        variants={staggerContainer}
-        className={className}
-      >
-        {children}
-      </motion.div>
-    );
-  };
 
   return (
     <div className="min-h-screen antialiased bg-background text-foreground overflow-x-hidden">
@@ -89,4 +90,4 @@ const ServicePageLayout: React.FC<ServicePageProps> = ({
   );
 };
 
-export { ServicePageLayout, AnimatedSection, fadeIn, staggerContainer };
+export { ServicePageLayout, fadeIn, staggerContainer };

@@ -1,9 +1,8 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ServicePageLayout, AnimatedSection, fadeIn } from '@/components/ServicePageLayout';
-import { Wrench, PaintBucket, Tool, CheckCircle, Clock, Ruler } from 'lucide-react';
+import { Wrench, PaintBucket, Hammer, CheckCircle, Clock, Ruler } from 'lucide-react';
 
 const Renovation: React.FC = () => {
   return (
@@ -77,7 +76,7 @@ const Renovation: React.FC = () => {
                   description: "Обновление внешнего вида помещения без глобальных изменений: покраска, поклейка обоев, замена напольных покрытий."
                 },
                 {
-                  icon: <Tool className="h-6 w-6 text-primary" />,
+                  icon: <Hammer className="h-6 w-6 text-primary" />,
                   title: "Капитальный ремонт",
                   description: "Полное обновление помещения с заменой инженерных коммуникаций, перепланировкой и заменой отделочных материалов."
                 },
@@ -87,7 +86,7 @@ const Renovation: React.FC = () => {
                   description: "Высококачественная чистовая отделка помещений с использованием современных материалов и технологий."
                 },
                 {
-                  icon: <Tool className="h-6 w-6 text-primary" />,
+                  icon: <Hammer className="h-6 w-6 text-primary" />,
                   title: "Ремонт коммерческих помещений",
                   description: "Профессиональный ремонт офисов, магазинов, ресторанов и других коммерческих объектов с учетом специфики бизнеса."
                 },
@@ -230,7 +229,7 @@ const Renovation: React.FC = () => {
                 {
                   name: "Елена Сергеева",
                   position: "Владелец квартиры",
-                  text: "Заказывала капитальный ремонт квартиры. Очень довольна результатом! Команда работала слаженно, все мои пожелания были учтены. Ремонт закончили даже раньше запланированного срока."
+                  text: "Заказывала капитальный рем��нт квартиры. Очень довольна результатом! Команда работала слаженно, все мои пожелания были учтены. Ремонт закончили даже раньше запланированного срока."
                 },
                 {
                   name: "Дмитрий Новиков",
