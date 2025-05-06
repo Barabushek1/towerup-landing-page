@@ -133,21 +133,23 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
 
   const logout = () => {
     if (admin) {
-      // Log logout action - Fixed promise handling
+      // Log logout action - Fixed to avoid using catch on PromiseLike<void>
       try {
-        void supabase
-          .from('admin_audit_logs')
-          .insert({
-            action_type: 'logout',
-            admin_email: admin.email || '',
-            details: { method: 'manual' }
-          })
-          .then(() => {
+        // Using async IIFE pattern to properly handle the promise
+        (async () => {
+          try {
+            await supabase
+              .from('admin_audit_logs')
+              .insert({
+                action_type: 'logout',
+                admin_email: admin.email || '',
+                details: { method: 'manual' }
+              });
             console.log('Logout logged successfully');
-          })
-          .catch((error) => {
+          } catch (error) {
             console.error('Error logging admin logout:', error);
-          });
+          }
+        })();
       } catch (error) {
         console.error('Error during logout process:', error);
       }
