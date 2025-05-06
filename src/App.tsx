@@ -36,6 +36,14 @@ import AdminLayout from "./components/admin/AdminLayout";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import AdminFloorPrices from './pages/admin/AdminFloorPrices';
 import Collaboration from "./pages/Collaboration";
+import { 
+  ManagementCompany,
+  Design as ServiceDesign,
+  Construction as ServiceConstruction,
+  Renovation,
+  Laboratory,
+  ProcessAutomation
+} from "./pages/services";
 
 const helmetContext = {};
 
@@ -65,6 +73,14 @@ const App = () => {
           <Route path="/vacancies/:id" element={<VacancyDetail />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/collaboration" element={<Collaboration />} />
+          
+          {/* Service Pages */}
+          <Route path="/services/management-company" element={<ManagementCompany />} />
+          <Route path="/services/design" element={<ServiceDesign />} />
+          <Route path="/services/construction" element={<ServiceConstruction />} />
+          <Route path="/services/renovation" element={<Renovation />} />
+          <Route path="/services/laboratory" element={<Laboratory />} />
+          <Route path="/services/process-automation" element={<ProcessAutomation />} />
           
           <Route path="/construction" element={<Construction />} />
           <Route path="/design" element={<Design />} />
