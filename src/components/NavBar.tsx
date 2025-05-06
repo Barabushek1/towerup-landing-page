@@ -1,26 +1,38 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react'; // Import useMemo
 import { useLocation, Link } from 'react-router-dom'; // Import Link
 import { cn } from '@/lib/utils'; // Assuming cn is available
-import { Menu, Phone, ChevronDown, Facebook, Instagram, MessageSquare, MapPin, Mail, PhoneCall, Handshake } from 'lucide-react'; // Ensure icons are imported
-import { useIsMobile } from '@/hooks/use-mobile'; // Assuming hook exists
-import TestModeIndicator from './TestModeIndicator'; // Assuming component exists
-import LanguageSelector from './LanguageSelector'; // Assuming component exists
-import { useLanguage } from '@/contexts/LanguageContext'; // Assuming context exists
-// Removing Shadcn NavigationMenu related imports we are no longer using
+// Ensure necessary icons are imported
+import { Menu, Phone, ChevronDown, Facebook, Instagram, MessageSquare, MapPin, Mail, PhoneCall, Handshake } from 'lucide-react';
+// Assuming hook exists
+import { useIsMobile } from '@/hooks/use-mobile';
+// Assuming component exists
+import TestModeIndicator from './TestModeIndicator';
+// Assuming component exists
+import LanguageSelector from './LanguageSelector';
+// Assuming context exists - **VERIFY THIS IMPORT PATH IN YOUR PROJECT**
+import { useLanguage } from '@/contexts/useLanguage';
+
+
+// Removing Shadcn NavigationMenu related imports we are no longer using for dropdown *content*
+// import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"; // Also from your previous code
 // import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink } from "@/components/ui/navigation-menu";
 
+
+// Assuming Shadcn components are styled for dark theme
 import {
   Collapsible, // Keep for mobile
   CollapsibleContent, // Keep for mobile
   CollapsibleTrigger, // Keep for mobile
-} from "@/components/ui/collapsible"; // Assuming Shadcn components are styled
+} from "@/components/ui/collapsible";
 
+// Assuming Shadcn components are styled for dark theme
 import {
   Sheet, // Keep for mobile
   SheetContent, // Keep for mobile
   SheetTrigger, // Keep for mobile
   SheetClose // Keep for mobile
-} from "@/components/ui/sheet"; // Assuming Shadcn components are styled
+} from "@/components/ui/sheet";
+
 
 // Estimate the height of the TestModeIndicator
 const TEST_INDICATOR_HEIGHT = 35; // in pixels
@@ -32,14 +44,19 @@ const NavBar: React.FC = () => {
   // Use a single state for the currently open dropdown key
   const [openDropdownKey, setOpenDropdownKey] = useState<string | null>(null);
 
-  // Ref to close dropdown when clicking outside
+  // Ref to close dropdown when clicking outside the header/nav area
   const navRef = useRef<HTMLDivElement>(null);
+
+  // Access translation function using the useLanguage hook
+  // **If 't' is not defined, the issue is with this line or the useLanguage hook/context setup.**
+  const { t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
       const offset = window.scrollY;
       // Adjust the scroll threshold based on the indicator height + original header offset
       // Assume initial header height is around 80px (py-5) and scrolled is 60px (py-3)
+      // You may need to verify these approximate pixel values in your browser's dev tools
       const initialHeaderHeight = 80;
       const scrolledHeaderHeight = 60;
 
@@ -50,29 +67,34 @@ const NavBar: React.FC = () => {
       }
     };
 
+    // Handle clicks outside the navbar to close dropdowns
     const handleClickOutside = (event: MouseEvent) => {
-      // If the click target is outside the navbar ref AND a dropdown is open
+      // If the click target is outside the navbar ref AND a dropdown is currently open
       if (navRef.current && !navRef.current.contains(event.target as Node) && openDropdownKey !== null) {
         setOpenDropdownKey(null); // Close the open dropdown
       }
     };
 
+    // Add event listeners on component mount
     window.addEventListener('scroll', handleScroll);
     document.addEventListener('mousedown', handleClickOutside); // Add listener for outside clicks
 
+    // Clean up event listeners on component unmount
     return () => {
       window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('mousedown', handleClickOutside); // Clean up listener
     };
-  }, [openDropdownKey]); // Dependency on openDropdownKey to ensure listener is correct
+    // Dependency on openDropdownKey to ensure the handleClickOutside closure is up-to-date
+    // Also include other dependencies if needed, but be mindful of performance
+  }, [openDropdownKey]);
 
-  // Corrected navLinks data structure - Memoized
+  // Corrected navLinks data structure - Memoized for performance
   const navLinks = useMemo(() => [
     {
       title: t('nav.company'),
       href: '/about', // Top-level link is still /about
       hasSubmenu: true,
-      key: 'company',
+      key: 'company', // Use a unique key for dropdown state management
       submenu: [
         { title: t('nav.about'), href: '/about' },
         { title: t('nav.partners'), href: '/partners' },
@@ -83,13 +105,14 @@ const NavBar: React.FC = () => {
       title: t('nav.projects'),
       href: '/projects', // Top-level link is still /projects
       hasSubmenu: true,
-      key: 'projects',
+      key: 'projects', // Use a unique key
       submenu: [
         { title: t('nav.projectPushkin'), href: '/projects/pushkin' },
         { title: t('nav.projectTrcBochka'), href: '/projects/trcbochka' },
         { title: t('nav.projectNewUzbekistan'), href: '/projects/new-uzbekistan' },
       ]
     },
+    // Links without submenus
     { title: t('nav.news'), href: '/news', hasSubmenu: false, key: 'news' },
     { title: t('nav.vacancies'), href: '/vacancies', hasSubmenu: false, key: 'vacancies' },
     { title: t('nav.collaboration'), href: '/collaboration', hasSubmenu: false, key: 'collaboration' },
@@ -104,20 +127,23 @@ const NavBar: React.FC = () => {
 
   // Mobile menu component (remains largely the same)
   const MobileMenu = () => (
+    // Use a consistent background color
     <div className="bg-[#080C16] h-full w-full overflow-auto">
       <nav className="flex flex-col w-full">
         {navLinks.map((link) => (
           link.hasSubmenu ? (
-            // Mobile: Use Collapsible
+            // Mobile: Use Collapsible for submenu
             <Collapsible key={link.key} className="w-full">
               <CollapsibleTrigger className="w-full flex items-center justify-between py-3 px-4 text-white border-b border-white/10 font-benzin text-base hover:bg-white/5">
                 <span>{link.title}</span>
+                {/* Rotate icon based on collapsible state */}
                 <ChevronDown className="h-4 w-4 transition-transform duration-300 data-[state=open]:rotate-180" />
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <div className="bg-[#1a1a1a]">
+                <div className="bg-[#1a1a1a]"> {/* Background for submenu items */}
                   {link.submenu?.map((subItem) => (
                     <SheetClose asChild key={subItem.title}>
+                      {/* Use Link for internal navigation */}
                       <Link
                         to={subItem.href}
                         className="w-full flex items-center py-2.5 px-6 text-gray-300 hover:text-white hover:bg-white/5 font-benzin text-sm border-b border-white/5"
@@ -133,6 +159,7 @@ const NavBar: React.FC = () => {
           ) : (
             // Mobile: Regular link
             <SheetClose asChild key={link.key}>
+              {/* Use Link for internal navigation */}
               <Link
                 to={link.href}
                 className="w-full flex items-center justify-between py-3 px-4 text-white border-b border-white/10 font-benzin text-base hover:bg-white/5"
@@ -148,35 +175,39 @@ const NavBar: React.FC = () => {
       {/* Mobile Menu Footer - Keep as is, ensure links close sheet/dropdowns */}
       <div className="mt-6 px-4 pb-6"> {/* Added padding-bottom */}
         <div className="mb-5">
-          <h3 className="text-white text-left font-benzin text-base mb-2.5">{t('nav.contacts')}</h3> {/* Assuming key is correct */}
+          {/* Using translation key for Contacts heading */}
+          <h3 className="text-white text-left font-benzin text-base mb-2.5">{t('nav.contacts')}</h3>
           <div className="space-y-3">
+             {/* Contact links - Ensure they close the sheet and any open dropdowns */}
              <SheetClose asChild>
               <a href="#address" className="flex items-start text-left space-x-2.5 text-gray-300 hover:text-white" onClick={() => { setIsMenuOpen(false); setOpenDropdownKey(null); }}>
                 <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">{t('footer.address')}</span> {/* Assuming key is correct */}
+                {/* Using translation key for address */}
+                <span className="text-sm">{t('footer.address')}</span>
               </a>
              </SheetClose>
              <SheetClose asChild>
               <a href="mailto:info@towerup.uz" className="flex items-center text-left space-x-2.5 text-gray-300 hover:text-white" onClick={() => { setIsMenuOpen(false); setOpenDropdownKey(null); }}>
                 <Mail className="h-4 w-4 flex-shrink-0" />
-                <span className="text-sm">info@towerup.uz</span>
+                <span className="text-sm">info@towerup.uz</span> {/* Keep hardcoded email */}
               </a>
              </SheetClose>
              <SheetClose asChild>
               <a href="tel:+998901234567" className="flex items-center text-left space-x-2.5 text-gray-300 hover:text-white" onClick={() => { setIsMenuOpen(false); setOpenDropdownKey(null); }}>
                 <PhoneCall className="h-4 w-4 flex-shrink-0" />
-                <span className="text-sm">+998 90 123 45 67</span>
+                <span className="text-sm">+998 90 123 45 67</span> {/* Keep hardcoded phone */}
               </a>
              </SheetClose>
           </div>
         </div>
 
+        {/* Social Media and Language Selector in mobile footer */}
         <div className="flex items-center justify-between">
           <div>
-            {/* Check if this key is correct for Socials heading */}
-            <h3 className="text-white text-left font-benzin text-base mb-2.5">{t('footer.services')}</h3>
+            {/* Check if this key is correct for Socials heading, potentially add a new key */}
+            <h3 className="text-white text-left font-benzin text-base mb-2.5">{t('footer.services')}</h3> {/* Assuming key is correct */}
             <div className="flex space-x-3 mt-2">
-              {/* Social Media Links */}
+              {/* Social Media Links - Keep styling */}
               <a href="#facebook" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary">
                 <Facebook className="h-4 w-4" />
               </a>
@@ -209,7 +240,8 @@ const NavBar: React.FC = () => {
          ref={navRef}
         className={cn(
           'fixed left-0 right-0 z-50 transition-all duration-300',
-          `top-[${TEST_INDICATOR_HEIGHT}px]`, // Position below indicator
+          // Set top position based on indicator height
+          `top-[${TEST_INDICATOR_HEIGHT}px]`,
 
           scrolled
             ? 'bg-brand-dark/95 backdrop-blur-md shadow-sm py-3' // Scrolled state styling
@@ -218,10 +250,11 @@ const NavBar: React.FC = () => {
       >
         {/* Container to control content width and centering */}
         <div className="container mx-auto px-6">
-          {/* Flex container for Logo and Menu items */}
-          <div className="flex items-center justify-between"> {/* Use justify-between to push logo and menu to opposite ends */}
+          {/* Flex container for Logo and Menu items - Use justify-between to push to ends */}
+          <div className="flex items-center justify-between">
 
-            {/* Logo - Positioned at the far left by flex-shrink-0 and justify-between on parent */}
+            {/* Logo - Positioned at the far left by flex-shrink-0 and justify-between */}
+            {/* Use Link for internal navigation */}
             <Link to="/" className="flex-shrink-0" onClick={() => setOpenDropdownKey(null)}> {/* Close dropdown on logo click */}
               <img
                 src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png"
@@ -234,7 +267,7 @@ const NavBar: React.FC = () => {
             {!isMobile && (
               <div className="hidden md:flex items-center space-x-8"> {/* space-x between nav and right items */}
 
-                {/* Navigation Links */}
+                {/* Navigation Links (the ul/li part) */}
                 <nav className="flex items-center">
                   <ul className="flex items-center space-x-6"> {/* space-x between main nav items */}
                     {navLinks.map((link) => (
@@ -288,7 +321,7 @@ const NavBar: React.FC = () => {
                                   openDropdownKey === link.key
                                       ? "scale-100 opacity-100 visible translate-y-0" // Visible state
                                       : "scale-95 opacity-0 invisible translate-y-[-10px] pointer-events-none" // Hidden state
-                               )}
+                               ),
                                 // Adding margin top might help visual spacing
                                style={{ marginTop: '8px' }} // Add some space below the trigger
                             >
@@ -318,15 +351,13 @@ const NavBar: React.FC = () => {
                             <Link
                               to={link.href}
                               className={cn(
-                                "nav-link tracking-wide transition-colors duration-300 font-benzin px-3 py-2",
+                                "tracking-wide hover:text-brand-primary transition-colors duration-300 font-benzin px-3 py-2",
                                 scrolled ? "text-white" : "text-white",
                                 location.pathname === link.href ? 'text-primary' : 'hover:text-primary' // Active/Hover color
                               )}
                               onClick={() => setOpenDropdownKey(null)} // Close dropdown on link click
                             >
                               <span>{link.title}</span>
-                               {/* Removed the buggy conditional rendering */}
-                               {/* {link.key === 'collaboration'} */}
                             </Link>
                            </li>
                         )}
@@ -340,16 +371,17 @@ const NavBar: React.FC = () => {
                   <LanguageSelector /> {/* Keep language selector */}
 
                   {/* Consultation Button */}
+                  {/* Use Link for internal navigation */}
                   <Link
                     to="/contact" // Link to contact page
                     className={cn(
-                      "flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-white font-medium", // Primary button styling
+                      "flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-white font-medium", // Primary button styling (assuming 'primary' is green)
                       "shadow-lg shadow-primary/20 transform transition hover:-translate-y-0.5 font-benzin" // Hover effect and font
                     )}
                      onClick={() => setOpenDropdownKey(null)} // Close dropdown on button click
                   >
                     <Phone className="h-4 w-4" />
-                    {t('nav.consultation')}
+                    {t('nav.consultation')} {/* Use translation key */}
                   </Link>
                 </div>
               </div>
@@ -357,11 +389,12 @@ const NavBar: React.FC = () => {
 
             {/* Mobile Sheet Menu Trigger */}
             {isMobile && (
+               // Keep the Sheet component for mobile menu
               <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
                 <SheetTrigger asChild>
                   <button
                     className="md:hidden focus:outline-none"
-                    aria-label="Toggle menu"
+                    aria-label="Toggle menu" // Add aria label for accessibility
                   >
                     <Menu className="h-6 w-6 text-white" />
                   </button>
@@ -371,12 +404,13 @@ const NavBar: React.FC = () => {
                   side="right"
                   className="p-0 w-[85vw] max-w-xs bg-[#080C16] text-white border-l border-white/10" // Dark theme styling
                 >
-                   {/* Sheet Header */}
+                   {/* Sheet Header (Logo) */}
                   <div className="flex items-center justify-between p-4 border-b border-white/10">
-                    <Link to="/" className="flex items-center" onClick={() => { setIsMenuOpen(false); setOpenDropdownKey(null); }}>
+                    {/* Use Link for internal navigation */}
+                    <Link to="/" className="flex items-center" onClick={() => { setIsMenuOpen(false); setOpenDropdownKey(null); }}> {/* Close sheet and dropdowns */}
                       <img
                         src="/lovable-uploads/5b8a353d-ebd6-43fe-8f54-7bacba7095ff.png"
-                        alt="TOWERUP Logo"
+                        alt="TOWERUP Logo" // Add alt text
                         className="h-10 w-auto"
                       />
                     </Link>
@@ -394,7 +428,7 @@ const NavBar: React.FC = () => {
 
       {/* Padding div to prevent content from being hidden by fixed header */}
       {/* Adjust padding based on actual header height in initial and scrolled states */}
-       <div style={{ paddingTop: scrolled ? `calc(${TEST_INDICATOR_HEIGHT}px + ${scrolledHeaderHeight}px)` : `calc(${TEST_INDICATOR_HEIGHT}px + ${initialHeaderHeight}px)` }}>
+       <div style={{ paddingTop: scrolled ? `calc(${TEST_INDICATOR_HEIGHT}px + 60px)` : `calc(${TEST_INDICATOR_HEIGHT}px + 80px)` }}>
          {/* The rest of your page content goes here */}
        </div>
     </>
