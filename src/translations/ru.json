@@ -2,8 +2,8 @@
 {
   "testModeIndicator": "Сайт работает в тестовом режиме",
   
-  "nav.company": "О компании",
-  "nav.about": "О нас",
+  "nav.company": "О нас",
+  "nav.about": "О компании",
   "nav.partners": "Партнёры",
   "nav.management": "Руководство",
   "nav.projects": "Проекты",

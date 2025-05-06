@@ -2,8 +2,8 @@
 {
   "testModeIndicator": "Site is in test mode",
   
-  "nav.company": "About Company",
-  "nav.about": "About Us",
+  "nav.company": "About Us",
+  "nav.about": "About Company",
   "nav.partners": "Partners",
   "nav.management": "Management",
   "nav.projects": "Projects",

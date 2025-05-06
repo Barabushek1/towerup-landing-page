@@ -2,8 +2,8 @@
 {
   "testModeIndicator": "Sayt sinov rejimida ishlamoqda",
   
-  "nav.company": "Kompaniya haqida",
-  "nav.about": "Biz haqimizda",
+  "nav.company": "Biz haqimizda",
+  "nav.about": "Kompaniya haqida",
   "nav.partners": "Hamkorlar",
   "nav.management": "Rahbariyat",
   "nav.projects": "Loyihalar",
