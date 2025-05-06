@@ -41,6 +41,7 @@ import Tenders from "./pages/collaboration/Tenders";
 import TenderDetail from "./pages/TenderDetail";
 import CommercialOffers from "./pages/collaboration/CommercialOffers";
 import AdminTenderSubmissions from "./pages/admin/AdminTenderSubmissions";
+import AdminCommercialOffers from "./pages/admin/AdminCommercialOffers";
 import { 
   ManagementCompany,
   Design as ServiceDesign,
@@ -101,6 +102,7 @@ const App = () => {
           <Route path="/admin/messages" element={<AdminLayout><AdminMessages /></AdminLayout>} />
           <Route path="/admin/partners" element={<AdminLayout><AdminPartners /></AdminLayout>} />
           <Route path="/admin/tenders" element={<AdminLayout><AdminTenders /></AdminLayout>} />
+          <Route path="/admin/commercial-offers" element={<AdminLayout><AdminCommercialOffers /></AdminLayout>} />
           <Route path="/admin/audit-logs" element={<AdminLayout><AdminAuditLogs /></AdminLayout>} />
           <Route path="/admin/detailed-audit-logs" element={<AdminLayout><AdminDetailedAuditLogs /></AdminLayout>} />
           <Route path="/admin/floor-prices" element={<AdminLayout><AdminFloorPrices /></AdminLayout>} />

@@ -9,6 +9,7 @@ import ScrollToTopButton from '@/components/ScrollToTopButton';
 
 // Assuming Shadcn UI components are dark-themed
 import { useToast } from '@/components/ui/use-toast'; // Assuming hook exists
+import { supabase } from '@/integrations/supabase/client';
 
 import {
   Upload,
@@ -146,24 +147,35 @@ const CommercialOffers: React.FC = () => {
     setUploadedFiles(prev => prev.filter((_, i) => i !== index));
   };
 
-  // Handle form submission (Keep logic, update toast styling)
+  // Handle form submission
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
 
-    // Simulate API call with timeout
     try {
-      // In a real app, you'd send the values and files to your backend
-      console.log("Form values:", values);
-      console.log("Uploaded files:", uploadedFiles);
+      // For simplicity, we're not actually uploading files in this example
+      // In a real implementation, you would upload the files to storage and get URLs
+      const fileUrls: string[] = uploadedFiles.map(file => file.name);
+      
+      // Insert the form data into the commercial_offers table
+      const { data, error } = await supabase
+        .from('commercial_offers')
+        .insert({
+          applicant_type: values.applicantType,
+          full_name: values.name,
+          company_name: values.company || null,
+          email: values.email,
+          phone: values.phone,
+          description: values.offerDescription,
+          attachments: fileUrls.length > 0 ? fileUrls : []
+        });
 
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      if (error) throw error;
 
       // Show success UI
       setIsSuccess(true);
       toast({
         title: "Заявка отправлена", // Keep Russian
-        description: "Мы получили вашу заявку и рассмотрим его в ближайшее время.", // Keep Russian
-        // Use default or success variant (assuming success variant is green/primary)
+        description: "Мы получили вашу заявку и рассмотрим её в ближайшее время.", // Keep Russian
         variant: "default", // Or "success" if you have it
       });
 
@@ -174,6 +186,7 @@ const CommercialOffers: React.FC = () => {
         setIsSuccess(false);
       }, 3000);
     } catch (error) {
+      console.error("Error submitting form:", error);
       toast({
         title: "Ошибка отправки", // Keep Russian
         description: "Произошла ошибка при отправке вашей заявки. Пожалуйста, попробуйте позже.", // Keep Russian
@@ -488,7 +501,7 @@ const CommercialOffers: React.FC = () => {
                         <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mr-3 mt-0.5">
                            <CheckCircle2 className="h-4 w-4 text-primary" />
                          </div>
-                        <span>Компании, предлагающие услуги в сфере строительства</span>
+                        <span>Компании, пред��агающие услуги в сфере строительства</span>
                       </motion.li>
                       <motion.li variants={listItemVariants} className="flex items-start">
                          <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mr-3 mt-0.5">

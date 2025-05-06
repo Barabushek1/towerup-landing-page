@@ -13,7 +13,8 @@ import {
   ChevronRight,
   Building2,
   Receipt,
-  Inbox
+  Inbox,
+  Mail
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -63,7 +64,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, onClose, collap
     });
   };
 
-  // Navigation items (Keep as is)
+  // Navigation items with new item for commercial offers
   const navItems = [
     { name: "Дашборд", path: "/admin/dashboard", icon: <LayoutDashboard className="h-5 w-5" /> },
     { name: "Новости", path: "/admin/news", icon: <FileText className="h-5 w-5" /> },
@@ -72,6 +73,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, onClose, collap
     { name: "Партнеры", path: "/admin/partners", icon: <UsersRound className="h-5 w-5" /> },
     { name: "Тендеры", path: "/admin/tenders", icon: <Receipt className="h-5 w-5" /> },
     { name: "Заявки на тендеры", path: "/admin/tender-submissions", icon: <Inbox className="h-5 w-5" /> },
+    { name: "Коммерческие предложения", path: "/admin/commercial-offers", icon: <Mail className="h-5 w-5" /> },
     { name: "Цены на квартиры", path: "/admin/floor-prices", icon: <Building2 className="h-5 w-5" /> },
     { name: "Аудит", path: "/admin/audit-logs", icon: <History className="h-5 w-5" /> }
   ];

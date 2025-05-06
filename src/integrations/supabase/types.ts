@@ -96,6 +96,48 @@ export type Database = {
         }
         Relationships: []
       }
+      commercial_offers: {
+        Row: {
+          applicant_type: string
+          attachments: string[] | null
+          company_name: string | null
+          created_at: string
+          description: string
+          email: string
+          full_name: string
+          id: string
+          phone: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          applicant_type: string
+          attachments?: string[] | null
+          company_name?: string | null
+          created_at?: string
+          description: string
+          email: string
+          full_name: string
+          id?: string
+          phone: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          applicant_type?: string
+          attachments?: string[] | null
+          company_name?: string | null
+          created_at?: string
+          description?: string
+          email?: string
+          full_name?: string
+          id?: string
+          phone?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       contact_messages: {
         Row: {
           created_at: string
