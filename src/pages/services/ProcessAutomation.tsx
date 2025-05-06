@@ -1,18 +1,10 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ServicePageLayout, AnimatedSection, fadeIn } from '@/components/ServicePageLayout';
 import { Cpu, LineChart, Shield, Clock, Zap, Server, CheckCircle, ArrowRight } from 'lucide-react';
-
 const ProcessAutomation: React.FC = () => {
-  return (
-    <ServicePageLayout
-      title="Автоматизация процессов"
-      description="Комплексная автоматизация бизнес-процессов и инженерных систем от компании TOWERUP"
-      breadcrumb="Услуги / Автоматизация процессов"
-      headerImage="/lovable-uploads/f8d7af91-e393-448c-8412-4a5dc153d393.png"
-    >
+  return <ServicePageLayout title="Автоматизация процессов" description="Комплексная автоматизация бизнес-процессов и инженерных систем от компании TOWERUP" breadcrumb="Услуги / Автоматизация процессов" headerImage="/lovable-uploads/f8d7af91-e393-448c-8412-4a5dc153d393.png">
       {/* Hero Section */}
       <section className="pt-20 pb-16 md:pt-24 md:pb-20 bg-gradient-to-b from-[#161616] to-[#1a1a1a] relative overflow-hidden">
         <div className="absolute -left-64 -top-64 w-[500px] h-[500px] rounded-full bg-primary/5 filter blur-[100px] animate-pulse opacity-50 z-0"></div>
@@ -40,18 +32,10 @@ const ProcessAutomation: React.FC = () => {
 
             <motion.div variants={fadeIn} className="relative">
               <div className="aspect-square overflow-hidden rounded-2xl border-2 border-white/10 shadow-2xl">
-                <img 
-                  src="/lovable-uploads/fd3f8b69-467d-4443-87ca-f47787321726.png" 
-                  alt="Автоматизация процессов TOWERUP"
-                  className="w-full h-full object-cover"
-                />
+                <img alt="Автоматизация процессов TOWERUP" className="w-full h-full object-cover" src="/lovable-uploads/973129d4-828a-4497-8930-8fda46645e5d.jpg" />
               </div>
               <div className="absolute -bottom-6 -right-6 w-2/3 h-2/3 rounded-xl overflow-hidden border-2 border-white/10 shadow-lg">
-                <img 
-                  src="/lovable-uploads/36291711-53aa-4206-9094-543e63bd67d5.png" 
-                  alt="Умные системы TOWERUP"
-                  className="w-full h-full object-cover"
-                />
+                <img src="/lovable-uploads/36291711-53aa-4206-9094-543e63bd67d5.png" alt="Умные системы TOWERUP" className="w-full h-full object-cover" />
               </div>
             </motion.div>
           </AnimatedSection>
@@ -70,51 +54,39 @@ const ProcessAutomation: React.FC = () => {
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[
-                {
-                  icon: <Cpu className="h-6 w-6 text-primary" />,
-                  title: "Автоматизация зданий (BMS)",
-                  description: "Внедрение систем управления зданием, включающих контроль освещения, отопления, вентиляции, кондиционирования и безопасности."
-                },
-                {
-                  icon: <LineChart className="h-6 w-6 text-primary" />,
-                  title: "Автоматизация бизнес-процессов",
-                  description: "Разработка и внедрение систем автоматизации документооборота, управления персоналом, финансами и другими бизнес-процессами."
-                },
-                {
-                  icon: <Shield className="h-6 w-6 text-primary" />,
-                  title: "Системы безопасности",
-                  description: "Установка и настройка комплексных систем безопасности: видеонаблюдение, контроль доступа, сигнализация, пожаротушение."
-                },
-                {
-                  icon: <Zap className="h-6 w-6 text-primary" />,
-                  title: "Энергоэффективные решения",
-                  description: "Внедрение систем энергосбережения, учета и оптимизации потребления ресурсов для снижения эксплуатационных расходов."
-                },
-                {
-                  icon: <Server className="h-6 w-6 text-primary" />,
-                  title: "Разработка ПО",
-                  description: "Создание индивидуальных программных решений для автоматизации специфических задач вашего бизнеса или объекта."
-                },
-                {
-                  icon: <Clock className="h-6 w-6 text-primary" />,
-                  title: "Техническое обслуживание",
-                  description: "Регулярное обслуживание, обновление и поддержка внедренных систем автоматизации для их бесперебойной работы."
-                }
-              ].map((service, index) => (
-                <motion.div
-                  key={index}
-                  variants={fadeIn}
-                  className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all duration-300 hover:shadow-lg"
-                  whileHover={{ y: -5 }}
-                >
+              {[{
+              icon: <Cpu className="h-6 w-6 text-primary" />,
+              title: "Автоматизация зданий (BMS)",
+              description: "Внедрение систем управления зданием, включающих контроль освещения, отопления, вентиляции, кондиционирования и безопасности."
+            }, {
+              icon: <LineChart className="h-6 w-6 text-primary" />,
+              title: "Автоматизация бизнес-процессов",
+              description: "Разработка и внедрение систем автоматизации документооборота, управления персоналом, финансами и другими бизнес-процессами."
+            }, {
+              icon: <Shield className="h-6 w-6 text-primary" />,
+              title: "Системы безопасности",
+              description: "Установка и настройка комплексных систем безопасности: видеонаблюдение, контроль доступа, сигнализация, пожаротушение."
+            }, {
+              icon: <Zap className="h-6 w-6 text-primary" />,
+              title: "Энергоэффективные решения",
+              description: "Внедрение систем энергосбережения, учета и оптимизации потребления ресурсов для снижения эксплуатационных расходов."
+            }, {
+              icon: <Server className="h-6 w-6 text-primary" />,
+              title: "Разработка ПО",
+              description: "Создание индивидуальных программных решений для автоматизации специфических задач вашего бизнеса или объекта."
+            }, {
+              icon: <Clock className="h-6 w-6 text-primary" />,
+              title: "Техническое обслуживание",
+              description: "Регулярное обслуживание, обновление и поддержка внедренных систем автоматизации для их бесперебойной работы."
+            }].map((service, index) => <motion.div key={index} variants={fadeIn} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all duration-300 hover:shadow-lg" whileHover={{
+              y: -5
+            }}>
                   <div className="w-14 h-14 rounded-full bg-primary/20 flex items-center justify-center mb-5">
                     {service.icon}
                   </div>
                   <h3 className="text-xl font-bold text-white mb-3">{service.title}</h3>
                   <p className="text-gray-300">{service.description}</p>
-                </motion.div>
-              ))}
+                </motion.div>)}
             </div>
           </AnimatedSection>
         </div>
@@ -134,52 +106,42 @@ const ProcessAutomation: React.FC = () => {
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[
-                {
-                  icon: <Clock className="h-8 w-8 text-primary" />,
-                  title: "Экономия времени",
-                  description: "Автоматизация рутинных процессов позволяет сотрудникам сосредоточиться на более важных задачах, требующих человеческого участия."
-                },
-                {
-                  icon: <Zap className="h-8 w-8 text-primary" />,
-                  title: "Снижение затрат",
-                  description: "Оптимизация потребления ресурсов и повышение эффективности бизнес-процессов ведет к значительной экономии средств."
-                },
-                {
-                  icon: <LineChart className="h-8 w-8 text-primary" />,
-                  title: "Повышение производительности",
-                  description: "Автоматизированные системы работают быстрее, точнее и без перерывов, что повышает общую производительность."
-                },
-                {
-                  icon: <Shield className="h-8 w-8 text-primary" />,
-                  title: "Улучшение безопасности",
-                  description: "Современные системы автоматизации включают расширенные функции безопасности и контроля доступа."
-                },
-                {
-                  icon: <CheckCircle className="h-8 w-8 text-primary" />,
-                  title: "Минимизация ошибок",
-                  description: "Автоматизированные системы значительно снижают риск человеческих ошибок в критически важных процессах."
-                },
-                {
-                  icon: <Cpu className="h-8 w-8 text-primary" />,
-                  title: "Аналитика и отчетность",
-                  description: "Получение актуальных данных и аналитических отчетов для принятия обоснованных бизнес-решений."
-                }
-              ].map((benefit, index) => (
-                <motion.div
-                  key={index}
-                  variants={fadeIn}
-                  className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-8 hover:bg-white/10 transition-all duration-300"
-                  whileHover={{ scale: 1.03 }}
-                  transition={{ type: 'spring', stiffness: 300 }}
-                >
+              {[{
+              icon: <Clock className="h-8 w-8 text-primary" />,
+              title: "Экономия времени",
+              description: "Автоматизация рутинных процессов позволяет сотрудникам сосредоточиться на более важных задачах, требующих человеческого участия."
+            }, {
+              icon: <Zap className="h-8 w-8 text-primary" />,
+              title: "Снижение затрат",
+              description: "Оптимизация потребления ресурсов и повышение эффективности бизнес-процессов ведет к значительной экономии средств."
+            }, {
+              icon: <LineChart className="h-8 w-8 text-primary" />,
+              title: "Повышение производительности",
+              description: "Автоматизированные системы работают быстрее, точнее и без перерывов, что повышает общую производительность."
+            }, {
+              icon: <Shield className="h-8 w-8 text-primary" />,
+              title: "Улучшение безопасности",
+              description: "Современные системы автоматизации включают расширенные функции безопасности и контроля доступа."
+            }, {
+              icon: <CheckCircle className="h-8 w-8 text-primary" />,
+              title: "Минимизация ошибок",
+              description: "Автоматизированные системы значительно снижают риск человеческих ошибок в критически важных процессах."
+            }, {
+              icon: <Cpu className="h-8 w-8 text-primary" />,
+              title: "Аналитика и отчетность",
+              description: "Получение актуальных данных и аналитических отчетов для принятия обоснованных бизнес-решений."
+            }].map((benefit, index) => <motion.div key={index} variants={fadeIn} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-8 hover:bg-white/10 transition-all duration-300" whileHover={{
+              scale: 1.03
+            }} transition={{
+              type: 'spring',
+              stiffness: 300
+            }}>
                   <div className="w-16 h-16 mb-6 rounded-full bg-primary/10 flex items-center justify-center">
                     {benefit.icon}
                   </div>
                   <h3 className="text-xl font-bold text-white mb-3">{benefit.title}</h3>
                   <p className="text-gray-300">{benefit.description}</p>
-                </motion.div>
-              ))}
+                </motion.div>)}
             </div>
           </AnimatedSection>
         </div>
@@ -197,29 +159,17 @@ const ProcessAutomation: React.FC = () => {
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-              {[
-                {
-                  title: "Автоматизация бизнес-центра «Меркурий»",
-                  description: "Полная автоматизация инженерных систем бизнес-центра класса А+: климат-контроль, освещение, безопасность. Результат: снижение эксплуатационных расходов на 30%.",
-                  image: "/lovable-uploads/90e6db77-c1a6-40d8-936b-0e623cf5cb93.png"
-                },
-                {
-                  title: "Система «Умный дом» для ЖК «Новый Узбекистан»",
-                  description: "Внедрение комплексного решения «Умный дом» для всех квартир жилого комплекса, включая управление освещением, отоплением, безопасностью через мобильное приложение.",
-                  image: "/lovable-uploads/d2bd2619-426f-4ab0-95ad-ed8b140aa758.png"
-                }
-              ].map((caseStudy, index) => (
-                <motion.div
-                  key={index}
-                  variants={fadeIn}
-                  className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden hover:bg-white/10 transition-all duration-300"
-                >
+              {[{
+              title: "Автоматизация бизнес-центра «Меркурий»",
+              description: "Полная автоматизация инженерных систем бизнес-центра класса А+: климат-контроль, освещение, безопасность. Результат: снижение эксплуатационных расходов на 30%.",
+              image: "/lovable-uploads/90e6db77-c1a6-40d8-936b-0e623cf5cb93.png"
+            }, {
+              title: "Система «Умный дом» для ЖК «Новый Узбекистан»",
+              description: "Внедрение комплексного решения «Умный дом» для всех квартир жилого комплекса, включая управление освещением, отоплением, безопасностью через мобильное приложение.",
+              image: "/lovable-uploads/d2bd2619-426f-4ab0-95ad-ed8b140aa758.png"
+            }].map((caseStudy, index) => <motion.div key={index} variants={fadeIn} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden hover:bg-white/10 transition-all duration-300">
                   <div className="aspect-video overflow-hidden">
-                    <img 
-                      src={caseStudy.image} 
-                      alt={caseStudy.title}
-                      className="w-full h-full object-cover"
-                    />
+                    <img src={caseStudy.image} alt={caseStudy.title} className="w-full h-full object-cover" />
                   </div>
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-white mb-4">{caseStudy.title}</h3>
@@ -229,8 +179,7 @@ const ProcessAutomation: React.FC = () => {
                       <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </Button>
                   </div>
-                </motion.div>
-              ))}
+                </motion.div>)}
             </div>
           </AnimatedSection>
         </div>
@@ -242,10 +191,7 @@ const ProcessAutomation: React.FC = () => {
         
         <div className="container mx-auto px-6 relative z-10">
           <AnimatedSection>
-            <motion.div 
-              variants={fadeIn}
-              className="max-w-4xl mx-auto text-center"
-            >
+            <motion.div variants={fadeIn} className="max-w-4xl mx-auto text-center">
               <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Готовы автоматизировать ваш бизнес?</h2>
               <p className="text-xl text-gray-300 mb-8">
                 Свяжитесь с нами сегодня для консультации и разработки индивидуального решения по автоматизации.
@@ -262,8 +208,6 @@ const ProcessAutomation: React.FC = () => {
           </AnimatedSection>
         </div>
       </section>
-    </ServicePageLayout>
-  );
+    </ServicePageLayout>;
 };
-
 export default ProcessAutomation;
