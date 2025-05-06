@@ -55,27 +55,27 @@ const NavBar: React.FC = () => {
   // Services submenu items in the specified order
   const servicesSubMenu = [
     {
-      title: 'nav.services.management_company',
+      title: t('nav.services.management_company'),
       href: '/services/management-company'
     },
     {
-      title: 'nav.services.design',
+      title: t('nav.services.design'),
       href: '/services/design'
     },
     {
-      title: 'nav.services.construction',
+      title: t('nav.services.construction'),
       href: '/services/construction'
     },
     {
-      title: 'nav.services.renovation',
+      title: t('nav.services.renovation'),
       href: '/services/renovation'
     },
     {
-      title: 'nav.services.laboratory',
+      title: t('nav.services.laboratory'),
       href: '/services/laboratory'
     },
     {
-      title: 'nav.services.process_automation',
+      title: t('nav.services.process_automation'),
       href: '/services/process-automation'
     }
   ];
