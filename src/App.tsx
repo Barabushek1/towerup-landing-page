@@ -30,6 +30,7 @@ import AdminNews from "./pages/admin/AdminNews";
 import AdminVacancies from "./pages/admin/AdminVacancies";
 import AdminMessages from "./pages/admin/AdminMessages";
 import AdminPartners from "./pages/admin/AdminPartners";
+import AdminTenders from "./pages/admin/AdminTenders";
 import AdminAuditLogs from "./pages/admin/AdminAuditLogs";
 import AdminDetailedAuditLogs from "./pages/admin/AdminDetailedAuditLogs";
 import AdminLayout from "./components/admin/AdminLayout";
@@ -37,6 +38,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import AdminFloorPrices from './pages/admin/AdminFloorPrices';
 import Collaboration from "./pages/Collaboration";
 import Tenders from "./pages/collaboration/Tenders";
+import TenderDetail from "./pages/TenderDetail";
 import CommercialOffers from "./pages/collaboration/CommercialOffers";
 import { 
   ManagementCompany,
@@ -76,6 +78,7 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/collaboration" element={<Collaboration />} />
           <Route path="/collaboration/tenders" element={<Tenders />} />
+          <Route path="/tenders/:id" element={<TenderDetail />} />
           <Route path="/collaboration/offers" element={<CommercialOffers />} />
           
           {/* Service Pages */}
@@ -96,6 +99,7 @@ const App = () => {
           <Route path="/admin/vacancies" element={<AdminLayout><AdminVacancies /></AdminLayout>} />
           <Route path="/admin/messages" element={<AdminLayout><AdminMessages /></AdminLayout>} />
           <Route path="/admin/partners" element={<AdminLayout><AdminPartners /></AdminLayout>} />
+          <Route path="/admin/tenders" element={<AdminLayout><AdminTenders /></AdminLayout>} />
           <Route path="/admin/audit-logs" element={<AdminLayout><AdminAuditLogs /></AdminLayout>} />
           <Route path="/admin/detailed-audit-logs" element={<AdminLayout><AdminDetailedAuditLogs /></AdminLayout>} />
           <Route path="/admin/floor-prices" element={<AdminLayout><AdminFloorPrices /></AdminLayout>} />
