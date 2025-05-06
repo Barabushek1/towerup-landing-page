@@ -366,7 +366,6 @@ const Tenders: React.FC = () => {
                          </motion.div>
                        ))
                      ) : (
-                       {/* No Tenders Found Message - Hardcoded Russian text */}
                        <motion.div
                          className="col-span-1 md:col-span-2 lg:col-span-3 py-16 text-center bg-slate-800/40 rounded-xl border border-slate-700/50"
                          variants={fadeIn}
@@ -382,8 +381,6 @@ const Tenders: React.FC = () => {
                  <TabsContent value="active" className="mt-0"></TabsContent>
                  <TabsContent value="closed" className="mt-0"></TabsContent>
               </Tabs>
-             </motion.div> {/* End motion.div around the Tabs component */}
-
 
             {/* Button below the list (All Tenders) - Hardcoded Russian text */}
             <div className="text-center mt-10 md:mt-12">
