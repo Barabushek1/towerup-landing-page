@@ -604,7 +604,8 @@
   "projectsSection.projects.kumaryk.description": "Курортный комплекс, состоящий из 5* отеля и апартаментов с панорамными видами на море и частным пляжем.",
   "projectsSection.projects.kumaryk.location": "Ташкент",
   "projectsSection.projects.kumaryk.status": "Проектируется",
-  
+
+    
   "projectAdvantages": {
     "title": "Преимущества ЖК «Пушкин»",
     "description": "Жилой комплекс «Пушкин» — это стандарт современного комфортного жилья, сочетающий в себе удачное расположение, качественное строительство и заботу о будущих жителях.",
@@ -626,4 +627,63 @@
     },
     "learnMore": "Узнать подробнее"
   }
+
+    "tenders.title": "Тендеры",
+  "tenders.seo.title": "Тендеры",
+  "tenders.seo.description": "Актуальные тендеры и конкурсы на закупку оборудования и строительных материалов от компании TOWERUP.",
+
+  "tenders.intro.title": "Текущие тендеры и закупки",
+  "tenders.intro.description": "Здесь публикуются актуальные тендеры на закупку оборудования, строительных материалов и услуг для проектов компании TOWERUP.",
+  "tenders.intro.alert": "Регулярно проверяйте эту страницу для обновлений - новые тендеры публикуются каждую неделю",
+
+  "tenders.filters.searchPlaceholder": "Поиск по тендерам...",
+  "tenders.filters.categoryPlaceholder": "Все категории",
+
+  "tenders.categories.allCategories": "Все категории",
+  "tenders.categories.constructionMaterials": "Строительные материалы",
+  "tenders.categories.electricalEquipment": "Электрооборудование",
+  "tenders.categories.constructionWork": "Строительные работы",
+  "tenders.categories.plumbing": "Сантехника",
+  "tenders.categories.climateEquipment": "Климатическое оборудование",
+  "tenders.categories.design": "Проектирование",
+
+  "tenders.tabs.all": "Все тендеры",
+  "tenders.tabs.active": "Активные",
+  "tenders.tabs.closed": "Завершенные",
+
+  "tenders.statuses.active": "Активный",
+  "tenders.statuses.closed": "Завершен",
+
+   "tenders.items.tender1.title": "Архитектурное проектирование жилого комплекса",
+  "tenders.items.tender1.description": "Поиск архитектурной компании для проектирования жилого комплекса из 4 зданий в Ташкенте.",
+  "tenders.items.tender1.requirements": "Опыт проектирования аналогичных объектов не менее 5 лет.",
+  "tenders.items.tender1.location": "Ташкент, Мирзо-Улугбекский район",
+
+   "tenders.items.tender2.title": "Строительство офисного центра",
+  "tenders.items.tender2.description": "Тендер на генерального подрядчика для строительства бизнес-центра класса А.",
+  "tenders.items.tender2.requirements": "Наличие необходимых лицензий и технического оснащения.",
+  "tenders.items.tender2.location": "Ташкент, Яккасарайский район",
+
+   "tenders.items.tender3.title": "Системы умного дома для ЖК",
+  "tenders.items.tender3.description": "Поставка и монтаж систем умного дома для жилого комплекса премиум-класса.",
+  "tenders.items.tender3.requirements": "Сертификация и гарантийное обслуживание не менее 2 лет.",
+  "tenders.items.tender3.location": "Ташкент, Юнусабадский район",
+
+   "tenders.items.tender4.title": "Благоустройство территории жилого комплекса",
+  "tenders.items.tender4.description": "Разработка и реализация проекта благоустройства территории жилого комплекса, включая озеленение, обустройство детских и спортивных площадок.",
+  "tenders.items.tender4.requirements": "Опыт работы с проектами аналогичного масштаба от 3 лет.",
+  "tenders.items.tender4.location": "Ташкент, Чиланзарский район",
+
+  "tenders.items.deadlineLabel": "Срок подачи",
+  "tenders.items.budgetLabel": "Бюджет",
+  "tenders.items.requirementsLabel": "Требования",
+
+
+  "tenders.items.buttonCompleted": "Тендер завершен",
+  "tenders.items.buttonDetails": "Подробнее",
+  "tenders.buttonAll": "Все тендеры",
+  "tenders.buttonApply": "Подать заявку на участие",
+
+  "tenders.toast.detailsSentTitle": "Запрос отправлен",
+  "tenders.toast.detailsSentDesc": "Детали тендера будут отправлены на вашу почту",
 }
