@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useMemo } from 'react'; // Added useMemo
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
-// Assuming NavBar, PageHeader, Footer, ScrollToTopButton are styled as intended
 import NavBar from '@/components/NavBar';
 import PageHeader from '@/components/PageHeader';
 import Footer from '@/components/Footer';
 import ScrollToTopButton from '@/components/ScrollToTopButton';
 
-// Assuming Shadcn UI components are styled as intended
 import {
   Card,
   CardContent,
@@ -29,7 +27,6 @@ import {
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Separator } from '@/components/ui/separator';
 
-// Assuming Breadcrumb components are styled as intended
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -38,26 +35,20 @@ import {
   BreadcrumbSeparator
 } from '@/components/ui/breadcrumb';
 
-// Import icons
 import { FileText, Calendar, ArrowRight, Filter, Search, Clock, MapPin, DollarSign, FolderOpen, CheckCircle } from 'lucide-react';
-
-// Removed useToast and useLanguage imports
-// import { useToast } from '@/hooks/use-toast';
-// import { useLanguage } from '@/contexts/useLanguage';
 
 import { cn } from '@/lib/utils';
 
 
 // --- Mock Data for Tenders (Hardcoded Russian text) ---
-// All text is now directly in Russian strings
 const mockTenders = [
   {
     id: 1,
     title: 'Закупка строительных материалов для жилого комплекса',
     description: 'Требуются строительные материалы для возведения жилого комплекса в центре Ташкента. В список входят: цемент, арматура, кирпич, песок, щебень.',
-    date: '2025-05-20', // Keep date string format
-    category: 'Строительные материалы', // Hardcoded category in Russian
-    status: 'Активный' // Hardcoded status in Russian
+    date: '2025-05-20',
+    category: 'Строительные материалы',
+    status: 'Активный'
   },
   {
     id: 2,
@@ -73,7 +64,7 @@ const mockTenders = [
     description: 'Ищем подрядчика для выполнения внутренних отделочных работ в офисном помещении площадью 1200 кв.м. в новом бизнес-центре.',
     date: '2025-06-01',
     category: 'Строительные работы',
-    status: 'Завершен' // Hardcoded status in Russian
+    status: 'Завершен'
   },
   {
     id: 4,
@@ -101,7 +92,7 @@ const mockTenders = [
   }
 ];
 
-// Available categories (hardcoded Russian text now)
+// Available categories (hardcoded Russian text)
 const categories = [
   'Все категории',
   'Строительные материалы',
@@ -134,22 +125,14 @@ const cardVariants = {
 
 const Tenders: React.FC = () => {
   // Removed useLanguage hook usage
-  // const { t } = useLanguage();
-
-  // Removed useToast hook usage if it's not used elsewhere
-  // const { toast } = useToast();
+  // Removed useToast hook usage if not used elsewhere
 
   const [searchQuery, setSearchQuery] = useState('');
-  // Use hardcoded Russian text for selected category state
   const [selectedCategory, setSelectedCategory] = useState('Все категории');
   const [filteredTenders, setFilteredTenders] = useState(mockTenders);
-  // Use hardcoded Russian text for tab values
   const [activeTab, setActiveTab] = useState('all'); // Tab keys: 'all', 'active', 'closed'
 
-
   // Categories for Select options (use hardcoded array directly)
-  // Removed useMemo and translatedCategories variable
-
 
   // Filter tenders based on search query, category, and tab
   useEffect(() => {
@@ -165,7 +148,7 @@ const Tenders: React.FC = () => {
     }
 
     // Filter by category (compare hardcoded category string)
-    if (selectedCategory !== 'Все категории') { // Compare with hardcoded string
+    if (selectedCategory !== 'Все категории') {
       filtered = filtered.filter(tender => tender.category === selectedCategory);
     }
 
@@ -173,28 +156,27 @@ const Tenders: React.FC = () => {
     const activeStatus = 'Активный'; // Hardcoded status string
     const completedStatus = 'Завершен'; // Hardcoded status string
 
-    if (activeTab === 'active') { // Compare tab key
+    if (activeTab === 'active') {
       filtered = filtered.filter(tender => tender.status === activeStatus);
-    } else if (activeTab === 'closed') { // Compare tab key
+    } else if (activeTab === 'closed') {
       filtered = filtered.filter(tender => tender.status === completedStatus);
-    } else if (activeTab === 'all') { // 'all' tab shows all statuses
-       // No additional filtering needed for 'all'
+    } else if (activeTab === 'all') {
+       // 'all' tab shows all statuses, no additional filtering needed
     }
 
-
     setFilteredTenders(filtered);
-  }, [searchQuery, selectedCategory, activeTab, mockTenders]); // Keep dependencies
+  }, [searchQuery, selectedCategory, activeTab]); // Keep dependencies
 
 
   // Function to get badge color based on hardcoded status string
    const getStatusColorClass = (status: string) => {
      switch (status) {
-       case 'Активный': // Compare with hardcoded string
+       case 'Активный':
          return 'bg-primary text-primary-foreground';
-       case 'Завершен': // Compare with hardcoded string
+       case 'Завершен':
          return 'bg-slate-500 text-white';
        default:
-         return 'bg-slate-600 text-white'; // Default
+         return 'bg-slate-600 text-white';
      }
    };
 
@@ -202,7 +184,6 @@ const Tenders: React.FC = () => {
   // Format date using Russian locale (hardcoded)
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    // Use 'ru-RU' locale string directly
     try {
        return new Intl.DateTimeFormat('ru-RU', {
          day: 'numeric',
@@ -211,13 +192,12 @@ const Tenders: React.FC = () => {
        }).format(date);
     } catch (e) {
         console.error(`Error formatting date for locale "ru-RU":`, e);
-        return dateString; // Fallback on error
+        return dateString;
     }
   };
 
   // --- Render ---
   return (
-    // Use consistent dark theme background
     <div className="min-h-screen antialiased bg-[#161616] text-white overflow-x-hidden">
       {/* Helmet for SEO - Hardcoded Russian text */}
       <Helmet>
@@ -226,13 +206,13 @@ const Tenders: React.FC = () => {
         {/* Add other relevant meta tags */}
       </Helmet>
 
-      <NavBar /> {/* Include NavBar */}
+      <NavBar />
 
       <main>
         {/* Page Header - Hardcoded Russian text */}
         <PageHeader
           title="Тендеры"
-          breadcrumb="ГЛАВНАЯ / ТЕНДЕРЫ" // Hardcoded breadcrumb
+          breadcrumb="ГЛАВНАЯ / ТЕНДЕРЫ"
           backgroundImage="/lovable-uploads/973129d4-828a-4497-8930-8fda46645e5d.jpg"
         />
 
@@ -242,12 +222,10 @@ const Tenders: React.FC = () => {
              <Breadcrumb className="mb-8 text-slate-400">
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  {/* Hardcoded link and text */}
                   <BreadcrumbLink href="/" className="hover:text-primary">Главная</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="text-slate-600" />
                 <BreadcrumbItem>
-                  {/* Hardcoded text */}
                   <span className="text-white">Тендеры</span>
                 </BreadcrumbItem>
               </BreadcrumbList>
@@ -315,106 +293,101 @@ const Tenders: React.FC = () => {
                  </Tabs>
             </motion.div>
 
-
-            {/* Tenders List Grid */}
-             <motion.div variants={fadeIn}>
-              {/* Tabs component still needed to control content display */}
-              {/* Removed TabsContent wrappers as filtering handles display */}
-              {/* The grid will automatically render filteredTenders */}
-               <motion.div
-                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                 variants={staggerContainer}
-                 initial="initial"
-                 animate="animate"
-               >
-                    {/* Map through filtered tenders */}
-                    {filteredTenders.length > 0 ? (
-                      filteredTenders.map((tender) => (
-                        <motion.div
-                          key={tender.id}
-                          variants={cardVariants}
-                          whileHover="hover"
-                          transition={{ duration: 0.3 }}
-                        >
-                          {/* Card - Styled for dark theme */}
-                          <Card className={cn(
-                             "h-full flex flex-col overflow-hidden border-l-4 hover:shadow-lg transition-all duration-300",
-                             "bg-slate-800/40 text-white border-slate-700/50 hover:border-primary/30",
-                             tender.status === 'Завершен' ? "opacity-75" : "" // Compare with hardcoded string
-                          )}
-                            // Apply border-left color based on hardcoded status string
-                            style={{ borderLeftColor: tender.status === 'Активный' ? '#4ade80' : '#8E9196' }}
-                          >
-                            <CardHeader>
-                              <div className="flex justify-between items-start gap-2">
-                                {/* Title - Restyled color */}
-                                <CardTitle className="text-xl font-bold text-white flex-grow">{tender.title}</CardTitle> {/* Use hardcoded title */}
-                                {/* Status Badge - Restyled color */}
-                                <Badge className={cn("text-white", getStatusColorClass(tender.status))}>
-                                  {tender.status} {/* Use hardcoded status */}
-                                </Badge>
-                              </div>
-                              {/* Date - Restyled icon/text color */}
-                              <div className="flex items-center text-sm text-slate-400 mt-2">
-                                <Calendar className="h-4 w-4 mr-2 text-slate-400" />
-                                {/* Hardcoded label + formatted date */}
-                                <span>Срок подачи: {formatDate(tender.date)}</span>
-                              </div>
-                            </CardHeader>
-                            <CardContent className="flex-grow text-slate-300 leading-relaxed">
-                              {/* Category Badge - Restyled */}
-                              <div className="mb-3">
-                                <Badge variant="secondary" className="mr-2 bg-slate-700/50 text-slate-300 border-slate-600">
-                                  {tender.category} {/* Use hardcoded category */}
-                                </Badge>
-                              </div>
-                              {/* Description */}
-                              <p>{tender.description}</p> {/* Use hardcoded description */}
-                               {/* Removed location, budget, requirements display if they are not in mock data */}
-                            </CardContent>
-                            <CardFooter>
-                              {/* Button - Restyled for dark theme, hardcoded text */}
-                              <Button
-                                variant="outline"
-                                disabled={tender.status === 'Завершен'} // Disable if hardcoded status is 'Завершен'
-                                className={cn(
-                                   "w-full flex items-center justify-center gap-2",
-                                   "border-slate-600 text-white/90 hover:bg-slate-700/50 hover:border-primary group-hover:border-primary/80 transition-colors",
-                                   tender.status === 'Завершен' && "opacity-50 cursor-not-allowed"
-                                )}
-                                // Removed onClick handler if not used
-                                // onClick={() => handleTenderClick(tender.id)}
-                              >
-                                <FileText className="h-4 w-4" />
-                                {/* Hardcoded button text */}
-                                <span>Подробнее</span>
-                                <ArrowRight className="h-4 w-4 ml-auto group-hover:translate-x-1 transition-transform" />
-                              </Button>
-                            </CardFooter>
-                          </Card>
-                        </motion.div>
-                      ))
-                    ) : (
-                      // No Tenders Found Message - Hardcoded Russian text
-                      <motion.div
-                        className="col-span-1 md:col-span-2 lg:col-span-3 py-16 text-center bg-slate-800/40 rounded-xl border border-slate-700/50"
-                        variants={fadeIn}
-                      >
-                        <p className="text-xl text-slate-400">Тендеры не найдены</p>
-                        <p className="text-slate-500 mt-2">Попробуйте изменить параметры фильтрации</p>
-                      </motion.div>
-                    )}
-                  </motion.div>
-                </TabsContent>
-                 {/* Removed TabsContent for 'active' and 'closed' as filtering handles display */}
+            {/* Tenders List Grid within Tabs Content */}
+             {/* Keep Tabs component here to control content display */}
+              <Tabs value={activeTab}> {/* Use controlled tabs */}
+                <TabsContent value="all" className="mt-0"> {/* Content for 'all' tab */}
+                   {/* Only render the grid here */}
+                   <motion.div
+                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                     variants={staggerContainer}
+                     initial="initial"
+                     animate="animate"
+                   >
+                     {/* Map through filtered tenders */}
+                     {filteredTenders.length > 0 ? (
+                       filteredTenders.map((tender) => (
+                         <motion.div
+                           key={tender.id}
+                           variants={cardVariants}
+                           whileHover="hover"
+                           transition={{ duration: 0.3 }}
+                         >
+                           {/* Card - Styled for dark theme */}
+                           <Card className={cn(
+                              "h-full flex flex-col overflow-hidden border-l-4 hover:shadow-lg transition-all duration-300",
+                              "bg-slate-800/40 text-white border-slate-700/50 hover:border-primary/30",
+                              tender.status === 'Завершен' ? "opacity-75" : ""
+                           )}
+                             style={{ borderLeftColor: tender.status === 'Активный' ? '#4ade80' : '#8E9196' }}
+                           >
+                             <CardHeader>
+                               <div className="flex justify-between items-start gap-2">
+                                 {/* Title - Restyled color */}
+                                 <CardTitle className="text-xl font-bold text-white flex-grow">{tender.title}</CardTitle>
+                                 {/* Status Badge - Restyled color */}
+                                 <Badge className={cn("text-white", getStatusColorClass(tender.status))}>
+                                   {tender.status}
+                                 </Badge>
+                               </div>
+                               {/* Date - Restyled icon/text color */}
+                               <div className="flex items-center text-sm text-slate-400 mt-2">
+                                 <Calendar className="h-4 w-4 mr-2 text-slate-400" />
+                                 <span>Срок подачи: {formatDate(tender.date)}</span>
+                               </div>
+                             </CardHeader>
+                             <CardContent className="flex-grow text-slate-300 leading-relaxed">
+                               {/* Category Badge - Restyled */}
+                               <div className="mb-3">
+                                 <Badge variant="secondary" className="mr-2 bg-slate-700/50 text-slate-300 border-slate-600">
+                                   {tender.category}
+                                 </Badge>
+                               </div>
+                               {/* Description */}
+                               <p>{tender.description}</p>
+                             </CardContent>
+                             <CardFooter>
+                               {/* Button - Restyled for dark theme, hardcoded text */}
+                               <Button
+                                 variant="outline"
+                                 disabled={tender.status === 'Завершен'}
+                                 className={cn(
+                                    "w-full flex items-center justify-center gap-2",
+                                    "border-slate-600 text-white/90 hover:bg-slate-700/50 hover:border-primary group-hover:border-primary/80 transition-colors",
+                                    tender.status === 'Завершен' && "opacity-50 cursor-not-allowed"
+                                 )}
+                               >
+                                 <FileText className="h-4 w-4" />
+                                 <span>Подробнее</span>
+                                 <ArrowRight className="h-4 w-4 ml-auto group-hover:translate-x-1 transition-transform" />
+                               </Button>
+                             </CardFooter>
+                           </Card>
+                         </motion.div>
+                       ))
+                     ) : (
+                       {/* No Tenders Found Message - Hardcoded Russian text */}
+                       <motion.div
+                         className="col-span-1 md:col-span-2 lg:col-span-3 py-16 text-center bg-slate-800/40 rounded-xl border border-slate-700/50"
+                         variants={fadeIn}
+                       >
+                         <p className="text-xl text-slate-400">Тендеры не найдены</p>
+                         <p className="text-slate-500 mt-2">Попробуйте изменить параметры фильтрации</p>
+                       </motion.div>
+                     )}
+                   </motion.div>
+                 </TabsContent>
+                 {/* Add empty TabsContent for 'active' and 'closed' */}
+                  {/* These are needed for the Tabs component structure, even if they don't render filtered lists directly */}
+                 <TabsContent value="active" className="mt-0"></TabsContent>
+                 <TabsContent value="closed" className="mt-0"></TabsContent>
               </Tabs>
-             </motion.div> {/* End motion.div around the list grid */}
+             </motion.div> {/* End motion.div around the Tabs component */}
 
 
             {/* Button below the list (All Tenders) - Hardcoded Russian text */}
             <div className="text-center mt-10 md:mt-12">
                  <Button asChild variant="outline" className="bg-transparent shadow-none hover:bg-slate-700/50 text-white border-slate-600 hover:border-primary px-6 py-2 text-lg">
-                   {/* Hardcoded text and href */}
                    <a href="/tenders">Все тендеры</a>
                 </Button>
             </div>
