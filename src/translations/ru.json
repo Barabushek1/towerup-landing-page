@@ -9,6 +9,9 @@
   "nav.services.renovation": "Ремонт",
   "nav.services.laboratory": "Лаборатория",
   "nav.services.process_automation": "Автоматизация процессов",
+
+  "nav.collaboration.tenders": "Тендеры",
+  "nav.collaboration.offers": "Оферты",
     
   "nav.company": "О нас",
   "nav.about": "О компании",
