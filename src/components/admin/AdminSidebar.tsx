@@ -15,12 +15,14 @@ import {
   Receipt, // Icon for tenders
   Inbox, // Icon for tender submissions
   HandCoins, // Icon for commercial offers
-  FileBadge // Icon for vacancy applications
+  FileBadge, // Icon for vacancy applications
+  Newspaper // Added missing Newspaper icon import
 } from 'lucide-react'; // Ensure all necessary icons are imported
 import { cn } from '@/lib/utils'; // Assuming utility exists
 import { Button } from '@/components/ui/button'; // Assuming Button component exists and is styled
 import { Separator } from '@/components/ui/separator'; // Assuming Separator component exists and is styled
 import { useToast } from '@/hooks/use-toast'; // Assuming hook exists
+import { motion } from 'framer-motion'; // Using motion for transitions
 
 interface AdminSidebarProps {
   mobileOpen: boolean; // State for mobile sidebar (Sheet)

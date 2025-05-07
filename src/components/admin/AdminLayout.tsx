@@ -6,6 +6,7 @@ import { Loader2, Menu, LogOut, PanelLeftClose, PanelLeftOpen } from 'lucide-rea
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion'; // Added missing import
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -47,7 +48,6 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   //    mq.addListener(handler);
   //    return () => mq.removeListener(handler);
   // }, []);
-
 
   // Logout handler (Keep as is)
   const handleLogout = () => {
