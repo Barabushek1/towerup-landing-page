@@ -63,7 +63,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 </span>
             </div>
 
-             {/* Content Area with Responsive Adjustments */}
+            {/* Content Area with Responsive Adjustments */}
             <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 text-white z-10">
                 {/* Type */}
                 <div className="mb-1 text-xs font-medium uppercase tracking-wider text-primary sm:text-sm">{type}</div>
@@ -99,6 +99,17 @@ const Projects: React.FC = () => {
     // Data - IMPORTANT: Replace placeholder image URLs with actual paths
     const projects = [
         {
+            title: 'БЦ "Banking Technology"',
+            type: 'Бизнес-центр',
+            description: 'Современный бизнес-центр класса А+ с уникальной архитектурой, сочетающий высотное здание с панорамным остеклением и стильный стеклянный павильон.',
+            location: 'Ташкент',
+            imageUrl: '/lovable-uploads/7ad10dee-9292-47bf-a026-8ebd56478382.png',
+            status: 'Проектируется',
+            completion: 'Q4 2027',
+            slug: 'banking-technology',
+            featured: true
+        },
+        {
             title: 'ЖК "Пушкин"',
             type: 'Жилой комплекс',
             description: 'Современный эко-комплекс из 5 домов с благоустроенной территорией, детскими площадками и парковой зоной.',
@@ -118,7 +129,7 @@ const Projects: React.FC = () => {
             status: 'Строится',
             completion: 'Q3 2025',
             slug: 'new-uzbekistan',
-            featured: true
+            featured: false
         },
         {
             title: 'БЦ "Бочка"',
