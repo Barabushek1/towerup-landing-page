@@ -8,6 +8,12 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useVacancySeeder } from '@/hooks/use-vacancy-seeder';
 import { getCachedData } from '@/utils/cache-utils';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
 
 interface Vacancy {
   id: string;
@@ -24,8 +30,16 @@ interface Vacancy {
 }
 
 const Vacancies: React.FC = () => {
-  // For the contact form toggle
-  const [showContactForm, setShowContactForm] = useState(false);
+  // For the contact form dialog
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    full_name: '',
+    email: '',
+    phone: '',
+    cover_letter: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
   
   // Seed initial vacancy data if needed
   useVacancySeeder();
@@ -55,14 +69,65 @@ const Vacancies: React.FC = () => {
     gcTime: 1000 * 60 * 30, // Keep in React Query cache for 30 minutes
   });
 
-  const scrollToContact = () => {
-    // Toggle the contact form display
-    setShowContactForm(true);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     
-    // Scroll to contact section
-    const contactSection = document.getElementById('contact');
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth' });
+    if (!formData.full_name || !formData.email || !formData.phone) {
+      toast({
+        title: "Ошибка",
+        description: "Пожалуйста, заполните все обязательные поля",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    try {
+      // Save general application to database (not tied to a specific vacancy)
+      const { error: insertError } = await supabase
+        .from('vacancy_applications')
+        .insert({
+          full_name: formData.full_name,
+          email: formData.email,
+          phone: formData.phone,
+          cover_letter: formData.cover_letter,
+          status: 'new'
+        });
+      
+      if (insertError) throw insertError;
+      
+      toast({
+        title: "Заявка отправлена",
+        description: "Ваша заявка успешно отправлена. Мы свяжемся с вами в ближайшее время."
+      });
+      
+      // Reset form
+      setFormData({
+        full_name: '',
+        email: '',
+        phone: '',
+        cover_letter: ''
+      });
+      
+      setDialogOpen(false);
+    } catch (error) {
+      console.error('Error submitting application:', error);
+      toast({
+        title: "Ошибка",
+        description: "Произошла ошибка при отправке заявки. Пожалуйста, попробуйте позже.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -132,7 +197,7 @@ const Vacancies: React.FC = () => {
                         </a>
                         
                         <button
-                          onClick={scrollToContact}
+                          onClick={() => setDialogOpen(true)}
                           className="text-slate-300 hover:text-primary transition-colors font-benzin text-sm"
                         >
                           Откликнуться
@@ -159,33 +224,13 @@ const Vacancies: React.FC = () => {
                     </p>
                     <div className="flex justify-center md:justify-start">
                       <button 
-                        onClick={scrollToContact}
+                        onClick={() => setDialogOpen(true)}
                         className="inline-flex items-center px-5 py-2.5 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors font-benzin"
                       >
                         <span>Отправить резюме</span>
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </button>
                     </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Contact form section */}
-              <div id="contact" className={`mt-16 ${showContactForm ? 'block' : 'hidden'}`}>
-                <div className="bg-slate-800/40 border border-primary/10 rounded-lg p-8">
-                  <h3 className="text-2xl font-medium text-slate-200 mb-4 font-benzin">Отправить резюме</h3>
-                  <p className="mb-6 text-muted-foreground">Заполните форму ниже, и наш HR-специалист свяжется с вами.</p>
-                  
-                  {/* I'm adding a placeholder for the form here - in a real app you'd build a proper form component */}
-                  <div className="bg-slate-700/40 p-6 rounded-md text-center">
-                    <p className="mb-4">Для отправки резюме перейдите на страницу конкретной вакансии</p>
-                    <a 
-                      href="/vacancies" 
-                      className="inline-flex items-center px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 transition-colors font-benzin"
-                    >
-                      Посмотреть вакансии
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </a>
                   </div>
                 </div>
               </div>
@@ -199,6 +244,93 @@ const Vacancies: React.FC = () => {
             </svg>
           </div>
         </section>
+        
+        {/* Application Dialog */}
+        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          <DialogContent className="bg-slate-800 text-slate-100 border-slate-700 sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle className="text-xl font-benzin">Отправить резюме</DialogTitle>
+            </DialogHeader>
+            <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+              <div className="space-y-2">
+                <Label htmlFor="full_name" className="text-slate-300">ФИО *</Label>
+                <Input
+                  id="full_name"
+                  name="full_name"
+                  value={formData.full_name}
+                  onChange={handleInputChange}
+                  placeholder="Иванов Иван Иванович"
+                  required
+                  className="bg-slate-700 border-slate-600 text-slate-100"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-slate-300">Email *</Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="example@mail.com"
+                  required
+                  className="bg-slate-700 border-slate-600 text-slate-100"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="phone" className="text-slate-300">Телефон *</Label>
+                <Input
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  placeholder="+998 XX XXX XX XX"
+                  required
+                  className="bg-slate-700 border-slate-600 text-slate-100"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="cover_letter" className="text-slate-300">Сопроводительное письмо</Label>
+                <Textarea
+                  id="cover_letter"
+                  name="cover_letter"
+                  value={formData.cover_letter}
+                  onChange={handleInputChange}
+                  placeholder="Расскажите немного о себе и своем опыте..."
+                  className="bg-slate-700 border-slate-600 text-slate-100 min-h-[120px]"
+                />
+              </div>
+              
+              <div className="pt-2 flex justify-end space-x-2">
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => setDialogOpen(false)}
+                  className="border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-slate-100"
+                >
+                  Отмена
+                </Button>
+                <Button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="bg-primary hover:bg-primary/90"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Отправка...
+                    </>
+                  ) : (
+                    'Отправить'
+                  )}
+                </Button>
+              </div>
+            </form>
+          </DialogContent>
+        </Dialog>
       </main>
       <Footer />
     </div>
@@ -206,3 +338,4 @@ const Vacancies: React.FC = () => {
 };
 
 export default Vacancies;
+

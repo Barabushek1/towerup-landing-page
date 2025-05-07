@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAdmin } from '@/contexts/AdminContext';
@@ -96,7 +97,16 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
             </Button>
 
             {/* Desktop Sidebar Toggle Button */}
-            
+            <Button variant="ghost" size="icon" className="hidden md:flex" onClick={toggleSidebar}>
+              {sidebarCollapsed ? (
+                <PanelLeftOpen className="h-5 w-5" />
+              ) : (
+                <PanelLeftClose className="h-5 w-5" />
+              )}
+              <span className="sr-only">
+                {sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+              </span>
+            </Button>
 
             {/* Admin Panel Title and User Email */}
             <div>
@@ -107,8 +117,11 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
             </div>
           </div>
 
-          {/* Right side - Logout button (Keep as is) */}
-          
+          {/* Right side - Logout button */}
+          <Button variant="ghost" size="sm" onClick={handleLogout} className="text-slate-300 hover:text-white">
+            <LogOut className="h-4 w-4 mr-2" />
+            <span>Logout</span> {/* Keep hardcoded or translate */}
+          </Button>
         </div>
 
         {/* Main Content Area (Keep as is) */}
