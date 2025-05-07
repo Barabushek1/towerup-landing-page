@@ -215,7 +215,6 @@ const CommercialOffers: React.FC = () => {
         {/* Page Header - Keep hardcoded Russian */}
         <PageHeader
           title="Коммерческие предложения"
-          breadcrumb="КОММЕРЧЕС��ИЕ ПРЕДЛОЖЕНИЯ" // Use consistent breadcrumb format
           // Use an image appropriate for Commercial Offers, styled for dark theme header
           backgroundImage="/lovable-uploads/c1da7b25-e60d-44b9-8b74-2c37c543ac5f.jpg" // Use an appropriate image path
         />
@@ -503,7 +502,7 @@ const CommercialOffers: React.FC = () => {
                         <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mr-3 mt-0.5">
                            <CheckCircle2 className="h-4 w-4 text-primary" />
                          </div>
-                        <span>Компании, пред��агающие услуги в сфере строительства</span>
+                        <span>Компании, предлагающие услуги в сфере строительства</span>
                       </motion.li>
                       <motion.li variants={listItemVariants} className="flex items-start">
                          <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mr-3 mt-0.5">
