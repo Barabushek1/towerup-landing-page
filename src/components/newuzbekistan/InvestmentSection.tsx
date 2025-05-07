@@ -27,10 +27,6 @@ const InvestmentSection: React.FC = () => {
       title: t('newUzbekistan.projectFeatures.feature3.title'),
       description: t('newUzbekistan.projectFeatures.feature3.desc')
     },
-    {
-      title: t('newUzbekistan.projectFeatures.feature4.title'),
-      description: t('newUzbekistan.projectFeatures.feature4.desc')
-    },
   ];
 
   return (
