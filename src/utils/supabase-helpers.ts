@@ -148,8 +148,10 @@ export function mapSupabaseVacancyToVacancyItem(vacancy: SupabaseVacanciesRow): 
     type: 'fulltime', // Default value as it seems to be required but not in database
     description: vacancy.description,
     requirements: vacancy.requirements || '',
-    benefits: '',  // This field doesn't exist in the database schema, so we provide an empty string
-    image_url: ''  // This field doesn't exist in the database schema, so we provide an empty string
+    benefits: vacancy.benefits || '',  // Provide an empty string if not available
+    image_url: vacancy.image_url || '',  // Provide an empty string if not available
+    employment_type: vacancy.employment_type || 'Полная занятость', // Add new field with default
+    remote_status: vacancy.remote_status || 'Офис' // Add new field with default
   };
 }
 
@@ -160,8 +162,9 @@ export function mapVacancyItemToSupabaseInsert(vacancy: Omit<VacancyItem, 'id'>)
     salary_range: vacancy.salary,
     description: vacancy.description || '',
     requirements: vacancy.requirements || '',
-    is_active: true
-    // We don't include benefits and image_url as they don't exist in the database schema
+    is_active: true,
+    employment_type: vacancy.employment_type || 'Полная занятость',
+    remote_status: vacancy.remote_status || 'Офис'
   };
 }
 

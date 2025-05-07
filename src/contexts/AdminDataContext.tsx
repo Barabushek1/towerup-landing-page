@@ -27,6 +27,8 @@ export type VacancyItem = {
   benefits?: string;
   image_url?: string;
   additional_images?: string[];
+  employment_type?: string;
+  remote_status?: string;
 };
 
 export type PartnerItem = {
@@ -369,7 +371,44 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   const addVacancy = async (vacancyItem: Omit<VacancyItem, 'id'>) => {
     try {
-      console.log('Adding vacancy:', vacancyItem);
+      console.log('Adding vacancy with employment type:', vacancyItem.employment_type);
+      console.log('Adding vacancy with remote status:', vacancyItem.remote_status);
+      
+      const { data, error } = await supabase
+        .from('vacancies')
+        .insert({
+          title: vacancyItem.title,
+          description: vacancyItem.description || '',
+          requirements: vacancyItem.requirements || '',
+          benefits: vacancyItem.benefits || '',
+          location: vacancyItem.location || '',
+          salary_range: vacancyItem.salary || '',
+          image_url: vacancyItem.image_url || '',
+          is_active: true,
+          employment_type: vacancyItem.employment_type || 'Полная занятость',
+          remote_status: vacancyItem.remote_status || 'Офис'
+        })
+        .select();
+      
+      if (error) throw error;
+      
+      if (data && data.length > 0) {
+        const newVacancy: VacancyItem = {
+          id: data[0].id,
+          title: data[0].title,
+          location: data[0].location || '',
+          salary: data[0].salary_range || '',
+          type: 'fulltime', // Default value
+          description: data[0].description || '',
+          requirements: data[0].requirements || '',
+          benefits: '',
+          image_url: data[0].image_url || '',
+          employment_type: data[0].employment_type,
+          remote_status: data[0].remote_status
+        };
+        setVacancies(prev => [...prev, newVacancy]);
+      }
+      
       return Promise.resolve();
     } catch (error) {
       console.error('Error adding vacancy:', error);
@@ -379,7 +418,44 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   const updateVacancy = async (id: string, vacancyItem: Omit<VacancyItem, 'id'>) => {
     try {
-      console.log('Updating vacancy:', id, vacancyItem);
+      console.log('Updating vacancy with employment type:', vacancyItem.employment_type);
+      console.log('Updating vacancy with remote status:', vacancyItem.remote_status);
+      
+      const { error } = await supabase
+        .from('vacancies')
+        .update({
+          title: vacancyItem.title,
+          description: vacancyItem.description || '',
+          requirements: vacancyItem.requirements || '',
+          benefits: vacancyItem.benefits || '',
+          location: vacancyItem.location || '',
+          salary_range: vacancyItem.salary || '',
+          image_url: vacancyItem.image_url || '',
+          employment_type: vacancyItem.employment_type || 'Полная занятость',
+          remote_status: vacancyItem.remote_status || 'Офис'
+        })
+        .eq('id', id);
+      
+      if (error) throw error;
+      
+      setVacancies(prev => 
+        prev.map(item => 
+          item.id === id 
+            ? {
+                ...item,
+                title: vacancyItem.title,
+                location: vacancyItem.location || '',
+                salary: vacancyItem.salary || '',
+                description: vacancyItem.description || '',
+                requirements: vacancyItem.requirements || '',
+                image_url: vacancyItem.image_url || '',
+                employment_type: vacancyItem.employment_type,
+                remote_status: vacancyItem.remote_status
+              } 
+            : item
+        )
+      );
+      
       return Promise.resolve();
     } catch (error) {
       console.error('Error updating vacancy:', error);
@@ -390,6 +466,15 @@ export const AdminDataProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const deleteVacancy = async (id: string) => {
     try {
       console.log('Deleting vacancy:', id);
+      const { error } = await supabase
+        .from('vacancies')
+        .delete()
+        .eq('id', id);
+      
+      if (error) throw error;
+      
+      setVacancies(prev => prev.filter(item => item.id !== id));
+      
       return Promise.resolve();
     } catch (error) {
       console.error('Error deleting vacancy:', error);

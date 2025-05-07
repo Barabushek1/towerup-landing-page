@@ -418,10 +418,12 @@ export type Database = {
           benefits: string | null
           created_at: string
           description: string
+          employment_type: string | null
           id: string
           image_url: string | null
           is_active: boolean | null
           location: string | null
+          remote_status: string | null
           requirements: string | null
           salary_range: string | null
           title: string
@@ -431,10 +433,12 @@ export type Database = {
           benefits?: string | null
           created_at?: string
           description: string
+          employment_type?: string | null
           id?: string
           image_url?: string | null
           is_active?: boolean | null
           location?: string | null
+          remote_status?: string | null
           requirements?: string | null
           salary_range?: string | null
           title: string
@@ -444,10 +448,12 @@ export type Database = {
           benefits?: string | null
           created_at?: string
           description?: string
+          employment_type?: string | null
           id?: string
           image_url?: string | null
           is_active?: boolean | null
           location?: string | null
+          remote_status?: string | null
           requirements?: string | null
           salary_range?: string | null
           title?: string
