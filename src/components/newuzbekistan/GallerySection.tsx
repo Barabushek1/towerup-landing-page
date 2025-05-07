@@ -14,18 +14,14 @@ const GallerySection: React.FC = () => {
 
    // Keep your specific image list here for this component
   const images = [
-    '/lovable-uploads/36f32494-e938-41ca-815a-e71e74b2e791.png',
-    '/lovable-uploads/b0a81c01-4a79-4eaa-86da-7501515139b7.png', // Example: ensure paths are correct
     '/lovable-uploads/b7b815c6-44d8-4e9a-93e9-75538f6d0233.png',
-    '/lovable-uploads/1a71108b-2bfd-43b5-be89-cf6eb56cf58c.png',
     '/lovable-uploads/01ec8090-c3b7-4770-b254-07c6f1ac1521.png',
     '/lovable-uploads/a4a83568-45d7-4f2d-b87c-031fc305db6e.png',
     '/lovable-uploads/d0a4480f-81e3-4447-9368-f1e03d1151e4.png',
     '/lovable-uploads/36291711-53aa-4206-9094-543e63bd67d5.png',
     '/lovable-uploads/8c18c4b0-5127-4ad6-93e2-a613af0ea09c.png',
     '/lovable-uploads/32c3e8f6-2da4-474c-904f-fd321d91e87e.png',
-    '/lovable-uploads/d2bd2619-426f-4ab0-95ad-ed8b140aa758.png',
-    '/lovable-uploads/c2c35248-d734-4728-8780-204a498e2b4e.png'
+    '/lovable-uploads/d2bd2619-426f-4ab0-95ad-ed8b140aa758.png'
   ];
 
 
