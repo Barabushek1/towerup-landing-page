@@ -76,11 +76,10 @@ const ProjectsSection: React.FC = () => {
       slug: "pushkin"
     },
     {
-      title: "БЦ Banking Technology",
-      subtitle: "Инновационный бизнес-центр",
-      description: "Современный бизнес-центр класса А+ с уникальной архитектурой, энергоэффективными технологиями и передовыми техническими решениями.",
-      imageUrl: "/lovable-uploads/7ad10dee-9292-47bf-a026-8ebd56478382.png",
-      slug: "banking-technology"
+      title: t("projectsSection.featured.parking.title"),
+      subtitle: t("projectsSection.featured.parking.subtitle"),
+      description: t("projectsSection.featured.parking.description"),
+      imageUrl: "https://i.imgur.com/JHUJPdb.png"
     },
     {
       title: t("projectsSection.featured.turnkey.title"),
@@ -91,14 +90,6 @@ const ProjectsSection: React.FC = () => {
   ];
   
   const projects = [
-    {
-      title: "БЦ \"Banking Technology\"",
-      description: "Современный бизнес-центр класса А+ с уникальной архитектурой, сочетающий высотное здание с панорамным остеклением и стильный павильон.",
-      location: "Ташкент",
-      status: "Проектируется",
-      imageUrl: "/lovable-uploads/7ad10dee-9292-47bf-a026-8ebd56478382.png",
-      slug: "banking-technology"
-    },
     {
       title: t("projectsSection.projects.pushkin.title"),
       description: t("projectsSection.projects.pushkin.description"),
@@ -114,6 +105,14 @@ const ProjectsSection: React.FC = () => {
       status: t("projectsSection.projects.newUzbekistan.status"),
       imageUrl: "/lovable-uploads/36f32494-e938-41ca-815a-e71e74b2e791.png",
       slug: "new-uzbekistan"
+    },
+    {
+      title: t("projectsSection.projects.kumaryk.title"),
+      description: t("projectsSection.projects.kumaryk.description"),
+      location: t("projectsSection.projects.kumaryk.location"),
+      status: t("projectsSection.projects.kumaryk.status"),
+      imageUrl: "https://images.unsplash.com/photo-1618172193763-c511deb635ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2064&q=80",
+      slug: "kumaryk"
     }
   ];
   
