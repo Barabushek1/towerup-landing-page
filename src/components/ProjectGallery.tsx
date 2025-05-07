@@ -111,8 +111,8 @@ const ProjectGallery = ({
               </motion.div>
             </CarouselItem>)}
         </CarouselContent>
-        <CarouselPrevious className="px-[26px] py-[27px] mx-[36px]" />
-        <CarouselNext className="my-0 px-[26px] py-[27px] mx-[36px]" />
+        <CarouselPrevious className="mx-0 my-0 px-0 py-0" />
+        <CarouselNext className="my-0 mx-0 py-0 px-0" />
       </Carousel>
 
       {/* Fullscreen Gallery Dialog */}
