@@ -121,6 +121,17 @@ const Projects: React.FC = () => {
             featured: true
         },
         {
+            title: 'БЦ "Banking Technology"',
+            type: 'Бизнес-центр',
+            description: 'Инновационный бизнес-центр с уникальным стеклянным фасадом, зеленой кровлей и передовыми инженерными решениями.',
+            location: 'Ташкент',
+            imageUrl: '/lovable-uploads/cf9752f7-44b9-4249-932c-6ba52b072297.png',
+            status: 'Проектируется',
+            completion: 'Q3 2026',
+            slug: 'banking-technology',
+            featured: false
+        },
+        {
             title: 'БЦ "Бочка"',
             type: 'Бизнес-центр',
             description: 'Современный бизнес-центр класса А с конференц-залами, подземным паркингом и зелёной зоной отдыха.',
