@@ -8,35 +8,42 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { Pencil, Trash2, Plus, X, Image, Link as LinkIcon, Loader2 } from 'lucide-react';
-import ImageUploader from '@/components/admin/ImageUploader';
+import { Pencil, Trash2, Plus, MapPin, Briefcase, Loader2, Info, HelpCircle, Clock } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import ImageUploader from '@/components/admin/ImageUploader';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
-interface VacancyItem {
+interface Vacancy {
   id: string;
   title: string;
-  location: string;
-  salary_range: string;
   description: string;
   requirements?: string;
   benefits?: string;
+  location?: string;
+  salary_range?: string;
   is_active: boolean;
-  image_url?: string;
   created_at: string;
   updated_at: string;
+  image_url?: string;
+  employment_type?: string; // Added employment type
+  remote_status?: string; // Added remote status
 }
 
-type VacancyInput = {
+interface VacancyInput {
   title: string;
-  location: string;
-  salary_range: string;
   description: string;
   requirements?: string;
   benefits?: string;
-  is_active?: boolean;
+  location?: string;
+  salary_range?: string;
+  is_active: boolean;
   image_url?: string;
-};
+  employment_type?: string;
+  remote_status?: string;
+}
 
 const AdminVacancies: React.FC = () => {
   const { toast } = useToast();
@@ -44,121 +51,115 @@ const AdminVacancies: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [currentVacancyId, setCurrentVacancyId] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<VacancyInput>({
     title: '',
-    location: '',
-    salary_range: '',
     description: '',
     requirements: '',
     benefits: '',
+    location: '',
+    salary_range: '',
     is_active: true,
-    image_url: ''
+    image_url: '',
+    employment_type: 'Полная занятость',
+    remote_status: 'Офис',
   });
-  const [newImageUrl, setNewImageUrl] = useState<string>('');
-  const [useUrlInput, setUseUrlInput] = useState<boolean>(false);
 
   const { data: vacancies = [], isLoading, error } = useQuery({
-    queryKey: ['vacancies'],
+    queryKey: ['admin-vacancies'],
     queryFn: async () => {
-      console.log('Fetching vacancies...');
       const { data, error } = await supabase
         .from('vacancies')
         .select('*')
-        .order('title');
-    
+        .order('created_at', { ascending: false });
+      
       if (error) {
         console.error('Error fetching vacancies:', error);
         throw error;
       }
       
-      console.log('Fetched vacancies:', data);
-      return data as VacancyItem[];
+      return data as Vacancy[];
     },
-    staleTime: 1000 * 60, // Consider data fresh for 1 minute (shorter time for admin panel)
-    refetchOnWindowFocus: true, // Always refetch when window regains focus
   });
 
   const addVacancyMutation = useMutation({
-    mutationFn: async (vacancyItem: VacancyInput) => {
-      console.log('Adding vacancy with data:', vacancyItem);
-      const dataToInsert = {
-        title: vacancyItem.title,
-        location: vacancyItem.location,
-        salary_range: vacancyItem.salary_range,
-        description: vacancyItem.description,
-        requirements: vacancyItem.requirements || null,
-        benefits: vacancyItem.benefits || null,
-        is_active: vacancyItem.is_active !== undefined ? vacancyItem.is_active : true,
-        image_url: vacancyItem.image_url || null
-      };
-      
-      const { data, error } = await supabase
-        .from('vacancies')
-        .insert(dataToInsert)
-        .select();
-    
-      if (error) {
-        console.error('Error adding vacancy:', error);
-        throw error;
+    mutationFn: async (vacancy: VacancyInput) => {
+      setIsSubmitting(true);
+      try {
+        const { data, error } = await supabase
+          .from('vacancies')
+          .insert({
+            title: vacancy.title,
+            description: vacancy.description,
+            requirements: vacancy.requirements || null,
+            benefits: vacancy.benefits || null,
+            location: vacancy.location || null,
+            salary_range: vacancy.salary_range || null,
+            is_active: vacancy.is_active,
+            image_url: vacancy.image_url || null,
+            employment_type: vacancy.employment_type || null,
+            remote_status: vacancy.remote_status || null,
+          })
+          .select()
+          .single();
+        
+        if (error) throw error;
+        return data;
+      } finally {
+        setIsSubmitting(false);
       }
-    
-      return data[0];
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['vacancies'] });
+      queryClient.invalidateQueries({ queryKey: ['admin-vacancies', 'vacancies', 'vacancy'] });
       toast({
         title: "Вакансия добавлена",
-        description: "Вакансия успешно добавлена",
+        description: "Вакансия успешно добавлена в базу данных",
       });
       setIsDialogOpen(false);
       resetForm();
     },
-    onError: (error: any) => {
-      console.error('Error during add mutation:', error);
+    onError: (error) => {
+      console.error('Error adding vacancy:', error);
       toast({
         title: "Ошибка",
-        description: `Произошла ошибка при сохранении данных: ${error.message}`,
+        description: "Не удалось добавить вакансию. Пожалуйста, попробуйте еще раз.",
         variant: "destructive",
       });
-    }
+    },
   });
 
   const updateVacancyMutation = useMutation({
-    mutationFn: async ({ id, vacancyItem }: { id: string; vacancyItem: VacancyInput }) => {
-      console.log('Updating vacancy with id:', id, 'and data:', vacancyItem);
-      const dataToUpdate = {
-        title: vacancyItem.title,
-        location: vacancyItem.location,
-        salary_range: vacancyItem.salary_range,
-        description: vacancyItem.description,
-        requirements: vacancyItem.requirements || null,
-        benefits: vacancyItem.benefits || null,
-        is_active: vacancyItem.is_active !== undefined ? vacancyItem.is_active : true,
-        image_url: vacancyItem.image_url || null
-      };
-      
-      const { data, error } = await supabase
-        .from('vacancies')
-        .update(dataToUpdate)
-        .eq('id', id)
-        .select();
-    
-      if (error) {
-        console.error('Error updating vacancy:', error);
-        throw error;
+    mutationFn: async ({ id, vacancy }: { id: string; vacancy: VacancyInput }) => {
+      setIsSubmitting(true);
+      try {
+        const { data, error } = await supabase
+          .from('vacancies')
+          .update({
+            title: vacancy.title,
+            description: vacancy.description,
+            requirements: vacancy.requirements || null,
+            benefits: vacancy.benefits || null,
+            location: vacancy.location || null,
+            salary_range: vacancy.salary_range || null,
+            is_active: vacancy.is_active,
+            image_url: vacancy.image_url || null,
+            employment_type: vacancy.employment_type || null,
+            remote_status: vacancy.remote_status || null,
+            updated_at: new Date().toISOString(),
+          })
+          .eq('id', id)
+          .select()
+          .single();
+        
+        if (error) throw error;
+        return data;
+      } finally {
+        setIsSubmitting(false);
       }
-    
-      return data[0];
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['vacancies'] });
-      // Also invalidate any cached individual vacancy details
-      queryClient.invalidateQueries({ 
-        predicate: (query) => 
-          Array.isArray(query.queryKey) && 
-          query.queryKey[0] === 'vacancy'
-      });
-      
+      // Invalidate all vacancy-related queries to ensure cache is refreshed
+      queryClient.invalidateQueries({ queryKey: ['admin-vacancies', 'vacancies', 'vacancy'] });
       toast({
         title: "Вакансия обновлена",
         description: "Вакансия успешно обновлена",
@@ -166,42 +167,43 @@ const AdminVacancies: React.FC = () => {
       setIsDialogOpen(false);
       resetForm();
     },
-    onError: (error: any) => {
-      console.error('Error during update mutation:', error);
+    onError: (error) => {
+      console.error('Error updating vacancy:', error);
       toast({
         title: "Ошибка",
-        description: `Произошла ошибка при обновлении данных: ${error.message}`,
+        description: "Не удалось обновить вакансию. Пожалуйста, попробуйте еще раз.",
         variant: "destructive",
       });
-    }
+    },
   });
 
   const deleteVacancyMutation = useMutation({
     mutationFn: async (id: string) => {
-      console.log('Deleting vacancy with id:', id);
-      const { error } = await supabase
-        .from('vacancies')
-        .delete()
-        .eq('id', id);
-    
-      if (error) {
-        console.error('Error deleting vacancy:', error);
-        throw error;
+      setIsSubmitting(true);
+      try {
+        const { error } = await supabase
+          .from('vacancies')
+          .delete()
+          .eq('id', id);
+        
+        if (error) throw error;
+      } finally {
+        setIsSubmitting(false);
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['vacancies'] });
+      queryClient.invalidateQueries({ queryKey: ['admin-vacancies', 'vacancies', 'vacancy'] });
       toast({
         title: "Вакансия удалена",
         description: "Вакансия успешно удалена",
       });
       setIsDeleteDialogOpen(false);
     },
-    onError: (error: any) => {
-      console.error('Error during delete mutation:', error);
+    onError: (error) => {
+      console.error('Error deleting vacancy:', error);
       toast({
         title: "Ошибка",
-        description: `Произошла ошибка при удалении вакансии: ${error.message}`,
+        description: "Не удалось удалить вакансию. Пожалуйста, попробуйте еще раз.",
         variant: "destructive",
       });
     }
@@ -210,17 +212,17 @@ const AdminVacancies: React.FC = () => {
   const resetForm = () => {
     setFormData({
       title: '',
-      location: '',
-      salary_range: '',
       description: '',
       requirements: '',
       benefits: '',
+      location: '',
+      salary_range: '',
       is_active: true,
-      image_url: ''
+      image_url: '',
+      employment_type: 'Полная занятость',
+      remote_status: 'Офис',
     });
-    setNewImageUrl('');
     setCurrentVacancyId(null);
-    setUseUrlInput(false);
   };
 
   const openAddDialog = () => {
@@ -228,18 +230,19 @@ const AdminVacancies: React.FC = () => {
     setIsDialogOpen(true);
   };
 
-  const openEditDialog = (vacancyItem: VacancyItem) => {
-    console.log('Opening edit dialog with vacancy:', vacancyItem);
-    setCurrentVacancyId(vacancyItem.id);
+  const openEditDialog = (vacancy: Vacancy) => {
+    setCurrentVacancyId(vacancy.id);
     setFormData({
-      title: vacancyItem.title,
-      location: vacancyItem.location,
-      salary_range: vacancyItem.salary_range,
-      description: vacancyItem.description,
-      requirements: vacancyItem.requirements,
-      benefits: vacancyItem.benefits,
-      is_active: vacancyItem.is_active,
-      image_url: vacancyItem.image_url
+      title: vacancy.title,
+      description: vacancy.description,
+      requirements: vacancy.requirements || '',
+      benefits: vacancy.benefits || '',
+      location: vacancy.location || '',
+      salary_range: vacancy.salary_range || '',
+      is_active: vacancy.is_active,
+      image_url: vacancy.image_url || '',
+      employment_type: vacancy.employment_type || 'Полная занятость',
+      remote_status: vacancy.remote_status || 'Офис',
     });
     setIsDialogOpen(true);
   };
@@ -255,26 +258,29 @@ const AdminVacancies: React.FC = () => {
   };
 
   const handleCheckboxChange = (checked: boolean) => {
-    setFormData(prev => ({ ...prev, is_active: checked }));
+    setFormData((prev) => ({ ...prev, is_active: checked }));
   };
 
-  const handleMainImageUploaded = (imageUrl: string) => {
-    console.log('Main image uploaded:', imageUrl);
-    setFormData(prev => ({ ...prev, image_url: imageUrl }));
+  const handleSelectChange = (name: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleImageUploaded = (imageUrl: string) => {
+    setFormData((prev) => ({ ...prev, image_url: imageUrl }));
   };
 
   const handleSubmit = () => {
-    if (!formData.title || !formData.location || !formData.salary_range || !formData.description) {
+    if (!formData.title || !formData.description) {
       toast({
-        title: "Ошибка валидации",
-        description: "Пожалуйста, заполните все обязательные поля",
+        title: "Ошибка",
+        description: "Заполните обязательные поля: название и описание",
         variant: "destructive",
       });
       return;
     }
-
+    
     if (currentVacancyId) {
-      updateVacancyMutation.mutate({ id: currentVacancyId, vacancyItem: formData });
+      updateVacancyMutation.mutate({ id: currentVacancyId, vacancy: formData });
     } else {
       addVacancyMutation.mutate(formData);
     }
@@ -286,18 +292,30 @@ const AdminVacancies: React.FC = () => {
     }
   };
 
+  const formatDate = (date: string) => {
+    return new Date(date).toLocaleDateString('ru-RU', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
+  };
+
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-full">
-        <Loader2 className="w-8 h-8 text-primary animate-spin" />
+      <div className="flex items-center justify-center p-10">
+        <Loader2 className="h-10 w-10 animate-spin text-primary" />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="p-6 bg-slate-800 rounded-lg border border-slate-700">
-        <p className="text-red-400">Произошла ошибка при загрузке данных. Пожалуйста, попробуйте позже.</p>
+      <div className="p-6 bg-slate-800 rounded-lg border border-red-900">
+        <h3 className="text-red-500">Ошибка загрузки данных</h3>
+        <p className="text-slate-400 mt-2">Не удалось загрузить список вакансий. Пожалуйста, попробуйте позже.</p>
+        <Button className="mt-4" onClick={() => queryClient.invalidateQueries({ queryKey: ['admin-vacancies'] })}>
+          Попробовать снова
+        </Button>
       </div>
     );
   }
@@ -306,248 +324,330 @@ const AdminVacancies: React.FC = () => {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold text-white">Управление вакансиями</h1>
-        <Button onClick={openAddDialog} className="flex items-center">
+        <Button onClick={openAddDialog}>
           <Plus className="mr-2 h-4 w-4" />
           Добавить вакансию
         </Button>
       </div>
 
-      {vacancies.length > 0 ? (
-        <div className="bg-slate-800 rounded-lg border border-slate-700 overflow-hidden">
-          <Table>
-            <TableHeader>
+      {/* Field formatting instructions */}
+      <Card className="mb-6 bg-slate-800 text-slate-100 border-slate-700">
+        <CardHeader>
+          <CardTitle className="flex items-center">
+            <Info className="h-5 w-5 mr-2 text-primary" />
+            Инструкции по форматированию
+          </CardTitle>
+          <CardDescription className="text-slate-400">
+            Правила для создания вакансий, которые будут хорошо отображаться на сайте
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            <div className="border-l-4 border-primary pl-4">
+              <h3 className="font-medium text-slate-200 mb-1">Требования и Преимущества:</h3>
+              <p className="text-sm text-slate-400">
+                Используйте маркированные списки с дефисом для каждого пункта. Каждый пункт должен начинаться с новой строки со знаком "-".
+              </p>
+              <div className="mt-2 p-2 bg-slate-900 rounded-md text-slate-300">
+                <pre className="text-xs">
+                  {`- Опыт работы от 3-х лет\n- Высшее техническое образование\n- Знание AutoCAD, Revit`}
+                </pre>
+              </div>
+            </div>
+            
+            <div className="border-l-4 border-primary pl-4">
+              <h3 className="font-medium text-slate-200 mb-1">Описание вакансии:</h3>
+              <p className="text-sm text-slate-400">
+                Разделяйте абзацы пустой строкой. Можно использовать маркированные списки и подзаголовки.
+              </p>
+              <div className="mt-2 p-2 bg-slate-900 rounded-md text-slate-300">
+                <pre className="text-xs">
+                  {`Компания TOWERUP ищет опытного Архитектора для работы над проектами жилых комплексов.\n\nОБЯЗАННОСТИ:\n- Разработка архитектурных концепций\n- Подготовка проектной документации`}
+                </pre>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <div className="rounded-md border border-slate-700 bg-slate-800">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Название</TableHead>
+              <TableHead>Локация</TableHead>
+              <TableHead>Статус</TableHead>
+              <TableHead>Дата создания</TableHead>
+              <TableHead className="text-right">Действия</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {vacancies.length === 0 ? (
               <TableRow>
-                <TableHead className="w-[100px]">Изображение</TableHead>
-                <TableHead>Заголовок</TableHead>
-                <TableHead>Локация</TableHead>
-                <TableHead>Зарплата</TableHead>
-                <TableHead className="w-[80px]">Активна</TableHead>
-                <TableHead className="text-right w-[100px]">Действия</TableHead>
+                <TableCell colSpan={5} className="text-center py-10 text-slate-400">
+                  Нет добавленных вакансий
+                </TableCell>
               </TableRow>
-            </TableHeader>
-            <TableBody>
-              {vacancies.map((item) => (
-                <TableRow key={item.id}>
+            ) : (
+              vacancies.map((vacancy) => (
+                <TableRow key={vacancy.id}>
+                  <TableCell className="font-medium">{vacancy.title}</TableCell>
+                  <TableCell>{vacancy.location || '—'}</TableCell>
                   <TableCell>
-                    <div className="w-16 h-12 rounded overflow-hidden">
-                      <img 
-                        src={item.image_url || 'https://placehold.co/200x120?text=No+Image'}
-                        alt={item.title} 
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = 'https://placehold.co/200x120?text=Error';
-                        }}
-                      />
-                    </div>
+                    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs ${vacancy.is_active ? 'bg-green-900/30 text-green-400' : 'bg-slate-700 text-slate-400'}`}>
+                      {vacancy.is_active ? 'Активна' : 'Неактивна'}
+                    </span>
                   </TableCell>
-                  <TableCell className="font-medium">{item.title}</TableCell>
-                  <TableCell>{item.location}</TableCell>
-                  <TableCell>{item.salary_range}</TableCell>
-                  <TableCell>
-                    {item.is_active ? <Checkbox checked={true} disabled /> : <Checkbox checked={false} disabled />}
-                  </TableCell>
+                  <TableCell>{formatDate(vacancy.created_at)}</TableCell>
                   <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        onClick={() => openEditDialog(item)}
+                    <div className="flex justify-end space-x-1">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => openEditDialog(vacancy)}
                       >
                         <Pencil className="h-4 w-4" />
                       </Button>
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        className="text-red-500 hover:text-red-700"
-                        onClick={() => openDeleteDialog(item.id)}
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-red-400 hover:text-red-500 hover:bg-red-950/30"
+                        onClick={() => openDeleteDialog(vacancy.id)}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-      ) : (
-        <div className="bg-slate-800 rounded-lg border border-slate-700 p-8 text-center">
-          <p className="text-slate-400 mb-4">Вакансии еще не добавлены</p>
-          <Button onClick={openAddDialog}>Добавить первую вакансию</Button>
-        </div>
-      )}
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="bg-slate-800 text-white border-slate-700 max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="bg-slate-800 text-white border-slate-700 max-w-3xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{currentVacancyId ? 'Редактировать вакансию' : 'Добавить вакансию'}</DialogTitle>
           </DialogHeader>
+          
           <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="title" className="text-right">
-                Заголовок
-              </Label>
-              <Input
-                id="title"
-                name="title"
-                value={formData.title}
-                onChange={handleInputChange}
-                className="col-span-3 bg-slate-700 border-slate-600"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="location" className="text-right">
-                Локация
-              </Label>
-              <Input
-                id="location"
-                name="location"
-                value={formData.location}
-                onChange={handleInputChange}
-                className="col-span-3 bg-slate-700 border-slate-600"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="salary_range" className="text-right">
-                Зарплата
-              </Label>
-              <Input
-                id="salary_range"
-                name="salary_range"
-                value={formData.salary_range}
-                onChange={handleInputChange}
-                className="col-span-3 bg-slate-700 border-slate-600"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="is_active" className="text-right">
-                Активна
-              </Label>
-              <div className="col-span-3 flex items-center">
+            <div className="grid grid-cols-1 gap-6">
+              <div className="space-y-2">
+                <Label htmlFor="title" className="text-slate-300">
+                  Название вакансии *
+                </Label>
+                <Input
+                  id="title"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleInputChange}
+                  placeholder="Например: Архитектор"
+                  className="bg-slate-700 border-slate-600 text-white"
+                />
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <div className="flex items-center">
+                    <Label htmlFor="location" className="text-slate-300 mr-2">
+                      Локация
+                    </Label>
+                    <MapPin className="h-4 w-4 text-slate-500" />
+                  </div>
+                  <Input
+                    id="location"
+                    name="location"
+                    value={formData.location || ''}
+                    onChange={handleInputChange}
+                    placeholder="Например: Ташкент"
+                    className="bg-slate-700 border-slate-600 text-white"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="salary_range" className="text-slate-300">
+                    Диапазон зарплаты
+                  </Label>
+                  <Input
+                    id="salary_range"
+                    name="salary_range"
+                    value={formData.salary_range || ''}
+                    onChange={handleInputChange}
+                    placeholder="Например: от 16 000 000 сум"
+                    className="bg-slate-700 border-slate-600 text-white"
+                  />
+                </div>
+              </div>
+
+              {/* New field: Employment Type */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <div className="flex items-center">
+                    <Label htmlFor="employment_type" className="text-slate-300 mr-2">
+                      Тип занятости
+                    </Label>
+                    <Briefcase className="h-4 w-4 text-slate-500" />
+                  </div>
+                  <Select 
+                    value={formData.employment_type || 'Полная занятость'} 
+                    onValueChange={(value) => handleSelectChange('employment_type', value)}
+                  >
+                    <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
+                      <SelectValue placeholder="Выберите тип занятости" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-slate-800 border-slate-700 text-white">
+                      <SelectItem value="Полная занятость">Полная занятость</SelectItem>
+                      <SelectItem value="Частичная занятость">Частичная занятость</SelectItem>
+                      <SelectItem value="Проектная работа">Проектная работа</SelectItem>
+                      <SelectItem value="Стажировка">Стажировка</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                {/* New field: Remote status */}
+                <div className="space-y-2">
+                  <div className="flex items-center">
+                    <Label htmlFor="remote_status" className="text-slate-300 mr-2">
+                      Формат работы
+                    </Label>
+                    <Clock className="h-4 w-4 text-slate-500" />
+                  </div>
+                  <Select 
+                    value={formData.remote_status || 'Офис'} 
+                    onValueChange={(value) => handleSelectChange('remote_status', value)}
+                  >
+                    <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
+                      <SelectValue placeholder="Выберите формат работы" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-slate-800 border-slate-700 text-white">
+                      <SelectItem value="Офис">Офис</SelectItem>
+                      <SelectItem value="Удаленно">Удаленно</SelectItem>
+                      <SelectItem value="Гибрид">Гибрид</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="description" className="text-slate-300">
+                  Описание вакансии *
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="ghost" size="icon" className="ml-1 h-5 w-5">
+                        <HelpCircle className="h-3 w-3 text-slate-400" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="bg-slate-900 border-slate-700 text-slate-300 w-80">
+                      <div className="space-y-2 text-xs">
+                        <p>Используйте пустую строку для разделения абзацев. Для создания подзаголовков используйте ЗАГЛАВНЫЕ БУКВЫ.</p>
+                        <pre className="bg-slate-800 p-2 rounded">{`ОБЯЗАННОСТИ:\n- Разработка проектной документации\n- Создание чертежей\n\nУСЛОВИЯ:\n- Комфортный офис`}</pre>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </Label>
+                <Textarea
+                  id="description"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleInputChange}
+                  placeholder="Подробное описание вакансии..."
+                  className="bg-slate-700 border-slate-600 text-white min-h-[150px]"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="requirements" className="text-slate-300">
+                  Требования
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="ghost" size="icon" className="ml-1 h-5 w-5">
+                        <HelpCircle className="h-3 w-3 text-slate-400" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="bg-slate-900 border-slate-700 text-slate-300 w-80">
+                      <div className="space-y-2 text-xs">
+                        <p>Каждый пункт с новой строки, начинающейся с дефиса:</p>
+                        <pre className="bg-slate-800 p-2 rounded">{`- Высшее образование\n- Опыт работы от 3 лет\n- Знание AutoCAD, Revit`}</pre>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </Label>
+                <Textarea
+                  id="requirements"
+                  name="requirements"
+                  value={formData.requirements || ''}
+                  onChange={handleInputChange}
+                  placeholder="Например: - Опыт работы от 3 лет&#10;- Высшее образование&#10;- Знание профессиональных программ"
+                  className="bg-slate-700 border-slate-600 text-white min-h-[120px]"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="benefits" className="text-slate-300">
+                  Преимущества
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="ghost" size="icon" className="ml-1 h-5 w-5">
+                        <HelpCircle className="h-3 w-3 text-slate-400" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="bg-slate-900 border-slate-700 text-slate-300 w-80">
+                      <div className="space-y-2 text-xs">
+                        <p>Каждый пункт с новой строки, начинающейся с дефиса:</p>
+                        <pre className="bg-slate-800 p-2 rounded">{`- Гибкий график\n- Корпоративное обучение\n- Дружный коллектив`}</pre>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </Label>
+                <Textarea
+                  id="benefits"
+                  name="benefits"
+                  value={formData.benefits || ''}
+                  onChange={handleInputChange}
+                  placeholder="Например: - Гибкий график&#10;- Современный офис&#10;- Профессиональное развитие"
+                  className="bg-slate-700 border-slate-600 text-white min-h-[120px]"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="image_url" className="text-slate-300">
+                  Изображение (необязательно)
+                </Label>
+                <ImageUploader 
+                  onImageUploaded={handleImageUploaded} 
+                  defaultImage={formData.image_url || ''}
+                />
+              </div>
+
+              <div className="flex items-center space-x-2">
                 <Checkbox 
                   id="is_active" 
-                  checked={formData.is_active || false} 
+                  checked={formData.is_active} 
                   onCheckedChange={handleCheckboxChange}
-                  className="mr-2 data-[state=checked]:bg-primary"
                 />
-                <Label htmlFor="is_active" className="text-sm text-slate-300">
-                  Показывать вакансию
+                <Label htmlFor="is_active" className="text-slate-300 cursor-pointer">
+                  Активная вакансия
                 </Label>
               </div>
             </div>
-            <div className="grid grid-cols-4 items-start gap-4">
-              <Label className="text-right flex items-center mt-2">
-                <Image className="mr-2 h-4 w-4" />
-                Главное изображение
-              </Label>
-              <div className="col-span-3">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center">
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      type="button" 
-                      className={!useUrlInput ? "bg-primary/20" : ""}
-                      onClick={() => setUseUrlInput(false)}
-                    >
-                      Загрузить
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      type="button" 
-                      className={`ml-2 ${useUrlInput ? "bg-primary/20" : ""}`}
-                      onClick={() => setUseUrlInput(true)}
-                    >
-                      URL
-                    </Button>
-                  </div>
-                </div>
-
-                {useUrlInput ? (
-                  <div>
-                    <Input
-                      id="image_url"
-                      name="image_url"
-                      value={formData.image_url}
-                      onChange={handleInputChange}
-                      placeholder="https://example.com/image.jpg"
-                      className="mb-2 bg-slate-700 border-slate-600"
-                    />
-                    {formData.image_url && (
-                      <div className="w-full h-32 bg-slate-700 rounded-md overflow-hidden">
-                        <img 
-                          src={formData.image_url} 
-                          alt="Предпросмотр изображения" 
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = 'https://placehold.co/640x320?text=Error';
-                          }}
-                        />
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <ImageUploader 
-                    onImageUploaded={handleMainImageUploaded}
-                    defaultImage={formData.image_url}
-                  />
-                )}
-              </div>
-            </div>
-            <div className="grid grid-cols-4 items-start gap-4">
-              <Label htmlFor="description" className="text-right mt-2">
-                Описание
-              </Label>
-              <Textarea
-                id="description"
-                name="description"
-                value={formData.description}
-                onChange={handleInputChange}
-                rows={3}
-                className="col-span-3 bg-slate-700 border-slate-600"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-start gap-4">
-              <Label htmlFor="requirements" className="text-right mt-2">
-                Требования
-              </Label>
-              <Textarea
-                id="requirements"
-                name="requirements"
-                value={formData.requirements || ''}
-                onChange={handleInputChange}
-                rows={3}
-                className="col-span-3 bg-slate-700 border-slate-600"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-start gap-4">
-              <Label htmlFor="benefits" className="text-right mt-2">
-                Преимущества
-              </Label>
-              <Textarea
-                id="benefits"
-                name="benefits"
-                value={formData.benefits || ''}
-                onChange={handleInputChange}
-                rows={3}
-                className="col-span-3 bg-slate-700 border-slate-600"
-              />
-            </div>
           </div>
+          
           <DialogFooter>
             <Button 
               variant="outline" 
               onClick={() => setIsDialogOpen(false)}
-              disabled={addVacancyMutation.isPending || updateVacancyMutation.isPending}
+              className="border-slate-600 text-slate-300"
+              disabled={isSubmitting}
             >
               Отмена
             </Button>
             <Button 
               onClick={handleSubmit}
-              disabled={addVacancyMutation.isPending || updateVacancyMutation.isPending}
+              disabled={isSubmitting}
+              className="bg-primary hover:bg-primary/90"
             >
-              {(addVacancyMutation.isPending || updateVacancyMutation.isPending) ? (
+              {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Сохранение...
@@ -563,23 +663,26 @@ const AdminVacancies: React.FC = () => {
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <DialogContent className="bg-slate-800 text-white border-slate-700">
           <DialogHeader>
-            <DialogTitle>Подтверждение удаления</DialogTitle>
+            <DialogTitle>Удалить вакансию</DialogTitle>
           </DialogHeader>
-          <p className="py-4">Вы уверены, что хотите удалить эту вакансию? Это действие нельзя будет отменить.</p>
+          <p className="text-slate-300">
+            Вы уверены, что хотите удалить эту вакансию? Это действие нельзя будет отменить.
+          </p>
           <DialogFooter>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={() => setIsDeleteDialogOpen(false)}
-              disabled={deleteVacancyMutation.isPending}
+              className="border-slate-600 text-slate-300"
+              disabled={isSubmitting}
             >
               Отмена
             </Button>
-            <Button 
-              variant="destructive" 
+            <Button
+              variant="destructive"
               onClick={handleDelete}
-              disabled={deleteVacancyMutation.isPending}
+              disabled={isSubmitting}
             >
-              {deleteVacancyMutation.isPending ? (
+              {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Удаление...

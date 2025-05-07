@@ -28,6 +28,8 @@ interface Vacancy {
   created_at: string;
   updated_at: string;
   image_url?: string;
+  employment_type?: string; // Added employment type
+  remote_status?: string; // Added remote status
 }
 
 const Vacancies: React.FC = () => {
@@ -160,6 +162,7 @@ const Vacancies: React.FC = () => {
         <PageHeader 
           title="ВАКАНСИИ" 
           breadcrumb="ВАКАНСИИ"
+          size="large" // Using the larger header size
         />
         
         <section className="py-16 md:py-24 bg-[#1a1a1a] relative">
@@ -198,9 +201,20 @@ const Vacancies: React.FC = () => {
                             <div className="flex items-center gap-2 text-muted-foreground">
                               <span className="text-sm font-benzin">{item.location}</span>
                             </div>
-                            <div className="flex items-center gap-2 text-muted-foreground">
-                              <span className="text-sm font-benzin">Полная занятость</span>
-                            </div>
+                            
+                            {/* Display employment type if available */}
+                            {item.employment_type && (
+                              <div className="flex items-center gap-2 text-muted-foreground">
+                                <span className="text-sm font-benzin">{item.employment_type}</span>
+                              </div>
+                            )}
+                            
+                            {/* Display remote status if available */}
+                            {item.remote_status && (
+                              <div className="flex items-center gap-2 text-muted-foreground">
+                                <span className="text-sm font-benzin">{item.remote_status}</span>
+                              </div>
+                            )}
                           </div>
                         </div>
                         

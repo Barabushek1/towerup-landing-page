@@ -25,6 +25,8 @@ interface Vacancy {
   is_active: boolean;
   created_at: string;
   image_url?: string;
+  employment_type?: string; // Added employment type
+  remote_status?: string; // Added remote status
 }
 
 interface ApplicationFormData {
@@ -40,12 +42,12 @@ const VacancyDetail: React.FC = () => {
   const location = useLocation();
   const { toast } = useToast();
   
-  const [formData, setFormData] = useState<ApplicationFormData>({
+  const [formData, setFormData] = useState({
     full_name: '',
     email: '',
     phone: '',
     cover_letter: '',
-    files: [],
+    files: [] as File[]
   });
   
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -233,8 +235,8 @@ const VacancyDetail: React.FC = () => {
     <div className="min-h-screen antialiased bg-[#161616] text-gray-200">
       <NavBar />
       
-      {/* Enhanced Header Section */}
-      <div className="bg-gradient-to-r from-slate-900 to-slate-800 py-16 relative overflow-hidden">
+      {/* Enhanced Header Section - Now taller */}
+      <div className="bg-gradient-to-r from-slate-900 to-slate-800 py-24 md:py-36 relative overflow-hidden">
         {/* Background pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
@@ -263,7 +265,7 @@ const VacancyDetail: React.FC = () => {
           <div className="flex flex-col md:flex-row justify-between items-start gap-6">
             <div>
               <span className="inline-block px-3 py-1 bg-primary/20 text-primary text-sm rounded-full mb-4">Актуально</span>
-              <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 font-benzin">
+              <h1 className="text-3xl md:text-5xl font-bold text-white mb-6 font-benzin">
                 {vacancy.title}
               </h1>
               
@@ -272,6 +274,22 @@ const VacancyDetail: React.FC = () => {
                   <div className="flex items-center text-gray-300">
                     <MapPin className="h-5 w-5 mr-2 text-primary" />
                     <span>{vacancy.location}</span>
+                  </div>
+                )}
+                
+                {/* Display employment type if available */}
+                {vacancy.employment_type && (
+                  <div className="flex items-center text-gray-300">
+                    <Briefcase className="h-5 w-5 mr-2 text-primary" />
+                    <span>{vacancy.employment_type}</span>
+                  </div>
+                )}
+                
+                {/* Display remote status if available */}
+                {vacancy.remote_status && (
+                  <div className="flex items-center text-gray-300">
+                    <Clock className="h-5 w-5 mr-2 text-primary" />
+                    <span>{vacancy.remote_status}</span>
                   </div>
                 )}
                 

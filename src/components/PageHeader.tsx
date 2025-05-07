@@ -15,6 +15,7 @@ export interface PageHeaderProps {
   backgroundImages?: string[];
   autoplay?: boolean;
   interval?: number;
+  size?: 'default' | 'large'; // Added size prop
 }
 
 const PageHeader: React.FC<PageHeaderProps> = ({ 
@@ -24,7 +25,8 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   backgroundImage, 
   backgroundImages = [],
   autoplay = false,
-  interval = 4000
+  interval = 4000,
+  size = 'default' // Default size
 }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const images = backgroundImages.length > 0 
@@ -51,9 +53,14 @@ const PageHeader: React.FC<PageHeaderProps> = ({
     }
   }, [images]);
 
+  // Determine py classes based on size prop
+  const paddingClasses = size === 'large' 
+    ? "py-36 md:py-48" // Taller header
+    : "py-24 md:py-32"; // Original size
+
   return (
     <div className={cn(
-      "relative py-24 md:py-32 bg-cover bg-center bg-no-repeat isolate overflow-hidden",
+      `relative ${paddingClasses} bg-cover bg-center bg-no-repeat isolate overflow-hidden`,
       "before:absolute before:inset-0 before:bg-black/50 before:z-10"
     )}>
       {images.length > 0 ? (
