@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
-import { ArrowRight, Briefcase, Loader2 } from 'lucide-react';
+import { ArrowRight, Briefcase, FilePlus, Loader2, Upload, X } from 'lucide-react';
 import PageHeader from '@/components/PageHeader';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -14,6 +14,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { uploadMultipleFiles } from '@/utils/file-utils';
 
 interface Vacancy {
   id: string;
@@ -38,6 +39,7 @@ const Vacancies: React.FC = () => {
     phone: '',
     cover_letter: ''
   });
+  const [files, setFiles] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   
@@ -77,6 +79,17 @@ const Vacancies: React.FC = () => {
     }));
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const fileList = Array.from(e.target.files);
+      setFiles(prev => [...prev, ...fileList]);
+    }
+  };
+  
+  const removeFile = (index: number) => {
+    setFiles(files.filter((_, i) => i !== index));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -92,6 +105,13 @@ const Vacancies: React.FC = () => {
     setIsSubmitting(true);
     
     try {
+      // Upload files if any
+      let fileUrls: string[] = [];
+      if (files.length > 0) {
+        fileUrls = await uploadMultipleFiles(files, 'resumes');
+        console.log('Uploaded resume files:', fileUrls);
+      }
+      
       // Save general application to database (not tied to a specific vacancy)
       const { error: insertError } = await supabase
         .from('vacancy_applications')
@@ -100,6 +120,7 @@ const Vacancies: React.FC = () => {
           email: formData.email,
           phone: formData.phone,
           cover_letter: formData.cover_letter,
+          attachments: fileUrls,
           status: 'new'
         });
       
@@ -117,6 +138,7 @@ const Vacancies: React.FC = () => {
         phone: '',
         cover_letter: ''
       });
+      setFiles([]);
       
       setDialogOpen(false);
     } catch (error) {
@@ -303,6 +325,48 @@ const Vacancies: React.FC = () => {
                   className="bg-slate-700 border-slate-600 text-slate-100 min-h-[120px]"
                 />
               </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="files" className="text-slate-300">Прикрепить файлы</Label>
+                <div className="mt-1">
+                  <label className="flex items-center justify-center w-full p-4 border border-dashed border-slate-600 rounded-md cursor-pointer hover:bg-slate-700 transition-colors">
+                    <Input
+                      id="files"
+                      type="file"
+                      onChange={handleFileChange}
+                      multiple
+                      className="hidden"
+                      accept=".pdf,.doc,.docx,.txt,.rtf"
+                    />
+                    <Upload className="h-5 w-5 mr-2" />
+                    <span>Выбрать файлы</span>
+                  </label>
+                </div>
+                
+                {/* Display selected files */}
+                {files.length > 0 && (
+                  <div className="mt-3 space-y-2">
+                    {files.map((file, index) => (
+                      <div key={index} className="flex items-center justify-between bg-slate-700 p-2 rounded">
+                        <div className="flex items-center overflow-hidden">
+                          <FilePlus className="h-4 w-4 shrink-0 mr-2 text-slate-300" />
+                          <span className="text-sm truncate">{file.name}</span>
+                        </div>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 w-8 p-0 text-slate-300 hover:text-white"
+                          onClick={() => removeFile(index)}
+                        >
+                          <X className="h-4 w-4" />
+                          <span className="sr-only">Удалить</span>
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
               
               <div className="pt-2 flex justify-end space-x-2">
                 <Button 
@@ -338,4 +402,3 @@ const Vacancies: React.FC = () => {
 };
 
 export default Vacancies;
-

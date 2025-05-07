@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -72,7 +73,9 @@ const AdminVacancies: React.FC = () => {
       
       console.log('Fetched vacancies:', data);
       return data as VacancyItem[];
-    }
+    },
+    staleTime: 1000 * 60, // Consider data fresh for 1 minute (shorter time for admin panel)
+    refetchOnWindowFocus: true, // Always refetch when window regains focus
   });
 
   const addVacancyMutation = useMutation({
@@ -149,6 +152,13 @@ const AdminVacancies: React.FC = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['vacancies'] });
+      // Also invalidate any cached individual vacancy details
+      queryClient.invalidateQueries({ 
+        predicate: (query) => 
+          Array.isArray(query.queryKey) && 
+          query.queryKey[0] === 'vacancy'
+      });
+      
       toast({
         title: "Вакансия обновлена",
         description: "Вакансия успешно обновлена",

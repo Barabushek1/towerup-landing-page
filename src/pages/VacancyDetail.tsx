@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
@@ -69,7 +68,7 @@ const VacancyDetail: React.FC = () => {
         
         console.log('Fetched vacancy details:', data);
         return data as Vacancy;
-      }, 60); // Cache for 1 hour
+      }, 5); // Cache for 5 minutes instead of 1 hour
     },
     enabled: !!id,
   });
@@ -542,4 +541,3 @@ const VacancyDetail: React.FC = () => {
 };
 
 export default VacancyDetail;
-
