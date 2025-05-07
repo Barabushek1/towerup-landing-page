@@ -7,7 +7,7 @@ import PageHeader from '@/components/PageHeader';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useVacancySeeder } from '@/hooks/use-vacancy-seeder';
-import { getCachedData } from '@/utils/cache-utils';
+import { getCachedData, QUERY_KEYS } from '@/utils/cache-utils';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -49,7 +49,7 @@ const Vacancies: React.FC = () => {
   useVacancySeeder();
   
   const { data: vacancies = [], isLoading, error } = useQuery({
-    queryKey: ['vacancies'],
+    queryKey: [QUERY_KEYS.VACANCIES],
     queryFn: async () => {
       console.log('Fetching vacancies...');
       return getCachedData('vacancies_list', async () => {
@@ -67,10 +67,12 @@ const Vacancies: React.FC = () => {
         
         console.log('Fetched active vacancies:', data);
         return data as Vacancy[];
-      }, 5); // Cache for 5 minutes instead of an hour
+      }, 1); // Cache for 1 minute only - reduced from 5 minutes
     },
-    staleTime: 1000 * 60 * 5, // Consider data fresh for 5 minutes
-    gcTime: 1000 * 60 * 30, // Keep in React Query cache for 30 minutes
+    staleTime: 1000 * 60 * 1, // Consider data fresh for 1 minute
+    gcTime: 1000 * 60 * 5, // Keep in React Query cache for 5 minutes
+    refetchOnWindowFocus: true, // Refetch when window regains focus
+    refetchOnMount: true, // Refetch when component mounts
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

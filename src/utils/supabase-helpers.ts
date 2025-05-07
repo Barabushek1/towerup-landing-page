@@ -1,3 +1,4 @@
+
 import type { NewsItem, PartnerItem, MessageItem, VacancyItem } from '@/contexts/AdminDataContext';
 import { Database } from '@/integrations/supabase/types';
 
@@ -163,6 +164,8 @@ export function mapVacancyItemToSupabaseInsert(vacancy: Omit<VacancyItem, 'id'>)
     description: vacancy.description || '',
     requirements: vacancy.requirements || '',
     is_active: true,
+    benefits: vacancy.benefits || '',
+    image_url: vacancy.image_url || '',
     employment_type: vacancy.employment_type || 'Полная занятость',
     remote_status: vacancy.remote_status || 'Офис'
   };

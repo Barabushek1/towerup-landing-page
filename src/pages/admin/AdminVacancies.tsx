@@ -15,6 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import ImageUploader from '@/components/admin/ImageUploader';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { QUERY_KEYS, clearCache, invalidateCacheByPrefix } from '@/utils/cache-utils';
 
 interface Vacancy {
   id: string;
@@ -66,8 +67,9 @@ const AdminVacancies: React.FC = () => {
   });
 
   const { data: vacancies = [], isLoading, error } = useQuery({
-    queryKey: ['admin-vacancies'],
+    queryKey: [QUERY_KEYS.VACANCIES, 'admin'],
     queryFn: async () => {
+      console.log('Admin: Fetching all vacancies...');
       const { data, error } = await supabase
         .from('vacancies')
         .select('*')
@@ -78,14 +80,20 @@ const AdminVacancies: React.FC = () => {
         throw error;
       }
       
+      console.log('Admin: Fetched all vacancies:', data?.length);
       return data as Vacancy[];
     },
+    staleTime: 1000 * 10, // Very short stale time - 10 seconds
+    gcTime: 1000 * 30, // Keep in cache for 30 seconds
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
   });
 
   const addVacancyMutation = useMutation({
     mutationFn: async (vacancy: VacancyInput) => {
       setIsSubmitting(true);
       try {
+        console.log('Adding new vacancy:', vacancy.title);
         const { data, error } = await supabase
           .from('vacancies')
           .insert({
@@ -110,11 +118,19 @@ const AdminVacancies: React.FC = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin-vacancies', 'vacancies', 'vacancy'] });
+      // Invalidate all vacancy-related queries and clear cache
+      console.log('Vacancy added successfully, invalidating related queries...');
+      invalidateCacheByPrefix('vacancies');
+      invalidateCacheByPrefix('vacancy');
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.VACANCIES] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.VACANCY] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.VACANCIES, 'admin'] });
+      
       toast({
         title: "Вакансия добавлена",
         description: "Вакансия успешно добавлена в базу данных",
       });
+      
       setIsDialogOpen(false);
       resetForm();
     },
@@ -132,6 +148,7 @@ const AdminVacancies: React.FC = () => {
     mutationFn: async ({ id, vacancy }: { id: string; vacancy: VacancyInput }) => {
       setIsSubmitting(true);
       try {
+        console.log('Updating vacancy:', id, vacancy.title);
         const { data, error } = await supabase
           .from('vacancies')
           .update({
@@ -158,12 +175,19 @@ const AdminVacancies: React.FC = () => {
       }
     },
     onSuccess: () => {
-      // Invalidate all vacancy-related queries to ensure cache is refreshed
-      queryClient.invalidateQueries({ queryKey: ['admin-vacancies', 'vacancies', 'vacancy'] });
+      console.log('Vacancy updated successfully, invalidating related queries...');
+      // Invalidate all vacancy-related queries and clear cache
+      invalidateCacheByPrefix('vacancies');
+      invalidateCacheByPrefix('vacancy');
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.VACANCIES] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.VACANCY] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.VACANCIES, 'admin'] });
+      
       toast({
         title: "Вакансия обновлена",
         description: "Вакансия успешно обновлена",
       });
+      
       setIsDialogOpen(false);
       resetForm();
     },
@@ -181,22 +205,43 @@ const AdminVacancies: React.FC = () => {
     mutationFn: async (id: string) => {
       setIsSubmitting(true);
       try {
+        console.log('Deleting vacancy:', id);
         const { error } = await supabase
           .from('vacancies')
           .delete()
           .eq('id', id);
         
         if (error) throw error;
+        return { id };
       } finally {
         setIsSubmitting(false);
       }
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin-vacancies', 'vacancies', 'vacancy'] });
+    onSuccess: (data) => {
+      console.log('Vacancy deleted successfully, invalidating related queries...', data);
+      // Invalidate all vacancy-related queries and clear cache
+      invalidateCacheByPrefix('vacancies');
+      invalidateCacheByPrefix('vacancy');
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.VACANCIES] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.VACANCY] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.VACANCIES, 'admin'] });
+      
+      // Manually update the local data to reflect the deletion
+      queryClient.setQueryData([QUERY_KEYS.VACANCIES, 'admin'], (oldData: any) => {
+        if (!oldData) return [];
+        return oldData.filter((vacancy: Vacancy) => vacancy.id !== currentVacancyId);
+      });
+      
+      queryClient.setQueryData([QUERY_KEYS.VACANCIES], (oldData: any) => {
+        if (!oldData) return [];
+        return oldData.filter((vacancy: Vacancy) => vacancy.id !== currentVacancyId);
+      });
+      
       toast({
         title: "Вакансия удалена",
         description: "Вакансия успешно удалена",
       });
+      
       setIsDeleteDialogOpen(false);
     },
     onError: (error) => {
@@ -313,7 +358,7 @@ const AdminVacancies: React.FC = () => {
       <div className="p-6 bg-slate-800 rounded-lg border border-red-900">
         <h3 className="text-red-500">Ошибка загрузки данных</h3>
         <p className="text-slate-400 mt-2">Не удалось загрузить список вакансий. Пожалуйста, попробуйте позже.</p>
-        <Button className="mt-4" onClick={() => queryClient.invalidateQueries({ queryKey: ['admin-vacancies'] })}>
+        <Button className="mt-4" onClick={() => queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.VACANCIES, 'admin'] })}>
           Попробовать снова
         </Button>
       </div>
