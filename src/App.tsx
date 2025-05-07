@@ -1,11 +1,12 @@
+
 import React, { Suspense, useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Home from './pages/Home';
+import Home from './pages/Index'; // Changed from './pages/Home' to './pages/Index'
 import Vacancies from './pages/Vacancies';
 import News from './pages/News';
-import NewsItem from './pages/NewsItem';
+import NewsItem from './pages/NewsDetail'; // Changed from './pages/NewsItem' to './pages/NewsDetail'
 import Partners from './pages/Partners';
-import Messages from './pages/Messages';
+import Messages from './pages/Contact'; // Changed from './pages/Messages' to './pages/Contact'
 import Projects from './pages/Projects';
 import BankingTechnology from './pages/BankingTechnology';
 
