@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -25,33 +24,26 @@ import TrcBochka from "./pages/TrcBochka";
 import NewUzbekistan from "./pages/NewUzbekistan";
 import BankingTechnology from "./pages/BankingTechnology";
 import ChatBot from "./components/ChatBot";
-import AdminLogin from "./pages/admin/AdminLogin";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminNews from "./pages/admin/AdminNews";
-import AdminVacancies from "./pages/admin/AdminVacancies";
-import AdminMessages from "./pages/admin/AdminMessages";
-import AdminPartners from "./pages/admin/AdminPartners";
-import AdminTenders from "./pages/admin/AdminTenders";
-import AdminAuditLogs from "./pages/admin/AdminAuditLogs";
-import AdminDetailedAuditLogs from "./pages/admin/AdminDetailedAuditLogs";
+import AdminLogin from './pages/admin/AdminLogin';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminNews from './pages/admin/AdminNews';
+import AdminVacancies from './pages/admin/AdminVacancies';
+import AdminVacancyApplications from './pages/admin/AdminVacancyApplications';
+import AdminMessages from './pages/admin/AdminMessages';
+import AdminPartners from './pages/admin/AdminPartners';
+import AdminTenders from './pages/admin/AdminTenders';
+import AdminTenderSubmissions from './pages/admin/AdminTenderSubmissions';
+import AdminCommercialOffers from './pages/admin/AdminCommercialOffers';
+import AdminFloorPrices from './pages/admin/AdminFloorPrices';
+import AdminApartmentUnits from './pages/admin/AdminApartmentUnits';
+import AdminAuditLogs from './pages/admin/AdminAuditLogs';
+import AdminDetailedAuditLogs from './pages/admin/AdminDetailedAuditLogs';
 import AdminLayout from "./components/admin/AdminLayout";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
-import AdminFloorPrices from './pages/admin/AdminFloorPrices';
 import Collaboration from "./pages/Collaboration";
 import Tenders from "./pages/collaboration/Tenders";
 import TenderDetail from "./pages/TenderDetail";
 import CommercialOffers from "./pages/collaboration/CommercialOffers";
-import AdminTenderSubmissions from "./pages/admin/AdminTenderSubmissions";
-import AdminCommercialOffers from "./pages/admin/AdminCommercialOffers";
-import AdminVacancyApplications from "./pages/admin/AdminVacancyApplications";
-import { 
-  ManagementCompany,
-  Design as ServiceDesign,
-  Construction as ServiceConstruction,
-  Renovation,
-  Laboratory,
-  ProcessAutomation
-} from "./pages/services";
 
 const helmetContext = {};
 
@@ -111,6 +103,7 @@ const App = () => {
           <Route path="/admin/detailed-audit-logs" element={<AdminLayout><AdminDetailedAuditLogs /></AdminLayout>} />
           <Route path="/admin/floor-prices" element={<AdminLayout><AdminFloorPrices /></AdminLayout>} />
           <Route path="/admin/tender-submissions" element={<AdminLayout><AdminTenderSubmissions /></AdminLayout>} />
+          <Route path="/admin/apartment-units" element={<AdminLayout><AdminApartmentUnits /></AdminLayout>} />
           
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="*" element={<NotFound />} />

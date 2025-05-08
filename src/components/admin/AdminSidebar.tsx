@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { BarChart3, FileText, Home, Layers, MessageSquare, Settings, Users, FileCode, BriefcaseBusiness, Newspaper, Users2, PanelLeftClose, HandCoins, FileBadge } from 'lucide-react';
+import { BarChart3, FileText, Home, Layers, MessageSquare, Settings, Users, FileCode, BriefcaseBusiness, Newspaper, Users2, PanelLeftClose, HandCoins, FileBadge, Building } from 'lucide-react';
 import { Button } from '../ui/button';
 interface AdminSidebarProps {
   onClose?: () => void;
@@ -55,6 +55,10 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
     name: 'Цены за м²',
     path: '/admin/floor-prices',
     icon: <Layers className="w-5 h-5 mr-3" />
+  }, {
+    name: 'Квартиры',
+    path: '/admin/apartment-units',
+    icon: <Building className="w-5 h-5 mr-3" />
   }, {
     name: 'Аудит логи',
     path: '/admin/audit-logs',
