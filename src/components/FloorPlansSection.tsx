@@ -11,7 +11,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import * as RovingFocusPrimitive from '@radix-ui/react-roving-focus';
 import { cn } from "@/lib/utils";
-import { formatNumberWithSpaces, getPricePerSqmForType } from "@/utils/format-utils";
+import { formatNumberWithSpaces, formatPricePerSqm } from "@/utils/format-utils";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -291,16 +291,6 @@ const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({ projectId }) => {
     }
   };
 
-  const CustomTabsTrigger = React.forwardRef<React.ElementRef<typeof TabsPrimitive.Trigger>, React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>>(({
-    className,
-    value,
-    children,
-    ...props
-  }, ref) => <TabsPrimitive.Trigger ref={ref} value={value} className={cn("px-5 py-2.5 min-w-[140px] sm:min-w-[160px] text-base font-medium transition-all border rounded-lg shrink-0", "focus:outline-none focus:ring-2 focus:ring-brand-primary/50 focus-visible:ring-offset-2", activeTab === value ? "border-brand-primary bg-brand-primary text-white shadow-lg shadow-brand-primary/20" : "border-white/20 bg-[#1a1a1a] text-white hover:bg-[#222] hover:border-brand-primary/40", className)} {...props}>
-      {children}
-    </TabsPrimitive.Trigger>);
-  CustomTabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
-
   // Show loading state if prices are still loading
   if (pricesLoading) {
     return (
@@ -493,5 +483,16 @@ const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({ projectId }) => {
       </Dialog>
     </section>;
 };
+
+// Custom TabsTrigger component
+const CustomTabsTrigger = React.forwardRef<React.ElementRef<typeof TabsPrimitive.Trigger>, React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>>(({
+  className,
+  value,
+  children,
+  ...props
+}, ref) => <TabsPrimitive.Trigger ref={ref} value={value} className={cn("px-5 py-2.5 min-w-[140px] sm:min-w-[160px] text-base font-medium transition-all border rounded-lg shrink-0", "focus:outline-none focus:ring-2 focus:ring-brand-primary/50 focus-visible:ring-offset-2", value === value ? "border-brand-primary bg-brand-primary text-white shadow-lg shadow-brand-primary/20" : "border-white/20 bg-[#1a1a1a] text-white hover:bg-[#222] hover:border-brand-primary/40", className)} {...props}>
+      {children}
+    </TabsPrimitive.Trigger>);
+CustomTabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
 
 export default FloorPlansSection;
