@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -19,7 +18,7 @@ import {
 // Define types for apartment unit data
 interface ApartmentUnit {
   id: string;
-  floor: number;
+  floor_number: number;
   area: number;
   room_count: number;
   price_per_sqm: number;
@@ -29,50 +28,12 @@ interface ApartmentUnit {
   cadastre_payment_40p: number;
 }
 
-// Define the structure of our database pricing
-interface FloorPrice {
-  id: string;
-  floor_number: number;
-  room_count: number;
-  price_per_sqm: number;
-}
-
-// Base apartment data without pricing - will be combined with price data from the database
-const BASE_APARTMENT_DATA = [
-  // 16 ЭТАЖ
-  { id: 'unit-16-31.14', floor: 16, area: 31.14, room_count: 1 },
-  { id: 'unit-16-40.47', floor: 16, area: 40.47, room_count: 1 },
-  { id: 'unit-16-50.50', floor: 16, area: 50.50, room_count: 2 },
-  { id: 'unit-16-67.30', floor: 16, area: 67.30, room_count: 3 },
-  { id: 'unit-16-75.35', floor: 16, area: 75.35, room_count: 3 },
-  
-  // 15 ЭТАЖ
-  { id: 'unit-15-31.14', floor: 15, area: 31.14, room_count: 1 },
-  { id: 'unit-15-40.47', floor: 15, area: 40.47, room_count: 1 },
-  { id: 'unit-15-50.50', floor: 15, area: 50.50, room_count: 2 },
-  
-  // Add more units for floors 2-14
-  // Floor 14
-  { id: 'unit-14-31.14', floor: 14, area: 31.14, room_count: 1 },
-  { id: 'unit-14-50.50', floor: 14, area: 50.50, room_count: 2 },
-  { id: 'unit-14-67.30', floor: 14, area: 67.30, room_count: 3 },
-  
-  // Add more floors and units as needed
-  
-  // 1 ЭТАЖ
-  { id: 'unit-1-31.14', floor: 1, area: 31.14, room_count: 1 },
-  { id: 'unit-1-40.47', floor: 1, area: 40.47, room_count: 1 },
-  { id: 'unit-1-50.50', floor: 1, area: 50.50, room_count: 2 }
-];
-
 interface ApartmentCalculatorProps {
   className?: string;
-  defaultPricePerSqm?: number;
 }
 
 const ApartmentCalculator: React.FC<ApartmentCalculatorProps> = ({
   className,
-  defaultPricePerSqm = 12000000,
 }) => {
   const [selectedFloor, setSelectedFloor] = useState<string | null>(null);
   const [selectedUnit, setSelectedUnit] = useState<ApartmentUnit | null>(null);
@@ -80,82 +41,42 @@ const ApartmentCalculator: React.FC<ApartmentCalculatorProps> = ({
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
-  // Fetch floor prices from database
+  // Fetch apartment units directly from the apartment_units table
   useEffect(() => {
-    const fetchFloorPrices = async () => {
+    const fetchApartmentUnits = async () => {
       setIsLoading(true);
       setError(null);
       
       try {
-        const { data: floorPrices, error } = await supabase
-          .from('floor_apartment_prices')
+        const { data, error } = await supabase
+          .from('apartment_units')
           .select('*')
           .order('floor_number', { ascending: false });
           
         if (error) {
-          throw new Error(`Error fetching floor prices: ${error.message}`);
+          throw new Error(`Error fetching apartment units: ${error.message}`);
         }
         
-        if (floorPrices) {
-          // Combine base apartment data with pricing information
-          const updatedApartments: ApartmentUnit[] = BASE_APARTMENT_DATA.map(baseUnit => {
-            // Find matching price for this floor and room count
-            const priceInfo = floorPrices.find(
-              price => price.floor_number === baseUnit.floor && price.room_count === baseUnit.room_count
-            );
-            
-            const pricePerSqm = priceInfo ? priceInfo.price_per_sqm : defaultPricePerSqm;
-            const totalPrice = Math.round(baseUnit.area * pricePerSqm);
-            
-            // Calculate payment details
-            const initialPayment = Math.round(totalPrice * 0.3);
-            const monthlyPayment = Math.round(totalPrice * 0.3 / 8);
-            const cadastrePayment = Math.round(totalPrice * 0.4);
-            
-            return {
-              ...baseUnit,
-              price_per_sqm: pricePerSqm,
-              total_price: totalPrice,
-              initial_payment_30p: initialPayment,
-              monthly_payment_8mo_30p: monthlyPayment,
-              cadastre_payment_40p: cadastrePayment
-            };
-          });
-          
-          setApartmentUnits(updatedApartments);
+        if (data) {
+          setApartmentUnits(data as ApartmentUnit[]);
         }
       } catch (err) {
-        console.error("Failed to fetch pricing data:", err);
+        console.error("Failed to fetch apartment units:", err);
         setError(err instanceof Error ? err : new Error('Unknown error occurred'));
-        
-        // Fallback to base data with default pricing if fetch fails
-        const fallbackUnits = BASE_APARTMENT_DATA.map(baseUnit => {
-          const totalPrice = Math.round(baseUnit.area * defaultPricePerSqm);
-          return {
-            ...baseUnit,
-            price_per_sqm: defaultPricePerSqm,
-            total_price: totalPrice,
-            initial_payment_30p: Math.round(totalPrice * 0.3),
-            monthly_payment_8mo_30p: Math.round(totalPrice * 0.3 / 8),
-            cadastre_payment_40p: Math.round(totalPrice * 0.4)
-          };
-        });
-        
-        setApartmentUnits(fallbackUnits);
       } finally {
         setIsLoading(false);
       }
     };
     
-    fetchFloorPrices();
-  }, [defaultPricePerSqm]);
+    fetchApartmentUnits();
+  }, []);
 
   // Get unique floors sorted from highest to lowest (descending order)
-  const floors = Array.from(new Set(apartmentUnits.map(unit => unit.floor))).sort((a, b) => b - a);
+  const floors = Array.from(new Set(apartmentUnits.map(unit => unit.floor_number))).sort((a, b) => b - a);
   
   // Filter units by selected floor and sort by area
   const unitsOnSelectedFloor = selectedFloor
-    ? apartmentUnits.filter(unit => unit.floor === parseInt(selectedFloor)).sort((a, b) => a.area - b.area)
+    ? apartmentUnits.filter(unit => unit.floor_number === parseInt(selectedFloor)).sort((a, b) => a.area - b.area)
     : [];
 
   // Reset selected unit when floor changes
@@ -222,7 +143,7 @@ const ApartmentCalculator: React.FC<ApartmentCalculatorProps> = ({
           <Calculator className="text-brand-primary" />
           Калькулятор стоимости
         </CardTitle>
-        <p className="text-sm text-slate-400">Цены и условия для квартир в блоках 9-16</p>
+        <p className="text-sm text-slate-400">Цены и условия для квартир</p>
       </CardHeader>
       <CardContent className="p-6 space-y-6">
         {/* Floor Selection */}
@@ -244,7 +165,7 @@ const ApartmentCalculator: React.FC<ApartmentCalculatorProps> = ({
 
         {/* Apartment Unit Selection */}
         <div className="space-y-2">
-           <label className="text-sm font-medium text-white">Выберите квартиру (Площадь / Комнаты)</label>
+           <label className="text-sm font-medium text-white">Выберите квартиру (Площадь / ��омнаты)</label>
            <Select onValueChange={handleUnitChange} value={selectedUnit?.id || ""}>
             <SelectTrigger className="w-full bg-[#222] border-slate-700/50 text-white" disabled={!selectedFloor || unitsOnSelectedFloor.length === 0}>
                <SelectValue placeholder={selectedFloor ? (unitsOnSelectedFloor.length > 0 ? "Выберите квартиру" : "Нет доступных квартир на этом этаже") : "Сначала выберите этаж"} />
@@ -270,7 +191,7 @@ const ApartmentCalculator: React.FC<ApartmentCalculatorProps> = ({
             <h3 className="text-lg font-bold text-brand-primary mb-3">Выбранная квартира</h3>
 
             <div className="space-y-2 text-white/90">
-                <p className="text-sm"><span className="font-semibold">Этаж:</span> {selectedUnit.floor}</p>
+                <p className="text-sm"><span className="font-semibold">Этаж:</span> {selectedUnit.floor_number}</p>
                 <p className="text-sm"><span className="font-semibold">Площадь:</span> {selectedUnit.area} м²</p>
                 <p className="text-sm"><span className="font-semibold">Комнат:</span> {selectedUnit.room_count}</p>
                 <p className="text-sm"><span className="font-semibold">Цена за м²:</span> {formatNumberWithSpaces(selectedUnit.price_per_sqm)} сум</p>

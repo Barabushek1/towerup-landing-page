@@ -12,6 +12,7 @@ import ScrollToTopButton from '@/components/ScrollToTopButton';
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import ApartmentCalculator from '@/components/ApartmentCalculator';
+import { supabase } from '@/integrations/supabase/client';
 
 interface ProjectImage {
   url: string;
@@ -154,6 +155,7 @@ const ProjectDetail: React.FC = () => {
   }>();
   const [project, setProject] = useState<IProject | null>(null);
   const [loading, setLoading] = useState(true);
+  const [apartmentUnits, setApartmentUnits] = useState<any[]>([]);
   const [pricePerSqm, setPricePerSqm] = useState<number>(12000000); // Default 12 million sum
 
   useEffect(() => {
@@ -166,6 +168,29 @@ const ProjectDetail: React.FC = () => {
     }, 300);
     return () => clearTimeout(timer);
   }, [slug]);
+
+  // Fetch apartment units data from Supabase
+  useEffect(() => {
+    const fetchApartmentUnits = async () => {
+      const { data, error } = await supabase
+        .from('apartment_units')
+        .select('*')
+        .order('floor_number', { ascending: false });
+      
+      if (error) {
+        console.error("Error fetching apartment units:", error);
+      } else if (data && data.length > 0) {
+        setApartmentUnits(data);
+        // Set default price per sqm from the first unit if available
+        if (data[0]?.price_per_sqm) {
+          setPricePerSqm(data[0].price_per_sqm);
+        }
+      }
+    };
+
+    fetchApartmentUnits();
+  }, []);
+
   const sectionVariants = {
     hidden: {
       opacity: 0,
@@ -488,7 +513,7 @@ const ProjectDetail: React.FC = () => {
                     </div>
                     
                     <div className="max-w-2xl mx-auto">
-                      <ApartmentCalculator defaultPricePerSqm={pricePerSqm} />
+                      <ApartmentCalculator />
                     </div>
                   </div>
                 </motion.section>
