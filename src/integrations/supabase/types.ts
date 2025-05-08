@@ -96,6 +96,48 @@ export type Database = {
         }
         Relationships: []
       }
+      apartment_units: {
+        Row: {
+          area: number
+          cadastre_payment_40p: number
+          created_at: string
+          floor_number: number
+          id: string
+          initial_payment_30p: number
+          monthly_payment_8mo_30p: number
+          price_per_sqm: number
+          room_count: number
+          total_price: number
+          updated_at: string
+        }
+        Insert: {
+          area: number
+          cadastre_payment_40p: number
+          created_at?: string
+          floor_number: number
+          id?: string
+          initial_payment_30p: number
+          monthly_payment_8mo_30p: number
+          price_per_sqm: number
+          room_count: number
+          total_price: number
+          updated_at?: string
+        }
+        Update: {
+          area?: number
+          cadastre_payment_40p?: number
+          created_at?: string
+          floor_number?: number
+          id?: string
+          initial_payment_30p?: number
+          monthly_payment_8mo_30p?: number
+          price_per_sqm?: number
+          room_count?: number
+          total_price?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       commercial_offers: {
         Row: {
           applicant_type: string
