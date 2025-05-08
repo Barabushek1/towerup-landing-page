@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { Button } from "@/components/ui/button";
@@ -106,9 +105,20 @@ const AdminApartmentUnits: React.FC = () => {
   // Create apartment unit
   const createApartmentUnitMutation = useMutation({
     mutationFn: async (values: Omit<ApartmentUnitFormValues, 'id'>) => {
+      const insertData = {
+        floor_number: values.floor_number,
+        area: values.area,
+        room_count: values.room_count,
+        price_per_sqm: values.price_per_sqm,
+        total_price: values.total_price,
+        initial_payment_30p: values.initial_payment_30p,
+        monthly_payment_8mo_30p: values.monthly_payment_8mo_30p,
+        cadastre_payment_40p: values.cadastre_payment_40p
+      };
+      
       const { data, error } = await supabase
         .from('apartment_units')
-        .insert(values)
+        .insert(insertData)
         .select();
       
       if (error) throw error;
@@ -213,7 +223,7 @@ const AdminApartmentUnits: React.FC = () => {
       // Update existing unit
       updateApartmentUnitMutation.mutate(values);
     } else {
-      // Create new unit
+      // Create new unit - fix: pass as non-optional values
       const { id, ...createData } = values;
       createApartmentUnitMutation.mutate(createData);
     }

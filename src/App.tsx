@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -44,6 +45,14 @@ import Collaboration from "./pages/Collaboration";
 import Tenders from "./pages/collaboration/Tenders";
 import TenderDetail from "./pages/TenderDetail";
 import CommercialOffers from "./pages/collaboration/CommercialOffers";
+
+// Import the service page components
+import ManagementCompany from "./pages/services/ManagementCompany";
+import ServiceDesign from "./pages/services/Design";
+import ServiceConstruction from "./pages/services/Construction";
+import Renovation from "./pages/services/Renovation";
+import Laboratory from "./pages/services/Laboratory";
+import ProcessAutomation from "./pages/services/ProcessAutomation";
 
 const helmetContext = {};
 
