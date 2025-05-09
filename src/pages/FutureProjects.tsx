@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -11,14 +10,12 @@ import { Clock, MapPin, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { fetchFutureProjects, FutureProject } from '@/utils/future-project-helpers';
 import { motion } from 'framer-motion';
-
 const FutureProjects: React.FC = () => {
   const {
     t
   } = useLanguage();
   const [projects, setProjects] = useState<FutureProject[]>([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     const loadProjects = async () => {
       setLoading(true);
@@ -28,7 +25,6 @@ const FutureProjects: React.FC = () => {
     };
     loadProjects();
   }, []);
-
   return <>
       <Helmet>
         <title>{t('futureProjects.pageTitle')} | TOWERUP</title>
@@ -37,12 +33,7 @@ const FutureProjects: React.FC = () => {
 
       <NavBar />
       
-      <PageHeader 
-        title={t('futureProjects.title')} 
-        subtitle={t('futureProjects.subtitle')} 
-        breadcrumb={`${t('nav.home')} / ${t('nav.projects')} / ${t('nav.futureProjects')}`} 
-        backgroundImage="https://images.unsplash.com/photo-1486744328743-c1151100a95a?q=80&w=1974&auto=format&fit=crop" 
-      />
+      <PageHeader title={t('futureProjects.title')} subtitle={t('futureProjects.subtitle')} breadcrumb={`${t('nav.home')} / ${t('nav.projects')} / ${t('nav.futureProjects')}`} backgroundImage="https://images.unsplash.com/photo-1486744328743-c1151100a95a?q=80&w=1974&auto=format&fit=crop" />
       
       <main className="pt-12 pb-24 bg-zinc-900">
         <section className="container mx-auto px-4 sm:px-6">
@@ -78,7 +69,7 @@ const FutureProjects: React.FC = () => {
                   <div className="h-56 overflow-hidden relative">
                     {project.coverImage ? <img src={project.coverImage} alt={project.title} className="w-full h-full object-cover" onError={e => {
                 (e.target as HTMLImageElement).src = '/placeholder.svg';
-              }} /> : <div className="w-full h-full flex items-center justify-center bg-gray-200">
+              }} /> : <div className="w-full h-full flex items-center justify-center bg-gray-700">
                         <span className="text-gray-400 font-benzin">No Image</span>
                       </div>}
                     
@@ -87,12 +78,12 @@ const FutureProjects: React.FC = () => {
                       </span>}
                   </div>
                   
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-brand-dark mb-3 font-benzin">
+                  <div className="p-6 bg-gray-800">
+                    <h3 className="text-xl font-bold mb-3 font-benzin text-brand-secondary">
                       {project.title}
                     </h3>
                     
-                    <p className="text-gray-600 mb-4 line-clamp-3">
+                    <p className="mb-4 line-clamp-3 text-zinc-200">
                       {project.description}
                     </p>
                     
