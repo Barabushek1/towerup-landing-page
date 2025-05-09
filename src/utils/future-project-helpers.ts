@@ -40,14 +40,41 @@ export async function fetchFutureProjects(): Promise<FutureProject[]> {
     featured: project.featured,
     coverImage: project.cover_image,
     galleryImages: project.gallery_images,
-    features: Array.isArray(project.features) 
-      ? project.features 
-      : typeof project.features === 'object' 
-        ? Object.values(project.features)
-        : [],
+    features: parseFeatures(project.features),
     createdAt: project.created_at,
     updatedAt: project.updated_at
   }));
+}
+
+// Helper function to parse features from JSON data
+function parseFeatures(featuresData: any): {title: string, description: string}[] {
+  if (!featuresData) return [];
+  
+  if (Array.isArray(featuresData)) {
+    return featuresData.map(feature => {
+      if (typeof feature === 'object' && feature !== null) {
+        return {
+          title: feature.title || '',
+          description: feature.description || ''
+        };
+      }
+      return { title: '', description: '' };
+    });
+  }
+  
+  if (typeof featuresData === 'object' && featuresData !== null) {
+    return Object.values(featuresData).map(feature => {
+      if (typeof feature === 'object' && feature !== null) {
+        return {
+          title: (feature as any).title || '',
+          description: (feature as any).description || ''
+        };
+      }
+      return { title: '', description: '' };
+    });
+  }
+  
+  return [];
 }
 
 export async function fetchFutureProjectBySlug(slug: string): Promise<FutureProject | null> {
@@ -73,11 +100,7 @@ export async function fetchFutureProjectBySlug(slug: string): Promise<FutureProj
     featured: data.featured,
     coverImage: data.cover_image,
     galleryImages: data.gallery_images,
-    features: Array.isArray(data.features) 
-      ? data.features 
-      : typeof data.features === 'object' 
-        ? Object.values(data.features)
-        : [],
+    features: parseFeatures(data.features),
     createdAt: data.created_at,
     updatedAt: data.updated_at
   };
@@ -117,11 +140,7 @@ export async function addFutureProject(project: Omit<FutureProject, 'id' | 'crea
     featured: data.featured,
     coverImage: data.cover_image,
     galleryImages: data.gallery_images,
-    features: Array.isArray(data.features) 
-      ? data.features 
-      : typeof data.features === 'object' 
-        ? Object.values(data.features)
-        : [],
+    features: parseFeatures(data.features),
     createdAt: data.created_at,
     updatedAt: data.updated_at
   };
