@@ -42,11 +42,14 @@ import AdminDetailedAuditLogs from './pages/admin/AdminDetailedAuditLogs';
 import AdminLayout from "./components/admin/AdminLayout";
 import AdminStaff from "./pages/admin/AdminStaff";
 import AdminDepartments from "./pages/admin/AdminDepartments";
+import AdminFutureProjects from "./pages/admin/AdminFutureProjects";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Collaboration from "./pages/Collaboration";
 import Tenders from "./pages/collaboration/Tenders";
 import TenderDetail from "./pages/TenderDetail";
 import CommercialOffers from "./pages/collaboration/CommercialOffers";
+import FutureProjects from "./pages/FutureProjects";
+import FutureProjectDetail from "./pages/FutureProjectDetail";
 
 // Import the service page components
 import ManagementCompany from "./pages/services/ManagementCompany";
@@ -79,6 +82,8 @@ const App = () => {
           <Route path="/projects/trcbochka" element={<TrcBochka />} />
           <Route path="/projects/new-uzbekistan" element={<NewUzbekistan />} />
           <Route path="/projects/banking-technology" element={<BankingTechnology />} />
+          <Route path="/future-projects" element={<FutureProjects />} />
+          <Route path="/future-projects/:slug" element={<FutureProjectDetail />} />
           <Route path="/news" element={<News />} />
           <Route path="/news/:id" element={<NewsDetail />} />
           <Route path="/vacancies" element={<Vacancies />} />
@@ -117,6 +122,7 @@ const App = () => {
           <Route path="/admin/apartment-units" element={<AdminLayout><AdminApartmentUnits /></AdminLayout>} />
           <Route path="/admin/staff" element={<AdminStaff />} />
           <Route path="/admin/departments" element={<AdminDepartments />} />
+          <Route path="/admin/future-projects" element={<AdminLayout><AdminFutureProjects /></AdminLayout>} />
           
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="*" element={<NotFound />} />

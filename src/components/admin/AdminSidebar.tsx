@@ -1,13 +1,15 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { BarChart3, FileText, Home, Layers, MessageSquare, Settings, Users, FileCode, BriefcaseBusiness, Newspaper, Users2, PanelLeftClose, HandCoins, FileBadge, Building, User } from 'lucide-react';
+import { BarChart3, FileText, Home, Layers, MessageSquare, Settings, Users, FileCode, BriefcaseBusiness, Newspaper, Users2, PanelLeftClose, HandCoins, FileBadge, Building, User, Construction } from 'lucide-react';
 import { Button } from '../ui/button';
+
 interface AdminSidebarProps {
   onClose?: () => void;
   collapsed?: boolean;
   mobileOpen?: boolean;
 }
+
 const AdminSidebar: React.FC<AdminSidebarProps> = ({
   onClose,
   collapsed,
@@ -15,84 +17,122 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
 }) => {
   const location = useLocation();
   const isActive = (path: string) => location.pathname === path;
-  const navLinks = [{
-    name: 'Панель управления',
-    path: '/admin/dashboard',
-    icon: <Home className="w-5 h-5 mr-3" />
-  }, {
-    name: 'Новости',
-    path: '/admin/news',
-    icon: <Newspaper className="w-5 h-5 mr-3" />
-  }, {
-    name: 'Вакансии',
-    path: '/admin/vacancies',
-    icon: <BriefcaseBusiness className="w-5 h-5 mr-3" />
-  }, {
-    name: 'Заявки на вакансии',
-    path: '/admin/vacancy-applications',
-    icon: <FileBadge className="w-5 h-5 mr-3" />
-  }, {
-    name: 'Сообщения',
-    path: '/admin/messages',
-    icon: <MessageSquare className="w-5 h-5 mr-3" />
-  }, {
-    name: 'Партнеры',
-    path: '/admin/partners',
-    icon: <Users2 className="w-5 h-5 mr-3" />
-  }, {
-    name: 'Сотрудники',
-    path: '/admin/staff',
-    icon: <User className="w-5 h-5 mr-3" />
-  }, {
-    name: 'Отделы',
-    path: '/admin/departments',
-    icon: <Users className="w-5 h-5 mr-3" />
-  }, {
-    name: 'Тендеры',
-    path: '/admin/tenders',
-    icon: <FileCode className="w-5 h-5 mr-3" />
-  }, {
-    name: 'Заявки на тендеры',
-    path: '/admin/tender-submissions',
-    icon: <FileText className="w-5 h-5 mr-3" />
-  }, {
-    name: 'Коммерческие предложения',
-    path: '/admin/commercial-offers',
-    icon: <HandCoins className="w-5 h-5 mr-3" />
-  }, {
-    name: 'Цены за м²',
-    path: '/admin/floor-prices',
-    icon: <Layers className="w-5 h-5 mr-3" />
-  }, {
-    name: 'Квартиры',
-    path: '/admin/apartment-units',
-    icon: <Building className="w-5 h-5 mr-3" />
-  }, {
-    name: 'Аудит логи',
-    path: '/admin/audit-logs',
-    icon: <BarChart3 className="w-5 h-5 mr-3" />
-  }, {
-    name: 'Детальные аудит логи',
-    path: '/admin/detailed-audit-logs',
-    icon: <BarChart3 className="w-5 h-5 mr-3" />
-  }];
-  return <div className={`w-64 h-screen fixed left-0 top-0 bg-slate-900 text-white flex flex-col shadow-lg z-30 ${mobileOpen === false ? '-translate-x-full lg:translate-x-0' : ''} transition-transform duration-200`}>
+
+  const navLinks = [
+    {
+      name: 'Панель управления',
+      path: '/admin/dashboard',
+      icon: <Home className="w-5 h-5 mr-3" />
+    },
+    {
+      name: 'Новости',
+      path: '/admin/news',
+      icon: <Newspaper className="w-5 h-5 mr-3" />
+    },
+    {
+      name: 'Вакансии',
+      path: '/admin/vacancies',
+      icon: <BriefcaseBusiness className="w-5 h-5 mr-3" />
+    },
+    {
+      name: 'Заявки на вакансии',
+      path: '/admin/vacancy-applications',
+      icon: <FileBadge className="w-5 h-5 mr-3" />
+    },
+    {
+      name: 'Сообщения',
+      path: '/admin/messages',
+      icon: <MessageSquare className="w-5 h-5 mr-3" />
+    },
+    {
+      name: 'Партнеры',
+      path: '/admin/partners',
+      icon: <Users2 className="w-5 h-5 mr-3" />
+    },
+    {
+      name: 'Сотрудники',
+      path: '/admin/staff',
+      icon: <User className="w-5 h-5 mr-3" />
+    },
+    {
+      name: 'Отделы',
+      path: '/admin/departments',
+      icon: <Users className="w-5 h-5 mr-3" />
+    },
+    {
+      name: 'Будущие проекты',
+      path: '/admin/future-projects',
+      icon: <Construction className="w-5 h-5 mr-3" />
+    },
+    {
+      name: 'Тендеры',
+      path: '/admin/tenders',
+      icon: <FileCode className="w-5 h-5 mr-3" />
+    },
+    {
+      name: 'Заявки на тендеры',
+      path: '/admin/tender-submissions',
+      icon: <FileText className="w-5 h-5 mr-3" />
+    },
+    {
+      name: 'Коммерческие предложения',
+      path: '/admin/commercial-offers',
+      icon: <HandCoins className="w-5 h-5 mr-3" />
+    },
+    {
+      name: 'Цены за м²',
+      path: '/admin/floor-prices',
+      icon: <Layers className="w-5 h-5 mr-3" />
+    },
+    {
+      name: 'Квартиры',
+      path: '/admin/apartment-units',
+      icon: <Building className="w-5 h-5 mr-3" />
+    },
+    {
+      name: 'Аудит логи',
+      path: '/admin/audit-logs',
+      icon: <BarChart3 className="w-5 h-5 mr-3" />
+    },
+    {
+      name: 'Детальные аудит логи',
+      path: '/admin/detailed-audit-logs',
+      icon: <BarChart3 className="w-5 h-5 mr-3" />
+    }
+  ];
+
+  return (
+    <div className={`w-64 h-screen fixed left-0 top-0 bg-slate-900 text-white flex flex-col shadow-lg z-30 ${mobileOpen === false ? '-translate-x-full lg:translate-x-0' : ''} transition-transform duration-200`}>
       <div className="flex items-center justify-between px-6 py-4 border-b border-gray-700 bg-gray-800">
         <h2 className="text-xl font-bold">Админ панель</h2>
-        {onClose && <Button variant="ghost" size="icon" onClick={onClose} className="lg:hidden">
+        {onClose && (
+          <Button variant="ghost" size="icon" onClick={onClose} className="lg:hidden">
             <PanelLeftClose className="h-5 w-5" />
-          </Button>}
+          </Button>
+        )}
       </div>
       <nav className="flex-1 overflow-auto pb-6 pt-2 bg-gray-800">
         <ul className="space-y-1 px-3">
-          {navLinks.map(link => <li key={link.path}>
-              <Link to={link.path} className={`flex items-center px-3 py-2 rounded-md transition-colors ${isActive(link.path) ? 'bg-primary text-primary-foreground' : 'hover:bg-slate-800 text-gray-200 hover:text-white'}`} onClick={onClose}>
+          {navLinks.map(link => (
+            <li key={link.path}>
+              <Link 
+                to={link.path} 
+                className={`flex items-center px-3 py-2 rounded-md transition-colors ${
+                  isActive(link.path) 
+                    ? 'bg-primary text-primary-foreground' 
+                    : 'hover:bg-slate-800 text-gray-200 hover:text-white'
+                }`} 
+                onClick={onClose}
+              >
                 {link.icon}
                 <span>{link.name}</span>
               </Link>
-            </li>)}
+            </li>
+          ))}
         </ul>
       </nav>
-    </div>;
+    </div>
+  );
 };
+
 export default AdminSidebar;

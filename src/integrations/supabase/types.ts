@@ -285,6 +285,54 @@ export type Database = {
         }
         Relationships: []
       }
+      future_projects: {
+        Row: {
+          completion_date: string | null
+          cover_image: string | null
+          created_at: string
+          description: string
+          featured: boolean | null
+          features: Json | null
+          gallery_images: string[] | null
+          id: string
+          location: string | null
+          slug: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          completion_date?: string | null
+          cover_image?: string | null
+          created_at?: string
+          description: string
+          featured?: boolean | null
+          features?: Json | null
+          gallery_images?: string[] | null
+          id?: string
+          location?: string | null
+          slug: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          completion_date?: string | null
+          cover_image?: string | null
+          created_at?: string
+          description?: string
+          featured?: boolean | null
+          features?: Json | null
+          gallery_images?: string[] | null
+          id?: string
+          location?: string | null
+          slug?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           created_at: string | null
