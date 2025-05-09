@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -66,6 +65,8 @@ const FutureProjectDetail: React.FC = () => {
     );
   }
 
+  const breadcrumb = `${t('nav.home')} / ${t('nav.projects')} / ${t('nav.futureProjects')} / ${project.title}`;
+
   return (
     <>
       <Helmet>
@@ -78,12 +79,7 @@ const FutureProjectDetail: React.FC = () => {
       <PageHeader 
         title={project.title}
         subtitle={project.location || t('futureProjects.futureProject')}
-        breadcrumbs={[
-          { name: t('nav.home'), href: '/' },
-          { name: t('nav.projects'), href: '/projects' },
-          { name: t('nav.futureProjects'), href: '/future-projects' },
-          { name: project.title, href: `/future-projects/${project.slug}` }
-        ]}
+        breadcrumb={breadcrumb}
         backgroundImage={project.coverImage || undefined}
       />
       

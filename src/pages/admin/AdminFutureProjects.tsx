@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
@@ -404,12 +403,10 @@ const AdminFutureProjects: React.FC = () => {
                         className="flex-1"
                       />
                       <ImageUploader 
-                        onComplete={(url) => setCoverImage(url)} 
-                        variant="outline"
-                      >
-                        <ImagePlus size={16} className="mr-2" />
-                        Upload
-                      </ImageUploader>
+                        onImageUploaded={(url) => setCoverImage(url)}
+                        defaultImage={coverImage}
+                        className="w-auto"
+                      />
                     </div>
                     {coverImage && (
                       <div className="mt-2 relative w-full max-w-xs">
@@ -437,12 +434,9 @@ const AdminFutureProjects: React.FC = () => {
                     <Label className="block mb-2">Gallery Images</Label>
                     <div className="flex gap-2 items-center mb-4">
                       <ImageUploader 
-                        onComplete={(url) => setGalleryImages([...galleryImages, url])} 
-                        variant="default"
-                      >
-                        <Plus size={16} className="mr-2" />
-                        Add Gallery Image
-                      </ImageUploader>
+                        onImageUploaded={(url) => setGalleryImages([...galleryImages, url])}
+                        className="w-auto"
+                      />
                     </div>
                     
                     {galleryImages.length > 0 && (

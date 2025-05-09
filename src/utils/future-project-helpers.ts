@@ -1,4 +1,3 @@
-
 import { Database } from '@/integrations/supabase/types';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -40,7 +39,7 @@ export async function fetchFutureProjects(): Promise<FutureProject[]> {
     featured: project.featured,
     coverImage: project.cover_image,
     galleryImages: project.gallery_images,
-    features: project.features,
+    features: Array.isArray(project.features) ? project.features : [],
     createdAt: project.created_at,
     updatedAt: project.updated_at
   }));
@@ -69,7 +68,7 @@ export async function fetchFutureProjectBySlug(slug: string): Promise<FutureProj
     featured: data.featured,
     coverImage: data.cover_image,
     galleryImages: data.gallery_images,
-    features: data.features,
+    features: Array.isArray(data.features) ? data.features : [],
     createdAt: data.created_at,
     updatedAt: data.updated_at
   };
@@ -109,7 +108,7 @@ export async function addFutureProject(project: Omit<FutureProject, 'id' | 'crea
     featured: data.featured,
     coverImage: data.cover_image,
     galleryImages: data.gallery_images,
-    features: data.features,
+    features: Array.isArray(data.features) ? data.features : [],
     createdAt: data.created_at,
     updatedAt: data.updated_at
   };
