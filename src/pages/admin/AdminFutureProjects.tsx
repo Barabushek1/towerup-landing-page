@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
@@ -42,9 +43,11 @@ import {
   generateSlug,
   type FutureProject
 } from '@/utils/future-project-helpers';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const AdminFutureProjects: React.FC = () => {
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [projects, setProjects] = useState<FutureProject[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -155,8 +158,8 @@ const AdminFutureProjects: React.FC = () => {
     
     if (!title || !slug || !description) {
       toast({
-        title: 'Please fill all required fields',
-        description: 'Title, slug, and description are required.',
+        title: t('admin.requiredFields'),
+        description: t('admin.titleSlugDescriptionRequired'),
         variant: 'destructive',
       });
       return;
@@ -180,8 +183,8 @@ const AdminFutureProjects: React.FC = () => {
         const updated = await updateFutureProject(currentProject.id, projectData);
         if (updated) {
           toast({
-            title: 'Project updated',
-            description: 'Future project has been updated successfully.',
+            title: t('admin.projectUpdated'),
+            description: t('admin.futureProjectUpdatedSuccess'),
           });
           loadProjects();
           closeModal();
@@ -190,8 +193,8 @@ const AdminFutureProjects: React.FC = () => {
         const added = await addFutureProject(projectData as Omit<FutureProject, 'id' | 'createdAt' | 'updatedAt'>);
         if (added) {
           toast({
-            title: 'Project added',
-            description: 'New future project has been added successfully.',
+            title: t('admin.projectAdded'),
+            description: t('admin.newFutureProjectAddedSuccess'),
           });
           loadProjects();
           closeModal();
@@ -200,26 +203,26 @@ const AdminFutureProjects: React.FC = () => {
     } catch (error) {
       console.error('Error saving project:', error);
       toast({
-        title: 'Error',
-        description: 'Failed to save project. Please try again.',
+        title: t('admin.error'),
+        description: t('admin.failedToSaveProject'),
         variant: 'destructive',
       });
     }
   };
 
   const handleDeleteProject = async (id: string) => {
-    if (window.confirm('Are you sure you want to delete this project?')) {
+    if (window.confirm(t('admin.confirmDeleteProject'))) {
       const deleted = await deleteFutureProject(id);
       if (deleted) {
         toast({
-          title: 'Project deleted',
-          description: 'Future project has been deleted successfully.',
+          title: t('admin.projectDeleted'),
+          description: t('admin.futureProjectDeletedSuccess'),
         });
         loadProjects();
       } else {
         toast({
-          title: 'Error',
-          description: 'Failed to delete project. Please try again.',
+          title: t('admin.error'),
+          description: t('admin.failedToDeleteProject'),
           variant: 'destructive',
         });
       }
@@ -230,40 +233,43 @@ const AdminFutureProjects: React.FC = () => {
     <AdminLayout>
       <div className="p-6">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">Future Projects Management</h1>
-          <Button onClick={() => openModal()} className="flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-zinc-50">Управление Будущими Проектами</h1>
+          <Button 
+            onClick={() => openModal()} 
+            className="flex items-center gap-2 bg-primary hover:bg-primary/90"
+          >
             <PlusCircle size={16} />
-            Add New Project
+            Добавить Новый Проект
           </Button>
         </div>
 
-        <Card>
+        <Card className="bg-zinc-800 border-zinc-700 text-zinc-50">
           <CardHeader>
-            <CardTitle>Future Projects</CardTitle>
+            <CardTitle>Будущие Проекты</CardTitle>
           </CardHeader>
           <CardContent>
             {loading ? (
-              <p>Loading projects...</p>
+              <p>Загрузка проектов...</p>
             ) : (
               <Table>
-                <TableCaption>List of future projects</TableCaption>
+                <TableCaption>Список будущих проектов</TableCaption>
                 <TableHeader>
-                  <TableRow>
-                    <TableHead>Title</TableHead>
-                    <TableHead>Slug</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Featured</TableHead>
-                    <TableHead className="w-[150px]">Actions</TableHead>
+                  <TableRow className="border-zinc-700 hover:bg-zinc-800/50">
+                    <TableHead className="text-zinc-400">Название</TableHead>
+                    <TableHead className="text-zinc-400">URL-адрес</TableHead>
+                    <TableHead className="text-zinc-400">Статус</TableHead>
+                    <TableHead className="text-zinc-400">Рекомендуемый</TableHead>
+                    <TableHead className="w-[150px] text-zinc-400">Действия</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {projects.length === 0 ? (
-                    <TableRow>
-                      <TableCell colSpan={5} className="text-center">No projects found</TableCell>
+                    <TableRow className="border-zinc-700 hover:bg-zinc-800/50">
+                      <TableCell colSpan={5} className="text-center">Проектов не найдено</TableCell>
                     </TableRow>
                   ) : (
                     projects.map((project) => (
-                      <TableRow key={project.id}>
+                      <TableRow key={project.id} className="border-zinc-700 hover:bg-zinc-800/50">
                         <TableCell>{project.title}</TableCell>
                         <TableCell>{project.slug}</TableCell>
                         <TableCell>
@@ -272,16 +278,17 @@ const AdminFutureProjects: React.FC = () => {
                             project.status === 'active' ? 'bg-green-100 text-green-800' :
                             'bg-gray-100 text-gray-800'
                           }`}>
-                            {project.status}
+                            {project.status === 'upcoming' ? 'Предстоящий' : 
+                             project.status === 'active' ? 'Активный' : 'Завершенный'}
                           </span>
                         </TableCell>
-                        <TableCell>{project.featured ? 'Yes' : 'No'}</TableCell>
+                        <TableCell>{project.featured ? 'Да' : 'Нет'}</TableCell>
                         <TableCell>
                           <div className="flex gap-2">
-                            <Button variant="outline" size="icon" onClick={() => openModal(project)}>
+                            <Button variant="outline" size="icon" className="border-zinc-700 text-zinc-400 hover:text-zinc-50 hover:bg-zinc-700" onClick={() => openModal(project)}>
                               <Pencil size={16} />
                             </Button>
-                            <Button variant="outline" size="icon" onClick={() => handleDeleteProject(project.id)}>
+                            <Button variant="outline" size="icon" className="border-zinc-700 text-zinc-400 hover:text-red-500 hover:bg-zinc-700" onClick={() => handleDeleteProject(project.id)}>
                               <Trash2 size={16} />
                             </Button>
                           </div>
@@ -297,85 +304,90 @@ const AdminFutureProjects: React.FC = () => {
       </div>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-3xl">
+        <DialogContent className="max-w-3xl bg-zinc-800 border-zinc-700 text-zinc-50">
           <DialogHeader>
-            <DialogTitle>{isEditing ? 'Edit Project' : 'Add New Project'}</DialogTitle>
+            <DialogTitle>{isEditing ? 'Редактировать Проект' : 'Добавить Новый Проект'}</DialogTitle>
           </DialogHeader>
 
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid grid-cols-3">
-              <TabsTrigger value="details">Details</TabsTrigger>
-              <TabsTrigger value="media">Media</TabsTrigger>
-              <TabsTrigger value="features">Features</TabsTrigger>
+            <TabsList className="grid grid-cols-3 bg-zinc-700">
+              <TabsTrigger value="details" className="data-[state=active]:bg-primary">Детали</TabsTrigger>
+              <TabsTrigger value="media" className="data-[state=active]:bg-primary">Медиа</TabsTrigger>
+              <TabsTrigger value="features" className="data-[state=active]:bg-primary">Особенности</TabsTrigger>
             </TabsList>
             
             <form onSubmit={handleSubmit}>
               <TabsContent value="details" className="space-y-4 pt-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="title">Title *</Label>
+                    <Label htmlFor="title" className="text-zinc-300">Название *</Label>
                     <Input 
                       id="title" 
                       value={title} 
                       onChange={handleTitleChange} 
                       required 
+                      className="bg-zinc-700 border-zinc-600 text-zinc-200"
                     />
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="slug">Slug *</Label>
+                    <Label htmlFor="slug" className="text-zinc-300">URL-адрес *</Label>
                     <Input 
                       id="slug" 
                       value={slug} 
                       onChange={(e) => setSlug(e.target.value)} 
                       required 
+                      className="bg-zinc-700 border-zinc-600 text-zinc-200"
                     />
                   </div>
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="description">Description *</Label>
+                  <Label htmlFor="description" className="text-zinc-300">Описание *</Label>
                   <Textarea 
                     id="description" 
                     value={description} 
                     onChange={(e) => setDescription(e.target.value)} 
                     rows={5} 
                     required 
+                    className="bg-zinc-700 border-zinc-600 text-zinc-200"
                   />
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="location">Location</Label>
+                    <Label htmlFor="location" className="text-zinc-300">Местоположение</Label>
                     <Input 
                       id="location" 
                       value={location} 
                       onChange={(e) => setLocation(e.target.value)} 
+                      className="bg-zinc-700 border-zinc-600 text-zinc-200"
                     />
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="completionDate">Estimated Completion</Label>
+                    <Label htmlFor="completionDate" className="text-zinc-300">Ожидаемое завершение</Label>
                     <Input 
                       id="completionDate" 
                       value={completionDate} 
                       onChange={(e) => setCompletionDate(e.target.value)} 
                       placeholder="Q4 2025" 
+                      className="bg-zinc-700 border-zinc-600 text-zinc-200"
                     />
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="status">Status</Label>
+                    <Label htmlFor="status" className="text-zinc-300">Статус</Label>
                     <Select value={status} onValueChange={setStatus}>
-                      <SelectTrigger>
+                      <SelectTrigger className="bg-zinc-700 border-zinc-600 text-zinc-200">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="upcoming">Upcoming</SelectItem>
-                        <SelectItem value="active">Active</SelectItem>
-                        <SelectItem value="completed">Completed</SelectItem>
+                      <SelectContent className="bg-zinc-700 border-zinc-600 text-zinc-200">
+                        <SelectItem value="upcoming">Предстоящий</SelectItem>
+                        <SelectItem value="active">Активный</SelectItem>
+                        <SelectItem value="completed">Завершенный</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -385,8 +397,9 @@ const AdminFutureProjects: React.FC = () => {
                       id="featured" 
                       checked={featured} 
                       onCheckedChange={(checked) => setFeatured(checked === true)} 
+                      className="border-zinc-600 data-[state=checked]:bg-primary"
                     />
-                    <Label htmlFor="featured">Featured Project</Label>
+                    <Label htmlFor="featured" className="text-zinc-300">Рекомендуемый Проект</Label>
                   </div>
                 </div>
               </TabsContent>
@@ -394,25 +407,25 @@ const AdminFutureProjects: React.FC = () => {
               <TabsContent value="media" className="space-y-4 pt-4">
                 <div className="space-y-4">
                   <div>
-                    <Label className="block mb-2">Cover Image</Label>
+                    <Label className="block mb-2 text-zinc-300">Обложка</Label>
                     <div className="flex gap-2 items-center">
                       <Input 
                         value={coverImage} 
                         onChange={(e) => setCoverImage(e.target.value)} 
-                        placeholder="Image URL" 
-                        className="flex-1"
+                        placeholder="URL изображения" 
+                        className="flex-1 bg-zinc-700 border-zinc-600 text-zinc-200"
                       />
                       <ImageUploader 
                         onImageUploaded={(url) => setCoverImage(url)}
                         defaultImage={coverImage}
-                        className="w-auto"
+                        className="bg-primary hover:bg-primary/90"
                       />
                     </div>
                     {coverImage && (
                       <div className="mt-2 relative w-full max-w-xs">
                         <img 
                           src={coverImage} 
-                          alt="Cover preview" 
+                          alt="Предпросмотр обложки" 
                           className="rounded border object-cover h-40 w-full"
                           onError={(e) => {
                             (e.target as HTMLImageElement).src = '/placeholder.svg';
@@ -431,22 +444,25 @@ const AdminFutureProjects: React.FC = () => {
                   </div>
                   
                   <div>
-                    <Label className="block mb-2">Gallery Images</Label>
+                    <Label className="block mb-2 text-zinc-300">Галерея изображений</Label>
                     <div className="flex gap-2 items-center mb-4">
                       <ImageUploader 
                         onImageUploaded={(url) => setGalleryImages([...galleryImages, url])}
-                        className="w-auto"
+                        className="bg-primary hover:bg-primary/90 w-auto"
                       />
+                      <span className="text-zinc-400 text-sm">
+                        Загрузите несколько изображений для галереи
+                      </span>
                     </div>
                     
                     {galleryImages.length > 0 && (
-                      <div className="grid grid-cols-3 gap-4 mt-4">
+                      <div className="grid grid-cols-3 gap-4 mt-4 max-h-[400px] overflow-y-auto pr-2">
                         {galleryImages.map((image, index) => (
                           <div key={index} className="relative">
                             <img 
                               src={image} 
-                              alt={`Gallery image ${index + 1}`} 
-                              className="rounded border object-cover h-24 w-full"
+                              alt={`Изображение галереи ${index + 1}`} 
+                              className="rounded border border-zinc-700 object-cover h-24 w-full"
                               onError={(e) => {
                                 (e.target as HTMLImageElement).src = '/placeholder.svg';
                               }} 
@@ -471,14 +487,14 @@ const AdminFutureProjects: React.FC = () => {
               </TabsContent>
               
               <TabsContent value="features" className="space-y-4 pt-4">
-                <div className="space-y-4">
+                <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
                   {features.map((feature, index) => (
-                    <div key={index} className="p-4 border rounded relative">
+                    <div key={index} className="p-4 border rounded border-zinc-700 relative">
                       <Button
                         type="button"
                         variant="ghost"
                         size="icon"
-                        className="absolute top-2 right-2"
+                        className="absolute top-2 right-2 text-zinc-400 hover:text-red-500"
                         onClick={() => handleRemoveFeature(index)}
                         disabled={features.length === 1}
                       >
@@ -487,21 +503,23 @@ const AdminFutureProjects: React.FC = () => {
                       
                       <div className="grid grid-cols-1 gap-4">
                         <div className="space-y-2">
-                          <Label htmlFor={`feature-title-${index}`}>Feature Title</Label>
+                          <Label htmlFor={`feature-title-${index}`} className="text-zinc-300">Название особенности</Label>
                           <Input 
                             id={`feature-title-${index}`}
                             value={feature.title} 
                             onChange={(e) => handleFeatureChange(index, 'title', e.target.value)} 
+                            className="bg-zinc-700 border-zinc-600 text-zinc-200"
                           />
                         </div>
                         
                         <div className="space-y-2">
-                          <Label htmlFor={`feature-desc-${index}`}>Feature Description</Label>
+                          <Label htmlFor={`feature-desc-${index}`} className="text-zinc-300">Описание особенности</Label>
                           <Textarea 
                             id={`feature-desc-${index}`}
                             value={feature.description} 
                             onChange={(e) => handleFeatureChange(index, 'description', e.target.value)} 
                             rows={2}
+                            className="bg-zinc-700 border-zinc-600 text-zinc-200"
                           />
                         </div>
                       </div>
@@ -512,20 +530,20 @@ const AdminFutureProjects: React.FC = () => {
                     type="button"
                     variant="outline" 
                     onClick={handleAddFeature}
-                    className="w-full"
+                    className="w-full border-zinc-600 text-zinc-300 hover:bg-zinc-700"
                   >
                     <Plus size={16} className="mr-2" />
-                    Add Another Feature
+                    Добавить Еще Одну Особенность
                   </Button>
                 </div>
               </TabsContent>
               
               <DialogFooter className="mt-6">
-                <Button type="button" variant="outline" onClick={closeModal}>
-                  Cancel
+                <Button type="button" variant="outline" onClick={closeModal} className="border-zinc-600 text-zinc-300 hover:bg-zinc-700">
+                  Отмена
                 </Button>
-                <Button type="submit">
-                  {isEditing ? 'Update Project' : 'Add Project'}
+                <Button type="submit" className="bg-primary hover:bg-primary/90">
+                  {isEditing ? 'Обновить Проект' : 'Добавить Проект'}
                 </Button>
               </DialogFooter>
             </form>

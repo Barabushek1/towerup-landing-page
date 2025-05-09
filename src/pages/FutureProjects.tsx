@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -10,12 +11,14 @@ import { Clock, MapPin, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { fetchFutureProjects, FutureProject } from '@/utils/future-project-helpers';
 import { motion } from 'framer-motion';
+
 const FutureProjects: React.FC = () => {
   const {
     t
   } = useLanguage();
   const [projects, setProjects] = useState<FutureProject[]>([]);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const loadProjects = async () => {
       setLoading(true);
@@ -25,6 +28,7 @@ const FutureProjects: React.FC = () => {
     };
     loadProjects();
   }, []);
+
   return <>
       <Helmet>
         <title>{t('futureProjects.pageTitle')} | TOWERUP</title>
@@ -33,7 +37,12 @@ const FutureProjects: React.FC = () => {
 
       <NavBar />
       
-      <PageHeader title={t('futureProjects.title')} subtitle={t('futureProjects.subtitle')} breadcrumb={`${t('nav.home')} / ${t('nav.projects')} / ${t('nav.futureProjects')}`} backgroundImage="https://images.unsplash.com/photo-1486744328743-c1151100a95a?q=80&w=1974&auto=format&fit=crop" />
+      <PageHeader 
+        title={t('futureProjects.title')} 
+        subtitle={t('futureProjects.subtitle')} 
+        breadcrumb={`${t('nav.home')} / ${t('nav.projects')} / ${t('nav.futureProjects')}`} 
+        backgroundImage="https://images.unsplash.com/photo-1486744328743-c1151100a95a?q=80&w=1974&auto=format&fit=crop" 
+      />
       
       <main className="pt-12 pb-24 bg-zinc-900">
         <section className="container mx-auto px-4 sm:px-6">
