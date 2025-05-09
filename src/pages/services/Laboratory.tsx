@@ -108,7 +108,7 @@ const Laboratory: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               <motion.div variants={fadeIn} className="relative">
                 <div className="aspect-[4/3] overflow-hidden rounded-xl border border-white/10">
-                  <img src="/lovable-uploads/2623cf3d-8e9e-492a-a374-0c70580ed70d.png" alt="Лабораторное оборудование TOWERUP" className="w-full h-full object-cover" />
+                  <img alt="Лабораторное оборудование TOWERUP" className="w-full h-full object-cover" src="/lovable-uploads/ceb3c8b2-1790-4459-a7c4-68654524c8df.jpg" />
                 </div>
                 <div className="absolute bottom-4 left-4 right-4 p-4 bg-black/70 backdrop-blur-sm rounded-lg">
                   <h3 className="text-lg font-semibold text-white mb-1">Современная лаборатория</h3>
