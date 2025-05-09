@@ -114,8 +114,18 @@ const AdminStaff = () => {
           });
         }
       } else {
-        // Add new staff member
-        const newStaff = await addStaffMember(data);
+        // Add new staff member - Ensure all required fields are present
+        const newStaffData = {
+          name: data.name,
+          position: data.position,
+          departmentId: data.departmentId,
+          bio: data.bio || undefined,
+          email: data.email || undefined,
+          phone: data.phone || undefined,
+          image_url: data.image_url || undefined
+        };
+        
+        const newStaff = await addStaffMember(newStaffData);
         
         if (newStaff) {
           toast({

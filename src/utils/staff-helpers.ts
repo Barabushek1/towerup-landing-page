@@ -1,4 +1,3 @@
-
 import { Database } from '@/integrations/supabase/types';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -124,7 +123,7 @@ export async function fetchDepartmentHeads(): Promise<StaffMember[]> {
   return [];
 }
 
-export async function addStaffMember(staffMember: Omit<StaffMember, 'id'>): Promise<StaffMember | null> {
+export async function addStaffMember(staffMember: Omit<StaffMember, 'id' | 'departmentName'>): Promise<StaffMember | null> {
   const { data, error } = await supabase
     .from('staff_members')
     .insert({
@@ -156,7 +155,7 @@ export async function addStaffMember(staffMember: Omit<StaffMember, 'id'>): Prom
   };
 }
 
-export async function updateStaffMember(id: string, staffMember: Partial<Omit<StaffMember, 'id'>>): Promise<boolean> {
+export async function updateStaffMember(id: string, staffMember: Partial<Omit<StaffMember, 'id' | 'departmentName'>>): Promise<boolean> {
   const updates: any = {};
   
   if (staffMember.name !== undefined) updates.name = staffMember.name;

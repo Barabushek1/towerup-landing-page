@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -39,6 +40,8 @@ import AdminApartmentUnits from './pages/admin/AdminApartmentUnits';
 import AdminAuditLogs from './pages/admin/AdminAuditLogs';
 import AdminDetailedAuditLogs from './pages/admin/AdminDetailedAuditLogs';
 import AdminLayout from "./components/admin/AdminLayout";
+import AdminStaff from "./pages/admin/AdminStaff";
+import AdminDepartments from "./pages/admin/AdminDepartments";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Collaboration from "./pages/Collaboration";
 import Tenders from "./pages/collaboration/Tenders";
