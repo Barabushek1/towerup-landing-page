@@ -302,20 +302,23 @@ const AdminFutureProjects: React.FC = () => {
         </Card>
       </div>
 
+      {/* Added flex and flex-col to DialogContent and max-h */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-3xl bg-zinc-800 border-zinc-700 text-zinc-50">
+        <DialogContent className="max-w-3xl bg-zinc-800 border-zinc-700 text-zinc-50 flex flex-col max-h-[90vh]">
           <DialogHeader>
             <DialogTitle>{isEditing ? 'Редактировать Проект' : 'Добавить Новый Проект'}</DialogTitle>
           </DialogHeader>
 
-          <Tabs value={activeTab} onValueChange={setActiveTab}>
+          {/* Added flex and flex-col to Tabs */}
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="flex flex-col flex-grow overflow-hidden">
             <TabsList className="grid grid-cols-3 bg-zinc-700">
               <TabsTrigger value="details" className="data-[state=active]:bg-primary">Детали</TabsTrigger>
               <TabsTrigger value="media" className="data-[state=active]:bg-primary">Медиа</TabsTrigger>
               <TabsTrigger value="features" className="data-[state=active]:bg-primary">Особенности</TabsTrigger>
             </TabsList>
 
-            <form onSubmit={handleSubmit}>
+            {/* Added flex-grow and overflow-y-auto to the form */}
+            <form onSubmit={handleSubmit} className="flex flex-col flex-grow overflow-y-auto pr-2">
               <TabsContent value="details" className="space-y-4 pt-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
@@ -405,7 +408,6 @@ const AdminFutureProjects: React.FC = () => {
 
               <TabsContent value="media" className="space-y-4 pt-4">
                 <div className="space-y-4">
-                  {/* --- Cover Image Section (Keep as is, added type="button") --- */}
                   <div>
                     <Label className="block mb-2 text-zinc-300">Обложка</Label>
                     <div className="flex gap-2 items-center">
@@ -431,8 +433,9 @@ const AdminFutureProjects: React.FC = () => {
                             (e.target as HTMLImageElement).src = '/placeholder.svg';
                           }}
                         />
+                        {/* Added type="button" */}
                         <Button
-                          type="button" // Added type button
+                          type="button"
                           variant="ghost"
                           size="icon"
                           className="absolute top-2 right-2 bg-white/80 hover:bg-white"
@@ -443,33 +446,29 @@ const AdminFutureProjects: React.FC = () => {
                       </div>
                     )}
                   </div>
-                  {/* --- End Cover Image Section --- */}
 
-                  {/* --- Gallery Images Section (Revised UI) --- */}
                   <div>
                     <Label className="block mb-2 text-zinc-300">Галерея изображений</Label>
 
-                    {/* Show initial upload area when no images */}
-                    {galleryImages.length === 0 && (
-                      <div className="border border-dashed border-zinc-600 rounded p-6 text-center space-y-2">
-                        {/* This ImageUploader handles the first upload */}
-                        <ImageUploader
-                          onImageUploaded={(url) => setGalleryImages([...galleryImages, url])}
-                          className="mx-auto flex items-center justify-center bg-primary hover:bg-primary/90"
-                        >
-                          <ImagePlus size={24} className="mr-2"/>
-                          Загрузить изображения
-                        </ImageUploader>
-                        <p className="text-zinc-400 text-sm">
-                          JPG, PNG, GIF до 5МБ.
-                        </p>
-                      </div>
-                    )}
-
-                    {/* Show grid of images and 'Add More' button when there are images */}
-                    {galleryImages.length > 0 && (
-                      <div className="space-y-4"> {/* Container for grid + add button */}
-                        <div className="grid grid-cols-3 gap-4 max-h-[400px] overflow-y-auto pr-2"> {/* Scrollable grid */}
+                    {/* Initial upload area when no images */}
+                    {galleryImages.length === 0 ? (
+                       <div className="border border-dashed border-zinc-600 rounded p-6 text-center space-y-2">
+                         <ImageUploader
+                           onImageUploaded={(url) => setGalleryImages([...galleryImages, url])}
+                           className="mx-auto flex items-center justify-center bg-primary hover:bg-primary/90"
+                         >
+                           <ImagePlus size={24} className="mr-2"/>
+                           Загрузить изображения
+                         </ImageUploader>
+                         <p className="text-zinc-400 text-sm">
+                           JPG, PNG, GIF до 5МБ. Загрузите несколько.
+                         </p>
+                       </div>
+                    ) : (
+                      // Show grid of images and 'Add More' button when there are images
+                      <div className="space-y-4">
+                        {/* Removed max-h and overflow-y-auto from this grid */}
+                        <div className="grid grid-cols-3 gap-4 mt-4">
                           {galleryImages.map((image, index) => (
                             <div key={index} className="relative">
                               <img
@@ -480,8 +479,9 @@ const AdminFutureProjects: React.FC = () => {
                                   (e.target as HTMLImageElement).src = '/placeholder.svg';
                                 }}
                               />
+                              {/* Added type="button" */}
                               <Button
-                                type="button" // Added type button
+                                type="button"
                                 variant="ghost"
                                 size="icon"
                                 className="absolute top-1 right-1 bg-white/80 hover:bg-white"
@@ -507,15 +507,15 @@ const AdminFutureProjects: React.FC = () => {
                       </div>
                     )}
                   </div>
-                  {/* --- End Gallery Images Section --- */}
-
-                </div> {/* End container for cover and gallery sections */}
+                </div>
               </TabsContent>
 
               <TabsContent value="features" className="space-y-4 pt-4">
-                <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
+                {/* Removed max-h and overflow-y-auto from this container */}
+                <div className="space-y-4">
                   {features.map((feature, index) => (
                     <div key={index} className="p-4 border rounded border-zinc-700 relative">
+                       {/* Added type="button" */}
                       <Button
                         type="button"
                         variant="ghost"
@@ -552,6 +552,7 @@ const AdminFutureProjects: React.FC = () => {
                     </div>
                   ))}
 
+                   {/* Added type="button" */}
                   <Button
                     type="button"
                     variant="outline"
@@ -564,16 +565,21 @@ const AdminFutureProjects: React.FC = () => {
                 </div>
               </TabsContent>
 
-              <DialogFooter className="mt-6">
-                <Button type="button" variant="outline" onClick={closeModal} className="border-zinc-600 text-zinc-300 hover:bg-zinc-700">
-                  Отмена
-                </Button>
-                <Button type="submit" className="bg-primary hover:bg-primary/90">
-                  {isEditing ? 'Обновить Проект' : 'Добавить Проект'}
-                </Button>
-              </DialogFooter>
+              {/* The DialogFooter is outside the scrollable form, placed correctly below it */}
             </form>
           </Tabs>
+
+          {/* DialogFooter remains fixed at the bottom */}
+          <DialogFooter className="mt-6">
+             {/* Added type="button" */}
+            <Button type="button" variant="outline" onClick={closeModal} className="border-zinc-600 text-zinc-300 hover:bg-zinc-700">
+              Отмена
+            </Button>
+            {/* The submit button type is correctly set to "submit" */}
+            <Button type="submit" className="bg-primary hover:bg-primary/90">
+              {isEditing ? 'Обновить Проект' : 'Добавить Проект'}
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </AdminLayout>
