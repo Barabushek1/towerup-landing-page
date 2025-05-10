@@ -496,117 +496,30 @@ const AdminFutureProjects: React.FC = () => {
                   <div className="space-y-4">
                     <div>
                       <Label className="block mb-2 text-zinc-300">Обложка</Label>
-                      <div className="flex gap-2 items-center">
+                      <div className="flex gap-2 items-center mb-4">
                         <Input 
                           value={coverImage} 
                           onChange={e => setCoverImage(e.target.value)} 
                           placeholder="URL изображения" 
                           className="flex-1 bg-zinc-700 border-zinc-600 text-zinc-200" 
                         />
-                        <ImageUploader 
-                          id="coverImageUpload"
-                          onImageUploaded={url => setCoverImage(url)} 
-                          defaultImage={coverImage}
-                          className="hidden"
-                        >
-                          <Button 
-                            type="button" 
-                            className="bg-primary hover:bg-primary/90"
-                          >
-                            <ImagePlus size={16} className="mr-2" /> Загрузить
-                          </Button>
-                        </ImageUploader>
                       </div>
                       
-                      {coverImage && (
-                        <div className="mt-2 relative w-full max-w-xs">
-                          <img 
-                            src={coverImage} 
-                            alt="Предпросмотр обложки" 
-                            className="rounded border object-cover h-40 w-full" 
-                            onError={e => {
-                              (e.target as HTMLImageElement).src = '/placeholder.svg';
-                            }} 
-                          />
-                          <Button 
-                            type="button" 
-                            variant="ghost" 
-                            size="icon" 
-                            onClick={() => setCoverImage('')} 
-                            className="absolute top-2 right-2 bg-gray-700 hover:bg-gray-600"
-                          >
-                            <X size={16} />
-                          </Button>
-                        </div>
-                      )}
+                      <ImageUploader 
+                        id="coverImageUpload"
+                        onImageUploaded={url => setCoverImage(url)} 
+                        defaultImage={coverImage}
+                      />
                     </div>
 
                     <div>
                       <Label className="block mb-2 text-zinc-300">Галерея изображений</Label>
-
-                      {galleryImages.length === 0 ? (
-                        <div className="border border-dashed border-zinc-600 rounded p-6 text-center space-y-2">
-                          <ImageUploader 
-                            id="galleryImageUpload"
-                            onImageUploaded={url => setGalleryImages([...galleryImages, url])} 
-                            className="w-full"
-                          >
-                            <Button 
-                              type="button" 
-                              className="mx-auto bg-primary hover:bg-primary/90"
-                            >
-                              <ImagePlus size={24} className="mr-2" />
-                              Загрузить изображения
-                            </Button>
-                            <p className="text-zinc-400 text-sm mt-2">
-                              JPG, PNG, GIF до 5МБ. Загрузите несколько.
-                            </p>
-                          </ImageUploader>
-                        </div>
-                      ) : (
-                        <div className="space-y-4">
-                          <div className="grid grid-cols-3 gap-4 mt-4">
-                            {galleryImages.map((image, index) => (
-                              <div key={index} className="relative">
-                                <img 
-                                  src={image} 
-                                  alt={`Изображение галереи ${index + 1}`} 
-                                  className="rounded border border-zinc-700 object-cover h-24 w-full" 
-                                  onError={e => {
-                                    (e.target as HTMLImageElement).src = '/placeholder.svg';
-                                  }} 
-                                />
-                                <Button 
-                                  type="button" 
-                                  variant="ghost" 
-                                  size="icon" 
-                                  onClick={() => {
-                                    const filtered = galleryImages.filter((_, i) => i !== index);
-                                    setGalleryImages(filtered);
-                                  }} 
-                                  className="absolute top-1 right-1 bg-white/80 hover:bg-white text-gray-800"
-                                >
-                                  <X size={14} />
-                                </Button>
-                              </div>
-                            ))}
-                          </div>
-
-                          <ImageUploader 
-                            id="addMoreGalleryImages"
-                            onImageUploaded={url => setGalleryImages([...galleryImages, url])} 
-                            className="w-full"
-                          >
-                            <Button 
-                              type="button" 
-                              className="w-auto bg-primary hover:bg-primary/90"
-                            >
-                              <Plus size={16} className="mr-2" />
-                              Добавить еще изображения
-                            </Button>
-                          </ImageUploader>
-                        </div>
-                      )}
+                      <ImageUploader 
+                        id="galleryImageUpload"
+                        onImagesUpdated={urls => setGalleryImages(urls)} 
+                        multiple={true}
+                        images={galleryImages}
+                      />
                     </div>
                   </div>
                 </TabsContent>
