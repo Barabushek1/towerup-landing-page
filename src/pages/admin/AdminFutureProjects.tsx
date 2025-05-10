@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
@@ -366,11 +365,13 @@ const AdminFutureProjects: React.FC = () => {
       </div>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        {/* Added flex and flex-col to DialogContent and max-h */}
         <DialogContent className="max-w-3xl bg-zinc-800 border-zinc-700 text-zinc-50 flex flex-col max-h-[90vh]">
           <DialogHeader>
             <DialogTitle>{isEditing ? 'Редактировать Проект' : 'Добавить Новый Проект'}</DialogTitle>
           </DialogHeader>
 
+          {/* Added flex and flex-col to Tabs */}
           <Tabs value={activeTab} onValueChange={setActiveTab} className="flex flex-col flex-grow overflow-hidden">
             <TabsList className="grid grid-cols-4 bg-zinc-700">
               <TabsTrigger value="details" className="data-[state=active]:bg-primary">Детали</TabsTrigger>
@@ -379,311 +380,333 @@ const AdminFutureProjects: React.FC = () => {
               <TabsTrigger value="features" className="data-[state=active]:bg-primary">Особенности</TabsTrigger>
             </TabsList>
 
-            <form onSubmit={handleSubmit} className="flex flex-col flex-grow overflow-hidden">
-              <div className="overflow-y-auto pr-2 flex-grow">
-                <TabsContent value="details" className="space-y-4 pt-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="title" className="text-zinc-300">Название *</Label>
-                      <Input id="title" value={title} onChange={handleTitleChange} required className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="slug" className="text-zinc-300">URL-адрес *</Label>
-                      <Input id="slug" value={slug} onChange={e => setSlug(e.target.value)} required className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                    </div>
+            {/* Added flex-grow and overflow-y-auto to the container wrapping TabsContent */}
+            <div className="overflow-y-auto pr-2 flex-grow">
+              <TabsContent value="details" className="space-y-4 pt-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="title" className="text-zinc-300">Название *</Label>
+                    <Input id="title" value={title} onChange={handleTitleChange} required className="bg-zinc-700 border-zinc-600 text-zinc-200" />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="description" className="text-zinc-300">Описание *</Label>
-                    <Textarea id="description" value={description} onChange={e => setDescription(e.target.value)} rows={5} required className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                    <Label htmlFor="slug" className="text-zinc-300">URL-адрес *</Label>
+                    <Input id="slug" value={slug} onChange={e => setSlug(e.target.value)} required className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="description" className="text-zinc-300">Описание *</Label>
+                  <Textarea id="description" value={description} onChange={e => setDescription(e.target.value)} rows={5} required className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="location" className="text-zinc-300">Местоположение</Label>
+                    <Input id="location" value={location} onChange={e => setLocation(e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="location" className="text-zinc-300">Местоположение</Label>
-                      <Input id="location" value={location} onChange={e => setLocation(e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                    </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="completionDate" className="text-zinc-300">Ожидаемое завершение</Label>
+                    <Input id="completionDate" value={completionDate} onChange={e => setCompletionDate(e.target.value)} placeholder="Q4 2025" className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                  </div>
+                </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="completionDate" className="text-zinc-300">Ожидаемое завершение</Label>
-                      <Input id="completionDate" value={completionDate} onChange={e => setCompletionDate(e.target.value)} placeholder="Q4 2025" className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                    </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="status" className="text-zinc-300">Статус</Label>
+                    <Select value={status} onValueChange={setStatus}>
+                      <SelectTrigger className="bg-zinc-700 border-zinc-600 text-zinc-200">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="bg-zinc-700 border-zinc-600 text-zinc-200">
+                        <SelectItem value="upcoming">Предстоящий</SelectItem>
+                        <SelectItem value="active">Активный</SelectItem>
+                        <SelectItem value="completed">Завершенный</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="status" className="text-zinc-300">Статус</Label>
-                      <Select value={status} onValueChange={setStatus}>
-                        <SelectTrigger className="bg-zinc-700 border-zinc-600 text-zinc-200">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent className="bg-zinc-700 border-zinc-600 text-zinc-200">
-                          <SelectItem value="upcoming">Предстоящий</SelectItem>
-                          <SelectItem value="active">Активный</SelectItem>
-                          <SelectItem value="completed">Завершенный</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div className="flex items-center space-x-2 pt-8">
-                      <Checkbox id="featured" checked={featured} onCheckedChange={checked => setFeatured(checked === true)} className="border-zinc-600 data-[state=checked]:bg-primary" />
-                      <Label htmlFor="featured" className="text-zinc-300">Рекомендуемый Проект</Label>
-                    </div>
+                  <div className="flex items-center space-x-2 pt-8">
+                    <Checkbox id="featured" checked={featured} onCheckedChange={checked => setFeatured(checked === true)} className="border-zinc-600 data-[state=checked]:bg-primary" />
+                    <Label htmlFor="featured" className="text-zinc-300">Рекомендуемый Проект</Label>
                   </div>
-                </TabsContent>
+                </div>
+              </TabsContent>
 
-                <TabsContent value="localization" className="space-y-4 pt-4">
-                  <Tabs value={activeLanguageTab} onValueChange={setActiveLanguageTab} className="w-full">
-                    <TabsList className="mb-4">
-                      <TabsTrigger value="en" className="data-[state=active]:bg-primary">English</TabsTrigger>
-                      <TabsTrigger value="ru" className="data-[state=active]:bg-primary">Русский</TabsTrigger>
-                      <TabsTrigger value="uz" className="data-[state=active]:bg-primary">O'zbekcha</TabsTrigger>
-                    </TabsList>
+              <TabsContent value="localization" className="space-y-4 pt-4">
+                <Tabs value={activeLanguageTab} onValueChange={setActiveLanguageTab} className="w-full">
+                  <TabsList className="mb-4">
+                    <TabsTrigger value="en" className="data-[state=active]:bg-primary">English</TabsTrigger>
+                    <TabsTrigger value="ru" className="data-[state=active]:bg-primary">Русский</TabsTrigger>
+                    <TabsTrigger value="uz" className="data-[state=active]:bg-primary">O'zbekcha</TabsTrigger>
+                  </TabsList>
 
-                    <TabsContent value="en" className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="title_en" className="text-zinc-300">Название (English)</Label>
-                        <Input id="title_en" value={titleEn} onChange={e => setTitleEn(e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                      </div>
+                  <TabsContent value="en" className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="title_en" className="text-zinc-300">Название (English)</Label>
+                      <Input id="title_en" value={titleEn} onChange={e => setTitleEn(e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                    </div>
 
-                      <div className="space-y-2">
-                        <Label htmlFor="description_en" className="text-zinc-300">Описание (English)</Label>
-                        <Textarea id="description_en" value={descriptionEn} onChange={e => setDescriptionEn(e.target.value)} rows={5} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                      </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="description_en" className="text-zinc-300">Описание (English)</Label>
+                      <Textarea id="description_en" value={descriptionEn} onChange={e => setDescriptionEn(e.target.value)} rows={5} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                    </div>
 
-                      <div className="space-y-2">
-                        <Label htmlFor="location_en" className="text-zinc-300">Местоположение (English)</Label>
-                        <Input id="location_en" value={locationEn} onChange={e => setLocationEn(e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                      </div>
-                    </TabsContent>
+                    <div className="space-y-2">
+                      <Label htmlFor="location_en" className="text-zinc-300">Местоположение (English)</Label>
+                      <Input id="location_en" value={locationEn} onChange={e => setLocationEn(e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                    </div>
+                  </TabsContent>
 
-                    <TabsContent value="ru" className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="title_ru" className="text-zinc-300">Название (Русский)</Label>
-                        <Input id="title_ru" value={titleRu} onChange={e => setTitleRu(e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                      </div>
+                  <TabsContent value="ru" className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="title_ru" className="text-zinc-300">Название (Русский)</Label>
+                      <Input id="title_ru" value={titleRu} onChange={e => setTitleRu(e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                    </div>
 
-                      <div className="space-y-2">
-                        <Label htmlFor="description_ru" className="text-zinc-300">Описание (Русский)</Label>
-                        <Textarea id="description_ru" value={descriptionRu} onChange={e => setDescriptionRu(e.target.value)} rows={5} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                      </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="description_ru" className="text-zinc-300">Описание (Русский)</Label>
+                      <Textarea id="description_ru" value={descriptionRu} onChange={e => setDescriptionRu(e.target.value)} rows={5} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                    </div>
 
-                      <div className="space-y-2">
-                        <Label htmlFor="location_ru" className="text-zinc-300">Местоположение (Русский)</Label>
-                        <Input id="location_ru" value={locationRu} onChange={e => setLocationRu(e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                      </div>
-                    </TabsContent>
+                    <div className="space-y-2">
+                      <Label htmlFor="location_ru" className="text-zinc-300">Местоположение (Русский)</Label>
+                      <Input id="location_ru" value={locationRu} onChange={e => setLocationRu(e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                    </div>
+                  </TabsContent>
 
-                    <TabsContent value="uz" className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="title_uz" className="text-zinc-300">Название (O'zbekcha)</Label>
-                        <Input id="title_uz" value={titleUz} onChange={e => setTitleUz(e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                      </div>
+                  <TabsContent value="uz" className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="title_uz" className="text-zinc-300">Название (O'zbekcha)</Label>
+                      <Input id="title_uz" value={titleUz} onChange={e => setTitleUz(e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                    </div>
 
-                      <div className="space-y-2">
-                        <Label htmlFor="description_uz" className="text-zinc-300">Описание (O'zbekcha)</Label>
-                        <Textarea id="description_uz" value={descriptionUz} onChange={e => setDescriptionUz(e.target.value)} rows={5} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                      </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="description_uz" className="text-zinc-300">Описание (O'zbekcha)</Label>
+                      <Textarea id="description_uz" value={descriptionUz} onChange={e => setDescriptionUz(e.target.value)} rows={5} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                    </div>
 
-                      <div className="space-y-2">
-                        <Label htmlFor="location_uz" className="text-zinc-300">Местоположение (O'zbekcha)</Label>
-                        <Input id="location_uz" value={locationUz} onChange={e => setLocationUz(e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                      </div>
-                    </TabsContent>
-                  </Tabs>
-                </TabsContent>
+                    <div className="space-y-2">
+                      <Label htmlFor="location_uz" className="text-zinc-300">Местоположение (O'zbekcha)</Label>
+                      <Input id="location_uz" value={locationUz} onChange={e => setLocationUz(e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                    </div>
+                  </TabsContent>
+                </Tabs>
+              </TabsContent>
 
-                <TabsContent value="media" className="space-y-4 pt-4">
-                  <div className="space-y-4">
-                    <div>
-                      <Label className="block mb-2 text-zinc-300">Обложка</Label>
-                      <div className="flex gap-2 items-center">
-                        <Input value={coverImage} onChange={e => setCoverImage(e.target.value)} placeholder="URL изображения" className="flex-1 bg-zinc-700 border-zinc-600 text-zinc-200" />
-                        <Button type="button" onClick={() => document.getElementById('coverImageUpload')?.click()} className="bg-primary hover:bg-primary/90">
-                          <ImagePlus size={16} className="mr-2" /> Загрузить
+              <TabsContent value="media" className="space-y-4 pt-4">
+                <div className="space-y-4">
+                  {/* --- Cover Image Section (Keep as is, uses ImageUploader directly) --- */}
+                  <div>
+                    <Label className="block mb-2 text-zinc-300">Обложка</Label>
+                    <div className="flex gap-2 items-center">
+                      <Input value={coverImage} onChange={e => setCoverImage(e.target.value)} placeholder="URL изображения" className="flex-1 bg-zinc-700 border-zinc-600 text-zinc-200" />
+                      {/* ImageUploader used directly as the upload button */}
+                      <ImageUploader
+                        onImageUploaded={(url) => setCoverImage(url)}
+                        defaultImage={coverImage}
+                        className="bg-primary hover:bg-primary/90"
+                      >
+                         {/* Content for the button */}
+                         <ImagePlus size={16} className="mr-2" /> Загрузить
+                      </ImageUploader>
+                    </div>
+                    {coverImage && <div className="mt-2 relative w-full max-w-xs">
+                        <img src={coverImage} alt="Предпросмотр обложки" className="rounded border object-cover h-40 w-full" onError={e => {
+                      (e.target as HTMLImageElement).src = '/placeholder.svg';
+                    }} />
+                        {/* Added type="button" */}
+                        <Button type="button" variant="ghost" size="icon" onClick={() => setCoverImage('')} className="absolute top-2 right-2 bg-white/80 hover:bg-white text-gray-800">
+                          <X size={16} />
                         </Button>
+                      </div>}
+                  </div>
+                  {/* --- End Cover Image Section --- */}
+
+                  {/* --- Gallery Images Section (Revised UI using ImageUploader directly) --- */}
+                  <div>
+                    <Label className="block mb-2 text-zinc-300">Галерея изображений</Label>
+
+                    {/* Show initial upload area when no images */}
+                    {galleryImages.length === 0 ? (
+                      <div className="border border-dashed border-zinc-600 rounded p-6 text-center space-y-2">
+                        {/* ImageUploader used directly as the upload button */}
+                        <ImageUploader
+                          onImageUploaded={url => setGalleryImages([...galleryImages, url])}
+                          className="mx-auto flex items-center justify-center bg-primary hover:bg-primary/90"
+                        >
+                          {/* Content for the button */}
+                          <ImagePlus size={24} className="mr-2"/>
+                          Загрузить изображения
+                        </ImageUploader>
+                        <p className="text-zinc-400 text-sm">
+                          JPG, PNG, GIF до 5МБ. Загрузите несколько.
+                        </p>
                       </div>
-                      <div className="hidden">
-                        <ImageUploader 
-                          id="coverImageUpload"
-                          onImageUploaded={url => setCoverImage(url)} 
-                          defaultImage={coverImage}
-                        />
+                    ) : (
+                      // Show grid of images and 'Add More' button when there are images
+                      <div className="space-y-4">
+                        {/* Grid of uploaded images */}
+                        <div className="grid grid-cols-3 gap-4 mt-4">
+                          {galleryImages.map((image, index) => <div key={index} className="relative">
+                              <img src={image} alt={`Изображение галереи ${index + 1}`} className="rounded border border-zinc-700 object-cover h-24 w-full" onError={e => {
+                          (e.target as HTMLImageElement).src = '/placeholder.svg';
+                        }} />
+                              {/* Added type="button" */}
+                              <Button type="button" variant="ghost" size="icon" onClick={() => {
+                          const filtered = galleryImages.filter((_, i) => i !== index);
+                          setGalleryImages(filtered);
+                        }} className="absolute top-1 right-1 bg-white/80 hover:bg-white text-gray-800">
+                                <X size={14} />
+                              </Button>
+                            </div>)}
+                        </div>
+
+                        {/* ImageUploader used directly as the "Add More" button */}
+                        <ImageUploader
+                          onImageUploaded={url => setGalleryImages([...galleryImages, url])}
+                          className="w-auto bg-primary hover:bg-primary/90 flex items-center gap-2"
+                        >
+                           {/* Content for the button */}
+                           <Plus size={16} className="mr-2" />
+                           Добавить еще изображения
+                        </ImageUploader>
                       </div>
-                      {coverImage && <div className="mt-2 relative w-full max-w-xs">
-                          <img src={coverImage} alt="Предпросмотр обложки" className="rounded border object-cover h-40 w-full" onError={e => {
-                        (e.target as HTMLImageElement).src = '/placeholder.svg';
-                      }} />
-                          <Button type="button" variant="ghost" size="icon" onClick={() => setCoverImage('')} className="absolute top-2 right-2 bg-gray-700 hover:bg-gray-600">
+                    )}
+                  </div>
+                  {/* --- End Gallery Images Section --- */}
+
+                </div> {/* End container for cover and gallery sections */}
+              </TabsContent>
+
+              <TabsContent value="features" className="space-y-4 pt-4">
+                <Tabs value={activeFeatureLanguageTab} onValueChange={setActiveFeatureLanguageTab} className="w-full mb-4">
+                  <TabsList className="mb-4">
+                    <TabsTrigger value="default" className="data-[state=active]:bg-primary">Основной</TabsTrigger>
+                    <TabsTrigger value="en" className="data-[state=active]:bg-primary">English</TabsTrigger>
+                    <TabsTrigger value="ru" className="data-[state=active]:bg-primary">Русский</TabsTrigger>
+                    <TabsTrigger value="uz" className="data-[state=active]:bg-primary">O'zbekcha</TabsTrigger>
+                  </TabsList>
+
+                  {/* Scrollable container for features content */}
+                  <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+                    <TabsContent value="default" className="space-y-4 mt-0">
+                      {features.map((feature, index) => (
+                        <div key={`default-${index}`} className="p-4 border rounded border-zinc-700 relative">
+                          {/* Added type="button" */}
+                          <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2 text-zinc-400 hover:text-red-500" onClick={() => handleRemoveFeature(index)} disabled={features.length === 1}>
                             <X size={16} />
                           </Button>
-                        </div>}
-                    </div>
 
-                    <div>
-                      <Label className="block mb-2 text-zinc-300">Галерея изображений</Label>
+                          <div className="grid grid-cols-1 gap-4">
+                            <div className="space-y-2">
+                              <Label htmlFor={`feature-title-${index}`} className="text-zinc-300">Название особенности (Основной)</Label>
+                              <Input id={`feature-title-${index}`} value={feature.title} onChange={e => handleFeatureChange(index, 'title', e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                            </div>
 
-                      {galleryImages.length === 0 ? (
-                        <div className="border border-dashed border-zinc-600 rounded p-6 text-center space-y-2">
-                          <Button 
-                            type="button" 
-                            onClick={() => document.getElementById('galleryImageUpload')?.click()} 
-                            className="mx-auto bg-primary hover:bg-primary/90"
-                          >
-                            <ImagePlus size={24} className="mr-2" />
-                            Загрузить изображения
-                          </Button>
-                          <div className="hidden">
-                            <ImageUploader 
-                              id="galleryImageUpload"
-                              onImageUploaded={url => setGalleryImages([...galleryImages, url])} 
-                            />
-                          </div>
-                          <p className="text-zinc-400 text-sm">
-                            JPG, PNG, GIF до 5МБ. Загрузите несколько.
-                          </p>
-                        </div>
-                      ) : (
-                        <div className="space-y-4">
-                          <div className="grid grid-cols-3 gap-4 mt-4">
-                            {galleryImages.map((image, index) => <div key={index} className="relative">
-                                <img src={image} alt={`Изображение галереи ${index + 1}`} className="rounded border border-zinc-700 object-cover h-24 w-full" onError={e => {
-                            (e.target as HTMLImageElement).src = '/placeholder.svg';
-                          }} />
-                                <Button type="button" variant="ghost" size="icon" onClick={() => {
-                            const filtered = galleryImages.filter((_, i) => i !== index);
-                            setGalleryImages(filtered);
-                          }} className="absolute top-1 right-1 bg-white/80 hover:bg-white text-gray-800">
-                                  <X size={14} />
-                                </Button>
-                              </div>)}
-                          </div>
-
-                          <Button 
-                            type="button" 
-                            onClick={() => document.getElementById('addMoreGalleryImages')?.click()} 
-                            className="w-auto bg-primary hover:bg-primary/90"
-                          >
-                            <Plus size={16} className="mr-2" />
-                            Добавить еще изображения
-                          </Button>
-                          <div className="hidden">
-                            <ImageUploader 
-                              id="addMoreGalleryImages"
-                              onImageUploaded={url => setGalleryImages([...galleryImages, url])} 
-                            />
+                            <div className="space-y-2">
+                              <Label htmlFor={`feature-desc-${index}`} className="text-zinc-300">Описание особенности (Основной)</Label>
+                              <Textarea id={`feature-desc-${index}`} value={feature.description} onChange={e => handleFeatureChange(index, 'description', e.target.value)} rows={2} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                            </div>
                           </div>
                         </div>
-                      )}
-                    </div>
-                  </div>
-                </TabsContent>
+                      ))}
+                    </TabsContent>
+                    
+                    <TabsContent value="en" className="space-y-4 mt-0">
+                      {features.map((feature, index) => (
+                        <div key={`en-${index}`} className="p-4 border rounded border-zinc-700 relative">
+                          {/* Added type="button" - Keep remove button here for consistency if needed across languages, or only in default tab */}
+                           {activeFeatureLanguageTab === 'default' && ( // Only show remove button in default tab
+                              <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2 text-zinc-400 hover:text-red-500" onClick={() => handleRemoveFeature(index)} disabled={features.length === 1}>
+                                <X size={16} />
+                              </Button>
+                           )}
+                          <div className="grid grid-cols-1 gap-4">
+                            <div className="space-y-2">
+                              <Label htmlFor={`feature-title-en-${index}`} className="text-zinc-300">Название особенности (English)</Label>
+                              <Input id={`feature-title-en-${index}`} value={feature.title_en || ''} onChange={e => handleFeatureChange(index, 'title_en', e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                            </div>
 
-                <TabsContent value="features" className="space-y-4 pt-4">
-                  <Tabs value={activeFeatureLanguageTab} onValueChange={setActiveFeatureLanguageTab} className="w-full mb-4">
-                    <TabsList className="mb-4">
-                      <TabsTrigger value="default" className="data-[state=active]:bg-primary">Основной</TabsTrigger>
-                      <TabsTrigger value="en" className="data-[state=active]:bg-primary">English</TabsTrigger>
-                      <TabsTrigger value="ru" className="data-[state=active]:bg-primary">Русский</TabsTrigger>
-                      <TabsTrigger value="uz" className="data-[state=active]:bg-primary">O'zbekcha</TabsTrigger>
-                    </TabsList>
-
-                    <div className="space-y-4 max-h-[60vh] overflow-y-auto">
-                      <TabsContent value="default" className="space-y-4 mt-0">
-                        {features.map((feature, index) => (
-                          <div key={`default-${index}`} className="p-4 border rounded border-zinc-700 relative">
-                            <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2 text-zinc-400 hover:text-red-500" onClick={() => handleRemoveFeature(index)} disabled={features.length === 1}>
-                              <X size={16} />
-                            </Button>
-
-                            <div className="grid grid-cols-1 gap-4">
-                              <div className="space-y-2">
-                                <Label htmlFor={`feature-title-${index}`} className="text-zinc-300">Название особенности (Основной)</Label>
-                                <Input id={`feature-title-${index}`} value={feature.title} onChange={e => handleFeatureChange(index, 'title', e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                              </div>
-
-                              <div className="space-y-2">
-                                <Label htmlFor={`feature-desc-${index}`} className="text-zinc-300">Описание особенности (Основной)</Label>
-                                <Textarea id={`feature-desc-${index}`} value={feature.description} onChange={e => handleFeatureChange(index, 'description', e.target.value)} rows={2} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                              </div>
+                            <div className="space-y-2">
+                              <Label htmlFor={`feature-desc-en-${index}`} className="text-zinc-300">Описание особенности (English)</Label>
+                              <Textarea id={`feature-desc-en-${index}`} value={feature.description_en || ''} onChange={e => handleFeatureChange(index, 'description_en', e.target.value)} rows={2} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
                             </div>
                           </div>
-                        ))}
-                      </TabsContent>
-                      
-                      <TabsContent value="en" className="space-y-4 mt-0">
-                        {features.map((feature, index) => (
-                          <div key={`en-${index}`} className="p-4 border rounded border-zinc-700 relative">
-                            <div className="grid grid-cols-1 gap-4">
-                              <div className="space-y-2">
-                                <Label htmlFor={`feature-title-en-${index}`} className="text-zinc-300">Название особенности (English)</Label>
-                                <Input id={`feature-title-en-${index}`} value={feature.title_en || ''} onChange={e => handleFeatureChange(index, 'title_en', e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                              </div>
+                        </div>
+                      ))}
+                    </TabsContent>
+                    
+                    <TabsContent value="ru" className="space-y-4 mt-0">
+                      {features.map((feature, index) => (
+                        <div key={`ru-${index}`} className="p-4 border rounded border-zinc-700 relative">
+                           {/* Added type="button" - Only show remove button in default tab */}
+                            {activeFeatureLanguageTab === 'default' && (
+                               <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2 text-zinc-400 hover:text-red-500" onClick={() => handleRemoveFeature(index)} disabled={features.length === 1}>
+                                 <X size={16} />
+                               </Button>
+                            )}
+                          <div className="grid grid-cols-1 gap-4">
+                            <div className="space-y-2">
+                              <Label htmlFor={`feature-title-ru-${index}`} className="text-zinc-300">Название особенности (Русский)</Label>
+                              <Input id={`feature-title-ru-${index}`} value={feature.title_ru || ''} onChange={e => handleFeatureChange(index, 'title_ru', e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                            </div>
 
-                              <div className="space-y-2">
-                                <Label htmlFor={`feature-desc-en-${index}`} className="text-zinc-300">Описание особенности (English)</Label>
-                                <Textarea id={`feature-desc-en-${index}`} value={feature.description_en || ''} onChange={e => handleFeatureChange(index, 'description_en', e.target.value)} rows={2} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                              </div>
+                            <div className="space-y-2">
+                              <Label htmlFor={`feature-desc-ru-${index}`} className="text-zinc-300">Описание особенности (Русский)</Label>
+                              <Textarea id={`feature-desc-ru-${index}`} value={feature.description_ru || ''} onChange={e => handleFeatureChange(index, 'description_ru', e.target.value)} rows={2} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
                             </div>
                           </div>
-                        ))}
-                      </TabsContent>
-                      
-                      <TabsContent value="ru" className="space-y-4 mt-0">
-                        {features.map((feature, index) => (
-                          <div key={`ru-${index}`} className="p-4 border rounded border-zinc-700 relative">
-                            <div className="grid grid-cols-1 gap-4">
-                              <div className="space-y-2">
-                                <Label htmlFor={`feature-title-ru-${index}`} className="text-zinc-300">Название особенности (Русский)</Label>
-                                <Input id={`feature-title-ru-${index}`} value={feature.title_ru || ''} onChange={e => handleFeatureChange(index, 'title_ru', e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                              </div>
+                        </div>
+                      ))}
+                    </TabsContent>
+                    
+                    <TabsContent value="uz" className="space-y-4 mt-0">
+                      {features.map((feature, index) => (
+                        <div key={`uz-${index}`} className="p-4 border rounded border-zinc-700 relative">
+                           {/* Added type="button" - Only show remove button in default tab */}
+                            {activeFeatureLanguageTab === 'default' && (
+                               <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2 text-zinc-400 hover:text-red-500" onClick={() => handleRemoveFeature(index)} disabled={features.length === 1}>
+                                 <X size={16} />
+                               </Button>
+                            )}
+                          <div className="grid grid-cols-1 gap-4">
+                            <div className="space-y-2">
+                              <Label htmlFor={`feature-title-uz-${index}`} className="text-zinc-300">Название особенности (O'zbekcha)</Label>
+                              <Input id={`feature-title-uz-${index}`} value={feature.title_uz || ''} onChange={e => handleFeatureChange(index, 'title_uz', e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                            </div>
 
-                              <div className="space-y-2">
-                                <Label htmlFor={`feature-desc-ru-${index}`} className="text-zinc-300">Описание особенности (Русский)</Label>
-                                <Textarea id={`feature-desc-ru-${index}`} value={feature.description_ru || ''} onChange={e => handleFeatureChange(index, 'description_ru', e.target.value)} rows={2} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                              </div>
+                            <div className="space-y-2">
+                              <Label htmlFor={`feature-desc-uz-${index}`} className="text-zinc-300">Описание особенности (O'zbekcha)</Label>
+                              <Textarea id={`feature-desc-uz-${index}`} value={feature.description_uz || ''} onChange={e => handleFeatureChange(index, 'description_uz', e.target.value)} rows={2} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
                             </div>
                           </div>
-                        ))}
-                      </TabsContent>
-                      
-                      <TabsContent value="uz" className="space-y-4 mt-0">
-                        {features.map((feature, index) => (
-                          <div key={`uz-${index}`} className="p-4 border rounded border-zinc-700 relative">
-                            <div className="grid grid-cols-1 gap-4">
-                              <div className="space-y-2">
-                                <Label htmlFor={`feature-title-uz-${index}`} className="text-zinc-300">Название особенности (O'zbekcha)</Label>
-                                <Input id={`feature-title-uz-${index}`} value={feature.title_uz || ''} onChange={e => handleFeatureChange(index, 'title_uz', e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                              </div>
+                        </div>
+                      ))}
+                    </TabsContent>
 
-                              <div className="space-y-2">
-                                <Label htmlFor={`feature-desc-uz-${index}`} className="text-zinc-300">Описание особенности (O'zbekcha)</Label>
-                                <Textarea id={`feature-desc-uz-${index}`} value={feature.description_uz || ''} onChange={e => handleFeatureChange(index, 'description_uz', e.target.value)} rows={2} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </TabsContent>
+                    {/* Add Feature button - Keep type="button" */}
+                    <Button type="button" variant="outline" onClick={handleAddFeature} className="w-full border-zinc-600 text-zinc-300 hover:bg-zinc-700">
+                      <Plus size={16} className="mr-2" />
+                      Добавить Еще Одну Особенность
+                    </Button>
+                  </div> {/* End scrollable container for features */}
+                </Tabs>
+              </TabsContent>
+            </div> {/* End scrollable div wrapping TabsContent */}
 
-                      <Button type="button" variant="outline" onClick={handleAddFeature} className="w-full border-zinc-600 text-zinc-300 hover:bg-zinc-700">
-                        <Plus size={16} className="mr-2" />
-                        Добавить Еще Одну Особенность
-                      </Button>
-                    </div>
-                  </Tabs>
-                </TabsContent>
-              </div>
-
-              <DialogFooter className="mt-6 pt-4 border-t border-zinc-700">
-                <Button type="button" variant="outline" onClick={closeModal} className="border-zinc-600 text-zinc-300 hover:bg-zinc-700">
-                  Отмена
-                </Button>
-                <Button type="submit" className="bg-primary hover:bg-primary/90">
-                  {isEditing ? 'Обновить Проект' : 'Добавить Проект'}
-                </Button>
-              </DialogFooter>
-            </form>
+            {/* DialogFooter remains fixed at the bottom */}
+            <DialogFooter className="mt-6 pt-4 border-t border-zinc-700">
+              {/* Added type="button" */}
+              <Button type="button" variant="outline" onClick={closeModal} className="border-zinc-600 text-zinc-300 hover:bg-zinc-700">
+                Отмена
+              </Button>
+              {/* The submit button type is correctly set to "submit" */}
+              <Button type="submit" className="bg-primary hover:bg-primary/90">
+                {isEditing ? 'Обновить Проект' : 'Добавить Проект'}
+              </Button>
+            </DialogFooter>
           </Tabs>
         </DialogContent>
       </Dialog>
