@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -11,18 +12,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { fetchFutureProjectBySlug, FutureProject } from '@/utils/future-project-helpers';
 import { motion } from 'framer-motion';
+
 const FutureProjectDetail: React.FC = () => {
-  const {
-    slug
-  } = useParams<{
-    slug: string;
-  }>();
-  const {
-    t
-  } = useLanguage();
+  const { slug } = useParams<{ slug: string; }>();
+  const { t, language } = useLanguage();
   const [project, setProject] = useState<FutureProject | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeImage, setActiveImage] = useState<string | null>(null);
+
   useEffect(() => {
     const loadProject = async () => {
       if (!slug) return;
@@ -36,6 +33,15 @@ const FutureProjectDetail: React.FC = () => {
     };
     loadProject();
   }, [slug]);
+
+  // Handle localized content based on current language
+  const getLocalizedContent = (field: string, fallback: string): string => {
+    if (!project) return '';
+    
+    const localizedField = `${field}_${language}` as keyof FutureProject;
+    return (project[localizedField] as string) || fallback;
+  };
+
   if (loading) {
     return <>
         <NavBar />
@@ -45,6 +51,7 @@ const FutureProjectDetail: React.FC = () => {
         <Footer />
       </>;
   }
+
   if (!project) {
     return <>
         <NavBar />
@@ -60,16 +67,23 @@ const FutureProjectDetail: React.FC = () => {
         <Footer />
       </>;
   }
-  const breadcrumb = `${t('nav.home')} / ${t('nav.projects')} / ${t('nav.futureProjects')} / ${project.title}`;
+
+  // Get localized content
+  const localizedTitle = getLocalizedContent('title', project.title);
+  const localizedDescription = getLocalizedContent('description', project.description);
+  const localizedLocation = getLocalizedContent('location', project.location || '');
+  
+  const breadcrumb = `${t('nav.home')} / ${t('nav.projects')} / ${t('nav.futureProjects')} / ${localizedTitle}`;
+
   return <>
       <Helmet>
-        <title>{project.title} | TOWERUP</title>
-        <meta name="description" content={project.description.substring(0, 155)} />
+        <title>{localizedTitle} | TOWERUP</title>
+        <meta name="description" content={localizedDescription.substring(0, 155)} />
       </Helmet>
 
       <NavBar />
       
-      <PageHeader title={project.title} subtitle={project.location || t('futureProjects.futureProject')} breadcrumb={breadcrumb} backgroundImage={project.coverImage || undefined} />
+      <PageHeader title={localizedTitle} subtitle={localizedLocation || t('futureProjects.futureProject')} breadcrumb={breadcrumb} backgroundImage={project.coverImage || undefined} />
       
       <main className="bg-zinc-900">
         <div className="container mx-auto px-4 py-12 bg-zinc-900">
@@ -83,7 +97,7 @@ const FutureProjectDetail: React.FC = () => {
             <div className="lg:col-span-2">
               <div className="mb-6">
                 <div className="rounded-lg overflow-hidden bg-gray-100 h-[400px] sm:h-[500px]">
-                  {activeImage ? <img src={activeImage} alt={project.title} className="w-full h-full object-cover" onError={e => {
+                  {activeImage ? <img src={activeImage} alt={localizedTitle} className="w-full h-full object-cover" onError={e => {
                   (e.target as HTMLImageElement).src = '/placeholder.svg';
                 }} /> : <div className="w-full h-full flex items-center justify-center bg-gray-200">
                       <span className="text-gray-400 font-benzin">No Image</span>
@@ -118,7 +132,7 @@ const FutureProjectDetail: React.FC = () => {
                     <MapPin className="w-5 h-5 text-primary mr-3 mt-0.5" />
                     <div>
                       <p className="text-sm text-gray-200">{t('futureProjects.location')}</p>
-                      <p className="font-medium text-brand-secondary">{project.location || t('futureProjects.locationNotSpecified')}</p>
+                      <p className="font-medium text-brand-secondary">{localizedLocation || t('futureProjects.locationNotSpecified')}</p>
                     </div>
                   </div>
                   
@@ -188,7 +202,7 @@ const FutureProjectDetail: React.FC = () => {
                   </h2>
                   
                   <div className="prose prose-lg max-w-none">
-                    {project.description.split('\n').map((paragraph, index) => paragraph ? <p key={index}>{paragraph}</p> : <br key={index} />)}
+                    {localizedDescription.split('\n').map((paragraph, index) => paragraph ? <p key={index}>{paragraph}</p> : <br key={index} />)}
                   </div>
                 </motion.div>
               </TabsContent>
@@ -201,4 +215,5 @@ const FutureProjectDetail: React.FC = () => {
       <ScrollToTopButton />
     </>;
 };
+
 export default FutureProjectDetail;
