@@ -5,48 +5,23 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from '@/components/ui/dialog';
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PlusCircle, Pencil, Trash2, ImagePlus, X, Plus } from 'lucide-react';
 import ImageUploader from '@/components/admin/ImageUploader';
 import AdminLayout from '@/components/admin/AdminLayout';
-import {
-  fetchFutureProjects,
-  addFutureProject,
-  updateFutureProject,
-  deleteFutureProject,
-  generateSlug,
-  type FutureProject
-} from '@/utils/future-project-helpers';
+import { fetchFutureProjects, addFutureProject, updateFutureProject, deleteFutureProject, generateSlug, type FutureProject } from '@/utils/future-project-helpers';
 import { useLanguage } from '@/contexts/LanguageContext';
-
 const AdminFutureProjects: React.FC = () => {
-  const { toast } = useToast();
-  const { t } = useLanguage();
+  const {
+    toast
+  } = useToast();
+  const {
+    t
+  } = useLanguage();
   const [projects, setProjects] = useState<FutureProject[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -64,50 +39,52 @@ const AdminFutureProjects: React.FC = () => {
   const [featured, setFeatured] = useState(false);
   const [coverImage, setCoverImage] = useState('');
   const [galleryImages, setGalleryImages] = useState<string[]>([]);
-  const [features, setFeatures] = useState<{title: string, description: string}[]>([
-    { title: '', description: '' }
-  ]);
-
+  const [features, setFeatures] = useState<{
+    title: string;
+    description: string;
+  }[]>([{
+    title: '',
+    description: ''
+  }]);
   useEffect(() => {
     loadProjects();
   }, []);
-
   const loadProjects = async () => {
     setLoading(true);
     const data = await fetchFutureProjects();
     setProjects(data);
     setLoading(false);
   };
-
   const handleTitleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value;
     setTitle(newTitle);
-
-    if (!isEditing || (isEditing && currentProject?.slug === slug)) {
+    if (!isEditing || isEditing && currentProject?.slug === slug) {
       const generatedSlug = await generateSlug(newTitle);
       setSlug(generatedSlug);
     }
   };
-
   const handleAddFeature = () => {
-    setFeatures([...features, { title: '', description: '' }]);
+    setFeatures([...features, {
+      title: '',
+      description: ''
+    }]);
   };
-
   const handleRemoveFeature = (index: number) => {
     const updatedFeatures = features.filter((_, i) => i !== index);
     setFeatures(updatedFeatures);
   };
-
   const handleFeatureChange = (index: number, field: 'title' | 'description', value: string) => {
     const updatedFeatures = features.map((feature, i) => {
       if (i === index) {
-        return { ...feature, [field]: value };
+        return {
+          ...feature,
+          [field]: value
+        };
       }
       return feature;
     });
     setFeatures(updatedFeatures);
   };
-
   const resetForm = () => {
     setTitle('');
     setSlug('');
@@ -118,12 +95,14 @@ const AdminFutureProjects: React.FC = () => {
     setFeatured(false);
     setCoverImage('');
     setGalleryImages([]);
-    setFeatures([{ title: '', description: '' }]);
+    setFeatures([{
+      title: '',
+      description: ''
+    }]);
     setCurrentProject(null);
     setIsEditing(false);
     setActiveTab('details');
   };
-
   const openModal = (project?: FutureProject) => {
     if (project) {
       setCurrentProject(project);
@@ -136,34 +115,33 @@ const AdminFutureProjects: React.FC = () => {
       setFeatured(project.featured || false);
       setCoverImage(project.coverImage || '');
       setGalleryImages(project.galleryImages || []);
-      setFeatures(project.features?.length
-        ? project.features.map(f => typeof f === 'object' ? f : { title: '', description: '' })
-        : [{ title: '', description: '' }]
-      );
+      setFeatures(project.features?.length ? project.features.map(f => typeof f === 'object' ? f : {
+        title: '',
+        description: ''
+      }) : [{
+        title: '',
+        description: ''
+      }]);
       setIsEditing(true);
     } else {
       resetForm();
     }
     setIsModalOpen(true);
   };
-
   const closeModal = () => {
     setIsModalOpen(false);
     resetForm();
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!title || !slug || !description) {
       toast({
         title: t('admin.requiredFields'),
         description: t('admin.titleSlugDescriptionRequired'),
-        variant: 'destructive',
+        variant: 'destructive'
       });
       return;
     }
-
     try {
       const projectData = {
         title,
@@ -177,13 +155,12 @@ const AdminFutureProjects: React.FC = () => {
         galleryImages,
         features: features.filter(f => f.title || f.description)
       };
-
       if (isEditing && currentProject?.id) {
         const updated = await updateFutureProject(currentProject.id, projectData);
         if (updated) {
           toast({
             title: t('admin.projectUpdated'),
-            description: t('admin.futureProjectUpdatedSuccess'),
+            description: t('admin.futureProjectUpdatedSuccess')
           });
           loadProjects();
           closeModal();
@@ -193,7 +170,7 @@ const AdminFutureProjects: React.FC = () => {
         if (added) {
           toast({
             title: t('admin.projectAdded'),
-            description: t('admin.newFutureProjectAddedSuccess'),
+            description: t('admin.newFutureProjectAddedSuccess')
           });
           loadProjects();
           closeModal();
@@ -204,39 +181,33 @@ const AdminFutureProjects: React.FC = () => {
       toast({
         title: t('admin.error'),
         description: t('admin.failedToSaveProject'),
-        variant: 'destructive',
+        variant: 'destructive'
       });
     }
   };
-
   const handleDeleteProject = async (id: string) => {
     if (window.confirm(t('admin.confirmDeleteProject'))) {
       const deleted = await deleteFutureProject(id);
       if (deleted) {
         toast({
           title: t('admin.projectDeleted'),
-          description: t('admin.futureProjectDeletedSuccess'),
+          description: t('admin.futureProjectDeletedSuccess')
         });
         loadProjects();
       } else {
         toast({
           title: t('admin.error'),
           description: t('admin.failedToDeleteProject'),
-          variant: 'destructive',
+          variant: 'destructive'
         });
       }
     }
   };
-
-  return (
-    <AdminLayout>
+  return <AdminLayout>
       <div className="p-6">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-zinc-50">Управление Будущими Проектами</h1>
-          <Button
-            onClick={() => openModal()}
-            className="flex items-center gap-2 bg-primary hover:bg-primary/90"
-          >
+          <Button onClick={() => openModal()} className="flex items-center gap-2 bg-primary hover:bg-primary/90">
             <PlusCircle size={16} />
             Добавить Новый Проект
           </Button>
@@ -247,10 +218,7 @@ const AdminFutureProjects: React.FC = () => {
             <CardTitle>Будущие Проекты</CardTitle>
           </CardHeader>
           <CardContent>
-            {loading ? (
-              <p>Загрузка проектов...</p>
-            ) : (
-              <Table>
+            {loading ? <p>Загрузка проектов...</p> : <Table>
                 <TableCaption>Список будущих проектов</TableCaption>
                 <TableHeader>
                   <TableRow className="border-zinc-700 hover:bg-zinc-800/50">
@@ -262,23 +230,14 @@ const AdminFutureProjects: React.FC = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {projects.length === 0 ? (
-                    <TableRow className="border-zinc-700 hover:bg-zinc-800/50">
+                  {projects.length === 0 ? <TableRow className="border-zinc-700 hover:bg-zinc-800/50">
                       <TableCell colSpan={5} className="text-center">Проектов не найдено</TableCell>
-                    </TableRow>
-                  ) : (
-                    projects.map((project) => (
-                      <TableRow key={project.id} className="border-zinc-700 hover:bg-zinc-800/50">
+                    </TableRow> : projects.map(project => <TableRow key={project.id} className="border-zinc-700 hover:bg-zinc-800/50">
                         <TableCell>{project.title}</TableCell>
                         <TableCell>{project.slug}</TableCell>
                         <TableCell>
-                          <span className={`px-2 py-1 rounded text-xs ${
-                            project.status === 'upcoming' ? 'bg-blue-100 text-blue-800' :
-                            project.status === 'active' ? 'bg-green-100 text-green-800' :
-                            'bg-gray-100 text-gray-800'
-                          }`}>
-                            {project.status === 'upcoming' ? 'Предстоящий' :
-                             project.status === 'active' ? 'Активный' : 'Завершенный'}
+                          <span className={`px-2 py-1 rounded text-xs ${project.status === 'upcoming' ? 'bg-blue-100 text-blue-800' : project.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                            {project.status === 'upcoming' ? 'Предстоящий' : project.status === 'active' ? 'Активный' : 'Завершенный'}
                           </span>
                         </TableCell>
                         <TableCell>{project.featured ? 'Да' : 'Нет'}</TableCell>
@@ -292,12 +251,9 @@ const AdminFutureProjects: React.FC = () => {
                             </Button>
                           </div>
                         </TableCell>
-                      </TableRow>
-                    ))
-                  )}
+                      </TableRow>)}
                 </TableBody>
-              </Table>
-            )}
+              </Table>}
           </CardContent>
         </Card>
       </div>
@@ -323,59 +279,29 @@ const AdminFutureProjects: React.FC = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="title" className="text-zinc-300">Название *</Label>
-                    <Input
-                      id="title"
-                      value={title}
-                      onChange={handleTitleChange}
-                      required
-                      className="bg-zinc-700 border-zinc-600 text-zinc-200"
-                    />
+                    <Input id="title" value={title} onChange={handleTitleChange} required className="bg-zinc-700 border-zinc-600 text-zinc-200" />
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="slug" className="text-zinc-300">URL-адрес *</Label>
-                    <Input
-                      id="slug"
-                      value={slug}
-                      onChange={(e) => setSlug(e.target.value)}
-                      required
-                      className="bg-zinc-700 border-zinc-600 text-zinc-200"
-                    />
+                    <Input id="slug" value={slug} onChange={e => setSlug(e.target.value)} required className="bg-zinc-700 border-zinc-600 text-zinc-200" />
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="description" className="text-zinc-300">Описание *</Label>
-                  <Textarea
-                    id="description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    rows={5}
-                    required
-                    className="bg-zinc-700 border-zinc-600 text-zinc-200"
-                  />
+                  <Textarea id="description" value={description} onChange={e => setDescription(e.target.value)} rows={5} required className="bg-zinc-700 border-zinc-600 text-zinc-200" />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="location" className="text-zinc-300">Местоположение</Label>
-                    <Input
-                      id="location"
-                      value={location}
-                      onChange={(e) => setLocation(e.target.value)}
-                      className="bg-zinc-700 border-zinc-600 text-zinc-200"
-                    />
+                    <Input id="location" value={location} onChange={e => setLocation(e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="completionDate" className="text-zinc-300">Ожидаемое завершение</Label>
-                    <Input
-                      id="completionDate"
-                      value={completionDate}
-                      onChange={(e) => setCompletionDate(e.target.value)}
-                      placeholder="Q4 2025"
-                      className="bg-zinc-700 border-zinc-600 text-zinc-200"
-                    />
+                    <Input id="completionDate" value={completionDate} onChange={e => setCompletionDate(e.target.value)} placeholder="Q4 2025" className="bg-zinc-700 border-zinc-600 text-zinc-200" />
                   </div>
                 </div>
 
@@ -395,12 +321,7 @@ const AdminFutureProjects: React.FC = () => {
                   </div>
 
                   <div className="flex items-center space-x-2 pt-8">
-                    <Checkbox
-                      id="featured"
-                      checked={featured}
-                      onCheckedChange={(checked) => setFeatured(checked === true)}
-                      className="border-zinc-600 data-[state=checked]:bg-primary"
-                    />
+                    <Checkbox id="featured" checked={featured} onCheckedChange={checked => setFeatured(checked === true)} className="border-zinc-600 data-[state=checked]:bg-primary" />
                     <Label htmlFor="featured" className="text-zinc-300">Рекомендуемый Проект</Label>
                   </div>
                 </div>
@@ -411,101 +332,57 @@ const AdminFutureProjects: React.FC = () => {
                   <div>
                     <Label className="block mb-2 text-zinc-300">Обложка</Label>
                     <div className="flex gap-2 items-center">
-                      <Input
-                        value={coverImage}
-                        onChange={(e) => setCoverImage(e.target.value)}
-                        placeholder="URL изображения"
-                        className="flex-1 bg-zinc-700 border-zinc-600 text-zinc-200"
-                      />
-                      <ImageUploader
-                        onImageUploaded={(url) => setCoverImage(url)}
-                        defaultImage={coverImage}
-                        className="bg-primary hover:bg-primary/90"
-                      />
+                      <Input value={coverImage} onChange={e => setCoverImage(e.target.value)} placeholder="URL изображения" className="flex-1 bg-zinc-700 border-zinc-600 text-zinc-200" />
+                      <ImageUploader onImageUploaded={url => setCoverImage(url)} defaultImage={coverImage} className="bg-primary hover:bg-primary/90" />
                     </div>
-                    {coverImage && (
-                      <div className="mt-2 relative w-full max-w-xs">
-                        <img
-                          src={coverImage}
-                          alt="Предпросмотр обложки"
-                          className="rounded border object-cover h-40 w-full"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = '/placeholder.svg';
-                          }}
-                        />
+                    {coverImage && <div className="mt-2 relative w-full max-w-xs">
+                        <img src={coverImage} alt="Предпросмотр обложки" className="rounded border object-cover h-40 w-full" onError={e => {
+                      (e.target as HTMLImageElement).src = '/placeholder.svg';
+                    }} />
                         {/* Added type="button" */}
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          className="absolute top-2 right-2 bg-white/80 hover:bg-white"
-                          onClick={() => setCoverImage('')}
-                        >
+                        <Button type="button" variant="ghost" size="icon" onClick={() => setCoverImage('')} className="absolute top-2 right-2 bg-gray-700 hover:bg-gray-600">
                           <X size={16} />
                         </Button>
-                      </div>
-                    )}
+                      </div>}
                   </div>
 
                   <div>
                     <Label className="block mb-2 text-zinc-300">Галерея изображений</Label>
 
                     {/* Initial upload area when no images */}
-                    {galleryImages.length === 0 ? (
-                       <div className="border border-dashed border-zinc-600 rounded p-6 text-center space-y-2">
-                         <ImageUploader
-                           onImageUploaded={(url) => setGalleryImages([...galleryImages, url])}
-                           className="mx-auto flex items-center justify-center bg-primary hover:bg-primary/90"
-                         >
-                           <ImagePlus size={24} className="mr-2"/>
+                    {galleryImages.length === 0 ? <div className="border border-dashed border-zinc-600 rounded p-6 text-center space-y-2">
+                         <ImageUploader onImageUploaded={url => setGalleryImages([...galleryImages, url])} className="mx-auto flex items-center justify-center bg-primary hover:bg-primary/90">
+                           <ImagePlus size={24} className="mr-2" />
                            Загрузить изображения
                          </ImageUploader>
                          <p className="text-zinc-400 text-sm">
                            JPG, PNG, GIF до 5МБ. Загрузите несколько.
                          </p>
-                       </div>
-                    ) : (
-                      // Show grid of images and 'Add More' button when there are images
-                      <div className="space-y-4">
+                       </div> :
+                  // Show grid of images and 'Add More' button when there are images
+                  <div className="space-y-4">
                         {/* Removed max-h and overflow-y-auto from this grid */}
                         <div className="grid grid-cols-3 gap-4 mt-4">
-                          {galleryImages.map((image, index) => (
-                            <div key={index} className="relative">
-                              <img
-                                src={image}
-                                alt={`Изображение галереи ${index + 1}`}
-                                className="rounded border border-zinc-700 object-cover h-24 w-full"
-                                onError={(e) => {
-                                  (e.target as HTMLImageElement).src = '/placeholder.svg';
-                                }}
-                              />
+                          {galleryImages.map((image, index) => <div key={index} className="relative">
+                              <img src={image} alt={`Изображение галереи ${index + 1}`} className="rounded border border-zinc-700 object-cover h-24 w-full" onError={e => {
+                          (e.target as HTMLImageElement).src = '/placeholder.svg';
+                        }} />
                               {/* Added type="button" */}
-                              <Button
-                                type="button"
-                                variant="ghost"
-                                size="icon"
-                                className="absolute top-1 right-1 bg-white/80 hover:bg-white"
-                                onClick={() => {
-                                  const filtered = galleryImages.filter((_, i) => i !== index);
-                                  setGalleryImages(filtered);
-                                }}
-                              >
+                              <Button type="button" variant="ghost" size="icon" onClick={() => {
+                          const filtered = galleryImages.filter((_, i) => i !== index);
+                          setGalleryImages(filtered);
+                        }} className="absolute top-1 right-1 bg-white/80 hover:bg-white text-gray-800">
                                 <X size={14} />
                               </Button>
-                            </div>
-                          ))}
+                            </div>)}
                         </div>
 
                         {/* Button to add more images, shown below the grid */}
-                        <ImageUploader
-                          onImageUploaded={(url) => setGalleryImages([...galleryImages, url])}
-                          className="w-auto bg-primary hover:bg-primary/90 flex items-center gap-2"
-                        >
+                        <ImageUploader onImageUploaded={url => setGalleryImages([...galleryImages, url])} className="w-auto bg-primary hover:bg-primary/90 flex items-center gap-2">
                            <Plus size={16} />
                            Добавить еще изображения
                         </ImageUploader>
-                      </div>
-                    )}
+                      </div>}
                   </div>
                 </div>
               </TabsContent>
@@ -513,52 +390,27 @@ const AdminFutureProjects: React.FC = () => {
               <TabsContent value="features" className="space-y-4 pt-4">
                 {/* Removed max-h and overflow-y-auto from this container */}
                 <div className="space-y-4">
-                  {features.map((feature, index) => (
-                    <div key={index} className="p-4 border rounded border-zinc-700 relative">
+                  {features.map((feature, index) => <div key={index} className="p-4 border rounded border-zinc-700 relative">
                        {/* Added type="button" */}
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        className="absolute top-2 right-2 text-zinc-400 hover:text-red-500"
-                        onClick={() => handleRemoveFeature(index)}
-                        disabled={features.length === 1}
-                      >
+                      <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2 text-zinc-400 hover:text-red-500" onClick={() => handleRemoveFeature(index)} disabled={features.length === 1}>
                         <X size={16} />
                       </Button>
 
                       <div className="grid grid-cols-1 gap-4">
                         <div className="space-y-2">
                           <Label htmlFor={`feature-title-${index}`} className="text-zinc-300">Название особенности</Label>
-                          <Input
-                            id={`feature-title-${index}`}
-                            value={feature.title}
-                            onChange={(e) => handleFeatureChange(index, 'title', e.target.value)}
-                            className="bg-zinc-700 border-zinc-600 text-zinc-200"
-                          />
+                          <Input id={`feature-title-${index}`} value={feature.title} onChange={e => handleFeatureChange(index, 'title', e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
                         </div>
 
                         <div className="space-y-2">
                           <Label htmlFor={`feature-desc-${index}`} className="text-zinc-300">Описание особенности</Label>
-                          <Textarea
-                            id={`feature-desc-${index}`}
-                            value={feature.description}
-                            onChange={(e) => handleFeatureChange(index, 'description', e.target.value)}
-                            rows={2}
-                            className="bg-zinc-700 border-zinc-600 text-zinc-200"
-                          />
+                          <Textarea id={`feature-desc-${index}`} value={feature.description} onChange={e => handleFeatureChange(index, 'description', e.target.value)} rows={2} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    </div>)}
 
                    {/* Added type="button" */}
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={handleAddFeature}
-                    className="w-full border-zinc-600 text-zinc-300 hover:bg-zinc-700"
-                  >
+                  <Button type="button" variant="outline" onClick={handleAddFeature} className="w-full border-zinc-600 text-zinc-300 hover:bg-zinc-700">
                     <Plus size={16} className="mr-2" />
                     Добавить Еще Одну Особенность
                   </Button>
@@ -582,8 +434,6 @@ const AdminFutureProjects: React.FC = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </AdminLayout>
-  );
+    </AdminLayout>;
 };
-
 export default AdminFutureProjects;
