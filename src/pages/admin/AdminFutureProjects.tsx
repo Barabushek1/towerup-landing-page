@@ -377,9 +377,8 @@ const AdminFutureProjects: React.FC = () => {
               <TabsTrigger value="features" className="data-[state=active]:bg-primary">Особенности</TabsTrigger>
             </TabsList>
 
-            {/* form handles submission */}
+            {/* REMOVED overflow-hidden from form's className */}
             <form onSubmit={handleSubmit} className="flex flex-col flex-grow">
-              {/* This div allows the tabs content to scroll independently */}
               <div className="overflow-y-auto pr-2 flex-grow">
                 <TabsContent value="details" className="space-y-4 pt-4">
                   {/* ... content of details tab ... */}
@@ -497,54 +496,58 @@ const AdminFutureProjects: React.FC = () => {
                 </TabsContent>
 
                 <TabsContent value="media" className="space-y-4 pt-4">
+                  {/* ... content of media tab ... */}
                   <div className="space-y-4">
-                    {/* Cover Image Section */}
                     <div>
                       <Label className="block mb-2 text-zinc-300">Обложка</Label>
                       <div className="flex gap-2 items-center">
                         <Input value={coverImage} onChange={e => setCoverImage(e.target.value)} placeholder="URL изображения" className="flex-1 bg-zinc-700 border-zinc-600 text-zinc-200" />
-                        {/* ImageUploader now directly acts as the button */}
-                        <ImageUploader
-                          onImageUploaded={(url) => setCoverImage(url)}
+                        <Button type="button" onClick={() => document.getElementById('coverImageUpload')?.click()} className="bg-primary hover:bg-primary/90">
+                          <ImagePlus size={16} className="mr-2" /> Загрузить
+                        </Button>
+                      </div>
+                      <div className="hidden">
+                        <ImageUploader 
+                          id="coverImageUpload"
+                          onImageUploaded={url => setCoverImage(url)} 
                           defaultImage={coverImage}
-                          className="bg-primary hover:bg-primary/90 flex items-center gap-2" // Added flex styles
-                        >
-                           {/* Button content */}
-                           <ImagePlus size={16} className="mr-2" /> Загрузить
-                        </ImageUploader>
+                        />
                       </div>
                       {coverImage && <div className="mt-2 relative w-full max-w-xs">
                           <img src={coverImage} alt="Предпросмотр обложки" className="rounded border object-cover h-40 w-full" onError={e => {
                         (e.target as HTMLImageElement).src = '/placeholder.svg';
                       }} />
-                          <Button type="button" variant="ghost" size="icon" onClick={() => setCoverImage('')} className="absolute top-2 right-2 bg-white/80 hover:bg-white text-gray-800">
+                          <Button type="button" variant="ghost" size="icon" onClick={() => setCoverImage('')} className="absolute top-2 right-2 bg-gray-700 hover:bg-gray-600">
                             <X size={16} />
                           </Button>
                         </div>}
                     </div>
 
-                    {/* Gallery Images Section */}
                     <div>
                       <Label className="block mb-2 text-zinc-300">Галерея изображений</Label>
 
                       {galleryImages.length === 0 ? (
                         <div className="border border-dashed border-zinc-600 rounded p-6 text-center space-y-2">
-                          {/* ImageUploader now directly acts as the button */}
-                          <ImageUploader
-                            onImageUploaded={url => setGalleryImages([...galleryImages, url])}
-                            className="mx-auto flex items-center justify-center bg-primary hover:bg-primary/90" // Styled as a centered button
+                          <Button 
+                            type="button" 
+                            onClick={() => document.getElementById('galleryImageUpload')?.click()} 
+                            className="mx-auto bg-primary hover:bg-primary/90"
                           >
-                            {/* Button content */}
                             <ImagePlus size={24} className="mr-2" />
                             Загрузить изображения
-                          </ImageUploader>
+                          </Button>
+                          <div className="hidden">
+                            <ImageUploader 
+                              id="galleryImageUpload"
+                              onImageUploaded={url => setGalleryImages([...galleryImages, url])} 
+                            />
+                          </div>
                           <p className="text-zinc-400 text-sm">
                             JPG, PNG, GIF до 5МБ. Загрузите несколько.
                           </p>
                         </div>
                       ) : (
                         <div className="space-y-4">
-                          {/* Grid of uploaded images */}
                           <div className="grid grid-cols-3 gap-4 mt-4">
                             {galleryImages.map((image, index) => <div key={index} className="relative">
                                 <img src={image} alt={`Изображение галереи ${index + 1}`} className="rounded border border-zinc-700 object-cover h-24 w-full" onError={e => {
@@ -559,15 +562,20 @@ const AdminFutureProjects: React.FC = () => {
                               </div>)}
                           </div>
 
-                          {/* ImageUploader now directly acts as the "Add More" button */}
-                          <ImageUploader
-                            onImageUploaded={url => setGalleryImages([...galleryImages, url])}
-                            className="w-auto bg-primary hover:bg-primary/90 flex items-center gap-2" // Styled as a button
+                          <Button 
+                            type="button" 
+                            onClick={() => document.getElementById('addMoreGalleryImages')?.click()} 
+                            className="w-auto bg-primary hover:bg-primary/90"
                           >
-                             {/* Button content */}
-                             <Plus size={16} className="mr-2" />
-                             Добавить еще изображения
-                          </ImageUploader>
+                            <Plus size={16} className="mr-2" />
+                            Добавить еще изображения
+                          </Button>
+                          <div className="hidden">
+                            <ImageUploader 
+                              id="addMoreGalleryImages"
+                              onImageUploaded={url => setGalleryImages([...galleryImages, url])} 
+                            />
+                          </div>
                         </div>
                       )}
                     </div>
@@ -575,6 +583,7 @@ const AdminFutureProjects: React.FC = () => {
                 </TabsContent>
 
                 <TabsContent value="features" className="space-y-4 pt-4">
+                  {/* ... content of features tab ... */}
                   <Tabs value={activeFeatureLanguageTab} onValueChange={setActiveFeatureLanguageTab} className="w-full mb-4">
                     <TabsList className="mb-4">
                       <TabsTrigger value="default" className="data-[state=active]:bg-primary">Основной</TabsTrigger>
@@ -583,8 +592,7 @@ const AdminFutureProjects: React.FC = () => {
                       <TabsTrigger value="uz" className="data-[state=active]:bg-primary">O'zbekcha</TabsTrigger>
                     </TabsList>
 
-                    {/* Scrollable container for features content */}
-                    <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+                    <div className="space-y-4 max-h-[60vh] overflow-y-auto"> {/* This inner div scrolls features if they are too long */}
                       <TabsContent value="default" className="space-y-4 mt-0">
                         {features.map((feature, index) => (
                           <div key={`default-${index}`} className="p-4 border rounded border-zinc-700 relative">
@@ -610,90 +618,75 @@ const AdminFutureProjects: React.FC = () => {
                       <TabsContent value="en" className="space-y-4 mt-0">
                         {features.map((feature, index) => (
                           <div key={`en-${index}`} className="p-4 border rounded border-zinc-700 relative">
-                            {activeFeatureLanguageTab === 'default' && ( // Only show remove button in default tab
-                              <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2 text-zinc-400 hover:text-red-500" onClick={() => handleRemoveFeature(index)} disabled={features.length === 1}>
-                                <X size={16} />
-                              </Button>
-                           )}
-                          <div className="grid grid-cols-1 gap-4">
-                            <div className="space-y-2">
-                              <Label htmlFor={`feature-title-en-${index}`} className="text-zinc-300">Название особенности (English)</Label>
-                              <Input id={`feature-title-en-${index}`} value={feature.title_en || ''} onChange={e => handleFeatureChange(index, 'title_en', e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                            </div>
+                            <div className="grid grid-cols-1 gap-4">
+                              <div className="space-y-2">
+                                <Label htmlFor={`feature-title-en-${index}`} className="text-zinc-300">Название особенности (English)</Label>
+                                <Input id={`feature-title-en-${index}`} value={feature.title_en || ''} onChange={e => handleFeatureChange(index, 'title_en', e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                              </div>
 
-                            <div className="space-y-2">
-                              <Label htmlFor={`feature-desc-en-${index}`} className="text-zinc-300">Описание особенности (English)</Label>
-                              <Textarea id={`feature-desc-en-${index}`} value={feature.description_en || ''} onChange={e => handleFeatureChange(index, 'description_en', e.target.value)} rows={2} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                              <div className="space-y-2">
+                                <Label htmlFor={`feature-desc-en-${index}`} className="text-zinc-300">Описание особенности (English)</Label>
+                                <Textarea id={`feature-desc-en-${index}`} value={feature.description_en || ''} onChange={e => handleFeatureChange(index, 'description_en', e.target.value)} rows={2} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
-                    </TabsContent>
-                    
-                    <TabsContent value="ru" className="space-y-4 mt-0">
-                      {features.map((feature, index) => (
-                        <div key={`ru-${index}`} className="p-4 border rounded border-zinc-700 relative">
-                            {activeFeatureLanguageTab === 'default' && (
-                               <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2 text-zinc-400 hover:text-red-500" onClick={() => handleRemoveFeature(index)} disabled={features.length === 1}>
-                                 <X size={16} />
-                               </Button>
-                            )}
-                          <div className="grid grid-cols-1 gap-4">
-                            <div className="space-y-2">
-                              <Label htmlFor={`feature-title-ru-${index}`} className="text-zinc-300">Название особенности (Русский)</Label>
-                              <Input id={`feature-title-ru-${index}`} value={feature.title_ru || ''} onChange={e => handleFeatureChange(index, 'title_ru', e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                            </div>
+                        ))}
+                      </TabsContent>
+                      
+                      <TabsContent value="ru" className="space-y-4 mt-0">
+                        {features.map((feature, index) => (
+                          <div key={`ru-${index}`} className="p-4 border rounded border-zinc-700 relative">
+                            <div className="grid grid-cols-1 gap-4">
+                              <div className="space-y-2">
+                                <Label htmlFor={`feature-title-ru-${index}`} className="text-zinc-300">Название особенности (Русский)</Label>
+                                <Input id={`feature-title-ru-${index}`} value={feature.title_ru || ''} onChange={e => handleFeatureChange(index, 'title_ru', e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                              </div>
 
-                            <div className="space-y-2">
-                              <Label htmlFor={`feature-desc-ru-${index}`} className="text-zinc-300">Описание особенности (Русский)</Label>
-                              <Textarea id={`feature-desc-ru-${index}`} value={feature.description_ru || ''} onChange={e => handleFeatureChange(index, 'description_ru', e.target.value)} rows={2} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                              <div className="space-y-2">
+                                <Label htmlFor={`feature-desc-ru-${index}`} className="text-zinc-300">Описание особенности (Русский)</Label>
+                                <Textarea id={`feature-desc-ru-${index}`} value={feature.description_ru || ''} onChange={e => handleFeatureChange(index, 'description_ru', e.target.value)} rows={2} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
-                    </TabsContent>
-                    
-                    <TabsContent value="uz" className="space-y-4 mt-0">
-                      {features.map((feature, index) => (
-                        <div key={`uz-${index}`} className="p-4 border rounded border-zinc-700 relative">
-                            {activeFeatureLanguageTab === 'default' && (
-                               <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2 text-zinc-400 hover:text-red-500" onClick={() => handleRemoveFeature(index)} disabled={features.length === 1}>
-                                 <X size={16} />
-                               </Button>
-                            )}
-                          <div className="grid grid-cols-1 gap-4">
-                            <div className="space-y-2">
-                              <Label htmlFor={`feature-title-uz-${index}`} className="text-zinc-300">Название особенности (O'zbekcha)</Label>
-                              <Input id={`feature-title-uz-${index}`} value={feature.title_uz || ''} onChange={e => handleFeatureChange(index, 'title_uz', e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                            </div>
+                        ))}
+                      </TabsContent>
+                      
+                      <TabsContent value="uz" className="space-y-4 mt-0">
+                        {features.map((feature, index) => (
+                          <div key={`uz-${index}`} className="p-4 border rounded border-zinc-700 relative">
+                            <div className="grid grid-cols-1 gap-4">
+                              <div className="space-y-2">
+                                <Label htmlFor={`feature-title-uz-${index}`} className="text-zinc-300">Название особенности (O'zbekcha)</Label>
+                                <Input id={`feature-title-uz-${index}`} value={feature.title_uz || ''} onChange={e => handleFeatureChange(index, 'title_uz', e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                              </div>
 
-                            <div className="space-y-2">
-                              <Label htmlFor={`feature-desc-uz-${index}`} className="text-zinc-300">Описание особенности (O'zbekcha)</Label>
-                              <Textarea id={`feature-desc-uz-${index}`} value={feature.description_uz || ''} onChange={e => handleFeatureChange(index, 'description_uz', e.target.value)} rows={2} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                              <div className="space-y-2">
+                                <Label htmlFor={`feature-desc-uz-${index}`} className="text-zinc-300">Описание особенности (O'zbekcha)</Label>
+                                <Textarea id={`feature-desc-uz-${index}`} value={feature.description_uz || ''} onChange={e => handleFeatureChange(index, 'description_uz', e.target.value)} rows={2} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
-                    </TabsContent>
+                        ))}
+                      </TabsContent>
 
-                    <Button type="button" variant="outline" onClick={handleAddFeature} className="w-full border-zinc-600 text-zinc-300 hover:bg-zinc-700">
-                      <Plus size={16} className="mr-2" />
-                      Добавить Еще Одну Особенность
-                    </Button>
-                  </div> {/* End scrollable container for features */}
-                </Tabs>
-              </TabsContent>
-            </div> {/* End scrollable div wrapping TabsContent */}
+                      <Button type="button" variant="outline" onClick={handleAddFeature} className="w-full border-zinc-600 text-zinc-300 hover:bg-zinc-700">
+                        <Plus size={16} className="mr-2" />
+                        Добавить Еще Одну Особенность
+                      </Button>
+                    </div>
+                  </Tabs>
+                </TabsContent>
+              </div>
 
-            {/* DialogFooter remains fixed at the bottom */}
-            <DialogFooter className="mt-6 pt-4 border-t border-zinc-700">
-              <Button type="button" variant="outline" onClick={closeModal} className="border-zinc-600 text-zinc-300 hover:bg-zinc-700">
-                Отмена
-              </Button>
-              <Button type="submit" className="bg-primary hover:bg-primary/90">
-                {isEditing ? 'Обновить Проект' : 'Добавить Проект'}
-              </Button>
-            </DialogFooter>
+              <DialogFooter className="mt-6 pt-4 border-t border-zinc-700">
+                <Button type="button" variant="outline" onClick={closeModal} className="border-zinc-600 text-zinc-300 hover:bg-zinc-700">
+                  Отмена
+                </Button>
+                <Button type="submit" className="bg-primary hover:bg-primary/90">
+                  {isEditing ? 'Обновить Проект' : 'Добавить Проект'}
+                </Button>
+              </DialogFooter>
+            </form>
           </Tabs>
         </DialogContent>
       </Dialog>
