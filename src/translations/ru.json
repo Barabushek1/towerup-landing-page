@@ -12,6 +12,22 @@
 
   "nav.collaboration.tenders": "Тендеры",
   "nav.collaboration.offers": "Оферты",
+
+  "futureProjects.title": "Будущие Проекты",
+  "futureProjects.subtitle": "Откройте для себя наши предстоящие проекты недвижимости",
+  "nav.futureProjects": "Будущие Проекты",
+  "futureProjects.sectionTitle": "Наши Предстоящие Проекты",
+  "futureProjects.sectionDescription": "Ознакомьтесь с нашими предстоящими проектами недвижимости, которые сформируют будущий горизонт городов",
+  "futureProjects.statusUpcoming": "Предстоящий",
+  "futureProjects.estimatedCompletion": "Ожидаемое завершение",
+  "futureProjects.viewProject": "Подробнее",
+  "futureProjects.backToProjects": "Назад к проектам",
+  "futureProjects.projectDetails": "Детали Проекта",
+  "futureProjects.location": "Местоположение",
+  "futureProjects.status": "Статус",
+  "futureProjects.contactUs": "Свяжитесь с Нами",
+  "futureProjects.overview": "Обзор",
+  "futureProjects.projectOverview": "Обзор Проекта",
     
   "nav.company": "О нас",
   "nav.about": "О компании",

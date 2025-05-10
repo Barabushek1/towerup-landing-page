@@ -13,6 +13,23 @@
 
   "nav.collaboration.tenders": "Tenderlar",
   "nav.collaboration.offers": "Takliflar",
+
+
+  "futureProjects.title": "Kelajak Loyihalar",
+  "futureProjects.subtitle": "Bizning kelgusi ko'chmas mulk loyihalarini kashf eting",
+  "nav.futureProjects": "Kelajak Loyihalar",
+  "futureProjects.sectionTitle": "Bizning Kelgusi Loyihalarimiz",
+  "futureProjects.sectionDescription": "Shaharlarning kelajak ko'rinishini shakllantiradigan ko'chmas mulk loyihalarimiz bilan tanishing",
+  "futureProjects.statusUpcoming": "Kutilayotgan",
+  "futureProjects.estimatedCompletion": "Taxminiy yakunlanish",
+  "futureProjects.viewProject": "Loyihani Ko'rish",
+  "futureProjects.backToProjects": "Loyihalarga qaytish",
+  "futureProjects.projectDetails": "Loyiha Tafsilotlari",
+  "futureProjects.location": "Joylashuv",
+  "futureProjects.status": "Holati",
+  "futureProjects.contactUs": "Biz bilan bog'laning",
+  "futureProjects.overview": "Umumiy ma'lumot",
+  "futureProjects.projectOverview": "Loyiha haqida umumiy ma'lumot",
     
   "nav.company": "Biz haqimizda",
   "nav.about": "Kompaniya haqida",
