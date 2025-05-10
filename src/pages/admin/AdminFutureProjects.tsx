@@ -331,7 +331,7 @@ const AdminFutureProjects: React.FC = () => {
                     <TableHead className="text-zinc-400">Название</TableHead>
                     <TableHead className="text-zinc-400">URL-адрес</TableHead>
                     <TableHead className="text-zinc-400">Статус</TableHead>
-                    <TableHead className="text-zinc-400">Рекомендуемый</TableHead>
+                    <TableHead className="text-zinc-400">Рекоме��дуемый</TableHead>
                     <TableHead className="w-[150px] text-zinc-400">Действия</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -378,8 +378,8 @@ const AdminFutureProjects: React.FC = () => {
               <TabsTrigger value="features" className="data-[state=active]:bg-primary">Особенности</TabsTrigger>
             </TabsList>
 
-            <form onSubmit={handleSubmit} className="flex flex-col flex-grow">
-              <ScrollArea className="flex-grow">
+            <form onSubmit={handleSubmit} className="flex flex-col flex-grow overflow-hidden">
+              <ScrollArea className="flex-grow pr-4">
                 <div className="p-4">
                   <TabsContent value="details" className="space-y-4 mt-0">
                     <div className="grid grid-cols-2 gap-4">
@@ -518,7 +518,7 @@ const AdminFutureProjects: React.FC = () => {
                         <Label className="block mb-2 text-zinc-300">Галерея изображений</Label>
                         <ImageUploader 
                           id="galleryImageUpload"
-                          onImageUploaded={() => {}} // Add empty function to satisfy TypeScript
+                          onImageUploaded={() => {}} 
                           onImagesUpdated={urls => setGalleryImages(urls)} 
                           multiple={true}
                           images={galleryImages}

@@ -11,6 +11,7 @@ import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import ScrollToTopButton from '@/components/ScrollToTopButton';
 import { useLanguage } from '@/contexts/LanguageContext';
+import PageHeader from '@/components/PageHeader';
 
 interface Feature {
   title: string;
@@ -109,6 +110,15 @@ const FutureProjectDetail: React.FC = () => {
       </Helmet>
       
       <NavBar />
+      
+      {/* Add PageHeader component */}
+      <PageHeader 
+        title={title}
+        subtitle={t('futureProjects.projectDetails')} 
+        backgroundImage={project.coverImage || project.galleryImages?.[0] || undefined}
+        breadcrumb={title}
+        size="large"
+      />
       
       <main className="bg-zinc-900 pb-16">
         <div className="container mx-auto px-4 pt-8">
