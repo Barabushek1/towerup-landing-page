@@ -14,7 +14,16 @@ export type FutureProject = {
   featured?: boolean;
   coverImage?: string;
   galleryImages?: string[];
-  features?: {title: string, description: string}[];
+  features?: {
+    title: string, 
+    description: string,
+    title_en?: string,
+    title_ru?: string, 
+    title_uz?: string,
+    description_en?: string,
+    description_ru?: string, 
+    description_uz?: string
+  }[];
   createdAt: string;
   updatedAt: string;
   // Add localization fields
@@ -30,7 +39,16 @@ export type FutureProject = {
 };
 
 // Helper function to parse features from JSON data
-function parseFeatures(featuresData: any): {title: string, description: string}[] {
+function parseFeatures(featuresData: any): {
+  title: string, 
+  description: string,
+  title_en?: string,
+  title_ru?: string, 
+  title_uz?: string,
+  description_en?: string,
+  description_ru?: string, 
+  description_uz?: string
+}[] {
   if (!featuresData) return [];
   
   try {
@@ -39,7 +57,13 @@ function parseFeatures(featuresData: any): {title: string, description: string}[
         if (typeof feature === 'object' && feature !== null) {
           return {
             title: feature.title || '',
-            description: feature.description || ''
+            description: feature.description || '',
+            title_en: feature.title_en || '',
+            title_ru: feature.title_ru || '',
+            title_uz: feature.title_uz || '',
+            description_en: feature.description_en || '',
+            description_ru: feature.description_ru || '',
+            description_uz: feature.description_uz || ''
           };
         }
         return { title: '', description: '' };
@@ -51,7 +75,13 @@ function parseFeatures(featuresData: any): {title: string, description: string}[
         if (typeof feature === 'object' && feature !== null) {
           return {
             title: (feature as any).title || '',
-            description: (feature as any).description || ''
+            description: (feature as any).description || '',
+            title_en: (feature as any).title_en || '',
+            title_ru: (feature as any).title_ru || '',
+            title_uz: (feature as any).title_uz || '',
+            description_en: (feature as any).description_en || '',
+            description_ru: (feature as any).description_ru || '',
+            description_uz: (feature as any).description_uz || ''
           };
         }
         return { title: '', description: '' };

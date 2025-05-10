@@ -14,7 +14,7 @@ interface ImageUploaderProps {
   images?: string[];
   onImagesUpdated?: (urls: string[]) => void;
   children?: ReactNode;
-  id?: string; // Added id prop to interface
+  id?: string;
 }
 
 const ImageUploader: React.FC<ImageUploaderProps> = ({ 
@@ -25,7 +25,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   images = [],
   onImagesUpdated,
   children,
-  id // Added id to destructuring
+  id
 }) => {
   const [imageUrl, setImageUrl] = useState<string>(defaultImage || '');
   const [imageUrls, setImageUrls] = useState<string[]>(images || []);
@@ -43,7 +43,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       setImageUrls(images);
       setPreviewMode(images.length > 0);
     }
-  }, [defaultImage, images]);
+  }, [defaultImage, images, imageUrl, imageUrls, multiple]);
 
   async function uploadImage(event: React.ChangeEvent<HTMLInputElement>) {
     try {

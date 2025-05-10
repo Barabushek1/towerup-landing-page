@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
@@ -16,6 +17,17 @@ import AdminLayout from '@/components/admin/AdminLayout';
 import { fetchFutureProjects, addFutureProject, updateFutureProject, deleteFutureProject, generateSlug, type FutureProject } from '@/utils/future-project-helpers';
 import { useLanguage } from '@/contexts/LanguageContext';
 
+interface FeatureForm {
+  title: string;
+  description: string;
+  title_en?: string;
+  title_ru?: string;
+  title_uz?: string;
+  description_en?: string;
+  description_ru?: string;
+  description_uz?: string;
+}
+
 const AdminFutureProjects: React.FC = () => {
   const { toast } = useToast();
   const { t } = useLanguage();
@@ -26,6 +38,7 @@ const AdminFutureProjects: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [activeTab, setActiveTab] = useState('details');
   const [activeLanguageTab, setActiveLanguageTab] = useState('default');
+  const [activeFeatureLanguageTab, setActiveFeatureLanguageTab] = useState('default');
 
   // Form state
   const [title, setTitle] = useState('');
@@ -46,12 +59,15 @@ const AdminFutureProjects: React.FC = () => {
   const [featured, setFeatured] = useState(false);
   const [coverImage, setCoverImage] = useState('');
   const [galleryImages, setGalleryImages] = useState<string[]>([]);
-  const [features, setFeatures] = useState<{
-    title: string;
-    description: string;
-  }[]>([{
+  const [features, setFeatures] = useState<FeatureForm[]>([{
     title: '',
-    description: ''
+    description: '',
+    title_en: '',
+    title_ru: '',
+    title_uz: '',
+    description_en: '',
+    description_ru: '',
+    description_uz: ''
   }]);
 
   useEffect(() => {
@@ -77,7 +93,13 @@ const AdminFutureProjects: React.FC = () => {
   const handleAddFeature = () => {
     setFeatures([...features, {
       title: '',
-      description: ''
+      description: '',
+      title_en: '',
+      title_ru: '',
+      title_uz: '',
+      description_en: '',
+      description_ru: '',
+      description_uz: ''
     }]);
   };
 
@@ -86,7 +108,7 @@ const AdminFutureProjects: React.FC = () => {
     setFeatures(updatedFeatures);
   };
 
-  const handleFeatureChange = (index: number, field: 'title' | 'description', value: string) => {
+  const handleFeatureChange = (index: number, field: keyof FeatureForm, value: string) => {
     const updatedFeatures = features.map((feature, i) => {
       if (i === index) {
         return {
@@ -120,12 +142,19 @@ const AdminFutureProjects: React.FC = () => {
     setGalleryImages([]);
     setFeatures([{
       title: '',
-      description: ''
+      description: '',
+      title_en: '',
+      title_ru: '',
+      title_uz: '',
+      description_en: '',
+      description_ru: '',
+      description_uz: ''
     }]);
     setCurrentProject(null);
     setIsEditing(false);
     setActiveTab('details');
     setActiveLanguageTab('default');
+    setActiveFeatureLanguageTab('default');
   };
 
   const openModal = (project?: FutureProject) => {
@@ -149,13 +178,43 @@ const AdminFutureProjects: React.FC = () => {
       setFeatured(project.featured || false);
       setCoverImage(project.coverImage || '');
       setGalleryImages(project.galleryImages || []);
-      setFeatures(project.features?.length ? project.features.map(f => typeof f === 'object' ? f : {
-        title: '',
-        description: ''
+      
+      // Process features with localization
+      const localizedFeatures = project.features?.length ? project.features.map(f => {
+        if (typeof f === 'object') {
+          return {
+            title: f.title || '',
+            description: f.description || '',
+            title_en: (f as any).title_en || '',
+            title_ru: (f as any).title_ru || '',
+            title_uz: (f as any).title_uz || '',
+            description_en: (f as any).description_en || '',
+            description_ru: (f as any).description_ru || '',
+            description_uz: (f as any).description_uz || '',
+          };
+        }
+        return {
+          title: '',
+          description: '',
+          title_en: '',
+          title_ru: '',
+          title_uz: '',
+          description_en: '',
+          description_ru: '',
+          description_uz: ''
+        };
       }) : [{
         title: '',
-        description: ''
-      }]);
+        description: '',
+        title_en: '',
+        title_ru: '',
+        title_uz: '',
+        description_en: '',
+        description_ru: '',
+        description_uz: ''
+      }];
+      
+      setFeatures(localizedFeatures);
       setIsEditing(true);
     } else {
       resetForm();
@@ -444,14 +503,13 @@ const AdminFutureProjects: React.FC = () => {
                         <Button type="button" onClick={() => document.getElementById('coverImageUpload')?.click()} className="bg-primary hover:bg-primary/90">
                           <ImagePlus size={16} className="mr-2" /> Загрузить
                         </Button>
-                        <div className="hidden">
-                          <ImageUploader 
-                            id="coverImageUpload"
-                            onImageUploaded={url => setCoverImage(url)} 
-                            defaultImage={coverImage} 
-                            className="bg-primary hover:bg-primary/90" 
-                          />
-                        </div>
+                      </div>
+                      <div className="hidden">
+                        <ImageUploader 
+                          id="coverImageUpload"
+                          onImageUploaded={url => setCoverImage(url)} 
+                          defaultImage={coverImage}
+                        />
                       </div>
                       {coverImage && <div className="mt-2 relative w-full max-w-xs">
                           <img src={coverImage} alt="Предпросмотр обложки" className="rounded border object-cover h-40 w-full" onError={e => {
@@ -480,7 +538,6 @@ const AdminFutureProjects: React.FC = () => {
                             <ImageUploader 
                               id="galleryImageUpload"
                               onImageUploaded={url => setGalleryImages([...galleryImages, url])} 
-                              className="mx-auto bg-primary hover:bg-primary/90"
                             />
                           </div>
                           <p className="text-zinc-400 text-sm">
@@ -515,7 +572,6 @@ const AdminFutureProjects: React.FC = () => {
                             <ImageUploader 
                               id="addMoreGalleryImages"
                               onImageUploaded={url => setGalleryImages([...galleryImages, url])} 
-                              className="w-auto bg-primary hover:bg-primary/90"
                             />
                           </div>
                         </div>
@@ -525,30 +581,97 @@ const AdminFutureProjects: React.FC = () => {
                 </TabsContent>
 
                 <TabsContent value="features" className="space-y-4 pt-4">
-                  <div className="space-y-4 max-h-[60vh] overflow-y-auto">
-                    {features.map((feature, index) => <div key={index} className="p-4 border rounded border-zinc-700 relative">
-                         <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2 text-zinc-400 hover:text-red-500" onClick={() => handleRemoveFeature(index)} disabled={features.length === 1}>
-                          <X size={16} />
-                        </Button>
+                  <Tabs value={activeFeatureLanguageTab} onValueChange={setActiveFeatureLanguageTab} className="w-full mb-4">
+                    <TabsList className="mb-4">
+                      <TabsTrigger value="default" className="data-[state=active]:bg-primary">Основной</TabsTrigger>
+                      <TabsTrigger value="en" className="data-[state=active]:bg-primary">English</TabsTrigger>
+                      <TabsTrigger value="ru" className="data-[state=active]:bg-primary">Русский</TabsTrigger>
+                      <TabsTrigger value="uz" className="data-[state=active]:bg-primary">O'zbekcha</TabsTrigger>
+                    </TabsList>
 
-                        <div className="grid grid-cols-1 gap-4">
-                          <div className="space-y-2">
-                            <Label htmlFor={`feature-title-${index}`} className="text-zinc-300">Название особенности</Label>
-                            <Input id={`feature-title-${index}`} value={feature.title} onChange={e => handleFeatureChange(index, 'title', e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                    <div className="space-y-4 max-h-[60vh] overflow-y-auto">
+                      <TabsContent value="default" className="space-y-4 mt-0">
+                        {features.map((feature, index) => (
+                          <div key={`default-${index}`} className="p-4 border rounded border-zinc-700 relative">
+                            <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2 text-zinc-400 hover:text-red-500" onClick={() => handleRemoveFeature(index)} disabled={features.length === 1}>
+                              <X size={16} />
+                            </Button>
+
+                            <div className="grid grid-cols-1 gap-4">
+                              <div className="space-y-2">
+                                <Label htmlFor={`feature-title-${index}`} className="text-zinc-300">Название особенности (Основной)</Label>
+                                <Input id={`feature-title-${index}`} value={feature.title} onChange={e => handleFeatureChange(index, 'title', e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                              </div>
+
+                              <div className="space-y-2">
+                                <Label htmlFor={`feature-desc-${index}`} className="text-zinc-300">Описание особенности (Основной)</Label>
+                                <Textarea id={`feature-desc-${index}`} value={feature.description} onChange={e => handleFeatureChange(index, 'description', e.target.value)} rows={2} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                              </div>
+                            </div>
                           </div>
+                        ))}
+                      </TabsContent>
+                      
+                      <TabsContent value="en" className="space-y-4 mt-0">
+                        {features.map((feature, index) => (
+                          <div key={`en-${index}`} className="p-4 border rounded border-zinc-700 relative">
+                            <div className="grid grid-cols-1 gap-4">
+                              <div className="space-y-2">
+                                <Label htmlFor={`feature-title-en-${index}`} className="text-zinc-300">Название особенности (English)</Label>
+                                <Input id={`feature-title-en-${index}`} value={feature.title_en || ''} onChange={e => handleFeatureChange(index, 'title_en', e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                              </div>
 
-                          <div className="space-y-2">
-                            <Label htmlFor={`feature-desc-${index}`} className="text-zinc-300">Описание особенности</Label>
-                            <Textarea id={`feature-desc-${index}`} value={feature.description} onChange={e => handleFeatureChange(index, 'description', e.target.value)} rows={2} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                              <div className="space-y-2">
+                                <Label htmlFor={`feature-desc-en-${index}`} className="text-zinc-300">Описание особенности (English)</Label>
+                                <Textarea id={`feature-desc-en-${index}`} value={feature.description_en || ''} onChange={e => handleFeatureChange(index, 'description_en', e.target.value)} rows={2} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>)}
+                        ))}
+                      </TabsContent>
+                      
+                      <TabsContent value="ru" className="space-y-4 mt-0">
+                        {features.map((feature, index) => (
+                          <div key={`ru-${index}`} className="p-4 border rounded border-zinc-700 relative">
+                            <div className="grid grid-cols-1 gap-4">
+                              <div className="space-y-2">
+                                <Label htmlFor={`feature-title-ru-${index}`} className="text-zinc-300">Название особенности (Русский)</Label>
+                                <Input id={`feature-title-ru-${index}`} value={feature.title_ru || ''} onChange={e => handleFeatureChange(index, 'title_ru', e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                              </div>
 
-                    <Button type="button" variant="outline" onClick={handleAddFeature} className="w-full border-zinc-600 text-zinc-300 hover:bg-zinc-700">
-                      <Plus size={16} className="mr-2" />
-                      Добавить Еще Одну Особенность
-                    </Button>
-                  </div>
+                              <div className="space-y-2">
+                                <Label htmlFor={`feature-desc-ru-${index}`} className="text-zinc-300">Описание особенности (Русский)</Label>
+                                <Textarea id={`feature-desc-ru-${index}`} value={feature.description_ru || ''} onChange={e => handleFeatureChange(index, 'description_ru', e.target.value)} rows={2} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </TabsContent>
+                      
+                      <TabsContent value="uz" className="space-y-4 mt-0">
+                        {features.map((feature, index) => (
+                          <div key={`uz-${index}`} className="p-4 border rounded border-zinc-700 relative">
+                            <div className="grid grid-cols-1 gap-4">
+                              <div className="space-y-2">
+                                <Label htmlFor={`feature-title-uz-${index}`} className="text-zinc-300">Название особенности (O'zbekcha)</Label>
+                                <Input id={`feature-title-uz-${index}`} value={feature.title_uz || ''} onChange={e => handleFeatureChange(index, 'title_uz', e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                              </div>
+
+                              <div className="space-y-2">
+                                <Label htmlFor={`feature-desc-uz-${index}`} className="text-zinc-300">Описание особенности (O'zbekcha)</Label>
+                                <Textarea id={`feature-desc-uz-${index}`} value={feature.description_uz || ''} onChange={e => handleFeatureChange(index, 'description_uz', e.target.value)} rows={2} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </TabsContent>
+
+                      <Button type="button" variant="outline" onClick={handleAddFeature} className="w-full border-zinc-600 text-zinc-300 hover:bg-zinc-700">
+                        <Plus size={16} className="mr-2" />
+                        Добавить Еще Одну Особенность
+                      </Button>
+                    </div>
+                  </Tabs>
                 </TabsContent>
               </div>
 
