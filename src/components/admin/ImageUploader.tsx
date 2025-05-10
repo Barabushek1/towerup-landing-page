@@ -66,23 +66,58 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         return;
       }
 
-      // Use FileReader for direct data URL
+      // Use FileReader for preview
       const reader = new FileReader();
-      reader.onload = (e) => {
-        const dataUrl = e.target?.result as string;
-        console.log('Image uploaded successfully');
-        
-        if (multiple) {
-          const newUrls = [...imageUrls, dataUrl];
-          setImageUrls(newUrls);
-          if (onImagesUpdated) onImagesUpdated(newUrls);
-        } else {
-          setImageUrl(dataUrl);
-          onImageUploaded(dataUrl);
+      reader.onload = async (e) => {
+        try {
+          // Create a unique file name to prevent collisions
+          const bucketName = 'documents';
+          
+          // Check if bucket exists and create it if it doesn't
+          const { data: buckets } = await supabase.storage.listBuckets();
+          const bucketExists = buckets?.find(bucket => bucket.name === bucketName);
+          
+          if (!bucketExists) {
+            await supabase.storage.createBucket(bucketName, {
+              public: true, // Make bucket public
+            });
+          }
+
+          // Upload file
+          const { data, error } = await supabase.storage
+            .from(bucketName)
+            .upload(fileName, file, {
+              cacheControl: '3600',
+              upsert: true,
+            });
+
+          if (error) {
+            throw error;
+          }
+
+          // Get public URL
+          const { data: { publicUrl } } = supabase.storage
+            .from(bucketName)
+            .getPublicUrl(fileName);
+
+          console.log('Image uploaded successfully:', publicUrl);
+          
+          if (multiple) {
+            const newUrls = [...imageUrls, publicUrl];
+            setImageUrls(newUrls);
+            if (onImagesUpdated) onImagesUpdated(newUrls);
+          } else {
+            setImageUrl(publicUrl);
+            onImageUploaded(publicUrl);
+          }
+          
+          setPreviewMode(true);
+          setUploading(false);
+        } catch (uploadError) {
+          console.error('Error uploading to Supabase:', uploadError);
+          setError('Ошибка при загрузке изображения на сервер');
+          setUploading(false);
         }
-        
-        setPreviewMode(true);
-        setUploading(false);
       };
       
       reader.onerror = () => {
@@ -109,6 +144,34 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     const newUrls = imageUrls.filter((_, i) => i !== index);
     setImageUrls(newUrls);
     if (onImagesUpdated) onImagesUpdated(newUrls);
+  }
+
+  // Render child content with input handler attached
+  if (children) {
+    return (
+      <div className={cn("w-full", className)} id={id}>
+        <label className="w-full cursor-pointer">
+          {uploading ? (
+            <div className="flex justify-center">
+              <Loader2 className="h-8 w-8 text-primary animate-spin" />
+            </div>
+          ) : (
+            children
+          )}
+          <input
+            id={id}
+            type="file"
+            accept="image/*"
+            onChange={uploadImage}
+            disabled={uploading}
+            className="hidden"
+          />
+        </label>
+        {error && (
+          <p className="text-sm text-red-500 mt-2">{error}</p>
+        )}
+      </div>
+    );
   }
 
   // For single image upload
@@ -155,18 +218,13 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
                   <Loader2 className="h-8 w-8 text-primary animate-spin" />
                 ) : (
                   <>
-                    {children ? (
-                      children
-                    ) : (
-                      <>
-                        <Upload className="h-8 w-8 text-slate-500 mb-2" />
-                        <p className="text-sm text-slate-400">Нажмите для загрузки изображения</p>
-                        <p className="text-xs text-slate-500 mt-1">JPG, PNG, GIF до 5MB</p>
-                      </>
-                    )}
+                    <Upload className="h-8 w-8 text-slate-500 mb-2" />
+                    <p className="text-sm text-slate-400">Нажмите для загрузки изображения</p>
+                    <p className="text-xs text-slate-500 mt-1">JPG, PNG, GIF до 5MB</p>
                   </>
                 )}
                 <input
+                  id={id}
                   type="file"
                   accept="image/*"
                   onChange={uploadImage}
@@ -217,17 +275,12 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
               <Loader2 className="h-8 w-8 text-primary animate-spin" />
             ) : (
               <>
-                {children ? (
-                  children
-                ) : (
-                  <>
-                    <Plus className="h-8 w-8 text-slate-500 mb-2" />
-                    <p className="text-sm text-slate-400 text-center px-2">Добавить изображение</p>
-                  </>
-                )}
+                <Plus className="h-8 w-8 text-slate-500 mb-2" />
+                <p className="text-sm text-slate-400 text-center px-2">Добавить изображение</p>
               </>
             )}
             <input
+              id={id}
               type="file"
               accept="image/*"
               onChange={uploadImage}

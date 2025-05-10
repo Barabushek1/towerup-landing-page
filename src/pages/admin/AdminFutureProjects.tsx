@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -377,11 +377,9 @@ const AdminFutureProjects: React.FC = () => {
               <TabsTrigger value="features" className="data-[state=active]:bg-primary">Особенности</TabsTrigger>
             </TabsList>
 
-            {/* REMOVED overflow-hidden from form's className */}
             <form onSubmit={handleSubmit} className="flex flex-col flex-grow">
               <div className="overflow-y-auto pr-2 flex-grow">
                 <TabsContent value="details" className="space-y-4 pt-4">
-                  {/* ... content of details tab ... */}
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="title" className="text-zinc-300">Название *</Label>
@@ -434,7 +432,6 @@ const AdminFutureProjects: React.FC = () => {
                 </TabsContent>
 
                 <TabsContent value="localization" className="space-y-4 pt-4">
-                  {/* ... content of localization tab ... */}
                   <Tabs value={activeLanguageTab} onValueChange={setActiveLanguageTab} className="w-full">
                     <TabsList className="mb-4">
                       <TabsTrigger value="en" className="data-[state=active]:bg-primary">English</TabsTrigger>
@@ -496,31 +493,52 @@ const AdminFutureProjects: React.FC = () => {
                 </TabsContent>
 
                 <TabsContent value="media" className="space-y-4 pt-4">
-                  {/* ... content of media tab ... */}
                   <div className="space-y-4">
                     <div>
                       <Label className="block mb-2 text-zinc-300">Обложка</Label>
                       <div className="flex gap-2 items-center">
-                        <Input value={coverImage} onChange={e => setCoverImage(e.target.value)} placeholder="URL изображения" className="flex-1 bg-zinc-700 border-zinc-600 text-zinc-200" />
-                        <Button type="button" onClick={() => document.getElementById('coverImageUpload')?.click()} className="bg-primary hover:bg-primary/90">
-                          <ImagePlus size={16} className="mr-2" /> Загрузить
-                        </Button>
-                      </div>
-                      <div className="hidden">
+                        <Input 
+                          value={coverImage} 
+                          onChange={e => setCoverImage(e.target.value)} 
+                          placeholder="URL изображения" 
+                          className="flex-1 bg-zinc-700 border-zinc-600 text-zinc-200" 
+                        />
                         <ImageUploader 
                           id="coverImageUpload"
                           onImageUploaded={url => setCoverImage(url)} 
                           defaultImage={coverImage}
-                        />
+                          className="hidden"
+                        >
+                          <Button 
+                            type="button" 
+                            className="bg-primary hover:bg-primary/90"
+                          >
+                            <ImagePlus size={16} className="mr-2" /> Загрузить
+                          </Button>
+                        </ImageUploader>
                       </div>
-                      {coverImage && <div className="mt-2 relative w-full max-w-xs">
-                          <img src={coverImage} alt="Предпросмотр обложки" className="rounded border object-cover h-40 w-full" onError={e => {
-                        (e.target as HTMLImageElement).src = '/placeholder.svg';
-                      }} />
-                          <Button type="button" variant="ghost" size="icon" onClick={() => setCoverImage('')} className="absolute top-2 right-2 bg-gray-700 hover:bg-gray-600">
+                      
+                      {coverImage && (
+                        <div className="mt-2 relative w-full max-w-xs">
+                          <img 
+                            src={coverImage} 
+                            alt="Предпросмотр обложки" 
+                            className="rounded border object-cover h-40 w-full" 
+                            onError={e => {
+                              (e.target as HTMLImageElement).src = '/placeholder.svg';
+                            }} 
+                          />
+                          <Button 
+                            type="button" 
+                            variant="ghost" 
+                            size="icon" 
+                            onClick={() => setCoverImage('')} 
+                            className="absolute top-2 right-2 bg-gray-700 hover:bg-gray-600"
+                          >
                             <X size={16} />
                           </Button>
-                        </div>}
+                        </div>
+                      )}
                     </div>
 
                     <div>
@@ -528,54 +546,65 @@ const AdminFutureProjects: React.FC = () => {
 
                       {galleryImages.length === 0 ? (
                         <div className="border border-dashed border-zinc-600 rounded p-6 text-center space-y-2">
-                          <Button 
-                            type="button" 
-                            onClick={() => document.getElementById('galleryImageUpload')?.click()} 
-                            className="mx-auto bg-primary hover:bg-primary/90"
+                          <ImageUploader 
+                            id="galleryImageUpload"
+                            onImageUploaded={url => setGalleryImages([...galleryImages, url])} 
+                            className="w-full"
                           >
-                            <ImagePlus size={24} className="mr-2" />
-                            Загрузить изображения
-                          </Button>
-                          <div className="hidden">
-                            <ImageUploader 
-                              id="galleryImageUpload"
-                              onImageUploaded={url => setGalleryImages([...galleryImages, url])} 
-                            />
-                          </div>
-                          <p className="text-zinc-400 text-sm">
-                            JPG, PNG, GIF до 5МБ. Загрузите несколько.
-                          </p>
+                            <Button 
+                              type="button" 
+                              className="mx-auto bg-primary hover:bg-primary/90"
+                            >
+                              <ImagePlus size={24} className="mr-2" />
+                              Загрузить изображения
+                            </Button>
+                            <p className="text-zinc-400 text-sm mt-2">
+                              JPG, PNG, GIF до 5МБ. Загрузите несколько.
+                            </p>
+                          </ImageUploader>
                         </div>
                       ) : (
                         <div className="space-y-4">
                           <div className="grid grid-cols-3 gap-4 mt-4">
-                            {galleryImages.map((image, index) => <div key={index} className="relative">
-                                <img src={image} alt={`Изображение галереи ${index + 1}`} className="rounded border border-zinc-700 object-cover h-24 w-full" onError={e => {
-                            (e.target as HTMLImageElement).src = '/placeholder.svg';
-                          }} />
-                                <Button type="button" variant="ghost" size="icon" onClick={() => {
-                            const filtered = galleryImages.filter((_, i) => i !== index);
-                            setGalleryImages(filtered);
-                          }} className="absolute top-1 right-1 bg-white/80 hover:bg-white text-gray-800">
+                            {galleryImages.map((image, index) => (
+                              <div key={index} className="relative">
+                                <img 
+                                  src={image} 
+                                  alt={`Изображение галереи ${index + 1}`} 
+                                  className="rounded border border-zinc-700 object-cover h-24 w-full" 
+                                  onError={e => {
+                                    (e.target as HTMLImageElement).src = '/placeholder.svg';
+                                  }} 
+                                />
+                                <Button 
+                                  type="button" 
+                                  variant="ghost" 
+                                  size="icon" 
+                                  onClick={() => {
+                                    const filtered = galleryImages.filter((_, i) => i !== index);
+                                    setGalleryImages(filtered);
+                                  }} 
+                                  className="absolute top-1 right-1 bg-white/80 hover:bg-white text-gray-800"
+                                >
                                   <X size={14} />
                                 </Button>
-                              </div>)}
+                              </div>
+                            ))}
                           </div>
 
-                          <Button 
-                            type="button" 
-                            onClick={() => document.getElementById('addMoreGalleryImages')?.click()} 
-                            className="w-auto bg-primary hover:bg-primary/90"
+                          <ImageUploader 
+                            id="addMoreGalleryImages"
+                            onImageUploaded={url => setGalleryImages([...galleryImages, url])} 
+                            className="w-full"
                           >
-                            <Plus size={16} className="mr-2" />
-                            Добавить еще изображения
-                          </Button>
-                          <div className="hidden">
-                            <ImageUploader 
-                              id="addMoreGalleryImages"
-                              onImageUploaded={url => setGalleryImages([...galleryImages, url])} 
-                            />
-                          </div>
+                            <Button 
+                              type="button" 
+                              className="w-auto bg-primary hover:bg-primary/90"
+                            >
+                              <Plus size={16} className="mr-2" />
+                              Добавить еще изображения
+                            </Button>
+                          </ImageUploader>
                         </div>
                       )}
                     </div>
@@ -583,7 +612,6 @@ const AdminFutureProjects: React.FC = () => {
                 </TabsContent>
 
                 <TabsContent value="features" className="space-y-4 pt-4">
-                  {/* ... content of features tab ... */}
                   <Tabs value={activeFeatureLanguageTab} onValueChange={setActiveFeatureLanguageTab} className="w-full mb-4">
                     <TabsList className="mb-4">
                       <TabsTrigger value="default" className="data-[state=active]:bg-primary">Основной</TabsTrigger>
