@@ -377,9 +377,7 @@ const AdminFutureProjects: React.FC = () => {
               <TabsTrigger value="features" className="data-[state=active]:bg-primary">Особенности</TabsTrigger>
             </TabsList>
 
-            {/* form handles submission */}
             <form onSubmit={handleSubmit} className="flex flex-col flex-grow">
-              {/* This div allows the tabs content to scroll independently */}
               <div className="overflow-y-auto pr-2 flex-grow">
                 <TabsContent value="details" className="space-y-4 pt-4">
                   {/* ... content of details tab ... */}
@@ -503,15 +501,18 @@ const AdminFutureProjects: React.FC = () => {
                       <Label className="block mb-2 text-zinc-300">Обложка</Label>
                       <div className="flex gap-2 items-center">
                         <Input value={coverImage} onChange={e => setCoverImage(e.target.value)} placeholder="URL изображения" className="flex-1 bg-zinc-700 border-zinc-600 text-zinc-200" />
-                        {/* ImageUploader now directly acts as the button */}
-                        <ImageUploader
-                          onImageUploaded={(url) => setCoverImage(url)}
+                        {/* Button to trigger hidden ImageUploader */}
+                        <Button type="button" onClick={() => document.getElementById('coverImageUpload')?.click()} className="bg-primary hover:bg-primary/90 flex items-center gap-2">
+                          <ImagePlus size={16} className="mr-2" /> Загрузить
+                        </Button>
+                      </div>
+                      {/* ImageUploader is visually hidden but interactive */}
+                      <div className="sr-only"> {/* Changed from 'hidden' to 'sr-only' */}
+                        <ImageUploader 
+                          id="coverImageUpload"
+                          onImageUploaded={url => setCoverImage(url)} 
                           defaultImage={coverImage}
-                          className="bg-primary hover:bg-primary/90 flex items-center gap-2" // Added flex styles
-                        >
-                           {/* Button content */}
-                           <ImagePlus size={16} className="mr-2" /> Загрузить
-                        </ImageUploader>
+                        />
                       </div>
                       {coverImage && <div className="mt-2 relative w-full max-w-xs">
                           <img src={coverImage} alt="Предпросмотр обложки" className="rounded border object-cover h-40 w-full" onError={e => {
@@ -529,15 +530,22 @@ const AdminFutureProjects: React.FC = () => {
 
                       {galleryImages.length === 0 ? (
                         <div className="border border-dashed border-zinc-600 rounded p-6 text-center space-y-2">
-                          {/* ImageUploader now directly acts as the button */}
-                          <ImageUploader
-                            onImageUploaded={url => setGalleryImages([...galleryImages, url])}
-                            className="mx-auto flex items-center justify-center bg-primary hover:bg-primary/90" // Styled as a centered button
+                          {/* Button to trigger hidden ImageUploader */}
+                          <Button 
+                            type="button" 
+                            onClick={() => document.getElementById('galleryImageUpload')?.click()} 
+                            className="mx-auto bg-primary hover:bg-primary/90 flex items-center justify-center"
                           >
-                            {/* Button content */}
                             <ImagePlus size={24} className="mr-2" />
                             Загрузить изображения
-                          </ImageUploader>
+                          </Button>
+                          {/* ImageUploader is visually hidden but interactive */}
+                          <div className="sr-only"> {/* Changed from 'hidden' to 'sr-only' */}
+                            <ImageUploader 
+                              id="galleryImageUpload"
+                              onImageUploaded={url => setGalleryImages([...galleryImages, url])} 
+                            />
+                          </div>
                           <p className="text-zinc-400 text-sm">
                             JPG, PNG, GIF до 5МБ. Загрузите несколько.
                           </p>
@@ -559,15 +567,22 @@ const AdminFutureProjects: React.FC = () => {
                               </div>)}
                           </div>
 
-                          {/* ImageUploader now directly acts as the "Add More" button */}
-                          <ImageUploader
-                            onImageUploaded={url => setGalleryImages([...galleryImages, url])}
-                            className="w-auto bg-primary hover:bg-primary/90 flex items-center gap-2" // Styled as a button
+                          {/* Button to trigger hidden ImageUploader */}
+                          <Button 
+                            type="button" 
+                            onClick={() => document.getElementById('addMoreGalleryImages')?.click()} 
+                            className="w-auto bg-primary hover:bg-primary/90 flex items-center gap-2"
                           >
-                             {/* Button content */}
                              <Plus size={16} className="mr-2" />
                              Добавить еще изображения
-                          </ImageUploader>
+                          </Button>
+                           {/* ImageUploader is visually hidden but interactive */}
+                           <div className="sr-only"> {/* Changed from 'hidden' to 'sr-only' */}
+                            <ImageUploader 
+                              id="addMoreGalleryImages"
+                              onImageUploaded={url => setGalleryImages([...galleryImages, url])} 
+                            />
+                          </div>
                         </div>
                       )}
                     </div>
@@ -575,6 +590,7 @@ const AdminFutureProjects: React.FC = () => {
                 </TabsContent>
 
                 <TabsContent value="features" className="space-y-4 pt-4">
+                  {/* ... content of features tab ... */}
                   <Tabs value={activeFeatureLanguageTab} onValueChange={setActiveFeatureLanguageTab} className="w-full mb-4">
                     <TabsList className="mb-4">
                       <TabsTrigger value="default" className="data-[state=active]:bg-primary">Основной</TabsTrigger>
@@ -583,7 +599,6 @@ const AdminFutureProjects: React.FC = () => {
                       <TabsTrigger value="uz" className="data-[state=active]:bg-primary">O'zbekcha</TabsTrigger>
                     </TabsList>
 
-                    {/* Scrollable container for features content */}
                     <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
                       <TabsContent value="default" className="space-y-4 mt-0">
                         {features.map((feature, index) => (
@@ -610,7 +625,7 @@ const AdminFutureProjects: React.FC = () => {
                       <TabsContent value="en" className="space-y-4 mt-0">
                         {features.map((feature, index) => (
                           <div key={`en-${index}`} className="p-4 border rounded border-zinc-700 relative">
-                            {activeFeatureLanguageTab === 'default' && ( // Only show remove button in default tab
+                            {activeFeatureLanguageTab === 'default' && (
                               <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2 text-zinc-400 hover:text-red-500" onClick={() => handleRemoveFeature(index)} disabled={features.length === 1}>
                                 <X size={16} />
                               </Button>
@@ -680,12 +695,11 @@ const AdminFutureProjects: React.FC = () => {
                       <Plus size={16} className="mr-2" />
                       Добавить Еще Одну Особенность
                     </Button>
-                  </div> {/* End scrollable container for features */}
+                  </div>
                 </Tabs>
               </TabsContent>
-            </div> {/* End scrollable div wrapping TabsContent */}
+            </div>
 
-            {/* DialogFooter remains fixed at the bottom */}
             <DialogFooter className="mt-6 pt-4 border-t border-zinc-700">
               <Button type="button" variant="outline" onClick={closeModal} className="border-zinc-600 text-zinc-300 hover:bg-zinc-700">
                 Отмена
