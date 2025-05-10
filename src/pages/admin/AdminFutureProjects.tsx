@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
@@ -35,10 +34,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PlusCircle, Pencil, Trash2, ImagePlus, X, Plus } from 'lucide-react';
 import ImageUploader from '@/components/admin/ImageUploader';
 import AdminLayout from '@/components/admin/AdminLayout';
-import { 
-  fetchFutureProjects, 
-  addFutureProject, 
-  updateFutureProject, 
+import {
+  fetchFutureProjects,
+  addFutureProject,
+  updateFutureProject,
   deleteFutureProject,
   generateSlug,
   type FutureProject
@@ -54,7 +53,7 @@ const AdminFutureProjects: React.FC = () => {
   const [currentProject, setCurrentProject] = useState<Partial<FutureProject> | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [activeTab, setActiveTab] = useState('details');
-  
+
   // Form state
   const [title, setTitle] = useState('');
   const [slug, setSlug] = useState('');
@@ -83,7 +82,7 @@ const AdminFutureProjects: React.FC = () => {
   const handleTitleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value;
     setTitle(newTitle);
-    
+
     if (!isEditing || (isEditing && currentProject?.slug === slug)) {
       const generatedSlug = await generateSlug(newTitle);
       setSlug(generatedSlug);
@@ -137,8 +136,8 @@ const AdminFutureProjects: React.FC = () => {
       setFeatured(project.featured || false);
       setCoverImage(project.coverImage || '');
       setGalleryImages(project.galleryImages || []);
-      setFeatures(project.features?.length 
-        ? project.features.map(f => typeof f === 'object' ? f : { title: '', description: '' }) 
+      setFeatures(project.features?.length
+        ? project.features.map(f => typeof f === 'object' ? f : { title: '', description: '' })
         : [{ title: '', description: '' }]
       );
       setIsEditing(true);
@@ -155,7 +154,7 @@ const AdminFutureProjects: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!title || !slug || !description) {
       toast({
         title: t('admin.requiredFields'),
@@ -234,8 +233,8 @@ const AdminFutureProjects: React.FC = () => {
       <div className="p-6">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-zinc-50">Управление Будущими Проектами</h1>
-          <Button 
-            onClick={() => openModal()} 
+          <Button
+            onClick={() => openModal()}
             className="flex items-center gap-2 bg-primary hover:bg-primary/90"
           >
             <PlusCircle size={16} />
@@ -278,7 +277,7 @@ const AdminFutureProjects: React.FC = () => {
                             project.status === 'active' ? 'bg-green-100 text-green-800' :
                             'bg-gray-100 text-gray-800'
                           }`}>
-                            {project.status === 'upcoming' ? 'Предстоящий' : 
+                            {project.status === 'upcoming' ? 'Предстоящий' :
                              project.status === 'active' ? 'Активный' : 'Завершенный'}
                           </span>
                         </TableCell>
@@ -315,68 +314,68 @@ const AdminFutureProjects: React.FC = () => {
               <TabsTrigger value="media" className="data-[state=active]:bg-primary">Медиа</TabsTrigger>
               <TabsTrigger value="features" className="data-[state=active]:bg-primary">Особенности</TabsTrigger>
             </TabsList>
-            
+
             <form onSubmit={handleSubmit}>
               <TabsContent value="details" className="space-y-4 pt-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="title" className="text-zinc-300">Название *</Label>
-                    <Input 
-                      id="title" 
-                      value={title} 
-                      onChange={handleTitleChange} 
-                      required 
+                    <Input
+                      id="title"
+                      value={title}
+                      onChange={handleTitleChange}
+                      required
                       className="bg-zinc-700 border-zinc-600 text-zinc-200"
                     />
                   </div>
-                  
+
                   <div className="space-y-2">
                     <Label htmlFor="slug" className="text-zinc-300">URL-адрес *</Label>
-                    <Input 
-                      id="slug" 
-                      value={slug} 
-                      onChange={(e) => setSlug(e.target.value)} 
-                      required 
+                    <Input
+                      id="slug"
+                      value={slug}
+                      onChange={(e) => setSlug(e.target.value)}
+                      required
                       className="bg-zinc-700 border-zinc-600 text-zinc-200"
                     />
                   </div>
                 </div>
-                
+
                 <div className="space-y-2">
                   <Label htmlFor="description" className="text-zinc-300">Описание *</Label>
-                  <Textarea 
-                    id="description" 
-                    value={description} 
-                    onChange={(e) => setDescription(e.target.value)} 
-                    rows={5} 
-                    required 
+                  <Textarea
+                    id="description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    rows={5}
+                    required
                     className="bg-zinc-700 border-zinc-600 text-zinc-200"
                   />
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="location" className="text-zinc-300">Местоположение</Label>
-                    <Input 
-                      id="location" 
-                      value={location} 
-                      onChange={(e) => setLocation(e.target.value)} 
+                    <Input
+                      id="location"
+                      value={location}
+                      onChange={(e) => setLocation(e.target.value)}
                       className="bg-zinc-700 border-zinc-600 text-zinc-200"
                     />
                   </div>
-                  
+
                   <div className="space-y-2">
                     <Label htmlFor="completionDate" className="text-zinc-300">Ожидаемое завершение</Label>
-                    <Input 
-                      id="completionDate" 
-                      value={completionDate} 
-                      onChange={(e) => setCompletionDate(e.target.value)} 
-                      placeholder="Q4 2025" 
+                    <Input
+                      id="completionDate"
+                      value={completionDate}
+                      onChange={(e) => setCompletionDate(e.target.value)}
+                      placeholder="Q4 2025"
                       className="bg-zinc-700 border-zinc-600 text-zinc-200"
                     />
                   </div>
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="status" className="text-zinc-300">Статус</Label>
@@ -391,31 +390,32 @@ const AdminFutureProjects: React.FC = () => {
                       </SelectContent>
                     </Select>
                   </div>
-                  
+
                   <div className="flex items-center space-x-2 pt-8">
-                    <Checkbox 
-                      id="featured" 
-                      checked={featured} 
-                      onCheckedChange={(checked) => setFeatured(checked === true)} 
+                    <Checkbox
+                      id="featured"
+                      checked={featured}
+                      onCheckedChange={(checked) => setFeatured(checked === true)}
                       className="border-zinc-600 data-[state=checked]:bg-primary"
                     />
                     <Label htmlFor="featured" className="text-zinc-300">Рекомендуемый Проект</Label>
                   </div>
                 </div>
               </TabsContent>
-              
+
               <TabsContent value="media" className="space-y-4 pt-4">
                 <div className="space-y-4">
+                  {/* --- Cover Image Section (Keep as is, added type="button") --- */}
                   <div>
                     <Label className="block mb-2 text-zinc-300">Обложка</Label>
                     <div className="flex gap-2 items-center">
-                      <Input 
-                        value={coverImage} 
-                        onChange={(e) => setCoverImage(e.target.value)} 
-                        placeholder="URL изображения" 
+                      <Input
+                        value={coverImage}
+                        onChange={(e) => setCoverImage(e.target.value)}
+                        placeholder="URL изображения"
                         className="flex-1 bg-zinc-700 border-zinc-600 text-zinc-200"
                       />
-                      <ImageUploader 
+                      <ImageUploader
                         onImageUploaded={(url) => setCoverImage(url)}
                         defaultImage={coverImage}
                         className="bg-primary hover:bg-primary/90"
@@ -423,15 +423,16 @@ const AdminFutureProjects: React.FC = () => {
                     </div>
                     {coverImage && (
                       <div className="mt-2 relative w-full max-w-xs">
-                        <img 
-                          src={coverImage} 
-                          alt="Предпросмотр обложки" 
+                        <img
+                          src={coverImage}
+                          alt="Предпросмотр обложки"
                           className="rounded border object-cover h-40 w-full"
                           onError={(e) => {
                             (e.target as HTMLImageElement).src = '/placeholder.svg';
-                          }} 
+                          }}
                         />
                         <Button
+                          type="button" // Added type button
                           variant="ghost"
                           size="icon"
                           className="absolute top-2 right-2 bg-white/80 hover:bg-white"
@@ -442,50 +443,75 @@ const AdminFutureProjects: React.FC = () => {
                       </div>
                     )}
                   </div>
-                  
+                  {/* --- End Cover Image Section --- */}
+
+                  {/* --- Gallery Images Section (Revised UI) --- */}
                   <div>
                     <Label className="block mb-2 text-zinc-300">Галерея изображений</Label>
-                    <div className="flex gap-2 items-center mb-4">
-                      <ImageUploader 
-                        onImageUploaded={(url) => setGalleryImages([...galleryImages, url])}
-                        className="bg-primary hover:bg-primary/90 w-auto"
-                      />
-                      <span className="text-zinc-400 text-sm">
-                        Загрузите несколько изображений для галереи
-                      </span>
-                    </div>
-                    
+
+                    {/* Show initial upload area when no images */}
+                    {galleryImages.length === 0 && (
+                      <div className="border border-dashed border-zinc-600 rounded p-6 text-center space-y-2">
+                        {/* This ImageUploader handles the first upload */}
+                        <ImageUploader
+                          onImageUploaded={(url) => setGalleryImages([...galleryImages, url])}
+                          className="mx-auto flex items-center justify-center bg-primary hover:bg-primary/90"
+                        >
+                          <ImagePlus size={24} className="mr-2"/>
+                          Загрузить изображения
+                        </ImageUploader>
+                        <p className="text-zinc-400 text-sm">
+                          JPG, PNG, GIF до 5МБ.
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Show grid of images and 'Add More' button when there are images */}
                     {galleryImages.length > 0 && (
-                      <div className="grid grid-cols-3 gap-4 mt-4 max-h-[400px] overflow-y-auto pr-2">
-                        {galleryImages.map((image, index) => (
-                          <div key={index} className="relative">
-                            <img 
-                              src={image} 
-                              alt={`Изображение галереи ${index + 1}`} 
-                              className="rounded border border-zinc-700 object-cover h-24 w-full"
-                              onError={(e) => {
-                                (e.target as HTMLImageElement).src = '/placeholder.svg';
-                              }} 
-                            />
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="absolute top-1 right-1 bg-white/80 hover:bg-white"
-                              onClick={() => {
-                                const filtered = galleryImages.filter((_, i) => i !== index);
-                                setGalleryImages(filtered);
-                              }}
-                            >
-                              <X size={14} />
-                            </Button>
-                          </div>
-                        ))}
+                      <div className="space-y-4"> {/* Container for grid + add button */}
+                        <div className="grid grid-cols-3 gap-4 max-h-[400px] overflow-y-auto pr-2"> {/* Scrollable grid */}
+                          {galleryImages.map((image, index) => (
+                            <div key={index} className="relative">
+                              <img
+                                src={image}
+                                alt={`Изображение галереи ${index + 1}`}
+                                className="rounded border border-zinc-700 object-cover h-24 w-full"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).src = '/placeholder.svg';
+                                }}
+                              />
+                              <Button
+                                type="button" // Added type button
+                                variant="ghost"
+                                size="icon"
+                                className="absolute top-1 right-1 bg-white/80 hover:bg-white"
+                                onClick={() => {
+                                  const filtered = galleryImages.filter((_, i) => i !== index);
+                                  setGalleryImages(filtered);
+                                }}
+                              >
+                                <X size={14} />
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Button to add more images, shown below the grid */}
+                        <ImageUploader
+                          onImageUploaded={(url) => setGalleryImages([...galleryImages, url])}
+                          className="w-auto bg-primary hover:bg-primary/90 flex items-center gap-2"
+                        >
+                           <Plus size={16} />
+                           Добавить еще изображения
+                        </ImageUploader>
                       </div>
                     )}
                   </div>
-                </div>
+                  {/* --- End Gallery Images Section --- */}
+
+                </div> {/* End container for cover and gallery sections */}
               </TabsContent>
-              
+
               <TabsContent value="features" className="space-y-4 pt-4">
                 <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
                   {features.map((feature, index) => (
@@ -500,24 +526,24 @@ const AdminFutureProjects: React.FC = () => {
                       >
                         <X size={16} />
                       </Button>
-                      
+
                       <div className="grid grid-cols-1 gap-4">
                         <div className="space-y-2">
                           <Label htmlFor={`feature-title-${index}`} className="text-zinc-300">Название особенности</Label>
-                          <Input 
+                          <Input
                             id={`feature-title-${index}`}
-                            value={feature.title} 
-                            onChange={(e) => handleFeatureChange(index, 'title', e.target.value)} 
+                            value={feature.title}
+                            onChange={(e) => handleFeatureChange(index, 'title', e.target.value)}
                             className="bg-zinc-700 border-zinc-600 text-zinc-200"
                           />
                         </div>
-                        
+
                         <div className="space-y-2">
                           <Label htmlFor={`feature-desc-${index}`} className="text-zinc-300">Описание особенности</Label>
-                          <Textarea 
+                          <Textarea
                             id={`feature-desc-${index}`}
-                            value={feature.description} 
-                            onChange={(e) => handleFeatureChange(index, 'description', e.target.value)} 
+                            value={feature.description}
+                            onChange={(e) => handleFeatureChange(index, 'description', e.target.value)}
                             rows={2}
                             className="bg-zinc-700 border-zinc-600 text-zinc-200"
                           />
@@ -525,10 +551,10 @@ const AdminFutureProjects: React.FC = () => {
                       </div>
                     </div>
                   ))}
-                  
-                  <Button 
+
+                  <Button
                     type="button"
-                    variant="outline" 
+                    variant="outline"
                     onClick={handleAddFeature}
                     className="w-full border-zinc-600 text-zinc-300 hover:bg-zinc-700"
                   >
@@ -537,7 +563,7 @@ const AdminFutureProjects: React.FC = () => {
                   </Button>
                 </div>
               </TabsContent>
-              
+
               <DialogFooter className="mt-6">
                 <Button type="button" variant="outline" onClick={closeModal} className="border-zinc-600 text-zinc-300 hover:bg-zinc-700">
                   Отмена
