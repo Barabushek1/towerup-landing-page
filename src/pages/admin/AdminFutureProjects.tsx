@@ -341,7 +341,7 @@ const AdminFutureProjects: React.FC = () => {
                         <TableCell>{project.title}</TableCell>
                         <TableCell>{project.slug}</TableCell>
                         <TableCell>
-                          <span className={`px-2 py-1 rounded text-xs ${project.status === 'upcoming' ? 'bg-blue-100 text-blue-800' : project.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                          <span className={`px-2 py-1 rounded text-xs ${project.status === 'upcoming' ? 'bg-blue-100 text-blue-800' : project.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>\n
                             {project.status === 'upcoming' ? 'Предстоящий' : project.status === 'active' ? 'Активный' : 'Завершенный'}
                           </span>
                         </TableCell>
@@ -380,7 +380,6 @@ const AdminFutureProjects: React.FC = () => {
             <form onSubmit={handleSubmit} className="flex flex-col flex-grow">
               <div className="overflow-y-auto pr-2 flex-grow">
                 <TabsContent value="details" className="space-y-4 pt-4">
-                  {/* ... content of details tab ... */}
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="title" className="text-zinc-300">Название *</Label>
@@ -433,7 +432,6 @@ const AdminFutureProjects: React.FC = () => {
                 </TabsContent>
 
                 <TabsContent value="localization" className="space-y-4 pt-4">
-                  {/* ... content of localization tab ... */}
                   <Tabs value={activeLanguageTab} onValueChange={setActiveLanguageTab} className="w-full">
                     <TabsList className="mb-4">
                       <TabsTrigger value="en" className="data-[state=active]:bg-primary">English</TabsTrigger>
@@ -501,18 +499,15 @@ const AdminFutureProjects: React.FC = () => {
                       <Label className="block mb-2 text-zinc-300">Обложка</Label>
                       <div className="flex gap-2 items-center">
                         <Input value={coverImage} onChange={e => setCoverImage(e.target.value)} placeholder="URL изображения" className="flex-1 bg-zinc-700 border-zinc-600 text-zinc-200" />
-                        {/* Button to trigger hidden ImageUploader */}
-                        <Button type="button" onClick={() => document.getElementById('coverImageUpload')?.click()} className="bg-primary hover:bg-primary/90 flex items-center gap-2">
-                          <ImagePlus size={16} className="mr-2" /> Загрузить
-                        </Button>
-                      </div>
-                      {/* ImageUploader is visually hidden but interactive */}
-                      <div className="sr-only"> {/* Changed from 'hidden' to 'sr-only' */}
-                        <ImageUploader 
-                          id="coverImageUpload"
-                          onImageUploaded={url => setCoverImage(url)} 
-                          defaultImage={coverImage}
-                        />
+                        {/* Pass props to ImageUploader so it acts as the button */}
+                        <ImageUploader
+                          onImageUploaded={(url) => setCoverImage(url)}
+                          defaultImage={coverImage} // Make sure ImageUploader handles this if needed for display
+                          className="bg-primary hover:bg-primary/90 flex items-center gap-2" // Style ImageUploader as a button
+                        >
+                           {/* Content for the button */}
+                           <ImagePlus size={16} className="mr-2" /> Загрузить
+                        </ImageUploader>
                       </div>
                       {coverImage && <div className="mt-2 relative w-full max-w-xs">
                           <img src={coverImage} alt="Предпросмотр обложки" className="rounded border object-cover h-40 w-full" onError={e => {
@@ -530,22 +525,15 @@ const AdminFutureProjects: React.FC = () => {
 
                       {galleryImages.length === 0 ? (
                         <div className="border border-dashed border-zinc-600 rounded p-6 text-center space-y-2">
-                          {/* Button to trigger hidden ImageUploader */}
-                          <Button 
-                            type="button" 
-                            onClick={() => document.getElementById('galleryImageUpload')?.click()} 
-                            className="mx-auto bg-primary hover:bg-primary/90 flex items-center justify-center"
+                          {/* Pass props to ImageUploader so it acts as the button */}
+                          <ImageUploader
+                            onImageUploaded={url => setGalleryImages([...galleryImages, url])}
+                            className="mx-auto flex items-center justify-center bg-primary hover:bg-primary/90" // Style ImageUploader as a button
                           >
+                            {/* Content for the button */}
                             <ImagePlus size={24} className="mr-2" />
                             Загрузить изображения
-                          </Button>
-                          {/* ImageUploader is visually hidden but interactive */}
-                          <div className="sr-only"> {/* Changed from 'hidden' to 'sr-only' */}
-                            <ImageUploader 
-                              id="galleryImageUpload"
-                              onImageUploaded={url => setGalleryImages([...galleryImages, url])} 
-                            />
-                          </div>
+                          </ImageUploader>
                           <p className="text-zinc-400 text-sm">
                             JPG, PNG, GIF до 5МБ. Загрузите несколько.
                           </p>
@@ -567,22 +555,14 @@ const AdminFutureProjects: React.FC = () => {
                               </div>)}
                           </div>
 
-                          {/* Button to trigger hidden ImageUploader */}
-                          <Button 
-                            type="button" 
-                            onClick={() => document.getElementById('addMoreGalleryImages')?.click()} 
-                            className="w-auto bg-primary hover:bg-primary/90 flex items-center gap-2"
+                          {/* Pass props to ImageUploader so it acts as the button */}
+                          <ImageUploader
+                            onImageUploaded={url => setGalleryImages([...galleryImages, url])}
+                            className="w-auto bg-primary hover:bg-primary/90 flex items-center gap-2" // Style ImageUploader as a button
                           >
                              <Plus size={16} className="mr-2" />
                              Добавить еще изображения
-                          </Button>
-                           {/* ImageUploader is visually hidden but interactive */}
-                           <div className="sr-only"> {/* Changed from 'hidden' to 'sr-only' */}
-                            <ImageUploader 
-                              id="addMoreGalleryImages"
-                              onImageUploaded={url => setGalleryImages([...galleryImages, url])} 
-                            />
-                          </div>
+                          </ImageUploader>
                         </div>
                       )}
                     </div>
@@ -590,46 +570,40 @@ const AdminFutureProjects: React.FC = () => {
                 </TabsContent>
 
                 <TabsContent value="features" className="space-y-4 pt-4">
-                  {/* ... content of features tab ... */}
-                  <Tabs value={activeFeatureLanguageTab} onValueChange={setActiveFeatureLanguageTab} className="w-full mb-4">
-                    <TabsList className="mb-4">
-                      <TabsTrigger value="default" className="data-[state=active]:bg-primary">Основной</TabsTrigger>
-                      <TabsTrigger value="en" className="data-[state=active]:bg-primary">English</TabsTrigger>
-                      <TabsTrigger value="ru" className="data-[state=active]:bg-primary">Русский</TabsTrigger>
-                      <TabsTrigger value="uz" className="data-[state=active]:bg-primary">O'zbekcha</TabsTrigger>
-                    </TabsList>
+                 <Tabs value={activeFeatureLanguageTab} onValueChange={setActiveFeatureLanguageTab} className="w-full mb-4">
+                  <TabsList className="mb-4">
+                    <TabsTrigger value="default" className="data-[state=active]:bg-primary">Основной</TabsTrigger>
+                    <TabsTrigger value="en" className="data-[state=active]:bg-primary">English</TabsTrigger>
+                    <TabsTrigger value="ru" className="data-[state=active]:bg-primary">Русский</TabsTrigger>
+                    <TabsTrigger value="uz" className="data-[state=active]:bg-primary">O'zbekcha</TabsTrigger>
+                  </TabsList>
 
-                    <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
-                      <TabsContent value="default" className="space-y-4 mt-0">
-                        {features.map((feature, index) => (
-                          <div key={`default-${index}`} className="p-4 border rounded border-zinc-700 relative">
-                            <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2 text-zinc-400 hover:text-red-500" onClick={() => handleRemoveFeature(index)} disabled={features.length === 1}>
-                              <X size={16} />
-                            </Button>
+                  <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+                    <TabsContent value="default" className="space-y-4 mt-0">
+                      {features.map((feature, index) => (
+                        <div key={`default-${index}`} className="p-4 border rounded border-zinc-700 relative">
+                          <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2 text-zinc-400 hover:text-red-500" onClick={() => handleRemoveFeature(index)} disabled={features.length === 1}>
+                            <X size={16} />
+                          </Button>
 
-                            <div className="grid grid-cols-1 gap-4">
-                              <div className="space-y-2">
-                                <Label htmlFor={`feature-title-${index}`} className="text-zinc-300">Название особенности (Основной)</Label>
-                                <Input id={`feature-title-${index}`} value={feature.title} onChange={e => handleFeatureChange(index, 'title', e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                              </div>
+                          <div className="grid grid-cols-1 gap-4">
+                            <div className="space-y-2">
+                              <Label htmlFor={`feature-title-${index}`} className="text-zinc-300">Название особенности (Основной)</Label>
+                              <Input id={`feature-title-${index}`} value={feature.title} onChange={e => handleFeatureChange(index, 'title', e.target.value)} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
+                            </div>
 
-                              <div className="space-y-2">
-                                <Label htmlFor={`feature-desc-${index}`} className="text-zinc-300">Описание особенности (Основной)</Label>
-                                <Textarea id={`feature-desc-${index}`} value={feature.description} onChange={e => handleFeatureChange(index, 'description', e.target.value)} rows={2} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
-                              </div>
+                            <div className="space-y-2">
+                              <Label htmlFor={`feature-desc-${index}`} className="text-zinc-300">Описание особенности (Основной)</Label>
+                              <Textarea id={`feature-desc-${index}`} value={feature.description} onChange={e => handleFeatureChange(index, 'description', e.target.value)} rows={2} className="bg-zinc-700 border-zinc-600 text-zinc-200" />
                             </div>
                           </div>
-                        ))}
-                      </TabsContent>
-                      
-                      <TabsContent value="en" className="space-y-4 mt-0">
-                        {features.map((feature, index) => (
-                          <div key={`en-${index}`} className="p-4 border rounded border-zinc-700 relative">
-                            {activeFeatureLanguageTab === 'default' && (
-                              <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2 text-zinc-400 hover:text-red-500" onClick={() => handleRemoveFeature(index)} disabled={features.length === 1}>
-                                <X size={16} />
-                              </Button>
-                           )}
+                        </div>
+                      ))}
+                    </TabsContent>
+                    
+                    <TabsContent value="en" className="space-y-4 mt-0">
+                      {features.map((feature, index) => (
+                        <div key={`en-${index}`} className="p-4 border rounded border-zinc-700 relative">
                           <div className="grid grid-cols-1 gap-4">
                             <div className="space-y-2">
                               <Label htmlFor={`feature-title-en-${index}`} className="text-zinc-300">Название особенности (English)</Label>
@@ -648,11 +622,6 @@ const AdminFutureProjects: React.FC = () => {
                     <TabsContent value="ru" className="space-y-4 mt-0">
                       {features.map((feature, index) => (
                         <div key={`ru-${index}`} className="p-4 border rounded border-zinc-700 relative">
-                            {activeFeatureLanguageTab === 'default' && (
-                               <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2 text-zinc-400 hover:text-red-500" onClick={() => handleRemoveFeature(index)} disabled={features.length === 1}>
-                                 <X size={16} />
-                               </Button>
-                            )}
                           <div className="grid grid-cols-1 gap-4">
                             <div className="space-y-2">
                               <Label htmlFor={`feature-title-ru-${index}`} className="text-zinc-300">Название особенности (Русский)</Label>
@@ -671,11 +640,6 @@ const AdminFutureProjects: React.FC = () => {
                     <TabsContent value="uz" className="space-y-4 mt-0">
                       {features.map((feature, index) => (
                         <div key={`uz-${index}`} className="p-4 border rounded border-zinc-700 relative">
-                            {activeFeatureLanguageTab === 'default' && (
-                               <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2 text-zinc-400 hover:text-red-500" onClick={() => handleRemoveFeature(index)} disabled={features.length === 1}>
-                                 <X size={16} />
-                               </Button>
-                            )}
                           <div className="grid grid-cols-1 gap-4">
                             <div className="space-y-2">
                               <Label htmlFor={`feature-title-uz-${index}`} className="text-zinc-300">Название особенности (O'zbekcha)</Label>
@@ -708,8 +672,8 @@ const AdminFutureProjects: React.FC = () => {
                 {isEditing ? 'Обновить Проект' : 'Добавить Проект'}
               </Button>
             </DialogFooter>
-          </Tabs>
-        </DialogContent>
+          </form>
+        </Tabs>
       </Dialog>
     </AdminLayout>;
 };
