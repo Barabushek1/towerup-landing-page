@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
@@ -442,7 +441,17 @@ const AdminFutureProjects: React.FC = () => {
                       <Label className="block mb-2 text-zinc-300">Обложка</Label>
                       <div className="flex gap-2 items-center">
                         <Input value={coverImage} onChange={e => setCoverImage(e.target.value)} placeholder="URL изображения" className="flex-1 bg-zinc-700 border-zinc-600 text-zinc-200" />
-                        <ImageUploader onImageUploaded={url => setCoverImage(url)} defaultImage={coverImage} className="bg-primary hover:bg-primary/90" />
+                        <Button type="button" onClick={() => document.getElementById('coverImageUpload')?.click()} className="bg-primary hover:bg-primary/90">
+                          <ImagePlus size={16} className="mr-2" /> Загрузить
+                        </Button>
+                        <div className="hidden">
+                          <ImageUploader 
+                            id="coverImageUpload"
+                            onImageUploaded={url => setCoverImage(url)} 
+                            defaultImage={coverImage} 
+                            className="bg-primary hover:bg-primary/90" 
+                          />
+                        </div>
                       </div>
                       {coverImage && <div className="mt-2 relative w-full max-w-xs">
                           <img src={coverImage} alt="Предпросмотр обложки" className="rounded border object-cover h-40 w-full" onError={e => {
@@ -457,16 +466,29 @@ const AdminFutureProjects: React.FC = () => {
                     <div>
                       <Label className="block mb-2 text-zinc-300">Галерея изображений</Label>
 
-                      {galleryImages.length === 0 ? <div className="border border-dashed border-zinc-600 rounded p-6 text-center space-y-2">
-                         <ImageUploader onImageUploaded={url => setGalleryImages([...galleryImages, url])} className="mx-auto bg-primary hover:bg-primary/90">
-                           <ImagePlus size={24} className="mr-2" />
-                           Загрузить изображения
-                         </ImageUploader>
-                         <p className="text-zinc-400 text-sm">
-                           JPG, PNG, GIF до 5МБ. Загрузите несколько.
-                         </p>
-                       </div> :
-                      <div className="space-y-4">
+                      {galleryImages.length === 0 ? (
+                        <div className="border border-dashed border-zinc-600 rounded p-6 text-center space-y-2">
+                          <Button 
+                            type="button" 
+                            onClick={() => document.getElementById('galleryImageUpload')?.click()} 
+                            className="mx-auto bg-primary hover:bg-primary/90"
+                          >
+                            <ImagePlus size={24} className="mr-2" />
+                            Загрузить изображения
+                          </Button>
+                          <div className="hidden">
+                            <ImageUploader 
+                              id="galleryImageUpload"
+                              onImageUploaded={url => setGalleryImages([...galleryImages, url])} 
+                              className="mx-auto bg-primary hover:bg-primary/90"
+                            />
+                          </div>
+                          <p className="text-zinc-400 text-sm">
+                            JPG, PNG, GIF до 5МБ. Загрузите несколько.
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="space-y-4">
                           <div className="grid grid-cols-3 gap-4 mt-4">
                             {galleryImages.map((image, index) => <div key={index} className="relative">
                                 <img src={image} alt={`Изображение галереи ${index + 1}`} className="rounded border border-zinc-700 object-cover h-24 w-full" onError={e => {
@@ -481,11 +503,23 @@ const AdminFutureProjects: React.FC = () => {
                               </div>)}
                           </div>
 
-                          <ImageUploader onImageUploaded={url => setGalleryImages([...galleryImages, url])} className="w-auto bg-primary hover:bg-primary/90">
-                             <Plus size={16} className="mr-2" />
-                             Добавить еще изображения
-                          </ImageUploader>
-                        </div>}
+                          <Button 
+                            type="button" 
+                            onClick={() => document.getElementById('addMoreGalleryImages')?.click()} 
+                            className="w-auto bg-primary hover:bg-primary/90"
+                          >
+                            <Plus size={16} className="mr-2" />
+                            Добавить еще изображения
+                          </Button>
+                          <div className="hidden">
+                            <ImageUploader 
+                              id="addMoreGalleryImages"
+                              onImageUploaded={url => setGalleryImages([...galleryImages, url])} 
+                              className="w-auto bg-primary hover:bg-primary/90"
+                            />
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </TabsContent>

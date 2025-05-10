@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { Loader2, Upload, X, Plus } from 'lucide-react';
@@ -13,6 +13,7 @@ interface ImageUploaderProps {
   multiple?: boolean;
   images?: string[];
   onImagesUpdated?: (urls: string[]) => void;
+  children?: ReactNode;
 }
 
 const ImageUploader: React.FC<ImageUploaderProps> = ({ 
@@ -21,7 +22,8 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   className,
   multiple = false,
   images = [],
-  onImagesUpdated
+  onImagesUpdated,
+  children
 }) => {
   const [imageUrl, setImageUrl] = useState<string>(defaultImage || '');
   const [imageUrls, setImageUrls] = useState<string[]>(images || []);
@@ -151,9 +153,15 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
                   <Loader2 className="h-8 w-8 text-primary animate-spin" />
                 ) : (
                   <>
-                    <Upload className="h-8 w-8 text-slate-500 mb-2" />
-                    <p className="text-sm text-slate-400">Нажмите для загрузки изображения</p>
-                    <p className="text-xs text-slate-500 mt-1">JPG, PNG, GIF до 5MB</p>
+                    {children ? (
+                      children
+                    ) : (
+                      <>
+                        <Upload className="h-8 w-8 text-slate-500 mb-2" />
+                        <p className="text-sm text-slate-400">Нажмите для загрузки изображения</p>
+                        <p className="text-xs text-slate-500 mt-1">JPG, PNG, GIF до 5MB</p>
+                      </>
+                    )}
                   </>
                 )}
                 <input
@@ -207,8 +215,14 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
               <Loader2 className="h-8 w-8 text-primary animate-spin" />
             ) : (
               <>
-                <Plus className="h-8 w-8 text-slate-500 mb-2" />
-                <p className="text-sm text-slate-400 text-center px-2">Добавить изображение</p>
+                {children ? (
+                  children
+                ) : (
+                  <>
+                    <Plus className="h-8 w-8 text-slate-500 mb-2" />
+                    <p className="text-sm text-slate-400 text-center px-2">Добавить изображение</p>
+                  </>
+                )}
               </>
             )}
             <input
