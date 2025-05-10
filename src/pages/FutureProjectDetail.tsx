@@ -71,7 +71,7 @@ const FutureProjectDetail: React.FC = () => {
       
       <PageHeader title={project.title} subtitle={project.location || t('futureProjects.futureProject')} breadcrumb={breadcrumb} backgroundImage={project.coverImage || undefined} />
       
-      <main className="bg-white">
+      <main className="bg-zinc-900">
         <div className="container mx-auto px-4 py-12 bg-zinc-900">
           <Link to="/future-projects" className="inline-flex items-center text-primary hover:underline mb-8">
             <ArrowLeft size={16} className="mr-2" />
