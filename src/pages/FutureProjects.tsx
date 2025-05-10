@@ -72,7 +72,7 @@ const FutureProjects: React.FC = () => {
                 
                 return (
                   <motion.div key={project.id} 
-                    initial={{ opacity: 0, y: a20 }} 
+                    initial={{ opacity: 0, y: 20 }} 
                     animate={{ opacity: 1, y: 0 }} 
                     transition={{ duration: 0.5, delay: index * 0.1 }} 
                     className="bg-white rounded-lg overflow-hidden shadow-lg border border-gray-200 hover:shadow-xl transition-shadow">

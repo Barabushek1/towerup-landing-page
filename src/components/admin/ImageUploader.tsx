@@ -14,6 +14,7 @@ interface ImageUploaderProps {
   images?: string[];
   onImagesUpdated?: (urls: string[]) => void;
   children?: ReactNode;
+  id?: string; // Added id prop to interface
 }
 
 const ImageUploader: React.FC<ImageUploaderProps> = ({ 
@@ -23,7 +24,8 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   multiple = false,
   images = [],
   onImagesUpdated,
-  children
+  children,
+  id // Added id to destructuring
 }) => {
   const [imageUrl, setImageUrl] = useState<string>(defaultImage || '');
   const [imageUrls, setImageUrls] = useState<string[]>(images || []);
@@ -112,7 +114,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   // For single image upload
   if (!multiple) {
     return (
-      <div className={cn("w-full", className)}>
+      <div className={cn("w-full", className)} id={id}>
         {previewMode && imageUrl ? (
           <div className="relative">
             <div className="aspect-video w-full h-48 rounded-md overflow-hidden bg-slate-700">
@@ -184,7 +186,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
 
   // For multiple image upload
   return (
-    <div className={cn("w-full", className)}>
+    <div className={cn("w-full", className)} id={id}>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
         {imageUrls.map((url, index) => (
           <div key={index} className="relative aspect-video rounded-md overflow-hidden bg-slate-700">
