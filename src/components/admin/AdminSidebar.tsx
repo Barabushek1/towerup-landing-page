@@ -1,136 +1,111 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { BarChart3, FileText, Home, Layers, MessageSquare, Settings, Users, FileCode, BriefcaseBusiness, Newspaper, Users2, PanelLeftClose, HandCoins, FileBadge, Building, User, Construction } from 'lucide-react';
-import { Button } from '../ui/button';
+import { 
+  LayoutDashboard, 
+  FileText, 
+  Briefcase, 
+  MessageSquare, 
+  Users, 
+  Settings, 
+  LogOut,
+  HelpCircle,
+  Building,
+  FileImage,
+  Handshake 
+} from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { useAuth } from '@/contexts/AuthContext';
 
-interface AdminSidebarProps {
-  onClose?: () => void;
-  collapsed?: boolean;
-  mobileOpen?: boolean;
-}
-
-const AdminSidebar: React.FC<AdminSidebarProps> = ({
-  onClose,
-  collapsed,
-  mobileOpen
-}) => {
+const AdminSidebar: React.FC = () => {
   const location = useLocation();
-  const isActive = (path: string) => location.pathname === path;
-
-  const navLinks = [
+  const { signOut } = useAuth();
+  
+  const navItems = [
     {
-      name: 'Панель управления',
-      path: '/admin/dashboard',
-      icon: <Home className="w-5 h-5 mr-3" />
+      title: 'Dashboard',
+      icon: <LayoutDashboard className="h-5 w-5" />,
+      href: '/admin'
     },
     {
-      name: 'Новости',
-      path: '/admin/news',
-      icon: <Newspaper className="w-5 h-5 mr-3" />
+      title: 'Projects',
+      icon: <Building className="h-5 w-5" />,
+      href: '/admin/projects'
     },
     {
-      name: 'Вакансии',
-      path: '/admin/vacancies',
-      icon: <BriefcaseBusiness className="w-5 h-5 mr-3" />
+      title: 'Future Projects',
+      icon: <FileImage className="h-5 w-5" />,
+      href: '/admin/future-projects'
     },
     {
-      name: 'Заявки на вакансии',
-      path: '/admin/vacancy-applications',
-      icon: <FileBadge className="w-5 h-5 mr-3" />
+      title: 'News',
+      icon: <FileText className="h-5 w-5" />,
+      href: '/admin/news'
     },
     {
-      name: 'Сообщения',
-      path: '/admin/messages',
-      icon: <MessageSquare className="w-5 h-5 mr-3" />
+      title: 'Vacancies',
+      icon: <Briefcase className="h-5 w-5" />,
+      href: '/admin/vacancies'
     },
     {
-      name: 'Партнеры',
-      path: '/admin/partners',
-      icon: <Users2 className="w-5 h-5 mr-3" />
+      title: 'Messages',
+      icon: <MessageSquare className="h-5 w-5" />,
+      href: '/admin/messages'
     },
     {
-      name: 'Сотрудники',
-      path: '/admin/staff',
-      icon: <User className="w-5 h-5 mr-3" />
+      title: 'Partners',
+      icon: <Handshake className="h-5 w-5" />,
+      href: '/admin/partners'
     },
     {
-      name: 'Отделы',
-      path: '/admin/departments',
-      icon: <Users className="w-5 h-5 mr-3" />
+      title: 'Users',
+      icon: <Users className="h-5 w-5" />,
+      href: '/admin/users'
     },
     {
-      name: 'Будущие проекты',
-      path: '/admin/future-projects',
-      icon: <Construction className="w-5 h-5 mr-3" />
+      title: 'Settings',
+      icon: <Settings className="h-5 w-5" />,
+      href: '/admin/settings'
     },
     {
-      name: 'Тендеры',
-      path: '/admin/tenders',
-      icon: <FileCode className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Заявки на тендеры',
-      path: '/admin/tender-submissions',
-      icon: <FileText className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Коммерческие предложения',
-      path: '/admin/commercial-offers',
-      icon: <HandCoins className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Цены за м²',
-      path: '/admin/floor-prices',
-      icon: <Layers className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Квартиры',
-      path: '/admin/apartment-units',
-      icon: <Building className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Аудит логи',
-      path: '/admin/audit-logs',
-      icon: <BarChart3 className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Детальные аудит логи',
-      path: '/admin/detailed-audit-logs',
-      icon: <BarChart3 className="w-5 h-5 mr-3" />
+      title: 'Help',
+      icon: <HelpCircle className="h-5 w-5" />,
+      href: '/admin/help'
     }
   ];
-
+  
   return (
-    <div className={`w-64 h-screen fixed left-0 top-0 bg-slate-900 text-white flex flex-col shadow-lg z-30 ${mobileOpen === false ? '-translate-x-full lg:translate-x-0' : ''} transition-transform duration-200`}>
-      <div className="flex items-center justify-between px-6 py-4 border-b border-gray-700 bg-gray-800">
-        <h2 className="text-xl font-bold">Админ панель</h2>
-        {onClose && (
-          <Button variant="ghost" size="icon" onClick={onClose} className="lg:hidden">
-            <PanelLeftClose className="h-5 w-5" />
-          </Button>
-        )}
+    <div className="w-64 bg-zinc-900 border-r border-zinc-800 h-full py-4">
+      <div className="px-6 mb-6">
+        <Link to="/" className="flex items-center text-lg font-semibold text-white">
+          Admin Panel
+        </Link>
       </div>
-      <nav className="flex-1 overflow-auto pb-6 pt-2 bg-gray-800">
-        <ul className="space-y-1 px-3">
-          {navLinks.map(link => (
-            <li key={link.path}>
-              <Link 
-                to={link.path} 
-                className={`flex items-center px-3 py-2 rounded-md transition-colors ${
-                  isActive(link.path) 
-                    ? 'bg-primary text-primary-foreground' 
-                    : 'hover:bg-slate-800 text-gray-200 hover:text-white'
-                }`} 
-                onClick={onClose}
-              >
-                {link.icon}
-                <span>{link.name}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
+      <nav className="space-y-1">
+        {navItems.map((item) => (
+          <Link
+            key={item.title}
+            to={item.href}
+            className={cn(
+              "group flex items-center space-x-3 py-2 px-6 hover:bg-zinc-800 rounded-md transition-colors duration-200",
+              location.pathname === item.href
+                ? "bg-zinc-800 text-white"
+                : "text-zinc-400 hover:text-zinc-100"
+            )}
+          >
+            {item.icon}
+            <span>{item.title}</span>
+          </Link>
+        ))}
       </nav>
+      <div className="mt-auto px-6 pt-6">
+        <button
+          onClick={signOut}
+          className="flex items-center space-x-3 py-2 px-6 hover:bg-zinc-800 rounded-md transition-colors duration-200 text-zinc-400 hover:text-zinc-100 w-full justify-start"
+        >
+          <LogOut className="h-5 w-5" />
+          <span>Logout</span>
+        </button>
+      </div>
     </div>
   );
 };
