@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -39,6 +38,22 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       }
 
       setUploading(true);
+
+      // Create the bucket if it doesn't exist
+      const { data: buckets } = await supabase.storage.listBuckets();
+      const publicBucketExists = buckets?.some(bucket => bucket.name === 'public');
+      
+      if (!publicBucketExists) {
+        const { error: bucketError } = await supabase.storage
+          .createBucket('public', {
+            public: true,
+            fileSizeLimit: 10485760, // 10MB
+          });
+          
+        if (bucketError) {
+          console.error('Error creating bucket:', bucketError);
+        }
+      }
 
       if (multiple && e.target.files.length > 1) {
         // Handle multiple file upload
@@ -89,6 +104,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
           .upload(filePath, file);
 
         if (uploadError) {
+          console.error('Error uploading image:', uploadError);
           throw uploadError;
         }
 

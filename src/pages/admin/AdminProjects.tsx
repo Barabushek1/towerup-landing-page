@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
@@ -12,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { PlusCircle, Pencil, Trash2 } from 'lucide-react';
 import { Project, fetchProjects, createProject, updateProject, deleteProject } from '@/utils/project-helpers';
 import ImageUploader from '@/components/admin/ImageUploader';
+import { createStorageBucket } from '@/utils/create-storage-bucket';
 
 const AdminProjects: React.FC = () => {
   const { toast } = useToast();
@@ -20,6 +20,7 @@ const AdminProjects: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [currentProject, setCurrentProject] = useState<Partial<Project> | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   // Form state
   const [title, setTitle] = useState('');
@@ -29,15 +30,31 @@ const AdminProjects: React.FC = () => {
   const [imageUrl, setImageUrl] = useState('');
   const [url, setUrl] = useState('');
 
+  // Initialize the storage bucket when component loads
   useEffect(() => {
+    const initializeStorage = async () => {
+      await createStorageBucket();
+    };
+    
+    initializeStorage();
     loadProjects();
   }, []);
 
   const loadProjects = async () => {
     setLoading(true);
-    const data = await fetchProjects();
-    setProjects(data);
-    setLoading(false);
+    try {
+      const data = await fetchProjects();
+      setProjects(data);
+    } catch (error) {
+      console.error('Error loading projects:', error);
+      toast({
+        title: 'Ошибка',
+        description: 'Не удалось загрузить проекты',
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const resetForm = () => {
@@ -85,6 +102,7 @@ const AdminProjects: React.FC = () => {
     }
 
     try {
+      setSubmitting(true);
       const projectData = {
         title,
         description,
@@ -97,6 +115,7 @@ const AdminProjects: React.FC = () => {
       let success;
       
       if (isEditing && currentProject?.id) {
+        console.log(`Updating project ${currentProject.id} with:`, projectData);
         success = await updateProject(currentProject.id, projectData);
         if (success) {
           toast({
@@ -105,11 +124,12 @@ const AdminProjects: React.FC = () => {
           });
         }
       } else {
+        console.log('Creating new project with:', projectData);
         success = await createProject(projectData);
         if (success) {
           toast({
             title: 'Успешно',
-            description: 'Новый проект добавлен',
+            description: 'Новый ��роект добавлен',
           });
         }
       }
@@ -131,6 +151,8 @@ const AdminProjects: React.FC = () => {
         description: 'Произошла ошибка при сохранении проекта',
         variant: 'destructive',
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -280,27 +302,38 @@ const AdminProjects: React.FC = () => {
 
             <div className="space-y-2">
               <Label htmlFor="image">Изображение</Label>
-              <div className="flex gap-2 items-center">
+              <ImageUploader
+                onImageUploaded={(url) => {
+                  console.log("Image uploaded:", url);
+                  setImageUrl(url);
+                }}
+                defaultImage={imageUrl}
+                className="mb-2"
+              />
+              {imageUrl && (
                 <Input
                   id="image"
                   value={imageUrl}
                   onChange={(e) => setImageUrl(e.target.value)}
                   placeholder="URL изображения"
+                  className="mt-2"
                 />
-              </div>
-              
-              <ImageUploader
-                onImageUploaded={(url) => setImageUrl(url)}
-                defaultImage={imageUrl}
-              />
+              )}
             </div>
 
             <DialogFooter>
-              <Button type="button" variant="outline" onClick={closeModal}>
+              <Button type="button" variant="outline" onClick={closeModal} disabled={submitting}>
                 Отмена
               </Button>
-              <Button type="submit">
-                {isEditing ? 'Обновить' : 'Создать'}
+              <Button type="submit" disabled={submitting}>
+                {submitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    {isEditing ? 'Обновление...' : 'Создание...'}
+                  </>
+                ) : (
+                  isEditing ? 'Обновить' : 'Создать'
+                )}
               </Button>
             </DialogFooter>
           </form>

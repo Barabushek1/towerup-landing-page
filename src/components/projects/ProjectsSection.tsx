@@ -15,6 +15,7 @@ const ProjectsSection: React.FC = () => {
   const [carouselApi, setCarouselApi] = useState<any>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [dbProjects, setDbProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
   
   useEffect(() => {
     if (!carouselApi) return;
@@ -66,10 +67,18 @@ const ProjectsSection: React.FC = () => {
     const elementsToObserve = sectionRef.current?.querySelectorAll('.scroll-animate-section');
     elementsToObserve?.forEach(el => observer.observe(el));
     
-    // Fetch projects from database
+    // Fetch projects from database with loading state
     const loadProjects = async () => {
-      const data = await fetchProjects();
-      setDbProjects(data);
+      setLoading(true);
+      try {
+        const data = await fetchProjects();
+        console.log("Projects loaded from DB:", data);
+        setDbProjects(data);
+      } catch (err) {
+        console.error("Error loading projects:", err);
+      } finally {
+        setLoading(false);
+      }
     };
     
     loadProjects();
@@ -128,7 +137,7 @@ const ProjectsSection: React.FC = () => {
   ];
   
   // Database projects
-  const dbProjectCards = dbProjects.slice(0, 3).map(project => ({
+  const dbProjectCards = dbProjects.map(project => ({
     title: project.title,
     description: project.description,
     location: project.location,
@@ -137,9 +146,9 @@ const ProjectsSection: React.FC = () => {
     slug: project.url
   }));
   
-  // Combine projects, prioritizing database ones but ensuring we have at least 3 projects
+  // Combine projects, prioritizing database ones
   const projects = dbProjectCards.length > 0 
-    ? [...dbProjectCards, ...defaultProjects.slice(0, Math.max(0, 3 - dbProjectCards.length))]
+    ? dbProjectCards 
     : defaultProjects;
   
   return (
@@ -265,17 +274,27 @@ const ProjectsSection: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.3 }} 
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
           >
-            {projects.map((project, index) => (
-              <motion.div 
-                key={index} 
-                initial={{ opacity: 0, y: 20 }} 
-                whileInView={{ opacity: 1, y: 0 }} 
-                viewport={{ once: true }} 
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                <ProjectCard {...project} index={index} />
-              </motion.div>
-            ))}
+            {loading ? (
+              <div className="col-span-3 flex justify-center items-center py-10">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+              </div>
+            ) : projects.length === 0 ? (
+              <div className="col-span-3 text-center py-10">
+                <p className="text-white">No projects available.</p>
+              </div>
+            ) : (
+              projects.map((project, index) => (
+                <motion.div 
+                  key={index} 
+                  initial={{ opacity: 0, y: 20 }} 
+                  whileInView={{ opacity: 1, y: 0 }} 
+                  viewport={{ once: true }} 
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <ProjectCard {...project} index={index} />
+                </motion.div>
+              ))
+            )}
           </motion.div>
         </div>
       </div>
