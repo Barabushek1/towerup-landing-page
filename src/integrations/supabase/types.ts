@@ -489,42 +489,6 @@ export type Database = {
         }
         Relationships: []
       }
-      projects: {
-        Row: {
-          created_at: string
-          description: string
-          id: string
-          image_url: string | null
-          location: string
-          status: string
-          title: string
-          updated_at: string
-          url: string
-        }
-        Insert: {
-          created_at?: string
-          description: string
-          id?: string
-          image_url?: string | null
-          location: string
-          status: string
-          title: string
-          updated_at?: string
-          url: string
-        }
-        Update: {
-          created_at?: string
-          description?: string
-          id?: string
-          image_url?: string | null
-          location?: string
-          status?: string
-          title?: string
-          updated_at?: string
-          url?: string
-        }
-        Relationships: []
-      }
       staff_members: {
         Row: {
           bio: string | null

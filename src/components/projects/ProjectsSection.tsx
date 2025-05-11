@@ -7,14 +7,8 @@ import { motion } from 'framer-motion';
 import { useLanguage } from '../../contexts/LanguageContext';
 import ProjectCard from './ProjectCard';
 import FeaturedProject from './FeaturedProject';
-import { Project } from '@/types/project';
 
-interface ProjectsSectionProps {
-  customProjects?: Project[];
-  loading?: boolean;
-}
-
-const ProjectsSection: React.FC<ProjectsSectionProps> = ({ customProjects, loading = false }) => {
+const ProjectsSection: React.FC = () => {
   const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
   const [carouselApi, setCarouselApi] = useState<any>(null);
@@ -95,40 +89,30 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ customProjects, loadi
     }
   ];
   
-  // If custom projects are provided, use them; otherwise, use the default projects
-  const projects = customProjects || [
+  const projects = [
     {
-      id: '1',
       title: t("projectsSection.projects.pushkin.title"),
       description: t("projectsSection.projects.pushkin.description"),
       location: t("projectsSection.projects.pushkin.location"),
       status: t("projectsSection.projects.pushkin.status"),
-      image_url: "/assets/Pushkin/18.jpg",
-      url: "/projects/pushkin",
-      created_at: '',
-      updated_at: ''
+      imageUrl: "/assets/Pushkin/18.jpg",
+      slug: "pushkin"
     },
     {
-      id: '2',
       title: t("projectsSection.projects.newUzbekistan.title"),
       description: t("projectsSection.projects.newUzbekistan.description"),
       location: t("projectsSection.projects.newUzbekistan.location"),
       status: t("projectsSection.projects.newUzbekistan.status"),
-      image_url: "/lovable-uploads/36f32494-e938-41ca-815a-e71e74b2e791.png",
-      url: "/projects/new-uzbekistan",
-      created_at: '',
-      updated_at: ''
+      imageUrl: "/lovable-uploads/36f32494-e938-41ca-815a-e71e74b2e791.png",
+      slug: "new-uzbekistan"
     },
     {
-      id: '3',
       title: t("projectsSection.projects.kumaryk.title"),
       description: t("projectsSection.projects.kumaryk.description"),
       location: t("projectsSection.projects.kumaryk.location"),
       status: t("projectsSection.projects.kumaryk.status"),
-      image_url: "https://images.unsplash.com/photo-1618172193763-c511deb635ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2064&q=80",
-      url: "/projects/kumaryk",
-      created_at: '',
-      updated_at: ''
+      imageUrl: "https://images.unsplash.com/photo-1618172193763-c511deb635ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2064&q=80",
+      slug: "kumaryk"
     }
   ];
   
@@ -255,27 +239,15 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ customProjects, loadi
             transition={{ duration: 0.8, delay: 0.3 }} 
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
           >
-            {loading ? (
-              <div className="col-span-3 flex justify-center py-16">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-              </div>
-            ) : projects.map((project, index) => (
+            {projects.map((project, index) => (
               <motion.div 
-                key={project.id} 
+                key={index} 
                 initial={{ opacity: 0, y: 20 }} 
                 whileInView={{ opacity: 1, y: 0 }} 
                 viewport={{ once: true }} 
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <ProjectCard 
-                  title={project.title} 
-                  description={project.description}
-                  location={project.location}
-                  status={project.status}
-                  imageUrl={project.image_url}
-                  index={index}
-                  slug={project.url.split('/').pop()}
-                />
+                <ProjectCard {...project} index={index} />
               </motion.div>
             ))}
           </motion.div>
