@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, ArrowLeft, ArrowDown } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -136,20 +135,27 @@ const ProjectsSection: React.FC = () => {
     }
   ];
   
-  // Database projects
+  // Transform database projects for display
   const dbProjectCards = dbProjects.map(project => ({
     title: project.title,
     description: project.description,
     location: project.location,
     status: project.status,
     imageUrl: project.image_url || '/assets/placeholder-project.jpg',
-    slug: project.url
+    slug: project.url || ''
   }));
   
-  // Combine projects, prioritizing database ones
-  const projects = dbProjectCards.length > 0 
-    ? dbProjectCards 
-    : defaultProjects;
+  // Combine projects, including database ones
+  const allProjects = [...dbProjectCards, ...defaultProjects];
+  
+  // Take only the first 3-6 projects to display
+  const displayProjects = allProjects.slice(0, Math.min(allProjects.length, 6));
+  
+  console.log("Projects to display:", {
+    dbProjects: dbProjectCards.length,
+    defaultProjects: defaultProjects.length,
+    displayProjects: displayProjects.length
+  });
   
   return (
     <section id="projects" ref={sectionRef} className="py-0 bg-black overflow-hidden">
@@ -278,12 +284,12 @@ const ProjectsSection: React.FC = () => {
               <div className="col-span-3 flex justify-center items-center py-10">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
               </div>
-            ) : projects.length === 0 ? (
+            ) : displayProjects.length === 0 ? (
               <div className="col-span-3 text-center py-10">
                 <p className="text-white">No projects available.</p>
               </div>
             ) : (
-              projects.map((project, index) => (
+              displayProjects.map((project, index) => (
                 <motion.div 
                   key={index} 
                   initial={{ opacity: 0, y: 20 }} 

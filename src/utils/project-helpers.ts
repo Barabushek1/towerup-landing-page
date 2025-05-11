@@ -15,6 +15,7 @@ export interface Project {
 
 export async function fetchProjects(): Promise<Project[]> {
   try {
+    console.log('Fetching projects from database...');
     const { data, error } = await supabase
       .from('projects')
       .select('*')
@@ -25,6 +26,7 @@ export async function fetchProjects(): Promise<Project[]> {
       return [];
     }
     
+    console.log('Projects fetched successfully:', data?.length || 0);
     return data || [];
   } catch (err) {
     console.error('Unexpected error fetching projects:', err);
