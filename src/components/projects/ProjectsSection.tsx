@@ -7,12 +7,14 @@ import { motion } from 'framer-motion';
 import { useLanguage } from '../../contexts/LanguageContext';
 import ProjectCard from './ProjectCard';
 import FeaturedProject from './FeaturedProject';
+import { fetchProjects, Project } from '@/utils/project-helpers';
 
 const ProjectsSection: React.FC = () => {
   const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
   const [carouselApi, setCarouselApi] = useState<any>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [dbProjects, setDbProjects] = useState<Project[]>([]);
   
   useEffect(() => {
     if (!carouselApi) return;
@@ -64,6 +66,14 @@ const ProjectsSection: React.FC = () => {
     const elementsToObserve = sectionRef.current?.querySelectorAll('.scroll-animate-section');
     elementsToObserve?.forEach(el => observer.observe(el));
     
+    // Fetch projects from database
+    const loadProjects = async () => {
+      const data = await fetchProjects();
+      setDbProjects(data);
+    };
+    
+    loadProjects();
+    
     return () => elementsToObserve?.forEach(el => el && observer.unobserve(el));
   }, []);
   
@@ -89,7 +99,8 @@ const ProjectsSection: React.FC = () => {
     }
   ];
   
-  const projects = [
+  // Default hardcoded projects
+  const defaultProjects = [
     {
       title: t("projectsSection.projects.pushkin.title"),
       description: t("projectsSection.projects.pushkin.description"),
@@ -115,6 +126,21 @@ const ProjectsSection: React.FC = () => {
       slug: "kumaryk"
     }
   ];
+  
+  // Database projects
+  const dbProjectCards = dbProjects.slice(0, 3).map(project => ({
+    title: project.title,
+    description: project.description,
+    location: project.location,
+    status: project.status,
+    imageUrl: project.image_url || '/assets/placeholder-project.jpg',
+    slug: project.url
+  }));
+  
+  // Combine projects, prioritizing database ones but ensuring we have at least 3 projects
+  const projects = dbProjectCards.length > 0 
+    ? [...dbProjectCards, ...defaultProjects.slice(0, Math.max(0, 3 - dbProjectCards.length))]
+    : defaultProjects;
   
   return (
     <section id="projects" ref={sectionRef} className="py-0 bg-black overflow-hidden">

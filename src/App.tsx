@@ -43,6 +43,7 @@ import AdminLayout from "./components/admin/AdminLayout";
 import AdminStaff from "./pages/admin/AdminStaff";
 import AdminDepartments from "./pages/admin/AdminDepartments";
 import AdminFutureProjects from "./pages/admin/AdminFutureProjects";
+import AdminProjects from "./pages/admin/AdminProjects"; // Add this import
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Collaboration from "./pages/Collaboration";
 import Tenders from "./pages/collaboration/Tenders";
@@ -123,6 +124,7 @@ const App = () => {
           <Route path="/admin/staff" element={<AdminStaff />} />
           <Route path="/admin/departments" element={<AdminDepartments />} />
           <Route path="/admin/future-projects" element={<AdminLayout><AdminFutureProjects /></AdminLayout>} />
+          <Route path="/admin/projects" element={<AdminLayout><AdminProjects /></AdminLayout>} /> {/* Add this route */}
           
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="*" element={<NotFound />} />

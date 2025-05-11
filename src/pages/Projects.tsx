@@ -1,11 +1,12 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import PageHeader from '@/components/PageHeader';
 import { ArrowRight, Building, Calendar, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { fetchProjects, Project } from '@/utils/project-helpers';
 
 // --- Interface (No changes needed) ---
 interface ProjectCardProps {
@@ -96,18 +97,33 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
 // --- Projects Component (Main Page) ---
 const Projects: React.FC = () => {
-    // Data - IMPORTANT: Replace placeholder image URLs with actual paths
-    const projects = [
+    const [dbProjects, setDbProjects] = useState<Project[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const loadProjects = async () => {
+            setLoading(true);
+            const data = await fetchProjects();
+            setDbProjects(data);
+            setLoading(false);
+        };
+        
+        loadProjects();
+    }, []);
+    
+    // Combine database projects with hardcoded ones
+    const projects: ProjectCardProps[] = [
+        // Hardcoded projects
         {
             title: 'ЖК "Пушкин"',
             type: 'Жилой комплекс',
             description: 'Современный эко-комплекс из 5 домов с благоустроенной территорией, детскими площадками и парковой зоной.',
             location: 'Ташкент',
-            imageUrl: '/assets/Pushkin/18.jpg', // Verify this path is correct
+            imageUrl: '/assets/Pushkin/18.jpg',
             status: 'Строится',
             completion: 'Q4 2025',
             slug: 'pushkin',
-            featured: true // This project will span 2 columns on md+ screens
+            featured: true
         },
         {
             title: 'ЖК "Yangi Uzbekistan"',
@@ -120,40 +136,17 @@ const Projects: React.FC = () => {
             slug: 'new-uzbekistan',
             featured: true
         },
-        {
-            title: 'БЦ "Banking Technology"',
-            type: 'Бизнес-центр',
-            description: 'Инновационный бизнес-центр с уникальным стеклянным фасадом, зеленой кровлей и передовыми инженерными решениями.',
-            location: 'Ташкент',
-            imageUrl: '/lovable-uploads/cf9752f7-44b9-4249-932c-6ba52b072297.png',
-            status: 'Проектируется',
-            completion: 'Q3 2026',
-            slug: 'banking-technology',
+        // Database projects
+        ...dbProjects.map(project => ({
+            title: project.title,
+            type: 'Проект',
+            description: project.description,
+            location: project.location,
+            imageUrl: project.image_url || '/assets/placeholder-project.jpg',
+            status: project.status,
+            slug: project.url,
             featured: false
-        },
-        {
-            title: 'БЦ "Бочка"',
-            type: 'Бизнес-центр',
-            description: 'Современный бизнес-центр класса А с конференц-залами, подземным паркингом и зелёной зоной отдыха.',
-            location: 'Ташкент',
-            imageUrl: '/assets/Bochka/bochka_hero.jpg', // <<-- REPLACE WITH ACTUAL IMAGE PATH
-            status: 'Строится',
-            completion: 'Q2 2026',
-            slug: 'bochka',
-            featured: false
-        },
-        {
-            title: 'ЖК "Кумарык"',
-            type: 'Жилой комплекс',
-            description: 'Курортный комплекс из отеля 5* и апартаментов с панорамным видом на море и собственным пляжем.',
-            location: 'Иссык-Куль', // Example Location
-            imageUrl: '/assets/Kumaryk/kumaryk_exterior.jpg', // <<-- REPLACE WITH ACTUAL IMAGE PATH
-            status: 'Проектируется',
-            completion: 'Q3 2026',
-            slug: 'kumaryk',
-            featured: false
-        }
-        // Add more projects here as needed
+        }))
     ];
 
     return (
@@ -161,11 +154,11 @@ const Projects: React.FC = () => {
             <NavBar />
             <main>
                 {/* Page Header */}
-                <PageHeader title="НАШИ ПРОЕКТЫ" breadcrumb="ПРОЕКТЫ" backgroundImage="/assets/Pushkin/17.jpg" /> {/* Verify path */}
+                <PageHeader title="НАШИ ПРОЕКТЫ" breadcrumb="ПРОЕКТЫ" backgroundImage="/assets/Pushkin/17.jpg" />
 
                 {/* Projects Section */}
                 <section className="py-16 md:py-24 bg-[#1a1a1a] relative">
-                    <div className="container mx-auto px-4 sm:px-6"> {/* Adjusted padding */}
+                    <div className="container mx-auto px-4 sm:px-6">
                         {/* Section Header */}
                         <div className="max-w-3xl mx-auto mb-12 md:mb-16 text-center">
                             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Выдающиеся проекты</h2>
@@ -177,9 +170,15 @@ const Projects: React.FC = () => {
 
                         {/* Projects Grid with Responsive Gap */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
-                            {projects.map((project) => (
-                                <ProjectCard key={project.slug} {...project} /> // Using slug as key
-                            ))}
+                            {loading ? (
+                                <div className="col-span-2 flex justify-center items-center py-20">
+                                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+                                </div>
+                            ) : (
+                                projects.map((project) => (
+                                    <ProjectCard key={project.slug} {...project} />
+                                ))
+                            )}
                         </div>
                     </div>
                 </section>
