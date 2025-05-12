@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, ArrowLeft, ArrowDown } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -8,9 +7,6 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import ProjectCard from './ProjectCard';
 import FeaturedProject from './FeaturedProject';
 import { fetchProjects, Project } from '@/utils/project-helpers';
-import { cn } from '@/lib/utils';
-
-const MAX_DISPLAY_PROJECTS = 5; // Maximum number of projects to display
 
 const ProjectsSection: React.FC = () => {
   const { t } = useLanguage();
@@ -19,7 +15,6 @@ const ProjectsSection: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [dbProjects, setDbProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
-  const [autoScrollActive, setAutoScrollActive] = useState(true);
   
   useEffect(() => {
     if (!carouselApi) return;
@@ -33,7 +28,6 @@ const ProjectsSection: React.FC = () => {
     let autoplayInterval: NodeJS.Timeout | null = null;
     
     const startAutoplay = () => {
-      if (!autoScrollActive) return;
       stopAutoplay();
       autoplayInterval = setInterval(() => {
         carouselApi?.scrollNext();
@@ -56,38 +50,21 @@ const ProjectsSection: React.FC = () => {
       carouselElement.removeEventListener('mouseenter', stopAutoplay);
       carouselElement.removeEventListener('mouseleave', startAutoplay);
     };
-  }, [carouselApi, autoScrollActive]);
+  }, [carouselApi]);
   
   useEffect(() => {
-    // Enhanced intersection observer with improved thresholds
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('in-view');
-          
-          // When section becomes visible, enable auto-scroll
-          if (entry.target === sectionRef.current) {
-            setAutoScrollActive(true);
-          }
-        } else {
-          // When section is not visible, disable auto-scroll to save resources
-          if (entry.target === sectionRef.current) {
-            setAutoScrollActive(false);
-          }
         }
       });
     }, {
-      threshold: [0.1, 0.3, 0.5],
-      rootMargin: '-100px 0px'
+      threshold: 0.1
     });
     
     const elementsToObserve = sectionRef.current?.querySelectorAll('.scroll-animate-section');
     elementsToObserve?.forEach(el => observer.observe(el));
-    
-    // Also observe the section itself for auto-scroll control
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
     
     // Fetch projects from database with loading state
     const loadProjects = async () => {
@@ -105,13 +82,9 @@ const ProjectsSection: React.FC = () => {
     
     loadProjects();
     
-    return () => {
-      elementsToObserve?.forEach(el => el && observer.unobserve(el));
-      if (sectionRef.current) observer.unobserve(sectionRef.current);
-    };
+    return () => elementsToObserve?.forEach(el => el && observer.unobserve(el));
   }, []);
   
-  // Featured projects with improved descriptions
   const featuredProjects = [
     {
       title: t("projectsSection.featured.nearby.title"),
@@ -134,7 +107,7 @@ const ProjectsSection: React.FC = () => {
     }
   ];
   
-  // Default hardcoded showcase projects
+  // Default hardcoded projects
   const defaultProjects = [
     {
       title: t("projectsSection.projects.pushkin.title"),
@@ -142,9 +115,7 @@ const ProjectsSection: React.FC = () => {
       location: t("projectsSection.projects.pushkin.location"),
       status: t("projectsSection.projects.pushkin.status"),
       imageUrl: "/assets/Pushkin/18.jpg",
-      slug: "pushkin",
-      active: true,
-      featured: true
+      slug: "pushkin"
     },
     {
       title: t("projectsSection.projects.newUzbekistan.title"),
@@ -152,9 +123,7 @@ const ProjectsSection: React.FC = () => {
       location: t("projectsSection.projects.newUzbekistan.location"),
       status: t("projectsSection.projects.newUzbekistan.status"),
       imageUrl: "/lovable-uploads/36f32494-e938-41ca-815a-e71e74b2e791.png",
-      slug: "new-uzbekistan",
-      active: true,
-      featured: true
+      slug: "new-uzbekistan"
     },
     {
       title: t("projectsSection.projects.kumaryk.title"),
@@ -162,41 +131,26 @@ const ProjectsSection: React.FC = () => {
       location: t("projectsSection.projects.kumaryk.location"),
       status: t("projectsSection.projects.kumaryk.status"),
       imageUrl: "https://images.unsplash.com/photo-1618172193763-c511deb635ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2064&q=80",
-      slug: "kumaryk",
-      active: true
+      slug: "kumaryk"
     }
   ];
   
   // Transform database projects for display
-  const dbProjectCards = dbProjects
-    .filter(project => project.status !== 'hidden') // Only show non-hidden projects
-    .map(project => ({
-      title: project.title,
-      description: project.description,
-      location: project.location,
-      status: project.status,
-      imageUrl: project.image_url || '/assets/placeholder-project.jpg',
-      slug: project.url || '',
-      active: true,
-      featured: project.status === 'featured'
-    }));
+  const dbProjectCards = dbProjects.map(project => ({
+    title: project.title,
+    description: project.description,
+    location: project.location,
+    status: project.status,
+    imageUrl: project.image_url || '/assets/placeholder-project.jpg',
+    slug: project.url || ''
+  }));
   
-  // Combine projects, prioritizing featured projects
-  const allProjects = [...dbProjectCards, ...defaultProjects]
-    .filter(project => project.active);
+  // Combine projects, including database ones
+  const allProjects = [...dbProjectCards, ...defaultProjects];
   
-  // Split into featured and regular projects  
-  const featuredProjectCards = allProjects
-    .filter(project => project.featured)
-    .slice(0, 2);
-    
-  const regularProjectCards = allProjects
-    .filter(project => !project.featured)
-    .slice(0, MAX_DISPLAY_PROJECTS - featuredProjectCards.length);
+  // Take only the first 3-6 projects to display
+  const displayProjects = allProjects.slice(0, Math.min(allProjects.length, 6));
   
-  // Final list of projects to display, capped at MAX_DISPLAY_PROJECTS
-  const displayProjects = [...featuredProjectCards, ...regularProjectCards];
-
   console.log("Projects to display:", {
     dbProjects: dbProjectCards.length,
     defaultProjects: defaultProjects.length,
@@ -263,34 +217,15 @@ const ProjectsSection: React.FC = () => {
           </div>
         </Carousel>
 
-        <motion.div 
-          className="absolute left-1/2 -translate-x-1/2 bottom-8 hidden lg:flex flex-col items-center justify-center gap-2 text-white/60 hover:text-white/90 transition-colors duration-300 cursor-pointer group"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 0.5 }}
-          onClick={() => {
-            const projectsGrid = document.querySelector('#projects-grid');
-            projectsGrid?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }}
-        >
+        <div className="absolute left-1/2 -translate-x-1/2 bottom-8 hidden lg:flex flex-col items-center justify-center gap-2 text-white/60 hover:text-white/90 transition-colors duration-300 cursor-pointer group">
           <span className="text-xs font-medium uppercase tracking-wider">{t("projectsSection.ourProjects")}</span>
           <ArrowDown className="h-4 w-4 animate-bounce" />
-        </motion.div>
+        </div>
       </div>
 
       <div className="relative">
-        {/* Enhanced background with parallax effect */}
-        <motion.div 
-          className="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black pointer-events-none" 
-          style={{ 
-            backgroundPosition: "center",
-            backgroundSize: "cover"
-          }}
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-        />
+        {/* Animated background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black pointer-events-none" />
         
         {/* Animated dot pattern background */}
         <div className="absolute inset-0 opacity-10">
@@ -303,7 +238,7 @@ const ProjectsSection: React.FC = () => {
           />
         </div>
 
-        <div id="projects-grid" className="container mx-auto px-4 sm:px-6 py-16 sm:py-24 lg:py-32 relative z-10">
+        <div className="container mx-auto px-4 sm:px-6 py-16 sm:py-24 lg:py-32 relative z-10">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-10 md:mb-16 scroll-animate-section">
             <motion.div 
               initial={{ opacity: 0, y: 20 }} 
@@ -338,42 +273,35 @@ const ProjectsSection: React.FC = () => {
             </motion.a>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            viewport={{ once: true }} 
+            transition={{ duration: 0.8, delay: 0.3 }} 
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+          >
             {loading ? (
-              // Enhanced loading animation
-              <div className="col-span-full flex justify-center items-center py-20">
-                <div className="relative">
-                  <div className="w-12 h-12 rounded-full border-2 border-primary border-opacity-20"></div>
-                  <div className="absolute top-0 left-0 w-12 h-12 rounded-full border-t-2 border-r-2 border-primary animate-spin"></div>
-                </div>
+              <div className="col-span-3 flex justify-center items-center py-10">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
               </div>
             ) : displayProjects.length === 0 ? (
-              <div className="col-span-full text-center py-20">
-                <p className="text-white text-lg">Нет доступных проектов</p>
+              <div className="col-span-3 text-center py-10">
+                <p className="text-white">No projects available.</p>
               </div>
             ) : (
-              // Grid with featured projects spanning 2 columns
               displayProjects.map((project, index) => (
-                <div 
-                  key={`project-${index}`}
-                  className={cn(
-                    project.featured ? "sm:col-span-2 lg:col-span-2" : ""
-                  )}
+                <motion.div 
+                  key={index} 
+                  initial={{ opacity: 0, y: 20 }} 
+                  whileInView={{ opacity: 1, y: 0 }} 
+                  viewport={{ once: true }} 
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <ProjectCard 
-                    title={project.title}
-                    description={project.description}
-                    location={project.location}
-                    status={project.status}
-                    imageUrl={project.imageUrl}
-                    slug={project.slug}
-                    index={index}
-                    featured={project.featured}
-                  />
-                </div>
+                  <ProjectCard {...project} index={index} />
+                </motion.div>
               ))
             )}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

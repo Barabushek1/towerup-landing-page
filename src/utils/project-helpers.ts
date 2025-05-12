@@ -11,8 +11,6 @@ export interface Project {
   url: string;
   created_at: string;
   updated_at: string;
-  is_featured?: boolean;
-  is_active?: boolean;
 }
 
 export async function fetchProjects(): Promise<Project[]> {
@@ -21,7 +19,6 @@ export async function fetchProjects(): Promise<Project[]> {
     const { data, error } = await supabase
       .from('projects')
       .select('*')
-      .eq('is_active', true)
       .order('created_at', { ascending: false });
     
     if (error) {
@@ -33,49 +30,6 @@ export async function fetchProjects(): Promise<Project[]> {
     return data || [];
   } catch (err) {
     console.error('Unexpected error fetching projects:', err);
-    return [];
-  }
-}
-
-export async function fetchAllProjects(): Promise<Project[]> {
-  try {
-    console.log('Fetching all projects from database...');
-    const { data, error } = await supabase
-      .from('projects')
-      .select('*')
-      .order('created_at', { ascending: false });
-    
-    if (error) {
-      console.error('Error fetching all projects:', error);
-      return [];
-    }
-    
-    console.log('All projects fetched successfully:', data?.length || 0);
-    return data || [];
-  } catch (err) {
-    console.error('Unexpected error fetching all projects:', err);
-    return [];
-  }
-}
-
-export async function fetchFeaturedProjects(limit = 5): Promise<Project[]> {
-  try {
-    const { data, error } = await supabase
-      .from('projects')
-      .select('*')
-      .eq('is_active', true)
-      .eq('is_featured', true)
-      .order('created_at', { ascending: false })
-      .limit(limit);
-    
-    if (error) {
-      console.error('Error fetching featured projects:', error);
-      return [];
-    }
-    
-    return data || [];
-  } catch (err) {
-    console.error('Unexpected error fetching featured projects:', err);
     return [];
   }
 }
@@ -104,15 +58,9 @@ export async function createProject(project: Omit<Project, 'id' | 'created_at' |
   try {
     console.log('Creating project with data:', project);
     
-    const projectData = {
-      ...project,
-      is_active: true,
-      is_featured: project.status === 'featured' 
-    };
-    
     const { error, data } = await supabase
       .from('projects')
-      .insert([projectData])
+      .insert([project])
       .select();
     
     if (error) {
@@ -132,15 +80,9 @@ export async function updateProject(id: string, project: Partial<Omit<Project, '
   try {
     console.log('Updating project with id:', id, 'and data:', project);
     
-    // If status is being updated, also update is_featured flag
-    const updates: any = { ...project };
-    if (project.status) {
-      updates.is_featured = project.status === 'featured';
-    }
-    
     const { error, data } = await supabase
       .from('projects')
-      .update(updates)
+      .update(project)
       .eq('id', id)
       .select();
     
@@ -153,47 +95,6 @@ export async function updateProject(id: string, project: Partial<Omit<Project, '
     return true;
   } catch (err) {
     console.error('Unexpected error updating project:', err);
-    return false;
-  }
-}
-
-export async function toggleProjectStatus(id: string, isActive: boolean): Promise<boolean> {
-  try {
-    const { error } = await supabase
-      .from('projects')
-      .update({ is_active: isActive })
-      .eq('id', id);
-    
-    if (error) {
-      console.error('Error toggling project status:', error);
-      return false;
-    }
-    
-    return true;
-  } catch (err) {
-    console.error('Unexpected error toggling project status:', err);
-    return false;
-  }
-}
-
-export async function toggleProjectFeatured(id: string, isFeatured: boolean): Promise<boolean> {
-  try {
-    const { error } = await supabase
-      .from('projects')
-      .update({ 
-        is_featured: isFeatured,
-        status: isFeatured ? 'featured' : 'active'
-      })
-      .eq('id', id);
-    
-    if (error) {
-      console.error('Error toggling project featured status:', error);
-      return false;
-    }
-    
-    return true;
-  } catch (err) {
-    console.error('Unexpected error toggling project featured status:', err);
     return false;
   }
 }
