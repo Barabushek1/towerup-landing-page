@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { Facebook, Linkedin, Instagram, ArrowUp, Send, PhoneCall } from 'lucide-react';
+import { Facebook, Instagram, ArrowUp, Send, PhoneCall } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 const Footer: React.FC = () => {
@@ -33,16 +33,13 @@ const Footer: React.FC = () => {
                             {t('footer.companyDesc')}
                         </p>
                         <div className="flex space-x-3">
-                            <a href="#" target="_blank" rel="noopener noreferrer" aria-label={t('footer.companyName') + " Facebook"} className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary transition-colors hover:bg-primary hover:text-white">
+                            <a href="https://www.facebook.com/share/18xM4NRVzW/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label={t('footer.companyName') + " Facebook"} className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary transition-colors hover:bg-primary hover:text-white">
                                 <Facebook className="h-5 w-5" />
                             </a>
-                            <a href="https://t.me/towerup_uz" target="_blank" rel="noopener noreferrer" aria-label={t('footer.companyName') + " Telegram"} className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary transition-colors hover:bg-primary hover:text-white">
+                            <a href="https://t.me/towerupuz" target="_blank" rel="noopener noreferrer" aria-label={t('footer.companyName') + " Telegram"} className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary transition-colors hover:bg-primary hover:text-white">
                                 <Send className="h-5 w-5" />
                             </a>
-                            <a href="#" target="_blank" rel="noopener noreferrer" aria-label={t('footer.companyName') + " LinkedIn"} className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary transition-colors hover:bg-primary hover:text-white">
-                                <Linkedin className="h-5 w-5" />
-                            </a>
-                            <a href="#" target="_blank" rel="noopener noreferrer" aria-label={t('footer.companyName') + " Instagram"} className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary transition-colors hover:bg-primary hover:text-white">
+                            <a href="https://www.instagram.com/yangi_ozbekiston_massiv" target="_blank" rel="noopener noreferrer" aria-label={t('footer.companyName') + " Instagram"} className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary transition-colors hover:bg-primary hover:text-white">
                                 <Instagram className="h-5 w-5" />
                             </a>
                         </div>
