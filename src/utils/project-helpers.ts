@@ -104,13 +104,15 @@ export async function createProject(project: Omit<Project, 'id' | 'created_at' |
   try {
     console.log('Creating project with data:', project);
     
+    const projectData = {
+      ...project,
+      is_active: true,
+      is_featured: project.status === 'featured' 
+    };
+    
     const { error, data } = await supabase
       .from('projects')
-      .insert([{
-        ...project,
-        is_active: true,
-        is_featured: project.status === 'featured'
-      }])
+      .insert([projectData])
       .select();
     
     if (error) {
