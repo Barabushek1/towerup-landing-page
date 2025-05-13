@@ -11,6 +11,7 @@ import { AdminProvider } from '@/contexts/AdminContext';
 import { AdminDataProvider } from '@/contexts/AdminDataContext';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { useTenderSeeder } from './hooks/use-tender-seeder.tsx';
+import ScrollToTop from '@/components/ScrollToTop';
 
 // Initialize React Query client
 const queryClient = new QueryClient({
@@ -33,6 +34,7 @@ const ProvidersWrapper: React.FC<{ children: React.ReactNode }> = ({ children })
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
+      <ScrollToTop />
       <QueryClientProvider client={queryClient}>
         <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
           <LanguageProvider>

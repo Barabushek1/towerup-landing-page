@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Index from '@/pages/Index';
 import About from '@/pages/About';
 import Projects from '@/pages/Projects';
@@ -58,41 +59,40 @@ function App() {
   return (
     <div className="min-h-screen text-foreground antialiased">
       <HelmetProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/vacancies" element={<Vacancies />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/terms-of-service" element={<TermsOfService />} />
-            <Route path="/admin">
-              <Route path="dashboard" element={<ProtectedRoute element={<AdminDashboard />} />} />
-              <Route path="news" element={<ProtectedRoute element={<AdminNews />} />} />
-              <Route path="projects" element={<ProtectedRoute element={<AdminProjects />} />} />
-              <Route path="timeline-events" element={<ProtectedRoute element={<AdminTimelineEvents />} />} />
-              <Route path="testimonials" element={<ProtectedRoute element={<AdminTestimonials />} />} />
-              <Route path="hero-images" element={<ProtectedRoute element={<AdminHeroImages />} />} />
-              <Route path="vacancies" element={<ProtectedRoute element={<AdminVacancies />} />} />
-              <Route path="vacancy-applications" element={<ProtectedRoute element={<AdminVacancyApplications />} />} />
-              <Route path="messages" element={<ProtectedRoute element={<AdminMessages />} />} />
-              <Route path="partners" element={<ProtectedRoute element={<AdminPartners />} />} />
-              <Route path="staff" element={<ProtectedRoute element={<AdminStaff />} />} />
-              <Route path="departments" element={<ProtectedRoute element={<AdminDepartments />} />} />
-              <Route path="future-projects" element={<ProtectedRoute element={<AdminFutureProjects />} />} />
-              <Route path="tenders" element={<ProtectedRoute element={<AdminTenders />} />} />
-              <Route path="tender-submissions" element={<ProtectedRoute element={<AdminTenderSubmissions />} />} />
-              <Route path="commercial-offers" element={<ProtectedRoute element={<AdminCommercialOffers />} />} />
-              <Route path="floor-prices" element={<ProtectedRoute element={<AdminFloorPrices />} />} />
-              <Route path="apartment-units" element={<ProtectedRoute element={<AdminApartmentUnits />} />} />
-              <Route path="audit-logs" element={<ProtectedRoute element={<AdminAuditLogs />} />} />
-              <Route path="detailed-audit-logs" element={<ProtectedRoute element={<AdminDetailedAuditLogs />} />} />
-              <Route path="login" element={<AdminLogin />} />
-            </Route>
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
+        {/* Removed the redundant BrowserRouter here */}
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/vacancies" element={<Vacancies />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/admin">
+            <Route path="dashboard" element={<ProtectedRoute element={<AdminDashboard />} />} />
+            <Route path="news" element={<ProtectedRoute element={<AdminNews />} />} />
+            <Route path="projects" element={<ProtectedRoute element={<AdminProjects />} />} />
+            <Route path="timeline-events" element={<ProtectedRoute element={<AdminTimelineEvents />} />} />
+            <Route path="testimonials" element={<ProtectedRoute element={<AdminTestimonials />} />} />
+            <Route path="hero-images" element={<ProtectedRoute element={<AdminHeroImages />} />} />
+            <Route path="vacancies" element={<ProtectedRoute element={<AdminVacancies />} />} />
+            <Route path="vacancy-applications" element={<ProtectedRoute element={<AdminVacancyApplications />} />} />
+            <Route path="messages" element={<ProtectedRoute element={<AdminMessages />} />} />
+            <Route path="partners" element={<ProtectedRoute element={<AdminPartners />} />} />
+            <Route path="staff" element={<ProtectedRoute element={<AdminStaff />} />} />
+            <Route path="departments" element={<ProtectedRoute element={<AdminDepartments />} />} />
+            <Route path="future-projects" element={<ProtectedRoute element={<AdminFutureProjects />} />} />
+            <Route path="tenders" element={<ProtectedRoute element={<AdminTenders />} />} />
+            <Route path="tender-submissions" element={<ProtectedRoute element={<AdminTenderSubmissions />} />} />
+            <Route path="commercial-offers" element={<ProtectedRoute element={<AdminCommercialOffers />} />} />
+            <Route path="floor-prices" element={<ProtectedRoute element={<AdminFloorPrices />} />} />
+            <Route path="apartment-units" element={<ProtectedRoute element={<AdminApartmentUnits />} />} />
+            <Route path="audit-logs" element={<ProtectedRoute element={<AdminAuditLogs />} />} />
+            <Route path="detailed-audit-logs" element={<ProtectedRoute element={<AdminDetailedAuditLogs />} />} />
+            <Route path="login" element={<AdminLogin />} />
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </HelmetProvider>
       <Toaster />
     </div>
