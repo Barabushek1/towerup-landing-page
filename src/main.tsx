@@ -11,7 +11,6 @@ import { AdminProvider } from '@/contexts/AdminContext';
 import { AdminDataProvider } from '@/contexts/AdminDataContext';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { useTenderSeeder } from './hooks/use-tender-seeder.tsx';
-import { HelmetProvider } from 'react-helmet-async';
 
 // Initialize React Query client
 const queryClient = new QueryClient({
@@ -39,11 +38,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <LanguageProvider>
             <AdminProvider>
               <AdminDataProvider>
-                <HelmetProvider>
-                  <ProvidersWrapper>
-                    <App />
-                  </ProvidersWrapper>
-                </HelmetProvider>
+                <ProvidersWrapper>
+                  <App />
+                </ProvidersWrapper>
               </AdminDataProvider>
             </AdminProvider>
           </LanguageProvider>

@@ -6,15 +6,6 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import AnimatedBackground from './AnimatedBackground';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { supabase } from '@/integrations/supabase/client';
-
-interface HeroImage {
-  id: string;
-  image_url: string;
-  display_order: number;
-  is_active: boolean;
-  alt_text?: string;
-}
 
 const HeroSection: React.FC = () => {
   const { t } = useLanguage();
@@ -22,50 +13,15 @@ const HeroSection: React.FC = () => {
   const playerRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [heroImages, setHeroImages] = useState<string[]>([
-    "/lovable-uploads/499747fd-cec7-42ad-a52d-b4a550043793.png", // Default fallback image
-    "https://i.imgur.com/jQAr3bM.jpeg",
-    "https://i.imgur.com/3geqXON.jpeg"
-  ]);
   
-  // Fetch hero images from database
-  useEffect(() => {
-    const fetchHeroImages = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('hero_images')
-          .select('*')
-          .eq('is_active', true)
-          .order('display_order', { ascending: true });
-
-        if (error) {
-          console.error('Error fetching hero images:', error);
-          return;
-        }
-
-        if (data && data.length > 0) {
-          // Extract image URLs from the data
-          const imageUrls = data.map((img: HeroImage) => img.image_url);
-          setHeroImages(imageUrls);
-        }
-      } catch (error) {
-        console.error('Error in hero images fetch:', error);
-      }
-    };
-
-    fetchHeroImages();
-  }, []);
-
-  // Set up image rotation
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
-    }, 4000);
-    
-    return () => clearInterval(interval);
-  }, [heroImages.length]);
-
-  // Observer for fade-in animation
+  // Define the images for the carousel
+  const heroImages = [
+    "/lovable-uploads/499747fd-cec7-42ad-a52d-b4a550043793.png", // Original image
+    "https://i.imgur.com/jQAr3bM.jpeg", // First additional image
+    "https://i.imgur.com/3geqXON.jpeg", // Second additional image
+  ];
+  
+  // Auto-rotate background images every 4 seconds
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -88,13 +44,22 @@ const HeroSection: React.FC = () => {
     };
   }, []);
 
+  // Set up image rotation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
+    }, 4000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
   // Preload images for smooth transitions
   useEffect(() => {
     heroImages.forEach(src => {
       const img = new Image();
       img.src = src;
     });
-  }, [heroImages]);
+  }, []);
 
   return (
     <section 
