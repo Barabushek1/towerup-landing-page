@@ -1,16 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { Button } from '@/components/ui/button';
 import { PlusCircle, Pencil, Trash2, MoveUp, MoveDown, Flag, Building, Award, Target, Rocket, Briefcase, Trophy, Clock, Users, Landmark } from 'lucide-react';
-import { 
-  TimelineEvent, 
-  fetchTimelineEvents, 
-  createTimelineEvent, 
-  updateTimelineEvent, 
-  deleteTimelineEvent,
-  reorderTimelineEvents 
-} from '@/utils/timeline-helpers';
+import { TimelineEvent, fetchTimelineEvents, createTimelineEvent, updateTimelineEvent, deleteTimelineEvent, reorderTimelineEvents } from '@/utils/timeline-helpers';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -18,7 +10,6 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
-
 const AdminTimelineEvents = () => {
   const [timelineEvents, setTimelineEvents] = useState<TimelineEvent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -35,35 +26,60 @@ const AdminTimelineEvents = () => {
     description_uz: '',
     description_en: '',
     icon_name: 'Flag',
-    display_order: 0,
+    display_order: 0
   });
   const [eventIdToDelete, setEventIdToDelete] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const iconOptions = [
-    { value: 'Flag', label: 'Flag', icon: <Flag className="h-4 w-4" /> },
-    { value: 'Building', label: 'Building', icon: <Building className="h-4 w-4" /> },
-    { value: 'Award', label: 'Award', icon: <Award className="h-4 w-4" /> },
-    { value: 'Target', label: 'Target', icon: <Target className="h-4 w-4" /> },
-    { value: 'Rocket', label: 'Rocket', icon: <Rocket className="h-4 w-4" /> },
-    { value: 'Briefcase', label: 'Briefcase', icon: <Briefcase className="h-4 w-4" /> },
-    { value: 'Trophy', label: 'Trophy', icon: <Trophy className="h-4 w-4" /> },
-    { value: 'Clock', label: 'Clock', icon: <Clock className="h-4 w-4" /> },
-    { value: 'Users', label: 'Users', icon: <Users className="h-4 w-4" /> },
-    { value: 'Landmark', label: 'Landmark', icon: <Landmark className="h-4 w-4" /> },
-  ];
-
+  const iconOptions = [{
+    value: 'Flag',
+    label: 'Flag',
+    icon: <Flag className="h-4 w-4" />
+  }, {
+    value: 'Building',
+    label: 'Building',
+    icon: <Building className="h-4 w-4" />
+  }, {
+    value: 'Award',
+    label: 'Award',
+    icon: <Award className="h-4 w-4" />
+  }, {
+    value: 'Target',
+    label: 'Target',
+    icon: <Target className="h-4 w-4" />
+  }, {
+    value: 'Rocket',
+    label: 'Rocket',
+    icon: <Rocket className="h-4 w-4" />
+  }, {
+    value: 'Briefcase',
+    label: 'Briefcase',
+    icon: <Briefcase className="h-4 w-4" />
+  }, {
+    value: 'Trophy',
+    label: 'Trophy',
+    icon: <Trophy className="h-4 w-4" />
+  }, {
+    value: 'Clock',
+    label: 'Clock',
+    icon: <Clock className="h-4 w-4" />
+  }, {
+    value: 'Users',
+    label: 'Users',
+    icon: <Users className="h-4 w-4" />
+  }, {
+    value: 'Landmark',
+    label: 'Landmark',
+    icon: <Landmark className="h-4 w-4" />
+  }];
   useEffect(() => {
     loadTimelineEvents();
   }, []);
-
   const loadTimelineEvents = async () => {
     setIsLoading(true);
     const events = await fetchTimelineEvents();
     setTimelineEvents(events);
     setIsLoading(false);
   };
-
   const handleAddNew = () => {
     setCurrentEvent({
       year: '',
@@ -76,61 +92,54 @@ const AdminTimelineEvents = () => {
       description_uz: '',
       description_en: '',
       icon_name: 'Flag',
-      display_order: timelineEvents.length + 1,
+      display_order: timelineEvents.length + 1
     });
     setIsDialogOpen(true);
   };
-
   const handleEdit = (event: TimelineEvent) => {
     setCurrentEvent(event);
     setIsDialogOpen(true);
   };
-
   const handleDelete = (id: string) => {
     setEventIdToDelete(id);
     setIsDeleteDialogOpen(true);
   };
-
   const confirmDelete = async () => {
     if (!eventIdToDelete) return;
-    
     setIsSubmitting(true);
     const success = await deleteTimelineEvent(eventIdToDelete);
     setIsSubmitting(false);
-    
     if (success) {
       toast.success("Timeline event deleted successfully");
       loadTimelineEvents();
     } else {
       toast.error("Failed to delete timeline event");
     }
-    
     setIsDeleteDialogOpen(false);
     setEventIdToDelete(null);
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
     if (!currentEvent.year || !currentEvent.title || !currentEvent.description) {
       toast.error("Please fill in all required fields");
       return;
     }
-    
     setIsSubmitting(true);
-    
     let success: boolean;
     if (currentEvent.id) {
       // Update existing event
-      const { id, created_at, updated_at, ...dataToUpdate } = currentEvent as TimelineEvent;
+      const {
+        id,
+        created_at,
+        updated_at,
+        ...dataToUpdate
+      } = currentEvent as TimelineEvent;
       success = await updateTimelineEvent(id, dataToUpdate);
     } else {
       // Create new event
       success = await createTimelineEvent(currentEvent as Omit<TimelineEvent, 'id' | 'created_at' | 'updated_at'>);
     }
-    
     setIsSubmitting(false);
-    
     if (success) {
       toast.success(currentEvent.id ? "Timeline event updated successfully" : "Timeline event created successfully");
       setIsDialogOpen(false);
@@ -139,25 +148,22 @@ const AdminTimelineEvents = () => {
       toast.error(currentEvent.id ? "Failed to update timeline event" : "Failed to create timeline event");
     }
   };
-
   const handleMoveUp = async (index: number) => {
     if (index === 0) return;
-    
     const newEvents = [...timelineEvents];
     const eventToMove = newEvents[index];
     const targetEvent = newEvents[index - 1];
-    
+
     // Swap display orders
     const tempOrder = eventToMove.display_order;
     eventToMove.display_order = targetEvent.display_order;
     targetEvent.display_order = tempOrder;
-    
+
     // Swap positions in array
     newEvents[index] = targetEvent;
     newEvents[index - 1] = eventToMove;
-    
     setTimelineEvents(newEvents);
-    
+
     // Update in database
     const orderedIds = newEvents.map(event => event.id);
     const success = await reorderTimelineEvents(orderedIds);
@@ -166,25 +172,22 @@ const AdminTimelineEvents = () => {
       loadTimelineEvents(); // Reload original order
     }
   };
-
   const handleMoveDown = async (index: number) => {
     if (index >= timelineEvents.length - 1) return;
-    
     const newEvents = [...timelineEvents];
     const eventToMove = newEvents[index];
     const targetEvent = newEvents[index + 1];
-    
+
     // Swap display orders
     const tempOrder = eventToMove.display_order;
     eventToMove.display_order = targetEvent.display_order;
     targetEvent.display_order = tempOrder;
-    
+
     // Swap positions in array
     newEvents[index] = targetEvent;
     newEvents[index + 1] = eventToMove;
-    
     setTimelineEvents(newEvents);
-    
+
     // Update in database
     const orderedIds = newEvents.map(event => event.id);
     const success = await reorderTimelineEvents(orderedIds);
@@ -193,18 +196,23 @@ const AdminTimelineEvents = () => {
       loadTimelineEvents(); // Reload original order
     }
   };
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setCurrentEvent(prev => ({ ...prev, [name]: value }));
+    const {
+      name,
+      value
+    } = e.target;
+    setCurrentEvent(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
-
   const handleSelectChange = (name: string, value: string) => {
-    setCurrentEvent(prev => ({ ...prev, [name]: value }));
+    setCurrentEvent(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
-
-  return (
-    <AdminLayout>
+  return <AdminLayout>
       <div className="p-6">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">Manage Timeline Events</h1>
@@ -214,18 +222,12 @@ const AdminTimelineEvents = () => {
           </Button>
         </div>
 
-        {isLoading ? (
-          <div className="flex justify-center py-10">
+        {isLoading ? <div className="flex justify-center py-10">
             <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
-          </div>
-        ) : (
-          <div className="bg-white rounded-md shadow">
-            {timelineEvents.length === 0 ? (
-              <div className="p-6 text-center">
+          </div> : <div className="bg-white rounded-md shadow">
+            {timelineEvents.length === 0 ? <div className="p-6 text-center">
                 <p className="text-gray-500">No timeline events found. Click "Add New Event" to create one.</p>
-              </div>
-            ) : (
-              <table className="w-full">
+              </div> : <table className="w-full">
                 <thead>
                   <tr className="bg-gray-50 text-left">
                     <th className="p-4">Order</th>
@@ -236,8 +238,7 @@ const AdminTimelineEvents = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {timelineEvents.map((event, index) => (
-                    <tr key={event.id} className="border-t">
+                  {timelineEvents.map((event, index) => <tr key={event.id} className="border-t">
                       <td className="p-4">{event.display_order}</td>
                       <td className="p-4">{event.year}</td>
                       <td className="p-4">{event.title}</td>
@@ -256,13 +257,10 @@ const AdminTimelineEvents = () => {
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       </td>
-                    </tr>
-                  ))}
+                    </tr>)}
                 </tbody>
-              </table>
-            )}
-          </div>
-        )}
+              </table>}
+          </div>}
       </div>
 
       {/* Add/Edit Dialog */}
@@ -283,32 +281,21 @@ const AdminTimelineEvents = () => {
               <div className="mb-4 grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="year">Year *</Label>
-                  <Input
-                    id="year"
-                    name="year"
-                    value={currentEvent.year || ''}
-                    onChange={handleInputChange}
-                    required
-                  />
+                  <Input id="year" name="year" value={currentEvent.year || ''} onChange={handleInputChange} required />
                 </div>
                 <div>
                   <Label htmlFor="icon_name">Icon *</Label>
-                  <Select 
-                    value={currentEvent.icon_name} 
-                    onValueChange={(value) => handleSelectChange('icon_name', value)}
-                  >
+                  <Select value={currentEvent.icon_name} onValueChange={value => handleSelectChange('icon_name', value)}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select icon" />
                     </SelectTrigger>
                     <SelectContent>
-                      {iconOptions.map(option => (
-                        <SelectItem key={option.value} value={option.value}>
+                      {iconOptions.map(option => <SelectItem key={option.value} value={option.value}>
                           <div className="flex items-center gap-2">
                             {option.icon}
                             <span>{option.label}</span>
                           </div>
-                        </SelectItem>
-                      ))}
+                        </SelectItem>)}
                     </SelectContent>
                   </Select>
                 </div>
@@ -319,24 +306,11 @@ const AdminTimelineEvents = () => {
                 <div className="space-y-4">
                   <div>
                     <Label htmlFor="title">Title (Russian) *</Label>
-                    <Input
-                      id="title"
-                      name="title"
-                      value={currentEvent.title || ''}
-                      onChange={handleInputChange}
-                      required
-                    />
+                    <Input id="title" name="title" value={currentEvent.title || ''} onChange={handleInputChange} required />
                   </div>
                   <div>
                     <Label htmlFor="description">Description (Russian) *</Label>
-                    <Textarea
-                      id="description"
-                      name="description"
-                      value={currentEvent.description || ''}
-                      onChange={handleInputChange}
-                      rows={4}
-                      required
-                    />
+                    <Textarea id="description" name="description" value={currentEvent.description || ''} onChange={handleInputChange} rows={4} required />
                   </div>
                 </div>
               </TabsContent>
@@ -346,22 +320,11 @@ const AdminTimelineEvents = () => {
                 <div className="space-y-4">
                   <div>
                     <Label htmlFor="title_uz">Title (Uzbek)</Label>
-                    <Input
-                      id="title_uz"
-                      name="title_uz"
-                      value={currentEvent.title_uz || ''}
-                      onChange={handleInputChange}
-                    />
+                    <Input id="title_uz" name="title_uz" value={currentEvent.title_uz || ''} onChange={handleInputChange} />
                   </div>
                   <div>
                     <Label htmlFor="description_uz">Description (Uzbek)</Label>
-                    <Textarea
-                      id="description_uz"
-                      name="description_uz"
-                      value={currentEvent.description_uz || ''}
-                      onChange={handleInputChange}
-                      rows={4}
-                    />
+                    <Textarea id="description_uz" name="description_uz" value={currentEvent.description_uz || ''} onChange={handleInputChange} rows={4} />
                   </div>
                 </div>
               </TabsContent>
@@ -371,43 +334,25 @@ const AdminTimelineEvents = () => {
                 <div className="space-y-4">
                   <div>
                     <Label htmlFor="title_en">Title (English)</Label>
-                    <Input
-                      id="title_en"
-                      name="title_en"
-                      value={currentEvent.title_en || ''}
-                      onChange={handleInputChange}
-                    />
+                    <Input id="title_en" name="title_en" value={currentEvent.title_en || ''} onChange={handleInputChange} />
                   </div>
                   <div>
                     <Label htmlFor="description_en">Description (English)</Label>
-                    <Textarea
-                      id="description_en"
-                      name="description_en"
-                      value={currentEvent.description_en || ''}
-                      onChange={handleInputChange}
-                      rows={4}
-                    />
+                    <Textarea id="description_en" name="description_en" value={currentEvent.description_en || ''} onChange={handleInputChange} rows={4} />
                   </div>
                 </div>
               </TabsContent>
             </Tabs>
 
             <DialogFooter className="mt-6">
-              <Button 
-                type="button" 
-                variant="outline" 
-                onClick={() => setIsDialogOpen(false)}
-                disabled={isSubmitting}
-              >
+              <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)} disabled={isSubmitting}>
                 Cancel
               </Button>
               <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? (
-                  <>
+                {isSubmitting ? <>
                     <span className="animate-spin mr-2">⏳</span>
                     Saving...
-                  </>
-                ) : currentEvent.id ? 'Update' : 'Create'}
+                  </> : currentEvent.id ? 'Update' : 'Create'}
               </Button>
             </DialogFooter>
           </form>
@@ -422,30 +367,18 @@ const AdminTimelineEvents = () => {
           </DialogHeader>
           <p>Are you sure you want to delete this timeline event? This action cannot be undone.</p>
           <DialogFooter>
-            <Button 
-              variant="outline" 
-              onClick={() => setIsDeleteDialogOpen(false)}
-              disabled={isSubmitting}
-            >
+            <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)} disabled={isSubmitting}>
               Cancel
             </Button>
-            <Button 
-              variant="destructive" 
-              onClick={confirmDelete}
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? (
-                <>
+            <Button variant="destructive" onClick={confirmDelete} disabled={isSubmitting}>
+              {isSubmitting ? <>
                   <span className="animate-spin mr-2">⏳</span>
                   Deleting...
-                </>
-              ) : 'Delete'}
+                </> : 'Delete'}
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </AdminLayout>
-  );
+    </AdminLayout>;
 };
-
 export default AdminTimelineEvents;
