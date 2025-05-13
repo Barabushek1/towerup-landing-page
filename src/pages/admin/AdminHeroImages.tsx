@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import { 
@@ -288,8 +287,8 @@ const AdminHeroImages = () => {
                 <div className="space-y-2">
                   <Label>Изображение *</Label>
                   <ImageUploader 
-                    onChange={handleImageSelected} 
-                    value={currentImage.image_url || ''} 
+                    onImageUploaded={handleImageSelected} 
+                    defaultImage={currentImage.image_url || ''} 
                   />
                 </div>
                 
