@@ -11,6 +11,8 @@ export interface Project {
   url: string;
   created_at: string;
   updated_at: string;
+  is_featured?: boolean;
+  is_active?: boolean;
 }
 
 export async function fetchProjects(): Promise<Project[]> {

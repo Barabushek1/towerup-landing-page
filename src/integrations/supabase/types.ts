@@ -661,6 +661,57 @@ export type Database = {
         }
         Relationships: []
       }
+      timeline_events: {
+        Row: {
+          created_at: string
+          description: string
+          description_en: string | null
+          description_ru: string | null
+          description_uz: string | null
+          display_order: number
+          icon_name: string
+          id: string
+          title: string
+          title_en: string | null
+          title_ru: string | null
+          title_uz: string | null
+          updated_at: string
+          year: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          description_en?: string | null
+          description_ru?: string | null
+          description_uz?: string | null
+          display_order?: number
+          icon_name?: string
+          id?: string
+          title: string
+          title_en?: string | null
+          title_ru?: string | null
+          title_uz?: string | null
+          updated_at?: string
+          year: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          description_en?: string | null
+          description_ru?: string | null
+          description_uz?: string | null
+          display_order?: number
+          icon_name?: string
+          id?: string
+          title?: string
+          title_en?: string | null
+          title_ru?: string | null
+          title_uz?: string | null
+          updated_at?: string
+          year?: string
+        }
+        Relationships: []
+      }
       vacancies: {
         Row: {
           benefits: string | null
