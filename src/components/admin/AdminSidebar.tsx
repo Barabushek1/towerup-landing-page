@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { BarChart3, FileText, Home, Layers, MessageSquare, Settings, Users, FileCode, BriefcaseBusiness, Newspaper, Users2, PanelLeftClose, HandCoins, FileBadge, Building, User, Construction, LayoutDashboard, History } from 'lucide-react';
+import { BarChart3, FileText, Home, Layers, MessageSquare, Users, FileCode, BriefcaseBusiness, Newspaper, Users2, PanelLeftClose, HandCoins, FileBadge, Building, User, Construction, LayoutDashboard, History, Image } from 'lucide-react';
 import { Button } from '../ui/button';
 
 interface AdminSidebarProps {
@@ -22,6 +23,11 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
       name: 'Панель управления',
       path: '/admin/dashboard',
       icon: <Home className="w-5 h-5 mr-3" />
+    },
+    {
+      name: 'Герой-изображения',
+      path: '/admin/hero-images',
+      icon: <Image className="w-5 h-5 mr-3" />
     },
     {
       name: 'Новости',
