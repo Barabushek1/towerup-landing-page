@@ -59,6 +59,9 @@ import Renovation from "./pages/services/Renovation";
 import Laboratory from "./pages/services/Laboratory";
 import ProcessAutomation from "./pages/services/ProcessAutomation";
 
+// Import AdminTimelineEvents explicitly
+import AdminTimelineEvents from "./pages/admin/AdminTimelineEvents";
+
 const helmetContext = {};
 
 const App = () => {
@@ -123,8 +126,8 @@ const App = () => {
           <Route path="/admin/staff" element={<AdminStaff />} />
           <Route path="/admin/departments" element={<AdminDepartments />} />
           <Route path="/admin/future-projects" element={<AdminLayout><AdminFutureProjects /></AdminLayout>} />
-          <Route path="/admin/projects" element={<AdminLayout><AdminProjects /></AdminLayout>} /> {/* Add this route */}
-          <Route path="/admin/timeline-events" element={<AdminTimelineEvents />} /> {/* Add this route */}
+          <Route path="/admin/projects" element={<AdminLayout><AdminProjects /></AdminLayout>} />
+          <Route path="/admin/timeline-events" element={<AdminLayout><AdminTimelineEvents /></AdminLayout>} />
           
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="*" element={<NotFound />} />
