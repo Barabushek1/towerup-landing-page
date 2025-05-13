@@ -1,27 +1,47 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Quote } from 'lucide-react';
+import { Quote, Star } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
+import Autoplay from 'embla-carousel-autoplay';
 
 interface TestimonialProps {
   quote: string;
   author: string;
   position: string;
+  rating: number;
   delay: number;
 }
 
-const TestimonialCard: React.FC<TestimonialProps> = ({ quote, author, position, delay }) => (
+interface TestimonialData {
+  id: string;
+  author: string;
+  position: string;
+  content: string;
+  rating: number;
+  is_active: boolean;
+}
+
+const TestimonialCard: React.FC<TestimonialProps> = ({ quote, author, position, rating, delay }) => (
   <div 
-    className="scroll-animate-section glass-card p-8 relative"
+    className="scroll-animate-section glass-card p-8 relative h-full"
     style={{ transitionDelay: `${delay}ms` }}
   >
     <Quote className="h-10 w-10 text-primary/20 mb-6" />
     <p className="text-lg mb-8 text-brand-dark">{quote}</p>
-    <div className="flex items-center">
-      <div className="w-12 h-12 rounded-full bg-gray-200 mr-4"></div>
-      <div>
-        <p className="font-medium text-brand-dark">{author}</p>
-        <p className="text-sm text-muted-foreground">{position}</p>
+    <div className="flex items-start flex-col mt-auto">
+      <div className="flex mb-4">
+        {Array.from({ length: rating }, (_, i) => (
+          <Star key={i} className="h-5 w-5 text-primary fill-primary mr-1" />
+        ))}
+      </div>
+      <div className="flex items-center">
+        <div className="w-12 h-12 rounded-full bg-gray-200 mr-4"></div>
+        <div>
+          <p className="font-medium text-brand-dark">{author}</p>
+          <p className="text-sm text-muted-foreground">{position}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -29,8 +49,34 @@ const TestimonialCard: React.FC<TestimonialProps> = ({ quote, author, position, 
 
 const TestimonialsSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const [testimonials, setTestimonials] = useState<TestimonialData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('testimonials')
+          .select('*')
+          .eq('is_active', true)
+          .order('created_at', { ascending: false });
+          
+        if (error) {
+          console.error('Error fetching testimonials:', error);
+          return;
+        }
+        
+        setTestimonials(data || []);
+      } catch (err) {
+        console.error('Error in testimonials fetch:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchTestimonials();
+    
+    // Observer for scroll animations
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -50,23 +96,35 @@ const TestimonialsSection: React.FC = () => {
     };
   }, []);
 
-  const testimonials = [
+  // Fallback data if no testimonials found in database
+  const fallbackTestimonials = [
     {
-      quote: "Работа с этой компанией преобразила наши операции. Их инновационные решения помогли нам достичь удивительных показателей эффективности при одновременном снижении затрат.",
+      id: '1',
       author: "Сара Иванова",
-      position: "CTO, Global Innovations"
+      position: "CTO, Global Innovations",
+      content: "Работа с этой компанией преобразила наши операции. Их инновационные решения помогли нам достичь удивительных показателей эффективности при одновременном снижении затрат.",
+      rating: 5,
+      is_active: true
     },
     {
-      quote: "Их внимание к деталям и приверженность качеству не имеют себе равных. Мы увидели существенную отдачу от инвестиций с момента внедрения их систем.",
+      id: '2',
       author: "Михаил Петров",
-      position: "CEO, Future Technologies"
+      position: "CEO, Future Technologies",
+      content: "Их внимание к деталям и приверженность качеству не имеют себе равных. Мы увидели существенную отдачу от инвестиций с момента внедрения их систем.",
+      rating: 5,
+      is_active: true
     },
     {
-      quote: "Они не только обеспечили исключительные результаты, но и их постоянная поддержка и обслуживание клиентов были выдающимися. Настоящее партнерство.",
+      id: '3',
       author: "Александра Смирнова",
-      position: "Директор по операциям, Eco Solutions"
+      position: "Директор по операциям, Eco Solutions",
+      content: "Они не только обеспечили исключительные результаты, но и их постоянная поддержка и обслуживание клиентов были выдающимися. Настоящее партнерство.",
+      rating: 5,
+      is_active: true
     }
   ];
+
+  const displayedTestimonials = testimonials.length > 0 ? testimonials : fallbackTestimonials;
 
   return (
     <section 
@@ -94,17 +152,36 @@ const TestimonialsSection: React.FC = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <TestimonialCard
-              key={index}
-              quote={testimonial.quote}
-              author={testimonial.author}
-              position={testimonial.position}
-              delay={index * 100}
-            />
-          ))}
-        </div>
+        <Carousel
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          plugins={[
+            Autoplay({
+              delay: 5000,
+            }),
+          ]}
+          className="w-full max-w-5xl mx-auto"
+        >
+          <CarouselContent>
+            {displayedTestimonials.map((testimonial, index) => (
+              <CarouselItem key={testimonial.id} className="md:basis-1/2 lg:basis-1/3 pl-4">
+                <TestimonialCard
+                  quote={testimonial.content}
+                  author={testimonial.author}
+                  position={testimonial.position}
+                  rating={testimonial.rating}
+                  delay={index * 100}
+                />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <div className="flex justify-center mt-8">
+            <CarouselPrevious className="static transform-none mx-2" />
+            <CarouselNext className="static transform-none mx-2" />
+          </div>
+        </Carousel>
       </div>
     </section>
   );

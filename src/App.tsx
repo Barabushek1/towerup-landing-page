@@ -1,141 +1,102 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { Routes, Route } from "react-router-dom";
-import { HelmetProvider } from "react-helmet-async";
-import ScrollToTop from "./components/ScrollToTop";
-import { usePartnerSeeder } from "./hooks/use-partner-seeder";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import About from "./pages/About";
-import Partners from "./pages/Partners";
-import Management from "./pages/Management";
-import Projects from "./pages/Projects";
-import ProjectDetail from "./pages/ProjectDetail";
-import News from "./pages/News";
-import NewsDetail from "./pages/NewsDetail";
-import Vacancies from "./pages/Vacancies";
-import VacancyDetail from "./pages/VacancyDetail";
-import Contact from "./pages/Contact";
-import Construction from "./pages/Construction";
-import Design from "./pages/Design";
-import Solutions from "./pages/Solutions";
-import TrcBochka from "./pages/TrcBochka"; 
-import NewUzbekistan from "./pages/NewUzbekistan";
-import BankingTechnology from "./pages/BankingTechnology";
-import ChatBot from "./components/ChatBot";
-import AdminLogin from './pages/admin/AdminLogin';
-import AdminDashboard from './pages/admin/AdminDashboard';
-import AdminNews from './pages/admin/AdminNews';
-import AdminVacancies from './pages/admin/AdminVacancies';
-import AdminVacancyApplications from './pages/admin/AdminVacancyApplications';
-import AdminMessages from './pages/admin/AdminMessages';
-import AdminPartners from './pages/admin/AdminPartners';
-import AdminTenders from './pages/admin/AdminTenders';
-import AdminTenderSubmissions from './pages/admin/AdminTenderSubmissions';
-import AdminCommercialOffers from './pages/admin/AdminCommercialOffers';
-import AdminFloorPrices from './pages/admin/AdminFloorPrices';
-import AdminApartmentUnits from './pages/admin/AdminApartmentUnits';
-import AdminAuditLogs from './pages/admin/AdminAuditLogs';
-import AdminDetailedAuditLogs from './pages/admin/AdminDetailedAuditLogs';
-import AdminLayout from "./components/admin/AdminLayout";
-import AdminStaff from "./pages/admin/AdminStaff";
-import AdminDepartments from "./pages/admin/AdminDepartments";
-import AdminFutureProjects from "./pages/admin/AdminFutureProjects";
-import AdminProjects from "./pages/admin/AdminProjects"; // Add this import
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import Collaboration from "./pages/Collaboration";
-import Tenders from "./pages/collaboration/Tenders";
-import TenderDetail from "./pages/TenderDetail";
-import CommercialOffers from "./pages/collaboration/CommercialOffers";
-import FutureProjects from "./pages/FutureProjects";
-import FutureProjectDetail from "./pages/FutureProjectDetail";
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
+import Index from '@/pages/Index';
+import About from '@/pages/About';
+import Projects from '@/pages/Projects';
+import Vacancies from '@/pages/Vacancies';
+import Contact from '@/pages/Contact';
+import NotFound from '@/pages/NotFound';
+import PrivacyPolicy from '@/pages/PrivacyPolicy';
+import TermsOfService from '@/pages/TermsOfService';
+import { HelmetProvider } from 'react-helmet-async';
+import AdminDashboard from '@/pages/admin/AdminDashboard';
+import AdminNews from '@/pages/admin/AdminNews';
+import AdminProjects from '@/pages/admin/AdminProjects';
+import AdminVacancies from '@/pages/admin/AdminVacancies';
+import AdminMessages from '@/pages/admin/AdminMessages';
+import AdminPartners from '@/pages/admin/AdminPartners';
+import AdminLogin from '@/pages/admin/AdminLogin';
+import AdminStaff from '@/pages/admin/AdminStaff';
+import AdminDepartments from '@/pages/admin/AdminDepartments';
+import AdminFutureProjects from '@/pages/admin/AdminFutureProjects';
+import AdminTenders from '@/pages/admin/AdminTenders';
+import AdminTenderSubmissions from '@/pages/admin/AdminTenderSubmissions';
+import AdminCommercialOffers from '@/pages/admin/AdminCommercialOffers';
+import AdminFloorPrices from '@/pages/admin/AdminFloorPrices';
+import AdminApartmentUnits from '@/pages/admin/AdminApartmentUnits';
+import AdminAuditLogs from '@/pages/admin/AdminAuditLogs';
+import AdminDetailedAuditLogs from '@/pages/admin/AdminDetailedAuditLogs';
+import AdminVacancyApplications from '@/pages/admin/AdminVacancyApplications';
+import AdminTimelineEvents from '@/pages/admin/AdminTimelineEvents';
+import { useAdmin } from '@/contexts/AdminContext';
+import { Toaster } from '@/components/ui/toaster';
+import AdminTestimonials from "./pages/admin/AdminTestimonials";
+import AdminHeroImages from "./pages/admin/AdminHeroImages";
 
-// Import the service page components
-import ManagementCompany from "./pages/services/ManagementCompany";
-import ServiceDesign from "./pages/services/Design";
-import ServiceConstruction from "./pages/services/Construction";
-import Renovation from "./pages/services/Renovation";
-import Laboratory from "./pages/services/Laboratory";
-import ProcessAutomation from "./pages/services/ProcessAutomation";
+const ProtectedRoute = ({ element }: { element: JSX.Element }) => {
+  const { admin, isLoading } = useAdmin();
 
-// Import AdminTimelineEvents explicitly
-import AdminTimelineEvents from "./pages/admin/AdminTimelineEvents";
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
-const helmetContext = {};
+  return admin ? element : <Navigate to="/admin/login" />;
+};
 
-const App = () => {
-  usePartnerSeeder();
+function App() {
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  if (!hydrated) {
+    // Returns null on first render, so the client can hydrate.
+    return null;
+  }
   
   return (
-    <HelmetProvider context={helmetContext}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          
-          <Route path="/about" element={<About />} />
-          <Route path="/partners" element={<Partners />} />
-          <Route path="/management" element={<Management />} />
-          
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/projects/:slug" element={<ProjectDetail />} />
-          <Route path="/projects/trcbochka" element={<TrcBochka />} />
-          <Route path="/projects/new-uzbekistan" element={<NewUzbekistan />} />
-          <Route path="/projects/banking-technology" element={<BankingTechnology />} />
-          <Route path="/future-projects" element={<FutureProjects />} />
-          <Route path="/future-projects/:slug" element={<FutureProjectDetail />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/news/:id" element={<NewsDetail />} />
-          <Route path="/vacancies" element={<Vacancies />} />
-          <Route path="/vacancies/:id" element={<VacancyDetail />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/collaboration" element={<Collaboration />} />
-          <Route path="/collaboration/tenders" element={<Tenders />} />
-          <Route path="/tenders/:id" element={<TenderDetail />} />
-          <Route path="/collaboration/offers" element={<CommercialOffers />} />
-          
-          {/* Service Pages */}
-          <Route path="/services/management-company" element={<ManagementCompany />} />
-          <Route path="/services/design" element={<ServiceDesign />} />
-          <Route path="/services/construction" element={<ServiceConstruction />} />
-          <Route path="/services/renovation" element={<Renovation />} />
-          <Route path="/services/laboratory" element={<Laboratory />} />
-          <Route path="/services/process-automation" element={<ProcessAutomation />} />
-          
-          <Route path="/construction" element={<Construction />} />
-          <Route path="/design" element={<Design />} />
-          <Route path="/solutions" element={<Solutions />} />
-          
-          <Route path="/admin" element={<AdminLogin />} />
-          <Route path="/admin/dashboard" element={<AdminLayout><AdminDashboard /></AdminLayout>} />
-          <Route path="/admin/news" element={<AdminLayout><AdminNews /></AdminLayout>} />
-          <Route path="/admin/vacancies" element={<AdminLayout><AdminVacancies /></AdminLayout>} />
-          <Route path="/admin/messages" element={<AdminLayout><AdminMessages /></AdminLayout>} />
-          <Route path="/admin/partners" element={<AdminLayout><AdminPartners /></AdminLayout>} />
-          <Route path="/admin/tenders" element={<AdminLayout><AdminTenders /></AdminLayout>} />
-          <Route path="/admin/commercial-offers" element={<AdminLayout><AdminCommercialOffers /></AdminLayout>} />
-          <Route path="/admin/vacancy-applications" element={<AdminLayout><AdminVacancyApplications /></AdminLayout>} />
-          <Route path="/admin/audit-logs" element={<AdminLayout><AdminAuditLogs /></AdminLayout>} />
-          <Route path="/admin/detailed-audit-logs" element={<AdminLayout><AdminDetailedAuditLogs /></AdminLayout>} />
-          <Route path="/admin/floor-prices" element={<AdminLayout><AdminFloorPrices /></AdminLayout>} />
-          <Route path="/admin/tender-submissions" element={<AdminLayout><AdminTenderSubmissions /></AdminLayout>} />
-          <Route path="/admin/apartment-units" element={<AdminLayout><AdminApartmentUnits /></AdminLayout>} />
-          <Route path="/admin/staff" element={<AdminStaff />} />
-          <Route path="/admin/departments" element={<AdminDepartments />} />
-          <Route path="/admin/future-projects" element={<AdminLayout><AdminFutureProjects /></AdminLayout>} />
-          <Route path="/admin/projects" element={<AdminLayout><AdminProjects /></AdminLayout>} />
-          <Route path="/admin/timeline-events" element={<AdminLayout><AdminTimelineEvents /></AdminLayout>} />
-          
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <ChatBot />
-      </TooltipProvider>
-    </HelmetProvider>
+    <div className="min-h-screen text-foreground antialiased">
+      <HelmetProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/vacancies" element={<Vacancies />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
+            <Route path="/admin">
+              <Route path="dashboard" element={<ProtectedRoute element={<AdminDashboard />} />} />
+              <Route path="news" element={<ProtectedRoute element={<AdminNews />} />} />
+              <Route path="projects" element={<ProtectedRoute element={<AdminProjects />} />} />
+              <Route path="timeline-events" element={<ProtectedRoute element={<AdminTimelineEvents />} />} />
+              <Route path="testimonials" element={<ProtectedRoute element={<AdminTestimonials />} />} />
+              <Route path="hero-images" element={<ProtectedRoute element={<AdminHeroImages />} />} />
+              <Route path="vacancies" element={<ProtectedRoute element={<AdminVacancies />} />} />
+              <Route path="vacancy-applications" element={<ProtectedRoute element={<AdminVacancyApplications />} />} />
+              <Route path="messages" element={<ProtectedRoute element={<AdminMessages />} />} />
+              <Route path="partners" element={<ProtectedRoute element={<AdminPartners />} />} />
+              <Route path="staff" element={<ProtectedRoute element={<AdminStaff />} />} />
+              <Route path="departments" element={<ProtectedRoute element={<AdminDepartments />} />} />
+              <Route path="future-projects" element={<ProtectedRoute element={<AdminFutureProjects />} />} />
+              <Route path="tenders" element={<ProtectedRoute element={<AdminTenders />} />} />
+              <Route path="tender-submissions" element={<ProtectedRoute element={<AdminTenderSubmissions />} />} />
+              <Route path="commercial-offers" element={<ProtectedRoute element={<AdminCommercialOffers />} />} />
+              <Route path="floor-prices" element={<ProtectedRoute element={<AdminFloorPrices />} />} />
+              <Route path="apartment-units" element={<ProtectedRoute element={<AdminApartmentUnits />} />} />
+              <Route path="audit-logs" element={<ProtectedRoute element={<AdminAuditLogs />} />} />
+              <Route path="detailed-audit-logs" element={<ProtectedRoute element={<AdminDetailedAuditLogs />} />} />
+              <Route path="login" element={<AdminLogin />} />
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </HelmetProvider>
+      <Toaster />
+    </div>
   );
-};
+}
 
 export default App;
