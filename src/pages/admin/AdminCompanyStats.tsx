@@ -8,26 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { 
-  ChevronUp, 
-  ChevronDown, 
-  Edit, 
-  Trash2, 
-  Plus, 
-  Building, 
-  Users, 
-  MapPin, 
-  Construction,
-  Award,
-  Calendar,
-  Clock,
-  Briefcase,
-  Home,
-  CheckCircle,
-  Target,
-  TrendingUp
-} from 'lucide-react';
-
+import { ChevronUp, ChevronDown, Edit, Trash2, Plus, Building, Users, MapPin, Construction, Award, Calendar, Clock, Briefcase, Home, CheckCircle, Target, TrendingUp } from 'lucide-react';
 type StatItem = {
   id: string;
   title: string;
@@ -37,70 +18,55 @@ type StatItem = {
   display_order: number;
   is_active: boolean;
 };
-
-const iconOptions = [
-  {
-    value: "building",
-    label: "Building",
-    icon: <Building className="h-4 w-4 mr-2" />
-  }, 
-  {
-    value: "users",
-    label: "Users",
-    icon: <Users className="h-4 w-4 mr-2" />
-  }, 
-  {
-    value: "map-pin",
-    label: "Map Pin",
-    icon: <MapPin className="h-4 w-4 mr-2" />
-  }, 
-  {
-    value: "construction",
-    label: "Construction",
-    icon: <Construction className="h-4 w-4 mr-2" />
-  },
-  {
-    value: "award",
-    label: "Award",
-    icon: <Award className="h-4 w-4 mr-2" />
-  },
-  {
-    value: "calendar",
-    label: "Calendar",
-    icon: <Calendar className="h-4 w-4 mr-2" />
-  },
-  {
-    value: "clock",
-    label: "Clock",
-    icon: <Clock className="h-4 w-4 mr-2" />
-  },
-  {
-    value: "briefcase",
-    label: "Briefcase",
-    icon: <Briefcase className="h-4 w-4 mr-2" />
-  },
-  {
-    value: "home",
-    label: "Home",
-    icon: <Home className="h-4 w-4 mr-2" />
-  },
-  {
-    value: "check-circle",
-    label: "Check Circle",
-    icon: <CheckCircle className="h-4 w-4 mr-2" />
-  },
-  {
-    value: "target",
-    label: "Target",
-    icon: <Target className="h-4 w-4 mr-2" />
-  },
-  {
-    value: "trending-up",
-    label: "Trending Up",
-    icon: <TrendingUp className="h-4 w-4 mr-2" />
-  }
-];
-
+const iconOptions = [{
+  value: "building",
+  label: "Building",
+  icon: <Building className="h-4 w-4 mr-2" />
+}, {
+  value: "users",
+  label: "Users",
+  icon: <Users className="h-4 w-4 mr-2" />
+}, {
+  value: "map-pin",
+  label: "Map Pin",
+  icon: <MapPin className="h-4 w-4 mr-2" />
+}, {
+  value: "construction",
+  label: "Construction",
+  icon: <Construction className="h-4 w-4 mr-2" />
+}, {
+  value: "award",
+  label: "Award",
+  icon: <Award className="h-4 w-4 mr-2" />
+}, {
+  value: "calendar",
+  label: "Calendar",
+  icon: <Calendar className="h-4 w-4 mr-2" />
+}, {
+  value: "clock",
+  label: "Clock",
+  icon: <Clock className="h-4 w-4 mr-2" />
+}, {
+  value: "briefcase",
+  label: "Briefcase",
+  icon: <Briefcase className="h-4 w-4 mr-2" />
+}, {
+  value: "home",
+  label: "Home",
+  icon: <Home className="h-4 w-4 mr-2" />
+}, {
+  value: "check-circle",
+  label: "Check Circle",
+  icon: <CheckCircle className="h-4 w-4 mr-2" />
+}, {
+  value: "target",
+  label: "Target",
+  icon: <Target className="h-4 w-4 mr-2" />
+}, {
+  value: "trending-up",
+  label: "Trending Up",
+  icon: <TrendingUp className="h-4 w-4 mr-2" />
+}];
 const getIconComponent = (iconName: string) => {
   switch (iconName) {
     case 'building':
@@ -131,7 +97,6 @@ const getIconComponent = (iconName: string) => {
       return <Building className="h-5 w-5" />;
   }
 };
-
 const AdminCompanyStats = () => {
   const [stats, setStats] = useState<StatItem[]>([]);
   const [loading, setLoading] = useState(true);
