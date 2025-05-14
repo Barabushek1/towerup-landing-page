@@ -1,58 +1,43 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowRight, School, Car, Percent, Train } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
-const ProjectAdvantagesBanner: React.FC = () => {
-  const {
-    t
-  } = useLanguage();
-  const advantages = [{
-    icon: School,
-    title: t("projectAdvantages.nearby.title"),
-    description: t("projectAdvantages.nearby.description"),
-    image: "https://i.imgur.com/Gpxq4xr.png"
-  }, {
-    icon: Car,
-    title: t("projectAdvantages.parking.title"),
-    description: t("projectAdvantages.parking.description"),
-    image: "https://i.imgur.com/JHUJPdb.png"
-  }, {
-    icon: Percent,
-    title: t("projectAdvantages.installment.title"),
-    description: t("projectAdvantages.installment.description"),
-    image: "https://i.imgur.com/V4hFuba.png"
-  }, {
-    icon: Train,
-    title: t("projectAdvantages.metro.title"),
-    description: t("projectAdvantages.metro.description"),
-    image: "https://i.imgur.com/nTzlAUG.png"
-  }];
-  const containerVariants = {
-    hidden: {
-      opacity: 0
-    },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-  const itemVariants = {
-    hidden: {
-      opacity: 0,
-      y: 20
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5
-      }
-    }
-  };
-  return;
+
+const ProjectAdvantagesBanner = () => {
+  const { t } = useLanguage();
+
+  return (
+    <section className="py-16 bg-brand-secondary text-white">
+      <div className="container mx-auto px-4 sm:px-6 text-center">
+        <h2 className="text-3xl font-bold mb-6">{t("projectAdvantages.title")}</h2>
+        <p className="text-lg mb-8">{t("projectAdvantages.subtitle")}</p>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Advantage 1 */}
+          <div>
+            <h3 className="text-xl font-semibold mb-2">{t("projectAdvantages.advantages.advantage1.title")}</h3>
+            <p>{t("projectAdvantages.advantages.advantage1.description")}</p>
+          </div>
+          
+          {/* Advantage 2 */}
+          <div>
+            <h3 className="text-xl font-semibold mb-2">{t("projectAdvantages.advantages.advantage2.title")}</h3>
+            <p>{t("projectAdvantages.advantages.advantage2.description")}</p>
+          </div>
+          
+          {/* Advantage 3 */}
+          <div>
+            <h3 className="text-xl font-semibold mb-2">{t("projectAdvantages.advantages.advantage3.title")}</h3>
+            <p>{t("projectAdvantages.advantages.advantage3.description")}</p>
+          </div>
+          
+          {/* Advantage 4 */}
+          <div>
+            <h3 className="text-xl font-semibold mb-2">{t("projectAdvantages.advantages.advantage4.title")}</h3>
+            <p>{t("projectAdvantages.advantages.advantage4.description")}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 };
+
 export default ProjectAdvantagesBanner;

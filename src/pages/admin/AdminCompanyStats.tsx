@@ -8,7 +8,26 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ChevronUp, ChevronDown, Edit, Trash2, Plus } from 'lucide-react';
+import { 
+  ChevronUp, 
+  ChevronDown, 
+  Edit, 
+  Trash2, 
+  Plus, 
+  Building, 
+  Users, 
+  MapPin, 
+  Construction,
+  Award,
+  Calendar,
+  Clock,
+  Briefcase,
+  Home,
+  CheckCircle,
+  Target,
+  TrendingUp
+} from 'lucide-react';
+
 type StatItem = {
   id: string;
   title: string;
@@ -18,19 +37,101 @@ type StatItem = {
   display_order: number;
   is_active: boolean;
 };
-const iconOptions = [{
-  value: "building",
-  label: "Building"
-}, {
-  value: "users",
-  label: "Users"
-}, {
-  value: "map-pin",
-  label: "Map Pin"
-}, {
-  value: "construction",
-  label: "Construction"
-}];
+
+const iconOptions = [
+  {
+    value: "building",
+    label: "Building",
+    icon: <Building className="h-4 w-4 mr-2" />
+  }, 
+  {
+    value: "users",
+    label: "Users",
+    icon: <Users className="h-4 w-4 mr-2" />
+  }, 
+  {
+    value: "map-pin",
+    label: "Map Pin",
+    icon: <MapPin className="h-4 w-4 mr-2" />
+  }, 
+  {
+    value: "construction",
+    label: "Construction",
+    icon: <Construction className="h-4 w-4 mr-2" />
+  },
+  {
+    value: "award",
+    label: "Award",
+    icon: <Award className="h-4 w-4 mr-2" />
+  },
+  {
+    value: "calendar",
+    label: "Calendar",
+    icon: <Calendar className="h-4 w-4 mr-2" />
+  },
+  {
+    value: "clock",
+    label: "Clock",
+    icon: <Clock className="h-4 w-4 mr-2" />
+  },
+  {
+    value: "briefcase",
+    label: "Briefcase",
+    icon: <Briefcase className="h-4 w-4 mr-2" />
+  },
+  {
+    value: "home",
+    label: "Home",
+    icon: <Home className="h-4 w-4 mr-2" />
+  },
+  {
+    value: "check-circle",
+    label: "Check Circle",
+    icon: <CheckCircle className="h-4 w-4 mr-2" />
+  },
+  {
+    value: "target",
+    label: "Target",
+    icon: <Target className="h-4 w-4 mr-2" />
+  },
+  {
+    value: "trending-up",
+    label: "Trending Up",
+    icon: <TrendingUp className="h-4 w-4 mr-2" />
+  }
+];
+
+const getIconComponent = (iconName: string) => {
+  switch (iconName) {
+    case 'building':
+      return <Building className="h-5 w-5" />;
+    case 'users':
+      return <Users className="h-5 w-5" />;
+    case 'map-pin':
+      return <MapPin className="h-5 w-5" />;
+    case 'construction':
+      return <Construction className="h-5 w-5" />;
+    case 'award':
+      return <Award className="h-5 w-5" />;
+    case 'calendar':
+      return <Calendar className="h-5 w-5" />;
+    case 'clock':
+      return <Clock className="h-5 w-5" />;
+    case 'briefcase':
+      return <Briefcase className="h-5 w-5" />;
+    case 'home':
+      return <Home className="h-5 w-5" />;
+    case 'check-circle':
+      return <CheckCircle className="h-5 w-5" />;
+    case 'target':
+      return <Target className="h-5 w-5" />;
+    case 'trending-up':
+      return <TrendingUp className="h-5 w-5" />;
+    default:
+      return <Building className="h-5 w-5" />;
+  }
+};
+
 const AdminCompanyStats = () => {
   const [stats, setStats] = useState<StatItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -286,7 +387,8 @@ const AdminCompanyStats = () => {
                   </SelectTrigger>
                   <SelectContent>
                     {iconOptions.map(option => <SelectItem key={option.value} value={option.value}>
-                        {option.label}
+                        {option.icon}
+                        <span>{option.label}</span>
                       </SelectItem>)}
                   </SelectContent>
                 </Select>
@@ -351,7 +453,11 @@ const AdminCompanyStats = () => {
                   <TableCell className="">{stat.title}</TableCell>
                   <TableCell className="">{stat.value}</TableCell>
                   <TableCell className="">{stat.subtitle}</TableCell>
-                  <TableCell className="">{stat.icon}</TableCell>
+                  <TableCell className="w-12">
+                    <div className="flex justify-center">
+                      {getIconComponent(stat.icon)}
+                    </div>
+                  </TableCell>
                   <TableCell className="">
                     <Switch checked={stat.is_active} onCheckedChange={() => handleToggleActive(stat.id, stat.is_active)} />
                   </TableCell>

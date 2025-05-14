@@ -9,17 +9,17 @@ interface FeaturedProjectProps {
   index: number;
   slug?: string;
 }
-const FeaturedProject: React.FC<FeaturedProjectProps> = ({
-  title,
-  subtitle,
-  description,
-  imageUrl,
-  index,
-  slug
-}) => {
+const FeaturedProject = ({ title, subtitle, description, imageUrl, index, slug }: FeaturedProjectProps) => {
   const {
     t
   } = useLanguage();
-  return;
+  return (
+    <div>
+      <h2>{title}</h2>
+      <p>{subtitle}</p>
+      <p>{description}</p>
+      <img src={imageUrl} alt={title} />
+    </div>
+  );
 };
 export default FeaturedProject;
