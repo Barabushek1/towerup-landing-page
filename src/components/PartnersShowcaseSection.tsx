@@ -133,7 +133,8 @@ const PartnersShowcaseSection: React.FC = () => {
               // Fixed height for consistency
               "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-slate-900" // Added focus styles
               )}>
-                                            {partner.logo_url ? <img src={partner.logo_url} alt={`${partner.name} ${t('partners.logo')}`} className="max-w-[80%] max-h-[70%] object-contain transition-transform duration-300 group-hover:scale-105" // Adjusted size constraints
+                                            {partner.logo_url ? <img src={partner.logo_url} alt={`${partner.name} ${t('partners.logo')}`}
+                // Adjusted size constraints
                 loading="lazy" // Lazy load logos
                 onError={e => {
                   // Basic Fallback
@@ -145,7 +146,7 @@ const PartnersShowcaseSection: React.FC = () => {
                     textFallback.textContent = partner.name;
                     parent.appendChild(textFallback);
                   }
-                }} /> : <span className="text-sm font-medium text-center text-white/70">
+                }} className="max-w-[100%] max-h-[70%] object-contain transition-transform duration-300 group-hover:scale-105" /> : <span className="text-sm font-medium text-center text-white/70">
                                                     {partner.name}
                                                 </span>}
                                         </a>
