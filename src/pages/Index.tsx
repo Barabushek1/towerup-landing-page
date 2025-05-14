@@ -10,6 +10,7 @@ import { useVacancySeeder } from '@/hooks/use-vacancy-seeder';
 import ScrollToTopButton from '@/components/ScrollToTopButton';
 import { useLanguage } from '@/contexts/LanguageContext';
 import ProjectsSection from '@/components/ProjectsSection';
+import FeaturedProjects from '@/components/FeaturedProjects';
 
 // Lazy load non-critical components for better initial load performance
 const NewsVacanciesSection = lazy(() => import('@/components/NewsVacanciesSection'));
@@ -159,6 +160,9 @@ const Index: React.FC = () => {
         
         {/* Company Statistics Section */}
         <ProjectsSection />
+        
+        {/* Featured Projects Section from admin panel */}
+        <FeaturedProjects />
                
         <Suspense fallback={<SectionSkeleton />}>
           <NewsVacanciesSection />

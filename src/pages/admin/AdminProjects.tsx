@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
@@ -9,10 +8,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { PlusCircle, Pencil, Trash2, Loader2 } from 'lucide-react';
+import { PlusCircle, Pencil, Trash2, Loader2, Star, Eye } from 'lucide-react';
 import { Project, fetchProjects, createProject, updateProject, deleteProject } from '@/utils/project-helpers';
 import ImageUploader from '@/components/admin/ImageUploader';
 import { createStorageBucket } from '@/utils/create-storage-bucket';
+import { Switch } from '@/components/ui/switch';
 
 const AdminProjects: React.FC = () => {
   const { toast } = useToast();
@@ -30,6 +30,8 @@ const AdminProjects: React.FC = () => {
   const [status, setStatus] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [url, setUrl] = useState('');
+  const [isFeatured, setIsFeatured] = useState(false);
+  const [isActive, setIsActive] = useState(true);
 
   // Initialize the storage bucket when component loads
   useEffect(() => {
@@ -65,6 +67,8 @@ const AdminProjects: React.FC = () => {
     setStatus('');
     setImageUrl('');
     setUrl('');
+    setIsFeatured(false);
+    setIsActive(true);
     setCurrentProject(null);
     setIsEditing(false);
   };
@@ -78,6 +82,8 @@ const AdminProjects: React.FC = () => {
       setStatus(project.status);
       setImageUrl(project.image_url || '');
       setUrl(project.url);
+      setIsFeatured(project.is_featured || false);
+      setIsActive(project.is_active !== false); // Default to true if undefined
       setIsEditing(true);
     } else {
       resetForm();
@@ -110,7 +116,9 @@ const AdminProjects: React.FC = () => {
         location,
         status,
         image_url: imageUrl,
-        url
+        url,
+        is_featured: isFeatured,
+        is_active: isActive
       };
 
       let success;
@@ -130,7 +138,7 @@ const AdminProjects: React.FC = () => {
         if (success) {
           toast({
             title: 'Успешно',
-            description: 'Новый ��роект добавлен',
+            description: 'Новый проект добавлен',
           });
         }
       }
@@ -176,6 +184,24 @@ const AdminProjects: React.FC = () => {
     }
   };
 
+  const toggleFeature = async (project: Project) => {
+    const updated = await updateProject(project.id, { 
+      is_featured: !project.is_featured
+    });
+    if (updated) {
+      loadProjects();
+    }
+  };
+
+  const toggleActive = async (project: Project) => {
+    const updated = await updateProject(project.id, { 
+      is_active: !project.is_active
+    });
+    if (updated) {
+      loadProjects();
+    }
+  };
+
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
@@ -201,13 +227,15 @@ const AdminProjects: React.FC = () => {
                   <TableHead>Название</TableHead>
                   <TableHead>Местоположение</TableHead>
                   <TableHead>Статус</TableHead>
+                  <TableHead className="text-center">Избранное</TableHead>
+                  <TableHead className="text-center">Активный</TableHead>
                   <TableHead className="w-[150px]">Действия</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {projects.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={4} className="text-center">Проектов не найдено</TableCell>
+                    <TableCell colSpan={6} className="text-center">Проектов не найдено</TableCell>
                   </TableRow>
                 ) : (
                   projects.map((project) => (
@@ -215,6 +243,26 @@ const AdminProjects: React.FC = () => {
                       <TableCell>{project.title}</TableCell>
                       <TableCell>{project.location}</TableCell>
                       <TableCell>{project.status}</TableCell>
+                      <TableCell className="text-center">
+                        <Button 
+                          variant="ghost" 
+                          size="icon"
+                          className={project.is_featured ? "text-yellow-500" : "text-gray-400"}
+                          onClick={() => toggleFeature(project)}
+                        >
+                          <Star className="h-4 w-4" />
+                        </Button>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <Button 
+                          variant="ghost" 
+                          size="icon"
+                          className={project.is_active !== false ? "text-green-500" : "text-gray-400"}
+                          onClick={() => toggleActive(project)}
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                      </TableCell>
                       <TableCell>
                         <div className="flex gap-2">
                           <Button variant="outline" size="icon" onClick={() => openModal(project)}>
@@ -320,6 +368,24 @@ const AdminProjects: React.FC = () => {
                   className="mt-2"
                 />
               )}
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Switch 
+                id="is_featured" 
+                checked={isFeatured}
+                onCheckedChange={setIsFeatured}
+              />
+              <Label htmlFor="is_featured">Избранный проект</Label>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Switch 
+                id="is_active" 
+                checked={isActive}
+                onCheckedChange={setIsActive}
+              />
+              <Label htmlFor="is_active">Активный проект</Label>
             </div>
 
             <DialogFooter>
