@@ -18,6 +18,7 @@ import LocationSection from '../components/newuzbekistan/LocationSection';
 import InvestmentSection from '../components/newuzbekistan/InvestmentSection';
 import ContactSection from '../components/newuzbekistan/ContactSection';
 import ScrollToTopButton from '../components/ScrollToTopButton';
+import CalculatorSection from '../components/newuzbekistan/CalculatorSection';
 
 const NewUzbekistan: React.FC = () => {
   const { t } = useLanguage();
@@ -58,6 +59,7 @@ const NewUzbekistan: React.FC = () => {
             <MasterplanSection />
             <FeaturesSection />
             <ApartmentsSection />
+            <CalculatorSection />
             <InfrastructureSection />
             <GallerySection />
             <ProgressSection />

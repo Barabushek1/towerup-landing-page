@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { BarChart3, FileText, Home, Layers, MessageSquare, Settings, Users, FileCode, BriefcaseBusiness, Newspaper, Users2, PanelLeftClose, HandCoins, FileBadge, Building, User, Construction, LayoutDashboard, History } from 'lucide-react';
@@ -88,14 +89,35 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
       path: '/admin/commercial-offers',
       icon: <HandCoins className="w-5 h-5 mr-3" />
     },
+    // Project-specific sections
     {
-      name: 'Цены за м²',
-      path: '/admin/floor-prices',
+      name: 'Проект "Пушкин"',
+      path: '/admin/pushkin',
+      icon: <Building className="w-5 h-5 mr-3" />
+    },
+    {
+      name: 'Цены за м² (Пушкин)',
+      path: '/admin/pushkin/floor-prices',
       icon: <Layers className="w-5 h-5 mr-3" />
     },
     {
-      name: 'Квартиры',
-      path: '/admin/apartment-units',
+      name: 'Квартиры (Пушкин)',
+      path: '/admin/pushkin/apartment-units',
+      icon: <Building className="w-5 h-5 mr-3" />
+    },
+    {
+      name: 'Проект "Янги Узбекистан"',
+      path: '/admin/yangi-uzbekistan',
+      icon: <Building className="w-5 h-5 mr-3" />
+    },
+    {
+      name: 'Цены за м² (Янги Узбекистан)',
+      path: '/admin/yangi-uzbekistan/floor-prices',
+      icon: <Layers className="w-5 h-5 mr-3" />
+    },
+    {
+      name: 'Квартиры (Янги Узбекистан)',
+      path: '/admin/yangi-uzbekistan/apartment-units',
       icon: <Building className="w-5 h-5 mr-3" />
     },
     {
