@@ -14,15 +14,15 @@ interface ProjectCardProps {
   slug: string;
   index?: number;
   // Optional multilingual fields
-  title_en?: string;
-  title_ru?: string;
-  title_uz?: string;
-  description_en?: string;
-  description_ru?: string;
-  description_uz?: string;
-  location_en?: string;
-  location_ru?: string;
-  location_uz?: string;
+  title_en?: string | null;
+  title_ru?: string | null;
+  title_uz?: string | null;
+  description_en?: string | null;
+  description_ru?: string | null;
+  description_uz?: string | null;
+  location_en?: string | null;
+  location_ru?: string | null;
+  location_uz?: string | null;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -47,7 +47,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   const { language } = useLanguage();
   
   // Helper function to get the localized content
-  const getLocalizedContent = (defaultValue: string, en?: string, ru?: string, uz?: string): string => {
+  const getLocalizedContent = (defaultValue: string, en?: string | null, ru?: string | null, uz?: string | null): string => {
     if (language === 'en' && en) return en;
     if (language === 'ru' && ru) return ru;
     if (language === 'uz' && uz) return uz;

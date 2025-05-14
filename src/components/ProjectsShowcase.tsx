@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -94,7 +93,7 @@ const ProjectsShowcase: React.FC = () => {
               location={project.location}
               status={project.status}
               imageUrl={project.image_url || '/assets/placeholder-project.jpg'}
-              link={project.url}
+              slug={project.url}
               title_en={project.title_en}
               title_ru={project.title_ru}
               title_uz={project.title_uz}

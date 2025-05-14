@@ -1,4 +1,3 @@
-
 import { supabase } from '@/integrations/supabase/client';
 
 export interface Project {
@@ -40,14 +39,14 @@ export async function fetchProjects(): Promise<Project[]> {
     }
     
     console.log('Projects fetched successfully:', data?.length || 0);
-    return data || [];
+    return data as Project[] || [];
   } catch (err) {
     console.error('Unexpected error fetching projects:', err);
     return [];
   }
 }
 
-export async function fetchProjectsByType(type: string): Promise<Project[]> {
+export async function fetchProjectsByType(type: 'Реализованные' | 'Строящиеся' | 'Будущие'): Promise<Project[]> {
   try {
     console.log(`Fetching ${type} projects from database...`);
     const { data, error } = await supabase
@@ -63,7 +62,7 @@ export async function fetchProjectsByType(type: string): Promise<Project[]> {
     }
     
     console.log(`${type} projects fetched successfully:`, data?.length || 0);
-    return data || [];
+    return data as Project[] || [];
   } catch (err) {
     console.error(`Unexpected error fetching ${type} projects:`, err);
     return [];
@@ -83,7 +82,7 @@ export async function fetchProject(id: string): Promise<Project | null> {
       return null;
     }
     
-    return data;
+    return data as Project;
   } catch (err) {
     console.error('Unexpected error fetching project:', err);
     return null;
