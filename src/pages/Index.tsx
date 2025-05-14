@@ -8,7 +8,6 @@ import { MapPin } from 'lucide-react';
 import { usePartnerSeeder } from '@/hooks/use-partner-seeder';
 import { useVacancySeeder } from '@/hooks/use-vacancy-seeder';
 import ScrollToTopButton from '@/components/ScrollToTopButton';
-import ProjectAdvantagesBanner from '@/components/ProjectAdvantagesBanner';
 import { useLanguage } from '@/contexts/LanguageContext';
 import ProjectsSection from '@/components/ProjectsSection';
 
