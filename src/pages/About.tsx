@@ -147,7 +147,7 @@ const About: React.FC = () => {
       <NavBar />
       <main>
         <div className="relative">
-          <PageHeader title="О КОМПАНИИ" breadcrumb="О КОМПАНИИ" backgroundImage="https://images.unsplash.com/photo-1560748952-1d2d768c2337?q=80&w=2070&auto=format&fit=crop" />
+          <PageHeader title="О КОМПАНИИ" breadcrumb="О КОМПАНИИ" backgroundImage="" />
         </div>
         
         {/* Hero Section with animated background */}
