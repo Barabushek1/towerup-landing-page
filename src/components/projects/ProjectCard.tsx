@@ -3,6 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ProjectCardProps {
   title: string;
@@ -12,6 +13,16 @@ interface ProjectCardProps {
   imageUrl: string;
   slug: string;
   index?: number;
+  // Optional multilingual fields
+  title_en?: string;
+  title_ru?: string;
+  title_uz?: string;
+  description_en?: string;
+  description_ru?: string;
+  description_uz?: string;
+  location_en?: string;
+  location_ru?: string;
+  location_uz?: string;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -21,8 +32,33 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   status,
   imageUrl,
   slug,
-  index = 0
+  index = 0,
+  // Multilingual fields
+  title_en,
+  title_ru,
+  title_uz,
+  description_en,
+  description_ru,
+  description_uz,
+  location_en,
+  location_ru,
+  location_uz
 }) => {
+  const { language } = useLanguage();
+  
+  // Helper function to get the localized content
+  const getLocalizedContent = (defaultValue: string, en?: string, ru?: string, uz?: string): string => {
+    if (language === 'en' && en) return en;
+    if (language === 'ru' && ru) return ru;
+    if (language === 'uz' && uz) return uz;
+    return defaultValue;
+  };
+  
+  // Get localized values
+  const localizedTitle = getLocalizedContent(title, title_en, title_ru, title_uz);
+  const localizedDescription = getLocalizedContent(description, description_en, description_ru, description_uz);
+  const localizedLocation = getLocalizedContent(location, location_en, location_ru, location_uz);
+  
   // Ensure we have a valid slug for the link
   const projectLink = slug ? `/projects/${slug}` : '/projects';
   
@@ -53,17 +89,21 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       <div className="absolute top-3 right-3 md:top-4 md:right-4 z-10">
         <span className="inline-flex items-center gap-1 rounded-full bg-white/10 px-2.5 py-0.5 text-[10px] backdrop-blur-sm text-white sm:px-3 sm:py-1 sm:text-xs">
           <MapPin className="h-3 w-3 flex-shrink-0" />
-          {location}
+          {localizedLocation}
         </span>
       </div>
 
       {/* Content Area */}
       <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 text-white z-10">
         {/* Title */}
-        <h3 className="mb-2 text-lg font-bold leading-tight transition-colors group-hover:text-primary md:text-xl">{title}</h3>
+        <h3 className="mb-2 text-lg font-bold leading-tight transition-colors group-hover:text-primary md:text-xl">
+          {localizedTitle}
+        </h3>
         
         {/* Description */}
-        <p className="mb-3 line-clamp-2 text-xs text-gray-300 sm:text-sm">{description}</p>
+        <p className="mb-3 line-clamp-2 text-xs text-gray-300 sm:text-sm">
+          {localizedDescription}
+        </p>
 
         {/* Link Button */}
         <Link to={projectLink} className="inline-block">

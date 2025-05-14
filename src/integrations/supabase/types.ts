@@ -577,33 +577,60 @@ export type Database = {
         Row: {
           created_at: string
           description: string
+          description_en: string | null
+          description_ru: string | null
+          description_uz: string | null
           id: string
           image_url: string | null
           location: string
+          location_en: string | null
+          location_ru: string | null
+          location_uz: string | null
           status: string
           title: string
+          title_en: string | null
+          title_ru: string | null
+          title_uz: string | null
           updated_at: string
           url: string
         }
         Insert: {
           created_at?: string
           description: string
+          description_en?: string | null
+          description_ru?: string | null
+          description_uz?: string | null
           id?: string
           image_url?: string | null
           location: string
+          location_en?: string | null
+          location_ru?: string | null
+          location_uz?: string | null
           status: string
           title: string
+          title_en?: string | null
+          title_ru?: string | null
+          title_uz?: string | null
           updated_at?: string
           url: string
         }
         Update: {
           created_at?: string
           description?: string
+          description_en?: string | null
+          description_ru?: string | null
+          description_uz?: string | null
           id?: string
           image_url?: string | null
           location?: string
+          location_en?: string | null
+          location_ru?: string | null
+          location_uz?: string | null
           status?: string
           title?: string
+          title_en?: string | null
+          title_ru?: string | null
+          title_uz?: string | null
           updated_at?: string
           url?: string
         }

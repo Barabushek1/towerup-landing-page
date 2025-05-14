@@ -13,6 +13,16 @@ export interface Project {
   updated_at: string;
   is_featured?: boolean;
   is_active?: boolean;
+  // Multilingual fields
+  title_en?: string | null;
+  title_ru?: string | null;
+  title_uz?: string | null;
+  description_en?: string | null;
+  description_ru?: string | null;
+  description_uz?: string | null;
+  location_en?: string | null;
+  location_ru?: string | null;
+  location_uz?: string | null;
 }
 
 export async function fetchProjects(): Promise<Project[]> {

@@ -52,6 +52,12 @@ const FeaturedProjects: React.FC = () => {
     }
   };
 
+  // Helper function to get localized content based on current language
+  const getLocalizedField = (project: Project, field: string, fallback: string): string => {
+    const langField = `${field}_${language}` as keyof Project;
+    return (project[langField] as string) || fallback;
+  };
+
   if (loading) {
     return (
       <section className="py-16 md:py-24 bg-[#1a1a1a]">
@@ -75,10 +81,10 @@ const FeaturedProjects: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-            {t('featuredProjects.title', 'Наши проекты')}
+            {t('featuredProjects.title')}
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto">
-            {t('featuredProjects.subtitle', 'Ознакомьтесь с нашими текущими и завершенными проектами')}
+            {t('featuredProjects.subtitle')}
           </p>
         </div>
         
@@ -99,7 +105,7 @@ const FeaturedProjects: React.FC = () => {
                 {project.image_url ? (
                   <img 
                     src={project.image_url} 
-                    alt={project.title} 
+                    alt={getLocalizedField(project, 'title', project.title)} 
                     className="w-full h-full object-cover"
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = '/assets/placeholder-project.jpg';
@@ -117,15 +123,21 @@ const FeaturedProjects: React.FC = () => {
                   <span className="inline-block px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-medium">
                     {project.status}
                   </span>
-                  <span className="text-sm text-gray-400">{project.location}</span>
+                  <span className="text-sm text-gray-400">
+                    {getLocalizedField(project, 'location', project.location)}
+                  </span>
                 </div>
                 
-                <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
-                <p className="text-gray-400 text-sm line-clamp-2 mb-4">{project.description}</p>
+                <h3 className="text-xl font-bold text-white mb-2">
+                  {getLocalizedField(project, 'title', project.title)}
+                </h3>
+                <p className="text-gray-400 text-sm line-clamp-2 mb-4">
+                  {getLocalizedField(project, 'description', project.description)}
+                </p>
                 
                 <Link to={`/projects/${project.url}`} className="group inline-flex items-center text-primary hover:text-primary/80 transition-colors">
                   <span className="font-medium">
-                    {t('featuredProjects.learnMore', 'Подробнее')}
+                    {t('featuredProjects.learnMore')}
                   </span>
                   <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
                 </Link>
@@ -139,7 +151,7 @@ const FeaturedProjects: React.FC = () => {
             to="/projects" 
             className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary/10 text-white border border-primary/20 hover:bg-primary/20 transition-all duration-300"
           >
-            <span>{t('featuredProjects.viewAll', 'Посмотреть все проекты')}</span>
+            <span>{t('featuredProjects.viewAll')}</span>
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>

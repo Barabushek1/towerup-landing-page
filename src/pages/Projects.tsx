@@ -7,6 +7,7 @@ import { ArrowRight, Building, Calendar, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { fetchProjects, Project } from '@/utils/project-helpers';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // --- ProjectCard Component ---
 const ProjectCard: React.FC<{
@@ -19,6 +20,16 @@ const ProjectCard: React.FC<{
   completion?: string;
   slug: string;
   featured?: boolean;
+  // Multilingual fields
+  title_en?: string;
+  title_ru?: string;
+  title_uz?: string;
+  description_en?: string;
+  description_ru?: string;
+  description_uz?: string;
+  location_en?: string;
+  location_ru?: string;
+  location_uz?: string;
 }> = ({
   title,
   type,
@@ -28,8 +39,33 @@ const ProjectCard: React.FC<{
   status,
   completion,
   slug,
-  featured = false
+  featured = false,
+  // Multilingual fields
+  title_en,
+  title_ru,
+  title_uz,
+  description_en,
+  description_ru,
+  description_uz,
+  location_en,
+  location_ru,
+  location_uz
 }) => {
+  const { language } = useLanguage();
+  
+  // Helper function to get the localized content
+  const getLocalizedContent = (defaultValue: string, en?: string, ru?: string, uz?: string): string => {
+    if (language === 'en' && en) return en;
+    if (language === 'ru' && ru) return ru;
+    if (language === 'uz' && uz) return uz;
+    return defaultValue;
+  };
+  
+  // Get localized values
+  const localizedTitle = getLocalizedContent(title, title_en, title_ru, title_uz);
+  const localizedDescription = getLocalizedContent(description, description_en, description_ru, description_uz);
+  const localizedLocation = getLocalizedContent(location, location_en, location_ru, location_uz);
+  
   return (
     // Added cn helper for cleaner conditional classes
     <div className={cn(
@@ -57,15 +93,15 @@ const ProjectCard: React.FC<{
       <div className="absolute top-3 right-3 md:top-4 md:right-4 z-10">
         <span className="inline-flex items-center gap-1 rounded-full bg-white/10 px-2.5 py-0.5 text-[10px] backdrop-blur-sm text-white sm:px-3 sm:py-1 sm:text-xs">
           <MapPin className="h-3 w-3 flex-shrink-0" />
-          {location}
+          {localizedLocation}
         </span>
       </div>
 
       {/* Content Area */}
       <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 text-white z-10">
         <div className="mb-1 text-xs font-medium uppercase tracking-wider text-primary sm:text-sm">{type}</div>
-        <h3 className="mb-2 text-lg font-bold leading-tight transition-colors group-hover:text-primary md:text-xl lg:text-2xl">{title}</h3>
-        <p className="mb-3 line-clamp-2 text-xs text-gray-300 sm:text-sm md:line-clamp-2">{description}</p>
+        <h3 className="mb-2 text-lg font-bold leading-tight transition-colors group-hover:text-primary md:text-xl lg:text-2xl">{localizedTitle}</h3>
+        <p className="mb-3 line-clamp-2 text-xs text-gray-300 sm:text-sm md:line-clamp-2">{localizedDescription}</p>
 
         {/* Stats Section */}
         <div className="flex flex-col sm:flex-row sm:flex-wrap gap-x-4 gap-y-1 text-xs mb-4 items-start sm:items-center">
@@ -93,6 +129,7 @@ const ProjectCard: React.FC<{
 const Projects: React.FC = () => {
   const [dbProjects, setDbProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const { t, language } = useLanguage();
 
   useEffect(() => {
     const loadProjects = async () => {
@@ -146,7 +183,17 @@ const Projects: React.FC = () => {
     imageUrl: project.image_url || '/assets/placeholder-project.jpg',
     status: project.status,
     slug: project.url,
-    featured: false
+    featured: false,
+    // Multilingual fields
+    title_en: project.title_en,
+    title_ru: project.title_ru,
+    title_uz: project.title_uz,
+    description_en: project.description_en,
+    description_ru: project.description_ru,
+    description_uz: project.description_uz,
+    location_en: project.location_en,
+    location_ru: project.location_ru,
+    location_uz: project.location_uz
   }));
   
   // Combine all projects, prioritizing database projects
@@ -170,10 +217,11 @@ const Projects: React.FC = () => {
           <div className="container mx-auto px-4 sm:px-6">
             {/* Section Header */}
             <div className="max-w-3xl mx-auto mb-12 md:mb-16 text-center">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Выдающиеся проекты</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+                {t('projects.heading')}
+              </h2>
               <p className="text-slate-400 text-sm md:text-base">
-                Ознакомьтесь с нашими уникальными проектами, которые сочетают в себе высокое качество строительства,
-                современные технологии и продуманную инфраструктуру.
+                {t('projects.subheading')}
               </p>
             </div>
 
@@ -185,7 +233,7 @@ const Projects: React.FC = () => {
                 </div>
               ) : allProjects.length === 0 ? (
                 <div className="col-span-2 text-center py-20">
-                  <p className="text-lg text-gray-300">Проекты не найдены</p>
+                  <p className="text-lg text-gray-300">{t('projects.noProjects')}</p>
                 </div>
               ) : (
                 allProjects.map((project, index) => (
