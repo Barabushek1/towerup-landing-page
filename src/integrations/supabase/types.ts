@@ -180,6 +180,42 @@ export type Database = {
         }
         Relationships: []
       }
+      company_stats: {
+        Row: {
+          created_at: string | null
+          display_order: number
+          icon: string
+          id: string
+          is_active: boolean
+          subtitle: string
+          title: string
+          updated_at: string | null
+          value: string
+        }
+        Insert: {
+          created_at?: string | null
+          display_order: number
+          icon?: string
+          id?: string
+          is_active?: boolean
+          subtitle: string
+          title: string
+          updated_at?: string | null
+          value: string
+        }
+        Update: {
+          created_at?: string | null
+          display_order?: number
+          icon?: string
+          id?: string
+          is_active?: boolean
+          subtitle?: string
+          title?: string
+          updated_at?: string | null
+          value?: string
+        }
+        Relationships: []
+      }
       contact_messages: {
         Row: {
           created_at: string

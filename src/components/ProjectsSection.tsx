@@ -10,11 +10,11 @@ export type StatItem = {
   value: string;
   subtitle: string;
   icon: string;
-  order: number;
+  display_order: number;
   is_active: boolean;
 }
 
-export const ProjectsSection = () => {
+const ProjectsSection = () => {
   const [stats, setStats] = useState<StatItem[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -26,7 +26,7 @@ export const ProjectsSection = () => {
           .from('company_stats')
           .select('*')
           .eq('is_active', true)
-          .order('order');
+          .order('display_order');
 
         if (error) {
           console.error('Error fetching stats:', error);
@@ -129,3 +129,5 @@ export const ProjectsSection = () => {
     </section>
   );
 };
+
+export default ProjectsSection;

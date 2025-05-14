@@ -10,9 +10,9 @@ import { useVacancySeeder } from '@/hooks/use-vacancy-seeder';
 import ScrollToTopButton from '@/components/ScrollToTopButton';
 import ProjectAdvantagesBanner from '@/components/ProjectAdvantagesBanner';
 import { useLanguage } from '@/contexts/LanguageContext';
+import ProjectsSection from '@/components/ProjectsSection';
 
 // Lazy load non-critical components for better initial load performance
-const ProjectsSection = lazy(() => import('@/components/ProjectsSection'));
 const NewsVacanciesSection = lazy(() => import('@/components/NewsVacanciesSection'));
 const PartnersShowcaseSection = lazy(() => import('@/components/PartnersShowcaseSection'));
 const ContactSection = lazy(() => import('@/components/ContactSection'));
@@ -159,9 +159,7 @@ const Index: React.FC = () => {
         <FeaturesSection />
         
         {/* Company Statistics Section */}
-        <Suspense fallback={<SectionSkeleton />}>
-          <ProjectsSection />
-        </Suspense>
+        <ProjectsSection />
         
         {/* Add the new project advantages banner after projects section */}
         <ProjectAdvantagesBanner />

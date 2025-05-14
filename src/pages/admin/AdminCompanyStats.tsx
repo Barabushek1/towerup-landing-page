@@ -32,7 +32,7 @@ type StatItem = {
   value: string;
   subtitle: string;
   icon: string;
-  order: number;
+  display_order: number;
   is_active: boolean;
 };
 
@@ -63,7 +63,7 @@ const AdminCompanyStats = () => {
       const { data, error } = await supabase
         .from('company_stats')
         .select('*')
-        .order('order');
+        .order('display_order');
 
       if (error) {
         throw error;
@@ -118,12 +118,12 @@ const AdminCompanyStats = () => {
       } else {
         const maxOrderResult = await supabase
           .from('company_stats')
-          .select('order')
-          .order('order', { ascending: false })
+          .select('display_order')
+          .order('display_order', { ascending: false })
           .limit(1);
 
         const maxOrder = maxOrderResult.data && maxOrderResult.data.length > 0
-          ? maxOrderResult.data[0].order + 1
+          ? maxOrderResult.data[0].display_order + 1
           : 1;
 
         const { error } = await supabase
@@ -134,7 +134,7 @@ const AdminCompanyStats = () => {
             subtitle: currentStat.subtitle,
             icon: currentStat.icon || 'building',
             is_active: currentStat.is_active === undefined ? true : currentStat.is_active,
-            order: maxOrder,
+            display_order: maxOrder,
           });
 
         if (error) throw error;
@@ -196,14 +196,14 @@ const AdminCompanyStats = () => {
       const prevStat = stats[index - 1];
       
       const updates = [
-        { id: stat.id, order: prevStat.order },
-        { id: prevStat.id, order: stat.order }
+        { id: stat.id, display_order: prevStat.display_order },
+        { id: prevStat.id, display_order: stat.display_order }
       ];
 
       for (const update of updates) {
         await supabase
           .from('company_stats')
-          .update({ order: update.order })
+          .update({ display_order: update.display_order })
           .eq('id', update.id);
       }
       
@@ -225,14 +225,14 @@ const AdminCompanyStats = () => {
       const nextStat = stats[index + 1];
       
       const updates = [
-        { id: stat.id, order: nextStat.order },
-        { id: nextStat.id, order: stat.order }
+        { id: stat.id, display_order: nextStat.display_order },
+        { id: nextStat.id, display_order: stat.display_order }
       ];
 
       for (const update of updates) {
         await supabase
           .from('company_stats')
-          .update({ order: update.order })
+          .update({ display_order: update.display_order })
           .eq('id', update.id);
       }
       
@@ -401,7 +401,7 @@ const AdminCompanyStats = () => {
                 <TableRow key={stat.id}>
                   <TableCell className="w-24">
                     <div className="flex items-center space-x-1">
-                      <span>{stat.order}</span>
+                      <span>{stat.display_order}</span>
                       <div className="flex flex-col ml-2">
                         <Button
                           variant="ghost"
