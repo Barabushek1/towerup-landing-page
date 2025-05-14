@@ -582,10 +582,13 @@ export type Database = {
           description_uz: string | null
           id: string
           image_url: string | null
+          is_active: boolean | null
+          is_featured: boolean | null
           location: string
           location_en: string | null
           location_ru: string | null
           location_uz: string | null
+          project_type: string | null
           status: string
           title: string
           title_en: string | null
@@ -602,10 +605,13 @@ export type Database = {
           description_uz?: string | null
           id?: string
           image_url?: string | null
+          is_active?: boolean | null
+          is_featured?: boolean | null
           location: string
           location_en?: string | null
           location_ru?: string | null
           location_uz?: string | null
+          project_type?: string | null
           status: string
           title: string
           title_en?: string | null
@@ -622,10 +628,13 @@ export type Database = {
           description_uz?: string | null
           id?: string
           image_url?: string | null
+          is_active?: boolean | null
+          is_featured?: boolean | null
           location?: string
           location_en?: string | null
           location_ru?: string | null
           location_uz?: string | null
+          project_type?: string | null
           status?: string
           title?: string
           title_en?: string | null

@@ -1,0 +1,164 @@
+{
+  "nav": {
+    "home": "Bosh sahifa",
+    "about": "Biz haqimizda",
+    "projects": "Loyihalar",
+    "news": "Yangiliklar",
+    "vacancies": "Ish o'rinlari",
+    "contact": "Aloqa",
+    "futureProjects": "Kelajakdagi loyihalar"
+  },
+  "hero": {
+    "title": "TOWER UP: Toshkentdagi hashamatli turar joy majmuasi",
+    "subtitle": "Zamonaviy arxitektura, qulay joylashuv va yuqori sifatli xizmat",
+    "button": "Loyihalarni ko'rish"
+  },
+  "about": {
+    "title": "Biz haqimizda",
+    "heading": "Bizning maqsadimiz - sizning orzuingizdagi uyni yaratish",
+    "description": "TOWER UP - bu zamonaviy texnologiyalar va yuqori sifatli materiallardan foydalangan holda qurilgan hashamatli turar joy majmuasi. Biz sizga qulaylik va xavfsizlikni ta'minlaymiz.",
+    "missionTitle": "Bizning missiyamiz",
+    "missionDescription": "Har bir mijoz uchun noyob va qulay yashash muhitini yaratish.",
+    "visionTitle": "Bizning qarashimiz",
+    "visionDescription": "O'zbekistonda hashamatli turar joy qurilishida yetakchi bo'lish."
+  },
+  "features": {
+    "title": "Afzalliklarimiz",
+    "heading": "Nima uchun TOWER UP ni tanlash kerak?",
+    "items": [
+      {
+        "title": "Qulay joylashuv",
+        "description": "Shahar markazida, barcha qulayliklarga yaqin."
+      },
+      {
+        "title": "Zamonaviy arxitektura",
+        "description": "Noyob dizayn va zamonaviy texnologiyalar."
+      },
+      {
+        "title": "Yuqori sifatli materiallar",
+        "description": "Qurilishda faqat eng yaxshi materiallardan foydalanamiz."
+      },
+      {
+        "title": "Xavfsizlik",
+        "description": "24/7 qo'riqlash va videokuzatuv."
+      },
+      {
+        "title": "Qulaylik",
+        "description": "Avtoturargoh, bolalar maydonchasi va dam olish maskanlari."
+      },
+      {
+        "title": "Investitsiya",
+        "description": "Bizning loyihalarga sarmoya kiritish - bu ishonchli kelajak."
+      }
+    ]
+  },
+  "projectsSection": {
+    "sectionTitle": "Bizning loyihalar",
+    "sectionHeading": "Bizning eng yaxshi loyihalarimiz bilan tanishing",
+    "sectionDescription": "Biz sizga turli xil loyihalarni taklif etamiz, ularning har biri o'ziga xos va takrorlanmasdir.",
+    "allProjects": "Barcha loyihalarni ko'rish",
+    "featured": {
+      "nearby": {
+        "title": "Maktablar va bog'chalar",
+        "subtitle": "Bolalaringiz uchun qulaylik",
+        "description": "Bizning majmua yaqinida ko'plab maktablar va bog'chalar mavjud."
+      },
+      "parking": {
+        "title": "Avtoturargoh",
+        "subtitle": "Sizning avtomobilingiz uchun qulaylik",
+        "description": "Bizning majmuada sizning avtomobilingiz uchun qulay avtoturargoh mavjud."
+      },
+      "turnkey": {
+        "title": "Tayyor ta'mirlash",
+        "subtitle": "Sizning vaqtingizni tejash",
+        "description": "Biz sizga tayyor ta'mirlash bilan kvartirani taklif etamiz."
+      }
+    },
+    "projects": {
+      "pushkin": {
+        "title": "Turar joy majmuasi \"Pushkin\"",
+        "description": "Obodonlashtirilgan hudud, bolalar maydonchalari va park zonasi bilan 5 ta uydan iborat zamonaviy eko-majmua.",
+        "location": "Toshkent",
+        "status": "Qurilmoqda"
+      },
+      "newUzbekistan": {
+        "title": "Turar joy majmuasi \"Yangi O'zbekiston\"",
+        "description": "Innovatsion arxitektura, yashil zonalar va rivojlangan infratuzilmaga ega zamonaviy majmua.",
+        "location": "Toshkent",
+        "status": "Qurilmoqda"
+      },
+      "kumaryk": {
+        "title": "Turar joy majmuasi \"Qumariq\"",
+        "description": "Toshkentning ekologik toza hududida joylashgan qulay turar joy majmuasi.",
+        "location": "Toshkent viloyati",
+        "status": "Qurilmoqda"
+      }
+    }
+  },
+  "featuredProjects": {
+    "title": "Tavsiya etilgan loyihalar",
+    "subtitle": "Bizning eng yaxshi loyihalarimiz bilan tanishing",
+    "learnMore": "Batafsil ma'lumot",
+    "viewAll": "Barcha loyihalarni ko'rish"
+  },
+  "newsVacancies": {
+    "newsTitle": "Yangiliklar",
+    "vacanciesTitle": "Ish o'rinlari",
+    "noNews": "Yangiliklar yo'q",
+    "noVacancies": "Ish o'rinlari yo'q",
+    "viewAllNews": "Barcha yangiliklarni ko'rish",
+    "viewAllVacancies": "Barcha ish o'rinlarini ko'rish"
+  },
+  "partners": {
+    "title": "Hamkorlarimiz",
+    "description": "Bizning ishonchli hamkorlarimiz bilan tanishing"
+  },
+  "contact": {
+    "title": "Aloqa",
+    "heading": "Biz bilan bog'laning",
+    "description": "Savollaringiz bormi? Biz bilan bog'laning!",
+    "name": "Ism",
+    "email": "Email",
+    "message": "Xabar",
+    "send": "Yuborish",
+    "address": "Manzil",
+    "phone": "Telefon",
+    "emailAddress": "Email manzil"
+  },
+  "footer": {
+    "copyright": "Barcha huquqlar himoyalangan"
+  },
+  "home": {
+    "map": {
+      "title": "Bizning manzilimiz",
+      "subtitle": "Bizni toping!",
+      "address": "Toshkent, Amir Temur ko'chasi, 123"
+    }
+  },
+  "projects": {
+    "heading": "Bizning loyihalar",
+    "subheading": "Bizning eng yaxshi loyihalarimiz bilan tanishing",
+    "noProjects": "Loyihalar topilmadi"
+  },
+  "futureProjects": {
+    "pageTitle": "Kelajakdagi loyihalar",
+    "metaDescription": "Bizning kelajakdagi loyihalarimiz bilan tanishing",
+    "title": "Kelajakdagi loyihalar",
+    "subtitle": "Bizning kelajakdagi loyihalarimiz bilan tanishing",
+    "sectionTitle": "Bizning kelajakdagi loyihalarimiz",
+    "sectionDescription": "Biz sizga turli xil kelajakdagi loyihalarni taklif etamiz, ularning har biri o'ziga xos va takrorlanmasdir.",
+    "noProjects": "Kelajakdagi loyihalar topilmadi",
+    "checkBackSoon": "Tez orada qaytib keling!",
+    "statusUpcoming": "Tez orada",
+    "statusActive": "Faol",
+    "statusCompleted": "Tugallangan",
+    "estimatedCompletion": "Taxminiy yakunlash",
+    "viewProject": "Loyiha ko'rish"
+  },
+  "projectsShowcase": {
+    "title": "Bizning Loyihalar",
+    "heading": "Bizning Tajribamizni Ko'rsatish",
+    "description": "Tugallangan, qurilayotgan va kelajakdagi loyihalarimiz portfoliosini o'rganing",
+    "viewAll": "Barcha Loyihalarni Ko'rish"
+  }
+}

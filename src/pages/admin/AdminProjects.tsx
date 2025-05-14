@@ -48,6 +48,7 @@ const AdminProjects: React.FC = () => {
   const [url, setUrl] = useState('');
   const [isFeatured, setIsFeatured] = useState(false);
   const [isActive, setIsActive] = useState(true);
+  const [projectType, setProjectType] = useState('Реализованные');
   const [activeTab, setActiveTab] = useState('default');
 
   // Initialize the storage bucket when component loads
@@ -98,6 +99,7 @@ const AdminProjects: React.FC = () => {
     setUrl('');
     setIsFeatured(false);
     setIsActive(true);
+    setProjectType('Реализованные');
     setCurrentProject(null);
     setIsEditing(false);
     setActiveTab('default');
@@ -116,6 +118,7 @@ const AdminProjects: React.FC = () => {
       setUrl(project.url || '');
       setIsFeatured(project.is_featured || false);
       setIsActive(project.is_active !== false); // Default to true if undefined
+      setProjectType(project.project_type || 'Реализованные');
       
       // Set multilingual values
       setTitleEn(project.title_en || '');
@@ -165,6 +168,7 @@ const AdminProjects: React.FC = () => {
         url,
         is_featured: isFeatured,
         is_active: isActive,
+        project_type: projectType,
         // Multilingual fields
         title_en: titleEn || null,
         title_ru: titleRu || null,
@@ -266,6 +270,20 @@ const AdminProjects: React.FC = () => {
     return project.title;
   };
 
+  // Badge color based on project type
+  const getProjectTypeBadgeClass = (type: string) => {
+    switch (type) {
+      case 'Реализованные':
+        return 'bg-green-500/10 text-green-500';
+      case 'Строящиеся':
+        return 'bg-blue-500/10 text-blue-500';
+      case 'Будущие':
+        return 'bg-yellow-500/10 text-yellow-500';
+      default:
+        return 'bg-gray-500/10 text-gray-500';
+    }
+  };
+
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
@@ -289,6 +307,7 @@ const AdminProjects: React.FC = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead>Название</TableHead>
+                  <TableHead>Тип</TableHead>
                   <TableHead>Местоположение</TableHead>
                   <TableHead>Статус</TableHead>
                   <TableHead className="text-center">Избранное</TableHead>
@@ -299,12 +318,17 @@ const AdminProjects: React.FC = () => {
               <TableBody>
                 {projects.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={6} className="text-center">Проектов не найдено</TableCell>
+                    <TableCell colSpan={7} className="text-center">Проектов не найдено</TableCell>
                   </TableRow>
                 ) : (
                   projects.map((project) => (
                     <TableRow key={project.id}>
                       <TableCell>{getLocalizedTitle(project)}</TableCell>
+                      <TableCell>
+                        <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getProjectTypeBadgeClass(project.project_type || 'Реализованные')}`}>
+                          {project.project_type || 'Реализованные'}
+                        </span>
+                      </TableCell>
                       <TableCell>{project.location}</TableCell>
                       <TableCell>{project.status}</TableCell>
                       <TableCell className="text-center">
@@ -400,6 +424,20 @@ const AdminProjects: React.FC = () => {
                     placeholder="Введите местоположение"
                     required
                   />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="project_type">Тип проекта *</Label>
+                  <Select value={projectType} onValueChange={setProjectType} required>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Выберите тип проекта" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Реализованные">Реализованные</SelectItem>
+                      <SelectItem value="Строящиеся">Строящиеся</SelectItem>
+                      <SelectItem value="Будущие">Будущие</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div className="space-y-2">

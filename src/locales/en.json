@@ -1,0 +1,147 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About Us",
+    "services": "Services",
+    "projects": "Projects",
+    "news": "News",
+    "vacancies": "Vacancies",
+    "contact": "Contact",
+    "futureProjects": "Future Projects"
+  },
+  "hero": {
+    "title": "Premium Real Estate in Tashkent",
+    "subtitle": "Modern residential complex for comfortable living",
+    "button": "View Projects"
+  },
+  "about": {
+    "title": "About Our Company",
+    "description": "We are a leading construction company specializing in premium residential complexes. Our mission is to create comfortable and modern homes for our clients.",
+    "missionTitle": "Our Mission",
+    "missionDescription": "To build high-quality, innovative, and sustainable residential complexes that meet the needs of modern families.",
+    "visionTitle": "Our Vision",
+    "visionDescription": "To be the most trusted and respected construction company in Tashkent, known for our commitment to excellence and customer satisfaction."
+  },
+  "features": {
+    "title": "Why Choose Us?",
+    "feature1Title": "High-Quality Construction",
+    "feature1Description": "We use only the best materials and construction techniques to ensure the durability and longevity of our buildings.",
+    "feature2Title": "Modern Design",
+    "feature2Description": "Our residential complexes feature modern and innovative designs that are both aesthetically pleasing and functional.",
+    "feature3Title": "Prime Locations",
+    "feature3Description": "We select only the best locations for our projects, ensuring easy access to amenities and transportation.",
+    "feature4Title": "Customer Satisfaction",
+    "feature4Description": "We are committed to providing exceptional customer service and ensuring that our clients are completely satisfied with their new homes."
+  },
+  "projects": {
+    "heading": "Our Projects",
+    "subheading": "Explore our completed and ongoing projects",
+    "noProjects": "No projects found"
+  },
+  "news": {
+    "heading": "Latest News",
+    "subheading": "Stay up-to-date with our latest news and announcements",
+    "noNews": "No news found",
+    "readMore": "Read More"
+  },
+  "vacancies": {
+    "heading": "Job Openings",
+    "subheading": "Join our team and build your career with us",
+    "noVacancies": "No vacancies found",
+    "applyNow": "Apply Now"
+  },
+  "contact": {
+    "heading": "Contact Us",
+    "subheading": "Get in touch with us for any inquiries or questions",
+    "name": "Your Name",
+    "email": "Your Email",
+    "message": "Your Message",
+    "send": "Send Message",
+    "address": "Address",
+    "phone": "Phone",
+    "emailAddress": "Email Address"
+  },
+  "footer": {
+    "copyright": "© 2024 TOWERUP. All rights reserved."
+  },
+  "home": {
+    "map": {
+      "title": "Our Location",
+      "subtitle": "Visit our office or contact us for more information",
+      "address": "Tashkent, Uzbekistan"
+    }
+  },
+  "featuredProjects": {
+    "title": "Featured Projects",
+    "subtitle": "Explore our most outstanding and innovative projects",
+    "learnMore": "Learn More",
+    "viewAll": "View All Projects"
+  },
+  "futureProjects": {
+    "pageTitle": "Future Projects",
+    "metaDescription": "Explore our upcoming real estate projects in Tashkent. Discover modern designs and prime locations.",
+    "title": "Future Projects",
+    "subtitle": "Discover our upcoming real estate developments",
+    "sectionTitle": "Explore Our Vision",
+    "sectionDescription": "See what we're planning next. Our future projects promise innovative designs and prime locations.",
+    "noProjects": "No future projects listed yet.",
+    "checkBackSoon": "Please check back soon for updates!",
+    "estimatedCompletion": "Estimated Completion",
+    "viewProject": "View Project",
+    "statusUpcoming": "Upcoming",
+    "statusActive": "Active",
+    "statusCompleted": "Completed"
+  },
+  "projectsSection": {
+    "sectionTitle": "Our Statistics",
+    "sectionHeading": "Building the Future, One Project at a Time",
+    "sectionDescription": "Discover the impact of our work through impressive numbers and achievements.",
+    "allProjects": "View All Projects",
+    "featured": {
+      "nearby": {
+        "title": "Prime Location",
+        "subtitle": "Conveniently Located",
+        "description": "Enjoy easy access to key amenities and city hotspots."
+      },
+      "parking": {
+        "title": "Secure Parking",
+        "subtitle": "Peace of Mind",
+        "description": "Rest easy knowing your vehicle is safe and secure."
+      },
+      "turnkey": {
+        "title": "Turnkey Solutions",
+        "subtitle": "Ready to Move In",
+        "description": "Experience hassle-free living with our fully-equipped apartments."
+      }
+    },
+    "projects": {
+      "pushkin": {
+        "title": "Pushkin Residence",
+        "description": "A modern eco-complex with landscaped grounds, playgrounds, and a park area.",
+        "location": "Tashkent",
+        "status": "Under Construction"
+      },
+      "newUzbekistan": {
+        "title": "Yangi Uzbekistan",
+        "description": "A modern complex with innovative architecture, green areas, and developed infrastructure.",
+        "location": "Tashkent",
+        "status": "Under Construction"
+      },
+      "kumaryk": {
+        "title": "Kumaryk Apartments",
+        "description": "Comfortable apartments in a quiet area with all amenities for a comfortable stay.",
+        "location": "Tashkent",
+        "status": "Completed"
+      }
+    },
+    "previousSlide": "Go to previous slide",
+    "nextSlide": "Go to next slide",
+    "goToSlide": "Go to slide"
+  },
+  "projectsShowcase": {
+    "title": "Our Projects",
+    "heading": "Showcasing Our Excellence",
+    "description": "Explore our portfolio of completed, ongoing, and future projects",
+    "viewAll": "View All Projects"
+  }
+}

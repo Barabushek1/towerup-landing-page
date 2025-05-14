@@ -13,6 +13,7 @@ export interface Project {
   updated_at: string;
   is_featured?: boolean;
   is_active?: boolean;
+  project_type?: 'Реализованные' | 'Строящиеся' | 'Будущие';
   // Multilingual fields
   title_en?: string | null;
   title_ru?: string | null;
@@ -42,6 +43,29 @@ export async function fetchProjects(): Promise<Project[]> {
     return data || [];
   } catch (err) {
     console.error('Unexpected error fetching projects:', err);
+    return [];
+  }
+}
+
+export async function fetchProjectsByType(type: string): Promise<Project[]> {
+  try {
+    console.log(`Fetching ${type} projects from database...`);
+    const { data, error } = await supabase
+      .from('projects')
+      .select('*')
+      .eq('project_type', type)
+      .eq('is_active', true)
+      .order('created_at', { ascending: false });
+    
+    if (error) {
+      console.error('Error fetching projects:', error);
+      return [];
+    }
+    
+    console.log(`${type} projects fetched successfully:`, data?.length || 0);
+    return data || [];
+  } catch (err) {
+    console.error(`Unexpected error fetching ${type} projects:`, err);
     return [];
   }
 }

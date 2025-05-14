@@ -3,141 +3,60 @@ import React, { useEffect, useState } from 'react';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import PageHeader from '@/components/PageHeader';
-import { ArrowRight, Building, Calendar, MapPin } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { fetchProjects, Project } from '@/utils/project-helpers';
+import ProjectCard from '@/components/projects/ProjectCard';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { motion } from 'framer-motion';
+import { fetchProjectsByType, Project } from '@/utils/project-helpers';
 import { useLanguage } from '@/contexts/LanguageContext';
 
-// --- ProjectCard Component ---
-const ProjectCard: React.FC<{
-  title: string;
-  type: string;
-  description: string;
-  location: string;
-  imageUrl: string;
-  status: string;
-  completion?: string;
-  slug: string;
-  featured?: boolean;
-  // Multilingual fields
-  title_en?: string;
-  title_ru?: string;
-  title_uz?: string;
-  description_en?: string;
-  description_ru?: string;
-  description_uz?: string;
-  location_en?: string;
-  location_ru?: string;
-  location_uz?: string;
-}> = ({
-  title,
-  type,
-  description,
-  location,
-  imageUrl,
-  status,
-  completion,
-  slug,
-  featured = false,
-  // Multilingual fields
-  title_en,
-  title_ru,
-  title_uz,
-  description_en,
-  description_ru,
-  description_uz,
-  location_en,
-  location_ru,
-  location_uz
-}) => {
-  const { language } = useLanguage();
-  
-  // Helper function to get the localized content
-  const getLocalizedContent = (defaultValue: string, en?: string, ru?: string, uz?: string): string => {
-    if (language === 'en' && en) return en;
-    if (language === 'ru' && ru) return ru;
-    if (language === 'uz' && uz) return uz;
-    return defaultValue;
-  };
-  
-  // Get localized values
-  const localizedTitle = getLocalizedContent(title, title_en, title_ru, title_uz);
-  const localizedDescription = getLocalizedContent(description, description_en, description_ru, description_uz);
-  const localizedLocation = getLocalizedContent(location, location_en, location_ru, location_uz);
-  
-  return (
-    // Added cn helper for cleaner conditional classes
-    <div className={cn(
-      "group relative overflow-hidden rounded-xl border border-slate-800/50 shadow-lg transition-all duration-300 hover:shadow-primary/20 hover:border-slate-700/80",
-      featured ? 'md:col-span-2' : ''
-    )}>
-      {/* Image Background */}
-      <div
-        className="aspect-[16/9] w-full bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-105"
-        style={{ backgroundImage: `url(${imageUrl})` }}
-        aria-hidden="true" 
-      />
-
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent" aria-hidden="true"></div>
-
-      {/* Status Badge */}
-      <div className="absolute top-3 left-3 md:top-4 md:left-4 z-10">
-        <span className="inline-block rounded-full bg-primary px-2.5 py-0.5 text-[10px] font-medium text-white sm:px-3 sm:py-1 sm:text-xs">
-          {status}
-        </span>
-      </div>
-
-      {/* Location Badge */}
-      <div className="absolute top-3 right-3 md:top-4 md:right-4 z-10">
-        <span className="inline-flex items-center gap-1 rounded-full bg-white/10 px-2.5 py-0.5 text-[10px] backdrop-blur-sm text-white sm:px-3 sm:py-1 sm:text-xs">
-          <MapPin className="h-3 w-3 flex-shrink-0" />
-          {localizedLocation}
-        </span>
-      </div>
-
-      {/* Content Area */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 text-white z-10">
-        <div className="mb-1 text-xs font-medium uppercase tracking-wider text-primary sm:text-sm">{type}</div>
-        <h3 className="mb-2 text-lg font-bold leading-tight transition-colors group-hover:text-primary md:text-xl lg:text-2xl">{localizedTitle}</h3>
-        <p className="mb-3 line-clamp-2 text-xs text-gray-300 sm:text-sm md:line-clamp-2">{localizedDescription}</p>
-
-        {/* Stats Section */}
-        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-x-4 gap-y-1 text-xs mb-4 items-start sm:items-center">
-          {completion && (
-            <div className="flex items-center gap-1">
-              <Calendar className="h-3.5 w-3.5 text-primary flex-shrink-0" />
-              <span>{completion}</span>
-            </div>
-          )}
-        </div>
-
-        {/* Link Button */}
-        <a href={`/projects/${slug}`} className="inline-block" tabIndex={-1}>
-          <Button variant="secondary" size="sm" className="group/btn bg-white/10 hover:bg-white/20 text-white border-none">
-            Подробнее
-            <ArrowRight className="ml-1.5 h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
-          </Button>
-        </a>
-      </div>
-    </div>
-  );
+// Animation variants
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2
+    }
+  }
 };
 
-// --- Projects Component (Main Page) ---
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5 }
+  }
+};
+
 const Projects: React.FC = () => {
-  const [dbProjects, setDbProjects] = useState<Project[]>([]);
+  const { t } = useLanguage();
+  const [activeTab, setActiveTab] = useState('completed');
+  const [completedProjects, setCompletedProjects] = useState<Project[]>([]);
+  const [ongoingProjects, setOngoingProjects] = useState<Project[]>([]);
+  const [futureProjects, setFutureProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
-  const { t, language } = useLanguage();
 
   useEffect(() => {
     const loadProjects = async () => {
       setLoading(true);
       try {
-        const data = await fetchProjects();
-        console.log("Fetched projects from database:", data);
-        setDbProjects(data);
+        // Fetch all three types of projects in parallel
+        const [completed, ongoing, future] = await Promise.all([
+          fetchProjectsByType('Реализованные'),
+          fetchProjectsByType('Строящиеся'),
+          fetchProjectsByType('Будущие')
+        ]);
+        
+        setCompletedProjects(completed);
+        setOngoingProjects(ongoing);
+        setFutureProjects(future);
+        
+        console.log("Projects fetched:", {
+          completed: completed.length,
+          ongoing: ongoing.length,
+          future: future.length
+        });
       } catch (error) {
         console.error("Error fetching projects:", error);
       } finally {
@@ -148,62 +67,55 @@ const Projects: React.FC = () => {
     loadProjects();
   }, []);
   
-  // Hardcoded projects
-  const hardcodedProjects = [
-    {
-      title: 'ЖК "Пушкин"',
-      type: 'Жилой комплекс',
-      description: 'Современный эко-комплекс из 5 домов с благоустроенной территорией, детскими площадками и парковой зоной.',
-      location: 'Ташкент',
-      imageUrl: '/assets/Pushkin/18.jpg',
-      status: 'Строится',
-      completion: 'Q4 2025',
-      slug: 'pushkin',
-      featured: true
-    },
-    {
-      title: 'ЖК "Yangi Uzbekistan"',
-      type: 'Жилой комплекс',
-      description: 'Современный комплекс с инновационной архитектурой, зелеными зонами и развитой инфраструктурой.',
-      location: 'Ташкент',
-      imageUrl: '/lovable-uploads/36f32494-e938-41ca-815a-e71e74b2e791.png',
-      status: 'Строится',
-      completion: 'Q3 2025',
-      slug: 'new-uzbekistan',
-      featured: true
+  const renderProjects = (projects: Project[]) => {
+    if (loading) {
+      return (
+        <div className="flex justify-center items-center py-20">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        </div>
+      );
     }
-  ];
-  
-  // Database projects transformed for display
-  const dbProjectCards = dbProjects.map(project => ({
-    title: project.title,
-    type: 'Проект',
-    description: project.description,
-    location: project.location,
-    imageUrl: project.image_url || '/assets/placeholder-project.jpg',
-    status: project.status,
-    slug: project.url,
-    featured: false,
-    // Multilingual fields
-    title_en: project.title_en,
-    title_ru: project.title_ru,
-    title_uz: project.title_uz,
-    description_en: project.description_en,
-    description_ru: project.description_ru,
-    description_uz: project.description_uz,
-    location_en: project.location_en,
-    location_ru: project.location_ru,
-    location_uz: project.location_uz
-  }));
-  
-  // Combine all projects, prioritizing database projects
-  const allProjects = [...dbProjectCards, ...hardcodedProjects];
-  
-  console.log("All projects to display:", {
-    dbProjects: dbProjectCards.length,
-    hardcodedProjects: hardcodedProjects.length,
-    total: allProjects.length
-  });
+    
+    if (projects.length === 0) {
+      return (
+        <div className="text-center py-20">
+          <p className="text-lg text-gray-300">{t('projects.noProjects')}</p>
+        </div>
+      );
+    }
+    
+    return (
+      <motion.div 
+        variants={container}
+        initial="hidden"
+        animate="show"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+      >
+        {projects.map((project, index) => (
+          <motion.div key={project.id} variants={item}>
+            <ProjectCard
+              title={project.title}
+              description={project.description}
+              location={project.location}
+              status={project.status}
+              imageUrl={project.image_url || '/assets/placeholder-project.jpg'}
+              slug={project.url}
+              index={index}
+              title_en={project.title_en}
+              title_ru={project.title_ru}
+              title_uz={project.title_uz}
+              description_en={project.description_en}
+              description_ru={project.description_ru}
+              description_uz={project.description_uz}
+              location_en={project.location_en}
+              location_ru={project.location_ru}
+              location_uz={project.location_uz}
+            />
+          </motion.div>
+        ))}
+      </motion.div>
+    );
+  };
 
   return (
     <div className="min-h-screen antialiased bg-[#161616] text-gray-200 overflow-x-hidden">
@@ -214,7 +126,10 @@ const Projects: React.FC = () => {
 
         {/* Projects Section */}
         <section className="py-16 md:py-24 bg-[#1a1a1a] relative">
-          <div className="container mx-auto px-4 sm:px-6">
+          <div className="absolute -top-40 -left-40 w-80 h-80 bg-primary/5 rounded-full filter blur-[100px]"></div>
+          <div className="absolute -bottom-40 -right-40 w-80 h-80 bg-primary/5 rounded-full filter blur-[100px]"></div>
+          
+          <div className="container mx-auto px-4 sm:px-6 relative z-10">
             {/* Section Header */}
             <div className="max-w-3xl mx-auto mb-12 md:mb-16 text-center">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
@@ -225,22 +140,25 @@ const Projects: React.FC = () => {
               </p>
             </div>
 
-            {/* Projects Grid with Responsive Gap */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
-              {loading ? (
-                <div className="col-span-2 flex justify-center items-center py-20">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-                </div>
-              ) : allProjects.length === 0 ? (
-                <div className="col-span-2 text-center py-20">
-                  <p className="text-lg text-gray-300">{t('projects.noProjects')}</p>
-                </div>
-              ) : (
-                allProjects.map((project, index) => (
-                  <ProjectCard key={`${project.slug}-${index}`} {...project} />
-                ))
-              )}
-            </div>
+            <Tabs defaultValue="completed" value={activeTab} onValueChange={setActiveTab} className="w-full">
+              <TabsList className="grid w-full grid-cols-3 mb-8 md:w-fit mx-auto">
+                <TabsTrigger value="completed">Реализованные</TabsTrigger>
+                <TabsTrigger value="ongoing">Строящиеся</TabsTrigger>
+                <TabsTrigger value="future">Будущие</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="completed" className="space-y-4">
+                {renderProjects(completedProjects)}
+              </TabsContent>
+              
+              <TabsContent value="ongoing" className="space-y-4">
+                {renderProjects(ongoingProjects)}
+              </TabsContent>
+              
+              <TabsContent value="future" className="space-y-4">
+                {renderProjects(futureProjects)}
+              </TabsContent>
+            </Tabs>
           </div>
         </section>
       </main>

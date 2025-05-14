@@ -1,4 +1,3 @@
-
 import React, { useEffect, lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet-async';
 import NavBar from '@/components/NavBar';
@@ -11,7 +10,7 @@ import { useVacancySeeder } from '@/hooks/use-vacancy-seeder';
 import ScrollToTopButton from '@/components/ScrollToTopButton';
 import { useLanguage } from '@/contexts/LanguageContext';
 import ProjectsSection from '@/components/ProjectsSection';
-import FeaturedProjects from '@/components/FeaturedProjects';
+import ProjectsShowcase from '@/components/ProjectsShowcase';
 
 // Lazy load non-critical components for better initial load performance
 const NewsVacanciesSection = lazy(() => import('@/components/NewsVacanciesSection'));
@@ -159,11 +158,11 @@ const Index: React.FC = () => {
         <AboutSection />
         <FeaturesSection />
         
+        {/* Project Showcase Section from admin panel */}
+        <ProjectsShowcase />
+        
         {/* Company Statistics Section */}
         <ProjectsSection />
-        
-        {/* Featured Projects Section from admin panel */}
-        <FeaturedProjects />
                
         <Suspense fallback={<SectionSkeleton />}>
           <NewsVacanciesSection />
