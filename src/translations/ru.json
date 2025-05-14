@@ -2,6 +2,11 @@
 {
   "testModeIndicator": "Сайт работает в тестовом режиме",
 
+  "projects.heading": "Проекты",
+  "projects.subheading": "Наши проекты",
+  "projects.noProjects": "Проекты не найдены",
+  "projectsShowcase.title": "Проекты",
+  "projectsShowcase.heading": "Наши проекты",
   "nav.services": "Услуги",
   "nav.services.management_company": "Управляющая компания",
   "nav.services.design": "Дизайн",

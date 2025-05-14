@@ -2,7 +2,11 @@
 {
   "testModeIndicator": "Site is in test mode",
 
-  
+  "projects.heading": "Projects",
+  "projects.subheading": "Our projects",
+  "projects.noProjects": "Couldn't find any projects",
+  "projectsShowcase.title": "Projects",
+  "projectsShowcase.heading": "Our projects",
   "nav.services": "Services",
   "nav.services.management_company": "Management Company",
   "nav.services.design": "Design",

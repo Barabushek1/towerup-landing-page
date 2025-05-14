@@ -2,7 +2,11 @@
 {
   "testModeIndicator": "Sayt sinov rejimida ishlamoqda",
 
-
+  "projects.heading": "Loyihalar",
+  "projects.subheading": "Bizning loyihalarimiz",
+  "projects.noProjects": "Loyihalar topilmadi",
+  "projectsShowcase.title": "Loyihalar",
+  "projectsShowcase.heading": "Bizning loyihalarimiz",
   "nav.services": "Xizmatlar",
   "nav.services.management_company": "Boshqaruv kompaniyasi",
   "nav.services.design": "Dizayn",
