@@ -159,10 +159,7 @@ const Index: React.FC = () => {
         
         {/* Company Statistics Section */}
         <ProjectsSection />
-        
-        {/* Add the new project advantages banner after projects section */}
-        <ProjectAdvantagesBanner />
-        
+               
         <Suspense fallback={<SectionSkeleton />}>
           <NewsVacanciesSection />
         </Suspense>
