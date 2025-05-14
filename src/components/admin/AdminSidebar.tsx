@@ -107,6 +107,11 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
       name: 'Детальные аудит логи',
       path: '/admin/detailed-audit-logs',
       icon: <BarChart3 className="w-5 h-5 mr-3" />
+    },
+    {
+      name: 'Company Statistics',
+      path: '/admin/company-stats',
+      icon: <BarChart3 className="w-5 h-5 mr-3" />
     }
   ];
 

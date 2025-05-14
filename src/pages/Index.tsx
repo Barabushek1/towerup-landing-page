@@ -158,7 +158,7 @@ const Index: React.FC = () => {
         <AboutSection />
         <FeaturesSection />
         
-        {/* Lazy-loaded sections with suspense fallbacks */}
+        {/* Company Statistics Section */}
         <Suspense fallback={<SectionSkeleton />}>
           <ProjectsSection />
         </Suspense>
