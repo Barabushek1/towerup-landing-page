@@ -48,7 +48,7 @@ const AdminProjects: React.FC = () => {
   const [url, setUrl] = useState('');
   const [isFeatured, setIsFeatured] = useState(false);
   const [isActive, setIsActive] = useState(true);
-  const [projectType, setProjectType] = useState('Реализованные');
+  const [projectType, setProjectType] = useState<'Реализованные' | 'Строящиеся' | 'Будущие'>('Реализованные');
   const [activeTab, setActiveTab] = useState('default');
 
   // Initialize the storage bucket when component loads
@@ -428,7 +428,11 @@ const AdminProjects: React.FC = () => {
 
                 <div className="space-y-2">
                   <Label htmlFor="project_type">Тип проекта *</Label>
-                  <Select value={projectType} onValueChange={setProjectType} required>
+                  <Select 
+                    value={projectType} 
+                    onValueChange={(value: 'Реализованные' | 'Строящиеся' | 'Будущие') => setProjectType(value)} 
+                    required
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Выберите тип проекта" />
                     </SelectTrigger>
