@@ -111,10 +111,7 @@ const ProjectsShowcase: React.FC = () => {
         </Tabs>
         
         <div className="flex justify-center mt-10">
-          <Link to="/projects" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary/10 hover:bg-primary/20 transition-all duration-300 border border-primary/30 text-white">
-            <span>Посмотреть все проекты</span>
-            <ArrowRight className="h-4 w-4" />
-          </Link>
+          
         </div>
       </div>
     </section>;
