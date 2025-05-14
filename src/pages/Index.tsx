@@ -1,3 +1,4 @@
+
 import React, { useEffect, lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet-async';
 import NavBar from '@/components/NavBar';
@@ -9,7 +10,7 @@ import { usePartnerSeeder } from '@/hooks/use-partner-seeder';
 import { useVacancySeeder } from '@/hooks/use-vacancy-seeder';
 import ScrollToTopButton from '@/components/ScrollToTopButton';
 import { useLanguage } from '@/contexts/LanguageContext';
-import ProjectsSection from '@/components/projects/ProjectsSection';
+import ProjectsSection from '@/components/ProjectsSection';
 import FeaturedProjects from '@/components/FeaturedProjects';
 
 // Lazy load non-critical components for better initial load performance
