@@ -103,14 +103,14 @@ const NavBar: React.FC = () => {
     key: 'projects',
     hasSubmenu: true,
       submenu: [{
-  title: t('nav.projectPushkin'),
-  href: '/projects/pushkin'
+  title: t('nav.projectNewUzbekistan'),
+  href: '/projects/new-uzbekistan'
 }, {
   title: t('nav.projectTrcBochka'),
   href: '/projects/trcbochka'
 }, {
-  title: t('nav.projectNewUzbekistan'),
-  href: '/projects/new-uzbekistan'
+  title: t('nav.projectPushkin'),
+  href: '/projects/pushkin'
 }, {
   title: t('nav.BnakingTechnology'),
   href: '/projects/banking-technology'
