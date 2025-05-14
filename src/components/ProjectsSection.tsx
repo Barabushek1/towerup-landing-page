@@ -1,14 +1,20 @@
-
 import { useEffect, useState, useRef } from 'react';
 import { Building, Users, MapPin, Construction, Award, Calendar, Clock, Briefcase, Home, CheckCircle, Target, TrendingUp } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { supabase } from '@/integrations/supabase/client';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export type StatItem = {
   id: string;
   title: string;
+  title_en?: string;
+  title_ru?: string;
+  title_uz?: string;
   value: string;
   subtitle: string;
+  subtitle_en?: string;
+  subtitle_ru?: string;
+  subtitle_uz?: string;
   icon: string;
   display_order: number;
   is_active: boolean;
@@ -20,6 +26,7 @@ const ProjectsSection = () => {
   const [animatedValues, setAnimatedValues] = useState<{[key: string]: number}>({});
   const sectionRef = useRef<HTMLDivElement>(null);
   const hasAnimated = useRef(false);
+  const { language } = useLanguage();
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -126,6 +133,18 @@ const ProjectsSection = () => {
     return originalValue.replace(/\d+/, animatedValue.toString());
   };
 
+  const getLocalizedField = (stat: StatItem, field: 'title' | 'subtitle'): string => {
+    const langField = `${field}_${language}` as keyof StatItem;
+    
+    // If we have a translation for the current language, use it
+    if (stat[langField]) {
+      return stat[langField] as string;
+    }
+    
+    // Otherwise fall back to the main field (which is typically Russian)
+    return stat[field];
+  };
+
   const getIcon = (iconName: string) => {
     switch (iconName) {
       case 'building':
@@ -218,8 +237,8 @@ const ProjectsSection = () => {
                   {getIcon(stat.icon)}
                 </div>
                 <h3 className="text-2xl md:text-3xl font-bold text-white mb-1">{formatValue(stat)}</h3>
-                <p className="text-sm md:text-base text-gray-400 mb-2">{stat.subtitle}</p>
-                <p className="text-xs uppercase tracking-wider text-primary font-medium">{stat.title}</p>
+                <p className="text-sm md:text-base text-gray-400 mb-2">{getLocalizedField(stat, 'subtitle')}</p>
+                <p className="text-xs uppercase tracking-wider text-primary font-medium">{getLocalizedField(stat, 'title')}</p>
               </div>
             </motion.div>
           ))}

@@ -188,7 +188,13 @@ export type Database = {
           id: string
           is_active: boolean
           subtitle: string
+          subtitle_en: string | null
+          subtitle_ru: string | null
+          subtitle_uz: string | null
           title: string
+          title_en: string | null
+          title_ru: string | null
+          title_uz: string | null
           updated_at: string | null
           value: string
         }
@@ -199,7 +205,13 @@ export type Database = {
           id?: string
           is_active?: boolean
           subtitle: string
+          subtitle_en?: string | null
+          subtitle_ru?: string | null
+          subtitle_uz?: string | null
           title: string
+          title_en?: string | null
+          title_ru?: string | null
+          title_uz?: string | null
           updated_at?: string | null
           value: string
         }
@@ -210,7 +222,13 @@ export type Database = {
           id?: string
           is_active?: boolean
           subtitle?: string
+          subtitle_en?: string | null
+          subtitle_ru?: string | null
+          subtitle_uz?: string | null
           title?: string
+          title_en?: string | null
+          title_ru?: string | null
+          title_uz?: string | null
           updated_at?: string | null
           value?: string
         }
