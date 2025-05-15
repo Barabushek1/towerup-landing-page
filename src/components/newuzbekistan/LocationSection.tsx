@@ -17,8 +17,8 @@ const LocationSection: React.FC = () => {
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
   const [mapLoaded, setMapLoaded] = useState(false);
 
-  // Янги Узбекистан coordinates
-  const LOCATION_COORDINATES = [69.229707, 41.328528];
+  // Янги Узбекистан coordinates - properly typed as [longitude, latitude]
+  const LOCATION_COORDINATES: [number, number] = [69.229707, 41.328528];
 
   useEffect(() => {
     if (!mapContainerRef.current || mapRef.current) return;
@@ -64,35 +64,35 @@ const LocationSection: React.FC = () => {
     marker.setPopup(popup);
     popup.addTo(map);
 
-    // Add surrounding points of interest
+    // Add surrounding points of interest with proper typing for coordinates
     const pointsOfInterest = [
       {
         name: "Ташкентский хлопчатобумажный комбинат",
-        coordinates: [69.235, 41.330],
+        coordinates: [69.235, 41.330] as [number, number],
         icon: Building,
         color: "#f59e0b"
       },
       {
         name: "Школа №210",
-        coordinates: [69.226, 41.332],
+        coordinates: [69.226, 41.332] as [number, number],
         icon: School,
         color: "#10b981"
       },
       {
         name: "Парк",
-        coordinates: [69.232, 41.324],
+        coordinates: [69.232, 41.324] as [number, number],
         icon: TreeDeciduous,
         color: "#22c55e"
       },
       {
         name: "Автобусная остановка",
-        coordinates: [69.230, 41.326],
+        coordinates: [69.230, 41.326] as [number, number],
         icon: Bus,
         color: "#6366f1"
       },
       {
         name: "Рынок",
-        coordinates: [69.224, 41.330],
+        coordinates: [69.224, 41.330] as [number, number],
         icon: ShoppingBag,
         color: "#ec4899"
       }
