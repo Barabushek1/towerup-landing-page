@@ -9,7 +9,7 @@ const HeroSection: React.FC = () => {
   } = useLanguage();
   const [activeSlide, setActiveSlide] = useState(0);
   // Keep your specific hero images here for this component
-  const images = ['/lovable-uploads/36f32494-e938-41ca-815a-e71e74b2e791.png', '/lovable-uploads/b0a81c01-4a79-4eaa-86da-7501515139b7.png',
+  const images = ['https://i.postimg.cc/SQV9jGk2/003.jpg', 'https://i.postimg.cc/vZ8bTW8B/3-2.jpg',
   // Ensure path is correct
   '/lovable-uploads/b7b815c6-44d8-4e9a-93e9-75538f6d0233.png'];
   useEffect(() => {
