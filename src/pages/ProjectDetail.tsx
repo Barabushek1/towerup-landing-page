@@ -27,6 +27,11 @@ interface ArchitectQuote {
   text: string;
   author: string;
 }
+interface KeyBenefit {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+}
 interface IProject {
   id: string;
   title: string;
@@ -47,7 +52,9 @@ interface IProject {
   videoUrl?: string;
   projectFeatures?: ProjectFeature[];
   architectQuote?: ArchitectQuote;
+  keyBenefits?: KeyBenefit[];
   hasFloorPlans: boolean;
+  advantages?: any[];
 }
 
 const projectsData: Record<string, IProject> = {
