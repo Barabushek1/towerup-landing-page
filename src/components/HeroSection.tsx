@@ -16,7 +16,7 @@ const HeroSection: React.FC = () => {
   
   // Define the images for the carousel
   const heroImages = [
-    "https://i.postimg.cc/SQV9jGk2/003.jpg", // Original image
+    "https://iili.io/3gbVi1S.jpg", // Original image
     "https://i.imgur.com/jQAr3bM.jpeg", // First additional image
     "https://i.imgur.com/3geqXON.jpeg", // Second additional image
   ];
