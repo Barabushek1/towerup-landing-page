@@ -141,11 +141,14 @@ const Projects: React.FC = () => {
             </div>
 
             <Tabs defaultValue="completed" value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-3 mb-8 md:w-fit mx-auto">
-                <TabsTrigger value="completed">Реализованные</TabsTrigger>
-                <TabsTrigger value="ongoing">Строящиеся</TabsTrigger>
-                <TabsTrigger value="future">Будущие</TabsTrigger>
-              </TabsList>
+              {/* Improved TabsList for better mobile display */}
+              <div className="flex justify-center w-full mb-8">
+                <TabsList className="grid grid-cols-3 w-full max-w-md mx-auto text-xs sm:text-sm py-2">
+                  <TabsTrigger value="completed" className="px-2 sm:px-4">Реализованные</TabsTrigger>
+                  <TabsTrigger value="ongoing" className="px-2 sm:px-4">Строящиеся</TabsTrigger>
+                  <TabsTrigger value="future" className="px-2 sm:px-4">Будущие</TabsTrigger>
+                </TabsList>
+              </div>
               
               <TabsContent value="completed" className="space-y-4">
                 {renderProjects(completedProjects)}

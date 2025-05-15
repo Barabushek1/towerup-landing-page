@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion, useScroll, useTransform } from 'framer-motion';
@@ -10,7 +11,6 @@ import HeroSection from '../components/newuzbekistan/HeroSection';
 import OverviewSection from '../components/newuzbekistan/OverviewSection';
 import MasterplanSection from '../components/newuzbekistan/MasterplanSection';
 import FeaturesSection from '../components/newuzbekistan/FeaturesSection';
-import ApartmentsSection from '../components/newuzbekistan/ApartmentsSection';
 import GallerySection from '../components/newuzbekistan/GallerySection';
 import ContactSection from '../components/ContactSection';
 import ScrollToTopButton from '../components/ScrollToTopButton';
@@ -106,60 +106,8 @@ const NewUzbekistan: React.FC = () => {
             
             <FeaturesSection />
             
-            {/* Gallery Section will be completely replaced by our new component */}
-            <section id="gallery" className="py-20 md:py-24 bg-[#161616]">
-              <div className="container mx-auto px-6">
-                <motion.div 
-                  className="flex flex-col items-center mb-12 md:mb-16 text-center" 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                >
-                  <h2 className="text-3xl md:text-4xl font-bold mb-3 text-primary uppercase tracking-wider">Галерея</h2>
-                  <h3 className="text-xl font-medium mb-4 text-white">Янги Узбекистон</h3>
-                  <div className="w-20 h-1 bg-primary/50 mb-6 rounded-full"></div>
-                  <p className="text-slate-300 text-lg max-w-3xl">
-                    Ознакомьтесь с фотографиями проекта, чтобы увидеть все детали и особенности жилого комплекса.
-                  </p>
-                </motion.div>
-                
-                {/* We'll keep the existing images but with a new layout like in ProjectGallery */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {[
-                    '/lovable-uploads/b7b815c6-44d8-4e9a-93e9-75538f6d0233.png',
-                    '/lovable-uploads/01ec8090-c3b7-4770-b254-07c6f1ac1521.png',
-                    '/lovable-uploads/a4a83568-45d7-4f2d-b87c-031fc305db6e.png',
-                    '/lovable-uploads/d0a4480f-81e3-4447-9368-f1e03d1151e4.png',
-                    '/lovable-uploads/36291711-53aa-4206-9094-543e63bd67d5.png',
-                    '/lovable-uploads/8c18c4b0-5127-4ad6-93e2-a613af0ea09c.png',
-                    '/lovable-uploads/32c3e8f6-2da4-474c-904f-fd321d91e87e.png',
-                    '/lovable-uploads/d2bd2619-426f-4ab0-95ad-ed8b140aa758.png'
-                  ].map((image, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.5, delay: index * 0.05 }}
-                      viewport={{ once: true, amount: 0.1 }}
-                      className="relative group overflow-hidden rounded-lg border border-slate-700/50 hover:border-primary/30 transition-colors"
-                    >
-                      <div className="aspect-square">
-                        <img
-                          src={image}
-                          alt={`Yangi Uzbekistan Gallery ${index + 1}`}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                        />
-                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                          <div className="text-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
-                          </div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </section>
+            {/* Improved Gallery Section using the GallerySection component */}
+            <GallerySection />
             
             {/* Floor Plans Section (like in Pushkin) */}
             <section id="floor-plans" className="py-20 md:py-24 bg-[#161616]">

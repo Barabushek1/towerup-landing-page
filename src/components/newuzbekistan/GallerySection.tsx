@@ -1,3 +1,4 @@
+
 import React, { useState, useRef } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { motion, useInView } from 'framer-motion';
@@ -22,24 +23,22 @@ const GallerySection: React.FC = () => {
     '/lovable-uploads/d2bd2619-426f-4ab0-95ad-ed8b140aa758.png'
   ];
 
-
   const openFullscreen = (imageSrc: string) => {
     setSelectedImage(imageSrc);
   };
 
   // Helper for navigating between images in fullscreen
   const navigateFullscreen = (direction: 'prev' | 'next') => {
-      if (!selectedImage) return;
-      const currentIndex = images.indexOf(selectedImage);
-      let newIndex;
-      if (direction === 'prev') {
-          newIndex = (currentIndex - 1 + images.length) % images.length;
-      } else { // 'next'
-          newIndex = (currentIndex + 1) % images.length;
-      }
-      setSelectedImage(images[newIndex]);
+    if (!selectedImage) return;
+    const currentIndex = images.indexOf(selectedImage);
+    let newIndex;
+    if (direction === 'prev') {
+      newIndex = (currentIndex - 1 + images.length) % images.length;
+    } else { // 'next'
+      newIndex = (currentIndex + 1) % images.length;
+    }
+    setSelectedImage(images[newIndex]);
   };
-
 
   return (
     <section
@@ -82,6 +81,7 @@ const GallerySection: React.FC = () => {
                 src={image}
                 alt={`Yangi Uzbekistan Gallery ${index + 1}`}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                loading="lazy"
               />
               <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"> {/* Darker overlay */}
                 <Maximize2 className="h-10 w-10 text-white" />
@@ -91,43 +91,51 @@ const GallerySection: React.FC = () => {
         </div>
       </div>
 
-      {/* Fullscreen Dialog - Restyle DialogContent for dark/transparent look */}
+      {/* Improved Dialog for gallery images */}
       <Dialog open={!!selectedImage} onOpenChange={(open) => !open && setSelectedImage(null)}>
-        {/* bg-black/90 border-none from original seems okay */}
-        <DialogContent className="max-w-6xl w-[90vw] h-[90vh] p-0 bg-black/90 border-none">
+        <DialogContent className="max-w-6xl w-[95vw] h-[90vh] p-0 bg-black/95 border-none">
           <div className="relative w-full h-full flex items-center justify-center">
-            {/* Close button style */}
+            {/* Close button - made more visible and tap-friendly for mobile */}
             <button
-              className="absolute top-4 right-4 p-2 text-white bg-black/50 rounded-full z-50 hover:bg-black/70 transition"
+              className="absolute top-4 right-4 p-3 text-white bg-black/70 rounded-full z-50 hover:bg-black/90 transition"
               onClick={() => setSelectedImage(null)}
-              aria-label="Закрыть галерею" // Added aria label
+              aria-label="Закрыть галерею"
             >
               <X className="h-6 w-6" />
             </button>
 
-            {/* Navigation buttons style */}
+            {/* Navigation buttons - enlarged for better mobile tapping */}
             <button
-              className="absolute left-4 p-2 text-white bg-black/50 rounded-full z-50 hover:bg-black/70 transition"
-              onClick={() => navigateFullscreen('prev')} // Use helper function
-              aria-label="Предыдущее изображение" // Added aria label
+              className="absolute left-2 md:left-4 p-3 md:p-4 text-white bg-black/70 rounded-full z-50 hover:bg-black/90 transition"
+              onClick={() => navigateFullscreen('prev')}
+              aria-label="Предыдущее изображение"
             >
-              <ChevronLeft className="h-8 w-8" />
+              <ChevronLeft className="h-6 w-6 md:h-8 md:w-8" />
             </button>
 
             <button
-              className="absolute right-4 p-2 text-white bg-black/50 rounded-full z-50 hover:bg-black/70 transition"
-              onClick={() => navigateFullscreen('next')} // Use helper function
-               aria-label="Следующее изображение" // Added aria label
+              className="absolute right-2 md:right-4 p-3 md:p-4 text-white bg-black/70 rounded-full z-50 hover:bg-black/90 transition"
+              onClick={() => navigateFullscreen('next')}
+              aria-label="Следующее изображение"
             >
-              <ChevronRight className="h-8 w-8" />
+              <ChevronRight className="h-6 w-6 md:h-8 md:w-8" />
             </button>
 
             {selectedImage && (
               <img
                 src={selectedImage}
-                alt="Fullscreen view" // Add more descriptive alt if possible
-                className="max-w-full max-h-full object-contain"
+                alt="Галерея Yangi Uzbekistan"
+                className="max-w-full max-h-full object-contain p-2"
               />
+            )}
+            
+            {/* Image counter for better UX */}
+            {selectedImage && (
+              <div className="absolute bottom-4 left-0 right-0 flex justify-center">
+                <div className="bg-black/70 text-white px-4 py-2 rounded-full text-sm">
+                  {images.indexOf(selectedImage) + 1} / {images.length}
+                </div>
+              </div>
             )}
           </div>
         </DialogContent>
