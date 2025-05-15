@@ -3,8 +3,6 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { motion, useInView } from 'framer-motion';
 import { ChevronLeft, ChevronRight, X, Image, Maximize2 } from 'lucide-react';
 import { Dialog, DialogContent } from '../ui/dialog';
-// cn is likely needed if you use conditional classes, assuming it's available
-// import { cn } from '@/lib/utils';
 
 const GallerySection: React.FC = () => {
   const { t } = useLanguage();
