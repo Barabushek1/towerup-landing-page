@@ -11,7 +11,11 @@ import OverviewSection from '../components/newuzbekistan/OverviewSection';
 import MasterplanSection from '../components/newuzbekistan/MasterplanSection';
 import FeaturesSection from '../components/newuzbekistan/FeaturesSection';
 import ApartmentsSection from '../components/newuzbekistan/ApartmentsSection';
+import InfrastructureSection from '../components/newuzbekistan/InfrastructureSection';
 import GallerySection from '../components/newuzbekistan/GallerySection';
+import ProgressSection from '../components/newuzbekistan/ProgressSection';
+import LocationSection from '../components/newuzbekistan/LocationSection';
+import InvestmentSection from '../components/newuzbekistan/InvestmentSection';
 import ContactSection from '../components/newuzbekistan/ContactSection';
 import ScrollToTopButton from '../components/ScrollToTopButton';
 
