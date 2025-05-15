@@ -165,7 +165,7 @@ const ApartmentCalculator: React.FC<ApartmentCalculatorProps> = ({
 
         {/* Apartment Unit Selection */}
         <div className="space-y-2">
-           <label className="text-sm font-medium text-white">Выберите квартиру (Площадь / ��омнаты)</label>
+           <label className="text-sm font-medium text-white">Выберите квартиру (Площадь / Комнаты)</label>
            <Select onValueChange={handleUnitChange} value={selectedUnit?.id || ""}>
             <SelectTrigger className="w-full bg-[#222] border-slate-700/50 text-white" disabled={!selectedFloor || unitsOnSelectedFloor.length === 0}>
                <SelectValue placeholder={selectedFloor ? (unitsOnSelectedFloor.length > 0 ? "Выберите квартиру" : "Нет доступных квартир на этом этаже") : "Сначала выберите этаж"} />
