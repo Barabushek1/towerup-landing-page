@@ -11,13 +11,11 @@ import OverviewSection from '../components/newuzbekistan/OverviewSection';
 import MasterplanSection from '../components/newuzbekistan/MasterplanSection';
 import FeaturesSection from '../components/newuzbekistan/FeaturesSection';
 import ApartmentsSection from '../components/newuzbekistan/ApartmentsSection';
-import InfrastructureSection from '../components/newuzbekistan/InfrastructureSection';
 import GallerySection from '../components/newuzbekistan/GallerySection';
-import ProgressSection from '../components/newuzbekistan/ProgressSection';
-import LocationSection from '../components/newuzbekistan/LocationSection';
-import InvestmentSection from '../components/newuzbekistan/InvestmentSection';
-import ContactSection from '../components/newuzbekistan/ContactSection';
+import ContactSection from '../components/ContactSection';
 import ScrollToTopButton from '../components/ScrollToTopButton';
+import FloorPlansSection from '../components/FloorPlansSection';
+import ApartmentCalculator from '../components/ApartmentCalculator';
 
 const NewUzbekistan: React.FC = () => {
   const { t } = useLanguage();
@@ -58,11 +56,33 @@ const NewUzbekistan: React.FC = () => {
             <MasterplanSection />
             <FeaturesSection />
             <ApartmentsSection />
-            <InfrastructureSection />
             <GallerySection />
-            <ProgressSection />
-            <LocationSection />
-            <InvestmentSection />
+            
+            {/* Floor Plans Section (like in Pushkin) */}
+            <section id="floor-plans" className="py-20 md:py-24 bg-[#161616]">
+              <FloorPlansSection projectId="new-uzbekistan" pricePerSqm={12000000} />
+            </section>
+            
+            {/* Calculator Section (like in Pushkin) */}
+            <section className="py-16 md:py-24 bg-[#1a1a1a]" id="calculator">
+              <div className="container mx-auto px-6">
+                <div className="flex flex-col items-center mb-12 text-center">
+                  <h2 className="text-3xl md:text-4xl font-bold mb-3 text-white uppercase tracking-wider flex items-center gap-2">
+                    Расчет стоимости
+                  </h2>
+                  <div className="w-20 h-1 bg-primary mb-6 rounded-full"></div>
+                  <p className="text-slate-300 text-lg max-w-3xl mb-8">
+                    Рассчитайте примерную стоимость квартиры в жилом комплексе {t('newUzbekistan.title')}, 
+                    основываясь на текущей цене за квадратный метр.
+                  </p>
+                </div>
+                
+                <div className="max-w-2xl mx-auto">
+                  <ApartmentCalculator />
+                </div>
+              </div>
+            </section>
+            
             <ContactSection />
           </motion.div>
         </main>

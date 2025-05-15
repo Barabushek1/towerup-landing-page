@@ -13,6 +13,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import ApartmentCalculator from '@/components/ApartmentCalculator';
 import { supabase } from '@/integrations/supabase/client';
+import ContactSection from '@/components/ContactSection';
 
 interface ProjectImage {
   url: string;
@@ -606,62 +607,7 @@ const ProjectDetail: React.FC = () => {
           whileInView="visible" 
           viewport={{once: true, amount: 0.2}}
         >
-          <div className="container mx-auto px-6">
-            <div className="flex flex-col items-center mb-12 text-center">
-              <h2 className="text-3xl md:text-4xl font-bold mb-3 text-white uppercase tracking-wider">Связаться с нами</h2>
-              <div className="w-20 h-1 bg-primary mb-6 rounded-full"></div>
-              <p className="text-slate-300 text-lg max-w-3xl mb-8">
-                Заполните форму ниже, чтобы получить дополнительную информацию о проекте {project.title} 
-                или записаться на просмотр.
-              </p>
-            </div>
-            
-            <div className="max-w-3xl mx-auto bg-slate-800/40 rounded-xl p-6 md:p-8 border border-slate-700/30">
-              <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-slate-300 mb-2">Ваше имя</label>
-                  <input 
-                    type="text" 
-                    id="name" 
-                    className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50" 
-                    placeholder="Иван Иванов" 
-                  />
-                </div>
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-slate-300 mb-2">Номер телефона</label>
-                  <input 
-                    type="tel" 
-                    id="phone" 
-                    className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50" 
-                    placeholder="+998 90 123 45 67" 
-                  />
-                </div>
-                <div className="md:col-span-2">
-                  <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">Электронная почта</label>
-                  <input 
-                    type="email" 
-                    id="email" 
-                    className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50" 
-                    placeholder="example@mail.com" 
-                  />
-                </div>
-                <div className="md:col-span-2">
-                  <label htmlFor="message" className="block text-sm font-medium text-slate-300 mb-2">Сообщение</label>
-                  <textarea 
-                    id="message" 
-                    rows={4} 
-                    className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50" 
-                    placeholder="Ваш вопрос или комментарий"
-                  ></textarea>
-                </div>
-                <div className="md:col-span-2 text-center">
-                  <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground transition-colors duration-200 px-8 py-3">
-                    Отправить сообщение
-                  </Button>
-                </div>
-              </form>
-            </div>
-          </div>
+          <ContactSection />
         </motion.section>
       </main>
       <Footer />
