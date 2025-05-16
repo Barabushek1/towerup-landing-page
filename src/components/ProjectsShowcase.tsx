@@ -81,11 +81,32 @@ const ProjectsShowcase: React.FC = () => {
     setSortOrder(sortOrder === 'newest' ? 'oldest' : 'newest');
   };
 
+  // Get the current projects to display based on activeTab
+  const getCurrentProjects = () => {
+    switch (activeTab) {
+      case 'all': return allProjects;
+      case 'completed': return completedProjects;
+      case 'ongoing': return ongoingProjects;
+      case 'future': return futureProjects;
+      default: return allProjects;
+    }
+  };
+
   const renderProjectsMobile = () => {
     if (loading) {
       return (
         <div className="flex justify-center items-center py-16">
           <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      );
+    }
+    
+    const projects = getCurrentProjects();
+    
+    if (projects.length === 0) {
+      return (
+        <div className="text-center py-16">
+          <p className="text-gray-400">Проекты не найдены</p>
         </div>
       );
     }
@@ -157,73 +178,7 @@ const ProjectsShowcase: React.FC = () => {
           initial="hidden" 
           animate="visible"
         >
-          {activeTab === 'all' && allProjects.map((project, index) => (
-            <motion.div key={project.id} variants={item}>
-              <ProjectCard 
-                title={project.title}
-                description={project.description}
-                location={project.location}
-                status={project.status}
-                imageUrl={project.image_url || '/assets/placeholder-project.jpg'}
-                slug={project.url}
-                title_en={project.title_en}
-                title_ru={project.title_ru}
-                title_uz={project.title_uz}
-                description_en={project.description_en}
-                description_ru={project.description_ru}
-                description_uz={project.description_uz}
-                location_en={project.location_en}
-                location_ru={project.location_ru}
-                location_uz={project.location_uz}
-              />
-            </motion.div>
-          ))}
-
-          {activeTab === 'completed' && completedProjects.map((project, index) => (
-            <motion.div key={project.id} variants={item}>
-              <ProjectCard 
-                title={project.title}
-                description={project.description}
-                location={project.location}
-                status={project.status}
-                imageUrl={project.image_url || '/assets/placeholder-project.jpg'}
-                slug={project.url}
-                title_en={project.title_en}
-                title_ru={project.title_ru}
-                title_uz={project.title_uz}
-                description_en={project.description_en}
-                description_ru={project.description_ru}
-                description_uz={project.description_uz}
-                location_en={project.location_en}
-                location_ru={project.location_ru}
-                location_uz={project.location_uz}
-              />
-            </motion.div>
-          ))}
-          
-          {activeTab === 'ongoing' && ongoingProjects.map((project, index) => (
-            <motion.div key={project.id} variants={item}>
-              <ProjectCard 
-                title={project.title}
-                description={project.description}
-                location={project.location}
-                status={project.status}
-                imageUrl={project.image_url || '/assets/placeholder-project.jpg'}
-                slug={project.url}
-                title_en={project.title_en}
-                title_ru={project.title_ru}
-                title_uz={project.title_uz}
-                description_en={project.description_en}
-                description_ru={project.description_ru}
-                description_uz={project.description_uz}
-                location_en={project.location_en}
-                location_ru={project.location_ru}
-                location_uz={project.location_uz}
-              />
-            </motion.div>
-          ))}
-          
-          {activeTab === 'future' && futureProjects.map((project, index) => (
+          {projects.map((project, index) => (
             <motion.div key={project.id} variants={item}>
               <ProjectCard 
                 title={project.title}
@@ -316,16 +271,14 @@ const ProjectsShowcase: React.FC = () => {
         {isMobile ? (
           renderProjectsMobile()
         ) : (
-          <>
+          <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab}>
             <div className="flex justify-between items-center mb-6">
-              <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="w-full">
-                <TabsList className="grid grid-cols-4 w-full max-w-2xl mx-auto text-xs sm:text-sm py-2">
-                  <TabsTrigger value="all" className="px-2 sm:px-4">Все</TabsTrigger>
-                  <TabsTrigger value="completed" className="px-2 sm:px-4">Реализованные</TabsTrigger>
-                  <TabsTrigger value="ongoing" className="px-2 sm:px-4">Строящиеся</TabsTrigger>
-                  <TabsTrigger value="future" className="px-2 sm:px-4">Будущие</TabsTrigger>
-                </TabsList>
-              </Tabs>
+              <TabsList className="grid grid-cols-4 w-full max-w-2xl mx-auto text-xs sm:text-sm py-2">
+                <TabsTrigger value="all" className="px-2 sm:px-4">Все</TabsTrigger>
+                <TabsTrigger value="completed" className="px-2 sm:px-4">Реализованные</TabsTrigger>
+                <TabsTrigger value="ongoing" className="px-2 sm:px-4">Строящиеся</TabsTrigger>
+                <TabsTrigger value="future" className="px-2 sm:px-4">Будущие</TabsTrigger>
+              </TabsList>
               
               <Button 
                 variant="outline" 
@@ -353,7 +306,7 @@ const ProjectsShowcase: React.FC = () => {
             <TabsContent value="future" className="space-y-4">
               {renderProjectsDesktop(futureProjects)}
             </TabsContent>
-          </>
+          </Tabs>
         )}
         
         <div className="flex justify-center mt-10">

@@ -101,6 +101,21 @@ const Projects: React.FC = () => {
     setSortOrder(value as 'newest' | 'oldest' | 'az' | 'za');
   };
   
+  // Get the current projects based on active tab
+  const getCurrentProjects = () => {
+    switch(activeTab) {
+      case 'completed':
+        return completedProjects;
+      case 'ongoing':
+        return ongoingProjects;
+      case 'future':
+        return futureProjects;
+      case 'all':
+      default:
+        return allProjects;
+    }
+  };
+  
   const renderProjectsDesktop = (projects: Project[]) => {
     if (loading) {
       return (
@@ -152,21 +167,6 @@ const Projects: React.FC = () => {
   };
   
   const renderProjectsMobile = () => {
-    const getCurrentProjects = () => {
-      switch (activeTab) {
-        case 'all':
-          return allProjects;
-        case 'completed':
-          return completedProjects;
-        case 'ongoing':
-          return ongoingProjects;
-        case 'future':
-          return futureProjects;
-        default:
-          return allProjects;
-      }
-    };
-    
     const projects = getCurrentProjects();
     
     if (loading) {
@@ -186,100 +186,35 @@ const Projects: React.FC = () => {
     }
     
     return (
-      <div className="space-y-6">
-        <div className="flex flex-col gap-4">
-          <Collapsible open={isFilterOpen} onOpenChange={setIsFilterOpen} className="w-full">
-            <CollapsibleTrigger asChild>
-              <Button variant="outline" className="w-full flex justify-between items-center">
-                <div className="flex items-center">
-                  <Filter className="h-4 w-4 mr-2" />
-                  {activeTab === 'all' && 'Все проекты'}
-                  {activeTab === 'completed' && 'Реализованные проекты'}
-                  {activeTab === 'ongoing' && 'Строящиеся проекты'}
-                  {activeTab === 'future' && 'Будущие проекты'}
-                </div>
-                <ChevronDown className={`h-4 w-4 transition-transform ${isFilterOpen ? 'rotate-180' : ''}`} />
-              </Button>
-            </CollapsibleTrigger>
-            <CollapsibleContent className="mt-2 border rounded-md p-1">
-              <div className="flex flex-col gap-1 w-full">
-                <Button 
-                  variant={activeTab === 'all' ? 'default' : 'ghost'} 
-                  className="justify-start" 
-                  onClick={() => setActiveTab('all')}
-                >
-                  Все
-                </Button>
-                <Button 
-                  variant={activeTab === 'completed' ? 'default' : 'ghost'} 
-                  className="justify-start" 
-                  onClick={() => setActiveTab('completed')}
-                >
-                  Реализованные
-                </Button>
-                <Button 
-                  variant={activeTab === 'ongoing' ? 'default' : 'ghost'} 
-                  className="justify-start" 
-                  onClick={() => setActiveTab('ongoing')}
-                >
-                  Строящиеся
-                </Button>
-                <Button 
-                  variant={activeTab === 'future' ? 'default' : 'ghost'} 
-                  className="justify-start" 
-                  onClick={() => setActiveTab('future')}
-                >
-                  Будущие
-                </Button>
-              </div>
-            </CollapsibleContent>
-          </Collapsible>
-          
-          <div className="w-full">
-            <Select value={sortOrder} onValueChange={handleSortChange}>
-              <SelectTrigger>
-                <SelectValue placeholder="Сортировать по" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="newest">Сначала новые</SelectItem>
-                <SelectItem value="oldest">Сначала старые</SelectItem>
-                <SelectItem value="az">По названию (А-Я)</SelectItem>
-                <SelectItem value="za">По названию (Я-А)</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-        
-        <motion.div 
-          variants={container}
-          initial="hidden"
-          animate="show"
-          className="grid grid-cols-1 gap-6"
-        >
-          {projects.map((project, index) => (
-            <motion.div key={project.id} variants={item}>
-              <ProjectCard
-                title={project.title}
-                description={project.description}
-                location={project.location}
-                status={project.status}
-                imageUrl={project.image_url || '/assets/placeholder-project.jpg'}
-                slug={project.url}
-                index={index}
-                title_en={project.title_en}
-                title_ru={project.title_ru}
-                title_uz={project.title_uz}
-                description_en={project.description_en}
-                description_ru={project.description_ru}
-                description_uz={project.description_uz}
-                location_en={project.location_en}
-                location_ru={project.location_ru}
-                location_uz={project.location_uz}
-              />
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
+      <motion.div 
+        variants={container}
+        initial="hidden"
+        animate="show"
+        className="grid grid-cols-1 gap-6"
+      >
+        {projects.map((project, index) => (
+          <motion.div key={project.id} variants={item}>
+            <ProjectCard
+              title={project.title}
+              description={project.description}
+              location={project.location}
+              status={project.status}
+              imageUrl={project.image_url || '/assets/placeholder-project.jpg'}
+              slug={project.url}
+              index={index}
+              title_en={project.title_en}
+              title_ru={project.title_ru}
+              title_uz={project.title_uz}
+              description_en={project.description_en}
+              description_ru={project.description_ru}
+              description_uz={project.description_uz}
+              location_en={project.location_en}
+              location_ru={project.location_ru}
+              location_uz={project.location_uz}
+            />
+          </motion.div>
+        ))}
+      </motion.div>
     );
   };
 
@@ -307,18 +242,81 @@ const Projects: React.FC = () => {
             </div>
 
             {isMobile ? (
-              renderProjectsMobile()
+              <div className="space-y-6">
+                <div className="flex flex-col gap-4">
+                  <Collapsible open={isFilterOpen} onOpenChange={setIsFilterOpen} className="w-full">
+                    <CollapsibleTrigger asChild>
+                      <Button variant="outline" className="w-full flex justify-between items-center">
+                        <div className="flex items-center">
+                          <Filter className="h-4 w-4 mr-2" />
+                          {activeTab === 'all' && 'Все проекты'}
+                          {activeTab === 'completed' && 'Реализованные проекты'}
+                          {activeTab === 'ongoing' && 'Строящиеся проекты'}
+                          {activeTab === 'future' && 'Будущие проекты'}
+                        </div>
+                        <ChevronDown className={`h-4 w-4 transition-transform ${isFilterOpen ? 'rotate-180' : ''}`} />
+                      </Button>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="mt-2 border rounded-md p-1">
+                      <div className="flex flex-col gap-1 w-full">
+                        <Button 
+                          variant={activeTab === 'all' ? 'default' : 'ghost'} 
+                          className="justify-start" 
+                          onClick={() => setActiveTab('all')}
+                        >
+                          Все
+                        </Button>
+                        <Button 
+                          variant={activeTab === 'completed' ? 'default' : 'ghost'} 
+                          className="justify-start" 
+                          onClick={() => setActiveTab('completed')}
+                        >
+                          Реализованные
+                        </Button>
+                        <Button 
+                          variant={activeTab === 'ongoing' ? 'default' : 'ghost'} 
+                          className="justify-start" 
+                          onClick={() => setActiveTab('ongoing')}
+                        >
+                          Строящиеся
+                        </Button>
+                        <Button 
+                          variant={activeTab === 'future' ? 'default' : 'ghost'} 
+                          className="justify-start" 
+                          onClick={() => setActiveTab('future')}
+                        >
+                          Будущие
+                        </Button>
+                      </div>
+                    </CollapsibleContent>
+                  </Collapsible>
+                  
+                  <div className="w-full">
+                    <Select value={sortOrder} onValueChange={handleSortChange}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Сортировать по" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="newest">Сначала новые</SelectItem>
+                        <SelectItem value="oldest">Сначала старые</SelectItem>
+                        <SelectItem value="az">По названию (А-Я)</SelectItem>
+                        <SelectItem value="za">По названию (Я-А)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                
+                {renderProjectsMobile()}
+              </div>
             ) : (
-              <>
+              <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="w-full">
                 <div className="flex justify-between items-center mb-8">
-                  <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="w-full">
-                    <TabsList className="grid grid-cols-4 w-full max-w-2xl mx-auto text-xs sm:text-sm py-2">
-                      <TabsTrigger value="all" className="px-2 sm:px-4">Все</TabsTrigger>
-                      <TabsTrigger value="completed" className="px-2 sm:px-4">Реализованные</TabsTrigger>
-                      <TabsTrigger value="ongoing" className="px-2 sm:px-4">Строящиеся</TabsTrigger>
-                      <TabsTrigger value="future" className="px-2 sm:px-4">Будущие</TabsTrigger>
-                    </TabsList>
-                  </Tabs>
+                  <TabsList className="grid grid-cols-4 w-full max-w-2xl mx-auto text-xs sm:text-sm py-2">
+                    <TabsTrigger value="all" className="px-2 sm:px-4">Все</TabsTrigger>
+                    <TabsTrigger value="completed" className="px-2 sm:px-4">Реализованные</TabsTrigger>
+                    <TabsTrigger value="ongoing" className="px-2 sm:px-4">Строящиеся</TabsTrigger>
+                    <TabsTrigger value="future" className="px-2 sm:px-4">Будущие</TabsTrigger>
+                  </TabsList>
                   
                   <Select value={sortOrder} onValueChange={handleSortChange}>
                     <SelectTrigger className="w-[180px]">
@@ -348,7 +346,7 @@ const Projects: React.FC = () => {
                 <TabsContent value="future" className="space-y-4">
                   {renderProjectsDesktop(futureProjects)}
                 </TabsContent>
-              </>
+              </Tabs>
             )}
           </div>
         </section>
