@@ -1,16 +1,21 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Building } from 'lucide-react';
+import { ArrowRight, Building, SortAsc } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { fetchProjects, Project } from '@/utils/project-helpers';
 import { AspectRatio } from './ui/aspect-ratio';
+import { Button } from './ui/button';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
 const FeaturedProjects: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const { t, language } = useLanguage();
+  const isMobile = useIsMobile();
+  const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
 
   useEffect(() => {
     const loadProjects = async () => {
@@ -20,6 +25,10 @@ const FeaturedProjects: React.FC = () => {
         // Only show featured or active projects, limit to 3
         const filteredProjects = data
           .filter(project => project.is_featured || project.is_active)
+          .sort((a, b) => sortOrder === 'newest' 
+            ? new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+            : new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+          )
           .slice(0, 3);
         setProjects(filteredProjects);
       } catch (error) {
@@ -30,7 +39,7 @@ const FeaturedProjects: React.FC = () => {
     };
 
     loadProjects();
-  }, []);
+  }, [sortOrder]);
 
   // Animation variants
   const container = {
@@ -79,14 +88,42 @@ const FeaturedProjects: React.FC = () => {
       <div className="absolute -bottom-40 -right-40 w-80 h-80 bg-primary/5 rounded-full filter blur-[100px]"></div>
       
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-            {t('featuredProjects.title')}
-          </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">
-            {t('featuredProjects.subtitle')}
-          </p>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+              {t('featuredProjects.title')}
+            </h2>
+            <p className="text-gray-400 max-w-2xl">
+              {t('featuredProjects.subtitle')}
+            </p>
+          </div>
+          
+          {!isMobile && (
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => setSortOrder(sortOrder === 'newest' ? 'oldest' : 'newest')} 
+              className="mt-4 md:mt-0 flex items-center gap-1"
+            >
+              <SortAsc className="h-4 w-4 mr-1" /> 
+              {sortOrder === 'newest' ? 'Сначала новые' : 'Сначала старые'}
+            </Button>
+          )}
         </div>
+        
+        {isMobile && (
+          <div className="mb-6">
+            <Select value={sortOrder} onValueChange={(value) => setSortOrder(value as 'newest' | 'oldest')}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Сортировать по" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="newest">Сначала новые</SelectItem>
+                <SelectItem value="oldest">Сначала старые</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        )}
         
         <motion.div 
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
@@ -98,7 +135,7 @@ const FeaturedProjects: React.FC = () => {
           {projects.map((project) => (
             <motion.div 
               key={project.id}
-              className="bg-[#212121] rounded-xl overflow-hidden border border-slate-800/50 shadow-lg transition-all hover:border-primary/30 hover:shadow-lg duration-300"
+              className="group bg-[#212121] rounded-xl overflow-hidden border border-slate-800/50 shadow-lg transition-all hover:border-primary/30 hover:shadow-lg duration-300 hover:-translate-y-2"
               variants={item}
             >
               <AspectRatio ratio={16/9} className="bg-slate-800">
@@ -128,7 +165,7 @@ const FeaturedProjects: React.FC = () => {
                   </span>
                 </div>
                 
-                <h3 className="text-xl font-bold text-white mb-2">
+                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-primary transition-colors">
                   {getLocalizedField(project, 'title', project.title)}
                 </h3>
                 <p className="text-gray-400 text-sm line-clamp-2 mb-4">
