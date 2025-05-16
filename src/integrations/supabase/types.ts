@@ -573,60 +573,6 @@ export type Database = {
         }
         Relationships: []
       }
-      project_main_characteristics: {
-        Row: {
-          characteristic_type: string
-          created_at: string
-          display_order: number
-          icon: string
-          id: string
-          label: string
-          label_en: string | null
-          label_ru: string | null
-          label_uz: string | null
-          project_slug: string
-          updated_at: string
-          value: string
-          value_en: string | null
-          value_ru: string | null
-          value_uz: string | null
-        }
-        Insert: {
-          characteristic_type: string
-          created_at?: string
-          display_order?: number
-          icon: string
-          id?: string
-          label: string
-          label_en?: string | null
-          label_ru?: string | null
-          label_uz?: string | null
-          project_slug: string
-          updated_at?: string
-          value: string
-          value_en?: string | null
-          value_ru?: string | null
-          value_uz?: string | null
-        }
-        Update: {
-          characteristic_type?: string
-          created_at?: string
-          display_order?: number
-          icon?: string
-          id?: string
-          label?: string
-          label_en?: string | null
-          label_ru?: string | null
-          label_uz?: string | null
-          project_slug?: string
-          updated_at?: string
-          value?: string
-          value_en?: string | null
-          value_ru?: string | null
-          value_uz?: string | null
-        }
-        Relationships: []
-      }
       projects: {
         Row: {
           created_at: string
