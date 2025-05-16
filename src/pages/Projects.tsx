@@ -309,44 +309,66 @@ const Projects: React.FC = () => {
                 {renderProjectsMobile()}
               </div>
             ) : (
-              <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="w-full">
-                <div className="flex justify-between items-center mb-8">
-                  <TabsList className="grid grid-cols-4 w-full max-w-2xl mx-auto text-xs sm:text-sm py-2">
-                    <TabsTrigger value="all" className="px-2 sm:px-4">Все</TabsTrigger>
-                    <TabsTrigger value="completed" className="px-2 sm:px-4">Реализованные</TabsTrigger>
-                    <TabsTrigger value="ongoing" className="px-2 sm:px-4">Строящиеся</TabsTrigger>
-                    <TabsTrigger value="future" className="px-2 sm:px-4">Будущие</TabsTrigger>
-                  </TabsList>
+              <div>
+                <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="w-full">
+                  <div className="flex justify-between items-center mb-8">
+                    <TabsList className="bg-[#161616] p-1 rounded-lg border border-gray-800 shadow-lg w-full max-w-2xl mx-auto">
+                      <TabsTrigger 
+                        value="all" 
+                        className="flex-1 py-2.5 text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-none rounded-md transition-all duration-200"
+                      >
+                        Все
+                      </TabsTrigger>
+                      <TabsTrigger 
+                        value="completed" 
+                        className="flex-1 py-2.5 text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-none rounded-md transition-all duration-200"
+                      >
+                        Реализованные
+                      </TabsTrigger>
+                      <TabsTrigger 
+                        value="ongoing" 
+                        className="flex-1 py-2.5 text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-none rounded-md transition-all duration-200"
+                      >
+                        Строящиеся
+                      </TabsTrigger>
+                      <TabsTrigger 
+                        value="future" 
+                        className="flex-1 py-2.5 text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-none rounded-md transition-all duration-200"
+                      >
+                        Будущие
+                      </TabsTrigger>
+                    </TabsList>
+                    
+                    <Select value={sortOrder} onValueChange={handleSortChange}>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Сортировать по" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="newest">Сначала новые</SelectItem>
+                        <SelectItem value="oldest">Сначала старые</SelectItem>
+                        <SelectItem value="az">По названию (А-Я)</SelectItem>
+                        <SelectItem value="za">По названию (Я-А)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                   
-                  <Select value={sortOrder} onValueChange={handleSortChange}>
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Сортировать по" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="newest">Сначала новые</SelectItem>
-                      <SelectItem value="oldest">Сначала старые</SelectItem>
-                      <SelectItem value="az">По названию (А-Я)</SelectItem>
-                      <SelectItem value="za">По названию (Я-А)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                
-                <TabsContent value="all" className="space-y-4">
-                  {renderProjectsDesktop(allProjects)}
-                </TabsContent>
-                
-                <TabsContent value="completed" className="space-y-4">
-                  {renderProjectsDesktop(completedProjects)}
-                </TabsContent>
-                
-                <TabsContent value="ongoing" className="space-y-4">
-                  {renderProjectsDesktop(ongoingProjects)}
-                </TabsContent>
-                
-                <TabsContent value="future" className="space-y-4">
-                  {renderProjectsDesktop(futureProjects)}
-                </TabsContent>
-              </Tabs>
+                  <TabsContent value="all" className="mt-6">
+                    {renderProjectsDesktop(allProjects)}
+                  </TabsContent>
+                  
+                  <TabsContent value="completed" className="mt-6">
+                    {renderProjectsDesktop(completedProjects)}
+                  </TabsContent>
+                  
+                  <TabsContent value="ongoing" className="mt-6">
+                    {renderProjectsDesktop(ongoingProjects)}
+                  </TabsContent>
+                  
+                  <TabsContent value="future" className="mt-6">
+                    {renderProjectsDesktop(futureProjects)}
+                  </TabsContent>
+                </Tabs>
+              </div>
             )}
           </div>
         </section>

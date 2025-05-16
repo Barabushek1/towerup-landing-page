@@ -162,27 +162,47 @@ const Tenders = () => {
         <div className="overflow-x-auto">
           <Tabs defaultValue="all" className="w-full">
             <div className="flex justify-center mb-6 overflow-x-auto">
-              <TabsList>
-                <TabsTrigger value="all">Все тендеры</TabsTrigger>
-                <TabsTrigger value="active">Активные</TabsTrigger>
-                <TabsTrigger value="completed">Завершенные</TabsTrigger>
-                <TabsTrigger value="closed">Закрытые</TabsTrigger>
+              <TabsList className="bg-[#161616] p-1 rounded-lg border border-gray-800 shadow-lg">
+                <TabsTrigger 
+                  value="all" 
+                  className="px-4 py-2.5 text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-none rounded-md transition-all duration-200"
+                >
+                  Все тендеры
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="active" 
+                  className="px-4 py-2.5 text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-none rounded-md transition-all duration-200"
+                >
+                  Активные
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="completed" 
+                  className="px-4 py-2.5 text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-none rounded-md transition-all duration-200"
+                >
+                  Завершенные
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="closed" 
+                  className="px-4 py-2.5 text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-none rounded-md transition-all duration-200"
+                >
+                  Закрытые
+                </TabsTrigger>
               </TabsList>
             </div>
             
-            <TabsContent value="all">
+            <TabsContent value="all" className="mt-6">
               {renderTendersGrid(filteredTenders)}
             </TabsContent>
             
-            <TabsContent value="active">
+            <TabsContent value="active" className="mt-6">
               {renderTendersGrid(filteredTenders?.filter(t => t.status === 'active'))}
             </TabsContent>
             
-            <TabsContent value="completed">
+            <TabsContent value="completed" className="mt-6">
               {renderTendersGrid(filteredTenders?.filter(t => t.status === 'completed'))}
             </TabsContent>
             
-            <TabsContent value="closed">
+            <TabsContent value="closed" className="mt-6">
               {renderTendersGrid(filteredTenders?.filter(t => t.status === 'closed'))}
             </TabsContent>
           </Tabs>
