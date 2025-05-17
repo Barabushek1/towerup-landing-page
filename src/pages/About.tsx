@@ -13,6 +13,8 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { Link } from 'react-router-dom';
 import CompanyTimeline from '@/components/CompanyTimeline';
 import ProjectCard from '@/components/ProjectCard';
+import ProjectsSection from '@/components/ProjectsSection';
+
 const fadeInUp = {
   hidden: {
     opacity: 0,
@@ -66,6 +68,7 @@ const pulse = {
     }
   }
 };
+
 const About: React.FC = () => {
   const isMobile = useIsMobile();
   const values = [{
@@ -102,19 +105,7 @@ const About: React.FC = () => {
     position: "Главный архитектор, Design Group",
     content: "Команда TOWER UP продемонстрировала исключительные знания и опыт в сфере строительства. Рекомендую их всем, кто ценит качество и надежность."
   }];
-  const stats = [{
-    number: "120+",
-    label: "ЗАВЕРШЕННЫХ ПРОЕКТОВ"
-  }, {
-    number: "15",
-    label: "ЛЕТ НА РЫНКЕ"
-  }, {
-    number: "98%",
-    label: "ДОВОЛЬНЫХ КЛИЕНТОВ"
-  }, {
-    number: "350+",
-    label: "ПРОФЕССИОНАЛОВ В КОМАНДЕ"
-  }];
+  
   const faqItems = [{
     question: "Какие гарантии вы предоставляете на ваши объекты?",
     answer: "Все наши объекты имеют гарантию 10 лет. Мы также обеспечиваем послегарантийное обслуживание и поддержку на протяжении всего срока эксплуатации здания."
@@ -209,23 +200,8 @@ const About: React.FC = () => {
           </div>
         </section>
         
-        {/* Stats Counter Section */}
-        <section className="py-16 bg-[#161616]">
-          <div className="container mx-auto px-6">
-            <motion.div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4 md:gap-10" variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{
-            once: true,
-            margin: "-100px"
-          }}>
-              {stats.map((stat, index) => <motion.div key={index} variants={fadeInUp} className="bg-[#1E1E1E] p-4 sm:p-6 md:p-8 rounded-lg border border-white/5 text-center hover:border-primary/30 transition-all duration-300 transform hover:translate-y-[-5px]">
-                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-1 sm:mb-2">{stat.number}</h3>
-                  <p className="text-xs sm:text-sm md:text-base text-gray-400 leading-tight">{stat.label}</p>
-                </motion.div>)}
-            </motion.div>
-          </div>
-        </section>
-        
-        {/* Current Projects Section - NEW */}
-        
+        {/* Replace Stats Counter Section with ProjectsSection component */}
+        <ProjectsSection />
         
         {/* Timeline Section - ENHANCED */}
         <section className="py-16 md:py-24 bg-[#161616] overflow-hidden">
