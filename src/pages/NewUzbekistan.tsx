@@ -123,12 +123,11 @@ const NewUzbekistan: React.FC = () => {
                   </h2>
                   <div className="w-20 h-1 bg-primary mb-6 rounded-full"></div>
                   <p className="text-slate-300 text-lg max-w-3xl mb-8">
-                    Рассчитайте примерную стоимость квартиры в жилом комплексе {t('newUzbekistan.title')}, 
-                    основываясь на текущей цене за квадратный метр.
+                    Ознакомьтесь со стоимостью квартир в жилом комплексе {t('newUzbekistan.title')}, выбрав подходящий этаж и количество комнат.
                   </p>
                 </div>
                 
-                <div className="max-w-2xl mx-auto">
+                <div className="max-w-5xl mx-auto">
                   <PriceCalculator />
                 </div>
               </div>
