@@ -5,6 +5,8 @@ import { Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import ScrollToTop from "./components/ScrollToTop";
 import { usePartnerSeeder } from "./hooks/use-partner-seeder";
+import { useYangiUzbekistanPriceSeeder } from "./hooks/use-yangi-uzbekistan-price-seeder";
+import { useTenderSeeder } from "./hooks/use-tender-seeder";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import About from "./pages/About";
@@ -42,7 +44,8 @@ import AdminLayout from "./components/admin/AdminLayout";
 import AdminStaff from "./pages/admin/AdminStaff";
 import AdminDepartments from "./pages/admin/AdminDepartments";
 import AdminFutureProjects from "./pages/admin/AdminFutureProjects";
-import AdminProjects from "./pages/admin/AdminProjects"; // Add this import
+import AdminProjects from "./pages/admin/AdminProjects";
+import AdminYangiUzbekistanPrices from "./pages/admin/AdminYangiUzbekistanPrices";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Collaboration from "./pages/Collaboration";
 import Tenders from "./pages/collaboration/Tenders";
@@ -68,6 +71,8 @@ const helmetContext = {};
 
 const App = () => {
   usePartnerSeeder();
+  useYangiUzbekistanPriceSeeder();
+  useTenderSeeder();
   
   return (
     <HelmetProvider context={helmetContext}>
@@ -131,6 +136,7 @@ const App = () => {
           <Route path="/admin/projects" element={<AdminLayout><AdminProjects /></AdminLayout>} />
           <Route path="/admin/timeline-events" element={<AdminLayout><AdminTimelineEvents /></AdminLayout>} />
           <Route path="/admin/company-stats" element={<AdminLayout><AdminCompanyStats /></AdminLayout>} />
+          <Route path="/admin/yangi-uzbekistan-prices" element={<AdminLayout><AdminYangiUzbekistanPrices /></AdminLayout>} />
           
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="*" element={<NotFound />} />

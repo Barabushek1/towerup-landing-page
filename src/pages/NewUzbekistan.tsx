@@ -15,7 +15,7 @@ import GallerySection from '../components/newuzbekistan/GallerySection';
 import ContactSection from '../components/ContactSection';
 import ScrollToTopButton from '../components/ScrollToTopButton';
 import FloorPlansSection from '../components/FloorPlansSection';
-import ApartmentCalculator from '../components/ApartmentCalculator';
+import PriceCalculator from '../components/newuzbekistan/PriceCalculator';
 
 const NewUzbekistan: React.FC = () => {
   const { t } = useLanguage();
@@ -114,7 +114,7 @@ const NewUzbekistan: React.FC = () => {
               <FloorPlansSection projectId="new-uzbekistan" pricePerSqm={12000000} />
             </section>
             
-            {/* Calculator Section (like in Pushkin) */}
+            {/* Calculator Section (updated with database-driven calculator) */}
             <section className="py-16 md:py-24 bg-[#1a1a1a]" id="calculator">
               <div className="container mx-auto px-6">
                 <div className="flex flex-col items-center mb-12 text-center">
@@ -129,7 +129,7 @@ const NewUzbekistan: React.FC = () => {
                 </div>
                 
                 <div className="max-w-2xl mx-auto">
-                  <ApartmentCalculator />
+                  <PriceCalculator />
                 </div>
               </div>
             </section>
