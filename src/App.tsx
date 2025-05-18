@@ -1,8 +1,10 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+import React, { Suspense } from "react";
 import ScrollToTop from "./components/ScrollToTop";
 import { usePartnerSeeder } from "./hooks/use-partner-seeder";
 import { useYangiUzbekistanPriceSeeder } from "./hooks/use-yangi-uzbekistan-price-seeder";
@@ -47,6 +49,7 @@ import AdminDepartments from "./pages/admin/AdminDepartments";
 import AdminFutureProjects from "./pages/admin/AdminFutureProjects";
 import AdminProjects from "./pages/admin/AdminProjects";
 import AdminYangiUzbekistanPrices from "./pages/admin/AdminYangiUzbekistanPrices";
+import AdminYangiUzbekistanApartments from "./pages/admin/AdminYangiUzbekistanApartments";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Collaboration from "./pages/Collaboration";
 import Tenders from "./pages/collaboration/Tenders";
@@ -143,9 +146,11 @@ function App() {
           <Route path="/admin/company-stats" element={<AdminLayout><AdminCompanyStats /></AdminLayout>} />
           <Route path="/admin/yangi-uzbekistan-prices" element={<AdminLayout><AdminYangiUzbekistanPrices /></AdminLayout>} />
           <Route path="/admin/yangi-uzbekistan-apartments" element={
-            <React.Suspense fallback={<div>Loading...</div>}>
-              <AdminYangiUzbekistanApartments />
-            </React.Suspense>
+            <AdminLayout>
+              <Suspense fallback={<div>Loading...</div>}>
+                <AdminYangiUzbekistanApartments />
+              </Suspense>
+            </AdminLayout>
           } />
           
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
