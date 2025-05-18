@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 import { Button } from './ui/button';
 import { Building, Users, Cpu, ShieldCheck, Clock, Award, ArrowRight } from 'lucide-react';
@@ -6,14 +5,12 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useLanguage } from '@/contexts/LanguageContext';
-
 interface AdvantageItemProps {
   icon: React.ReactNode;
   title: string;
   description: string;
   index: number;
 }
-
 const fadeInUp = {
   hidden: {
     opacity: 0,
@@ -28,7 +25,6 @@ const fadeInUp = {
     }
   }
 };
-
 const staggerContainer = {
   hidden: {
     opacity: 0
@@ -41,15 +37,15 @@ const staggerContainer = {
     }
   }
 };
-
 const AdvantageItem: React.FC<AdvantageItemProps> = ({
   icon,
   title,
   description,
   index
 }) => {
-  const { t } = useLanguage();
-  
+  const {
+    t
+  } = useLanguage();
   return <motion.div className="scroll-animate-section bg-[#222222] p-6 rounded-lg border border-white/5 shadow-lg h-full" variants={fadeInUp} whileHover={{
     y: -8,
     boxShadow: "0 15px 30px rgba(0, 0, 0, 0.3)",
@@ -75,12 +71,12 @@ const AdvantageItem: React.FC<AdvantageItemProps> = ({
       </div>
     </motion.div>;
 };
-
 const AboutSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
-  const { t } = useLanguage();
-  
+  const {
+    t
+  } = useLanguage();
   useEffect(() => {
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -97,25 +93,19 @@ const AboutSection: React.FC = () => {
       elementsToObserve?.forEach(el => observer.unobserve(el));
     };
   }, []);
-  
-  const advantages = [
-    {
-      icon: <Building className="w-10 h-10" />,
-      title: t("aboutSection.advantages.professionalism.title"),
-      description: t("aboutSection.advantages.professionalism.desc")
-    }, 
-    {
-      icon: <Users className="w-10 h-10" />,
-      title: t("aboutSection.advantages.experience.title"),
-      description: t("aboutSection.advantages.experience.desc")
-    }, 
-    {
-      icon: <Cpu className="w-10 h-10" />,
-      title: t("aboutSection.advantages.equipment.title"),
-      description: t("aboutSection.advantages.equipment.desc")
-    }
-  ];
-  
+  const advantages = [{
+    icon: <Building className="w-10 h-10" />,
+    title: t("aboutSection.advantages.professionalism.title"),
+    description: t("aboutSection.advantages.professionalism.desc")
+  }, {
+    icon: <Users className="w-10 h-10" />,
+    title: t("aboutSection.advantages.experience.title"),
+    description: t("aboutSection.advantages.experience.desc")
+  }, {
+    icon: <Cpu className="w-10 h-10" />,
+    title: t("aboutSection.advantages.equipment.title"),
+    description: t("aboutSection.advantages.equipment.desc")
+  }];
   return <section id="about" ref={sectionRef} className="bg-[#1a1a1a] text-white">
       {/* About Company Section - Improved mobile responsiveness */}
       <div className="container mx-auto px-4 sm:px-6 py-16 sm:py-20">
@@ -135,7 +125,7 @@ const AboutSection: React.FC = () => {
               stiffness: 400,
               damping: 10
             }}>
-                <img src="https://i.pinimg.com/736x/37/21/8d/37218da10099de1ae1ca3f62019ba961.jpg" alt={t("aboutSection.buildingImage")} className="w-full h-[250px] sm:h-[300px] lg:h-[400px] object-cover transition-transform duration-700 hover:scale-105 shadow-xl" />
+                <img alt={t("aboutSection.buildingImage")} className="w-full h-[250px] sm:h-[300px] lg:h-[400px] object-cover transition-transform duration-700 hover:scale-105 shadow-xl" src="/lovable-uploads/083dd9b7-baaa-4d73-897e-5d6535f287e4.jpg" />
               </motion.div>
             </div>
           </motion.div>
@@ -231,5 +221,4 @@ const AboutSection: React.FC = () => {
       </div>
     </section>;
 };
-
 export default AboutSection;
