@@ -105,6 +105,11 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
       icon: <Calculator className="w-5 h-5 mr-3" />
     },
     {
+      name: 'Квартиры - Yangi Uzbekistan',
+      path: '/admin/yangi-uzbekistan-apartments',
+      icon: <Building className="w-5 h-5 mr-3" />
+    },
+    {
       name: 'Аудит логи',
       path: '/admin/audit-logs',
       icon: <BarChart3 className="w-5 h-5 mr-3" />

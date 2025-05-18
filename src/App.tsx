@@ -7,6 +7,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import { usePartnerSeeder } from "./hooks/use-partner-seeder";
 import { useYangiUzbekistanPriceSeeder } from "./hooks/use-yangi-uzbekistan-price-seeder";
 import { useTenderSeeder } from "./hooks/use-tender-seeder";
+import { useYangiUzbekistanApartmentsSeeder } from "./hooks/use-yangi-uzbekistan-apartments-seeder";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import About from "./pages/About";
@@ -69,9 +70,11 @@ import AdminCompanyStats from "./pages/admin/AdminCompanyStats";
 
 const helmetContext = {};
 
-const App = () => {
+function App() {
+  const location = useLocation();
   usePartnerSeeder();
   useYangiUzbekistanPriceSeeder();
+  useYangiUzbekistanApartmentsSeeder();
   useTenderSeeder();
   
   return (
@@ -81,6 +84,7 @@ const App = () => {
         <Sonner />
         <ScrollToTop />
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<Index />} />
           
           <Route path="/about" element={<About />} />
@@ -116,6 +120,7 @@ const App = () => {
           <Route path="/design" element={<Design />} />
           <Route path="/solutions" element={<Solutions />} />
           
+          {/* Admin Routes */}
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminLayout><AdminDashboard /></AdminLayout>} />
           <Route path="/admin/news" element={<AdminLayout><AdminNews /></AdminLayout>} />
@@ -137,6 +142,11 @@ const App = () => {
           <Route path="/admin/timeline-events" element={<AdminLayout><AdminTimelineEvents /></AdminLayout>} />
           <Route path="/admin/company-stats" element={<AdminLayout><AdminCompanyStats /></AdminLayout>} />
           <Route path="/admin/yangi-uzbekistan-prices" element={<AdminLayout><AdminYangiUzbekistanPrices /></AdminLayout>} />
+          <Route path="/admin/yangi-uzbekistan-apartments" element={
+            <React.Suspense fallback={<div>Loading...</div>}>
+              <AdminYangiUzbekistanApartments />
+            </React.Suspense>
+          } />
           
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="*" element={<NotFound />} />
