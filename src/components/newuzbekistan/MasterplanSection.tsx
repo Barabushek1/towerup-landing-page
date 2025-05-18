@@ -63,7 +63,7 @@ const MasterplanSection: React.FC = () => {
         boxShadow: isInView ? "0 0 20px rgba(64, 220, 129, 0.3)" : "none"
       }} // Apply primary shadow on view
       >
-          <img src="/lovable-uploads/d2bd2619-426f-4ab0-95ad-ed8b140aa758.png" // Keep image path
+          <img src="https://i.ibb.co/jZrWbSpb/genplan.png" // Keep image path
         alt="Yangi Uzbekistan Masterplan" // Added alt text
         className="w-full h-full object-cover" />
 
