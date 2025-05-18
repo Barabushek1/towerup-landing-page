@@ -5,10 +5,10 @@ import { useAdmin } from '../../contexts/AdminContext';
 import AdminLayout from './AdminLayout';
 
 const AdminProtectedRoute: React.FC = () => {
-  const { isAuthenticated, loading } = useAdmin();
+  const { admin, isLoading } = useAdmin();
 
   // Show loading state while checking authentication
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-900">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
@@ -17,7 +17,7 @@ const AdminProtectedRoute: React.FC = () => {
   }
 
   // Redirect to login if not authenticated
-  if (!isAuthenticated) {
+  if (!admin) {
     return <Navigate to="/admin/login" replace />;
   }
 
