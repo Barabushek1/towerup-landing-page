@@ -1,387 +1,144 @@
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Routes, Route } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
+import ScrollToTop from "./components/ScrollToTop";
+import { usePartnerSeeder } from "./hooks/use-partner-seeder";
+import Index from "./pages/Index";
+import NotFound from "./pages/NotFound";
+import About from "./pages/About";
+import Partners from "./pages/Partners";
+import Management from "./pages/Management";
+import Projects from "./pages/Projects";
+import ProjectDetail from "./pages/ProjectDetail";
+import News from "./pages/News";
+import NewsDetail from "./pages/NewsDetail";
+import Vacancies from "./pages/Vacancies";
+import VacancyDetail from "./pages/VacancyDetail";
+import Contact from "./pages/Contact";
+import Construction from "./pages/Construction";
+import Design from "./pages/Design";
+import Solutions from "./pages/Solutions";
+import TrcBochka from "./pages/TrcBochka"; 
+import NewUzbekistan from "./pages/NewUzbekistan";
+import BankingTechnology from "./pages/BankingTechnology";
+import ChatBot from "./components/ChatBot";
+import AdminLogin from './pages/admin/AdminLogin';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminNews from './pages/admin/AdminNews';
+import AdminVacancies from './pages/admin/AdminVacancies';
+import AdminVacancyApplications from './pages/admin/AdminVacancyApplications';
+import AdminMessages from './pages/admin/AdminMessages';
+import AdminPartners from './pages/admin/AdminPartners';
+import AdminTenders from './pages/admin/AdminTenders';
+import AdminTenderSubmissions from './pages/admin/AdminTenderSubmissions';
+import AdminCommercialOffers from './pages/admin/AdminCommercialOffers';
+import AdminFloorPrices from './pages/admin/AdminFloorPrices';
+import AdminApartmentUnits from './pages/admin/AdminApartmentUnits';
+import AdminAuditLogs from './pages/admin/AdminAuditLogs';
+import AdminDetailedAuditLogs from './pages/admin/AdminDetailedAuditLogs';
+import AdminLayout from "./components/admin/AdminLayout";
+import AdminStaff from "./pages/admin/AdminStaff";
+import AdminDepartments from "./pages/admin/AdminDepartments";
+import AdminFutureProjects from "./pages/admin/AdminFutureProjects";
+import AdminProjects from "./pages/admin/AdminProjects"; // Add this import
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Collaboration from "./pages/Collaboration";
+import Tenders from "./pages/collaboration/Tenders";
+import TenderDetail from "./pages/TenderDetail";
+import CommercialOffers from "./pages/collaboration/CommercialOffers";
+import FutureProjects from "./pages/FutureProjects";
+import FutureProjectDetail from "./pages/FutureProjectDetail";
 
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import TestModeIndicator from './components/TestModeIndicator';
-import { LanguageProvider } from './contexts/LanguageContext';
-import { AdminProvider } from './contexts/AdminContext';
-import { Toaster } from "@/components/ui/toaster"
-import './App.css';
+// Import the service page components
+import ManagementCompany from "./pages/services/ManagementCompany";
+import ServiceDesign from "./pages/services/Design";
+import ServiceConstruction from "./pages/services/Construction";
+import Renovation from "./pages/services/Renovation";
+import Laboratory from "./pages/services/Laboratory";
+import ProcessAutomation from "./pages/services/ProcessAutomation";
 
-const Home = React.lazy(() => import('./pages/Index'));
-const About = React.lazy(() => import('./pages/About'));
-const Projects = React.lazy(() => import('./pages/Projects'));
-const ProjectDetails = React.lazy(() => import('./pages/ProjectDetail'));
-const Services = React.lazy(() => import('./pages/Solutions'));
-const Contact = React.lazy(() => import('./pages/Contact'));
-const Vacancies = React.lazy(() => import('./pages/Vacancies'));
-const VacancyDetails = React.lazy(() => import('./pages/VacancyDetail'));
-const News = React.lazy(() => import('./pages/News'));
-const NewsDetails = React.lazy(() => import('./pages/NewsDetail'));
-const Tenders = React.lazy(() => import('./pages/collaboration/Tenders'));
-const TenderDetails = React.lazy(() => import('./pages/TenderDetail'));
-const CommercialOffers = React.lazy(() => import('./pages/collaboration/CommercialOffers'));
-const CommercialOfferDetails = React.lazy(() => import('./pages/CommercialOfferDetails'));
-const Staff = React.lazy(() => import('./pages/Staff'));
-const Management = React.lazy(() => import('./pages/Management'));
+// Import AdminTimelineEvents explicitly
+import AdminTimelineEvents from "./pages/admin/AdminTimelineEvents";
 
-// Admin imports
-const AdminLogin = React.lazy(() => import('./pages/admin/AdminLogin'));
-const AdminDashboard = React.lazy(() => import('./pages/admin/AdminDashboard'));
-const AdminNews = React.lazy(() => import('./pages/admin/AdminNews'));
-const AdminProjects = React.lazy(() => import('./pages/admin/AdminProjects'));
-const AdminTimelineEvents = React.lazy(() => import('./pages/admin/AdminTimelineEvents'));
-const AdminVacancies = React.lazy(() => import('./pages/admin/AdminVacancies'));
-const AdminVacancyApplications = React.lazy(() => import('./pages/admin/AdminVacancyApplications'));
-const AdminMessages = React.lazy(() => import('./pages/admin/AdminMessages'));
-const AdminPartners = React.lazy(() => import('./pages/admin/AdminPartners'));
-const AdminStaff = React.lazy(() => import('./pages/admin/AdminStaff'));
-const AdminDepartments = React.lazy(() => import('./pages/admin/AdminDepartments'));
-const AdminFutureProjects = React.lazy(() => import('./pages/admin/AdminFutureProjects'));
-const AdminTenders = React.lazy(() => import('./pages/admin/AdminTenders'));
-const AdminTenderSubmissions = React.lazy(() => import('./pages/admin/AdminTenderSubmissions'));
-const AdminCommercialOffers = React.lazy(() => import('./pages/admin/AdminCommercialOffers'));
-const AdminFloorPrices = React.lazy(() => import('./pages/admin/AdminFloorPrices'));
-const AdminAuditLogs = React.lazy(() => import('./pages/admin/AdminAuditLogs'));
-const AdminDetailedAuditLogs = React.lazy(() => import('./pages/admin/AdminDetailedAuditLogs'));
-const AdminCompanyStats = React.lazy(() => import('./pages/admin/AdminCompanyStats'));
-const AdminApartmentUnits = React.lazy(() => import('./pages/admin/AdminApartmentUnits'));
-const AdminYangiUzbekistanApartmentUnits = React.lazy(() => import('./pages/admin/AdminYangiUzbekistanApartmentUnits'));
+import AdminCompanyStats from "./pages/admin/AdminCompanyStats";
 
-// Adding direct imports for edit pages to avoid lazy loading issues
-import AdminNewsEdit from './pages/admin/AdminNewsEdit';
-import AdminProjectsEdit from './pages/admin/AdminProjectsEdit';
-import AdminTimelineEventsEdit from './pages/admin/AdminTimelineEventsEdit';
-import AdminVacanciesEdit from './pages/admin/AdminVacanciesEdit';
-import AdminPartnersEdit from './pages/admin/AdminPartnersEdit';
-import AdminStaffEdit from './pages/admin/AdminStaffEdit';
-import AdminDepartmentsEdit from './pages/admin/AdminDepartmentsEdit';
-import AdminFutureProjectsEdit from './pages/admin/AdminFutureProjectsEdit';
-import AdminTendersEdit from './pages/admin/AdminTendersEdit';
-import AdminCommercialOffersEdit from './pages/admin/AdminCommercialOffersEdit';
-import AdminFloorPricesEdit from './pages/admin/AdminFloorPricesEdit';
+const helmetContext = {};
 
-// Import admin components
-import AdminProtectedRoute from './components/admin/AdminProtectedRoute';
-import AdminLoadingScreen from './components/admin/AdminLoadingScreen';
-
-function App() {
-  // Replace process.env with import.meta.env
-  const testMode = import.meta.env.VITE_TEST_MODE === 'true';
+const App = () => {
+  usePartnerSeeder();
   
   return (
-    <React.Fragment>
-      {testMode && <TestModeIndicator />}
-      
-      <Routes>
-        <Route path="/" element={
-          <React.Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
-            <Home />
-          </React.Suspense>
-        } />
-        <Route path="/about" element={
-          <React.Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
-            <About />
-          </React.Suspense>
-        } />
-        <Route path="/projects" element={
-          <React.Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
-            <Projects />
-          </React.Suspense>
-        } />
-        <Route path="/projects/:slug" element={
-          <React.Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
-            <ProjectDetails />
-          </React.Suspense>
-        } />
-        <Route path="/services" element={
-          <React.Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
-            <Services />
-          </React.Suspense>
-        } />
-        <Route path="/contact" element={
-          <React.Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
-            <Contact />
-          </React.Suspense>
-        } />
-        <Route path="/vacancies" element={
-          <React.Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
-            <Vacancies />
-          </React.Suspense>
-        } />
-        <Route path="/vacancies/:slug" element={
-          <React.Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
-            <VacancyDetails />
-          </React.Suspense>
-        } />
-        <Route path="/news" element={
-          <React.Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
-            <News />
-          </React.Suspense>
-        } />
-        <Route path="/news/:slug" element={
-          <React.Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
-            <NewsDetails />
-          </React.Suspense>
-        } />
-         <Route path="/tenders" element={
-          <React.Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
-            <Tenders />
-          </React.Suspense>
-        } />
-        <Route path="/tenders/:slug" element={
-          <React.Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
-            <TenderDetails />
-          </React.Suspense>
-        } />
-        <Route path="/commercial-offers" element={
-          <React.Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
-            <CommercialOffers />
-          </React.Suspense>
-        } />
-        <Route path="/commercial-offers/:slug" element={
-          <React.Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
-            <CommercialOfferDetails />
-          </React.Suspense>
-        } />
-        <Route path="/staff" element={
-          <React.Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
-            <Staff />
-          </React.Suspense>
-        } />
-        <Route path="/management" element={
-          <React.Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
-            <Management />
-          </React.Suspense>
-        } />
-        
-        {/* Admin Routes */}
-        <Route path="/admin/login" element={<AdminLogin />} />
-        <Route element={<AdminProtectedRoute />}>
-          <Route path="/admin/dashboard" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminDashboard />
-            </React.Suspense>
-          } />
-          <Route path="/admin/news" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminNews />
-            </React.Suspense>
-          } />
-          <Route path="/admin/news/edit/:id" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminNewsEdit />
-            </React.Suspense>
-          } />
-          <Route path="/admin/news/create" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminNewsEdit />
-            </React.Suspense>
-          } />
-          <Route path="/admin/projects" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminProjects />
-            </React.Suspense>
-          } />
-           <Route path="/admin/projects/edit/:id" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminProjectsEdit />
-            </React.Suspense>
-          } />
-          <Route path="/admin/projects/create" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminProjectsEdit />
-            </React.Suspense>
-          } />
-          <Route path="/admin/timeline-events" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminTimelineEvents />
-            </React.Suspense>
-          } />
-          <Route path="/admin/timeline-events/edit/:id" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminTimelineEventsEdit />
-            </React.Suspense>
-          } />
-           <Route path="/admin/timeline-events/create" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminTimelineEventsEdit />
-            </React.Suspense>
-          } />
-          <Route path="/admin/vacancies" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminVacancies />
-            </React.Suspense>
-          } />
-          <Route path="/admin/vacancies/edit/:id" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminVacanciesEdit />
-            </React.Suspense>
-          } />
-           <Route path="/admin/vacancies/create" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminVacanciesEdit />
-            </React.Suspense>
-          } />
-          <Route path="/admin/vacancy-applications" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminVacancyApplications />
-            </React.Suspense>
-          } />
-          <Route path="/admin/messages" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminMessages />
-            </React.Suspense>
-          } />
-          <Route path="/admin/partners" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminPartners />
-            </React.Suspense>
-          } />
-          <Route path="/admin/partners/edit/:id" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminPartnersEdit />
-            </React.Suspense>
-          } />
-          <Route path="/admin/partners/create" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminPartnersEdit />
-            </React.Suspense>
-          } />
-          <Route path="/admin/staff" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminStaff />
-            </React.Suspense>
-          } />
-          <Route path="/admin/staff/edit/:id" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminStaffEdit />
-            </React.Suspense>
-          } />
-          <Route path="/admin/staff/create" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminStaffEdit />
-            </React.Suspense>
-          } />
-          <Route path="/admin/departments" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminDepartments />
-            </React.Suspense>
-          } />
-          <Route path="/admin/departments/edit/:id" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminDepartmentsEdit />
-            </React.Suspense>
-          } />
-          <Route path="/admin/departments/create" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminDepartmentsEdit />
-            </React.Suspense>
-          } />
-          <Route path="/admin/future-projects" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminFutureProjects />
-            </React.Suspense>
-          } />
-          <Route path="/admin/future-projects/edit/:id" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminFutureProjectsEdit />
-            </React.Suspense>
-          } />
-          <Route path="/admin/future-projects/create" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminFutureProjectsEdit />
-            </React.Suspense>
-          } />
-          <Route path="/admin/tenders" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminTenders />
-            </React.Suspense>
-          } />
-          <Route path="/admin/tenders/edit/:id" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminTendersEdit />
-            </React.Suspense>
-          } />
-          <Route path="/admin/tenders/create" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminTendersEdit />
-            </React.Suspense>
-          } />
-          <Route path="/admin/tender-submissions" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminTenderSubmissions />
-            </React.Suspense>
-          } />
-          <Route path="/admin/commercial-offers" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminCommercialOffers />
-            </React.Suspense>
-          } />
-           <Route path="/admin/commercial-offers/edit/:id" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminCommercialOffersEdit />
-            </React.Suspense>
-          } />
-          <Route path="/admin/commercial-offers/create" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminCommercialOffersEdit />
-            </React.Suspense>
-          } />
-          <Route path="/admin/floor-prices" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminFloorPrices />
-            </React.Suspense>
-          } />
-          <Route path="/admin/floor-prices/edit/:id" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminFloorPricesEdit />
-            </React.Suspense>
-          } />
-          <Route path="/admin/floor-prices/create" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminFloorPricesEdit />
-            </React.Suspense>
-          } />
+    <HelmetProvider context={helmetContext}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <ScrollToTop />
+        <Routes>
+          <Route path="/" element={<Index />} />
           
-          <Route path="/admin/apartment-units" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminApartmentUnits />
-            </React.Suspense>
-          } />
+          <Route path="/about" element={<About />} />
+          <Route path="/partners" element={<Partners />} />
+          <Route path="/management" element={<Management />} />
           
-          <Route path="/admin/yangi-uzbekistan-apartment-units" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminYangiUzbekistanApartmentUnits />
-            </React.Suspense>
-          } />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/projects/:slug" element={<ProjectDetail />} />
+          <Route path="/projects/trcbochka" element={<TrcBochka />} />
+          <Route path="/projects/new-uzbekistan" element={<NewUzbekistan />} />
+          <Route path="/projects/banking-technology" element={<BankingTechnology />} />
+          <Route path="/future-projects" element={<FutureProjects />} />
+          <Route path="/future-projects/:slug" element={<FutureProjectDetail />} />
+          <Route path="/news" element={<News />} />
+          <Route path="/news/:id" element={<NewsDetail />} />
+          <Route path="/vacancies" element={<Vacancies />} />
+          <Route path="/vacancies/:id" element={<VacancyDetail />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/collaboration" element={<Collaboration />} />
+          <Route path="/collaboration/tenders" element={<Tenders />} />
+          <Route path="/tenders/:id" element={<TenderDetail />} />
+          <Route path="/collaboration/offers" element={<CommercialOffers />} />
           
-          <Route path="/admin/audit-logs" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminAuditLogs />
-            </React.Suspense>
-          } />
-           <Route path="/admin/detailed-audit-logs" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminDetailedAuditLogs />
-            </React.Suspense>
-          } />
-          <Route path="/admin/company-stats" element={
-            <React.Suspense fallback={<AdminLoadingScreen />}>
-              <AdminCompanyStats />
-            </React.Suspense>
-          } />
-        </Route>
-        
-        <Route path="*" element={
-          <React.Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
-            <div>Страница не найдена</div>
-          </React.Suspense>
-        } />
-      </Routes>
-      
-      <Toaster />
-    </React.Fragment>
+          {/* Service Pages */}
+          <Route path="/services/management-company" element={<ManagementCompany />} />
+          <Route path="/services/design" element={<ServiceDesign />} />
+          <Route path="/services/construction" element={<ServiceConstruction />} />
+          <Route path="/services/renovation" element={<Renovation />} />
+          <Route path="/services/laboratory" element={<Laboratory />} />
+          <Route path="/services/process-automation" element={<ProcessAutomation />} />
+          
+          <Route path="/construction" element={<Construction />} />
+          <Route path="/design" element={<Design />} />
+          <Route path="/solutions" element={<Solutions />} />
+          
+          <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={<AdminLayout><AdminDashboard /></AdminLayout>} />
+          <Route path="/admin/news" element={<AdminLayout><AdminNews /></AdminLayout>} />
+          <Route path="/admin/vacancies" element={<AdminLayout><AdminVacancies /></AdminLayout>} />
+          <Route path="/admin/messages" element={<AdminLayout><AdminMessages /></AdminLayout>} />
+          <Route path="/admin/partners" element={<AdminLayout><AdminPartners /></AdminLayout>} />
+          <Route path="/admin/tenders" element={<AdminLayout><AdminTenders /></AdminLayout>} />
+          <Route path="/admin/commercial-offers" element={<AdminLayout><AdminCommercialOffers /></AdminLayout>} />
+          <Route path="/admin/vacancy-applications" element={<AdminLayout><AdminVacancyApplications /></AdminLayout>} />
+          <Route path="/admin/audit-logs" element={<AdminLayout><AdminAuditLogs /></AdminLayout>} />
+          <Route path="/admin/detailed-audit-logs" element={<AdminLayout><AdminDetailedAuditLogs /></AdminLayout>} />
+          <Route path="/admin/floor-prices" element={<AdminLayout><AdminFloorPrices /></AdminLayout>} />
+          <Route path="/admin/tender-submissions" element={<AdminLayout><AdminTenderSubmissions /></AdminLayout>} />
+          <Route path="/admin/apartment-units" element={<AdminLayout><AdminApartmentUnits /></AdminLayout>} />
+          <Route path="/admin/staff" element={<AdminStaff />} />
+          <Route path="/admin/departments" element={<AdminDepartments />} />
+          <Route path="/admin/future-projects" element={<AdminLayout><AdminFutureProjects /></AdminLayout>} />
+          <Route path="/admin/projects" element={<AdminLayout><AdminProjects /></AdminLayout>} />
+          <Route path="/admin/timeline-events" element={<AdminLayout><AdminTimelineEvents /></AdminLayout>} />
+          <Route path="/admin/company-stats" element={<AdminLayout><AdminCompanyStats /></AdminLayout>} />
+          
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <ChatBot />
+      </TooltipProvider>
+    </HelmetProvider>
   );
-}
+};
 
 export default App;
