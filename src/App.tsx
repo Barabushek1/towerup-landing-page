@@ -1,61 +1,66 @@
+
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { TestModeIndicator } from './components/TestModeIndicator';
+import TestModeIndicator from './components/TestModeIndicator';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { AdminProvider } from './contexts/AdminContext';
 import { Toaster } from "@/components/ui/toaster"
 import './App.css';
 
-const Home = React.lazy(() => import('./pages/Home'));
+const Home = React.lazy(() => import('./pages/Index'));
 const About = React.lazy(() => import('./pages/About'));
 const Projects = React.lazy(() => import('./pages/Projects'));
-const ProjectDetails = React.lazy(() => import('./pages/ProjectDetails'));
-const Services = React.lazy(() => import('./pages/Services'));
+const ProjectDetails = React.lazy(() => import('./pages/ProjectDetail'));
+const Services = React.lazy(() => import('./pages/Solutions'));
 const Contact = React.lazy(() => import('./pages/Contact'));
 const Vacancies = React.lazy(() => import('./pages/Vacancies'));
-const VacancyDetails = React.lazy(() => import('./pages/VacancyDetails'));
+const VacancyDetails = React.lazy(() => import('./pages/VacancyDetail'));
 const News = React.lazy(() => import('./pages/News'));
-const NewsDetails = React.lazy(() => import('./pages/NewsDetails'));
-const Tenders = React.lazy(() => import('./pages/Tenders'));
-const TenderDetails = React.lazy(() => import('./pages/TenderDetails'));
-const CommercialOffers = React.lazy(() => import('./pages/CommercialOffers'));
+const NewsDetails = React.lazy(() => import('./pages/NewsDetail'));
+const Tenders = React.lazy(() => import('./pages/collaboration/Tenders'));
+const TenderDetails = React.lazy(() => import('./pages/TenderDetail'));
+const CommercialOffers = React.lazy(() => import('./pages/collaboration/CommercialOffers'));
 const CommercialOfferDetails = React.lazy(() => import('./pages/CommercialOfferDetails'));
 const Staff = React.lazy(() => import('./pages/Staff'));
 const Management = React.lazy(() => import('./pages/Management'));
 
+// Admin imports
 const AdminLogin = React.lazy(() => import('./pages/admin/AdminLogin'));
 const AdminDashboard = React.lazy(() => import('./pages/admin/AdminDashboard'));
 const AdminNews = React.lazy(() => import('./pages/admin/AdminNews'));
-const AdminNewsEdit = React.lazy(() => import('./pages/admin/AdminNewsEdit'));
 const AdminProjects = React.lazy(() => import('./pages/admin/AdminProjects'));
-const AdminProjectsEdit = React.lazy(() => import('./pages/admin/AdminProjectsEdit'));
 const AdminTimelineEvents = React.lazy(() => import('./pages/admin/AdminTimelineEvents'));
-const AdminTimelineEventsEdit = React.lazy(() => import('./pages/admin/AdminTimelineEventsEdit'));
 const AdminVacancies = React.lazy(() => import('./pages/admin/AdminVacancies'));
-const AdminVacanciesEdit = React.lazy(() => import('./pages/admin/AdminVacanciesEdit'));
 const AdminVacancyApplications = React.lazy(() => import('./pages/admin/AdminVacancyApplications'));
 const AdminMessages = React.lazy(() => import('./pages/admin/AdminMessages'));
 const AdminPartners = React.lazy(() => import('./pages/admin/AdminPartners'));
-const AdminPartnersEdit = React.lazy(() => import('./pages/admin/AdminPartnersEdit'));
 const AdminStaff = React.lazy(() => import('./pages/admin/AdminStaff'));
-const AdminStaffEdit = React.lazy(() => import('./pages/admin/AdminStaffEdit'));
 const AdminDepartments = React.lazy(() => import('./pages/admin/AdminDepartments'));
-const AdminDepartmentsEdit = React.lazy(() => import('./pages/admin/AdminDepartmentsEdit'));
 const AdminFutureProjects = React.lazy(() => import('./pages/admin/AdminFutureProjects'));
-const AdminFutureProjectsEdit = React.lazy(() => import('./pages/admin/AdminFutureProjectsEdit'));
 const AdminTenders = React.lazy(() => import('./pages/admin/AdminTenders'));
-const AdminTendersEdit = React.lazy(() => import('./pages/admin/AdminTendersEdit'));
 const AdminTenderSubmissions = React.lazy(() => import('./pages/admin/AdminTenderSubmissions'));
 const AdminCommercialOffers = React.lazy(() => import('./pages/admin/AdminCommercialOffers'));
-const AdminCommercialOffersEdit = React.lazy(() => import('./pages/admin/AdminCommercialOffersEdit'));
 const AdminFloorPrices = React.lazy(() => import('./pages/admin/AdminFloorPrices'));
-const AdminFloorPricesEdit = React.lazy(() => import('./pages/admin/AdminFloorPricesEdit'));
 const AdminAuditLogs = React.lazy(() => import('./pages/admin/AdminAuditLogs'));
 const AdminDetailedAuditLogs = React.lazy(() => import('./pages/admin/AdminDetailedAuditLogs'));
 const AdminCompanyStats = React.lazy(() => import('./pages/admin/AdminCompanyStats'));
 const AdminApartmentUnits = React.lazy(() => import('./pages/admin/AdminApartmentUnits'));
 const AdminYangiUzbekistanApartmentUnits = React.lazy(() => import('./pages/admin/AdminYangiUzbekistanApartmentUnits'));
 
+// Adding direct imports for edit pages to avoid lazy loading issues
+import AdminNewsEdit from './pages/admin/AdminNews';
+import AdminProjectsEdit from './pages/admin/AdminProjects';
+import AdminTimelineEventsEdit from './pages/admin/AdminTimelineEvents';
+import AdminVacanciesEdit from './pages/admin/AdminVacancies';
+import AdminPartnersEdit from './pages/admin/AdminPartners';
+import AdminStaffEdit from './pages/admin/AdminStaff';
+import AdminDepartmentsEdit from './pages/admin/AdminDepartments';
+import AdminFutureProjectsEdit from './pages/admin/AdminFutureProjects';
+import AdminTendersEdit from './pages/admin/AdminTenders';
+import AdminCommercialOffersEdit from './pages/admin/AdminCommercialOffers';
+import AdminFloorPricesEdit from './pages/admin/AdminFloorPrices';
+
+// Import admin components
 import AdminProtectedRoute from './components/admin/AdminProtectedRoute';
 import AdminLoadingScreen from './components/admin/AdminLoadingScreen';
 
