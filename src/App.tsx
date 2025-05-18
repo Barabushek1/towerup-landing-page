@@ -48,24 +48,25 @@ const AdminApartmentUnits = React.lazy(() => import('./pages/admin/AdminApartmen
 const AdminYangiUzbekistanApartmentUnits = React.lazy(() => import('./pages/admin/AdminYangiUzbekistanApartmentUnits'));
 
 // Adding direct imports for edit pages to avoid lazy loading issues
-import AdminNewsEdit from './pages/admin/AdminNews';
-import AdminProjectsEdit from './pages/admin/AdminProjects';
-import AdminTimelineEventsEdit from './pages/admin/AdminTimelineEvents';
-import AdminVacanciesEdit from './pages/admin/AdminVacancies';
-import AdminPartnersEdit from './pages/admin/AdminPartners';
-import AdminStaffEdit from './pages/admin/AdminStaff';
-import AdminDepartmentsEdit from './pages/admin/AdminDepartments';
-import AdminFutureProjectsEdit from './pages/admin/AdminFutureProjects';
-import AdminTendersEdit from './pages/admin/AdminTenders';
-import AdminCommercialOffersEdit from './pages/admin/AdminCommercialOffers';
-import AdminFloorPricesEdit from './pages/admin/AdminFloorPrices';
+import AdminNewsEdit from './pages/admin/AdminNewsEdit';
+import AdminProjectsEdit from './pages/admin/AdminProjectsEdit';
+import AdminTimelineEventsEdit from './pages/admin/AdminTimelineEventsEdit';
+import AdminVacanciesEdit from './pages/admin/AdminVacanciesEdit';
+import AdminPartnersEdit from './pages/admin/AdminPartnersEdit';
+import AdminStaffEdit from './pages/admin/AdminStaffEdit';
+import AdminDepartmentsEdit from './pages/admin/AdminDepartmentsEdit';
+import AdminFutureProjectsEdit from './pages/admin/AdminFutureProjectsEdit';
+import AdminTendersEdit from './pages/admin/AdminTendersEdit';
+import AdminCommercialOffersEdit from './pages/admin/AdminCommercialOffersEdit';
+import AdminFloorPricesEdit from './pages/admin/AdminFloorPricesEdit';
 
 // Import admin components
 import AdminProtectedRoute from './components/admin/AdminProtectedRoute';
 import AdminLoadingScreen from './components/admin/AdminLoadingScreen';
 
 function App() {
-  const testMode = process.env.REACT_APP_TEST_MODE === 'true';
+  // Replace process.env with import.meta.env
+  const testMode = import.meta.env.VITE_TEST_MODE === 'true';
   
   return (
     <React.Fragment>
