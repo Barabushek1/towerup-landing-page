@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { ServicePageLayout, AnimatedSection, fadeIn } from '@/components/ServicePageLayout';
 import { Building, Users, ShieldCheck, PieChart, Clock, FileCheck, AreaChart } from 'lucide-react';
 const ManagementCompany: React.FC = () => {
-  return <ServicePageLayout title="Управляющая компания" description="Профессиональное управление вашей недвижимостью от компании TOWERUP" breadcrumb="Услуги / Управляющая компания" headerImage="/lovable-uploads/01ec8090-c3b7-4770-b254-07c6f1ac1521.png">
+  return <ServicePageLayout title="Управляющая компания" description="Профессиональное управление вашей недвижимостью от компании TOWERUP" breadcrumb="Услуги / Управляющая компания" headerImage="https://i.ibb.co/Jj2Y79Mb/Generated-Image-May-20-2025-1-06-AM.jpg">
       {/* Intro Section */}
       <section className="pt-20 pb-16 md:pt-24 md:pb-20 bg-gradient-to-b from-[#161616] to-[#1a1a1a] relative overflow-hidden">
         <div className="absolute -left-64 -top-64 w-[500px] h-[500px] rounded-full bg-primary/5 filter blur-[100px] animate-pulse opacity-50 z-0"></div>
