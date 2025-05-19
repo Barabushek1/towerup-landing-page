@@ -32,11 +32,9 @@ const Laboratory: React.FC = () => {
 
             <motion.div variants={fadeIn} className="relative">
               <div className="aspect-square overflow-hidden rounded-2xl border-2 border-white/10 shadow-2xl">
-                <img alt="Лаборатория TOWERUP" className="w-full h-full object-cover" src="/lovable-uploads/1eb4fd8a-5479-465b-8b83-e37838b62b04.jpg" />
+                <img alt="Лаборатория TOWERUP" className="w-full h-full object-cover" src="/lovable-uploads/f43f7401-6fbf-4ea1-9b2d-82cf0642fd15.jpg" />
               </div>
-              <div className="absolute -top-6 -right-6 w-2/3 h-2/3 rounded-xl overflow-hidden border-2 border-white/10 shadow-lg">
-                <img src="/lovable-uploads/d0a4480f-81e3-4447-9368-f1e03d1151e4.png" alt="Лабораторные исследования TOWERUP" className="w-full h-full object-cover" />
-              </div>
+              
             </motion.div>
           </AnimatedSection>
         </div>
@@ -108,7 +106,7 @@ const Laboratory: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               <motion.div variants={fadeIn} className="relative">
                 <div className="aspect-[4/3] overflow-hidden rounded-xl border border-white/10">
-                  <img alt="Лабораторное оборудование TOWERUP" className="w-full h-full object-cover" src="/lovable-uploads/ceb3c8b2-1790-4459-a7c4-68654524c8df.jpg" />
+                  <img alt="Лабораторное оборудование TOWERUP" className="w-full h-full object-cover" src="/lovable-uploads/69d54a3c-ac64-4fa6-9ff7-de5b28bc1310.jpg" />
                 </div>
                 <div className="absolute bottom-4 left-4 right-4 p-4 bg-black/70 backdrop-blur-sm rounded-lg">
                   <h3 className="text-lg font-semibold text-white mb-1">Современная лаборатория</h3>
