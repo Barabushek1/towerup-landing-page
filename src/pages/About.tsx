@@ -14,7 +14,6 @@ import { Link } from 'react-router-dom';
 import CompanyTimeline from '@/components/CompanyTimeline';
 import ProjectCard from '@/components/ProjectCard';
 import ProjectsSection from '@/components/ProjectsSection';
-
 const fadeInUp = {
   hidden: {
     opacity: 0,
@@ -68,7 +67,6 @@ const pulse = {
     }
   }
 };
-
 const About: React.FC = () => {
   const isMobile = useIsMobile();
   const values = [{
@@ -105,7 +103,6 @@ const About: React.FC = () => {
     position: "Главный архитектор, Design Group",
     content: "Команда TOWER UP продемонстрировала исключительные знания и опыт в сфере строительства. Рекомендую их всем, кто ценит качество и надежность."
   }];
-  
   const faqItems = [{
     question: "Какие гарантии вы предоставляете на ваши объекты?",
     answer: "Все наши объекты имеют гарантию 10 лет. Мы также обеспечиваем послегарантийное обслуживание и поддержку на протяжении всего срока эксплуатации здания."
@@ -192,7 +189,7 @@ const About: React.FC = () => {
                 <div className="md:w-1/2 relative">
                   <div className="absolute -top-4 -left-4 w-24 h-24 bg-primary opacity-20 rounded-lg"></div>
                   <div className="relative z-10 rounded-lg overflow-hidden shadow-2xl shadow-primary/20">
-                    <img alt="Команда TOWER UP" className="w-full h-auto" src="/lovable-uploads/de7201e1-d410-4ab8-ac45-996e1929f911.jpg" />
+                    <img alt="Команда TOWER UP" className="w-full h-auto" src="/lovable-uploads/db336765-369a-4f8b-9f5e-d93d94b22aee.jpg" />
                   </div>
                 </div>
               </div>
