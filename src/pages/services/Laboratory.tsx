@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { ServicePageLayout, AnimatedSection, fadeIn } from '@/components/ServicePageLayout';
 import { Microscope, FileCheck, ShieldCheck, LineChart, FileText, Clock } from 'lucide-react';
 const Laboratory: React.FC = () => {
-  return <ServicePageLayout title="Лаборатория" description="Профессиональные лабораторные исследования и испытания строительных материалов от TOWERUP" breadcrumb="Услуги / Лаборатория" headerImage="/lovable-uploads/499747fd-cec7-42ad-a52d-b4a550043793.png">
+  return <ServicePageLayout title="Лаборатория" description="Профессиональные лабораторные исследования и испытания строительных материалов от TOWERUP" breadcrumb="Услуги / Лаборатория" headerImage="https://i.ibb.co/6RM3LrHX/Generated-Image-May-20-2025-12-55-AM.jpg">
       {/* Hero Section */}
       <section className="pt-20 pb-16 md:pt-24 md:pb-20 bg-gradient-to-b from-[#161616] to-[#1a1a1a] relative overflow-hidden">
         <div className="absolute -left-64 -top-64 w-[500px] h-[500px] rounded-full bg-primary/5 filter blur-[100px] animate-pulse opacity-50 z-0"></div>
