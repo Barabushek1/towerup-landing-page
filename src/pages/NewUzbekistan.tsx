@@ -14,14 +14,18 @@ import FeaturesSection from '../components/newuzbekistan/FeaturesSection';
 import GallerySection from '../components/newuzbekistan/GallerySection';
 import ContactSection from '../components/ContactSection';
 import ScrollToTopButton from '../components/ScrollToTopButton';
-import FloorPlansSection from '../components/FloorPlansSection';
+import FloorPlansSection from '../components/newuzbekistan/FloorPlansSection';
 import PriceCalculator from '../components/newuzbekistan/PriceCalculator';
+import { useYangiUzbekistanPriceSeeder } from '../hooks/use-yangi-uzbekistan-price-seeder';
 
 const NewUzbekistan: React.FC = () => {
   const { t } = useLanguage();
   const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, [0, 0.05], [1, 0]);
   const [loaded, setLoaded] = useState(false);
+  
+  // Initialize price data if needed
+  useYangiUzbekistanPriceSeeder();
 
   useEffect(() => {
     // Simulate loading delay for animation purposes
@@ -109,9 +113,9 @@ const NewUzbekistan: React.FC = () => {
             {/* Improved Gallery Section using the GallerySection component */}
             <GallerySection />
             
-            {/* Floor Plans Section (like in Pushkin) */}
+            {/* Floor Plans Section */}
             <section id="floor-plans" className="py-20 md:py-24 bg-[#161616]">
-              <FloorPlansSection projectId="new-uzbekistan" pricePerSqm={12000000} />
+              <FloorPlansSection projectId="yangi-uzbekistan" />
             </section>
             
             {/* Calculator Section (updated with database-driven calculator) */}

@@ -1056,6 +1056,48 @@ export type Database = {
         }
         Relationships: []
       }
+      yangi_uzbekistan_floor_plans: {
+        Row: {
+          area: number
+          area_label: string
+          created_at: string
+          display_order: number
+          id: string
+          image_url: string
+          is_active: boolean
+          room_type: string
+          subtitle: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          area: number
+          area_label?: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          image_url: string
+          is_active?: boolean
+          room_type: string
+          subtitle?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          area?: number
+          area_label?: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          image_url?: string
+          is_active?: boolean
+          room_type?: string
+          subtitle?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       yangi_uzbekistan_floor_prices: {
         Row: {
           apartment_type: string
