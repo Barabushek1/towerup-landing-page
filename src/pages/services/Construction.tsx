@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { ServicePageLayout, AnimatedSection, fadeIn } from '@/components/ServicePageLayout';
 import { Building, Clock, Shield, Wrench, CheckCircle, Users, FileText } from 'lucide-react';
 const Construction: React.FC = () => {
-  return <ServicePageLayout title="Строительство" description="Строительство объектов любой сложности от компании TOWERUP" breadcrumb="Услуги / Строительство" headerImage="/lovable-uploads/a752d5ec-95e4-49b3-acce-7ba19b32877c.png">
+  return <ServicePageLayout title="Строительство" description="Строительство объектов любой сложности от компании TOWERUP" breadcrumb="Услуги / Строительство" headerImage="https://i.ibb.co/bgbbvY0D/Generated-Image-May-20-2025-12-53-AM.jpg">
       {/* Hero Section */}
       <section className="pt-20 pb-16 md:pt-24 md:pb-20 bg-gradient-to-b from-[#161616] to-[#1a1a1a] relative overflow-hidden">
         <div className="absolute -left-64 -top-64 w-[500px] h-[500px] rounded-full bg-primary/5 filter blur-[100px] animate-pulse opacity-50 z-0"></div>
