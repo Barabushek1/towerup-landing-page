@@ -32,11 +32,9 @@ const Construction: React.FC = () => {
 
             <motion.div variants={fadeIn} className="relative">
               <div className="aspect-square overflow-hidden rounded-2xl border-2 border-white/10 shadow-2xl">
-                <img alt="Строительство TOWERUP" className="w-full h-full object-cover" src="/lovable-uploads/ace627fc-6648-4ecd-a50b-f62690da6a73.jpg" />
+                <img alt="Строительство TOWERUP" className="w-full h-full object-cover" src="/lovable-uploads/7bdf99aa-2b8a-47f6-83d2-abd294990266.jpg" />
               </div>
-              <div className="absolute -top-6 -right-6 w-2/3 h-2/3 rounded-xl overflow-hidden border-2 border-white/10 shadow-lg">
-                <img src="/lovable-uploads/b7b815c6-44d8-4e9a-93e9-75538f6d0233.png" alt="Строительство зданий TOWERUP" className="w-full h-full object-cover" />
-              </div>
+              
             </motion.div>
           </AnimatedSection>
         </div>
