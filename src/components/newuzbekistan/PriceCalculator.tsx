@@ -1,94 +1,93 @@
 
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { ArrowRight, Calculator } from 'lucide-react';
-import { formatNumberWithSpaces } from '@/utils/format-utils';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Calculator, Loader2, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { formatNumberWithSpaces } from "@/utils/format-utils";
+import { supabase } from "@/integrations/supabase/client";
 
-interface ApartmentType {
-  value: string;
-  label: string;
-}
+// Import Shadcn Select components
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-const apartmentTypes: ApartmentType[] = [
-  { value: '1-комнатные', label: '1-комнатные' },
-  { value: '2-комнатные', label: '2-комнатные' },
-  { value: '3-комнатные', label: '3-комнатные' },
-];
-
-const paymentPlans = [
-  { id: 'full', name: 'Единовременная оплата', discount: 0 },
-  { id: 'installment', name: 'Рассрочка', discount: 0 },
-];
-
-interface FloorPrices {
-  [key: string]: number;
+// Define types for apartment unit data
+interface ApartmentUnit {
+  id: string;
+  floor_number: number;
+  area: number;
+  room_count: number;
+  price_per_sqm: number;
+  total_price: number;
+  initial_payment_30p: number;
+  monthly_payment_8mo_30p: number;
+  cadastre_payment_40p: number;
 }
 
 const PriceCalculator: React.FC = () => {
-  const [activeTab, setActiveTab] = useState(apartmentTypes[0].value);
-  const [area, setArea] = useState<number>(35);
-  const [pricePerSqm, setPricePerSqm] = useState<number>(12000000);
-  const [totalPrice, setTotalPrice] = useState<number>(0);
-  const [initialPayment, setInitialPayment] = useState<number>(0);
-  const [monthlyPayment, setMonthlyPayment] = useState<number>(0);
-  const [cadastrePayment, setCadastrePayment] = useState<number>(0);
-  const [selectedPlan, setSelectedPlan] = useState(paymentPlans[0].id);
+  const [selectedFloor, setSelectedFloor] = useState<string | null>(null);
+  const [selectedUnit, setSelectedUnit] = useState<ApartmentUnit | null>(null);
+  const [apartmentUnits, setApartmentUnits] = useState<ApartmentUnit[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
-  // Fetch prices from database
-  const { data: floorPrices } = useQuery({
-    queryKey: ['yangiUzbekistanFloorPrices'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('yangi_uzbekistan_floor_prices')
-        .select('*');
-
-      if (error) throw new Error(`Error fetching prices: ${error.message}`);
-
-      const priceMap: FloorPrices = {};
-      if (data) {
-        data.forEach((item) => {
-          priceMap[item.apartment_type] = item.price_per_sqm;
-        });
+  // Fetch apartment units directly from the apartment_units table
+  useEffect(() => {
+    const fetchApartmentUnits = async () => {
+      setIsLoading(true);
+      setError(null);
+      
+      try {
+        const { data, error } = await supabase
+          .from('apartment_units')
+          .select('*')
+          .order('floor_number', { ascending: false });
+          
+        if (error) {
+          throw new Error(`Error fetching apartment units: ${error.message}`);
+        }
+        
+        if (data) {
+          setApartmentUnits(data as ApartmentUnit[]);
+        }
+      } catch (err) {
+        console.error("Failed to fetch apartment units:", err);
+        setError(err instanceof Error ? err : new Error('Unknown error occurred'));
+      } finally {
+        setIsLoading(false);
       }
+    };
+    
+    fetchApartmentUnits();
+  }, []);
 
-      return priceMap;
-    },
-    initialData: {
-      '1-комнатные': 12000000,
-      '2-комнатные': 11500000,
-      '3-комнатные': 11000000,
-    },
-  });
+  // Get unique floors sorted from highest to lowest (descending order)
+  const floors = Array.from(new Set(apartmentUnits.map(unit => unit.floor_number))).sort((a, b) => b - a);
+  
+  // Filter units by selected floor and sort by area
+  const unitsOnSelectedFloor = selectedFloor
+    ? apartmentUnits.filter(unit => unit.floor_number === parseInt(selectedFloor)).sort((a, b) => a.area - b.area)
+    : [];
 
-  // Handle apartment type change
+  // Reset selected unit when floor changes
   useEffect(() => {
-    if (floorPrices && floorPrices[activeTab]) {
-      setPricePerSqm(floorPrices[activeTab]);
-    }
-  }, [activeTab, floorPrices]);
+    setSelectedUnit(null);
+  }, [selectedFloor]);
 
-  // Calculate prices
-  useEffect(() => {
-    const calculatedTotal = area * pricePerSqm;
-    setTotalPrice(calculatedTotal);
+  const handleFloorChange = (value: string) => {
+    setSelectedFloor(value);
+  };
 
-    // Calculate installment payments (30% initial, 30% in 8 months, 40% cadastre)
-    const initialPaymentAmount = calculatedTotal * 0.3;
-    setInitialPayment(initialPaymentAmount);
-
-    const monthlyPaymentAmount = (calculatedTotal * 0.3) / 8;
-    setMonthlyPayment(monthlyPaymentAmount);
-
-    const cadastrePaymentAmount = calculatedTotal * 0.4;
-    setCadastrePayment(cadastrePaymentAmount);
-  }, [area, pricePerSqm]);
-
+  const handleUnitChange = (unitId: string) => {
+    const unit = unitsOnSelectedFloor.find(u => u.id === unitId);
+    setSelectedUnit(unit || null);
+  };
+  
   return (
     <section className="py-16 bg-opacity-80 backdrop-blur-sm relative z-10" id="calculator">
       <div className="container mx-auto px-4">
@@ -97,130 +96,145 @@ const PriceCalculator: React.FC = () => {
             Расчет стоимости
           </h2>
 
-          <Card className="bg-slate-800/90 border-slate-700">
-            <CardHeader>
-              <CardTitle className="flex items-center text-xl sm:text-2xl text-white gap-2">
-                <Calculator className="h-6 w-6 text-primary" />
-                Калькулятор стоимости квартиры
-              </CardTitle>
-            </CardHeader>
+          {/* Loading state */}
+          {isLoading ? (
+            <Card className="bg-slate-800/90 border-slate-700">
+              <CardHeader>
+                <CardTitle className="flex items-center text-xl sm:text-2xl text-white gap-2">
+                  <Calculator className="h-6 w-6 text-primary" />
+                  Калькулятор стоимости квартиры
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="flex items-center justify-center py-12">
+                <div className="flex flex-col items-center justify-center">
+                  <Loader2 className="w-10 h-10 text-primary animate-spin mb-4" />
+                  <p className="text-slate-300">Загрузка данных...</p>
+                </div>
+              </CardContent>
+            </Card>
+          ) : error && apartmentUnits.length === 0 ? (
+            /* Error state with fallback */
+            <Card className="bg-slate-800/90 border-slate-700">
+              <CardHeader>
+                <CardTitle className="flex items-center text-xl sm:text-2xl text-white gap-2">
+                  <Calculator className="h-6 w-6 text-primary" />
+                  Калькулятор стоимости квартиры
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-4 rounded-md mb-4">
+                  <p>Произошла ошибка при загрузке данных. Пожалуйста, попробуйте позже.</p>
+                </div>
+                <Button className="w-full bg-primary hover:bg-primary/90" onClick={() => window.location.reload()}>
+                  Попробовать снова
+                </Button>
+              </CardContent>
+            </Card>
+          ) : (
+            /* Main render */
+            <Card className="bg-slate-800/90 border-slate-700">
+              <CardHeader>
+                <CardTitle className="flex items-center text-xl sm:text-2xl text-white gap-2">
+                  <Calculator className="h-6 w-6 text-primary" />
+                  Калькулятор стоимости квартиры
+                </CardTitle>
+              </CardHeader>
 
-            <CardContent>
-              {/* Apartment Type Selection */}
-              <Tabs
-                defaultValue={apartmentTypes[0].value}
-                value={activeTab}
-                onValueChange={setActiveTab}
-                className="mb-8"
-              >
-                <TabsList className="grid grid-cols-3 mb-6">
-                  {apartmentTypes.map((type) => (
-                    <TabsTrigger key={type.value} value={type.value}>
-                      {type.label}
-                    </TabsTrigger>
-                  ))}
-                </TabsList>
+              <CardContent>
+                <div className="space-y-6">
+                  {/* Floor Selection */}
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-white block">Выберите этаж</label>
+                    <Select onValueChange={handleFloorChange} value={selectedFloor || ""}>
+                      <SelectTrigger className="w-full bg-slate-700 border-slate-600 text-white">
+                        <SelectValue placeholder="Выберите этаж" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-slate-800 text-white border-slate-700">
+                        {floors.map(floor => (
+                          <SelectItem key={floor} value={floor.toString()}>
+                            {floor} Этаж
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-                {apartmentTypes.map((type) => (
-                  <TabsContent key={type.value} value={type.value} className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <Label htmlFor="area" className="text-base mb-2 block">
-                          Площадь (м²)
-                        </Label>
-                        <Input
-                          id="area"
-                          type="number"
-                          value={area}
-                          onChange={(e) => setArea(parseFloat(e.target.value) || 0)}
-                          className="bg-slate-700"
+                  {/* Apartment Unit Selection */}
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-white block">Выберите квартиру (Площадь / Комнаты)</label>
+                    <Select onValueChange={handleUnitChange} value={selectedUnit?.id || ""} disabled={!selectedFloor || unitsOnSelectedFloor.length === 0}>
+                      <SelectTrigger className="w-full bg-slate-700 border-slate-600 text-white">
+                        <SelectValue 
+                          placeholder={
+                            selectedFloor 
+                              ? (unitsOnSelectedFloor.length > 0 
+                                  ? "Выберите квартиру" 
+                                  : "Нет доступных квартир на этом этаже"
+                                ) 
+                              : "Сначала выберите этаж"
+                          } 
                         />
-                        <p className="text-sm text-slate-400 mt-1">
-                          Цена за м²: {formatNumberWithSpaces(pricePerSqm)} сум
-                        </p>
+                      </SelectTrigger>
+                      <SelectContent className="bg-slate-800 text-white border-slate-700">
+                        {unitsOnSelectedFloor.map(unit => (
+                          <SelectItem key={unit.id} value={unit.id}>
+                            {unit.area} м² ({unit.room_count}-комн.) - {formatNumberWithSpaces(unit.price_per_sqm)} сум/м²
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Display Results */}
+                  {selectedUnit && (
+                    <motion.div
+                      className="bg-slate-700/50 p-5 rounded-lg border border-primary/20 space-y-4"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <h3 className="text-lg font-bold text-primary mb-3">Выбранная квартира</h3>
+
+                      <div className="space-y-2 text-white/90">
+                        <p className="text-sm"><span className="font-semibold">Этаж:</span> {selectedUnit.floor_number}</p>
+                        <p className="text-sm"><span className="font-semibold">Площадь:</span> {selectedUnit.area} м²</p>
+                        <p className="text-sm"><span className="font-semibold">Комнат:</span> {selectedUnit.room_count}</p>
+                        <p className="text-sm"><span className="font-semibold">Цена за м²:</span> {formatNumberWithSpaces(selectedUnit.price_per_sqm)} сум</p>
                       </div>
 
-                      <div className="bg-slate-700/50 p-4 rounded-md flex flex-col h-full">
-                        <span className="text-sm text-slate-300 mb-1">Итоговая стоимость:</span>
-                        <span className="text-2xl font-bold text-white">
-                          от {formatNumberWithSpaces(totalPrice)} сум
-                        </span>
-                        <span className="text-sm text-slate-400 mt-auto">
-                          *окончательная цена может отличаться в зависимости от этажа и особенностей квартиры
-                        </span>
-                      </div>
-                    </div>
+                      <div className="border-t border-slate-600/50 pt-4 space-y-3">
+                        <p className="text-md font-bold text-white">Общая стоимость: от {formatNumberWithSpaces(selectedUnit.total_price)} сум</p>
 
-                    {/* Payment Plans */}
-                    <div className="bg-slate-700/30 p-4 rounded-md mt-8">
-                      <h4 className="font-medium mb-4 text-lg">Рассчитать рассрочку</h4>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                          <div className="space-y-4">
-                            {paymentPlans.map((plan) => (
-                              <div key={plan.id} className="flex items-center gap-2">
-                                <input
-                                  type="radio"
-                                  id={plan.id}
-                                  name="paymentPlan"
-                                  checked={selectedPlan === plan.id}
-                                  onChange={() => setSelectedPlan(plan.id)}
-                                  className="text-primary"
-                                />
-                                <Label htmlFor={plan.id} className="text-base cursor-pointer">
-                                  {plan.name}
-                                  {plan.discount > 0 && (
-                                    <span className="text-primary ml-1">(-{plan.discount}%)</span>
-                                  )}
-                                </Label>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className="bg-slate-700/50 p-4 rounded-md">
-                          {selectedPlan === 'installment' ? (
-                            <div className="space-y-2">
-                              <div className="flex justify-between">
-                                <span className="text-slate-300">Первоначальный взнос (30%):</span>
-                                <span className="font-medium">
-                                  {formatNumberWithSpaces(initialPayment)} сум
-                                </span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-slate-300">8 платежей по (30%):</span>
-                                <span className="font-medium">
-                                  {formatNumberWithSpaces(monthlyPayment)} сум
-                                </span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-slate-300">При получении кадастра (40%):</span>
-                                <span className="font-medium">
-                                  {formatNumberWithSpaces(cadastrePayment)} сум
-                                </span>
-                              </div>
-                            </div>
-                          ) : (
-                            <div className="flex justify-between items-center h-full">
-                              <span className="text-slate-300">Полная стоимость:</span>
-                              <span className="text-xl font-semibold">
-                                от {formatNumberWithSpaces(totalPrice)} сум
-                              </span>
-                            </div>
-                          )}
+                        <div className="space-y-2 text-white/90">
+                          <p className="text-sm"><span className="font-semibold">Первоначальный взнос (30%):</span> от {formatNumberWithSpaces(selectedUnit.initial_payment_30p)} сум</p>
+                          <p className="text-sm"><span className="font-semibold">Ежемесячно (8 мес, 30%):</span> от {formatNumberWithSpaces(selectedUnit.monthly_payment_8mo_30p)} сум</p>
+                          <p className="text-sm"><span className="font-semibold">Оплата после кадастра (40%):</span> от {formatNumberWithSpaces(selectedUnit.cadastre_payment_40p)} сум</p>
                         </div>
                       </div>
+                    </motion.div>
+                  )}
+                  
+                  {/* Message if no unit is selected after floor is chosen */}
+                  {selectedFloor && !selectedUnit && unitsOnSelectedFloor.length > 0 && (
+                    <div className="text-center text-slate-400 italic">
+                      Выберите квартиру из списка выше для просмотра деталей.
                     </div>
+                  )}
+                  
+                  {/* Message if a floor with no units is selected */}
+                  {selectedFloor && unitsOnSelectedFloor.length === 0 && (
+                    <div className="text-center text-slate-400 italic">
+                      На этом этаже нет доступных квартир.
+                    </div>
+                  )}
 
-                    <Button className="w-full md:w-auto mt-4">
-                      Связаться с менеджером <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </TabsContent>
-                ))}
-              </Tabs>
-            </CardContent>
-          </Card>
+                  <Button className="w-full md:w-auto mt-4" disabled={!selectedUnit}>
+                    Связаться с менеджером <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
       </div>
     </section>

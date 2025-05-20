@@ -220,20 +220,20 @@ const AdminYangiUzbekistanPrices = () => {
                         <div className="space-y-2 text-sm">
                           {type.id === "1-комнатные" && (
                             <>
-                              <p>31 м² × {formatNumberWithSpaces(form.watch("pricePerSqm"))} сум/м² = {formatNumberWithSpaces(31 * form.watch("pricePerSqm"))} сум</p>
-                              <p>39 м² × {formatNumberWithSpaces(form.watch("pricePerSqm"))} сум/м² = {formatNumberWithSpaces(39 * form.watch("pricePerSqm"))} сум</p>
+                              <p>31 м² × {formatNumberWithSpaces(form.watch("pricePerSqm"))} сум/м² = от {formatNumberWithSpaces(31 * form.watch("pricePerSqm"))} сум</p>
+                              <p>39 м² × {formatNumberWithSpaces(form.watch("pricePerSqm"))} сум/м² = от {formatNumberWithSpaces(39 * form.watch("pricePerSqm"))} сум</p>
                             </>
                           )}
                           {type.id === "2-комнатные" && (
                             <>
-                              <p>58 м² × {formatNumberWithSpaces(form.watch("pricePerSqm"))} сум/м² = {formatNumberWithSpaces(58 * form.watch("pricePerSqm"))} сум</p>
-                              <p>65 м² × {formatNumberWithSpaces(form.watch("pricePerSqm"))} сум/м² = {formatNumberWithSpaces(65 * form.watch("pricePerSqm"))} сум</p>
+                              <p>58 м² × {formatNumberWithSpaces(form.watch("pricePerSqm"))} сум/м² = от {formatNumberWithSpaces(58 * form.watch("pricePerSqm"))} сум</p>
+                              <p>65 м² × {formatNumberWithSpaces(form.watch("pricePerSqm"))} сум/м² = от {formatNumberWithSpaces(65 * form.watch("pricePerSqm"))} сум</p>
                             </>
                           )}
                           {type.id === "3-комнатные" && (
                             <>
-                              <p>85 м² × {formatNumberWithSpaces(form.watch("pricePerSqm"))} сум/м² = {formatNumberWithSpaces(85 * form.watch("pricePerSqm"))} сум</p>
-                              <p>95 м² × {formatNumberWithSpaces(form.watch("pricePerSqm"))} сум/м² = {formatNumberWithSpaces(95 * form.watch("pricePerSqm"))} сум</p>
+                              <p>85 м² × {formatNumberWithSpaces(form.watch("pricePerSqm"))} сум/м² = от {formatNumberWithSpaces(85 * form.watch("pricePerSqm"))} сум</p>
+                              <p>95 м² × {formatNumberWithSpaces(form.watch("pricePerSqm"))} сум/м² = от {formatNumberWithSpaces(95 * form.watch("pricePerSqm"))} сум</p>
                             </>
                           )}
                         </div>
