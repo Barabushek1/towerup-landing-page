@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -293,7 +292,7 @@ const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({ projectId }) => {
                               <div className="p-5 sm:p-6 mt-auto">
                                 <div className="mb-4">
                                   <h4 className="text-primary text-lg sm:text-xl font-bold">
-                                    {formatNumberWithSpaces(calculatedPrice)} сум
+                                    от {formatNumberWithSpaces(calculatedPrice)} сум
                                   </h4>
                                   <p className="text-white/60 text-xs sm:text-sm flex items-center gap-1">
                                     <Calculator className="w-3 h-3 text-primary/70" />
@@ -342,7 +341,7 @@ const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({ projectId }) => {
                     </div>
                     <div className="bg-[#131313] px-4 py-2 rounded-lg border border-primary/20">
                       <h4 className="text-primary font-bold text-lg">
-                        {formatNumberWithSpaces(calculatePrice(selectedPlanData.area))} сум
+                        от {formatNumberWithSpaces(calculatePrice(selectedPlanData.area))} сум
                       </h4>
                       <p className="text-xs text-white/50">
                         {formatNumberWithSpaces(currentPricePerSqm)} сум/м²
@@ -367,7 +366,7 @@ const FloorPlansSection: React.FC<FloorPlansSectionProps> = ({ projectId }) => {
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
                       <h4 className="text-primary text-xl font-bold">
-                        {formatNumberWithSpaces(calculatePrice(selectedPlanData.area))} сум
+                        от {formatNumberWithSpaces(calculatePrice(selectedPlanData.area))} сум
                       </h4>
                       <p className="text-white/60 text-sm">
                         Узнайте условия у менеджера
