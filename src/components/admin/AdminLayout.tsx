@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAdmin } from '@/contexts/AdminContext';
@@ -71,15 +72,10 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
     // Main layout container - flex row
     <div className="flex h-screen bg-slate-900 text-slate-100 overflow-hidden">
 
-      {/* Sidebar - fixed sidebar */}
-      <div className={cn(
-        "fixed top-0 bottom-0 left-0 z-20 h-full bg-slate-900",
-        sidebarCollapsed ? "md:w-20" : "md:w-64",
-        "w-64 transform transition-all duration-300 ease-in-out",
-        mobileSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-      )}>
-        <AdminSidebar />
-      </div>
+      {/* Sidebar - Rendered by AdminSidebar component */}
+      <AdminSidebar mobileOpen={mobileSidebarOpen} onClose={() => setMobileSidebarOpen(false)} collapsed={sidebarCollapsed} // Pass the collapsed state
+      // AdminSidebar component is responsible for its own fixed positioning and width classes
+      />
 
       {/* Main Content Area - Adjust positioning and add transition */}
       <div className={cn("flex-1 flex flex-col overflow-hidden transition-all duration-300 ease-in-out",
@@ -136,5 +132,4 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
     </div>
   );
 };
-
 export default AdminLayout;
