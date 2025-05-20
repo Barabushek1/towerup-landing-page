@@ -9,6 +9,7 @@ import { usePartnerSeeder } from "./hooks/use-partner-seeder";
 import { useYangiUzbekistanPriceSeeder } from "./hooks/use-yangi-uzbekistan-price-seeder";
 import { useTenderSeeder } from "./hooks/use-tender-seeder";
 import { useYangiUzbekistanApartmentsSeeder } from "./hooks/use-yangi-uzbekistan-apartments-seeder";
+
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import About from "./pages/About";
@@ -49,6 +50,7 @@ import AdminFutureProjects from "./pages/admin/AdminFutureProjects";
 import AdminProjects from "./pages/admin/AdminProjects";
 import AdminYangiUzbekistanPrices from "./pages/admin/AdminYangiUzbekistanPrices";
 import AdminYangiUzbekistanApartments from "./pages/admin/AdminYangiUzbekistanApartments";
+import AdminYangiUzbekistanFloorPlans from "./pages/admin/AdminYangiUzbekistanFloorPlans";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Collaboration from "./pages/Collaboration";
 import Tenders from "./pages/collaboration/Tenders";
@@ -151,6 +153,7 @@ function App() {
               </Suspense>
             </AdminLayout>
           } />
+          <Route path="/admin/yangi-uzbekistan-floor-plans" element={<AdminLayout><AdminYangiUzbekistanFloorPlans /></AdminLayout>} />
           
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="*" element={<NotFound />} />
