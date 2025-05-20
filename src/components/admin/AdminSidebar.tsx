@@ -1,3 +1,4 @@
+
 import React from 'react';
 import {
   LayoutDashboard,
@@ -5,7 +6,7 @@ import {
   Users,
   FileText,
   Image,
-  FloorPlan,
+  LayoutTemplate,
 } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
@@ -39,7 +40,7 @@ const AdminSidebar = () => {
     {
       title: 'Yangi UZ Планировки',
       href: '/admin/yangi-uzbekistan-floor-plans',
-      icon: <FloorPlan className="h-4 w-4" />,
+      icon: <LayoutTemplate className="h-4 w-4" />,
     },
   ];
 

@@ -1,6 +1,5 @@
 
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -45,7 +44,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Trash2, Edit, Plus, Image, Loader2, ArrowUp, ArrowDown } from 'lucide-react';
+import { Trash2, Edit, Plus, Loader2, ArrowUp, ArrowDown } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 
 // Schema for floor plan form
@@ -93,7 +92,6 @@ interface FloorPrice {
 const roomTypes = ['1-комнатные', '2-комнатные', '3-комнатные', '4-комнатные'];
 
 const AdminYangiUzbekistanFloorPlans: React.FC = () => {
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState('floorPlans');
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
