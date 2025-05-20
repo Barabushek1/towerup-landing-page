@@ -2,11 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAdmin } from '@/contexts/AdminContext';
-import AdminSidebar from './AdminSidebar'; // Ensure path is correct
+import AdminSidebar from './AdminSidebar'; 
 import { Loader2, Menu, LogOut, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useToast } from '@/hooks/use-toast'; // Assuming hook exists
-import { cn } from '@/lib/utils'; // Assuming utility exists
+import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -73,8 +73,10 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
     <div className="flex h-screen bg-slate-900 text-slate-100 overflow-hidden">
 
       {/* Sidebar - Rendered by AdminSidebar component */}
-      <AdminSidebar mobileOpen={mobileSidebarOpen} onClose={() => setMobileSidebarOpen(false)} collapsed={sidebarCollapsed} // Pass the collapsed state
-      // AdminSidebar component is responsible for its own fixed positioning and width classes
+      <AdminSidebar 
+        mobileOpen={mobileSidebarOpen} 
+        onClose={() => setMobileSidebarOpen(false)} 
+        collapsed={sidebarCollapsed} 
       />
 
       {/* Main Content Area - Adjust positioning and add transition */}

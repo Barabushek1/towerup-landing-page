@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -138,8 +137,8 @@ function App() {
           <Route path="/admin/floor-prices" element={<AdminLayout><AdminFloorPrices /></AdminLayout>} />
           <Route path="/admin/tender-submissions" element={<AdminLayout><AdminTenderSubmissions /></AdminLayout>} />
           <Route path="/admin/apartment-units" element={<AdminLayout><AdminApartmentUnits /></AdminLayout>} />
-          <Route path="/admin/staff" element={<AdminStaff />} />
-          <Route path="/admin/departments" element={<AdminDepartments />} />
+          <Route path="/admin/staff" element={<AdminLayout><AdminStaff /></AdminLayout>} />
+          <Route path="/admin/departments" element={<AdminLayout><AdminDepartments /></AdminLayout>} />
           <Route path="/admin/future-projects" element={<AdminLayout><AdminFutureProjects /></AdminLayout>} />
           <Route path="/admin/projects" element={<AdminLayout><AdminProjects /></AdminLayout>} />
           <Route path="/admin/timeline-events" element={<AdminLayout><AdminTimelineEvents /></AdminLayout>} />
