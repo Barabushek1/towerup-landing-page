@@ -163,7 +163,7 @@ const AdminYangiUzbekistanFloorPlans: React.FC = () => {
         // Create new floor plan
         const { data, error } = await supabase
           .from('yangi_uzbekistan_floor_plans')
-          .insert([values])
+          .insert([values]) // Fixed: Wrap values in an array for insert
           .select();
 
         if (error) throw new Error(error.message);
@@ -207,7 +207,7 @@ const AdminYangiUzbekistanFloorPlans: React.FC = () => {
         if (error) throw new Error(error.message);
         return data;
       } else {
-        // Create new price
+        // Create new price - Fixed: Wrap values in an array for insert
         const { data, error } = await supabase
           .from('yangi_uzbekistan_floor_prices')
           .insert([values])
@@ -361,466 +361,464 @@ const AdminYangiUzbekistanFloorPlans: React.FC = () => {
   };
 
   return (
-    <AdminLayout>
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-xl sm:text-2xl font-bold">Управление планировками Yangi Uzbekistan</h1>
-        </div>
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="text-xl sm:text-2xl font-bold">Управление планировками Yangi Uzbekistan</h1>
+      </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-          <TabsList>
-            <TabsTrigger value="floorPlans">Планировки</TabsTrigger>
-            <TabsTrigger value="prices">Цены</TabsTrigger>
-          </TabsList>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+        <TabsList>
+          <TabsTrigger value="floorPlans">Планировки</TabsTrigger>
+          <TabsTrigger value="prices">Цены</TabsTrigger>
+        </TabsList>
 
-          {/* Floor Plans Management */}
-          <TabsContent value="floorPlans" className="space-y-4">
-            <Card className="bg-slate-800 border-slate-700">
-              <CardHeader>
-                <CardTitle className="text-lg sm:text-xl">
-                  {isEditMode ? 'Редактировать планировку' : 'Добавить новую планировку'}
-                </CardTitle>
-                <CardDescription>
-                  {isEditMode
-                    ? 'Измените информацию о планировке и нажмите "Сохранить"'
-                    : 'Заполните форму, чтобы добавить новую планировку'}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Form {...floorPlanForm}>
-                  <form
-                    onSubmit={floorPlanForm.handleSubmit((data) => floorPlanMutation.mutate(data))}
-                    className="space-y-4 md:space-y-6"
-                  >
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <FormField
-                        control={floorPlanForm.control}
-                        name="title"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Название</FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="Например: Квартира А"
-                                className="bg-slate-700 border-slate-600"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={floorPlanForm.control}
-                        name="subtitle"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Подзаголовок</FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="Например: квартира"
-                                className="bg-slate-700 border-slate-600"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={floorPlanForm.control}
-                        name="area"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Площадь (м²)</FormLabel>
-                            <FormControl>
-                              <Input
-                                type="number"
-                                placeholder="Например: 35.5"
-                                className="bg-slate-700 border-slate-600"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={floorPlanForm.control}
-                        name="room_type"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Тип комнаты</FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              defaultValue={field.value}
-                              value={field.value}
-                            >
-                              <FormControl>
-                                <SelectTrigger className="bg-slate-700 border-slate-600">
-                                  <SelectValue placeholder="Выберите тип комнаты" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {roomTypes.map((type) => (
-                                  <SelectItem key={type} value={type}>
-                                    {type}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={floorPlanForm.control}
-                        name="image_url"
-                        render={({ field }) => (
-                          <FormItem className="col-span-1 md:col-span-2">
-                            <FormLabel>URL изображения</FormLabel>
-                            <FormControl>
-                              <div className="flex">
-                                <Input
-                                  placeholder="https://example.com/image.jpg"
-                                  className="flex-1 bg-slate-700 border-slate-600"
-                                  {...field}
-                                />
-                              </div>
-                            </FormControl>
-                            <FormDescription>
-                              Укажите полную ссылку на изображение планировки
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={floorPlanForm.control}
-                        name="display_order"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Порядок отображения</FormLabel>
-                            <FormControl>
-                              <Input
-                                type="number"
-                                placeholder="0"
-                                className="bg-slate-700 border-slate-600"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormDescription>
-                              Определяет порядок отображения планировок (меньшее значение = первее)
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-
-                    <div className="flex justify-end gap-2">
-                      {isEditMode && (
-                        <Button
-                          type="button"
-                          variant="outline"
-                          onClick={resetFloorPlanForm}
-                        >
-                          Отмена
-                        </Button>
+        {/* Floor Plans Management */}
+        <TabsContent value="floorPlans" className="space-y-4">
+          <Card className="bg-slate-800 border-slate-700">
+            <CardHeader>
+              <CardTitle className="text-lg sm:text-xl">
+                {isEditMode ? 'Редактировать планировку' : 'Добавить новую планировку'}
+              </CardTitle>
+              <CardDescription>
+                {isEditMode
+                  ? 'Измените информацию о планировке и нажмите "Сохранить"'
+                  : 'Заполните форму, чтобы добавить новую планировку'}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Form {...floorPlanForm}>
+                <form
+                  onSubmit={floorPlanForm.handleSubmit((data) => floorPlanMutation.mutate(data))}
+                  className="space-y-4 md:space-y-6"
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={floorPlanForm.control}
+                      name="title"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Название</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Например: Квартира А"
+                              className="bg-slate-700 border-slate-600"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
                       )}
-                      <Button
-                        type="submit"
-                        disabled={floorPlanMutation.isPending}
-                        className="bg-primary hover:bg-primary/90"
-                      >
-                        {floorPlanMutation.isPending ? (
-                          <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            {isEditMode ? 'Сохранение...' : 'Создание...'}
-                          </>
-                        ) : (
-                          <>
-                            {isEditMode ? 'Сохранить изменения' : 'Добавить планировку'}
-                          </>
-                        )}
-                      </Button>
-                    </div>
-                  </form>
-                </Form>
-              </CardContent>
-            </Card>
+                    />
 
-            <div className="space-y-6">
-              {roomTypes.map((roomType) => {
-                const filteredPlans = getFilteredFloorPlans(roomType);
-                if (filteredPlans.length === 0) return null;
+                    <FormField
+                      control={floorPlanForm.control}
+                      name="subtitle"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Подзаголовок</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Например: квартира"
+                              className="bg-slate-700 border-slate-600"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                return (
-                  <Card key={roomType} className="bg-slate-800 border-slate-700">
-                    <CardHeader>
-                      <CardTitle className="text-lg">{roomType}</CardTitle>
-                      <CardDescription>
-                        Список существующих планировок для {roomType.toLowerCase()}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      {isLoadingFloorPlans ? (
-                        <div className="flex justify-center py-8">
-                          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                        </div>
-                      ) : (
-                        <div className="overflow-x-auto">
-                          <Table>
-                            <TableHeader>
-                              <TableRow>
-                                <TableHead className="w-[100px]">Порядок</TableHead>
-                                <TableHead>Название</TableHead>
-                                <TableHead>Площадь</TableHead>
-                                <TableHead>Изображение</TableHead>
-                                <TableHead className="text-right">Действия</TableHead>
-                              </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                              {filteredPlans.map((plan) => (
-                                <TableRow key={plan.id}>
-                                  <TableCell className="font-medium">
-                                    <div className="flex items-center gap-1">
-                                      <span>{plan.display_order}</span>
-                                      <div className="flex flex-col ml-1">
-                                        <Button
-                                          variant="ghost"
-                                          size="icon"
-                                          className="h-5 w-5"
-                                          onClick={() => handleReorder(plan, 'up')}
-                                          disabled={
-                                            filteredPlans.indexOf(plan) === 0 ||
-                                            reorderFloorPlanMutation.isPending
-                                          }
-                                        >
-                                          <ArrowUp className="h-3 w-3" />
-                                        </Button>
-                                        <Button
-                                          variant="ghost"
-                                          size="icon"
-                                          className="h-5 w-5"
-                                          onClick={() => handleReorder(plan, 'down')}
-                                          disabled={
-                                            filteredPlans.indexOf(plan) === filteredPlans.length - 1 ||
-                                            reorderFloorPlanMutation.isPending
-                                          }
-                                        >
-                                          <ArrowDown className="h-3 w-3" />
-                                        </Button>
-                                      </div>
-                                    </div>
-                                  </TableCell>
-                                  <TableCell>
-                                    {plan.title}
-                                    <span className="text-slate-400 text-xs ml-1">
-                                      {plan.subtitle}
-                                    </span>
-                                  </TableCell>
-                                  <TableCell>{plan.area} м²</TableCell>
-                                  <TableCell>
-                                    <div className="flex items-center">
-                                      <img
-                                        src={plan.image_url}
-                                        alt={plan.title}
-                                        className="h-12 w-12 object-contain bg-slate-900 rounded border border-slate-700"
-                                      />
-                                      <a
-                                        href={plan.image_url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="ml-2 text-xs text-primary hover:underline"
-                                      >
-                                        Просмотр
-                                      </a>
-                                    </div>
-                                  </TableCell>
-                                  <TableCell className="text-right">
-                                    <div className="flex justify-end gap-2">
-                                      <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => handleEditFloorPlan(plan)}
-                                      >
-                                        <Edit className="h-4 w-4 mr-1" />
-                                        <span className="sr-only md:not-sr-only md:inline-block">
-                                          Изменить
-                                        </span>
-                                      </Button>
-                                      <Button
-                                        variant="destructive"
-                                        size="sm"
-                                        onClick={() => {
-                                          setSelectedFloorPlan(plan);
-                                          setIsDeleteDialogOpen(true);
-                                        }}
-                                      >
-                                        <Trash2 className="h-4 w-4 mr-1" />
-                                        <span className="sr-only md:not-sr-only md:inline-block">
-                                          Удалить
-                                        </span>
-                                      </Button>
-                                    </div>
-                                  </TableCell>
-                                </TableRow>
+                    <FormField
+                      control={floorPlanForm.control}
+                      name="area"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Площадь (м²)</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              placeholder="Например: 35.5"
+                              className="bg-slate-700 border-slate-600"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={floorPlanForm.control}
+                      name="room_type"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Тип комнаты</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                            value={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger className="bg-slate-700 border-slate-600">
+                                <SelectValue placeholder="Выберите тип комнаты" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {roomTypes.map((type) => (
+                                <SelectItem key={type} value={type}>
+                                  {type}
+                                </SelectItem>
                               ))}
-                            </TableBody>
-                          </Table>
-                        </div>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
                       )}
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
-          </TabsContent>
+                    />
 
-          {/* Prices Management */}
-          <TabsContent value="prices" className="space-y-4">
-            <Card className="bg-slate-800 border-slate-700">
-              <CardHeader>
-                <CardTitle className="text-lg sm:text-xl">Управление ценами</CardTitle>
-                <CardDescription>
-                  Установите цены за квадратный метр для разных типов квартир
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Form {...priceForm}>
-                  <form
-                    onSubmit={priceForm.handleSubmit((data) => priceMutation.mutate(data))}
-                    className="space-y-4"
-                  >
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <FormField
-                        control={priceForm.control}
-                        name="apartment_type"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Тип квартиры</FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              defaultValue={field.value}
-                              value={field.value}
-                            >
-                              <FormControl>
-                                <SelectTrigger className="bg-slate-700 border-slate-600">
-                                  <SelectValue placeholder="Выберите тип квартиры" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {roomTypes.map((type) => (
-                                  <SelectItem key={type} value={type}>
-                                    {type}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={priceForm.control}
-                        name="price_per_sqm"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Цена за м²</FormLabel>
-                            <FormControl>
+                    <FormField
+                      control={floorPlanForm.control}
+                      name="image_url"
+                      render={({ field }) => (
+                        <FormItem className="col-span-1 md:col-span-2">
+                          <FormLabel>URL изображения</FormLabel>
+                          <FormControl>
+                            <div className="flex">
                               <Input
-                                type="number"
-                                placeholder="Например: 12000000"
-                                className="bg-slate-700 border-slate-600"
+                                placeholder="https://example.com/image.jpg"
+                                className="flex-1 bg-slate-700 border-slate-600"
                                 {...field}
                               />
-                            </FormControl>
-                            <FormDescription>
-                              Введите цену в сумах за квадратный метр
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
+                            </div>
+                          </FormControl>
+                          <FormDescription>
+                            Укажите полную ссылку на изображение планировки
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                    <div className="flex justify-end">
+                    <FormField
+                      control={floorPlanForm.control}
+                      name="display_order"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Порядок отображения</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              placeholder="0"
+                              className="bg-slate-700 border-slate-600"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormDescription>
+                            Определяет порядок отображения планировок (меньшее значение = первее)
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="flex justify-end gap-2">
+                    {isEditMode && (
                       <Button
-                        type="submit"
-                        disabled={priceMutation.isPending}
-                        className="bg-primary hover:bg-primary/90"
+                        type="button"
+                        variant="outline"
+                        onClick={resetFloorPlanForm}
                       >
-                        {priceMutation.isPending ? (
-                          <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Сохранение...
-                          </>
-                        ) : (
-                          'Сохранить цену'
-                        )}
+                        Отмена
                       </Button>
-                    </div>
-                  </form>
-                </Form>
+                    )}
+                    <Button
+                      type="submit"
+                      disabled={floorPlanMutation.isPending}
+                      className="bg-primary hover:bg-primary/90"
+                    >
+                      {floorPlanMutation.isPending ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          {isEditMode ? 'Сохранение...' : 'Создание...'}
+                        </>
+                      ) : (
+                        <>
+                          {isEditMode ? 'Сохранить изменения' : 'Добавить планировку'}
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </form>
+              </Form>
+            </CardContent>
+          </Card>
 
-                <Separator className="my-6" />
+          <div className="space-y-6">
+            {roomTypes.map((roomType) => {
+              const filteredPlans = getFilteredFloorPlans(roomType);
+              if (filteredPlans.length === 0) return null;
 
-                <div className="overflow-x-auto">
-                  <h3 className="text-lg font-medium mb-4">Текущие цены</h3>
-                  {isLoadingPrices ? (
-                    <div className="flex justify-center py-4">
-                      <Loader2 className="h-6 w-6 animate-spin text-primary" />
-                    </div>
-                  ) : (
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Тип квартиры</TableHead>
-                          <TableHead>Цена за м²</TableHead>
-                          <TableHead className="text-right">Действия</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {floorPrices && floorPrices.length > 0 ? (
-                          floorPrices.map((price) => (
-                            <TableRow key={price.id}>
-                              <TableCell className="font-medium">{price.apartment_type}</TableCell>
-                              <TableCell>{formatPrice(price.price_per_sqm)} сум/м²</TableCell>
-                              <TableCell className="text-right">
-                                <Button
-                                  variant="outline"
-                                  size="sm"
-                                  onClick={() => handleEditPrice(price)}
-                                >
-                                  <Edit className="h-4 w-4 mr-1" />
-                                  Изменить
-                                </Button>
-                              </TableCell>
+              return (
+                <Card key={roomType} className="bg-slate-800 border-slate-700">
+                  <CardHeader>
+                    <CardTitle className="text-lg">{roomType}</CardTitle>
+                    <CardDescription>
+                      Список существующих планировок для {roomType.toLowerCase()}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    {isLoadingFloorPlans ? (
+                      <div className="flex justify-center py-8">
+                        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                      </div>
+                    ) : (
+                      <div className="overflow-x-auto">
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead className="w-[100px]">Порядок</TableHead>
+                              <TableHead>Название</TableHead>
+                              <TableHead>Площадь</TableHead>
+                              <TableHead>Изображение</TableHead>
+                              <TableHead className="text-right">Действия</TableHead>
                             </TableRow>
-                          ))
-                        ) : (
-                          <TableRow>
-                            <TableCell colSpan={3} className="text-center py-4">
-                              Цены еще не установлены
+                          </TableHeader>
+                          <TableBody>
+                            {filteredPlans.map((plan) => (
+                              <TableRow key={plan.id}>
+                                <TableCell className="font-medium">
+                                  <div className="flex items-center gap-1">
+                                    <span>{plan.display_order}</span>
+                                    <div className="flex flex-col ml-1">
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-5 w-5"
+                                        onClick={() => handleReorder(plan, 'up')}
+                                        disabled={
+                                          filteredPlans.indexOf(plan) === 0 ||
+                                          reorderFloorPlanMutation.isPending
+                                        }
+                                      >
+                                        <ArrowUp className="h-3 w-3" />
+                                      </Button>
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-5 w-5"
+                                        onClick={() => handleReorder(plan, 'down')}
+                                        disabled={
+                                          filteredPlans.indexOf(plan) === filteredPlans.length - 1 ||
+                                          reorderFloorPlanMutation.isPending
+                                        }
+                                      >
+                                        <ArrowDown className="h-3 w-3" />
+                                      </Button>
+                                    </div>
+                                  </div>
+                                </TableCell>
+                                <TableCell>
+                                  {plan.title}
+                                  <span className="text-slate-400 text-xs ml-1">
+                                    {plan.subtitle}
+                                  </span>
+                                </TableCell>
+                                <TableCell>{plan.area} м²</TableCell>
+                                <TableCell>
+                                  <div className="flex items-center">
+                                    <img
+                                      src={plan.image_url}
+                                      alt={plan.title}
+                                      className="h-12 w-12 object-contain bg-slate-900 rounded border border-slate-700"
+                                    />
+                                    <a
+                                      href={plan.image_url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-xs text-primary hover:underline"
+                                    >
+                                      Просмотр
+                                    </a>
+                                  </div>
+                                </TableCell>
+                                <TableCell className="text-right">
+                                  <div className="flex justify-end gap-2">
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => handleEditFloorPlan(plan)}
+                                    >
+                                      <Edit className="h-4 w-4 mr-1" />
+                                      <span className="sr-only md:not-sr-only md:inline-block">
+                                        Изменить
+                                      </span>
+                                    </Button>
+                                    <Button
+                                      variant="destructive"
+                                      size="sm"
+                                      onClick={() => {
+                                        setSelectedFloorPlan(plan);
+                                        setIsDeleteDialogOpen(true);
+                                      }}
+                                    >
+                                      <Trash2 className="h-4 w-4 mr-1" />
+                                      <span className="sr-only md:not-sr-only md:inline-block">
+                                        Удалить
+                                      </span>
+                                    </Button>
+                                  </div>
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </TabsContent>
+
+        {/* Prices Management */}
+        <TabsContent value="prices" className="space-y-4">
+          <Card className="bg-slate-800 border-slate-700">
+            <CardHeader>
+              <CardTitle className="text-lg sm:text-xl">Управление ценами</CardTitle>
+              <CardDescription>
+                Установите цены за квадратный метр для разных типов квартир
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Form {...priceForm}>
+                <form
+                  onSubmit={priceForm.handleSubmit((data) => priceMutation.mutate(data))}
+                  className="space-y-4"
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={priceForm.control}
+                      name="apartment_type"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Тип квартиры</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                            value={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger className="bg-slate-700 border-slate-600">
+                                <SelectValue placeholder="Выберите тип квартиры" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {roomTypes.map((type) => (
+                                <SelectItem key={type} value={type}>
+                                  {type}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={priceForm.control}
+                      name="price_per_sqm"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Цена за м²</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              placeholder="Например: 12000000"
+                              className="bg-slate-700 border-slate-600"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormDescription>
+                            Введите цену в сумах за квадратный метр
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="flex justify-end">
+                    <Button
+                      type="submit"
+                      disabled={priceMutation.isPending}
+                      className="bg-primary hover:bg-primary/90"
+                    >
+                      {priceMutation.isPending ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Сохранение...
+                        </>
+                      ) : (
+                        'Сохранить цену'
+                      )}
+                    </Button>
+                  </div>
+                </form>
+              </Form>
+
+              <Separator className="my-6" />
+
+              <div className="overflow-x-auto">
+                <h3 className="text-lg font-medium mb-4">Текущие цены</h3>
+                {isLoadingPrices ? (
+                  <div className="flex justify-center py-4">
+                    <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                  </div>
+                ) : (
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Тип квартиры</TableHead>
+                        <TableHead>Цена за м²</TableHead>
+                        <TableHead className="text-right">Действия</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {floorPrices && floorPrices.length > 0 ? (
+                        floorPrices.map((price) => (
+                          <TableRow key={price.id}>
+                            <TableCell className="font-medium">{price.apartment_type}</TableCell>
+                            <TableCell>{formatPrice(price.price_per_sqm)} сум/м²</TableCell>
+                            <TableCell className="text-right">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handleEditPrice(price)}
+                              >
+                                <Edit className="h-4 w-4 mr-1" />
+                                Изменить
+                              </Button>
                             </TableCell>
                           </TableRow>
-                        )}
-                      </TableBody>
-                    </Table>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-      </div>
+                        ))
+                      ) : (
+                        <TableRow>
+                          <TableCell colSpan={3} className="text-center py-4">
+                            Цены еще не установлены
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
@@ -852,7 +850,7 @@ const AdminYangiUzbekistanFloorPlans: React.FC = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </AdminLayout>
+    </div>
   );
 };
 
