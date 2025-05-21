@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
@@ -14,6 +15,8 @@ import { Link } from 'react-router-dom';
 import CompanyTimeline from '@/components/CompanyTimeline';
 import ProjectCard from '@/components/ProjectCard';
 import ProjectsSection from '@/components/ProjectsSection';
+import TestimonialsSection from '@/components/TestimonialsSection';
+
 const fadeInUp = {
   hidden: {
     opacity: 0,
@@ -28,6 +31,7 @@ const fadeInUp = {
     }
   }
 };
+
 const fadeInRight = {
   hidden: {
     opacity: 0,
@@ -42,6 +46,7 @@ const fadeInRight = {
     }
   }
 };
+
 const staggerContainer = {
   hidden: {
     opacity: 0
@@ -54,6 +59,7 @@ const staggerContainer = {
     }
   }
 };
+
 const pulse = {
   initial: {
     scale: 1
@@ -67,71 +73,77 @@ const pulse = {
     }
   }
 };
+
 const About: React.FC = () => {
   const isMobile = useIsMobile();
-  const values = [{
-    title: 'Качество',
-    description: 'Мы стремимся к совершенству в каждой детали нашей работы, используя только лучшие материалы и технологии.',
-    icon: <Star className="w-10 h-10 text-primary" />,
-    bgColor: "from-primary/30 to-primary/5"
-  }, {
-    title: 'Инновации',
-    description: 'Мы постоянно исследуем и внедряем передовые решения, чтобы обеспечить нашим клиентам самые современные объекты.',
-    icon: <Rocket className="w-10 h-10 text-primary" />,
-    bgColor: "from-blue-500/30 to-blue-500/5"
-  }, {
-    title: 'Доверие',
-    description: 'Мы строим долгосрочные отношения с нашими клиентами, основанные на честности, прозрачности и надежности.',
-    icon: <Heart className="w-10 h-10 text-primary" />,
-    bgColor: "from-red-500/30 to-red-500/5"
-  }, {
-    title: 'Экологичность',
-    description: 'Мы заботимся об окружающей среде и стремимся минимизировать воздействие наших проектов на экологию.',
-    icon: <Shield className="w-10 h-10 text-primary" />,
-    bgColor: "from-green-500/30 to-green-500/5"
-  }];
-  const testimonials = [{
-    name: "Алексей Петров",
-    position: "CEO, Tech Industries",
-    content: "Сотрудничество с TOWER UP превзошло все наши ожидания. Их внимание к деталям и качество работы действительно выделяют их среди конкурентов."
-  }, {
-    name: "Мария Иванова",
-    position: "Директор по развитию, Urban Solutions",
-    content: "TOWER UP реализовали наш проект в срок и в рамках бюджета. Их профессиональный подход и инновационные решения помогли нам создать уникальное здание."
-  }, {
-    name: "Дмитрий Сидоров",
-    position: "Главный архитектор, Design Group",
-    content: "Команда TOWER UP продемонстрировала исключительные знания и опыт в сфере строительства. Рекомендую их всем, кто ценит качество и надежность."
-  }];
-  const faqItems = [{
-    question: "Какие гарантии вы предоставляете на ваши объекты?",
-    answer: "Все наши объекты имеют гарантию 10 лет. Мы также обеспечиваем послегарантийное обслуживание и поддержку на протяжении всего срока эксплуатации здания."
-  }, {
-    question: "Какие инновационные технологии вы используете?",
-    answer: "Мы внедряем передовые технологии умных домов, системы энергоэффективности и экологически чистые материалы. Наши здания оснащены современными системами безопасности и управления."
-  }, {
-    question: "Как вы обеспечиваете качество строительства?",
-    answer: "Мы используем только сертифицированные материалы, работаем с опытными специалистами и проводим многоуровневый контроль качества на всех этапах строительства."
-  }, {
-    question: "Сколько времени занимает реализация проекта?",
-    answer: "Сроки зависят от масштаба проекта. Типичный жилой комплекс мы строим за 18-36 месяцев. На первичной консультации мы предоставляем детальный график работ."
-  }];
-  const currentProjects = [{
-    title: 'Жилой комплекс "Пушкин"',
-    description: "Современный эко-комплекс из 5 домов с благоустроенной территорией, детскими площадками и парковой зоной.",
-    location: "Ташкент",
-    status: "Строится",
-    imageUrl: "/assets/Pushkin/18.jpg",
-    link: "/projects/pushkin"
-  }, {
-    title: 'ТРЦ "Бочка"',
-    description: "Современный торгово-развлекательный центр с уникальной архитектурой, созданный для комфортного шоппинга и семейного отдыха.",
-    location: "Ташкент",
-    status: "Строится",
-    imageUrl: "/lovable-uploads/0c133bd6-d1e4-46e2-bb5d-c0b5c77c5681.png",
-    link: "/projects/trcbochka"
-  }];
-  return <div className="min-h-screen antialiased bg-[#161616] text-gray-200 overflow-x-hidden">
+  
+  const values = [
+    {
+      title: 'Качество',
+      description: 'Мы стремимся к совершенству в каждой детали нашей работы, используя только лучшие материалы и технологии.',
+      icon: <Star className="w-10 h-10 text-primary" />,
+      bgColor: "from-primary/30 to-primary/5"
+    },
+    {
+      title: 'Инновации',
+      description: 'Мы постоянно исследуем и внедряем передовые решения, чтобы обеспечить нашим клиентам самые современные объекты.',
+      icon: <Rocket className="w-10 h-10 text-primary" />,
+      bgColor: "from-blue-500/30 to-blue-500/5"
+    },
+    {
+      title: 'Доверие',
+      description: 'Мы строим долгосрочные отношения с нашими клиентами, основанные на честности, прозрачности и надежности.',
+      icon: <Heart className="w-10 h-10 text-primary" />,
+      bgColor: "from-red-500/30 to-red-500/5"
+    },
+    {
+      title: 'Экологичность',
+      description: 'Мы заботимся об окружающей среде и стремимся минимизировать воздействие наших проектов на экологию.',
+      icon: <Shield className="w-10 h-10 text-primary" />,
+      bgColor: "from-green-500/30 to-green-500/5"
+    }
+  ];
+  
+  const faqItems = [
+    {
+      question: "Какие гарантии вы предоставляете на ваши объекты?",
+      answer: "Все наши объекты имеют гарантию 10 лет. Мы также обеспечиваем послегарантийное обслуживание и поддержку на протяжении всего срока эксплуатации здания."
+    },
+    {
+      question: "Какие инновационные технологии вы используете?",
+      answer: "Мы внедряем передовые технологии умных домов, системы энергоэффективности и экологически чистые материалы. Наши здания оснащены современными системами безопасности и управления."
+    },
+    {
+      question: "Как вы обеспечиваете качество строительства?",
+      answer: "Мы используем только сертифицированные материалы, работаем с опытными специалистами и проводим многоуровневый контроль качества на всех этапах строительства."
+    },
+    {
+      question: "Сколько времени занимает реализация проекта?",
+      answer: "Сроки зависят от масштаба проекта. Типичный жилой комплекс мы строим за 18-36 месяцев. На первичной консультации мы предоставляем детальный график работ."
+    }
+  ];
+  
+  const currentProjects = [
+    {
+      title: 'Жилой комплекс "Пушкин"',
+      description: "Современный эко-комплекс из 5 домов с благоустроенной территорией, детскими площадками и парковой зоной.",
+      location: "Ташкент",
+      status: "Строится",
+      imageUrl: "/assets/Pushkin/18.jpg",
+      link: "/projects/pushkin"
+    },
+    {
+      title: 'ТРЦ "Бочка"',
+      description: "Современный торгово-развлекательный центр с уникальной архитектурой, созданный для комфортного шоппинга и семейного отдыха.",
+      location: "Ташкент",
+      status: "Строится",
+      imageUrl: "/lovable-uploads/0c133bd6-d1e4-46e2-bb5d-c0b5c77c5681.png",
+      link: "/projects/trcbochka"
+    }
+  ];
+
+  return (
+    <div className="min-h-screen antialiased bg-[#161616] text-gray-200 overflow-x-hidden">
       <NavBar />
       <main>
         <div className="relative">
@@ -256,73 +268,8 @@ const About: React.FC = () => {
           </div>
         </section>
         
-        {/* Testimonials Section */}
-        <section className="py-16 md:py-24 bg-[#161616] overflow-hidden">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Отзывы клиентов</h2>
-              <div className="h-1 w-20 bg-primary mx-auto mb-8"></div>
-            </div>
-            
-            <Carousel opts={{
-            align: "start",
-            loop: true
-          }} className="w-full max-w-5xl mx-auto">
-              <CarouselContent>
-                {testimonials.map((testimonial, index) => <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                    <Card className="bg-[#212121] border-white/5 h-full">
-                      <CardContent className="p-6">
-                        <div className="mb-4">
-                          {[...Array(5)].map((_, i) => <Star key={i} className="inline-block w-5 h-5 text-yellow-500 fill-yellow-500" />)}
-                        </div>
-                        <p className="text-gray-300 mb-6 italic">"{testimonial.content}"</p>
-                        <div>
-                          <p className="font-bold text-white">{testimonial.name}</p>
-                          <p className="text-sm text-gray-400">{testimonial.position}</p>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </CarouselItem>)}
-              </CarouselContent>
-            </Carousel>
-          </div>
-        </section>
-        
-        {/* Team Section */}
-        <section className="py-16 md:py-24 bg-[#1a1a1a]">
-          <div className="container mx-auto px-6">
-            <motion.div initial="hidden" whileInView="visible" viewport={{
-            once: true
-          }} variants={fadeInUp} className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Наша команда</h2>
-              <div className="h-1 w-20 bg-primary mx-auto mb-8"></div>
-              <p className="text-gray-300 max-w-3xl mx-auto">
-                За каждым успешным проектом стоит команда профессионалов, которые вкладывают свой опыт, знания и творческий потенциал.
-              </p>
-            </motion.div>
-            
-            <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{
-            once: true
-          }} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {[1, 2, 3, 4].map(member => <motion.div key={member} variants={fadeInUp} className="bg-[#1E1E1E] rounded-lg overflow-hidden border border-white/5 hover:border-primary/20 transition-all duration-300">
-                  <div className="aspect-square overflow-hidden">
-                    <img src={`https://source.unsplash.com/random/300x300?portrait&sig=${member}`} alt={`Team Member ${member}`} className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
-                  </div>
-                  <div className="p-6">
-                    <h4 className="text-xl font-bold text-white mb-1">Имя Фамилия</h4>
-                    <p className="text-primary mb-3">Должность</p>
-                    <p className="text-gray-400 text-sm">Профессионал с более чем 10-летним опытом работы в строительной отрасли.</p>
-                  </div>
-                </motion.div>)}
-            </motion.div>
-            
-            <div className="text-center mt-12">
-              <Button asChild variant="outline" className="border-primary text-primary hover:bg-primary/10">
-                <Link to="/management">Вся команда</Link>
-              </Button>
-            </div>
-          </div>
-        </section>
+        {/* Dynamic Testimonials Section from Database */}
+        <TestimonialsSection />
         
         {/* FAQ Section */}
         <section className="py-16 md:py-24 bg-[#161616]">
@@ -355,6 +302,8 @@ const About: React.FC = () => {
         </section>
       </main>
       <Footer />
-    </div>;
+    </div>
+  );
 };
+
 export default About;

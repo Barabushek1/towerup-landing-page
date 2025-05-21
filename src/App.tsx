@@ -1,167 +1,112 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { Routes, Route, useLocation } from "react-router-dom";
-import { HelmetProvider } from "react-helmet-async";
-import React, { Suspense } from "react";
-import ScrollToTop from "./components/ScrollToTop";
-import { usePartnerSeeder } from "./hooks/use-partner-seeder";
-import { useYangiUzbekistanPriceSeeder } from "./hooks/use-yangi-uzbekistan-price-seeder";
-import { useTenderSeeder } from "./hooks/use-tender-seeder";
-import { useYangiUzbekistanApartmentsSeeder } from "./hooks/use-yangi-uzbekistan-apartments-seeder";
-
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import About from "./pages/About";
-import Partners from "./pages/Partners";
-import Management from "./pages/Management";
-import Projects from "./pages/Projects";
-import ProjectDetail from "./pages/ProjectDetail";
-import News from "./pages/News";
-import NewsDetail from "./pages/NewsDetail";
-import Vacancies from "./pages/Vacancies";
-import VacancyDetail from "./pages/VacancyDetail";
-import Contact from "./pages/Contact";
-import Construction from "./pages/Construction";
-import Design from "./pages/Design";
-import Solutions from "./pages/Solutions";
-import TrcBochka from "./pages/TrcBochka"; 
-import NewUzbekistan from "./pages/NewUzbekistan";
-import BankingTechnology from "./pages/BankingTechnology";
-import ChatBot from "./components/ChatBot";
+import React, { useEffect, useState } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import './App.css'
+import Index from './pages/Index';
+import Projects from './pages/Projects';
+import ProjectDetail from './pages/ProjectDetail';
+import About from './pages/About';
+import Contact from './pages/Contact';
+import NotFound from './pages/NotFound';
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
-import AdminNews from './pages/admin/AdminNews';
-import AdminVacancies from './pages/admin/AdminVacancies';
-import AdminVacancyApplications from './pages/admin/AdminVacancyApplications';
 import AdminMessages from './pages/admin/AdminMessages';
+import AdminNews from './pages/admin/AdminNews';
+import AdminProjects from './pages/admin/AdminProjects';
+import AdminFutureProjects from './pages/admin/AdminFutureProjects';
+import AdminVacancies from './pages/admin/AdminVacancies';
 import AdminPartners from './pages/admin/AdminPartners';
+import AdminDepartments from './pages/admin/AdminDepartments';
+import AdminStaff from './pages/admin/AdminStaff';
+import AdminTestimonials from './pages/admin/AdminTestimonials';
+import AdminCompanyStats from './pages/admin/AdminCompanyStats';
+import AdminTimelineEvents from './pages/admin/AdminTimelineEvents';
+import AdminVacancyApplications from './pages/admin/AdminVacancyApplications';
 import AdminTenders from './pages/admin/AdminTenders';
 import AdminTenderSubmissions from './pages/admin/AdminTenderSubmissions';
 import AdminCommercialOffers from './pages/admin/AdminCommercialOffers';
+import AdminYangiUzbekistanFloorPlans from './pages/admin/AdminYangiUzbekistanFloorPlans';
+import AdminYangiUzbekistanPrices from './pages/admin/AdminYangiUzbekistanPrices';
+import AdminYangiUzbekistanApartments from './pages/admin/AdminYangiUzbekistanApartments';
 import AdminFloorPrices from './pages/admin/AdminFloorPrices';
-import AdminApartmentUnits from './pages/admin/AdminApartmentUnits';
+import AdminFloorApartmentPrices from './pages/admin/AdminFloorApartmentPrices';
 import AdminAuditLogs from './pages/admin/AdminAuditLogs';
 import AdminDetailedAuditLogs from './pages/admin/AdminDetailedAuditLogs';
-import AdminLayout from "./components/admin/AdminLayout";
-import AdminStaff from "./pages/admin/AdminStaff";
-import AdminDepartments from "./pages/admin/AdminDepartments";
-import AdminFutureProjects from "./pages/admin/AdminFutureProjects";
-import AdminProjects from "./pages/admin/AdminProjects";
-import AdminYangiUzbekistanPrices from "./pages/admin/AdminYangiUzbekistanPrices";
-import AdminYangiUzbekistanApartments from "./pages/admin/AdminYangiUzbekistanApartments";
-import AdminYangiUzbekistanFloorPlans from "./pages/admin/AdminYangiUzbekistanFloorPlans";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import Collaboration from "./pages/Collaboration";
-import Tenders from "./pages/collaboration/Tenders";
-import TenderDetail from "./pages/TenderDetail";
-import CommercialOffers from "./pages/collaboration/CommercialOffers";
-import FutureProjects from "./pages/FutureProjects";
-import FutureProjectDetail from "./pages/FutureProjectDetail";
-
-// Import the service page components
-import ManagementCompany from "./pages/services/ManagementCompany";
-import ServiceDesign from "./pages/services/Design";
-import ServiceConstruction from "./pages/services/Construction";
-import Renovation from "./pages/services/Renovation";
-import Laboratory from "./pages/services/Laboratory";
-import ProcessAutomation from "./pages/services/ProcessAutomation";
-
-// Import AdminTimelineEvents explicitly
-import AdminTimelineEvents from "./pages/admin/AdminTimelineEvents";
-
-import AdminCompanyStats from "./pages/admin/AdminCompanyStats";
-
-const helmetContext = {};
+import UnderConstruction from './pages/UnderConstruction';
+import YangiUzbekistan from './pages/YangiUzbekistan';
+import FloorApartmentPrices from './pages/FloorApartmentPrices';
+import FloorPrices from './pages/FloorPrices';
+import Tenders from './pages/Tenders';
+import Vacancies from './pages/Vacancies';
 
 function App() {
-  const location = useLocation();
-  usePartnerSeeder();
-  useYangiUzbekistanPriceSeeder();
-  useYangiUzbekistanApartmentsSeeder();
-  useTenderSeeder();
-  
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+  useEffect(() => {
+    // Function to update the online status
+    const updateOnlineStatus = () => {
+      setIsOnline(navigator.onLine);
+    };
+
+    // Set initial online status
+    setIsOnline(navigator.onLine);
+
+    // Add event listeners to listen for online/offline events
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+
+    // Clean up event listeners when the component unmounts
+    return () => {
+      window.removeEventListener('online', updateOnlineStatus);
+      window.removeEventListener('offline', updateOnlineStatus);
+    };
+  }, []);
+
   return (
-    <HelmetProvider context={helmetContext}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <ScrollToTop />
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<Index />} />
-          
-          <Route path="/about" element={<About />} />
-          <Route path="/partners" element={<Partners />} />
-          <Route path="/management" element={<Management />} />
-          
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/projects/:slug" element={<ProjectDetail />} />
-          <Route path="/projects/trcbochka" element={<TrcBochka />} />
-          <Route path="/projects/new-uzbekistan" element={<NewUzbekistan />} />
-          <Route path="/projects/banking-technology" element={<BankingTechnology />} />
-          <Route path="/future-projects" element={<FutureProjects />} />
-          <Route path="/future-projects/:slug" element={<FutureProjectDetail />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/news/:id" element={<NewsDetail />} />
-          <Route path="/vacancies" element={<Vacancies />} />
-          <Route path="/vacancies/:id" element={<VacancyDetail />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/collaboration" element={<Collaboration />} />
-          <Route path="/collaboration/tenders" element={<Tenders />} />
-          <Route path="/tenders/:id" element={<TenderDetail />} />
-          <Route path="/collaboration/offers" element={<CommercialOffers />} />
-          
-          {/* Service Pages */}
-          <Route path="/services/management-company" element={<ManagementCompany />} />
-          <Route path="/services/design" element={<ServiceDesign />} />
-          <Route path="/services/construction" element={<ServiceConstruction />} />
-          <Route path="/services/renovation" element={<Renovation />} />
-          <Route path="/services/laboratory" element={<Laboratory />} />
-          <Route path="/services/process-automation" element={<ProcessAutomation />} />
-          
-          <Route path="/construction" element={<Construction />} />
-          <Route path="/design" element={<Design />} />
-          <Route path="/solutions" element={<Solutions />} />
-          
-          {/* Admin Routes */}
-          <Route path="/admin" element={<AdminLogin />} />
-          <Route path="/admin/dashboard" element={<AdminLayout><AdminDashboard /></AdminLayout>} />
-          <Route path="/admin/news" element={<AdminLayout><AdminNews /></AdminLayout>} />
-          <Route path="/admin/vacancies" element={<AdminLayout><AdminVacancies /></AdminLayout>} />
-          <Route path="/admin/messages" element={<AdminLayout><AdminMessages /></AdminLayout>} />
-          <Route path="/admin/partners" element={<AdminLayout><AdminPartners /></AdminLayout>} />
-          <Route path="/admin/tenders" element={<AdminLayout><AdminTenders /></AdminLayout>} />
-          <Route path="/admin/commercial-offers" element={<AdminLayout><AdminCommercialOffers /></AdminLayout>} />
-          <Route path="/admin/vacancy-applications" element={<AdminLayout><AdminVacancyApplications /></AdminLayout>} />
-          <Route path="/admin/audit-logs" element={<AdminLayout><AdminAuditLogs /></AdminLayout>} />
-          <Route path="/admin/detailed-audit-logs" element={<AdminLayout><AdminDetailedAuditLogs /></AdminLayout>} />
-          <Route path="/admin/floor-prices" element={<AdminLayout><AdminFloorPrices /></AdminLayout>} />
-          <Route path="/admin/tender-submissions" element={<AdminLayout><AdminTenderSubmissions /></AdminLayout>} />
-          <Route path="/admin/apartment-units" element={<AdminLayout><AdminApartmentUnits /></AdminLayout>} />
-          <Route path="/admin/staff" element={<AdminLayout><AdminStaff /></AdminLayout>} />
-          <Route path="/admin/departments" element={<AdminLayout><AdminDepartments /></AdminLayout>} />
-          <Route path="/admin/future-projects" element={<AdminLayout><AdminFutureProjects /></AdminLayout>} />
-          <Route path="/admin/projects" element={<AdminLayout><AdminProjects /></AdminLayout>} />
-          <Route path="/admin/timeline-events" element={<AdminLayout><AdminTimelineEvents /></AdminLayout>} />
-          <Route path="/admin/company-stats" element={<AdminLayout><AdminCompanyStats /></AdminLayout>} />
-          <Route path="/admin/yangi-uzbekistan-prices" element={<AdminLayout><AdminYangiUzbekistanPrices /></AdminLayout>} />
-          <Route path="/admin/yangi-uzbekistan-apartments" element={
-            <AdminLayout>
-              <Suspense fallback={<div>Loading...</div>}>
-                <AdminYangiUzbekistanApartments />
-              </Suspense>
-            </AdminLayout>
-          } />
-          <Route path="/admin/yangi-uzbekistan-floor-plans" element={<AdminLayout><AdminYangiUzbekistanFloorPlans /></AdminLayout>} />
-          
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <ChatBot />
-      </TooltipProvider>
-    </HelmetProvider>
+    
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<Index />} />
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/projects/:id" element={<ProjectDetail />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/404" element={<NotFound />} />
+        <Route path="/under-construction" element={<UnderConstruction />} />
+        <Route path="/yangi-uzbekistan" element={<YangiUzbekistan />} />
+        <Route path="/floor-apartment-prices/:id" element={<FloorApartmentPrices />} />
+        <Route path="/floor-prices/:id" element={<FloorPrices />} />
+        <Route path="/tenders" element={<Tenders />} />
+        <Route path="/vacancies" element={<Vacancies />} />
+
+        {/* Admin Routes */}
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/messages" element={<AdminMessages />} />
+        <Route path="/admin/news" element={<AdminNews />} />
+        <Route path="/admin/projects" element={<AdminProjects />} />
+        <Route path="/admin/future-projects" element={<AdminFutureProjects />} />
+        <Route path="/admin/vacancies" element={<AdminVacancies />} />
+        <Route path="/admin/partners" element={<AdminPartners />} />
+        <Route path="/admin/departments" element={<AdminDepartments />} />
+        <Route path="/admin/staff" element={<AdminStaff />} />
+        <Route path="/admin/testimonials" element={<AdminTestimonials />} />
+        <Route path="/admin/company-stats" element={<AdminCompanyStats />} />
+        <Route path="/admin/timeline-events" element={<AdminTimelineEvents />} />
+        <Route path="/admin/vacancy-applications" element={<AdminVacancyApplications />} />
+        <Route path="/admin/tender-submissions" element={<AdminTenderSubmissions />} />
+        <Route path="/admin/tenders" element={<AdminTenders />} />
+        <Route path="/admin/commercial-offers" element={<AdminCommercialOffers />} />
+        <Route path="/admin/yangi-uzbekistan-floor-plans" element={<AdminYangiUzbekistanFloorPlans />} />
+        <Route path="/admin/yangi-uzbekistan-prices" element={<AdminYangiUzbekistanPrices />} />
+        <Route path="/admin/yangi-uzbekistan-apartments" element={<AdminYangiUzbekistanApartments />} />
+        <Route path="/admin/floor-prices" element={<AdminFloorPrices />} />
+        <Route path="/admin/floor-apartment-prices" element={<AdminFloorApartmentPrices />} />
+        <Route path="/admin/audit-logs" element={<AdminAuditLogs />} />
+        <Route path="/admin/audit-logs/:id" element={<AdminDetailedAuditLogs />} />
+        <Route path="*" element={<Navigate to="/404" />} />
+      </Routes>
+    
   );
-};
+}
 
 export default App;

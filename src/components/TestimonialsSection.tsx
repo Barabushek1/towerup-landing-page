@@ -1,7 +1,17 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Quote } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+
+interface Testimonial {
+  id: string;
+  author: string;
+  position: string;
+  content: string;
+  rating: number;
+  is_active: boolean;
+}
 
 interface TestimonialProps {
   quote: string;
@@ -29,6 +39,8 @@ const TestimonialCard: React.FC<TestimonialProps> = ({ quote, author, position, 
 
 const TestimonialsSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -50,23 +62,34 @@ const TestimonialsSection: React.FC = () => {
     };
   }, []);
 
-  const testimonials = [
-    {
-      quote: "Работа с этой компанией преобразила наши операции. Их инновационные решения помогли нам достичь удивительных показателей эффективности при одновременном снижении затрат.",
-      author: "Сара Иванова",
-      position: "CTO, Global Innovations"
-    },
-    {
-      quote: "Их внимание к деталям и приверженность качеству не имеют себе равных. Мы увидели существенную отдачу от инвестиций с момента внедрения их систем.",
-      author: "Михаил Петров",
-      position: "CEO, Future Technologies"
-    },
-    {
-      quote: "Они не только обеспечили исключительные результаты, но и их постоянная поддержка и обслуживание клиентов были выдающимися. Настоящее партнерство.",
-      author: "Александра Смирнова",
-      position: "Директор по операциям, Eco Solutions"
-    }
-  ];
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      setLoading(true);
+      try {
+        const { data, error } = await supabase
+          .from('testimonials')
+          .select('*')
+          .eq('is_active', true);
+        
+        if (error) {
+          throw error;
+        }
+        
+        setTestimonials(data || []);
+      } catch (error) {
+        console.error('Error fetching testimonials:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTestimonials();
+  }, []);
+
+  // If no active testimonials, don't render the section
+  if (!loading && testimonials.length === 0) {
+    return null;
+  }
 
   return (
     <section 
@@ -94,17 +117,23 @@ const TestimonialsSection: React.FC = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <TestimonialCard
-              key={index}
-              quote={testimonial.quote}
-              author={testimonial.author}
-              position={testimonial.position}
-              delay={index * 100}
-            />
-          ))}
-        </div>
+        {loading ? (
+          <div className="flex justify-center items-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <TestimonialCard
+                key={testimonial.id}
+                quote={testimonial.content}
+                author={testimonial.author}
+                position={testimonial.position}
+                delay={index * 100}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

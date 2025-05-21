@@ -1,167 +1,291 @@
+import React, { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useAdmin } from '@/contexts/AdminContext';
+import {
+  LayoutDashboard,
+  Newspaper,
+  ListChecks,
+  Users,
+  Mail,
+  FilePlus,
+  Building2,
+  UserPlus,
+  Star,
+  BarChart,
+  CalendarClock,
+  FileText,
+  FileSearch,
+  FileSpreadsheet,
+  Layout,
+  Coins,
+  Landmark,
+  KeyRound,
+  FileSignature,
+  ClipboardList,
+  ScrollText
+} from 'lucide-react';
 
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { BarChart3, FileText, Home, Layers, MessageSquare, Users, FileCode, BriefcaseBusiness, Newspaper, Users2, PanelLeftClose, HandCoins, FileBadge, Building, User, Construction, LayoutDashboard, History, Calculator } from 'lucide-react';
-import { Button } from '../ui/button';
+export const AdminSidebar: React.FC = () => {
+  const { admin, logout } = useAdmin();
+  const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
 
-interface AdminSidebarProps {
-  onClose?: () => void;
-  collapsed?: boolean;
-  mobileOpen?: boolean;
-}
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
-const AdminSidebar: React.FC<AdminSidebarProps> = ({
-  onClose,
-  collapsed,
-  mobileOpen
-}) => {
-  const location = useLocation();
-  const isActive = (path: string) => location.pathname === path;
-
-  const navLinks = [
-    {
-      name: 'Панель управления',
-      path: '/admin/dashboard',
-      icon: <Home className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Новости',
-      path: '/admin/news',
-      icon: <Newspaper className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Проекты',
-      path: '/admin/projects',
-      icon: <LayoutDashboard className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'История компании',
-      path: '/admin/timeline-events',
-      icon: <History className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Вакансии',
-      path: '/admin/vacancies',
-      icon: <BriefcaseBusiness className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Заявки на вакансии',
-      path: '/admin/vacancy-applications',
-      icon: <FileBadge className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Сообщения',
-      path: '/admin/messages',
-      icon: <MessageSquare className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Партнеры',
-      path: '/admin/partners',
-      icon: <Users2 className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Сотрудники',
-      path: '/admin/staff',
-      icon: <User className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Отделы',
-      path: '/admin/departments',
-      icon: <Users className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Будущие проекты',
-      path: '/admin/future-projects',
-      icon: <Construction className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Тендеры',
-      path: '/admin/tenders',
-      icon: <FileCode className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Заявки на тендеры',
-      path: '/admin/tender-submissions',
-      icon: <FileText className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Коммерческие предложения',
-      path: '/admin/commercial-offers',
-      icon: <HandCoins className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Цены за м²',
-      path: '/admin/floor-prices',
-      icon: <Layers className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Квартиры',
-      path: '/admin/apartment-units',
-      icon: <Building className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Расчет стоимости - Yangi Uzbekistan',
-      path: '/admin/yangi-uzbekistan-prices',
-      icon: <Calculator className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Квартиры - Yangi Uzbekistan',
-      path: '/admin/yangi-uzbekistan-apartments',
-      icon: <Building className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Планировки - Yangi Uzbekistan',
-      path: '/admin/yangi-uzbekistan-floor-plans',
-      icon: <Layers className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Аудит логи',
-      path: '/admin/audit-logs',
-      icon: <BarChart3 className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Детальные аудит логи',
-      path: '/admin/detailed-audit-logs',
-      icon: <BarChart3 className="w-5 h-5 mr-3" />
-    },
-    {
-      name: 'Company Statistics',
-      path: '/admin/company-stats',
-      icon: <BarChart3 className="w-5 h-5 mr-3" />
-    }
-  ];
+  const handleLogout = () => {
+    logout();
+    navigate('/admin/login');
+  };
 
   return (
-    <div className={`w-64 h-screen fixed left-0 top-0 bg-slate-900 text-white flex flex-col shadow-lg z-30 ${mobileOpen === false ? '-translate-x-full lg:translate-x-0' : ''} transition-transform duration-200`}>
-      <div className="flex items-center justify-between px-6 py-4 border-b border-gray-700 bg-gray-800">
-        <h2 className="text-xl font-bold">Админ панель</h2>
-        {onClose && (
-          <Button variant="ghost" size="icon" onClick={onClose} className="lg:hidden">
-            <PanelLeftClose className="h-5 w-5" />
-          </Button>
-        )}
+    <aside className={`bg-slate-800 text-slate-200 w-64 flex-shrink-0 ${isMenuOpen ? 'block' : 'hidden'} lg:block`}>
+      <div className="p-4">
+        <h1 className="text-lg font-semibold">Панель администратора</h1>
+        <p className="text-sm text-slate-400">Вы вошли как {admin?.email}</p>
+        <button onClick={handleLogout} className="mt-2 text-sm text-blue-500 hover:text-blue-400">Выйти</button>
       </div>
-      <nav className="flex-1 overflow-auto pb-6 pt-2 bg-gray-800">
-        <ul className="space-y-1 px-3">
-          {navLinks.map(link => (
-            <li key={link.path}>
-              <Link 
-                to={link.path} 
-                className={`flex items-center px-3 py-2 rounded-md transition-colors ${
-                  isActive(link.path) 
-                    ? 'bg-primary text-primary-foreground' 
-                    : 'hover:bg-slate-800 text-gray-200 hover:text-white'
-                }`} 
-                onClick={onClose}
+      <div className="space-y-1">
+        <div className="py-4">
+          <div className="px-3 mb-2 text-xs font-semibold text-slate-500">Общее</div>
+          <ul className="space-y-1">
+            <li>
+              <NavLink
+                to="/admin"
+                className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm ${isActive ? 'bg-primary text-white' : 'text-slate-300 hover:bg-primary/20'}`}
               >
-                {link.icon}
-                <span>{link.name}</span>
-              </Link>
+                <LayoutDashboard className="mr-2 h-4 w-4" />
+                Главная
+              </NavLink>
             </li>
-          ))}
-        </ul>
-      </nav>
-    </div>
+          </ul>
+        </div>
+        <div className="py-4">
+          <div className="px-3 mb-2 text-xs font-semibold text-slate-500">Контент</div>
+          <ul className="space-y-1">
+            <li>
+              <NavLink
+                to="/admin/messages"
+                className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm ${isActive ? 'bg-primary text-white' : 'text-slate-300 hover:bg-primary/20'}`}
+              >
+                <Mail className="mr-2 h-4 w-4" />
+                Сообщения
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/admin/news"
+                className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm ${isActive ? 'bg-primary text-white' : 'text-slate-300 hover:bg-primary/20'}`}
+              >
+                <Newspaper className="mr-2 h-4 w-4" />
+                Новости
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/admin/testimonials"
+                className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm ${isActive ? 'bg-primary text-white' : 'text-slate-300 hover:bg-primary/20'}`}
+              >
+                <Star className="mr-2 h-4 w-4" />
+                Отзывы
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/admin/tenders"
+                className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm ${isActive ? 'bg-primary text-white' : 'text-slate-300 hover:bg-primary/20'}`}
+              >
+                <FileText className="mr-2 h-4 w-4" />
+                Тендеры
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/admin/commercial-offers"
+                className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm ${isActive ? 'bg-primary text-white' : 'text-slate-300 hover:bg-primary/20'}`}
+              >
+                <FileSignature className="mr-2 h-4 w-4" />
+                Коммерческие предложения
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+        <div className="py-4">
+          <div className="px-3 mb-2 text-xs font-semibold text-slate-500">Проекты</div>
+          <ul className="space-y-1">
+            <li>
+              <NavLink
+                to="/admin/projects"
+                className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm ${isActive ? 'bg-primary text-white' : 'text-slate-300 hover:bg-primary/20'}`}
+              >
+                <Building2 className="mr-2 h-4 w-4" />
+                Текущие проекты
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/admin/future-projects"
+                className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm ${isActive ? 'bg-primary text-white' : 'text-slate-300 hover:bg-primary/20'}`}
+              >
+                <Landmark className="mr-2 h-4 w-4" />
+                Будущие проекты
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/admin/yangi-uzbekistan-floor-plans"
+                className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm ${isActive ? 'bg-primary text-white' : 'text-slate-300 hover:bg-primary/20'}`}
+              >
+                <Layout className="mr-2 h-4 w-4" />
+                Yangi Uzbekistan Floor Plans
+              </NavLink>
+            </li>
+             <li>
+              <NavLink
+                to="/admin/yangi-uzbekistan-prices"
+                className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm ${isActive ? 'bg-primary text-white' : 'text-slate-300 hover:bg-primary/20'}`}
+              >
+                <Coins className="mr-2 h-4 w-4" />
+                Yangi Uzbekistan Prices
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/admin/yangi-uzbekistan-apartments"
+                className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm ${isActive ? 'bg-primary text-white' : 'text-slate-300 hover:bg-primary/20'}`}
+              >
+                <Layout className="mr-2 h-4 w-4" />
+                Yangi Uzbekistan Apartments
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/admin/floor-prices"
+                className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm ${isActive ? 'bg-primary text-white' : 'text-slate-300 hover:bg-primary/20'}`}
+              >
+                <Coins className="mr-2 h-4 w-4" />
+                Floor Prices
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/admin/floor-apartment-prices"
+                className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm ${isActive ? 'bg-primary text-white' : 'text-slate-300 hover:bg-primary/20'}`}
+              >
+                <Coins className="mr-2 h-4 w-4" />
+                Floor Apartment Prices
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+        <div className="py-4">
+          <div className="px-3 mb-2 text-xs font-semibold text-slate-500">Компания</div>
+          <ul className="space-y-1">
+            <li>
+              <NavLink
+                to="/admin/vacancies"
+                className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm ${isActive ? 'bg-primary text-white' : 'text-slate-300 hover:bg-primary/20'}`}
+              >
+                <ListChecks className="mr-2 h-4 w-4" />
+                Вакансии
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/admin/vacancy-applications"
+                className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm ${isActive ? 'bg-primary text-white' : 'text-slate-300 hover:bg-primary/20'}`}
+              >
+                <ClipboardList className="mr-2 h-4 w-4" />
+                Заявки на вакансии
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/admin/partners"
+                className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm ${isActive ? 'bg-primary text-white' : 'text-slate-300 hover:bg-primary/20'}`}
+              >
+                <Users className="mr-2 h-4 w-4" />
+                Партнеры
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/admin/departments"
+                className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm ${isActive ? 'bg-primary text-white' : 'text-slate-300 hover:bg-primary/20'}`}
+              >
+                <Building2 className="mr-2 h-4 w-4" />
+                Отделы
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/admin/staff"
+                className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm ${isActive ? 'bg-primary text-white' : 'text-slate-300 hover:bg-primary/20'}`}
+              >
+                <UserPlus className="mr-2 h-4 w-4" />
+                Сотрудники
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/admin/company-stats"
+                className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm ${isActive ? 'bg-primary text-white' : 'text-slate-300 hover:bg-primary/20'}`}
+              >
+                <BarChart className="mr-2 h-4 w-4" />
+                Статистика компании
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/admin/timeline-events"
+                className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm ${isActive ? 'bg-primary text-white' : 'text-slate-300 hover:bg-primary/20'}`}
+              >
+                <CalendarClock className="mr-2 h-4 w-4" />
+                События таймлайна
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+        <div className="py-4">
+          <div className="px-3 mb-2 text-xs font-semibold text-slate-500">Тендеры</div>
+          <ul className="space-y-1">
+            <li>
+              <NavLink
+                to="/admin/tenders"
+                className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm ${isActive ? 'bg-primary text-white' : 'text-slate-300 hover:bg-primary/20'}`}
+              >
+                <FilePlus className="mr-2 h-4 w-4" />
+                Тендеры
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/admin/tender-submissions"
+                className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm ${isActive ? 'bg-primary text-white' : 'text-slate-300 hover:bg-primary/20'}`}
+              >
+                <FileSearch className="mr-2 h-4 w-4" />
+                Предложения на тендер
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+        <div className="py-4">
+          <div className="px-3 mb-2 text-xs font-semibold text-slate-500">Аудит</div>
+          <ul className="space-y-1">
+            <li>
+              <NavLink
+                to="/admin/audit-logs"
+                className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm ${isActive ? 'bg-primary text-white' : 'text-slate-300 hover:bg-primary/20'}`}
+              >
+                <ScrollText className="mr-2 h-4 w-4" />
+                Журнал аудита
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </aside>
   );
 };
 
