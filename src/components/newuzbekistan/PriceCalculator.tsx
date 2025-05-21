@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,13 +7,7 @@ import { formatNumberWithSpaces } from "@/utils/format-utils";
 import { supabase } from "@/integrations/supabase/client";
 
 // Import Shadcn Select components
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 // Define types for apartment unit data
 interface ApartmentUnit {
@@ -28,7 +21,6 @@ interface ApartmentUnit {
   monthly_payment_8mo_30p: number;
   cadastre_payment_40p: number;
 }
-
 const PriceCalculator: React.FC = () => {
   const [selectedFloor, setSelectedFloor] = useState<string | null>(null);
   const [selectedUnit, setSelectedUnit] = useState<ApartmentUnit | null>(null);
@@ -41,17 +33,16 @@ const PriceCalculator: React.FC = () => {
     const fetchApartmentUnits = async () => {
       setIsLoading(true);
       setError(null);
-      
       try {
-        const { data, error } = await supabase
-          .from('apartment_units')
-          .select('*')
-          .order('floor_number', { ascending: false });
-          
+        const {
+          data,
+          error
+        } = await supabase.from('apartment_units').select('*').order('floor_number', {
+          ascending: false
+        });
         if (error) {
           throw new Error(`Error fetching apartment units: ${error.message}`);
         }
-        
         if (data) {
           setApartmentUnits(data as ApartmentUnit[]);
         }
@@ -62,43 +53,33 @@ const PriceCalculator: React.FC = () => {
         setIsLoading(false);
       }
     };
-    
     fetchApartmentUnits();
   }, []);
 
   // Get unique floors sorted from highest to lowest (descending order)
   const floors = Array.from(new Set(apartmentUnits.map(unit => unit.floor_number))).sort((a, b) => b - a);
-  
+
   // Filter units by selected floor and sort by area
-  const unitsOnSelectedFloor = selectedFloor
-    ? apartmentUnits.filter(unit => unit.floor_number === parseInt(selectedFloor)).sort((a, b) => a.area - b.area)
-    : [];
+  const unitsOnSelectedFloor = selectedFloor ? apartmentUnits.filter(unit => unit.floor_number === parseInt(selectedFloor)).sort((a, b) => a.area - b.area) : [];
 
   // Reset selected unit when floor changes
   useEffect(() => {
     setSelectedUnit(null);
   }, [selectedFloor]);
-
   const handleFloorChange = (value: string) => {
     setSelectedFloor(value);
   };
-
   const handleUnitChange = (unitId: string) => {
     const unit = unitsOnSelectedFloor.find(u => u.id === unitId);
     setSelectedUnit(unit || null);
   };
-  
-  return (
-    <section className="py-16 bg-opacity-80 backdrop-blur-sm relative z-10" id="calculator">
-      <div className="container mx-auto px-4">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-10 text-center">
-            Расчет стоимости
-          </h2>
+  return <section className="py-16 bg-opacity-80 backdrop-blur-sm relative z-10" id="calculator">
+      <div className="container px-4 my-0 mx-[6px] py-0">
+        <div className="max-w-5xl mx-auto px-[78px]">
+          
 
           {/* Loading state */}
-          {isLoading ? (
-            <Card className="bg-slate-800/90 border-slate-700">
+          {isLoading ? <Card className="bg-slate-800/90 border-slate-700">
               <CardHeader>
                 <CardTitle className="flex items-center text-xl sm:text-2xl text-white gap-2">
                   <Calculator className="h-6 w-6 text-primary" />
@@ -111,10 +92,8 @@ const PriceCalculator: React.FC = () => {
                   <p className="text-slate-300">Загрузка данных...</p>
                 </div>
               </CardContent>
-            </Card>
-          ) : error && apartmentUnits.length === 0 ? (
-            /* Error state with fallback */
-            <Card className="bg-slate-800/90 border-slate-700">
+            </Card> : error && apartmentUnits.length === 0 ? (/* Error state with fallback */
+        <Card className="bg-slate-800/90 border-slate-700">
               <CardHeader>
                 <CardTitle className="flex items-center text-xl sm:text-2xl text-white gap-2">
                   <Calculator className="h-6 w-6 text-primary" />
@@ -129,11 +108,9 @@ const PriceCalculator: React.FC = () => {
                   Попробовать снова
                 </Button>
               </CardContent>
-            </Card>
-          ) : (
-            /* Main render */
-            <Card className="bg-slate-800/90 border-slate-700">
-              <CardHeader>
+            </Card>) : (/* Main render */
+        <Card className="bg-slate-800/90 border-slate-700">
+              <CardHeader className="px-[24px]">
                 <CardTitle className="flex items-center text-xl sm:text-2xl text-white gap-2">
                   <Calculator className="h-6 w-6 text-primary" />
                   Калькулятор стоимости квартиры
@@ -150,11 +127,9 @@ const PriceCalculator: React.FC = () => {
                         <SelectValue placeholder="Выберите этаж" />
                       </SelectTrigger>
                       <SelectContent className="bg-slate-800 text-white border-slate-700">
-                        {floors.map(floor => (
-                          <SelectItem key={floor} value={floor.toString()}>
+                        {floors.map(floor => <SelectItem key={floor} value={floor.toString()}>
                             {floor} Этаж
-                          </SelectItem>
-                        ))}
+                          </SelectItem>)}
                       </SelectContent>
                     </Select>
                   </div>
@@ -164,35 +139,26 @@ const PriceCalculator: React.FC = () => {
                     <label className="text-sm font-medium text-white block">Выберите квартиру (Площадь / Комнаты)</label>
                     <Select onValueChange={handleUnitChange} value={selectedUnit?.id || ""} disabled={!selectedFloor || unitsOnSelectedFloor.length === 0}>
                       <SelectTrigger className="w-full bg-slate-700 border-slate-600 text-white">
-                        <SelectValue 
-                          placeholder={
-                            selectedFloor 
-                              ? (unitsOnSelectedFloor.length > 0 
-                                  ? "Выберите квартиру" 
-                                  : "Нет доступных квартир на этом этаже"
-                                ) 
-                              : "Сначала выберите этаж"
-                          } 
-                        />
+                        <SelectValue placeholder={selectedFloor ? unitsOnSelectedFloor.length > 0 ? "Выберите квартиру" : "Нет доступных квартир на этом этаже" : "Сначала выберите этаж"} />
                       </SelectTrigger>
                       <SelectContent className="bg-slate-800 text-white border-slate-700">
-                        {unitsOnSelectedFloor.map(unit => (
-                          <SelectItem key={unit.id} value={unit.id}>
+                        {unitsOnSelectedFloor.map(unit => <SelectItem key={unit.id} value={unit.id}>
                             {unit.area} м² ({unit.room_count}-комн.) - {formatNumberWithSpaces(unit.price_per_sqm)} сум/м²
-                          </SelectItem>
-                        ))}
+                          </SelectItem>)}
                       </SelectContent>
                     </Select>
                   </div>
 
                   {/* Display Results */}
-                  {selectedUnit && (
-                    <motion.div
-                      className="bg-slate-700/50 p-5 rounded-lg border border-primary/20 space-y-4"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
+                  {selectedUnit && <motion.div className="bg-slate-700/50 p-5 rounded-lg border border-primary/20 space-y-4" initial={{
+                opacity: 0,
+                y: 10
+              }} animate={{
+                opacity: 1,
+                y: 0
+              }} transition={{
+                duration: 0.3
+              }}>
                       <h3 className="text-lg font-bold text-primary mb-3">Выбранная квартира</h3>
 
                       <div className="space-y-2 text-white/90">
@@ -211,34 +177,26 @@ const PriceCalculator: React.FC = () => {
                           <p className="text-sm"><span className="font-semibold">Оплата после кадастра (40%):</span> от {formatNumberWithSpaces(selectedUnit.cadastre_payment_40p)} сум</p>
                         </div>
                       </div>
-                    </motion.div>
-                  )}
+                    </motion.div>}
                   
                   {/* Message if no unit is selected after floor is chosen */}
-                  {selectedFloor && !selectedUnit && unitsOnSelectedFloor.length > 0 && (
-                    <div className="text-center text-slate-400 italic">
+                  {selectedFloor && !selectedUnit && unitsOnSelectedFloor.length > 0 && <div className="text-center text-slate-400 italic">
                       Выберите квартиру из списка выше для просмотра деталей.
-                    </div>
-                  )}
+                    </div>}
                   
                   {/* Message if a floor with no units is selected */}
-                  {selectedFloor && unitsOnSelectedFloor.length === 0 && (
-                    <div className="text-center text-slate-400 italic">
+                  {selectedFloor && unitsOnSelectedFloor.length === 0 && <div className="text-center text-slate-400 italic">
                       На этом этаже нет доступных квартир.
-                    </div>
-                  )}
+                    </div>}
 
                   <Button className="w-full md:w-auto mt-4" disabled={!selectedUnit}>
                     Связаться с менеджером <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </div>
               </CardContent>
-            </Card>
-          )}
+            </Card>)}
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default PriceCalculator;
