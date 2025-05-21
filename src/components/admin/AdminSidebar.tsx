@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAdmin } from '@/contexts/AdminContext';
@@ -25,7 +26,17 @@ import {
   ScrollText
 } from 'lucide-react';
 
-export const AdminSidebar: React.FC = () => {
+interface AdminSidebarProps {
+  mobileOpen?: boolean;
+  onClose?: () => void;
+  collapsed?: boolean;
+}
+
+export const AdminSidebar: React.FC<AdminSidebarProps> = ({ 
+  mobileOpen = false, 
+  onClose = () => {}, 
+  collapsed = false 
+}) => {
   const { admin, logout } = useAdmin();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(true);
@@ -40,7 +51,7 @@ export const AdminSidebar: React.FC = () => {
   };
 
   return (
-    <aside className={`bg-slate-800 text-slate-200 w-64 flex-shrink-0 ${isMenuOpen ? 'block' : 'hidden'} lg:block`}>
+    <aside className={`bg-slate-800 text-slate-200 ${collapsed ? 'w-20' : 'w-64'} flex-shrink-0 ${isMenuOpen ? 'block' : 'hidden'} lg:block`}>
       <div className="p-4">
         <h1 className="text-lg font-semibold">Панель администратора</h1>
         <p className="text-sm text-slate-400">Вы вошли как {admin?.email}</p>
