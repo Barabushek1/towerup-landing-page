@@ -22,8 +22,10 @@ const NavBar: React.FC = () => {
   const [openDropdowns, setOpenDropdowns] = useState<Record<string, boolean>>({});
   const location = useLocation();
   const {
-    t
+    t,
+    isTranslationsLoaded
   } = useLanguage();
+
   useEffect(() => {
     const handleScroll = () => {
       const offset = window.scrollY;
@@ -40,6 +42,12 @@ const NavBar: React.FC = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+  
+  // Don't show the NavBar until translations are loaded
+  if (!isTranslationsLoaded) {
+    return null;
+  }
+
   const companySubMenu = [{
     title: t('nav.about'),
     href: '/about'

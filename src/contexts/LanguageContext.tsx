@@ -32,7 +32,7 @@ const preloadTranslations = async () => {
       languages.map(async (lang) => {
         if (!translationCache[lang]) {
           try {
-            const module = await import(`../translations/${lang}.json`);
+            const module = await import(`../locales/${lang}.json`);
             translationCache[lang] = module.default;
             console.log(`Preloaded translations for ${lang}`);
           } catch (err) {
@@ -69,23 +69,31 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     return translationCache[language] || {};
   });
   
-  const [isTranslationsLoaded, setIsTranslationsLoaded] = useState(!!Object.keys(translationCache[language] || {}).length);
+  // Important: Set isTranslationsLoaded based on having actual translations in cache
+  const [isTranslationsLoaded, setIsTranslationsLoaded] = useState(
+    !!translationCache[language] && Object.keys(translationCache[language] || {}).length > 0
+  );
   
   // Load translations whenever language changes
   useEffect(() => {
     const loadTranslations = async () => {
       try {
+        // Set loading state to false immediately when language changes
+        setIsTranslationsLoaded(false);
+        
         // If we already have cached translations for this language, use them immediately
-        if (translationCache[language]) {
+        if (translationCache[language] && Object.keys(translationCache[language]).length > 0) {
           setTranslations(translationCache[language]);
-          setIsTranslationsLoaded(true);
+          // Small timeout to ensure UI updates properly
+          setTimeout(() => {
+            setIsTranslationsLoaded(true);
+          }, 10);
           return;
         }
         
         console.log(`Loading translations for language: ${language}`);
-        setIsTranslationsLoaded(false);
         
-        const translationModule = await import(`../translations/${language}.json`);
+        const translationModule = await import(`../locales/${language}.json`);
         
         // Validate that we have a proper translation object
         if (translationModule && translationModule.default && typeof translationModule.default === 'object') {
@@ -113,7 +121,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
             }
             
             console.log('Attempting to load fallback translations (uz)...');
-            const fallbackModule = await import(`../translations/uz.json`);
+            const fallbackModule = await import(`../locales/uz.json`);
             const fallbackTranslations = fallbackModule.default;
             
             // Cache the fallback translations
@@ -140,14 +148,9 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   // Memoize the translation function to prevent unnecessary re-renders
   const t = useMemo(() => {
     return (key: string): string => {
-      // For debugging, log every 20th translation request to avoid console spam
-      if (Math.random() < 0.01) {
-        console.log(`t("${key}") called with language: ${language}, isTranslationsLoaded: ${isTranslationsLoaded}`);
-      }
-      
-      // If translations aren't loaded yet, check if we have it in cache
-      if (!isTranslationsLoaded || !translations || Object.keys(translations).length === 0) {
-        return key;
+      // If translations aren't loaded yet, return empty string to prevent showing keys
+      if (!isTranslationsLoaded) {
+        return '';
       }
       
       // First, try to get exact match
@@ -176,7 +179,8 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
                 if (enCurrent && typeof enCurrent === 'object' && enPart in enCurrent) {
                   enCurrent = enCurrent[enPart];
                 } else {
-                  return key;
+                  // Return empty string if translations aren't loaded yet
+                  return isTranslationsLoaded ? key : '';
                 }
               }
               
@@ -185,7 +189,8 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
               }
             }
             
-            return key;
+            // Return empty string if translations aren't loaded yet
+            return isTranslationsLoaded ? key : '';
           }
         }
         
@@ -194,14 +199,14 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
         }
       }
       
-      return key; // Return the key if translation is not found or not a string
+      // Return empty string if translations aren't loaded yet, otherwise return key
+      return isTranslationsLoaded ? key : '';
     };
   }, [language, translations, isTranslationsLoaded]);
   
   const changeLanguage = (newLanguage: Language) => {
     console.log(`Changing language to: ${newLanguage}`);
     setLanguage(newLanguage);
-    localStorage.setItem('preferredLanguage', newLanguage);
   };
   
   const value = {
@@ -211,6 +216,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     isTranslationsLoaded
   };
   
+  // If translations aren't loaded yet, we still provide the context but with empty strings for translations
   return (
     <LanguageContext.Provider value={value}>
       {children}
