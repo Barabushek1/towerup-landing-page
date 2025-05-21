@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAdmin } from '@/contexts/AdminContext';
@@ -54,14 +55,14 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
     setSidebarCollapsed(!sidebarCollapsed);
   };
 
-  // Loading state render
+  // Loading state render (Keep as is)
   if (isLoading) {
     return <div className="flex items-center justify-center h-screen bg-slate-900">
         <Loader2 className="w-8 h-8 text-primary animate-spin" />
       </div>;
   }
 
-  // Not authenticated render
+  // Not authenticated render (Keep as is)
   if (!admin) {
     return null;
   }
