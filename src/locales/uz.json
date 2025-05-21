@@ -160,5 +160,89 @@
     "heading": "Bizning Tajribamizni Ko'rsatish",
     "description": "Tugallangan, qurilayotgan va kelajakdagi loyihalarimiz portfoliosini o'rganing",
     "viewAll": "Barcha Loyihalarni Ko'rish"
+  },
+  
+  "pushkin": {
+    "title": "«Pushkin» Turar-joy majmuasi",
+    "subtitle": "Zamonaviy ekologik kompleks Toshkent markazida",
+    "description": "«Pushkin» turar-joy majmuasi - bu qulay joylashuv, sifatli qurilish va kelajak aholisi haqida g'amxo'rlikni o'zida mujassam etgan zamonaviy qulay uy-joy standarti.",
+    "overview": {
+      "title": "Loyiha haqida",
+      "description": "Loyiha tarkibiga 5 ta zamonaviy turar-joy binolari, bolalar maydonchasi, ko'p qavatli avtoturargoh va yashil zonalar kiradi. Kvartiralar yoqimsiz joylashtirish va sifatli qurilish bilan ishlab chiqilgan."
+    },
+    "advantages": {
+      "title": "«Pushkin» TK afzalliklari",
+      "description": "«Pushkin» turar-joy majmuasi - bu qulay joylashuv, sifatli qurilish va kelajak aholisi haqida g'amxo'rlikni o'zida mujassam etgan zamonaviy qulay uy-joy standarti.",
+      "nearby": {
+        "title": "Kerakli narsa - yaqin",
+        "description": "Maktab, bolalar bog'chasi, yashil zona va boshqa infratuzilma obyektlari."
+      },
+      "parking": {
+        "title": "Qulay parkovka",
+        "description": "Majmua aholisi uchun yer usti ko'p qavatli parkovka."
+      },
+      "installment": {
+        "title": "Rassrochka 0%",
+        "description": "2 yilgacha bo'lgan foydali sotib olish shartlari."
+      },
+      "metro": {
+        "title": "Metrodan 4 minut",
+        "description": "10-chi metro stantsiyasi yaqin masofada."
+      }
+    },
+    "location": {
+      "title": "Joylashuv",
+      "description": "Majmua shaharning markaziy qismida, asosiy transport yo'llari va ijtimoiy infratuzilma obyektlariga qulay masofada joylashgan.",
+      "metroStation": "Metro stantsiyasi",
+      "schools": "Maktablar",
+      "kindergartens": "Bolalar bog'chalari",
+      "parks": "Parklar",
+      "minutes": "daqiqa"
+    },
+    "gallery": {
+      "title": "Galereya",
+      "description": "«Pushkin» turar-joy majmuasining fotosuratlari"
+    },
+    "plans": {
+      "title": "Kvartiralar rejasi",
+      "description": "Bizning turar-joy majmuasidagi barcha kvartiralar qulay rejalashtirish va sifatli pardozlash bilan taqdim etiladi.",
+      "floor": "Qavat",
+      "apartment": "Kvartira",
+      "area": "Maydon",
+      "rooms": "Xonalar",
+      "price": "Narx",
+      "pricePerSqm": "1 m² narxi",
+      "details": "Tafsilotlar"
+    },
+    "progress": {
+      "title": "Qurilish jarayoni",
+      "description": "Bizning yangilik lentamizda majmuaning qurilishi haqida yangilanishlarni kuzatib boring.",
+      "status": "Loyiha holati:",
+      "construction": "Qurilmoqda",
+      "completion": "Yakunlanish muddati:",
+      "quarter": "4-chorak 2023"
+    },
+    "contact": {
+      "title": "Bog'lanish uchun",
+      "description": "Boshqa savollaringiz bormi? Bizning menejerimiz sizga yordam berishga tayyor.",
+      "callUs": "Bizga qo'ng'iroq qiling",
+      "writeUs": "Bizga yozing",
+      "visitUs": "Bizga tashrif buyuring",
+      "officeAddress": "Toshkent, Pushkin ko'chasi, 15",
+      "officeHours": "Dushanba-Juma: 9:00-18:00"
+    },
+    "features": {
+      "ecoMaterials": "Ekologik materiallar",
+      "modernDesign": "Zamonaviy dizayn",
+      "qualityConstruction": "Sifatli qurilish",
+      "landscapedArea": "Obodonlashtirilgan hudud",
+      "playground": "Bolalar maydoni",
+      "parking": "Avtoturargoh"
+    },
+    "cta": {
+      "title": "Loyiha bo'yicha batafsil ma'lumot olish",
+      "subtitle": "Siz uchun qulay vaqtda konsultatsiya olish uchun so'rov qoldiring",
+      "button": "So'rov qoldirish"
+    }
   }
 }
