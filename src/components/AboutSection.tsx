@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Button } from './ui/button';
-import { Building, Users, Cpu, ShieldCheck, Clock, Award, ArrowRight } from 'lucide-react';
+import { Building, Users, Cpu, ShieldCheck, Clock, Award, ArrowRight, Layers } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -102,7 +102,7 @@ const AboutSection: React.FC = () => {
     title: t("aboutSection.advantages.experience.title"),
     description: t("aboutSection.advantages.experience.desc")
   }, {
-    icon: <Cpu className="w-10 h-10" />,
+    icon: <Layers className="w-10 h-10" />,
     title: t("aboutSection.advantages.equipment.title"),
     description: t("aboutSection.advantages.equipment.desc")
   }];
