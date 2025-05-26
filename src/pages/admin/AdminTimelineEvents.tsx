@@ -239,7 +239,7 @@ const AdminTimelineEvents = () => {
                 </thead>
                 <tbody>
                   {timelineEvents.map((event, index) => <tr key={event.id} className="border-t">
-                      <td className="p-4">{event.display_order}</td>
+                      <td className="p-4 bg-zinc-800">{event.display_order}</td>
                       <td className="p-4">{event.year}</td>
                       <td className="p-4">{event.title}</td>
                       <td className="p-4">{event.icon_name}</td>
