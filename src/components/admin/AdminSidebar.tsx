@@ -3,6 +3,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { BarChart3, FileText, Home, Layers, MessageSquare, Users, FileCode, BriefcaseBusiness, Newspaper, Users2, PanelLeftClose, HandCoins, FileBadge, Building, User, Construction, LayoutDashboard, History, Calculator } from 'lucide-react';
 import { Button } from '../ui/button';
+import { useUnreadCounts } from '@/hooks/use-unread-counts';
 
 interface AdminSidebarProps {
   onClose?: () => void;
@@ -16,6 +17,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
   mobileOpen
 }) => {
   const location = useLocation();
+  const { unreadCounts } = useUnreadCounts();
   const isActive = (path: string) => location.pathname === path;
 
   const navLinks = [
@@ -47,12 +49,14 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
     {
       name: 'Заявки на вакансии',
       path: '/admin/vacancy-applications',
-      icon: <FileBadge className="w-5 h-5 mr-3" />
+      icon: <FileBadge className="w-5 h-5 mr-3" />,
+      unreadCount: unreadCounts.vacancyApplications
     },
     {
       name: 'Сообщения',
       path: '/admin/messages',
-      icon: <MessageSquare className="w-5 h-5 mr-3" />
+      icon: <MessageSquare className="w-5 h-5 mr-3" />,
+      unreadCount: unreadCounts.messages
     },
     {
       name: 'Партнеры',
@@ -82,12 +86,14 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
     {
       name: 'Заявки на тендеры',
       path: '/admin/tender-submissions',
-      icon: <FileText className="w-5 h-5 mr-3" />
+      icon: <FileText className="w-5 h-5 mr-3" />,
+      unreadCount: unreadCounts.tenderSubmissions
     },
     {
       name: 'Коммерческие предложения',
       path: '/admin/commercial-offers',
-      icon: <HandCoins className="w-5 h-5 mr-3" />
+      icon: <HandCoins className="w-5 h-5 mr-3" />,
+      unreadCount: unreadCounts.commercialOffers
     },
     {
       name: 'Цены за м²',
@@ -147,15 +153,22 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
             <li key={link.path}>
               <Link 
                 to={link.path} 
-                className={`flex items-center px-3 py-2 rounded-md transition-colors ${
+                className={`flex items-center justify-between px-3 py-2 rounded-md transition-colors ${
                   isActive(link.path) 
                     ? 'bg-primary text-primary-foreground' 
                     : 'hover:bg-slate-800 text-gray-200 hover:text-white'
                 }`} 
                 onClick={onClose}
               >
-                {link.icon}
-                <span>{link.name}</span>
+                <div className="flex items-center">
+                  {link.icon}
+                  <span>{link.name}</span>
+                </div>
+                {link.unreadCount && link.unreadCount > 0 && (
+                  <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full min-w-[20px] text-center">
+                    {link.unreadCount > 99 ? '99+' : link.unreadCount}
+                  </span>
+                )}
               </Link>
             </li>
           ))}
