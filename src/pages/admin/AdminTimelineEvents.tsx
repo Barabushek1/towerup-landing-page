@@ -230,20 +230,20 @@ const AdminTimelineEvents = () => {
               </div> : <table className="w-full">
                 <thead>
                   <tr className="bg-gray-50 text-left">
-                    <th className="p-4">Order</th>
-                    <th className="p-4">Year</th>
-                    <th className="p-4">Title</th>
-                    <th className="p-4">Icon</th>
-                    <th className="p-4">Actions</th>
+                    <th className="p-4 bg-zinc-800">Order</th>
+                    <th className="p-4 bg-zinc-800">Year</th>
+                    <th className="p-4 bg-zinc-800">Title</th>
+                    <th className="p-4 bg-zinc-800">Icon</th>
+                    <th className="p-4 bg-zinc-800">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {timelineEvents.map((event, index) => <tr key={event.id} className="border-t">
                       <td className="p-4 bg-zinc-800">{event.display_order}</td>
-                      <td className="p-4">{event.year}</td>
-                      <td className="p-4">{event.title}</td>
-                      <td className="p-4">{event.icon_name}</td>
-                      <td className="p-4 flex items-center gap-2">
+                      <td className="p-4 bg-zinc-700">{event.year}</td>
+                      <td className="p-4 bg-zinc-700">{event.title}</td>
+                      <td className="p-4 bg-zinc-700">{event.icon_name}</td>
+                      <td className="p-4 flex items-center gap-2 bg-zinc-700">
                         <Button variant="outline" size="icon" onClick={() => handleMoveUp(index)} disabled={index === 0}>
                           <MoveUp className="h-4 w-4" />
                         </Button>
