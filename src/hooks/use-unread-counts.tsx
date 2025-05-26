@@ -44,14 +44,14 @@ export function useUnreadCounts() {
         console.error('Error fetching unread vacancy applications:', vacancyError);
       }
 
-      // Fetch unread tender submissions
+      // Fetch unread tender applications (using tender_applications table)
       const { count: tenderCount, error: tenderError } = await supabase
-        .from('tender_submissions')
+        .from('tender_applications')
         .select('*', { count: 'exact', head: true })
         .eq('read', false);
 
       if (tenderError) {
-        console.error('Error fetching unread tender submissions:', tenderError);
+        console.error('Error fetching unread tender applications:', tenderError);
       }
 
       // Fetch unread commercial offers
@@ -96,7 +96,7 @@ export function useUnreadCounts() {
           tableName = 'vacancy_applications';
           break;
         case 'tenderSubmissions':
-          tableName = 'tender_submissions';
+          tableName = 'tender_applications';
           break;
         case 'commercialOffers':
           tableName = 'commercial_offers';
@@ -105,7 +105,7 @@ export function useUnreadCounts() {
 
       if (tableName) {
         const { error } = await supabase
-          .from(tableName)
+          .from(tableName as any)
           .update({ read: true })
           .eq('read', false);
 
@@ -142,9 +142,9 @@ export function useUnreadCounts() {
       .subscribe();
 
     const tenderSubscription = supabase
-      .channel('tender_submissions_changes')
+      .channel('tender_applications_changes')
       .on('postgres_changes', 
-        { event: '*', schema: 'public', table: 'tender_submissions' },
+        { event: '*', schema: 'public', table: 'tender_applications' },
         () => fetchUnreadCounts()
       )
       .subscribe();

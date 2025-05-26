@@ -149,6 +149,7 @@ export type Database = {
           full_name: string
           id: string
           phone: string
+          read: boolean | null
           status: string
           updated_at: string
         }
@@ -162,6 +163,7 @@ export type Database = {
           full_name: string
           id?: string
           phone: string
+          read?: boolean | null
           status?: string
           updated_at?: string
         }
@@ -175,6 +177,7 @@ export type Database = {
           full_name?: string
           id?: string
           phone?: string
+          read?: boolean | null
           status?: string
           updated_at?: string
         }
@@ -756,6 +759,7 @@ export type Database = {
           id: string
           message: string | null
           phone: string
+          read: boolean | null
           status: string
           tender_id: string | null
           updated_at: string
@@ -769,6 +773,7 @@ export type Database = {
           id?: string
           message?: string | null
           phone: string
+          read?: boolean | null
           status?: string
           tender_id?: string | null
           updated_at?: string
@@ -782,6 +787,7 @@ export type Database = {
           id?: string
           message?: string | null
           phone?: string
+          read?: boolean | null
           status?: string
           tender_id?: string | null
           updated_at?: string
@@ -976,6 +982,7 @@ export type Database = {
           full_name: string
           id: string
           phone: string
+          read: boolean | null
           status: string
           updated_at: string
           vacancy_id: string | null
@@ -988,6 +995,7 @@ export type Database = {
           full_name: string
           id?: string
           phone: string
+          read?: boolean | null
           status?: string
           updated_at?: string
           vacancy_id?: string | null
@@ -1000,6 +1008,7 @@ export type Database = {
           full_name?: string
           id?: string
           phone?: string
+          read?: boolean | null
           status?: string
           updated_at?: string
           vacancy_id?: string | null
