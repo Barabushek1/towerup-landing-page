@@ -10,7 +10,6 @@ import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ChevronUp, ChevronDown, Edit, Trash2, Plus, Building, Users, MapPin, Construction, Award, Calendar, Clock, Briefcase, Home, CheckCircle, Target, TrendingUp } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-
 type StatItem = {
   id: string;
   title: string;
@@ -26,7 +25,6 @@ type StatItem = {
   display_order: number;
   is_active: boolean;
 };
-
 const iconOptions = [{
   value: "building",
   label: "Building",
@@ -76,7 +74,6 @@ const iconOptions = [{
   label: "Trending Up",
   icon: <TrendingUp className="h-4 w-4 mr-2" />
 }];
-
 const getIconComponent = (iconName: string) => {
   switch (iconName) {
     case 'building':
@@ -107,7 +104,6 @@ const getIconComponent = (iconName: string) => {
       return <Building className="h-5 w-5" />;
   }
 };
-
 const AdminCompanyStats = () => {
   const [stats, setStats] = useState<StatItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -130,7 +126,6 @@ const AdminCompanyStats = () => {
   const {
     toast
   } = useToast();
-  
   const fetchStats = async () => {
     try {
       setLoading(true);
@@ -153,15 +148,20 @@ const AdminCompanyStats = () => {
       setLoading(false);
     }
   };
-  
   useEffect(() => {
     fetchStats();
   }, []);
-  
   const handleCreateOrUpdate = async () => {
     try {
-      const { title_ru, title_en, title_uz, subtitle_ru, subtitle_en, subtitle_uz } = currentStat;
-      
+      const {
+        title_ru,
+        title_en,
+        title_uz,
+        subtitle_ru,
+        subtitle_en,
+        subtitle_uz
+      } = currentStat;
+
       // Validate required fields
       if (!currentStat.value) {
         toast({
@@ -171,9 +171,9 @@ const AdminCompanyStats = () => {
         });
         return;
       }
-      
+
       // At least one language must have title and subtitle
-      if ((!title_ru && !title_en && !title_uz) || (!subtitle_ru && !subtitle_en && !subtitle_uz)) {
+      if (!title_ru && !title_en && !title_uz || !subtitle_ru && !subtitle_en && !subtitle_uz) {
         toast({
           variant: 'destructive',
           title: 'Error',
@@ -181,17 +181,18 @@ const AdminCompanyStats = () => {
         });
         return;
       }
-
       if (editing && currentStat.id) {
         const {
           error
         } = await supabase.from('company_stats').update({
-          title: currentStat.title_ru || '', // Set main title to Russian version by default
+          title: currentStat.title_ru || '',
+          // Set main title to Russian version by default
           title_ru: currentStat.title_ru || '',
           title_en: currentStat.title_en || '',
           title_uz: currentStat.title_uz || '',
           value: currentStat.value,
-          subtitle: currentStat.subtitle_ru || '', // Set main subtitle to Russian version by default
+          subtitle: currentStat.subtitle_ru || '',
+          // Set main subtitle to Russian version by default
           subtitle_ru: currentStat.subtitle_ru || '',
           subtitle_en: currentStat.subtitle_en || '',
           subtitle_uz: currentStat.subtitle_uz || '',
@@ -211,12 +212,14 @@ const AdminCompanyStats = () => {
         const {
           error
         } = await supabase.from('company_stats').insert({
-          title: currentStat.title_ru || '', // Set main title to Russian version by default
+          title: currentStat.title_ru || '',
+          // Set main title to Russian version by default
           title_ru: currentStat.title_ru || '',
           title_en: currentStat.title_en || '',
           title_uz: currentStat.title_uz || '',
           value: currentStat.value || '',
-          subtitle: currentStat.subtitle_ru || '', // Set main subtitle to Russian version by default
+          subtitle: currentStat.subtitle_ru || '',
+          // Set main subtitle to Russian version by default
           subtitle_ru: currentStat.subtitle_ru || '',
           subtitle_en: currentStat.subtitle_en || '',
           subtitle_uz: currentStat.subtitle_uz || '',
@@ -242,7 +245,6 @@ const AdminCompanyStats = () => {
       });
     }
   };
-  
   const handleDelete = async (id: string) => {
     try {
       const {
@@ -263,13 +265,11 @@ const AdminCompanyStats = () => {
       });
     }
   };
-  
   const handleEdit = (stat: StatItem) => {
     setCurrentStat(stat);
     setEditing(true);
     setDialogOpen(true);
   };
-  
   const handleMoveUp = async (stat: StatItem, index: number) => {
     if (index === 0) return;
     try {
@@ -296,7 +296,6 @@ const AdminCompanyStats = () => {
       });
     }
   };
-  
   const handleMoveDown = async (stat: StatItem, index: number) => {
     if (index === stats.length - 1) return;
     try {
@@ -323,7 +322,6 @@ const AdminCompanyStats = () => {
       });
     }
   };
-  
   const handleToggleActive = async (id: string, currentStatus: boolean) => {
     try {
       const {
@@ -342,7 +340,6 @@ const AdminCompanyStats = () => {
       });
     }
   };
-  
   const resetForm = () => {
     setCurrentStat({
       title: '',
@@ -360,17 +357,15 @@ const AdminCompanyStats = () => {
     setEditing(false);
     setActiveTab('ru');
   };
-  
-  return (
-    <div className="container mx-auto py-8 px-4">
+  return <div className="container mx-auto py-8 px-4">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Company Statistics</h2>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
             <Button onClick={() => {
-              resetForm();
-              setDialogOpen(true);
-            }}>
+            resetForm();
+            setDialogOpen(true);
+          }}>
               <Plus className="mr-2 h-4 w-4" /> Add New Statistic
             </Button>
           </DialogTrigger>
@@ -393,144 +388,100 @@ const AdminCompanyStats = () => {
                 <TabsContent value="ru" className="space-y-4">
                   <div className="grid gap-2">
                     <Label htmlFor="title_ru">Title (Russian)</Label>
-                    <Input 
-                      id="title_ru" 
-                      value={currentStat.title_ru || ''} 
-                      onChange={e => setCurrentStat({
-                        ...currentStat,
-                        title_ru: e.target.value,
-                        title: e.target.value // Also update the main title field
-                      })}
-                      placeholder="e.g., построенных площадей" 
-                    />
+                    <Input id="title_ru" value={currentStat.title_ru || ''} onChange={e => setCurrentStat({
+                    ...currentStat,
+                    title_ru: e.target.value,
+                    title: e.target.value // Also update the main title field
+                  })} placeholder="e.g., построенных площадей" />
                   </div>
                   <div className="grid gap-2">
                     <Label htmlFor="subtitle_ru">Subtitle (Russian)</Label>
-                    <Input 
-                      id="subtitle_ru" 
-                      value={currentStat.subtitle_ru || ''} 
-                      onChange={e => setCurrentStat({
-                        ...currentStat,
-                        subtitle_ru: e.target.value,
-                        subtitle: e.target.value // Also update the main subtitle field
-                      })}
-                      placeholder="e.g., площадь" 
-                    />
+                    <Input id="subtitle_ru" value={currentStat.subtitle_ru || ''} onChange={e => setCurrentStat({
+                    ...currentStat,
+                    subtitle_ru: e.target.value,
+                    subtitle: e.target.value // Also update the main subtitle field
+                  })} placeholder="e.g., площадь" />
                   </div>
                 </TabsContent>
                 
                 <TabsContent value="en" className="space-y-4">
                   <div className="grid gap-2">
                     <Label htmlFor="title_en">Title (English)</Label>
-                    <Input 
-                      id="title_en" 
-                      value={currentStat.title_en || ''} 
-                      onChange={e => setCurrentStat({
-                        ...currentStat,
-                        title_en: e.target.value
-                      })}
-                      placeholder="e.g., built areas" 
-                    />
+                    <Input id="title_en" value={currentStat.title_en || ''} onChange={e => setCurrentStat({
+                    ...currentStat,
+                    title_en: e.target.value
+                  })} placeholder="e.g., built areas" />
                   </div>
                   <div className="grid gap-2">
                     <Label htmlFor="subtitle_en">Subtitle (English)</Label>
-                    <Input 
-                      id="subtitle_en" 
-                      value={currentStat.subtitle_en || ''} 
-                      onChange={e => setCurrentStat({
-                        ...currentStat,
-                        subtitle_en: e.target.value
-                      })}
-                      placeholder="e.g., area" 
-                    />
+                    <Input id="subtitle_en" value={currentStat.subtitle_en || ''} onChange={e => setCurrentStat({
+                    ...currentStat,
+                    subtitle_en: e.target.value
+                  })} placeholder="e.g., area" />
                   </div>
                 </TabsContent>
                 
                 <TabsContent value="uz" className="space-y-4">
                   <div className="grid gap-2">
                     <Label htmlFor="title_uz">Title (Uzbek)</Label>
-                    <Input 
-                      id="title_uz" 
-                      value={currentStat.title_uz || ''} 
-                      onChange={e => setCurrentStat({
-                        ...currentStat,
-                        title_uz: e.target.value
-                      })}
-                      placeholder="e.g., qurilgan maydonlar" 
-                    />
+                    <Input id="title_uz" value={currentStat.title_uz || ''} onChange={e => setCurrentStat({
+                    ...currentStat,
+                    title_uz: e.target.value
+                  })} placeholder="e.g., qurilgan maydonlar" />
                   </div>
                   <div className="grid gap-2">
                     <Label htmlFor="subtitle_uz">Subtitle (Uzbek)</Label>
-                    <Input 
-                      id="subtitle_uz" 
-                      value={currentStat.subtitle_uz || ''} 
-                      onChange={e => setCurrentStat({
-                        ...currentStat,
-                        subtitle_uz: e.target.value
-                      })}
-                      placeholder="e.g., maydon" 
-                    />
+                    <Input id="subtitle_uz" value={currentStat.subtitle_uz || ''} onChange={e => setCurrentStat({
+                    ...currentStat,
+                    subtitle_uz: e.target.value
+                  })} placeholder="e.g., maydon" />
                   </div>
                 </TabsContent>
               </Tabs>
               
               <div className="grid gap-2">
                 <Label htmlFor="value">Value</Label>
-                <Input 
-                  id="value" 
-                  value={currentStat.value || ''} 
-                  onChange={e => setCurrentStat({
-                    ...currentStat,
-                    value: e.target.value
-                  })}
-                  placeholder="e.g., 257" 
-                />
+                <Input id="value" value={currentStat.value || ''} onChange={e => setCurrentStat({
+                ...currentStat,
+                value: e.target.value
+              })} placeholder="e.g., 257" />
                 <p className="text-xs text-gray-500">For values with m², animation will be disabled.</p>
               </div>
               
               <div className="grid gap-2">
                 <Label htmlFor="icon">Icon</Label>
-                <Select 
-                  value={currentStat.icon || 'building'} 
-                  onValueChange={value => setCurrentStat({
-                    ...currentStat,
-                    icon: value
-                  })}
-                >
+                <Select value={currentStat.icon || 'building'} onValueChange={value => setCurrentStat({
+                ...currentStat,
+                icon: value
+              })}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select icon" />
                   </SelectTrigger>
                   <SelectContent>
-                    {iconOptions.map(option => (
-                      <SelectItem key={option.value} value={option.value}>
+                    {iconOptions.map(option => <SelectItem key={option.value} value={option.value}>
                         <div className="flex items-center">
                           {option.icon}
                           <span>{option.label}</span>
                         </div>
-                      </SelectItem>
-                    ))}
+                      </SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>
               
               <div className="flex items-center space-x-2">
-                <Switch 
-                  id="is_active" 
-                  checked={currentStat.is_active} 
-                  onCheckedChange={checked => setCurrentStat({
-                    ...currentStat,
-                    is_active: checked
-                  })} 
-                />
+                <Switch id="is_active" checked={currentStat.is_active} onCheckedChange={checked => setCurrentStat({
+                ...currentStat,
+                is_active: checked
+              })} />
                 <Label htmlFor="is_active">Active</Label>
               </div>
             </div>
             
             <DialogFooter>
               <Button variant="outline" onClick={() => {
-                setDialogOpen(false);
-                resetForm();
-              }}>
+              setDialogOpen(false);
+              resetForm();
+            }}>
                 Cancel
               </Button>
               <Button onClick={handleCreateOrUpdate}>
@@ -541,59 +492,41 @@ const AdminCompanyStats = () => {
         </Dialog>
       </div>
 
-      {loading ? (
-        <div className="flex justify-center py-10">
+      {loading ? <div className="flex justify-center py-10">
           <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-        </div>
-      ) : stats.length === 0 ? (
-        <div className="text-center py-10 bg-slate-100 dark:bg-slate-800 rounded-md">
+        </div> : stats.length === 0 ? <div className="text-center py-10 bg-slate-100 dark:bg-slate-800 rounded-md">
           <p className="text-lg text-gray-600 dark:text-gray-300">
             No statistics found. Add your first one to get started.
           </p>
-        </div>
-      ) : (
-        <div className="bg-white dark:bg-slate-800 rounded-md shadow overflow-x-auto">
+        </div> : <div className="bg-white dark:bg-slate-800 rounded-md shadow overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="">Order</TableHead>
-                <TableHead className="">Title (RU)</TableHead>
-                <TableHead className="">Value</TableHead>
-                <TableHead className="">Subtitle (RU)</TableHead>
-                <TableHead className="">Icon</TableHead>
-                <TableHead className="">Active</TableHead>
-                <TableHead className="">Actions</TableHead>
+                <TableHead className="bg-zinc-800">Order</TableHead>
+                <TableHead className="bg-zinc-800">Title (RU)</TableHead>
+                <TableHead className="bg-zinc-800">Value</TableHead>
+                <TableHead className="bg-zinc-800">Subtitle (RU)</TableHead>
+                <TableHead className="bg-zinc-800">Icon</TableHead>
+                <TableHead className="bg-zinc-800">Active</TableHead>
+                <TableHead className="bg-zinc-800">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {stats.map((stat, index) => (
-                <TableRow key={stat.id}>
-                  <TableCell className="w-24">
+              {stats.map((stat, index) => <TableRow key={stat.id}>
+                  <TableCell className="w-24 bg-zinc-800">
                     <div className="flex items-center space-x-1">
                       <span>{stat.display_order}</span>
                       <div className="flex flex-col ml-2">
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          className="h-6 w-6" 
-                          onClick={() => handleMoveUp(stat, index)} 
-                          disabled={index === 0}
-                        >
+                        <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => handleMoveUp(stat, index)} disabled={index === 0}>
                           <ChevronUp className="h-4 w-4" />
                         </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          className="h-6 w-6" 
-                          onClick={() => handleMoveDown(stat, index)} 
-                          disabled={index === stats.length - 1}
-                        >
+                        <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => handleMoveDown(stat, index)} disabled={index === stats.length - 1}>
                           <ChevronDown className="h-4 w-4" />
                         </Button>
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="">
+                  <TableCell className="bg-zinc-700">
                     <div>
                       <div>{stat.title_ru || stat.title}</div>
                       <div className="text-xs text-gray-500">
@@ -601,8 +534,8 @@ const AdminCompanyStats = () => {
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="">{stat.value}</TableCell>
-                  <TableCell className="">
+                  <TableCell className="bg-zinc-700">{stat.value}</TableCell>
+                  <TableCell className="bg-zinc-700">
                     <div>
                       <div>{stat.subtitle_ru || stat.subtitle}</div>
                       <div className="text-xs text-gray-500">
@@ -610,37 +543,28 @@ const AdminCompanyStats = () => {
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="w-12">
+                  <TableCell className="w-12 bg-zinc-700">
                     <div className="flex justify-center">
                       {getIconComponent(stat.icon)}
                     </div>
                   </TableCell>
-                  <TableCell className="">
+                  <TableCell className="bg-zinc-700">
                     <Switch checked={stat.is_active} onCheckedChange={() => handleToggleActive(stat.id, stat.is_active)} />
                   </TableCell>
-                  <TableCell className="">
+                  <TableCell className="bg-zinc-700">
                     <div className="flex space-x-2">
                       <Button variant="ghost" size="icon" onClick={() => handleEdit(stat)}>
                         <Edit className="h-4 w-4" />
                       </Button>
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        className="text-red-500 hover:text-red-600" 
-                        onClick={() => handleDelete(stat.id)}
-                      >
+                      <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-600" onClick={() => handleDelete(stat.id)}>
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
                   </TableCell>
-                </TableRow>
-              ))}
+                </TableRow>)}
             </TableBody>
           </Table>
-        </div>
-      )}
-    </div>
-  );
+        </div>}
+    </div>;
 };
-
 export default AdminCompanyStats;
