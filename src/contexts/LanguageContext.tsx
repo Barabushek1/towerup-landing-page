@@ -60,8 +60,8 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     // Detect browser language if no stored preference
     const browserLang = navigator.language.split('-')[0];
     if (browserLang === 'ru') return 'ru';
-    if (browserLang === 'en') return 'en';
-    return 'uz'; // Default to Uzbek
+    if (browserLang === 'en') return 'ru';
+    return 'ru'; // Default to Uzbek
   });
   
   const [translations, setTranslations] = useState<TranslationsRecord>(() => {
