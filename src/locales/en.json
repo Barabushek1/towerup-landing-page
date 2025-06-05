@@ -143,5 +143,74 @@
     "heading": "Showcasing Our Excellence",
     "description": "Explore our portfolio of completed, ongoing, and future projects",
     "viewAll": "View All Projects"
+  },
+  "managementCompany": {
+    "title": "Management Company",
+    "description": "Professional property management from TOWERUP",
+    "breadcrumb": "Services / Management Company",
+    "intro": {
+      "heading": "Professional management of your real estate",
+      "description1": "TOWERUP offers comprehensive property management services, ensuring continuous operation of all building systems, security and comfort for tenants and visitors.",
+      "description2": "Our team of professionals has many years of experience in managing commercial and residential real estate of various scales - from business centers to residential complexes.",
+      "contactButton": "Contact us",
+      "downloadButton": "Download presentation",
+      "imageAlt1": "TOWERUP Management Company",
+      "imageAlt2": "Property management objects"
+    },
+    "services": {
+      "heading": "Our management services",
+      "subheading": "Comprehensive approach to property management from TOWERUP",
+      "items": [
+        {
+          "title": "Technical maintenance",
+          "description": "Regular maintenance of engineering systems, breakdown prevention, timely repair of equipment and communications."
+        },
+        {
+          "title": "Cleaning services",
+          "description": "Professional cleaning of premises and territory, maintaining cleanliness and order in accordance with high standards."
+        },
+        {
+          "title": "Security provision",
+          "description": "Organization of physical security, installation and maintenance of video surveillance and access control systems."
+        },
+        {
+          "title": "Financial management",
+          "description": "Optimization of operational costs, budgeting, working with service providers, cost control."
+        },
+        {
+          "title": "24/7 dispatch service",
+          "description": "Quick response to emergency situations, coordination of all services 24/7."
+        },
+        {
+          "title": "Legal support",
+          "description": "Preparation and verification of contracts, interaction with government agencies, protection of owner's interests."
+        }
+      ]
+    },
+    "features": {
+      "heading": "Why choose us",
+      "subheading": "Our advantages in property management",
+      "imageAlt": "TOWERUP management company team",
+      "items": [
+        {
+          "title": "Professional team",
+          "description": "Our employees have extensive work experience and regularly improve their qualifications in the field of property management."
+        },
+        {
+          "title": "Innovative technologies",
+          "description": "We use modern technologies and software for effective property management."
+        },
+        {
+          "title": "Comprehensive approach",
+          "description": "We offer a full range of property management services, relieving the owner from the need to work with multiple contractors."
+        }
+      ]
+    },
+    "cta": {
+      "heading": "Trust the management of your property to professionals",
+      "description": "Contact us today to learn how we can improve the efficiency of managing your property object.",
+      "consultationButton": "Get consultation",
+      "downloadButton": "Download presentation"
+    }
   }
 }
