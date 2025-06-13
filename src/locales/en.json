@@ -1,4 +1,67 @@
 {
+  "contact": {
+    "pageTitle": "Contact Us",
+    "breadcrumb": "CONTACTS",
+    "title": "Contact Us",
+    "subtitle": "Have questions? Contact us for consultation or project discussion",
+    "form": {
+      "title": "Contact Form",
+      "name": "Your Name",
+      "email": "Email",
+      "phone": "Phone",
+      "message": "Message",
+      "submit": "Send Message",
+      "sending": "Sending...",
+      "contactMethod": "Preferred contact method",
+      "phoneNumber": "Phone Number"
+    },
+    "info": {
+      "title": "Our Contacts",
+      "address": "Address",
+      "addressValue": "Tashkent city, Sergeli district, MSG Yangi Kumarik.\nLandmark: GM Motor Plant.",
+      "phone": "Phone",
+      "email": "Email",
+      "schedule": "Working Hours",
+      "mondaySunday": "Monday - Sunday:",
+      "noWeekends": "No weekends"
+    },
+    "validation": {
+      "nameRequired": "Fill all fields",
+      "nameMessage": "Please enter your name",
+      "emailRequired": "Fill all fields",
+      "emailMessage": "Please enter your email",
+      "phoneRequired": "Fill all fields",
+      "phoneMessage": "Please enter your phone number",
+      "messageRequired": "Fill all fields",
+      "messageMessage": "Please write a message"
+    },
+    "success": {
+      "title": "Message sent",
+      "message": "Thank you! Your message has been sent successfully.",
+      "sent": "Message sent!",
+      "willContact": "We will contact you soon"
+    },
+    "error": {
+      "title": "Error",
+      "message": "An error occurred while sending the message",
+      "unknown": "Unknown error",
+      "tryAgain": "Please try again"
+    },
+    "phoneContact": "Phone for contact",
+    "readyToHelp": "We are ready to help you realize your dreams of the perfect home.",
+    "socialMedia": "Social Media",
+    "mapTitle": "Our Location",
+    "mapCompany": "TOWER UP, Tashkent, Uzbekistan"
+  },
+  "home": {
+    "contact": {
+      "title": "Contact Us",
+      "name": "Your Name",
+      "email": "Your Email",
+      "message": "Your Message",
+      "button": "Send Message"
+    }
+  },
   "nav": {
     "home": "Home",
     "about": "About Us",
@@ -49,17 +112,6 @@
     "subheading": "Join our team and build your career with us",
     "noVacancies": "No vacancies found",
     "applyNow": "Apply Now"
-  },
-  "contact": {
-    "heading": "Contact Us",
-    "subheading": "Get in touch with us for any inquiries or questions",
-    "name": "Your Name",
-    "email": "Your Email",
-    "message": "Your Message",
-    "send": "Send Message",
-    "address": "Address",
-    "phone": "Phone",
-    "emailAddress": "Email Address"
   },
   "footer": {
     "copyright": "© 2024 TOWERUP. All rights reserved."

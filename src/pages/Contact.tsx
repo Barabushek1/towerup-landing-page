@@ -15,8 +15,10 @@ import {
   RadioGroupItem
 } from "@/components/ui/radio-group";
 import ScrollToTopButton from '@/components/ScrollToTopButton';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Contact: React.FC = () => {
+  const { t } = useLanguage();
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: '',
@@ -48,8 +50,8 @@ const Contact: React.FC = () => {
     // Validate based on selected contact method
     if (!formData.name) {
       toast({
-        title: "Заполните все поля",
-        description: "Пожалуйста, укажите ваше имя",
+        title: t('contact.validation.nameRequired'),
+        description: t('contact.validation.nameMessage'),
         variant: "destructive"
       });
       return;
@@ -57,8 +59,8 @@ const Contact: React.FC = () => {
     
     if (formData.contactMethod === 'email' && !formData.email) {
       toast({
-        title: "Заполните все поля",
-        description: "Пожалуйста, укажите ваш email",
+        title: t('contact.validation.emailRequired'),
+        description: t('contact.validation.emailMessage'),
         variant: "destructive"
       });
       return;
@@ -66,8 +68,8 @@ const Contact: React.FC = () => {
     
     if (formData.contactMethod === 'phone' && !formData.phone) {
       toast({
-        title: "Заполните все поля",
-        description: "Пожалуйста, укажите ваш номер телефона",
+        title: t('contact.validation.phoneRequired'),
+        description: t('contact.validation.phoneMessage'),
         variant: "destructive"
       });
       return;
@@ -75,8 +77,8 @@ const Contact: React.FC = () => {
     
     if (!formData.message) {
       toast({
-        title: "Заполните все поля",
-        description: "Пожалуйста, напишите сообщение",
+        title: t('contact.validation.messageRequired'),
+        description: t('contact.validation.messageMessage'),
         variant: "destructive"
       });
       return;
@@ -94,7 +96,7 @@ const Contact: React.FC = () => {
         read: false,
         // Include phone in the message body if it's provided
         ...(formData.phone ? { 
-          message: `${formData.message}\n\nТелефон для связи: ${formData.phone}` 
+          message: `${formData.message}\n\n${t('contact.phoneContact')}: ${formData.phone}` 
         } : {})
       });
       
@@ -113,14 +115,14 @@ const Contact: React.FC = () => {
       });
       
       toast({
-        title: "Сообщение отправлено",
-        description: "Спасибо! Ваше сообщение успешно отправлено."
+        title: t('contact.success.title'),
+        description: t('contact.success.message')
       });
     } catch (error: any) {
       console.error('Error in form submission:', error);
       toast({
-        title: "Ошибка",
-        description: `Произошла ошибка при отправке сообщения: ${error.message}. Пожалуйста, попробуйте еще раз.`,
+        title: t('contact.error.title'),
+        description: `${t('contact.error.message')}: ${error.message}. ${t('contact.error.tryAgain')}`,
         variant: "destructive"
       });
     } finally {
@@ -132,7 +134,7 @@ const Contact: React.FC = () => {
     <div className="min-h-screen antialiased bg-[#161616] text-gray-200 overflow-x-hidden">
       <NavBar />
       <main>
-        <PageHeader title="КОНТАКТЫ" breadcrumb="КОНТАКТЫ" />
+        <PageHeader title={t('contact.breadcrumb')} breadcrumb={t('contact.breadcrumb')} />
       
         <section className="py-16 md:py-24 bg-[#1a1a1a] relative">
           {/* Wave decoration at top */}
@@ -144,23 +146,22 @@ const Contact: React.FC = () => {
           
           <div className="container mx-auto px-6 relative z-20">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-bold mb-8 text-slate-200 font-benzin text-center">Свяжитесь с нами</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-8 text-slate-200 font-benzin text-center">{t('contact.title')}</h2>
               <p className="text-lg text-slate-300 mb-12 text-center font-benzin">
-                Остались вопросы? Свяжитесь с нами для получения консультации или обсуждения проекта
+                {t('contact.subtitle')}
               </p>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <div className="bg-slate-800/40 rounded-xl p-8 border border-slate-700/30">
-                  <h3 className="text-2xl font-medium mb-6 text-slate-200 font-benzin">Наши контакты</h3>
+                  <h3 className="text-2xl font-medium mb-6 text-slate-200 font-benzin">{t('contact.info.title')}</h3>
                   <div className="space-y-6">
                     <div className="flex items-start">
                       <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
                         <MapPin className="w-5 h-5 text-brand-primary" />
                       </div>
                       <div>
-                        <h4 className="font-medium mb-1 text-slate-200">Адрес</h4>
-                        <p className="text-slate-300 font-benzin font-thin">Город Ташкент, Сергелийский район, МСГ Янги Қумариқ.
-Ориентир: Моторный завод GM.</p>
+                        <h4 className="font-medium mb-1 text-slate-200">{t('contact.info.address')}</h4>
+                        <p className="text-slate-300 font-benzin font-thin">{t('contact.info.addressValue')}</p>
                       </div>
                     </div>
                     
@@ -169,9 +170,8 @@ const Contact: React.FC = () => {
                         <Phone className="w-5 h-5 text-brand-primary" />
                       </div>
                       <div>
-                        <h4 className="font-medium mb-1 text-slate-200">Телефон</h4>
-                        <p className="text-slate-300 font-benzin">+998 55 510 00 03
-                      </p>
+                        <h4 className="font-medium mb-1 text-slate-200">{t('contact.info.phone')}</h4>
+                        <p className="text-slate-300 font-benzin">+998 55 510 00 03</p>
                       </div>
                     </div>
                     
@@ -180,16 +180,16 @@ const Contact: React.FC = () => {
                         <Mail className="w-5 h-5 text-brand-primary" />
                       </div>
                       <div>
-                        <h4 className="font-medium mb-1 text-slate-200">Email</h4>
+                        <h4 className="font-medium mb-1 text-slate-200">{t('contact.info.email')}</h4>
                         <p className="text-slate-300 font-benzin">info@towerup.uz</p>
                       </div>
                     </div>
                     
                     <div>
-                      <h4 className="font-medium mb-2 text-slate-200">Режим работы</h4>
+                      <h4 className="font-medium mb-2 text-slate-200">{t('contact.info.schedule')}</h4>
                       <div className="grid grid-cols-2 gap-4 bg-slate-800/50 p-4 rounded-lg border border-slate-700/20">
                         <div>
-                          <h5 className="text-sm text-slate-400 mb-1">Без выходных</h5>
+                          <h5 className="text-sm text-slate-400 mb-1">{t('contact.info.noWeekends')}</h5>
                           <p className="text-slate-200 font-benzin">9:00 - 18:00</p>
                         </div>
                         <div>
@@ -202,15 +202,15 @@ const Contact: React.FC = () => {
                 </div>
                 
                 <div className="bg-slate-800/40 rounded-xl p-8 border border-slate-700/30">
-                  <h3 className="text-2xl font-medium mb-6 text-slate-200 font-benzin">Форма обратной связи</h3>
+                  <h3 className="text-2xl font-medium mb-6 text-slate-200 font-benzin">{t('contact.form.title')}</h3>
                   <form className="space-y-5" onSubmit={handleSubmit}>
                     <div>
-                      <Label htmlFor="name" className="text-slate-300 mb-1.5 block">Ваше имя</Label>
+                      <Label htmlFor="name" className="text-slate-300 mb-1.5 block">{t('contact.form.name')}</Label>
                       <Input 
                         id="name" 
                         name="name" 
                         type="text" 
-                        placeholder="Введите ваше имя" 
+                        placeholder={t('contact.form.name')} 
                         className="w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 text-white" 
                         value={formData.name} 
                         onChange={handleInputChange} 
@@ -219,7 +219,7 @@ const Contact: React.FC = () => {
                     </div>
                     
                     <div>
-                      <Label className="text-slate-300 mb-1.5 block">Предпочитаемый способ связи</Label>
+                      <Label className="text-slate-300 mb-1.5 block">{t('contact.form.contactMethod')}</Label>
                       <RadioGroup 
                         value={formData.contactMethod} 
                         onValueChange={handleContactMethodChange}
@@ -227,23 +227,23 @@ const Contact: React.FC = () => {
                       >
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="phone" id="contact-phone" />
-                          <Label htmlFor="contact-phone" className="text-slate-300">Телефон</Label>
+                          <Label htmlFor="contact-phone" className="text-slate-300">{t('contact.form.phone')}</Label>
                         </div>
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="email" id="contact-email" />
-                          <Label htmlFor="contact-email" className="text-slate-300">Email</Label>
+                          <Label htmlFor="contact-email" className="text-slate-300">{t('contact.form.email')}</Label>
                         </div>
                       </RadioGroup>
                     </div>
                     
                     {formData.contactMethod === 'phone' ? (
                       <div>
-                        <Label htmlFor="phone" className="text-slate-300 mb-1.5 block">Номер телефона</Label>
+                        <Label htmlFor="phone" className="text-slate-300 mb-1.5 block">{t('contact.form.phoneNumber')}</Label>
                         <Input 
                           id="phone" 
                           name="phone" 
                           type="tel" 
-                          placeholder="Введите номер телефона" 
+                          placeholder={t('contact.form.phoneNumber')} 
                           className="w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 text-white" 
                           value={formData.phone} 
                           onChange={handleInputChange} 
@@ -252,12 +252,12 @@ const Contact: React.FC = () => {
                       </div>
                     ) : (
                       <div>
-                        <Label htmlFor="email" className="text-slate-300 mb-1.5 block">Email</Label>
+                        <Label htmlFor="email" className="text-slate-300 mb-1.5 block">{t('contact.form.email')}</Label>
                         <Input 
                           id="email" 
                           name="email" 
                           type="email" 
-                          placeholder="Введите ваш email" 
+                          placeholder={t('contact.form.email')} 
                           className="w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 text-white" 
                           value={formData.email} 
                           onChange={handleInputChange} 
@@ -267,11 +267,11 @@ const Contact: React.FC = () => {
                     )}
                     
                     <div>
-                      <Label htmlFor="message" className="text-slate-300 mb-1.5 block">Сообщение</Label>
+                      <Label htmlFor="message" className="text-slate-300 mb-1.5 block">{t('contact.form.message')}</Label>
                       <Textarea 
                         id="message" 
                         name="message" 
-                        placeholder="Ваше сообщение" 
+                        placeholder={t('contact.form.message')} 
                         rows={5} 
                         className="w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none text-white" 
                         value={formData.message} 
@@ -288,7 +288,7 @@ const Contact: React.FC = () => {
                       )} 
                       disabled={isSubmitting}
                     >
-                      {isSubmitting ? 'Отправка...' : 'Отправить'}
+                      {isSubmitting ? t('contact.form.sending') : t('contact.form.submit')}
                       <Send className="h-4 w-4" />
                     </button>
                   </form>
@@ -296,10 +296,10 @@ const Contact: React.FC = () => {
               </div>
               
               <div className="mt-16">
-                <h2 className="text-2xl font-medium mb-6 text-slate-200 font-benzin">Наше местоположение</h2>
+                <h2 className="text-2xl font-medium mb-6 text-slate-200 font-benzin">{t('contact.mapTitle')}</h2>
                 <div className="flex items-center mb-4">
                   <MapPin className="w-5 h-5 text-brand-primary mr-2" />
-                  <span className="font-medium text-slate-200">TOWER UP, г. Ташкент, Узбекистан</span>
+                  <span className="font-medium text-slate-200">{t('contact.mapCompany')}</span>
                 </div>
                 <div className="w-full rounded-xl overflow-hidden shadow-xl border border-slate-700/30">
                   <div className="aspect-video w-full">

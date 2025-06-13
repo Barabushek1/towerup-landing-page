@@ -114,21 +114,67 @@
     "description": "Bizning ishonchli hamkorlarimiz bilan tanishing"
   },
   "contact": {
-    "title": "Aloqa",
-    "heading": "Biz bilan bog'laning",
-    "description": "Savollaringiz bormi? Biz bilan bog'laning!",
-    "name": "Ism",
-    "email": "Email",
-    "message": "Xabar",
-    "send": "Yuborish",
-    "address": "Manzil",
-    "phone": "Telefon",
-    "emailAddress": "Email manzil"
-  },
-  "footer": {
-    "copyright": "Barcha huquqlar himoyalangan"
+    "pageTitle": "Aloqa",
+    "breadcrumb": "ALOQA",
+    "title": "Biz bilan bog'laning", 
+    "subtitle": "Savollaringiz bormi? Maslahat olish yoki loyihani muhokama qilish uchun biz bilan bog'laning",
+    "form": {
+      "title": "Aloqa shakli",
+      "name": "Ismingiz",
+      "email": "Email",
+      "phone": "Telefon",
+      "message": "Xabar",
+      "submit": "Xabar yuborish",
+      "sending": "Yuborilmoqda...",
+      "contactMethod": "Afzal ko'rilgan aloqa usuli",
+      "phoneNumber": "Telefon raqami"
+    },
+    "info": {
+      "title": "Bizning kontaktlarimiz",
+      "address": "Manzil",
+      "addressValue": "Toshkent shahri, Sirg'ali tumani, MSG Yangi Qumariқ.\nMo'ljal: GM Motor zavodi.",
+      "phone": "Telefon",
+      "email": "Email", 
+      "schedule": "Ish vaqti",
+      "mondaySunday": "Dushanba - Yakshanba:",
+      "noWeekends": "Dam olish kunlarisiz"
+    },
+    "validation": {
+      "nameRequired": "Barcha maydonlarni to'ldiring",
+      "nameMessage": "Iltimos, ismingizni kiriting",
+      "emailRequired": "Barcha maydonlarni to'ldiring",
+      "emailMessage": "Iltimos, emailingizni kiriting",
+      "phoneRequired": "Barcha maydonlarni to'ldiring", 
+      "phoneMessage": "Iltimos, telefon raqamingizni kiriting",
+      "messageRequired": "Barcha maydonlarni to'ldiring",
+      "messageMessage": "Iltimos, xabar yozing"
+    },
+    "success": {
+      "title": "Xabar yuborildi",
+      "message": "Rahmat! Sizning xabaringiz muvaffaqiyatli yuborildi.",
+      "sent": "Xabar yuborildi!",
+      "willContact": "Tez orada siz bilan bog'lanamiz"
+    },
+    "error": {
+      "title": "Xatolik",
+      "message": "Xabar yuborishda xatolik yuz berdi",
+      "unknown": "Noma'lum xatolik",
+      "tryAgain": "Iltimos, qaytadan urinib ko'ring"
+    },
+    "phoneContact": "Aloqa uchun telefon",
+    "readyToHelp": "Biz sizga mukammal uy haqidagi orzularingizni amalga oshirishda yordam berishga tayyormiz.",
+    "socialMedia": "Ijtimoiy tarmoqlar",
+    "mapTitle": "Bizning joylashuvimiz",
+    "mapCompany": "TOWER UP, Toshkent, O'zbekiston"
   },
   "home": {
+    "contact": {
+      "title": "Biz bilan bog'laning",
+      "name": "Ismingiz", 
+      "email": "Sizning Email",
+      "message": "Sizning xabaringiz",
+      "button": "Xabar yuborish"
+    },
     "map": {
       "title": "Bizning manzilimiz",
       "subtitle": "Bizni toping!",
