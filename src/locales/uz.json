@@ -1,3 +1,4 @@
+
 {
   "nav": {
     "home": "Bosh sahifa",
@@ -166,6 +167,60 @@
     "socialMedia": "Ijtimoiy tarmoqlar",
     "mapTitle": "Bizning joylashuvimiz",
     "mapCompany": "TOWER UP, Toshkent, O'zbekiston"
+  },
+  "collaboration": {
+    "pageTitle": "Hamkorlik | TOWERUP",
+    "metaDescription": "TOWERUP kompaniyasi bilan hamkorlik imkoniyatlari haqida ma'lumot - tenderlar va tijorat takliflari.",
+    "title": "Hamkorlik",
+    "breadcrumb": "Hamkorlik",
+    "hero": {
+      "title": "Bizning hamkorimiz bo'ling",
+      "description": "TOWER UP qurilish materiallari, jihozlar va xizmatlar yetkazib beruvchilari bilan uzoq muddatli hamkorlik aloqalarini o'rnatadi. Biz ishonchlilik, sifat va innovatsiyalarni qadrlaymiz."
+    },
+    "tenders": {
+      "title": "Tenderlar",
+      "description": "TOWER UP joriy loyihalari uchun qurilish materiallari, jihozlar va xizmatlarni sotib olish bo'yicha dolzarb tenderlar.",
+      "button": "Tenderlarga o'tish"
+    },
+    "offers": {
+      "title": "Tijorat takliflari",
+      "description": "Hamkorlik bo'yicha tijorat taklifingizni yuboring. Biz o'zaro man faol hamkorlikka ochmiz.",
+      "button": "Taklif yuborish"
+    },
+    "benefits": {
+      "title": "Hamkorlikning afzalliklari",
+      "description": "TOWER UP bilan ishlash orqali ishonchli hamkor va yirik loyihalarga kirish imkonini olasiz",
+      "longTerm": {
+        "title": "Uzoq muddatli shartnomalar",
+        "description": "Biz hamkorlarimiz bilan barqaror biznes munosabatlarini o'rnatishga qiziqmiz"
+      },
+      "transparent": {
+        "title": "Shaffof shartlar",
+        "description": "Barcha yetkazib beruvchilar uchun aniq talablar va adolatli to'lov shartlari"
+      },
+      "largescale": {
+        "title": "Yirik loyihalar",
+        "description": "Yirik qurilish va infratuzilma loyihalarini amalga oshirishda ishtirok etish"
+      },
+      "payments": {
+        "title": "O'z vaqtida to'lovlar",
+        "description": "Shartnoma majburiyatlariga ko'ra o'z vaqtida to'lashni kafolatlaymiz"
+      },
+      "professional": {
+        "title": "Professional yondashuv",
+        "description": "Tajribali xarid mutaxassislari va texnik ekspertlar bilan ishlash"
+      },
+      "development": {
+        "title": "Biznesni rivojlantirish",
+        "description": "TOWER UP bilan hamkorlik orqali biznesingizni kengaytirish imkoniyati"
+      }
+    },
+    "cta": {
+      "title": "Hamkorlikni boshlashga tayyormisiz?",
+      "description": "O'zingizga mos keladigan muloqot formatini tanlang va hamkorlarimiz jamoasiga qo'shiling",
+      "tendersButton": "Tenderlarni ko'rish",
+      "offersButton": "Taklif yuborish"
+    }
   },
   "home": {
     "contact": {

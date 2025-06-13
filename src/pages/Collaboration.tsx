@@ -9,6 +9,7 @@ import ScrollToTopButton from '@/components/ScrollToTopButton';
 import { FileText, Package, ArrowRight, Handshake } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // Animation variants
 const staggerContainer = {
@@ -31,19 +32,21 @@ const cardVariants = {
 };
 
 const Collaboration: React.FC = () => {
+  const { t } = useLanguage();
+
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Сотрудничество | TOWERUP</title>
-        <meta name="description" content="Информация о возможностях сотрудничества с компанией TOWERUP - тендеры и коммерческие предложения." />
+        <title>{t('collaboration.pageTitle')}</title>
+        <meta name="description" content={t('collaboration.metaDescription')} />
       </Helmet>
       
       <NavBar />
       
       <main>
         <PageHeader 
-          title="Сотрудничество" 
-          breadcrumb="Сотрудничество"
+          title={t('collaboration.title')} 
+          breadcrumb={t('collaboration.breadcrumb')}
           backgroundImage="/lovable-uploads/ace627fc-6648-4ecd-a50b-f62690da6a73.jpg"
         />
         
@@ -56,11 +59,9 @@ const Collaboration: React.FC = () => {
               variants={fadeIn}
               className="max-w-3xl mx-auto text-center mb-12"
             >
-              <h2 className="text-3xl font-bold mb-4 text-gray-900">Станьте нашим партнером</h2>
+              <h2 className="text-3xl font-bold mb-4 text-gray-900">{t('collaboration.hero.title')}</h2>
               <p className="text-lg text-gray-600">
-                TOWERUP строит долгосрочные партнерские отношения с поставщиками 
-                строительных материалов, оборудования и услуг. Мы ценим надежность, 
-                качество и инновации.
+                {t('collaboration.hero.description')}
               </p>
             </motion.div>
             
@@ -81,14 +82,13 @@ const Collaboration: React.FC = () => {
                   <FileText className="h-24 w-24 text-brand-primary opacity-30" />
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2 text-gray-900">Тендеры</h3>
+                  <h3 className="text-xl font-bold mb-2 text-gray-900">{t('collaboration.tenders.title')}</h3>
                   <p className="text-gray-600 mb-4">
-                    Актуальные тендеры на закупку строительных материалов, оборудования и услуг 
-                    для текущих проектов TOWERUP.
+                    {t('collaboration.tenders.description')}
                   </p>
                   <Link to="/collaboration/tenders">
                     <Button variant="outline" className="w-full flex items-center justify-center gap-2">
-                      <span>Перейти к тендерам</span>
+                      <span>{t('collaboration.tenders.button')}</span>
                       <ArrowRight className="h-4 w-4 ml-auto" />
                     </Button>
                   </Link>
@@ -106,14 +106,13 @@ const Collaboration: React.FC = () => {
                   <Package className="h-24 w-24 text-brand-primary opacity-30" />
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2 text-gray-900">Коммерческие предложения</h3>
+                  <h3 className="text-xl font-bold mb-2 text-gray-900">{t('collaboration.offers.title')}</h3>
                   <p className="text-gray-600 mb-4">
-                    Отправьте ваше коммерческое предложение о сотрудничестве. 
-                    Мы открыты к взаимовыгодному партнерству.
+                    {t('collaboration.offers.description')}
                   </p>
                   <Link to="/collaboration/offers">
                     <Button variant="outline" className="w-full flex items-center justify-center gap-2">
-                      <span>Отправить предложение</span>
+                      <span>{t('collaboration.offers.button')}</span>
                       <ArrowRight className="h-4 w-4 ml-auto" />
                     </Button>
                   </Link>
@@ -132,9 +131,9 @@ const Collaboration: React.FC = () => {
               variants={fadeIn}
               className="max-w-3xl mx-auto text-center mb-12"
             >
-              <h2 className="text-3xl font-bold mb-4 text-gray-900">Преимущества сотрудничества</h2>
+              <h2 className="text-3xl font-bold mb-4 text-gray-900">{t('collaboration.benefits.title')}</h2>
               <p className="text-lg text-gray-600">
-                Работая с TOWERUP, вы получаете надежного партнера и доступ к масштабным проектам
+                {t('collaboration.benefits.description')}
               </p>
             </motion.div>
             
@@ -146,28 +145,28 @@ const Collaboration: React.FC = () => {
             >
               {[
                 {
-                  title: "Долгосрочные контракты",
-                  description: "Мы заинтересованы в построении стабильных деловых отношений с нашими партнерами"
+                  title: t('collaboration.benefits.longTerm.title'),
+                  description: t('collaboration.benefits.longTerm.description')
                 },
                 {
-                  title: "Прозрачные условия",
-                  description: "Четкие требования и справедливые условия оплаты для всех поставщиков"
+                  title: t('collaboration.benefits.transparent.title'),
+                  description: t('collaboration.benefits.transparent.description')
                 },
                 {
-                  title: "Масштабные проекты",
-                  description: "Участие в реализации крупных строительных и инфраструктурных проектов"
+                  title: t('collaboration.benefits.largescale.title'),
+                  description: t('collaboration.benefits.largescale.description')
                 },
                 {
-                  title: "Своевременные платежи",
-                  description: "Гарантируем своевременную оплату согласно договорным обязательствам"
+                  title: t('collaboration.benefits.payments.title'),
+                  description: t('collaboration.benefits.payments.description')
                 },
                 {
-                  title: "Профессиональный подход",
-                  description: "Работа с опытными специалистами по закупкам и техническими экспертами"
+                  title: t('collaboration.benefits.professional.title'),
+                  description: t('collaboration.benefits.professional.description')
                 },
                 {
-                  title: "Развитие бизнеса",
-                  description: "Возможность расширения вашего бизнеса через партнерство с TOWERUP"
+                  title: t('collaboration.benefits.development.title'),
+                  description: t('collaboration.benefits.development.description')
                 }
               ].map((benefit, index) => (
                 <motion.div
@@ -195,19 +194,19 @@ const Collaboration: React.FC = () => {
               variants={fadeIn}
               className="max-w-4xl mx-auto text-center"
             >
-              <h2 className="text-3xl font-bold mb-4 text-white">Готовы начать сотрудничество?</h2>
+              <h2 className="text-3xl font-bold mb-4 text-white">{t('collaboration.cta.title')}</h2>
               <p className="text-xl text-white/80 mb-8">
-                Выберите подходящий для вас формат взаимодействия и присоединяйтесь к команде наших партнеров
+                {t('collaboration.cta.description')}
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <Link to="/collaboration/tenders">
                   <Button variant="secondary" size="lg" className="w-full sm:w-auto">
-                    Посмотреть тендеры
+                    {t('collaboration.cta.tendersButton')}
                   </Button>
                 </Link>
                 <Link to="/collaboration/offers">
                   <Button variant="outline" size="lg" className="w-full sm:w-auto bg-transparent border-white text-white hover:bg-white hover:text-brand-primary">
-                    Отправить предложение
+                    {t('collaboration.cta.offersButton')}
                   </Button>
                 </Link>
               </div>

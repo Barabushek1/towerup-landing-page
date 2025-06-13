@@ -1,3 +1,4 @@
+
 {
   "contact": {
     "pageTitle": "Contact Us",
@@ -52,6 +53,60 @@
     "socialMedia": "Social Media",
     "mapTitle": "Our Location",
     "mapCompany": "TOWER UP, Tashkent, Uzbekistan"
+  },
+  "collaboration": {
+    "pageTitle": "Collaboration | TOWERUP",
+    "metaDescription": "Information about collaboration opportunities with TOWERUP - tenders and commercial offers.",
+    "title": "Collaboration",
+    "breadcrumb": "Collaboration",
+    "hero": {
+      "title": "Become our partner",
+      "description": "TOWERUP builds long-term partnerships with suppliers of construction materials, equipment and services. We value reliability, quality and innovation."
+    },
+    "tenders": {
+      "title": "Tenders",
+      "description": "Current tenders for procurement of construction materials, equipment and services for ongoing TOWERUP projects.",
+      "button": "Go to tenders"
+    },
+    "offers": {
+      "title": "Commercial offers",
+      "description": "Send your commercial offer for cooperation. We are open to mutually beneficial partnerships.",
+      "button": "Send offer"
+    },
+    "benefits": {
+      "title": "Benefits of cooperation",
+      "description": "Working with TOWERUP, you get a reliable partner and access to large-scale projects",
+      "longTerm": {
+        "title": "Long-term contracts",
+        "description": "We are interested in building stable business relationships with our partners"
+      },
+      "transparent": {
+        "title": "Transparent conditions",
+        "description": "Clear requirements and fair payment terms for all suppliers"
+      },
+      "largescale": {
+        "title": "Large-scale projects",
+        "description": "Participation in the implementation of major construction and infrastructure projects"
+      },
+      "payments": {
+        "title": "Timely payments",
+        "description": "We guarantee timely payment according to contractual obligations"
+      },
+      "professional": {
+        "title": "Professional approach",
+        "description": "Working with experienced procurement specialists and technical experts"
+      },
+      "development": {
+        "title": "Business development",
+        "description": "Opportunity to expand your business through partnership with TOWERUP"
+      }
+    },
+    "cta": {
+      "title": "Ready to start cooperation?",
+      "description": "Choose the format of interaction that suits you and join our team of partners",
+      "tendersButton": "View tenders",
+      "offersButton": "Send offer"
+    }
   },
   "home": {
     "contact": {
