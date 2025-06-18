@@ -749,6 +749,33 @@ export type Database = {
           },
         ]
       }
+      telegram_bot_config: {
+        Row: {
+          bot_token: string
+          chat_id: string
+          created_at: string
+          id: string
+          is_active: boolean
+          updated_at: string
+        }
+        Insert: {
+          bot_token: string
+          chat_id: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          updated_at?: string
+        }
+        Update: {
+          bot_token?: string
+          chat_id?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
       tender_applications: {
         Row: {
           attachments: string[] | null

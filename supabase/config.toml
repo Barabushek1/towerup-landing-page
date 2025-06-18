@@ -31,3 +31,6 @@ verify_jwt = true
 
 [functions.send-resume-notification]
 verify_jwt = false
+
+[functions.send-telegram-notification]
+verify_jwt = false

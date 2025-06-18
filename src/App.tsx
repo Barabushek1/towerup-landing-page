@@ -72,6 +72,8 @@ import AdminTimelineEvents from "./pages/admin/AdminTimelineEvents";
 
 import AdminCompanyStats from "./pages/admin/AdminCompanyStats";
 
+import AdminTelegramBot from '@/pages/admin/AdminTelegramBot';
+
 const helmetContext = {};
 
 function App() {
@@ -154,6 +156,8 @@ function App() {
             </AdminLayout>
           } />
           <Route path="/admin/yangi-uzbekistan-floor-plans" element={<AdminLayout><AdminYangiUzbekistanFloorPlans /></AdminLayout>} />
+          
+          <Route path="/admin/telegram-bot" element={<AdminLayout><AdminTelegramBot /></AdminLayout>} />
           
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="*" element={<NotFound />} />
