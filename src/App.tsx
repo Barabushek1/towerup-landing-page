@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -51,6 +52,7 @@ import AdminProjects from "./pages/admin/AdminProjects";
 import AdminYangiUzbekistanPrices from "./pages/admin/AdminYangiUzbekistanPrices";
 import AdminYangiUzbekistanApartments from "./pages/admin/AdminYangiUzbekistanApartments";
 import AdminYangiUzbekistanFloorPlans from "./pages/admin/AdminYangiUzbekistanFloorPlans";
+import AdminTelegramBot from "./pages/admin/AdminTelegramBot";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Collaboration from "./pages/Collaboration";
 import Tenders from "./pages/collaboration/Tenders";
@@ -130,6 +132,7 @@ function App() {
           <Route path="/admin/news" element={<AdminLayout><AdminNews /></AdminLayout>} />
           <Route path="/admin/vacancies" element={<AdminLayout><AdminVacancies /></AdminLayout>} />
           <Route path="/admin/messages" element={<AdminLayout><AdminMessages /></AdminLayout>} />
+          <Route path="/admin/telegram-bot" element={<AdminLayout><AdminTelegramBot /></AdminLayout>} />
           <Route path="/admin/partners" element={<AdminLayout><AdminPartners /></AdminLayout>} />
           <Route path="/admin/tenders" element={<AdminLayout><AdminTenders /></AdminLayout>} />
           <Route path="/admin/commercial-offers" element={<AdminLayout><AdminCommercialOffers /></AdminLayout>} />

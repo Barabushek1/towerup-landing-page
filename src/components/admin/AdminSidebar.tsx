@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { BarChart3, FileText, Home, Layers, MessageSquare, Users, FileCode, BriefcaseBusiness, Newspaper, Users2, PanelLeftClose, HandCoins, FileBadge, Building, User, Construction, LayoutDashboard, History, Calculator } from 'lucide-react';
+import { BarChart3, FileText, Home, Layers, MessageSquare, Users, FileCode, BriefcaseBusiness, Newspaper, Users2, PanelLeftClose, HandCoins, FileBadge, Building, User, Construction, LayoutDashboard, History, Calculator, Bot } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useUnreadCounts } from '@/hooks/use-unread-counts';
 
@@ -57,6 +57,11 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
       path: '/admin/messages',
       icon: <MessageSquare className="w-5 h-5 mr-3" />,
       unreadCount: unreadCounts.messages
+    },
+    {
+      name: 'Telegram бот',
+      path: '/admin/telegram-bot',
+      icon: <Bot className="w-5 h-5 mr-3" />
     },
     {
       name: 'Партнеры',
