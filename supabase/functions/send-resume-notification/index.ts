@@ -1,6 +1,7 @@
 
 import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
 import { Resend } from "npm:resend@1.0.0";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const ADMIN_EMAIL = Deno.env.get("ADMIN_EMAIL") || "azimjona2022@gmail.com";
@@ -9,6 +10,11 @@ const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
+
+// Initialize Supabase client for internal use
+const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 serve(async (req) => {
   // Handle CORS preflight requests
@@ -100,12 +106,36 @@ serve(async (req) => {
 
     console.log("Email notification sent:", emailResponse);
 
+    // Send Telegram notification
+    try {
+      const telegramResponse = await supabase.functions.invoke('send-telegram-notification', {
+        body: {
+          message_id: `vacancy_app_${Date.now()}`,
+          name: full_name,
+          email: email,
+          message: cover_letter || 'Сопроводительное письмо не предоставлено',
+          type: 'vacancy_application',
+          additional_data: {
+            phone: phone,
+            vacancy_title: vacancy_title,
+            vacancy_id: vacancy_id,
+            attachments: attachments
+          }
+        }
+      });
+
+      console.log("Telegram notification sent:", telegramResponse);
+    } catch (telegramError) {
+      console.error("Failed to send Telegram notification:", telegramError);
+      // Don't fail the entire request if Telegram fails
+    }
+
     return new Response(
-      JSON.stringify({ success: true, message: "Email notification sent" }),
+      JSON.stringify({ success: true, message: "Notifications sent" }),
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error) {
-    console.error("Error sending email notification:", error);
+    console.error("Error sending notifications:", error);
     
     return new Response(
       JSON.stringify({ error: error.message }),
