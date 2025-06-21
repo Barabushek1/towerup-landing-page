@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Mail, MessageCircle, Clock } from 'lucide-react';
+import { Mail, Send, Clock } from 'lucide-react';
 
 const MaintenancePage: React.FC = () => {
   return (
@@ -36,28 +36,28 @@ const MaintenancePage: React.FC = () => {
             <div className="flex items-center justify-center gap-3 p-4 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-300">
               <Mail className="w-6 h-6 text-amber-400" />
               <a 
-                href="mailto:info@towerup.uz" 
+                href="mailto:genite.solutions@gmail.com" 
                 className="text-xl text-white hover:text-amber-400 transition-colors duration-300 font-medium"
               >
-                info@towerup.uz
+                genite.solutions@gmail.com
               </a>
             </div>
             
             <div className="flex items-center justify-center gap-3 p-4 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-300">
-              <MessageCircle className="w-6 h-6 text-amber-400" />
+              <Send className="w-6 h-6 text-amber-400" />
               <a 
-                href="https://t.me/towerup_uz" 
+                href="https://t.me/genite_technologies" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-xl text-white hover:text-amber-400 transition-colors duration-300 font-medium"
               >
-                @towerup_uz
+                @genite_technologies
               </a>
             </div>
 
             <div className="flex items-center justify-center gap-3 p-4 bg-white/10 rounded-lg">
               <span className="text-lg text-slate-300">
-                📞 +998 (55) 510-00-03
+                📞 +998 (94) 581-14-88
               </span>
             </div>
           </div>
@@ -66,6 +66,7 @@ const MaintenancePage: React.FC = () => {
         {/* Footer note */}
         <div className="mt-8 text-sm text-slate-400">
           <p>Работы ведутся в круглосуточном режиме</p>
+          <p className="mt-2">Разработчик: genite.uz</p>
         </div>
       </div>
     </div>
