@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Mail, Send, Clock, ExternalLink } from 'lucide-react';
+import { Mail, Send, Clock, ExternalLink, ArrowRight } from 'lucide-react';
 
 const MaintenancePage: React.FC = () => {
   return (
@@ -24,6 +24,20 @@ const MaintenancePage: React.FC = () => {
           <p className="text-lg text-slate-300 mb-4">
             Приносим извинения за временные неудобства.
           </p>
+        </div>
+
+        {/* Previous version access button */}
+        <div className="mb-8">
+          <a 
+            href="https://tower-up.vercel.app" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-xl font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl mb-4"
+          >
+            <ArrowRight className="w-6 h-6" />
+            <span>Перейти к предыдущей версии сайта</span>
+          </a>
+          <p className="text-sm text-slate-400">Для презентационных целей</p>
         </div>
 
         {/* Developer website highlight */}
