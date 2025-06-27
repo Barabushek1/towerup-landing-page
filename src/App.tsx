@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -10,6 +9,9 @@ import { usePartnerSeeder } from "./hooks/use-partner-seeder";
 import { useYangiUzbekistanPriceSeeder } from "./hooks/use-yangi-uzbekistan-price-seeder";
 import { useTenderSeeder } from "./hooks/use-tender-seeder";
 import { useYangiUzbekistanApartmentsSeeder } from "./hooks/use-yangi-uzbekistan-apartments-seeder";
+
+// Import maintenance page
+import MaintenancePage from "./components/MaintenancePage";
 
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
@@ -83,85 +85,14 @@ function App() {
   useYangiUzbekistanApartmentsSeeder();
   useTenderSeeder();
   
+  // Show maintenance page for all routes
   return (
     <HelmetProvider context={helmetContext}>
       <TooltipProvider>
         <Toaster />
         <Sonner />
         <ScrollToTop />
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<Index />} />
-          
-          <Route path="/about" element={<About />} />
-          <Route path="/partners" element={<Partners />} />
-          <Route path="/management" element={<Management />} />
-          
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/projects/:slug" element={<ProjectDetail />} />
-          <Route path="/projects/trcbochka" element={<TrcBochka />} />
-          <Route path="/projects/new-uzbekistan" element={<NewUzbekistan />} />
-          <Route path="/projects/banking-technology" element={<BankingTechnology />} />
-          <Route path="/future-projects" element={<FutureProjects />} />
-          <Route path="/future-projects/:slug" element={<FutureProjectDetail />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/news/:id" element={<NewsDetail />} />
-          <Route path="/vacancies" element={<Vacancies />} />
-          <Route path="/vacancies/:id" element={<VacancyDetail />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/collaboration" element={<Collaboration />} />
-          <Route path="/collaboration/tenders" element={<Tenders />} />
-          <Route path="/tenders/:id" element={<TenderDetail />} />
-          <Route path="/collaboration/offers" element={<CommercialOffers />} />
-          
-          {/* Service Pages */}
-          <Route path="/services/management-company" element={<ManagementCompany />} />
-          <Route path="/services/design" element={<ServiceDesign />} />
-          <Route path="/services/construction" element={<ServiceConstruction />} />
-          <Route path="/services/renovation" element={<Renovation />} />
-          <Route path="/services/laboratory" element={<Laboratory />} />
-          <Route path="/services/process-automation" element={<ProcessAutomation />} />
-          
-          <Route path="/construction" element={<Construction />} />
-          <Route path="/design" element={<Design />} />
-          <Route path="/solutions" element={<Solutions />} />
-          
-          {/* Admin Routes */}
-          <Route path="/admin" element={<AdminLogin />} />
-          <Route path="/admin/dashboard" element={<AdminLayout><AdminDashboard /></AdminLayout>} />
-          <Route path="/admin/news" element={<AdminLayout><AdminNews /></AdminLayout>} />
-          <Route path="/admin/vacancies" element={<AdminLayout><AdminVacancies /></AdminLayout>} />
-          <Route path="/admin/messages" element={<AdminLayout><AdminMessages /></AdminLayout>} />
-          <Route path="/admin/telegram-bot" element={<AdminLayout><AdminTelegramBot /></AdminLayout>} />
-          <Route path="/admin/partners" element={<AdminLayout><AdminPartners /></AdminLayout>} />
-          <Route path="/admin/tenders" element={<AdminLayout><AdminTenders /></AdminLayout>} />
-          <Route path="/admin/commercial-offers" element={<AdminLayout><AdminCommercialOffers /></AdminLayout>} />
-          <Route path="/admin/vacancy-applications" element={<AdminLayout><AdminVacancyApplications /></AdminLayout>} />
-          <Route path="/admin/audit-logs" element={<AdminLayout><AdminAuditLogs /></AdminLayout>} />
-          <Route path="/admin/detailed-audit-logs" element={<AdminLayout><AdminDetailedAuditLogs /></AdminLayout>} />
-          <Route path="/admin/floor-prices" element={<AdminLayout><AdminFloorPrices /></AdminLayout>} />
-          <Route path="/admin/tender-submissions" element={<AdminLayout><AdminTenderSubmissions /></AdminLayout>} />
-          <Route path="/admin/apartment-units" element={<AdminLayout><AdminApartmentUnits /></AdminLayout>} />
-          <Route path="/admin/staff" element={<AdminLayout><AdminStaff /></AdminLayout>} />
-          <Route path="/admin/departments" element={<AdminLayout><AdminDepartments /></AdminLayout>} />
-          <Route path="/admin/future-projects" element={<AdminLayout><AdminFutureProjects /></AdminLayout>} />
-          <Route path="/admin/projects" element={<AdminLayout><AdminProjects /></AdminLayout>} />
-          <Route path="/admin/timeline-events" element={<AdminLayout><AdminTimelineEvents /></AdminLayout>} />
-          <Route path="/admin/company-stats" element={<AdminLayout><AdminCompanyStats /></AdminLayout>} />
-          <Route path="/admin/yangi-uzbekistan-prices" element={<AdminLayout><AdminYangiUzbekistanPrices /></AdminLayout>} />
-          <Route path="/admin/yangi-uzbekistan-apartments" element={
-            <AdminLayout>
-              <Suspense fallback={<div>Loading...</div>}>
-                <AdminYangiUzbekistanApartments />
-              </Suspense>
-            </AdminLayout>
-          } />
-          <Route path="/admin/yangi-uzbekistan-floor-plans" element={<AdminLayout><AdminYangiUzbekistanFloorPlans /></AdminLayout>} />
-          
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <ChatBot />
+        <MaintenancePage />
       </TooltipProvider>
     </HelmetProvider>
   );
